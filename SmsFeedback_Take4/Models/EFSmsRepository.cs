@@ -41,7 +41,7 @@ namespace SmsFeedback_Take4.Models
       public IEnumerable<SmsMessage> GetConversationsForNumbers(bool showAll,
                                                              bool showFavourites,
                                                              string[] tags,
-                                                             string[] workingPointsNumber,
+                                                             string[] workingPointsNumbers,
                                                              int skip,
                                                              int top,
                                                              DateTime? lastUpdate)
@@ -49,7 +49,7 @@ namespace SmsFeedback_Take4.Models
          //TODO we could have a performance penalty for not applying top and skip
          logger.Info("Call made");
          IEnumerable<SmsMessage> results = null;
-         foreach (var wp in workingPointsNumber)
+         foreach (var wp in workingPointsNumbers)
          {            
             var conversations = GetConversationsForNumber(showAll,showFavourites,tags,wp,skip,top,lastUpdate);                         
             if (results == null) results = conversations;

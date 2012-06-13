@@ -107,6 +107,7 @@ function ConversationArea() {
             this.convsList = new ConversationsList();
             this.convsList.bind("reset", this.render);
             this.convsList.bind("add", this.addConversationWithEffect, this);
+            this.selectedWorkingPoints = [];
             // this.convsList.change("change", this.updatedConversation, this);
             this.convsList.bind("remove", this.removeConversation, this);
             $("#conversations").selectable();
@@ -115,12 +116,23 @@ function ConversationArea() {
             //by default conversations are "new"
             this.addConversationAsNewElement = true;
         },
-
-        getConversations: function () {
-            var target = document.getElementById('scrollableconversations');
+        getConversations: function (workingPoints) {           
+           var target = document.getElementById('scrollableconversations');
+           $('#loadMoreConversations').hide();
+           $('#conversations').html('');           
             spinner.spin(target);
             var selectedTags = ["complaint", "praise", "electronics"];
-            var workingPointsNumbers = []; //["0451215454", "4554245454"];
+            var workingPointsNumbers;
+            if (workingPoints == null) {
+               workingPointsNumbers = []; //["0451215454", "4554245454"];
+            }
+            else {
+               workingPointsNumbers = workingPoints;
+               this.selectedWorkingPoints = workingPoints;
+            }
+           //reset the cummulative skip because we start with a "fresh" view
+            cummulativeSkip = defaultNrOfConversationsToDisplay;
+
             var top = defaultNrOfConversationsToDisplay;
             var skip = 0;
             this.convsList.fetch({
@@ -138,7 +150,7 @@ function ConversationArea() {
            $(target).addClass("unreadable");
            spinnerAddConvs.spin(target);
            var selectedTags = ["complaint", "praise", "electronics"];
-           var workingPointsNumbers = [];
+           var workingPointsNumbers = this.selectedWorkingPoints;
            var top = defaultNrOfConversationsToDisplay;
            var skip = cummulativeSkip;
            cummulativeSkip = cummulativeSkip + defaultNrOfConversationsToDisplay;          

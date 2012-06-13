@@ -1,27 +1,23 @@
-﻿function WorkingPointsArea() {
-    var PhoneNumber = Backbone.Model.extend({
-        defaults: {
-            TelNumber: "no number",
-            Name: "no label",
-            Description: "no description"
+﻿
 
+function WorkingPointsArea() {
+    var PhoneNumber = Backbone.Model.extend({
+       defaults: {
+          TelNumber: "defaultNumber",
+          Name: "defaultNumber",
+          Description: "defaultDescription",
+          CheckedStatus: true
         },              
-        idAttribute: "TelNumber",
-        parse: function (data, xhc) {
-           return data;
-        }
+        idAttribute: "TelNumber"     
      });
 
     var PhoneNumbersPool = Backbone.Collection.extend({
-       model: PhoneNumber,
-       parse: function (responce) {
-          var temp = responce;
-          return responce;
-       },       
+       model: PhoneNumber,    
        url: function () {
           return "Messages/WorkingPointsPerUser";
        }
     });
+    var checkedPhoneNumbers;
 
     _.templateSettings = {
         interpolate: /\{\{(.+?)\}\}/g
@@ -31,10 +27,10 @@
         tagName: "span",
         phoneNumberTemplate: _.template($('#phoneNumber-template').html()),
         events: {
-            "click .deletePhoneNumber": "deletePhoneNumber"
+            "click ": "triggerFiltering"
         },
         initialize: function () {
-            _.bindAll(this, 'render');
+           _.bindAll(this, 'render', 'triggerFiltering');
             this.model.bind('destroy', this.unrender, this);
             return this.render;
         },
@@ -47,6 +43,17 @@
         },
         deletePhoneNumber: function () {
             this.model.destroy();
+        },
+        triggerFiltering: function () {
+           //change the checkedStatus
+           this.model.attributes['CheckedStatus'] = !this.model.get('CheckedStatus');          
+           //make sure we start from the initial view where all the phone numbers are selected         
+           var checkedPhoneNumbersArray = new Array();
+           _.each(checkedPhoneNumbers.models, function (wp) {
+              if (wp.get('CheckedStatus') == true)
+               checkedPhoneNumbersArray.push(wp.get('TelNumber'));
+           });
+           $(document).trigger('selectedWPsChanged', { checkedPhoneNumbers: checkedPhoneNumbersArray });
         }
      });
 
@@ -74,15 +81,16 @@
         initialize: function () {
            _.bindAll(this, 'render', 'appendWorkingPoint', 'phoneNumbersPoolChanged','getWorkingPoints');
            this.phoneNumbersPool = new PhoneNumbersPool();
+           checkedPhoneNumbers = this.phoneNumbersPool;
            this.phoneNumbersPool.bind("add", this.appendWorkingPoint, this);
            this.phoneNumbersPool.bind("reset", this.render);
            //this.phoneNumbersPool.bind("remove", this.phoneNumbersPoolChanged, this);           
         },
         getWorkingPoints: function () {
            var target = document.getElementById('phoneNumbersPool');
-           spinner.spin(target);
+           spinner.spin(target);           
            this.phoneNumbersPool.fetch({
-              success: function () {
+              success: function () {                                
                  spinner.stop();
               }
            })

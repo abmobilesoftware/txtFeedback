@@ -5,6 +5,12 @@
     msgView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
 };
 
+function selectedWPsChanged(convView, msgView, checkedWorkingPoints) {
+   console.log('selectedWPsChanged triggered');
+   convView.getConversations(checkedWorkingPoints.checkedPhoneNumbers);
+   msgView.resetViewToDefault();
+}
+
 function InitializeGUI() {
     if (window.Prototype) {
         delete Object.prototype.toJSON;
@@ -62,5 +68,9 @@ function InitializeGUI() {
                         console.log(data);
                     });
         newMessageReceivedGUI(convView, msgView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text);
+     });
+
+    $(document).bind('selectedWPsChanged', function (ev, data) {
+       selectedWPsChanged(convView, msgView, data);
     });
 }

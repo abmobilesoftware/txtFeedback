@@ -178,12 +178,17 @@ function MessagesArea(convView) {
     var MessagesView = Backbone.View.extend({
         el: $("#messagesbox"),
         initialize: function () {
-            _.bindAll(this, "render", "getMessages","appendMessage","appendMessageToDiv");// to solve the this issue
+           _.bindAll(this, "render", "getMessages", "appendMessage", "appendMessageToDiv", "resetViewToDefault");// to solve the this issue
             this.messagesRep = {};
             this.currentConversationId = '';
             this.messages = new MessagesList();
             this.messages.bind("reset", this.render);
             $("#messagesbox").selectable();
+        },
+        resetViewToDefault: function () {
+           $('#messagesbox').html(' No conversation selected, please select one');
+           $("#textareaContainer").addClass("invisible");
+           //$("textareaContainer").hide("slow");
         },
         getMessages: function (conversationId) {
             console.log("getting conversations with id:" + conversationId);
