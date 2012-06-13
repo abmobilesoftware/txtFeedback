@@ -1,0 +1,156 @@
+﻿/*Tags*/
+
+/*For the messages display*/
+#scrollablemessagebox {      
+   /*margin: 8px 0px 8px 0px ;*/      
+   /*border-radius: 10px;   
+   -moz-border-radius: 10px;
+   -webkit-border-radius: 10px;*/   
+   border: 1px solid #aaaaaa ;
+   background-color: #EBEBEB;  
+   position: relative;
+   /*padding: 4px 4px 4px 4px;*/
+   overflow: auto;
+   overflow-x: hidden;
+}
+
+.messagesboxcontainerclass {
+   width: 100%;   
+}
+
+#messagesbox {    
+   display:  block;         
+}
+
+span.timeReceived {   
+   float:  right;
+}
+
+div.textMessage {
+   float: left;
+}
+
+/*for toMessages we display the menu at their left*/
+.messageto div.extramenu {
+     left:-160px;
+}
+
+/*for fromMessages we display the menu at their right*/
+.messagefrom div.extramenu {
+     right:-160px;
+}
+
+div.extramenu {
+   /*width:  50%;*/
+   float: left;
+   z-index: 1;   
+   color:  transparent;
+   background-color:  transparent;   
+   display: none;
+   position:  absolute;
+   top: 10px;
+   /*visibility: hidden;*/   
+}
+
+div.actionButtons {
+   /*margin:  0px;*/
+   float: right;   
+}
+
+#messagesbox .message {
+   width: 75%;
+   border: 1px solid #aaaaaa ;
+   /*border-radius: 2px;*/
+   margin: 4px 4px 2px 4px ;
+   padding: 1px 4px 1px 4px;
+   /*border-radius: 10px;
+   -moz-border-radius: 10px;
+   -webkit-border-radius: 10px;*/
+   color: #222222 ;   
+   display:  block;
+   word-wrap: break-word;
+   /*height: 28px;
+   max-height: 28px;*/      
+   position: relative;
+}
+
+#messagesbox .message:hover {
+   border-color: #000;
+   font-size: 100%; 
+   /*background-color: ;*/      
+}
+
+#messagesbox .messagefrom {
+   float: left;
+   background-color: #4cff00;  
+}
+
+#messagesbox .messageto {   
+     float: right;
+   background-color:  #F39814;
+}
+
+#messagesbox .ui-selecting {
+   background: #FECA40;
+}
+#messagesbox .ui-selected {
+   background: #034af3;
+   color: white;
+}
+
+/*Reply area*/
+.invisible{  
+  visibility: hidden;
+}
+
+.visible{  
+  visibility: visible;
+}
+
+#textareaContainer {
+ background: black;  
+ padding: 2px 2px 2px 2px;
+ display: inline-block;
+ width:  100%;
+}
+
+#replyToMessageForm {
+   float: left;      
+}
+
+#replyToMessageForm span {      
+   float: right;
+}
+#replyBtn {
+   height: 50;
+   width: 60px;
+   float:  right;
+}
+
+input[name="countdown"] {
+   background-color: transparent;
+   border-width: 0px;  
+   width: 30px; 
+}
+
+#limitedtextarea {
+   width: 300px;
+   height: 90px;
+   overflow: hidden;
+   resize:  none;
+   color: #222;
+   font-size: 13px;
+   
+   line-height: 18px;
+   white-space: pre-wrap;
+   word-wrap: break-word;
+   display: inline-block;
+}
+#limitedtextarea:hover {
+   outline: none;
+   /*border: 1px solid #999;*/
+   cursor: text!important;
+}
+.clear {
+   clear:  both;   
+}

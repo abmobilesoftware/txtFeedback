@@ -1,0 +1,92 @@
+﻿
+/*Conversations*/
+#conversations .ui-selecting { background: #FECA40; }
+#conversations .ui-selected { background: #F39814; color: white; }
+
+#conversations {      
+}
+
+#conversations .conversation {
+   padding: 0px;
+   margin: 4px 4px 4px 4px;
+ 
+   border-radius: 12px;
+   -moz-border-radius: 12px;
+   -webkit-border-radius: 12px;   
+   height: 45px;      
+}
+
+.conversation:hover {
+   opacity: 1;
+   /*Glow*/
+   -webkit-box-shadow: 0px 0px 20px rgba(0,0,255,0.8);
+   -moz-box-shadow: 0px 0px 20px rgba(0,0,255,0.8);
+   box-shadow: 0px 0px 20px rgba(0,0,255,0.8);   
+}
+
+#scrollableconversations {
+   overflow: auto;
+   overflow-x: hidden;
+   margin: 8px 0px 0px 0px;  
+   background-color: #EBEBEB;   
+   border-radius: 10px;
+   display: block;
+   -moz-border-radius: 10px;
+   -webkit-border-radius: 10px; 
+   -moz-border-radius: 10px;
+   -webkit-border-radius: 10px;   
+}
+
+img.images {
+   height:  100%;
+}
+
+.conversationbox {
+   width: 100%;
+}
+
+.readconversation {
+  font-weight: normal;
+  border: 1px solid grey ;
+  
+}
+
+.unreadconversation {  
+   border: 1px solid black ;
+   font-style: normal;
+   font-weight: bold;
+   font-size: 105%;
+   background-color: #dad6d6;
+}
+
+/*for the conversation template*/
+.leftLiDiv {  
+   border: none; 
+   height:100%;
+   max-height: 100%;
+   float: left;
+}
+
+.rightLiDiv {  
+   border: none; 
+   height:100%;
+   float: left;  
+   display: block; 
+}
+
+.exclamationcontainer {
+   visibility: hidden;
+   border: none; 
+   height: 100%;
+   max-height: 100%;
+   float: right;
+   background-color: transparent;
+   display: block;
+}
+.spanClassFrom {
+   height: 50%;
+}
+
+.spanClassText {
+   height:  50%;
+}

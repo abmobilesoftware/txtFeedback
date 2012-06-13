@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="smsfeedbackModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="smsfeedbackModelStoreContainer">
+          <EntitySet Name="Conversations" EntityType="smsfeedbackModel.Store.Conversations" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Messages" EntityType="smsfeedbackModel.Store.Messages" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Roles" EntityType="smsfeedbackModel.Store.Roles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Users" EntityType="smsfeedbackModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UsersForWorkingPoints" EntityType="smsfeedbackModel.Store.UsersForWorkingPoints" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UsersInRoles" EntityType="smsfeedbackModel.Store.UsersInRoles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="WorkingPoints" EntityType="smsfeedbackModel.Store.WorkingPoints" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_ConversationMessage" Association="smsfeedbackModel.Store.FK_ConversationMessage">
+            <End Role="Conversations" EntitySet="Conversations" />
+            <End Role="Messages" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersForWorkingPoints_User" Association="smsfeedbackModel.Store.FK_UsersForWorkingPoints_User">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersForWorkingPoints" EntitySet="UsersForWorkingPoints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersForWorkingPoints_WorkingPoint" Association="smsfeedbackModel.Store.FK_UsersForWorkingPoints_WorkingPoint">
+            <End Role="WorkingPoints" EntitySet="WorkingPoints" />
+            <End Role="UsersForWorkingPoints" EntitySet="UsersForWorkingPoints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkingPointConversation" Association="smsfeedbackModel.Store.FK_WorkingPointConversation">
+            <End Role="WorkingPoints" EntitySet="WorkingPoints" />
+            <End Role="Conversations" EntitySet="Conversations" />
+          </AssociationSet>
+          <AssociationSet Name="UsersInRoleRole" Association="smsfeedbackModel.Store.UsersInRoleRole">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UsersInRoles" EntitySet="UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="UsersInRoleUser" Association="smsfeedbackModel.Store.UsersInRoleUser">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersInRoles" EntitySet="UsersInRoles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Conversations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ConvId" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" Nullable="false" MaxLength="160" />
+          <Property Name="Read" Type="bit" Nullable="false" />
+          <Property Name="TimeUpdated" Type="datetime" Nullable="false" />
+          <Property Name="WorkingPointId" Type="int" Nullable="false" />
+          <Property Name="From" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Messages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="From" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="To" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="Text" Type="nvarchar" Nullable="false" MaxLength="160" />
+          <Property Name="TimeReceived" Type="datetime" Nullable="false" />
+          <Property Name="Read" Type="bit" Nullable="false" />
+          <Property Name="ConversationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Description" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="IsAnonymous" Type="bit" Nullable="false" />
+          <Property Name="LastActivityDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UsersForWorkingPoints">
+          <Key>
+            <PropertyRef Name="Users_UserId" />
+            <PropertyRef Name="WorkingPoints_Id" />
+          </Key>
+          <Property Name="Users_UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WorkingPoints_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UsersInRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkingPoints">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TelNumber" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="160" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="40" />
+        </EntityType>
+        <Association Name="FK_ConversationMessage">
+          <End Role="Conversations" Type="smsfeedbackModel.Store.Conversations" Multiplicity="1" />
+          <End Role="Messages" Type="smsfeedbackModel.Store.Messages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Messages">
+              <PropertyRef Name="ConversationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersForWorkingPoints_User">
+          <End Role="Users" Type="smsfeedbackModel.Store.Users" Multiplicity="1" />
+          <End Role="UsersForWorkingPoints" Type="smsfeedbackModel.Store.UsersForWorkingPoints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UsersForWorkingPoints">
+              <PropertyRef Name="Users_UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersForWorkingPoints_WorkingPoint">
+          <End Role="WorkingPoints" Type="smsfeedbackModel.Store.WorkingPoints" Multiplicity="1" />
+          <End Role="UsersForWorkingPoints" Type="smsfeedbackModel.Store.UsersForWorkingPoints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkingPoints">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UsersForWorkingPoints">
+              <PropertyRef Name="WorkingPoints_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkingPointConversation">
+          <End Role="WorkingPoints" Type="smsfeedbackModel.Store.WorkingPoints" Multiplicity="1" />
+          <End Role="Conversations" Type="smsfeedbackModel.Store.Conversations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkingPoints">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Conversations">
+              <PropertyRef Name="WorkingPointId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UsersInRoleRole">
+          <End Role="Roles" Type="smsfeedbackModel.Store.Roles" Multiplicity="1" />
+          <End Role="UsersInRoles" Type="smsfeedbackModel.Store.UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="UsersInRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UsersInRoleUser">
+          <End Role="Users" Type="smsfeedbackModel.Store.Users" Multiplicity="1" />
+          <End Role="UsersInRoles" Type="smsfeedbackModel.Store.UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UsersInRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="smsfeedbackModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="smsfeedbackEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Conversations" EntityType="smsfeedbackModel.Conversation" />
+          <EntitySet Name="Messages" EntityType="smsfeedbackModel.Message" />
+          <EntitySet Name="WorkingPoints" EntityType="smsfeedbackModel.WorkingPoint" />
+          <AssociationSet Name="FK_ConversationMessage" Association="smsfeedbackModel.FK_ConversationMessage">
+            <End Role="Conversations" EntitySet="Conversations" />
+            <End Role="Messages" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkingPointConversation" Association="smsfeedbackModel.FK_WorkingPointConversation">
+            <End Role="WorkingPoints" EntitySet="WorkingPoints" />
+            <End Role="Conversations" EntitySet="Conversations" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="smsfeedbackModel.User" />
+          <EntitySet Name="Roles" EntityType="smsfeedbackModel.Role" />
+          <AssociationSet Name="UsersInRoles" Association="smsfeedbackModel.UsersInRoles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="UsersForWorkingPoints" Association="smsfeedbackModel.UsersForWorkingPoints">
+            <End Role="User" EntitySet="Users" />
+            <End Role="WorkingPoint" EntitySet="WorkingPoints" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Conversation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConvId" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="160" Unicode="true" FixedLength="false" />
+          <Property Name="Read" Type="Boolean" Nullable="false" />
+          <Property Name="TimeUpdated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="WorkingPointId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Messages" Relationship="smsfeedbackModel.FK_ConversationMessage" FromRole="Conversations" ToRole="Messages" />
+          <NavigationProperty Name="WorkingPoint" Relationship="smsfeedbackModel.FK_WorkingPointConversation" FromRole="Conversations" ToRole="WorkingPoints" />
+          <Property Type="String" Name="From" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="From" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="To" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="160" Unicode="true" FixedLength="false" />
+          <Property Name="TimeReceived" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Read" Type="Boolean" Nullable="false" />
+          <Property Name="ConversationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Conversation" Relationship="smsfeedbackModel.FK_ConversationMessage" FromRole="Messages" ToRole="Conversations" />
+        </EntityType>
+        <EntityType Name="WorkingPoint">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TelNumber" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="160" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Conversations" Relationship="smsfeedbackModel.FK_WorkingPointConversation" FromRole="WorkingPoints" ToRole="Conversations" />
+          <NavigationProperty Name="Users" Relationship="smsfeedbackModel.UsersForWorkingPoints" FromRole="WorkingPoint" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_ConversationMessage">
+          <End Role="Conversations" Type="smsfeedbackModel.Conversation" Multiplicity="1" />
+          <End Role="Messages" Type="smsfeedbackModel.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Messages">
+              <PropertyRef Name="ConversationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkingPointConversation">
+          <End Role="WorkingPoints" Type="smsfeedbackModel.WorkingPoint" Multiplicity="1" />
+          <End Role="Conversations" Type="smsfeedbackModel.Conversation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkingPoints">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Conversations">
+              <PropertyRef Name="WorkingPointId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Type="Guid" Name="ApplicationId" Nullable="false" />
+          <Property Type="Guid" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsAnonymous" Nullable="false" />
+          <Property Type="DateTime" Name="LastActivityDate" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Roles" Relationship="smsfeedbackModel.UsersInRoles" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="WorkingPoints" Relationship="smsfeedbackModel.UsersForWorkingPoints" FromRole="User" ToRole="WorkingPoint" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Type="Guid" Name="ApplicationId" Nullable="false" />
+          <Property Type="Guid" Name="RoleId" Nullable="false" />
+          <Property Type="String" Name="RoleName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="smsfeedbackModel.UsersInRoles" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <Association Name="UsersInRoles">
+          <End Type="smsfeedbackModel.Role" Role="Role" Multiplicity="*" />
+          <End Type="smsfeedbackModel.User" Role="User" Multiplicity="*" />
+        </Association>
+        <Association Name="UsersForWorkingPoints">
+          <End Type="smsfeedbackModel.User" Role="User" Multiplicity="*" />
+          <End Type="smsfeedbackModel.WorkingPoint" Role="WorkingPoint" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="smsfeedbackModelStoreContainer" CdmEntityContainer="smsfeedbackEntities">
+    <EntitySetMapping Name="Conversations">
+      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Conversation)">
+        <MappingFragment StoreEntitySet="Conversations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ConvId" ColumnName="ConvId" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="Read" ColumnName="Read" />
+          <ScalarProperty Name="TimeUpdated" ColumnName="TimeUpdated" />
+          <ScalarProperty Name="WorkingPointId" ColumnName="WorkingPointId" />
+          <ScalarProperty Name="From" ColumnName="From" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Messages">
+      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Message)">
+        <MappingFragment StoreEntitySet="Messages">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="From" ColumnName="From" />
+          <ScalarProperty Name="To" ColumnName="To" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="TimeReceived" ColumnName="TimeReceived" />
+          <ScalarProperty Name="Read" ColumnName="Read" />
+          <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WorkingPoints">
+      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.WorkingPoint)">
+        <MappingFragment StoreEntitySet="WorkingPoints">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="smsfeedbackModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+                <ScalarProperty Name="IsAnonymous" ColumnName="IsAnonymous" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="smsfeedbackModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="UsersInRoles" TypeName="smsfeedbackModel.UsersInRoles" StoreEntitySet="UsersInRoles">
+            <EndProperty Name="User">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="Role">
+              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="UsersForWorkingPoints" TypeName="smsfeedbackModel.UsersForWorkingPoints" StoreEntitySet="UsersForWorkingPoints">
+            <EndProperty Name="WorkingPoint">
+              <ScalarProperty Name="Id" ColumnName="WorkingPoints_Id" />
+            </EndProperty>
+            <EndProperty Name="User">
+              <ScalarProperty Name="UserId" ColumnName="Users_UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

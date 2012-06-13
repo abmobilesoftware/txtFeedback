@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9c032a5472b642ed9bdfb92c9ffa1550" Name="Diagram1" ZoomLevel="108">
+        <EntityTypeShape EntityType="smsfeedbackModel.Conversation" Width="1.5" PointX="7" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Message" Width="1.5" PointX="9.625" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="smsfeedbackModel.WorkingPoint" Width="1.5" PointX="4.375" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="smsfeedbackModel.FK_ConversationMessage" ManuallyRouted="false" />
+        <AssociationConnector Association="smsfeedbackModel.FK_WorkingPointConversation" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="smsfeedbackModel.User" Width="1.5" PointX="0.75" PointY="4.125" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Role" Width="1.5" PointX="5.25" PointY="4.125" />
+        <AssociationConnector Association="smsfeedbackModel.UsersInRoles" />
+        <AssociationConnector Association="smsfeedbackModel.UsersForWorkingPoints" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

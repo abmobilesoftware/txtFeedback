@@ -1,0 +1,4 @@
+﻿<span>{{ number }}</span>
+<span class="deletePhoneNumber">
+	<img class="deletePhoneNumberIcon" src="Content/close14x14.png"/>
+</span>

@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script src="http://documentcloud.github.com/underscore/underscore.js"></script>
+	<script src="http://documentcloud.github.com/backbone/backbone.js"></script>           
+    <title>Backbone.js tutorial</title>    
+</head>
+<body >
+    <script type="text/javascript">
+        $(function ($) {
+            var Message = Backbone.Model.extend({
+                defaults: {
+                    from: "0752345678",
+                    to: "0751569435",
+                    text: "Hey you"
+                }
+            });
+
+            var Messages = Backbone.Collection.extend({
+                model: Message
+            });
+
+            var ListView = Backbone.View.extend({
+                el: $('body'),
+                events: {
+                    'click button.btnAddMessage': 'addMessage'
+                },
+                initialize: function () {
+                    _.bindAll(this, 'render', "addMessage", "appendMessage");
+                    this.collection = new Messages;
+                    this.collection.bind('add', this.appendMessage);
+
+                    this.counter = 0;
+
+                    this.render();
+                },
+                render: function () {
+                    var self = this;
+                    $(this.el).append('<button class="btnAddMessage">Add new message</button>');
+                    $(this.el).append("<ul></ul>");
+                    _(this.collection.models).each(function (msg) { // in case collection is not empty
+                        self.appendMessage(msg);
+                    }, this);
+                    return this;
+                },
+                addMessage: function () {
+                    this.counter++;
+                    var msg = new Message();
+                    msg.set({
+                        text: msg.get('text')+ " " + this.counter // modify item defaults
+                    });
+                    this.collection.add(msg); // add item to collection; view is updated via event 'add'
+                },
+
+                appendMessage: function (msg) {
+                    $('ul', this.el).append("<li>" + msg.get('text') + "</li>");
+                }
+            });
+
+            var listView = new ListView();
+        });
+    </script>
+   
+</body>
+</html>

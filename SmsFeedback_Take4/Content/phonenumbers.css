@@ -1,0 +1,49 @@
+﻿/*Style for numbers box*/
+.phoneNumber {
+   background-color: #ff6a00;
+   border-bottom: 1px solid #3E6D8E;
+   border-right: 1px solid transparent;
+   color: #043bf5;
+   font-size: 100%;
+   line-height: 2.4;
+   /*margin: 2px 2px 2px 5px;*/
+   padding: 4px 4px 4px 4px;
+   text-decoration: none;
+   white-space: normal;   
+   cursor: pointer;
+   word-wrap:  normal;
+   display: block;   
+}
+.phoneNumber:hover {
+   background-color: #3E6D8E;   
+   border-bottom: 1px solid #37607D;
+   border-right: 1px solid #37607D;
+   color: #E0EAF1;
+   text-decoration: none;
+   }
+
+.deletePhoneNumber {
+   margin-left: 7px;
+   position: relative;
+   top: 2px;
+}
+
+#phoneNumbersPool {   
+   /*border: 1px solid #E5E5E5;*/   
+   /*background: #F5F5F5;*/         
+   padding: 2px 2px 2px 2px;
+   /*border-radius: 10px;
+   -moz-border-radius: 10px;
+   -webkit-border-radius: 10px;*/    
+   min-height: 20px;  
+   min-width: 20px;
+   height: 500px;
+   min-height: 500px;
+   /*max-height: 36px;*/
+   overflow: auto;
+   background-color: #0e0e0e;
+}
+
+.wordwrap { 
+   white-space: initial;      /* CSS3 */      
+}

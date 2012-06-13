@@ -1,0 +1,28 @@
+﻿#main {
+height: 100%;
+width: 100%;
+background: black center center no-repeat url('http://www.fiftythree.com/assets/images/Home-keyshot-1920.jpg');
+background-size: cover;
+}
+
+#container {
+height: 100%;
+width: 100%;
+}
+
+div {
+   display:  block;
+}
+
+body, html{
+   height: 100%;
+   margin: 0;
+   width: 100%;
+}
+ 
+#footer {
+position: relative;
+height: 155px;
+width: 100%;
+background-color: pink;
+}
