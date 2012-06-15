@@ -73,4 +73,14 @@ function InitializeGUI() {
     $(document).bind('selectedWPsChanged', function (ev, data) {
        selectedWPsChanged(convView, msgView, data);
     });
+
+    window.addEventListener("resize", resizeTriggered, false);
+}
+
+function resizeTriggered() {
+   var window_height = window.innerHeight;
+   var headerHeight = $('header').height()
+   $('.container_12').height(window_height - headerHeight);
+   //document.getElementById('loading_screen_logo').style.paddingTop
+   //       = (window_height * .43) + "px";
 }

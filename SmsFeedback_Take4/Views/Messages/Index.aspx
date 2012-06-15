@@ -24,10 +24,10 @@
    <script src="<%: Url.Content("~/MyScripts/Facade.js") %>" type="text/javascript"></script>
    
    <script type="text/template" id="phoneNumber-template">       
-		<span class="phoneNumber" number="something" >
+		<span >
 			<span>{{ Name }}</span>
 			<span class="deletePhoneNumber">
-				<img class="deletePhoneNumberIcon" src="<%: Url.Content("~/Content/images/close14x14.png") %>"/>
+				<img class="deletePhoneNumberIconSelected" src="<%: Url.Content("~/Content/images/checkbox_checked.png") %>"/>
 			</span>
 		</span>
    </script>

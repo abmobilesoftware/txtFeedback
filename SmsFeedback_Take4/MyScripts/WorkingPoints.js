@@ -35,8 +35,10 @@ function WorkingPointsArea() {
             return this.render;
         },
         render: function () {
-            this.$el.html(this.phoneNumberTemplate(this.model.toJSON()));
-            return this;
+           this.$el.html(this.phoneNumberTemplate(this.model.toJSON()));
+           this.$el.addClass("phoneNumber");
+           this.$el.addClass("phoneNumberSelected");
+           return this;
         },
         unrender: function () {
             this.$el.remove();
@@ -46,7 +48,25 @@ function WorkingPointsArea() {
         },
         triggerFiltering: function () {
            //change the checkedStatus
-           this.model.attributes['CheckedStatus'] = !this.model.get('CheckedStatus');          
+           this.model.attributes['CheckedStatus'] = !this.model.get('CheckedStatus');
+           var checkboxImg = $("img", this.$el);
+           //the domain name should come from the server!
+           var domainName = '';
+           if (this.model.get('CheckedStatus') == true) {
+              this.$el.removeClass('phoneNumberUnselected');
+              this.$el.addClass('phoneNumberSelected');
+              checkboxImg.attr('src', domainName+ "/Content/images/checkbox_checked.png")
+              checkboxImg.removeClass('deletePhoneNumberIconUnselected');
+              checkboxImg.addClass('deletePhoneNumberIconSelected');
+           }
+           else {
+              this.$el.removeClass('phoneNumberSelected');
+              this.$el.addClass('phoneNumberUnselected');
+            
+              checkboxImg.attr('src', domainName + "/Content/images/checkbox_unchecked.png")
+              checkboxImg.removeClass('deletePhoneNumberIconSelected');
+              checkboxImg.addClass('deletePhoneNumberIconUnselected');
+           }
            //make sure we start from the initial view where all the phone numbers are selected         
            var checkedPhoneNumbersArray = new Array();
            _.each(checkedPhoneNumbers.models, function (wp) {

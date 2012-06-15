@@ -41,6 +41,7 @@
                 </ul>
             </nav>
         </header>
+       <div class="clear"></div>
         <div class="container_12">
             <asp:ContentPlaceHolder ID="MainContent" runat="server" />
             <footer>

@@ -38,7 +38,8 @@
 {
 	display: inline;
 	float: left;
-	margin-left: 1%;
+	margin-right: 0.5%;
+   /*margin-left: %;*/
 	/*margin-right: 1%;*/
 }
 
@@ -51,7 +52,7 @@
 .container_12 .grid_6,
 .container_16 .grid_8
 {
-	width: 48%;
+	width: 51%;
    /*width: 51%;*/
 }
 

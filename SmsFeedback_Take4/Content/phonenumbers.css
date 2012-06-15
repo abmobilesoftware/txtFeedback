@@ -1,9 +1,7 @@
 ﻿/*Style for numbers box*/
-.phoneNumber {
-   background-color: #ff6a00;
-   border-bottom: 1px solid #3E6D8E;
-   border-right: 1px solid transparent;
-   color: #043bf5;
+.phoneNumber {  
+   border-bottom: 2px solid #5496c4;   
+   border-right: 1px solid transparent;   
    font-size: 100%;
    line-height: 2.4;
    /*margin: 2px 2px 2px 5px;*/
@@ -13,6 +11,18 @@
    cursor: pointer;
    word-wrap:  normal;
    display: block;   
+   margin-left: 2%;
+   /*background-color: #275576;*/
+}
+.phoneNumberSelected {
+   /*background-color:   #ff6a00;*/
+   color: white;      
+   font-weight: bold;
+}
+.phoneNumberUnselected {
+   color:   #8CADBD;
+   font-weight: normal;
+    /*background-color: #808080;*/
 }
 .phoneNumber:hover {
    background-color: #3E6D8E;   
@@ -34,16 +44,22 @@
    padding: 2px 2px 2px 2px;
    /*border-radius: 10px;
    -moz-border-radius: 10px;
-   -webkit-border-radius: 10px;*/    
-   min-height: 20px;  
+   -webkit-border-radius: 10px;*/       
    min-width: 20px;
-   height: 500px;
+   height: 100%;
    min-height: 500px;
    /*max-height: 36px;*/
    overflow: auto;
-   background-color: #0e0e0e;
+   background-color: #183540;
 }
 
 .wordwrap { 
    white-space: initial;      /* CSS3 */      
+}
+
+.deletePhoneNumberIconSelected {
+   background: white;
+}
+.deletePhoneNumberIconUnselected {
+    background: #3678a7;
 }

@@ -3,15 +3,16 @@
 /*For the messages display*/
 #scrollablemessagebox {      
    /*margin: 8px 0px 8px 0px ;*/      
-   /*border-radius: 10px;   
+   border-radius: 10px;   
    -moz-border-radius: 10px;
-   -webkit-border-radius: 10px;*/   
+   -webkit-border-radius: 10px;   
    border: 1px solid #aaaaaa ;
-   background-color: #EBEBEB;  
+   background-color: #F5F8FA;  
    position: relative;
    /*padding: 4px 4px 4px 4px;*/
    overflow: auto;
    overflow-x: hidden;
+   margin-top: 10px;
 }
 
 .messagesboxcontainerclass {

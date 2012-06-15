@@ -192,6 +192,8 @@
     <Content Include="Content\contact.css" />
     <Content Include="Content\grid.css" />
     <Content Include="Content\images\06-web-2.png" />
+    <Content Include="Content\images\checkbox_checked.png" />
+    <Content Include="Content\images\checkbox_unchecked.png" />
     <Content Include="Content\images\close14x14.png" />
     <Content Include="Content\images\delete.ico" />
     <Content Include="Content\images\exclamationMark.jpg" />

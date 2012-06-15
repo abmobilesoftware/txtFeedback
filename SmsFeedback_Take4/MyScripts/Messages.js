@@ -226,8 +226,7 @@ function MessagesArea(convView) {
                 this.messagesRep[this.currentConversationId] = messages1;
             }
         },
-        render: function () {
-           
+        render: function () {           
             $("#messagesbox").html('');
             var self = this;
             this.messagesRep[this.currentConversationId].each(function (msg) {

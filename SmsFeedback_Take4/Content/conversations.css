@@ -1,9 +1,10 @@
 ﻿
 /*Conversations*/
 #conversations .ui-selecting { background: #FECA40; }
-#conversations .ui-selected { background: #F39814; color: white; }
+#conversations .ui-selected { background: #F5F8FA; color: black; }
 
-#conversations {      
+#conversations {   
+
 }
 
 #conversations .conversation {
@@ -68,10 +69,12 @@
    border-width: 1px 1px 1px 1px;
    border-style: outset;
    border-color:  black;
-   /*-moz-border-radius: 10px;
+   -moz-border-radius: 10px;
    -webkit-border-radius: 10px; 
    -moz-border-radius: 10px;
-   -webkit-border-radius: 10px;*/   
+   -webkit-border-radius: 10px;   
+   margin-top: 10px;
+   background-color:#D6DEE3;
 }
 
 img.images {
