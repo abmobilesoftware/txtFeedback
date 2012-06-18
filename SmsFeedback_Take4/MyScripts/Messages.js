@@ -147,11 +147,18 @@ function MessagesArea(convView) {
         render: function () {
             this.$el.html(this.messageTemplate(this.model.toJSON()));
             var direction = "messagefrom";
+            var arrowClass = "arrowFrom";
+            var arrowInnerClass = "arrowInnerFrom";
             //if (this.model.attributes["Direction"] == "to") {
-            //    direction = "messageto";
+           //    direction = "messageto";
+           //arrowClass= "arrowTo";
+           //arrowInnerClass = "arrowInnerTo";
             //}
             this.$el.addClass("message");
             this.$el.addClass(direction);
+            
+            $(".arrow", this.$el).addClass(arrowClass);
+            $(".arrowInner", this.$el).addClass(arrowInnerClass);
             return this;
         }
     });

@@ -63,11 +63,15 @@
             <div class="actionButtons sendEmailButton">
                 <button id="sendEmail" >Email</button>                 
             </div>
+      <div class="clear"></div>
             <div class="actionButtons">
                 <button id="copyText" >Copy</button>               
             </div>
             <div class="clear"></div>
          </div>
+         <div class="arrow">
+         <div class="arrowInner"> </div>
+       </div>
    </script>
    <script type="text/javascript">
       $(function () {

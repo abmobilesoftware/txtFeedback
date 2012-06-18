@@ -51,7 +51,7 @@ function WorkingPointsArea() {
            this.model.attributes['CheckedStatus'] = !this.model.get('CheckedStatus');
            var checkboxImg = $("img", this.$el);
            //the domain name should come from the server!
-           var domainName = '';
+           var domainName = '/smsfeedback';
            if (this.model.get('CheckedStatus') == true) {
               this.$el.removeClass('phoneNumberUnselected');
               this.$el.addClass('phoneNumberSelected');

@@ -54,7 +54,7 @@ span.timeReceived {
 }
 
 div.textMessage {
-   float: left;
+   /*float: left;*/
 }
 
 /*for toMessages we display the menu at their left*/
@@ -86,19 +86,24 @@ div.actionButtons {
 
 #messagesbox .message {
    width: 75%;
-   border: 1px solid #aaaaaa;
+   /*border: 1px solid #aaaaaa;*/
    /*border-radius: 2px;*/
-   margin: 4px 4px 2px 4px;
+   margin: 4px 4px 10px 4px;
    padding: 1px 4px 1px 4px;
-   /*border-radius: 10px;
-   -moz-border-radius: 10px;
-   -webkit-border-radius: 10px;*/
+   border-radius: 4px;
+   -moz-border-radius: 4px;
+   -webkit-border-radius: 4px;
    color: #222222;
    display: block;
    word-wrap: break-word;
    /*height: 28px;
    max-height: 28px;*/
    position: relative;
+   padding: .8em;
+	/*width: 12em;*/
+	border-width: 2px !important;
+	/*position: absolute;*/
+	z-index: 9999;
 }
 
    #messagesbox .message:hover {
@@ -109,7 +114,32 @@ div.actionButtons {
 
 #messagesbox .messagefrom {
    float: left;
-   background-color: #4cff00;
+   background-color: #00A2E4;
+}
+.arrowFrom{
+   border-left: 0;
+   border-right: 17px dotted transparent;
+   border-top-width: 14px;
+	bottom:	-14px;
+	right: auto;
+	left: 5%;
+	margin-left: -7px;
+   position: absolute;
+}
+
+.arrowInnerFrom {
+   border-left: 0;
+   border-right: 12px dotted transparent;
+   border-top: 10px solid white;
+	bottom:	auto;
+	top: -14px;
+	left: -5px;
+   position: absolute; 
+	width:0; 
+	height:0; 
+	border-bottom-width: 0;
+	background: none;
+   border-top-color: #00A2E4;
 }
 
 #messagesbox .messageto {
