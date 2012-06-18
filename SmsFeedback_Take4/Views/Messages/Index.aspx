@@ -8,6 +8,7 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/phonenumbers.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/messages.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/conversations.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/filtersStrip.css") %>" />
    <script src="<%: Url.Content("~/Scripts/spin.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/jquery.cookie.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/splitter.js") %>" type="text/javascript"></script>
@@ -81,10 +82,12 @@
       <button id="btnSlideUp">SlideUp</button>
       <button id="btnSlideDown">SlideDown</button>
       <button id="btnSendEmail">Email</button>
-   </div>--%>       
-   <div id="phoneNumbersPool" class="wordwrap tagsPhoneNumbers grid_1">
+   </div>--%>  
+   <div id="filtersStrip"></div>     
+   <div class="clear"></div>
+   <div id="phoneNumbersPool" class="wordwrap tagsPhoneNumbers grid_2">
    </div>
-      <div id="conversationsArea" class="grid_5">
+      <div id="conversationsArea" class="grid_4">
          <div id="scrollableconversations" class="conversationbox scrollablebox">
             <div id="conversations" class="conversationbox">
             </div>
@@ -102,17 +105,21 @@
             </div>
            
          </div>
+         <div id="messageTagsSeparator"></div>          
          <div id="tagsPool" class="tagsPhoneNumbers">
             <span>Here will be the tags</span>
          </div>
          <div id="textareaContainer" class="invisible">          
             <form id="replyToMessageForm">
+               <div id="inputTextContainer">
                <textarea id="limitedtextarea" onkeydown="limitText(this.form.limitedtextarea,this.form.countdown,160);"
                   onkeyup="limitText(this.form.limitedtextarea,this.form.countdown,160);" dir="ltr"></textarea>
                <br>
+                  <div class="clear"></div>
                <span>
-                  <font size="1">Left <input readonly type="text" name="countdown" size="3" value="160"> </font>
+                  <font size="1"><input readonly type="text" name="countdown" size="3" value="160"> </font>
                </span>               
+               </div>
             </form>          
             <button id="replyBtn">Reply</button>
          </div>

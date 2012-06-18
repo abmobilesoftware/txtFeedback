@@ -5,9 +5,6 @@
    background: white; 
    color: black; }
 
-#conversations {   
-
-}
 
 #conversations .conversation {
    padding: 0px;
@@ -78,7 +75,7 @@
    -webkit-border-radius: 10px; 
    -moz-border-radius: 10px;
    -webkit-border-radius: 10px;   
-   margin-top: 10px;
+   margin-top: 7px;
    background-color:#D6DEE3;
 }
 
@@ -87,7 +84,7 @@ img.images {
 }
 
 .conversationbox {
-   width: 100%;
+   /*width: 100%;*/
 }
 
 .readconversation {

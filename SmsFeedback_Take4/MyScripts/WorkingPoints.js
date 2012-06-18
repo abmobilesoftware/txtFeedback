@@ -55,7 +55,8 @@ function WorkingPointsArea() {
            if (this.model.get('CheckedStatus') == true) {
               this.$el.removeClass('phoneNumberUnselected');
               this.$el.addClass('phoneNumberSelected');
-              checkboxImg.attr('src', domainName+ "/Content/images/checkbox_checked.png")
+              checkboxImg.attr('src', domainName + "/Content/images/checkbox_checked.png")
+              //checkboxImg.attr('src', domainName + "/Content/images/check-white.svg")
               checkboxImg.removeClass('deletePhoneNumberIconUnselected');
               checkboxImg.addClass('deletePhoneNumberIconSelected');
            }
@@ -64,6 +65,7 @@ function WorkingPointsArea() {
               this.$el.addClass('phoneNumberUnselected');
             
               checkboxImg.attr('src', domainName + "/Content/images/checkbox_unchecked.png")
+              //checkboxImg.attr('src', domainName + "/Content/images/check-grey.svg")
               checkboxImg.removeClass('deletePhoneNumberIconSelected');
               checkboxImg.addClass('deletePhoneNumberIconUnselected');
            }
