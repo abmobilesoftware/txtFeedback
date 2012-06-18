@@ -93,6 +93,7 @@
                  </div>
          </div>
       </div>
+      
       <div id="messagesArea" class="grid_6">        
         
          <div id="scrollablemessagebox" class="messagesboxcontainerclass scrollablebox">
@@ -115,8 +116,7 @@
             </form>          
             <button id="replyBtn">Reply</button>
          </div>
-      </div>   
-   
+      </div>    
    
   <%-- <div class="clear"></div>--%>
 </asp:Content>

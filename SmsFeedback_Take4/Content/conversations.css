@@ -1,7 +1,9 @@
 ﻿
 /*Conversations*/
 #conversations .ui-selecting { background: #FECA40; }
-#conversations .ui-selected { background: #F5F8FA; color: black; }
+#conversations .ui-selected { 
+   background: white; 
+   color: black; }
 
 #conversations {   
 
@@ -9,8 +11,11 @@
 
 #conversations .conversation {
    padding: 0px;
-   margin: 4px 4px 4px 4px;
- 
+   margin: 1px 0px 0px 0px;
+   /*border-bottom: 1px;*/
+   border-width: 0px 0px 1px 0px;
+   border-style: none;
+   
    /*border-radius: 12px;
    -moz-border-radius: 12px;
    -webkit-border-radius: 12px;*/   
@@ -66,9 +71,9 @@
    /*background-color: #EBEBEB;*/   
    /*border-radius: 10px;*/
    display: block;
-   border-width: 1px 1px 1px 1px;
+   border-width: 2px 2px 2px 2px;
    border-style: outset;
-   border-color:  black;
+   border-color:  transparent;
    -moz-border-radius: 10px;
    -webkit-border-radius: 10px; 
    -moz-border-radius: 10px;
@@ -87,12 +92,13 @@ img.images {
 
 .readconversation {
   font-weight: normal;
-  border: 1px solid grey ;
+  background-color: #ECF0F2;
+  /*border: 1px solid grey ;*/
   
 }
 
 .unreadconversation {  
-   border: 1px solid black ;
+   /*border: 1px solid black ;*/
    font-style: normal;
    font-weight: bold;
    font-size: 105%;

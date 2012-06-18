@@ -1,18 +1,39 @@
 ﻿/*Tags*/
+#tagsPool:before {
+    height:20px;
+    background:-webkit-radial-gradient(
+        50% 0%, 
+        100% 20%, 
+        rgba(184,186,187,1) 0%, 
+        rgba(184,186,187,0.00) 70%
+    );
+    width:90%;
+    display:block;
+    content:"";   
+    margin:5px auto; 
+}
 
 /*For the messages display*/
-#scrollablemessagebox {      
-   /*margin: 8px 0px 8px 0px ;*/      
-   border-radius: 10px;   
+#messagesArea {
+    border-radius: 10px;   
    -moz-border-radius: 10px;
    -webkit-border-radius: 10px;   
-   border: 1px solid #aaaaaa ;
+   border: 2px solid transparent ;
    background-color: #F5F8FA;  
+    margin-top: 10px;
+}
+#scrollablemessagebox {      
+   /*margin: 8px 0px 8px 0px ;*/      
+  background-color: transparent;
    position: relative;
    /*padding: 4px 4px 4px 4px;*/
    overflow: auto;
-   overflow-x: hidden;
-   margin-top: 10px;
+   overflow-x: hidden;  
+   width: 100%;
+   /*border-width: 0px 0px 2px 0px;
+   border-style:  normal;
+   border-color:  black;   
+   margin-bottom: 3px;*/
 }
 
 .messagesboxcontainerclass {

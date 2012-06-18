@@ -75,12 +75,22 @@ function InitializeGUI() {
     });
 
     window.addEventListener("resize", resizeTriggered, false);
+    resizeTriggered();
 }
 
 function resizeTriggered() {
+   //pick the highest between window size (- header) and messagesArea
+   var padding = 5;
+   var msgAreaMarginTop = 10;
    var window_height = window.innerHeight;
-   var headerHeight = $('header').height()
-   $('.container_12').height(window_height - headerHeight);
-   //document.getElementById('loading_screen_logo').style.paddingTop
-   //       = (window_height * .43) + "px";
+   var messagesAreaHeight = $('#messagesArea').height();
+   var headerHeight = $('header').height();
+   var contentWindowHeight = window_height - headerHeight - (2 * padding);
+   var msgAreaCalculatedHeight = messagesAreaHeight + msgAreaMarginTop;
+   if (contentWindowHeight <= msgAreaCalculatedHeight) {
+      $('.container_12').height(msgAreaCalculatedHeight);
+   }
+   else {
+      $('.container_12').height(contentWindowHeight);
+   } 
 }
