@@ -1,7 +1,7 @@
-﻿function CreateXMPPHandler(conversationsView, messagesView) {
+﻿"use strict";
+function CreateXMPPHandler(conversationsView, messagesView) {
     var convView = conversationsView;
     var msgView = messagesView;
-
 
     var msgID = 12345;
 
@@ -77,12 +77,12 @@
                                         " <sms_to>" + to + "</sms_to>" +
                                         " <sms_body>" + message + "</sms_body>" +
                                     " </sms>");
-            var message = $msg({
+            var replymsg = $msg({
                 to: "logic.smsfeedback.com",
                 from: "smsapp@smsfeedback.com",
                 "type": "sendSmsRequest"
             }).c("body").t(message_body);
-            this.connection.send(message);
+            this.connection.send(replymsg);
             this.log("Replay sent");
         }, 
         handle_infoquery: function (iq) {
@@ -93,27 +93,27 @@
         }, 
         handle_message: function (message) {
             console.log(message);
-            if ($(message).attr("type") == "getConversationsResponse") {
+            if ($(message).attr("type") === "getConversationsResponse") {
                 //this.displayConversationsList(message);
                 this.log("Conversations list reponse received");
-            } else if ($(message).attr("type") == "sendSmsResponse") {
-                if ($(message).children("body").text() == "error") {
+            } else if ($(message).attr("type") === "sendSmsResponse") {
+                if ($(message).children("body").text() === "error") {
                     this.log("SMS send failed!!!");
                     $("#quick_replay_text").val("");
                 } else {
                     this.displayConversationsList(message);
                     $("#quick_replay_text").val("");
                 }
-            } else if ($(message).attr("type") == "getMessagesForConversationResponse") {
+            } else if ($(message).attr("type") === "getMessagesForConversationResponse") {
                 var messages = $(message).children("body").text();
                 this.displayMessagesForConversation(messages);
                 this.log("Messages for conversation retrieved!");
             } else {
 
-                var msgContent = (Strophe.getText(message.getElementsByTagName('body')[0]))
+               var msgContent = (Strophe.getText(message.getElementsByTagName('body')[0]));
                 var xmlDoc;
                 if (window.DOMParser) {
-                    parser = new DOMParser();
+                    var parser = new DOMParser();
                     xmlDoc = parser.parseFromString(msgContent, "text/xml");
                 }
                 else {
@@ -126,13 +126,13 @@
                 var toID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
                 var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
                 var convID = fromID + "-" + toID;
-                var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent
+                var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
                 var newTrimmedText = newText.substring(0, 40);
                            
                 //this should not be here - it is just a temporary hack
                 //decide if the user has read this :)
                 var readStatus = false;
-                if (messagesView.currentConversationId == convID) {
+                if (messagesView.currentConversationId === convID) {
                     //the correct conversation was in focus, so we have read the message
                     readStatus = true;
                 }
@@ -147,4 +147,4 @@
         
     };   
     return XMPPhandler;
-};
+}

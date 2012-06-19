@@ -14,6 +14,8 @@
         <EntityTypeShape EntityType="smsfeedbackModel.Role" Width="1.5" PointX="5.25" PointY="4.125" />
         <AssociationConnector Association="smsfeedbackModel.UsersInRoles" />
         <AssociationConnector Association="smsfeedbackModel.UsersForWorkingPoints" />
+        <EntityTypeShape EntityType="smsfeedbackModel.XmppConnection" Width="1.5" PointX="3.875" PointY="6.75" />
+        <AssociationConnector Association="smsfeedbackModel.FK_UserXmppConnection" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

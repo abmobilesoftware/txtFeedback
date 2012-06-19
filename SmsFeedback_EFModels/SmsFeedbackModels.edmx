@@ -13,6 +13,7 @@
           <EntitySet Name="UsersForWorkingPoints" EntityType="smsfeedbackModel.Store.UsersForWorkingPoints" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UsersInRoles" EntityType="smsfeedbackModel.Store.UsersInRoles" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="WorkingPoints" EntityType="smsfeedbackModel.Store.WorkingPoints" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="XmppConnections" EntityType="smsfeedbackModel.Store.XmppConnections" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_ConversationMessage" Association="smsfeedbackModel.Store.FK_ConversationMessage">
             <End Role="Conversations" EntitySet="Conversations" />
             <End Role="Messages" EntitySet="Messages" />
@@ -24,6 +25,10 @@
           <AssociationSet Name="FK_UsersForWorkingPoints_WorkingPoint" Association="smsfeedbackModel.Store.FK_UsersForWorkingPoints_WorkingPoint">
             <End Role="WorkingPoints" EntitySet="WorkingPoints" />
             <End Role="UsersForWorkingPoints" EntitySet="UsersForWorkingPoints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserXmppConnection" Association="smsfeedbackModel.Store.FK_UserXmppConnection">
+            <End Role="XmppConnections" EntitySet="XmppConnections" />
+            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_WorkingPointConversation" Association="smsfeedbackModel.Store.FK_WorkingPointConversation">
             <End Role="WorkingPoints" EntitySet="WorkingPoints" />
@@ -80,6 +85,7 @@
           <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="IsAnonymous" Type="bit" Nullable="false" />
           <Property Name="LastActivityDate" Type="datetime" Nullable="false" />
+          <Property Name="XmppConnection_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="UsersForWorkingPoints">
           <Key>
@@ -105,6 +111,14 @@
           <Property Name="TelNumber" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="160" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="XmppConnections">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="XmppUser" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="XmppPassword" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_ConversationMessage">
           <End Role="Conversations" Type="smsfeedbackModel.Store.Conversations" Multiplicity="1" />
@@ -139,6 +153,18 @@
             </Principal>
             <Dependent Role="UsersForWorkingPoints">
               <PropertyRef Name="WorkingPoints_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserXmppConnection">
+          <End Role="XmppConnections" Type="smsfeedbackModel.Store.XmppConnections" Multiplicity="1" />
+          <End Role="Users" Type="smsfeedbackModel.Store.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="XmppConnections">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="XmppConnection_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -203,6 +229,11 @@
           <AssociationSet Name="UsersForWorkingPoints" Association="smsfeedbackModel.UsersForWorkingPoints">
             <End Role="User" EntitySet="Users" />
             <End Role="WorkingPoint" EntitySet="WorkingPoints" />
+          </AssociationSet>
+          <EntitySet Name="XmppConnections" EntityType="smsfeedbackModel.XmppConnection" />
+          <AssociationSet Name="FK_UserXmppConnection" Association="smsfeedbackModel.FK_UserXmppConnection">
+            <End EntitySet="XmppConnections" Role="XmppConnection" />
+            <End EntitySet="Users" Role="User" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Conversation">
@@ -278,6 +309,8 @@
           <Property Type="DateTime" Name="LastActivityDate" Nullable="false" Precision="3" />
           <NavigationProperty Name="Roles" Relationship="smsfeedbackModel.UsersInRoles" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="WorkingPoints" Relationship="smsfeedbackModel.UsersForWorkingPoints" FromRole="User" ToRole="WorkingPoint" />
+          <Property Type="Int32" Name="XmppConnection_Id" Nullable="false" />
+          <NavigationProperty Name="XmppConnection" Relationship="smsfeedbackModel.FK_UserXmppConnection" FromRole="User" ToRole="XmppConnection" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -296,6 +329,27 @@
         <Association Name="UsersForWorkingPoints">
           <End Type="smsfeedbackModel.User" Role="User" Multiplicity="*" />
           <End Type="smsfeedbackModel.WorkingPoint" Role="WorkingPoint" Multiplicity="*" />
+        </Association>
+        <EntityType Name="XmppConnection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="String" Name="XmppUser" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="XmppPassword" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="smsfeedbackModel.FK_UserXmppConnection" FromRole="XmppConnection" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UserXmppConnection">
+          <End Type="smsfeedbackModel.XmppConnection" Multiplicity="1" Role="XmppConnection" />
+          <End Type="smsfeedbackModel.User" Multiplicity="*" Role="User" />
+          <ReferentialConstraint>
+            <Principal Role="XmppConnection">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="XmppConnection_Id" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -342,6 +396,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="smsfeedbackModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="XmppConnection_Id" ColumnName="XmppConnection_Id" />
                 <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
                 <ScalarProperty Name="IsAnonymous" ColumnName="IsAnonymous" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
@@ -376,6 +431,15 @@
               <ScalarProperty Name="UserId" ColumnName="Users_UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="XmppConnections">
+            <EntityTypeMapping TypeName="smsfeedbackModel.XmppConnection">
+              <MappingFragment StoreEntitySet="XmppConnections">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="XmppPassword" ColumnName="XmppPassword" />
+                <ScalarProperty Name="XmppUser" ColumnName="XmppUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

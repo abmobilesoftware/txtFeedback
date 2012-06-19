@@ -1,4 +1,4 @@
-﻿
+﻿"use strict";
 
 function WorkingPointsArea() {
     var PhoneNumber = Backbone.Model.extend({
@@ -48,14 +48,15 @@ function WorkingPointsArea() {
         },
         triggerFiltering: function () {
            //change the checkedStatus
-           this.model.attributes['CheckedStatus'] = !this.model.get('CheckedStatus');
+           this.model.attributes.CheckedStatus = !this.model.get('CheckedStatus');
            var checkboxImg = $("img", this.$el);
-           //the domain name should come from the server!
-           var domainName = '/smsfeedback';
-           if (this.model.get('CheckedStatus') == true) {
+           //the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback 
+           //var domainName = '/smsfeedback';
+           var domainName = '';
+           if (this.model.get('CheckedStatus') === true) {
               this.$el.removeClass('phoneNumberUnselected');
               this.$el.addClass('phoneNumberSelected');
-              checkboxImg.attr('src', domainName + "/Content/images/checkbox_checked.png")
+              checkboxImg.attr('src', domainName + "/Content/images/checkbox_checked.png");
               //checkboxImg.attr('src', domainName + "/Content/images/check-white.svg")
               checkboxImg.removeClass('deletePhoneNumberIconUnselected');
               checkboxImg.addClass('deletePhoneNumberIconSelected');
@@ -64,16 +65,17 @@ function WorkingPointsArea() {
               this.$el.removeClass('phoneNumberSelected');
               this.$el.addClass('phoneNumberUnselected');
             
-              checkboxImg.attr('src', domainName + "/Content/images/checkbox_unchecked.png")
+              checkboxImg.attr('src', domainName + "/Content/images/checkbox_unchecked.png");
               //checkboxImg.attr('src', domainName + "/Content/images/check-grey.svg")
               checkboxImg.removeClass('deletePhoneNumberIconSelected');
               checkboxImg.addClass('deletePhoneNumberIconUnselected');
            }
            //make sure we start from the initial view where all the phone numbers are selected         
-           var checkedPhoneNumbersArray = new Array();
+           var checkedPhoneNumbersArray = [];
            _.each(checkedPhoneNumbers.models, function (wp) {
-              if (wp.get('CheckedStatus') == true)
-               checkedPhoneNumbersArray.push(wp.get('TelNumber'));
+              if (wp.get('CheckedStatus') === true) {
+                 checkedPhoneNumbersArray.push(wp.get('TelNumber'));
+              }
            });
            $(document).trigger('selectedWPsChanged', { checkedPhoneNumbers: checkedPhoneNumbersArray });
         }
@@ -112,10 +114,10 @@ function WorkingPointsArea() {
            var target = document.getElementById('phoneNumbersPool');
            spinner.spin(target);           
            this.phoneNumbersPool.fetch({
-              success: function () {                                
+              success: function () {
                  spinner.stop();
               }
-           })
+           });
         },
         render: function () {
            var self = this;
@@ -128,7 +130,7 @@ function WorkingPointsArea() {
            $(this.el).append(phoneNumberView.render().el);
         },
         phoneNumbersPoolChanged: function () {
-            if (this.phoneNumbersPool.models.length == 1) {
+            if (this.phoneNumbersPool.models.length === 1) {
                 //this.$el.hide();
                 $(".deletePhoneNumber").hide();
             }
@@ -137,4 +139,4 @@ function WorkingPointsArea() {
 
     var phoneNumbersPoolView = new PhoneNumbersPoolView();
     return phoneNumbersPoolView;
-};
+}

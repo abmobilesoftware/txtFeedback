@@ -53,6 +53,7 @@
    <script type="text/template" id="message-template">
         <div class="textMessage">
            <span>{{ Text }} </span> 
+            <div class="clear"></div>
            <span class="timeReceived">{{ TimeReceived }} </span>
         </div>
         <%--<div class="clear"></div>--%>
@@ -77,16 +78,7 @@
       $(function () {
          InitializeGUI();
       });
-   </script>
-  <%-- <div id="navigationMenu" class="grid_1">
-      <p>This will be the menu</p>
-      <button id="addMessage">Add</button>
-      <button id="removeMessage">Remove</button>
-      <button id="updateMessage">Update</button>
-      <button id="btnSlideUp">SlideUp</button>
-      <button id="btnSlideDown">SlideDown</button>
-      <button id="btnSendEmail">Email</button>
-   </div>--%>  
+   </script>  
    <div id="filtersStrip"></div>     
    <div class="clear"></div>
    <div id="phoneNumbersPool" class="wordwrap tagsPhoneNumbers grid_2">
@@ -105,7 +97,7 @@
         
          <div id="scrollablemessagebox" class="messagesboxcontainerclass scrollablebox">
             <div id="messagesbox" class="messagesboxclass">
-               No conversation selected, please select one
+               <span>No conversation selected, please select one</span>
             </div>
            
          </div>

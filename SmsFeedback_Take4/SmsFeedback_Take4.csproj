@@ -153,6 +153,7 @@
     <Compile Include="Controllers\ConversationsController.cs" />
     <Compile Include="Controllers\EmailSendController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\XmppController.cs" />
     <Compile Include="GlobalResources\Global.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -177,6 +178,7 @@
     <Compile Include="Mailers\UserMailer.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\WorkingPoint.cs" />
+    <Compile Include="Models\XmppConn.cs" />
     <Compile Include="Utilities\CustomAuthorizeAtribute.cs" />
     <Compile Include="Utilities\EFInteraction.cs" />
     <Compile Include="Utilities\SwitchLanguageHelper.cs" />
@@ -256,10 +258,6 @@
     <Content Include="Scripts\strophe\strophe.js" />
     <Content Include="Services\Conversations.svc" />
     <Content Include="Templates\PhoneTemplates.txt" />
-    <Content Include="Tutorials\BackboneTutorial.html" />
-    <Content Include="Tutorials\custom.js" />
-    <Content Include="Tutorials\jquery-1.6.2.js" />
-    <Content Include="Tutorials\JQueryTutorial.html" />
     <Content Include="Scripts\execute.js" />
     <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.2.js" />
@@ -271,9 +269,6 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\Messages.js" />
     <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
-    <Content Include="Tutorials\screen.css" />
-    <Content Include="Tutorials\starterkit.html" />
-    <Content Include="Tutorials\TestLayout.html" />
     <Content Include="Views\EmailSend\GetEmailMessageForm.aspx" />
     <Content Include="Views\EmailSend\Index.ascx" />
     <Content Include="Views\Messages\Index.aspx" />
@@ -313,6 +308,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Tutorials\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

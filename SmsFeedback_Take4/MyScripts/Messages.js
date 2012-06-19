@@ -1,4 +1,5 @@
-﻿var gSelectedMessage = null;
+﻿"use strict";
+var gSelectedMessage = null;
 var gSelectedConversationID = null;
 var gSelectedElement = null;
 
@@ -30,7 +31,7 @@ function startTimer(intervalToWait) {
     if (!timer_is_on) {       
         //establish if any action is still required - maybe the conversation is already read
         if (!$(gSelectedElement.selected).hasClass("readconversation")) {
-            timer = setTimeout('markConversationAsRead()', intervalToWait);
+            timer = setTimeout(markConversationAsRead, intervalToWait);
             timer_is_on = true;
         }
     }
@@ -88,7 +89,7 @@ function MessagesArea(convView) {
     });
 
     $("#limitedtextarea").keydown(function (event) {
-        if (event.which == 13 && event.shiftKey) {
+        if (event.which === 13 && event.shiftKey) {
             sendMessageToClient();
             event.preventDefault();
         }
@@ -103,22 +104,22 @@ function MessagesArea(convView) {
             TimeReceived: null,            
             ConvID: 1,
             Direction: "from",
-            Read: false,            
+            Read: false            
         },
         parse: function (data, xhc) {
             //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
             //in the TimeReceived property we have the same info coded as ticks, so we replace the TimeReceived value with a value build from the ticks value
-            var dateInTicks = data["TimeReceived"].substring(6,19);
-            data["TimeReceived"] = (new Date(parseInt(dateInTicks))).toUTCString();
+            var dateInTicks = data.TimeReceived.substring(6,19);
+            data.TimeReceived = (new Date(parseInt(dateInTicks, 10))).toUTCString();
             //we have to determine the direction
-            var dir = data["From"] + "-" + data["To"];
-            if (dir == data["ConvID"]) {
+            var dir = data.From + "-" + data.To;
+            if (dir === data.ConvID) {
                 dir = "from";
             }
             else {
                 dir = "to";
             }
-            data["Direction"] = dir;
+            data.Direction = dir;
             return data;
         },
         idAttribute: "Id"
@@ -190,7 +191,7 @@ function MessagesArea(convView) {
             this.currentConversationId = '';
             this.messages = new MessagesList();
             this.messages.bind("reset", this.render);
-            $("#messagesbox").selectable();
+            //$("#messagesbox").selectable();
         },
         resetViewToDefault: function () {
            $('#messagesbox').html(' No conversation selected, please select one');
@@ -202,7 +203,7 @@ function MessagesArea(convView) {
             $("#messagesbox").html('');
             var target = document.getElementById('scrollablemessagebox');
             spinner.spin(target);
-            var messages1 = new MessagesList()
+            var messages1 = new MessagesList();
             messages1.identifier = conversationId;
             this.currentConversationId = conversationId;
             if (this.currentConversationId in this.messagesRep) {
@@ -217,7 +218,7 @@ function MessagesArea(convView) {
             }
             else {
                 messages1.bind("reset", this.render);
-                messages1.bind('add', this.appendMessage)
+                messages1.bind('add', this.appendMessage);
                 performFadeIn = true;
                 messages1.fetch({
                     data: { "conversationId": messages1.identifier },
@@ -290,9 +291,9 @@ function MessagesArea(convView) {
         }
     });
 
-    var appview = new MessagesView;
+    var appview = new MessagesView();
     return appview;
-};
+}
 
 function limitText(limitField, limitCount, limitNum) {
     if (limitField.value.length > limitNum) {
@@ -301,5 +302,3 @@ function limitText(limitField, limitCount, limitNum) {
         limitCount.value = limitNum - limitField.value.length;
     }
 }
-
-

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using SmsFeedback_EFModels;
+using SmsFeedback_Take4.Models;
 
 namespace SmsFeedback_Take4.Utilities
 {
@@ -78,6 +79,13 @@ namespace SmsFeedback_Take4.Utilities
             Read = readStatus
          });
          mContext.SaveChanges();  
+      }
+
+      public XmppConn GetXmppConnectionDetailsPerUser(string userName)
+      {
+         logger.Info("Call made");         
+         var connection = from u in mContext.Users where u.UserName == userName select new XmppConn() { XmppUser = u.XmppConnection.XmppUser, XmppPassword = u.XmppConnection.XmppPassword };
+         return connection.First();
       }
    }
 }

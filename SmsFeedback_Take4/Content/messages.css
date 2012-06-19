@@ -9,13 +9,14 @@
    display: block;
    margin: 5px auto;
 }
+
 #tagsPool {
    width: 90%;
    margin-left: 5%;
    border-radius: 10px;
    -moz-border-radius: 10px;
    -webkit-border-radius: 10px;
-   background-color:#DFE7EA;
+   background-color: #DFE7EA;
 }
 /*For the messages display*/
 #messagesArea {
@@ -59,12 +60,12 @@ div.textMessage {
 
 /*for toMessages we display the menu at their left*/
 .messageto div.extramenu {
-   left: -160px;
+   left: -100px;
 }
 
 /*for fromMessages we display the menu at their right*/
 .messagefrom div.extramenu {
-   right: -160px;
+   right: -100px;
 }
 
 div.extramenu {
@@ -86,44 +87,42 @@ div.actionButtons {
 
 #messagesbox .message {
    width: 75%;
-   /*border: 1px solid #aaaaaa;*/
-   /*border-radius: 2px;*/
    margin: 4px 4px 10px 4px;
    padding: 1px 4px 1px 4px;
    border-radius: 4px;
    -moz-border-radius: 4px;
    -webkit-border-radius: 4px;
-   color: #222222;
-   display: block;
+   color: #222222;   
    word-wrap: break-word;
-   /*height: 28px;
-   max-height: 28px;*/
-   position: relative;
-   padding: .8em;
-	/*width: 12em;*/
-	border-width: 2px !important;
-	/*position: absolute;*/
-	z-index: 9999;
+   position: relative;   
+   border-width: 2px !important;   
 }
 
    #messagesbox .message:hover {
       border-color: #000;
       font-size: 100%;
-      /*background-color: ;*/
    }
 
 #messagesbox .messagefrom {
    float: left;
    background-color: #00A2E4;
 }
-.arrowFrom{
+#messagesbox span {
+   margin-top: auto;
+   margin-left: auto;
+   margin-right: auto;
+   margin-bottom: auto;
+   line-height:2 em;
+}
+
+.arrowFrom {
    border-left: 0;
    border-right: 17px dotted transparent;
    border-top-width: 14px;
-	bottom:	-14px;
-	right: auto;
-	left: 5%;
-	margin-left: -7px;
+   bottom: -14px;
+   right: auto;
+   left: 5%;
+   margin-left: -7px;
    position: absolute;
 }
 
@@ -131,14 +130,14 @@ div.actionButtons {
    border-left: 0;
    border-right: 12px dotted transparent;
    border-top: 10px solid white;
-	bottom:	auto;
-	top: -14px;
-	left: -5px;
-   position: absolute; 
-	width:0; 
-	height:0; 
-	border-bottom-width: 0;
-	background: none;
+   bottom: auto;
+   top: -14px;
+   left: -5px;
+   position: absolute;
+   width: 0;
+   height: 0;
+   border-bottom-width: 0;
+   background: none;
    border-top-color: #00A2E4;
 }
 
@@ -166,11 +165,11 @@ div.actionButtons {
 }
 
 #textareaContainer {
-   /*background: black;*/
    padding: 2px 2px 2px 2px;
    display: inline-block;
    width: 100%;
 }
+
 #inputTextContainer {
    display: inline-block;
    background-color: #DFE7EA;
@@ -196,13 +195,14 @@ div.actionButtons {
    float: left;
    margin-left: 2%;
    margin-right: 5%;
-   background-color:#8DC63F;
+   background-color: #8DC63F;
    color: white;
-   font-weight: bold;   
+   font-weight: bold;
    font-size: 2em;
-    border-radius: 10px;
+   border-radius: 10px;
    -moz-border-radius: 10px;
    -webkit-border-radius: 10px;
+   cursor: pointer;
 }
 
 input[name="countdown"] {
@@ -229,7 +229,6 @@ input[name="countdown"] {
 
    #limitedtextarea:hover {
       outline: none;
-      /*border: 1px solid #999;*/
       cursor: text!important;
    }
 
