@@ -11,11 +11,13 @@
         <AssociationConnector Association="smsfeedbackModel.FK_ConversationMessage" ManuallyRouted="false" />
         <AssociationConnector Association="smsfeedbackModel.FK_WorkingPointConversation" ManuallyRouted="false" />
         <EntityTypeShape EntityType="smsfeedbackModel.User" Width="1.5" PointX="0.75" PointY="4.125" />
-        <EntityTypeShape EntityType="smsfeedbackModel.Role" Width="1.5" PointX="5.25" PointY="4.125" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Role" Width="1.5" PointX="3.875" PointY="4" />
         <AssociationConnector Association="smsfeedbackModel.UsersInRoles" />
         <AssociationConnector Association="smsfeedbackModel.UsersForWorkingPoints" />
         <EntityTypeShape EntityType="smsfeedbackModel.XmppConnection" Width="1.5" PointX="3.875" PointY="6.75" />
         <AssociationConnector Association="smsfeedbackModel.FK_UserXmppConnection" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Tag" Width="1.5" PointX="7" PointY="4.5" />
+        <AssociationConnector Association="smsfeedbackModel.ConversationTags" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

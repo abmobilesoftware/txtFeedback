@@ -7,8 +7,10 @@
     <Schema Namespace="smsfeedbackModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="smsfeedbackModelStoreContainer">
           <EntitySet Name="Conversations" EntityType="smsfeedbackModel.Store.Conversations" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ConversationTags" EntityType="smsfeedbackModel.Store.ConversationTags" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Messages" EntityType="smsfeedbackModel.Store.Messages" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Roles" EntityType="smsfeedbackModel.Store.Roles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Tags" EntityType="smsfeedbackModel.Store.Tags" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Users" EntityType="smsfeedbackModel.Store.Users" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UsersForWorkingPoints" EntityType="smsfeedbackModel.Store.UsersForWorkingPoints" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UsersInRoles" EntityType="smsfeedbackModel.Store.UsersInRoles" store:Type="Tables" Schema="dbo" />
@@ -17,6 +19,14 @@
           <AssociationSet Name="FK_ConversationMessage" Association="smsfeedbackModel.Store.FK_ConversationMessage">
             <End Role="Conversations" EntitySet="Conversations" />
             <End Role="Messages" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConversationTags_Conversation" Association="smsfeedbackModel.Store.FK_ConversationTags_Conversation">
+            <End Role="Conversations" EntitySet="Conversations" />
+            <End Role="ConversationTags" EntitySet="ConversationTags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConversationTags_Tags" Association="smsfeedbackModel.Store.FK_ConversationTags_Tags">
+            <End Role="Tags" EntitySet="Tags" />
+            <End Role="ConversationTags" EntitySet="ConversationTags" />
           </AssociationSet>
           <AssociationSet Name="FK_UsersForWorkingPoints_User" Association="smsfeedbackModel.Store.FK_UsersForWorkingPoints_User">
             <End Role="Users" EntitySet="Users" />
@@ -55,6 +65,14 @@
           <Property Name="WorkingPointId" Type="int" Nullable="false" />
           <Property Name="From" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="ConversationTags">
+          <Key>
+            <PropertyRef Name="Conversations_Id" />
+            <PropertyRef Name="Tags_Id" />
+          </Key>
+          <Property Name="Conversations_Id" Type="int" Nullable="false" />
+          <Property Name="Tags_Id" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Messages">
           <Key>
             <PropertyRef Name="Id" />
@@ -75,6 +93,14 @@
           <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" Nullable="false" MaxLength="256" />
           <Property Name="Description" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="Tags">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -129,6 +155,30 @@
             </Principal>
             <Dependent Role="Messages">
               <PropertyRef Name="ConversationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConversationTags_Conversation">
+          <End Role="Conversations" Type="smsfeedbackModel.Store.Conversations" Multiplicity="1" />
+          <End Role="ConversationTags" Type="smsfeedbackModel.Store.ConversationTags" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ConversationTags">
+              <PropertyRef Name="Conversations_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConversationTags_Tags">
+          <End Role="Tags" Type="smsfeedbackModel.Store.Tags" Multiplicity="1" />
+          <End Role="ConversationTags" Type="smsfeedbackModel.Store.ConversationTags" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tags">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ConversationTags">
+              <PropertyRef Name="Tags_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -235,6 +285,11 @@
             <End EntitySet="XmppConnections" Role="XmppConnection" />
             <End EntitySet="Users" Role="User" />
           </AssociationSet>
+          <EntitySet Name="Tags" EntityType="smsfeedbackModel.Tag" />
+          <AssociationSet Name="ConversationTags" Association="smsfeedbackModel.ConversationTags">
+            <End Role="Conversation" EntitySet="Conversations" />
+            <End Role="Tag" EntitySet="Tags" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Conversation">
           <Key>
@@ -249,6 +304,7 @@
           <NavigationProperty Name="Messages" Relationship="smsfeedbackModel.FK_ConversationMessage" FromRole="Conversations" ToRole="Messages" />
           <NavigationProperty Name="WorkingPoint" Relationship="smsfeedbackModel.FK_WorkingPointConversation" FromRole="Conversations" ToRole="WorkingPoints" />
           <Property Type="String" Name="From" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Tags" Relationship="smsfeedbackModel.ConversationTags" FromRole="Conversation" ToRole="Tag" />
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -351,6 +407,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Conversations" Relationship="smsfeedbackModel.ConversationTags" FromRole="Tag" ToRole="Conversation" />
+        </EntityType>
+        <Association Name="ConversationTags">
+          <End Type="smsfeedbackModel.Conversation" Role="Conversation" Multiplicity="*" />
+          <End Type="smsfeedbackModel.Tag" Role="Tag" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -440,6 +509,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Tags">
+            <EntityTypeMapping TypeName="smsfeedbackModel.Tag">
+              <MappingFragment StoreEntitySet="Tags">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ConversationTags" TypeName="smsfeedbackModel.ConversationTags" StoreEntitySet="ConversationTags">
+            <EndProperty Name="Tag">
+              <ScalarProperty Name="Id" ColumnName="Tags_Id" />
+            </EndProperty>
+            <EndProperty Name="Conversation">
+              <ScalarProperty Name="Id" ColumnName="Conversations_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
