@@ -92,3 +92,16 @@ function getFromToFromConversation(convID) {
 function buildConversationID(from, to) {
     return from + "-" + to;
 }
+
+function comparePhoneNumbers(phoneNumber1, phoneNumber2)
+{
+   //take into account that they could start with + or 00 - so we strip away any leading + or 00
+   return cleanupPhoneNumber(phoneNumber1) === cleanupPhoneNumber(phoneNumber2);
+}
+
+function cleanupPhoneNumber(data) {
+   var prefixes = new Array("00", "\\+");   
+   var prefix = new RegExp('^(' + prefixes.join('|') + ')', "g");   
+   data = data.replace(prefix, "");   
+   return data;
+}

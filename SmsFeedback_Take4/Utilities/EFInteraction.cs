@@ -19,6 +19,7 @@ namespace SmsFeedback_Take4.Utilities
 
       public int UpdateAddConversation(String from, String to, String conversationId, String text, Boolean readStatus, DateTime? updateTime)
       {
+         logger.Info("Call made");
          try
          {
             var conversations = from c in mContext.Conversations where c.ConvId == conversationId select c;
@@ -38,7 +39,8 @@ namespace SmsFeedback_Take4.Utilities
             {
                logger.InfoFormat("Adding conversation: [{0}] with read: {1}, updateTime: {2}, text: [{3}], from: [{4}]", conversationId, readStatus.ToString(), updateDateToInsert, text, from);
                //get the working point id
-               var workingPointIDs = from wp in mContext.WorkingPoints where wp.TelNumber == to select wp.Id;
+               string consistentWP = ConversationUtilities.RemovePrefixFromNumber(to);
+               var workingPointIDs = from wp in mContext.WorkingPoints where wp.TelNumber == consistentWP select wp.Id;
                if (workingPointIDs != null && workingPointIDs.Count() > 0)
                {
                   var wpId = workingPointIDs.First();
@@ -69,16 +71,24 @@ namespace SmsFeedback_Take4.Utilities
 
       public void AddMessage(String from, String to, String conversationId, String text, Boolean readStatus, DateTime updateTime, int convId)
       {
-         mContext.Messages.AddObject(new Message
+         logger.Info("Call made");
+         try
          {
-            From = from,
-            To = to,
-            Text = text,
-            TimeReceived = updateTime,
-            ConversationId = convId,
-            Read = readStatus
-         });
-         mContext.SaveChanges();  
+            mContext.Messages.AddObject(new Message
+            {
+               From = from,
+               To = to,
+               Text = text,
+               TimeReceived = updateTime,
+               ConversationId = convId,
+               Read = readStatus
+            });
+            mContext.SaveChanges();
+         }
+         catch (Exception ex)
+         {
+            logger.Error("Error occurred in AddMessage", ex);           
+         }
       }
 
       public XmppConn GetXmppConnectionDetailsPerUser(string userName)

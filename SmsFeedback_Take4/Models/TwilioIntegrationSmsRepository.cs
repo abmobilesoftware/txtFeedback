@@ -90,8 +90,7 @@ namespace SmsFeedback_Take4.Models
          var authToken = "cfdeca286645c1dca6674b45729a895c";
          var twilio = new TwilioRestClient(accoundSID, authToken);         
          //var toNumber = workingPointsNumbers;
-         var toNumber = "+442033221134";
-         lastUpdate = new DateTime(2012, 1, 1);
+         var toNumber = "+442033221134";         
          //the lastUpdate parameter will be used by default with the = operator. I need the >= parameter.
          SmsMessageResult res = twilio.ListSmsMessages(toNumber, "", lastUpdate, ComparisonType.GreaterThanOrEqualTo, null, null);
          //twilio.ListSmsMessages(

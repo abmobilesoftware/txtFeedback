@@ -231,11 +231,11 @@ function ConversationArea() {
                 elem.remove();
                 //make sure to clear any event handlers, so we don't handle the same event twice
                 conversation.off("change");
-                self.addConversationWithEffect(conversation);
+                self.addConversationWithEffect(conversation,true);
              });
           }
        },
-       newMessageReceived: function (fromID, convID, dateReceived, newText) {
+       newMessageReceived: function (fromID, toID, convID, dateReceived, newText) {
           //if the given conversation exists we update it, otherwise we create a new conversation
           if (newText.length > 40) {
              newText = newText.substring(0, 37) + '...';
@@ -247,7 +247,7 @@ function ConversationArea() {
              modelToUpdate.set("Text", newText);
           }
           else {
-             var modelToAdd = new Conversation({ From: fromID, ConvID: convID, TimeReceived: dateReceived, Text: newText });
+             var modelToAdd = new Conversation({ From: fromID,To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText });
              //model.id = assign unique id
              convView.convsList.add(modelToAdd);
           }

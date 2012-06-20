@@ -1,4 +1,5 @@
 ﻿"use strict";
+var checkedPhoneNumbers;
 
 function WorkingPointsArea() {
     var PhoneNumber = Backbone.Model.extend({
@@ -17,7 +18,7 @@ function WorkingPointsArea() {
           return "Messages/WorkingPointsPerUser";
        }
     });
-    var checkedPhoneNumbers;
+   
 
     _.templateSettings = {
         interpolate: /\{\{(.+?)\}\}/g
@@ -77,7 +78,7 @@ function WorkingPointsArea() {
                  checkedPhoneNumbersArray.push(wp.get('TelNumber'));
               }
            });
-           $(document).trigger('selectedWPsChanged', { checkedPhoneNumbers: checkedPhoneNumbersArray });
+           $(document).trigger('selectedWPsChanged', { 'checkedPhoneNumbers': checkedPhoneNumbersArray });
         }
      });
 

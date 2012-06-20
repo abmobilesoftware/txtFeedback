@@ -76,6 +76,10 @@ namespace SmsFeedback_Take4.Controllers
          }
 
       }
+      public JsonResult Tags(string conversationID)
+      {
+         return null;
+      }
 
       [HttpGet]
       public JsonResult MarkConversationAsRead(string conversationId)

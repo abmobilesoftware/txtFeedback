@@ -70,10 +70,11 @@ function MessagesArea(convView) {
         newMsg.set("From", from);
         newMsg.set("To", to);        
         newMsg.set("TimeReceived", (new Date()).toUTCString());
-        appview.messagesRep[appview.currentConversationId].add(newMsg);        
-        convView.newMessageReceived(from, appview.currentConversationId, Date.now(), msgContent);
+        appview.messagesRep[appview.currentConversationId].add(newMsg);
+       //TODO - here TO is incorrect, as it should be the description 
+        convView.newMessageReceived(from, to, appview.currentConversationId, Date.now(), msgContent);
         //reset the input form
-        $("form[name=replyToMessageForm]")[0].reset();
+        $("#replyToMessageForm")[0].reset();
         //send it to the server
         $.getJSON('Messages/SendMessage',
                 { from: from, to: to, text: msgContent },
@@ -112,7 +113,7 @@ function MessagesArea(convView) {
             var dateInTicks = data.TimeReceived.substring(6,19);
             data.TimeReceived = (new Date(parseInt(dateInTicks, 10))).toUTCString();
             //we have to determine the direction
-            var dir = data.From + "-" + data.To;
+            var dir = cleanupPhoneNumber(data.From) + "-" + cleanupPhoneNumber(data.To);
             if (dir === data.ConvID) {
                 dir = "from";
             }
@@ -150,11 +151,11 @@ function MessagesArea(convView) {
             var direction = "messagefrom";
             var arrowClass = "arrowFrom";
             var arrowInnerClass = "arrowInnerFrom";
-            //if (this.model.attributes["Direction"] == "to") {
-           //    direction = "messageto";
-           //arrowClass= "arrowTo";
-           //arrowInnerClass = "arrowInnerTo";
-            //}
+            if (this.model.attributes["Direction"] == "to") {
+               direction = "messageto";
+               arrowClass= "arrowTo";
+                arrowInnerClass = "arrowInnerTo";
+            }
             this.$el.addClass("message");
             this.$el.addClass(direction);
             

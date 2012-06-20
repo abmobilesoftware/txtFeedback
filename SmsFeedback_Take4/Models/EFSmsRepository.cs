@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using SmsFeedback_EFModels;
+using SmsFeedback_Take4.Utilities;
 
 namespace SmsFeedback_Take4.Models
 {
@@ -24,7 +25,9 @@ namespace SmsFeedback_Take4.Models
          logger.Info("Call made");         
          //if (showAll)
          //{
-            var convs1 = from wp in mContext.WorkingPoints where wp.TelNumber == workingPointsNumber 
+         string consistentWP = ConversationUtilities.RemovePrefixFromNumber(workingPointsNumber);
+         var convs1 = from wp in mContext.WorkingPoints
+                      where wp.TelNumber == consistentWP 
                          select (from c in wp.Conversations orderby c.TimeUpdated descending 
                                  select (new SmsMessage() { Id = c.Id, From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
           var  conversations = convs1.First().AsQueryable();

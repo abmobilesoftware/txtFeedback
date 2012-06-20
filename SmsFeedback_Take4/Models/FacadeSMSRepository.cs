@@ -54,6 +54,8 @@ namespace SmsFeedback_Take4.Models
                      IEnumerable<SmsMessage> twilioConversationsForNumbers = mTwilioRep.GetConversationsForNumber(showAll, showFavourites, tags, item.Key, skip, top, lastConversationTime);
                      //we need to add the twilio conversations to our conversations list
                      AddTwilioConversationsToDb(twilioConversationsForNumbers);
+                     //TODO - remove the break
+                     break; //temporary - until we have real data
                      //now we can select from our db the latest conversations
                   }
                   else
@@ -63,7 +65,7 @@ namespace SmsFeedback_Take4.Models
                   }
                }
                IEnumerable<SmsMessage> efConversationsForNumbers = mEFRep.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers, skip, top, lastUpdate);
-               return efConversationsForNumbers.Reverse();           
+               return efConversationsForNumbers;           
          }
          catch (Exception ex)
          {

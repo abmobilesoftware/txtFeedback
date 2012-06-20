@@ -1,8 +1,8 @@
 ﻿"use strict";
 function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
     console.log("inside newMessageReceived");
-
-    convView.newMessageReceived(fromID, convID, dateReceived, text);
+   //the conversations window expects that the toID be a "name" and not a telephone number
+    convView.newMessageReceived(fromID, toId, convID, dateReceived, text);
     msgView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
 }
 
@@ -41,8 +41,15 @@ function InitializeGUI() {
                     function (data) {
                         //delivered successfully? if yes - indicate this
                         console.log(data);
-                    });
-        newMessageReceivedGUI(convView, msgView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text);
+                     });
+       //we listen for all numbers so we have to filter what to show        
+        _.each(checkedPhoneNumbers.models, function (wp) {
+           if (wp.get('CheckedStatus') === true && comparePhoneNumbers(wp.get('TelNumber'), data.toID) ) {
+              //checkedPhoneNumbersArray.push(wp.get('TelNumber'));
+              newMessageReceivedGUI(convView, msgView, data.fromID, wp.get('Name'), data.convID, data.msgID, data.dateReceived, data.text);
+           }
+        });
+        
      });
 
     $(document).bind('selectedWPsChanged', function (ev, data) {

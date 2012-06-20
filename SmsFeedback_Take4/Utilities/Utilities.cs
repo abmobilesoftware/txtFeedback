@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace SmsFeedback_Take4.Utilities
@@ -14,8 +15,17 @@ namespace SmsFeedback_Take4.Utilities
       }
 
       public static string BuildConversationIDFromFromAndTo(string from, string to)
+      {         
+         return RemovePrefixFromNumber(from) + cIDSeparator + RemovePrefixFromNumber(to);
+      }
+
+      public static string RemovePrefixFromNumber(string number)
       {
-         return from + cIDSeparator + to;
+         string[] prefixes = { "00", "\\+" };
+         string pattern = "^(" + String.Join("|", prefixes) + ")";
+
+         Regex rgx = new Regex(pattern);
+         return rgx.Replace(number, "");
       }
    }
 }
