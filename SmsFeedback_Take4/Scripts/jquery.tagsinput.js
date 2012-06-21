@@ -106,7 +106,7 @@
                         //    return $('#' + id).removeTag(escape(value));
                         // })
                          $('<img>', {
-                            src: '/Content/images/close14x14.png',
+                            src: domainName + '/Content/images/close14x14.png',
                             class: 'removeTagIcon'
                          }).click(function () {
                             return $('#' + id).removeTag(escape(value));

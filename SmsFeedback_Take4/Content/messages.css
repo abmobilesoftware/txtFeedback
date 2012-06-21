@@ -85,7 +85,7 @@ div.actionButtons {
    -moz-border-radius: 4px;
    -webkit-border-radius: 4px;
    color: white;   
-   font-weight: bold;
+   /*font-weight: bold;*/
    word-wrap: break-word;
    position: relative;   
    border-width: 2px !important;   
@@ -234,7 +234,7 @@ input[name="countdown"] {
    overflow: hidden;
    resize: none;
    color: #222;
-   font-size: 13px;
+   /*font-size: 13px;*/
    line-height: 18px;
    border-width: 0px;
    background-color: transparent;
@@ -242,6 +242,7 @@ input[name="countdown"] {
    word-wrap: break-word;
    display: inline-block;
    float: left;
+   font: 13px/1.5 Calibri, Verdana, sans-serif;
 }
 
    #limitedtextarea:hover {

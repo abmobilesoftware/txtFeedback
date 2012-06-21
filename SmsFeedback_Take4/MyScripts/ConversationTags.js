@@ -41,7 +41,7 @@ function TagsArea() {
       initialize: function () {        
          this.conversationID = '';
          $("#tags").tagsInput({
-            'height': '32px',
+            'height': '25px',
             'width': 'auto',
             'onAddTag' : this.onAddTag,
             'onRemoveTag': this.onRemoveTag,

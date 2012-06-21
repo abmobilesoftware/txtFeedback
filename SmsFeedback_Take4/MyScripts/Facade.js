@@ -23,7 +23,9 @@ function InitializeGUI() {
     var wpsArea =  WorkingPointsArea();
     var convView = ConversationArea();
     var tagsArea = TagsArea();
-    var msgView = MessagesArea(convView, tagsArea);   
+    var msgView = MessagesArea(convView, tagsArea);
+   //initialize the filters area
+    var filterArea = FilterTagsArea();
    //get the initial working points
     wpsArea.getWorkingPoints();
     //get the initial conversations

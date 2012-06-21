@@ -50,7 +50,9 @@ namespace SmsFeedback_Take4.Models
                   //TODO decide how to combine the results for more numbers
                   if (item.Value != null)
                   {
-                     var lastConversationTime = item.Value.TimeReceived;
+                     //unfortunatelly twilio is rather imprecisse (YYYY-MM-DD) -> we could/will get the same messages twice 
+                     //we'll tackle this in the addupdate logic
+                     var lastConversationTime = item.Value.TimeReceived; 
                      IEnumerable<SmsMessage> twilioConversationsForNumbers = mTwilioRep.GetConversationsForNumber(showAll, showFavourites, tags, item.Key, skip, top, lastConversationTime);
                      //we need to add the twilio conversations to our conversations list
                      AddTwilioConversationsToDb(twilioConversationsForNumbers);

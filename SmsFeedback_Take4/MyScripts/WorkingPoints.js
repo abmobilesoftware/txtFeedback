@@ -1,5 +1,8 @@
 ﻿"use strict";
 var checkedPhoneNumbers;
+//the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
+//var domainName = '/smsfeedback';
+var domainName = '';
 
 function WorkingPointsArea() {
     var PhoneNumber = Backbone.Model.extend({
@@ -51,9 +54,8 @@ function WorkingPointsArea() {
            //change the checkedStatus
            this.model.attributes.CheckedStatus = !this.model.get('CheckedStatus');
            var checkboxImg = $("img", this.$el);
-           //the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback 
-           //var domainName = '/smsfeedback';
-           var domainName = '';
+         
+         
            if (this.model.get('CheckedStatus') === true) {
               this.$el.removeClass('phoneNumberUnselected');
               this.$el.addClass('phoneNumberSelected');

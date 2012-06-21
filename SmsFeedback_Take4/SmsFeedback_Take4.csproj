@@ -244,8 +244,9 @@
     <Content Include="MyScripts\contact.js" />
     <Content Include="MyScripts\Conversations.js" />
     <Content Include="MyScripts\Facade.js" />
+    <Content Include="MyScripts\Filtering.js" />
     <Content Include="MyScripts\Messages.js" />
-    <Content Include="MyScripts\Tags.js" />
+    <Content Include="MyScripts\ConversationTags.js" />
     <Content Include="MyScripts\WorkingPoints.js" />
     <Content Include="MyScripts\Utilities.js" />
     <Content Include="MyScripts\XMPP.js" />

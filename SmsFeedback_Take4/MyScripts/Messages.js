@@ -275,11 +275,13 @@ function MessagesArea(convView, tagsArea) {
                 //make sure to bind the buttons
                 // $(helperDiv).css("visibility", "visible");
                 gSelectedMessage = $($(this).find("div span")[0]).html();
-                $(helperDiv).fadeIn(400);
+                //$(helperDiv).fadeIn(400);
+                $(helperDiv).show();
                 //ContactWindow.init();
             }, function () {
                 var helperDiv = $(this).find("div.extramenu")[0];
-                $(helperDiv).fadeOut("fast");
+                //$(helperDiv).fadeOut("fast");
+                $(helperDiv).hide();
             });
           
             if (performFadeIn) {

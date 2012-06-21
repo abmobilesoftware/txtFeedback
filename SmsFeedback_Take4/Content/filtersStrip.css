@@ -3,3 +3,12 @@
    background-color: #183540;
    height: 45px;
 }
+
+.filterStripElement {
+     min-height:  28px;
+     margin-top: 4px;
+}
+
+#filterTag_tag {
+   color: white !important;
+}

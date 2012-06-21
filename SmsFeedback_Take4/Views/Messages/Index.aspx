@@ -22,7 +22,8 @@
    <script src="<%: Url.Content("~/MyScripts/contact.js") %>" type="text/javascript"></script>
    
    <script src="<%: Url.Content("~/MyScripts/Conversations.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/MyScripts/Tags.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.Content("~/MyScripts/Filtering.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.Content("~/MyScripts/ConversationTags.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/Strophe/strophe.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/flxhr/flXHR.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/flxhr/strophe.flxhr.js") %>" type="text/javascript"></script>
@@ -94,7 +95,15 @@
          InitializeGUI();
       });
    </script>  
-   <div id="filtersStrip"></div>     
+   <div id="filtersStrip">
+      <div class="grid_2 filterStripElement"></div>
+      <div class="grid_4 filterStripElement"></div>
+      <div class="grid_6 filterStripElement">
+         <div id="tagFiltering" class="tagArea">
+             <input name="filterTag" id="filterTag" />
+         </div>
+      </div>
+   </div>     
    <div class="clear"></div>
    <div id="phoneNumbersPool" class="wordwrap tagsPhoneNumbers grid_2">
    </div>
@@ -117,7 +126,7 @@
            
          </div>
          <div id="messageTagsSeparator"></div>       
-         <div id="tagsContainer">
+         <div id="tagsContainer" class="tagArea">
             <div id="tagsPool" class="tagsPhoneNumbers">
               <%-- <span>Here will be the tags</span>--%>
             </div>

@@ -10,7 +10,8 @@
 
 body
 {
-	font: 13px/1.5 Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
+	/*font: 13px/1.5 Calibri, Verdana, sans-serif;*/
+   font-family:Calibri, Verdana, sans-serif;
 }
 
 a:focus
