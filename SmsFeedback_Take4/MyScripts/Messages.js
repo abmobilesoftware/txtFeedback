@@ -205,8 +205,7 @@ function MessagesArea(convView, tagsArea) {
             $("#messagesbox").html('');
             var target = document.getElementById('scrollablemessagebox');
             spinner.spin(target);
-            var messages1 = new MessagesList();
-            messages1.identifier = conversationId;
+            
             this.currentConversationId = conversationId;
             if (this.currentConversationId in this.messagesRep) {
                 //we have already loaded this conversation
@@ -219,6 +218,8 @@ function MessagesArea(convView, tagsArea) {
                 $("textareaContainer").fadeIn("slow");
             }
             else {
+                var messages1 = new MessagesList();
+                messages1.identifier = conversationId;
                 messages1.bind("reset", this.render);
                 messages1.bind('add', this.appendMessage);
                 performFadeIn = true;
@@ -242,11 +243,12 @@ function MessagesArea(convView, tagsArea) {
             this.messagesRep[this.currentConversationId].each(function (msg) {
                 //don't scroll to bottom as we will do it when loading is done
                 self.appendMessageToDiv(msg, performFadeIn, false);
-            });            
+             });
+            spinner.stop();
             //scroll to bottom
             var messagesEl = $("#scrollablemessagebox");
             messagesEl.animate({ scrollTop: messagesEl.prop("scrollHeight") }, 3000);
-            spinner.stop();
+        
             return this;
         },
         appendMessage: function (msg) {

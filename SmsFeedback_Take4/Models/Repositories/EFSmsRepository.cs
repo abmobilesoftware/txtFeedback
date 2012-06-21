@@ -108,7 +108,7 @@ namespace SmsFeedback_Take4.Models
          var res = from conv in mContext.Conversations
                    where conv.ConvId == convID
                    select (from tag in conv.Tags
-                           select new ConversationTag() { Id=tag.Id, Name = tag.Name, Description = tag.Description });
+                           select new ConversationTag() { CompanyName= tag.CompanyName, Name = tag.Name, Description = tag.Description });
          if (res != null && res.Count() > 0)
          {
             return res.First();

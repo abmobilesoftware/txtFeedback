@@ -4,21 +4,24 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9c032a5472b642ed9bdfb92c9ffa1550" Name="Diagram1" ZoomLevel="108">
+      <Diagram DiagramId="9c032a5472b642ed9bdfb92c9ffa1550" Name="Diagram1" ZoomLevel="97">
         <EntityTypeShape EntityType="smsfeedbackModel.Conversation" Width="1.5" PointX="7" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="smsfeedbackModel.Message" Width="1.5" PointX="9.625" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="smsfeedbackModel.WorkingPoint" Width="1.5" PointX="4.375" PointY="1.125" IsExpanded="true" />
         <AssociationConnector Association="smsfeedbackModel.FK_ConversationMessage" ManuallyRouted="false" />
         <AssociationConnector Association="smsfeedbackModel.FK_WorkingPointConversation" ManuallyRouted="false" />
         <EntityTypeShape EntityType="smsfeedbackModel.User" Width="1.5" PointX="0.75" PointY="4.125" />
-        <EntityTypeShape EntityType="smsfeedbackModel.Role" Width="1.5" PointX="3.875" PointY="4" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Role" Width="1.5" PointX="3.875" PointY="3.625" />
         <AssociationConnector Association="smsfeedbackModel.UsersInRoles" />
         <AssociationConnector Association="smsfeedbackModel.UsersForWorkingPoints" />
-        <EntityTypeShape EntityType="smsfeedbackModel.XmppConnection" Width="1.5" PointX="3.875" PointY="6.75" />
+        <EntityTypeShape EntityType="smsfeedbackModel.XmppConnection" Width="1.5" PointX="3.875" PointY="6.125" />
         <AssociationConnector Association="smsfeedbackModel.FK_UserXmppConnection" />
-        <EntityTypeShape EntityType="smsfeedbackModel.Tag" Width="1.5" PointX="7" PointY="4.5" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Company" Width="1.5" PointX="1.125" PointY="11.25" />
+        <AssociationConnector Association="smsfeedbackModel.FK_UserCompany" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Tag" Width="1.5" PointX="6.75" PointY="8.375" />
+        <AssociationConnector Association="smsfeedbackModel.FK_CompanyTag" />
         <AssociationConnector Association="smsfeedbackModel.ConversationTags" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

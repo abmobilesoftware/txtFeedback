@@ -7,7 +7,7 @@ namespace SmsFeedback_Take4.Models
 {
    public class ConversationTag
    {
-      public int Id { get; set; }
+      public string CompanyName { get; set; }
       public string Name { get; set; }
       public string Description { get; set; }    
    }

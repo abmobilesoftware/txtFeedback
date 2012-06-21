@@ -309,7 +309,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\ViewModels\" />
     <Folder Include="Services\" />
-    <Folder Include="Tutorials\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

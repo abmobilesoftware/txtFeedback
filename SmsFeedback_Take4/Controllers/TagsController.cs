@@ -29,7 +29,8 @@ namespace SmsFeedback_Take4.Controllers
 
        public JsonResult FindMatchingTags(string term)
        {
-          return Json(mEFInterface.FindMatchingTags(term), JsonRequestBehavior.AllowGet);
+          var userId = User.Identity.Name;
+          return Json(mEFInterface.FindMatchingTags(term, userId), JsonRequestBehavior.AllowGet);
        }
 
        public JsonResult GetTagsForConversation(string conversationID)
@@ -55,7 +56,8 @@ namespace SmsFeedback_Take4.Controllers
        {
           //check if the tag is already defined - if not, add it to our tag db. Then add the tag to this conversation
           var defaultTagDescription = "default description";
-          var tag =mEFInterface.AddTagToDB(tagName, defaultTagDescription);
+          var userId = User.Identity.Name;
+          var tag = mEFInterface.AddTagToDB(tagName, defaultTagDescription, userId);
           mEFInterface.AddTagToConversation(tag, convID);
           return Json("Added successfully", JsonRequestBehavior.AllowGet);
        }

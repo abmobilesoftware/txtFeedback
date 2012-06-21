@@ -17,10 +17,13 @@ namespace SmsFeedback_Take4.Utilities
 
       }
 
-      public IEnumerable<string> FindMatchingTags(string queryString)
+      public IEnumerable<string> FindMatchingTags(string queryString, string userName)
       {
          logger.Info("Call made");
-         var tags = from tag in mContext.Tags where tag.Name.Contains(queryString) select tag.Name;
+         //get the company name
+         var companyNames = from u in mContext.Users where u.UserName == userName select u.Company_Name;
+         var companyName = companyNames.First();
+         var tags = from tag in mContext.Tags where (tag.CompanyName == companyName && tag.Name.Contains(queryString)) select tag.Name;
          return tags;
       }
 
@@ -105,7 +108,7 @@ namespace SmsFeedback_Take4.Utilities
          return connection.First();
       }
 
-      public Tag AddTagToDB(string tagName, string tagDescription)
+      public Tag AddTagToDB(string tagName, string tagDescription, string userName)
       {
          logger.Info("Call made");
          try
@@ -114,7 +117,9 @@ namespace SmsFeedback_Take4.Utilities
             var tags = from t in mContext.Tags where t.Name == tagName select t;
             if (tags.Count() == 0)
             {
-               var newTag = new Tag() { Name = tagName, Description = tagDescription };
+               var companies = from u in mContext.Users where u.UserName == userName select u.Company;
+               var companyName = companies.First().Name;
+               var newTag = new Tag() { Name = tagName, Description = tagDescription, CompanyName= companyName };
                mContext.Tags.AddObject(newTag);
                mContext.SaveChanges();
                return newTag;
