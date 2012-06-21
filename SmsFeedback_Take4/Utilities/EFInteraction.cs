@@ -104,5 +104,80 @@ namespace SmsFeedback_Take4.Utilities
          var connection = from u in mContext.Users where u.UserName == userName select new XmppConn() { XmppUser = u.XmppConnection.XmppUser, XmppPassword = u.XmppConnection.XmppPassword };
          return connection.First();
       }
+
+      public Tag AddTagToDB(string tagName, string tagDescription)
+      {
+         logger.Info("Call made");
+         try
+         {
+            //don't add the same tag twice (since the Name is not unique)
+            var tags = from t in mContext.Tags where t.Name == tagName select t;
+            if (tags.Count() == 0)
+            {
+               var newTag = new Tag() { Name = tagName, Description = tagDescription };
+               mContext.Tags.AddObject(newTag);
+               mContext.SaveChanges();
+               return newTag;
+            }
+            else
+            {
+               return tags.First();
+            }
+         }
+         catch (Exception ex)
+         {
+            logger.Error("Error in AddTagToDB", ex);
+            return null;
+         }
+      }
+
+      public void AddTagToConversation(string tagName, string convID)
+      {
+         var tags = from t in mContext.Tags where t.Name == tagName select t;
+         if( tags.Count() > 0)
+         {
+            AddTagToConversation(tags.First(), convID);
+         }
+      }
+  
+      public void AddTagToConversation(Tag tag, string convID)
+      {
+          logger.Info("Call made");
+          try
+          {
+             var convs = from c in mContext.Conversations where c.ConvId == convID select c;
+             if (convs.Count() > 0)
+             {
+                convs.First().Tags.Add(tag);
+                mContext.SaveChanges();
+             }
+          }
+          catch (Exception ex)
+          {
+             logger.Error("Error in AddTagToConversation", ex);          
+          }
+      }
+
+      public void RemoveTagFromConversation(string tagName, string convID)
+      {
+          logger.Info("Call made");
+          try
+          {
+             var convs = from c in mContext.Conversations where c.ConvId == convID select c;
+             if (convs.Count() > 0)
+             {
+                var tags = from t in mContext.Tags where t.Name == tagName select t;
+                if (tags.Count() > 0)
+                {
+                   convs.First().Tags.Remove(tags.First());
+                   mContext.SaveChanges();
+                }
+             }
+          }
+          catch (Exception ex)
+          {
+             logger.Error("Error in RemoveTagFromConversation", ex);           
+          }
+      }
    }
 }

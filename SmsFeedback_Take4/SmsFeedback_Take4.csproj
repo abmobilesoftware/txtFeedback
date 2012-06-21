@@ -152,6 +152,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EmailSendController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Controllers\XmppController.cs" />
     <Compile Include="GlobalResources\Global.Designer.cs">
       <AutoGen>True</AutoGen>

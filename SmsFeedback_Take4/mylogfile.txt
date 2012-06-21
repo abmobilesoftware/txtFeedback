@@ -1,1 +1,368 @@
 2012-06-21 09:16:29,005 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 09:26:17,186 INFO (WorkingPointsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:39)  - getting workingPoints per logged in user
+2012-06-21 09:26:17,274 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:21)  - getting xmmpConn details per logged in user
+2012-06-21 09:26:17,277 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:103)  - Call made
+2012-06-21 09:26:17,306 DEBUG (ConversationsList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:143)  - ConversationList requested: showAll: True, showFavourites False, tags: complaint praise electronics , working points:  [], skip: 0, top: 10
+2012-06-21 09:26:17,536 INFO (GetLatestConversationForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:99)  - Call made
+2012-06-21 09:26:17,541 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 09:26:17,610 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:41)  - Records returned from EF db: 19
+2012-06-21 09:26:17,614 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 09:26:17,639 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:41)  - Records returned from EF db: 11
+2012-06-21 09:26:17,640 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 09:26:17,662 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:41)  - Records returned from EF db: 0
+2012-06-21 09:26:17,663 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:88)  - Retrieving conversations, lastUpdate:06/06/2012 15:55:53
+2012-06-21 09:26:18,544 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:99)  - Records returned by Twilio: 0
+2012-06-21 09:26:18,545 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:53)  - Call made
+2012-06-21 09:26:18,546 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 09:26:18,570 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:41)  - Records returned from EF db: 19
+2012-06-21 09:26:18,571 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 09:26:18,596 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:41)  - Records returned from EF db: 11
+2012-06-21 09:26:18,597 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 09:26:18,620 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:41)  - Records returned from EF db: 0
+2012-06-21 09:26:18,621 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:64)  - Records returned from EF db: 30
+2012-06-21 09:26:20,117 DEBUG (MessagesList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:67)  - Show messages for conversation: 442033221909-442033221134
+2012-06-21 09:26:20,119 INFO (GetMessagesForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:55)  - Call made
+2012-06-21 09:26:20,189 DEBUG (MessagesList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:67)  - Show messages for conversation: null
+2012-06-21 09:26:20,190 INFO (GetMessagesForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:55)  - Call made
+2012-06-21 09:26:22,151 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:116)  - Call made
+2012-06-21 09:26:22,183 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:116)  - Call made
+2012-06-21 09:26:23,163 INFO (MarkConversationAsRead) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:81)  - Marking conversation [null] as read
+2012-06-21 09:26:23,166 INFO (UpdateAddConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:29)  - Call made
+2012-06-21 09:26:23,190 INFO (UpdateAddConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:47)  - Adding conversation: [null] with read: True, updateTime: null, text: [], from: []
+2012-06-21 09:26:23,191 ERROR (UpdateAddConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:74)  - Error occurred in AddMessageAndUpdateConversation
+System.ArgumentNullException: Value cannot be null.
+Parameter name: input
+   at System.Text.RegularExpressions.Regex.Replace(String input, String replacement)
+   at SmsFeedback_Take4.Utilities.ConversationUtilities.RemovePrefixFromNumber(String number) in d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\Utilities.cs:line 28
+   at SmsFeedback_Take4.Utilities.EFInteraction.UpdateAddConversation(String from, String to, String conversationId, String text, Boolean readStatus, Nullable`1 updateTime) in d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:line 49
+2012-06-21 09:26:33,012 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:116)  - Call made
+2012-06-21 09:26:40,009 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:10:56,965 INFO (WorkingPointsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:39)  - getting workingPoints per logged in user
+2012-06-21 10:10:57,006 DEBUG (ConversationsList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:143)  - ConversationList requested: showAll: True, showFavourites False, tags: complaint praise electronics , working points:  [], skip: 0, top: 10
+2012-06-21 10:10:57,091 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:20)  - getting xmmpConn details per logged in user
+2012-06-21 10:10:57,093 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:103)  - Call made
+2012-06-21 10:10:57,246 INFO (GetLatestConversationForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:90)  - Call made
+2012-06-21 10:10:57,249 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:10:57,313 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:10:57,316 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:10:57,339 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:10:57,340 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:10:57,362 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:10:57,364 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:88)  - Retrieving conversations, lastUpdate:06/06/2012 15:55:53
+2012-06-21 10:10:58,381 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:99)  - Records returned by Twilio: 0
+2012-06-21 10:10:58,384 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:44)  - Call made
+2012-06-21 10:10:58,384 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:10:58,410 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:10:58,411 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:10:58,437 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:10:58,437 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:10:58,460 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:10:58,461 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:55)  - Records returned from EF db: 30
+2012-06-21 10:11:15,812 DEBUG (MessagesList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:67)  - Show messages for conversation: 442033221909-442033221134
+2012-06-21 10:11:15,814 INFO (GetMessagesForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:55)  - Call made
+2012-06-21 10:11:15,835 DEBUG (MessagesList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:67)  - Show messages for conversation: null
+2012-06-21 10:11:15,836 INFO (GetMessagesForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:55)  - Call made
+2012-06-21 10:11:17,803 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:107)  - Call made
+2012-06-21 10:11:17,903 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:107)  - Call made
+2012-06-21 10:11:18,780 INFO (MarkConversationAsRead) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:81)  - Marking conversation [null] as read
+2012-06-21 10:11:18,783 INFO (UpdateAddConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:29)  - Call made
+2012-06-21 10:11:18,805 INFO (UpdateAddConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:47)  - Adding conversation: [null] with read: True, updateTime: null, text: [], from: []
+2012-06-21 10:11:18,806 ERROR (UpdateAddConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:74)  - Error occurred in AddMessageAndUpdateConversation
+System.ArgumentNullException: Value cannot be null.
+Parameter name: input
+   at System.Text.RegularExpressions.Regex.Replace(String input, String replacement)
+   at SmsFeedback_Take4.Utilities.ConversationUtilities.RemovePrefixFromNumber(String number) in d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\Utilities.cs:line 28
+   at SmsFeedback_Take4.Utilities.EFInteraction.UpdateAddConversation(String from, String to, String conversationId, String text, Boolean readStatus, Nullable`1 updateTime) in d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:line 49
+2012-06-21 10:11:31,448 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:11:32,090 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:11:50,824 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:107)  - Call made
+2012-06-21 10:11:53,351 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:11:54,087 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:11:55,136 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:11:56,209 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:11:56,746 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:11:57,473 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:12:02,779 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:12:03,676 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:12:04,450 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:12:26,323 INFO (WorkingPointsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:39)  - getting workingPoints per logged in user
+2012-06-21 10:12:26,350 DEBUG (ConversationsList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:143)  - ConversationList requested: showAll: True, showFavourites False, tags: complaint praise electronics , working points:  [], skip: 0, top: 10
+2012-06-21 10:12:26,412 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:20)  - getting xmmpConn details per logged in user
+2012-06-21 10:12:26,412 INFO (GetLatestConversationForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:90)  - Call made
+2012-06-21 10:12:26,413 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:12:26,413 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:103)  - Call made
+2012-06-21 10:12:26,441 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:12:26,442 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:12:26,468 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:12:26,469 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:12:26,492 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:12:26,493 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:88)  - Retrieving conversations, lastUpdate:06/06/2012 15:55:53
+2012-06-21 10:12:27,120 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:99)  - Records returned by Twilio: 0
+2012-06-21 10:12:27,121 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:44)  - Call made
+2012-06-21 10:12:27,121 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:12:27,146 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:12:27,146 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:12:27,170 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:12:27,171 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:12:27,192 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:12:27,193 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:55)  - Records returned from EF db: 30
+2012-06-21 10:12:29,426 DEBUG (MessagesList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:67)  - Show messages for conversation: 442033221909-442033221134
+2012-06-21 10:12:29,427 INFO (GetMessagesForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:55)  - Call made
+2012-06-21 10:12:29,451 DEBUG (MessagesList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:67)  - Show messages for conversation: null
+2012-06-21 10:12:29,452 INFO (GetMessagesForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:55)  - Call made
+2012-06-21 10:12:31,440 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:107)  - Call made
+2012-06-21 10:12:31,501 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:107)  - Call made
+2012-06-21 10:12:32,485 INFO (MarkConversationAsRead) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:81)  - Marking conversation [null] as read
+2012-06-21 10:12:32,485 INFO (UpdateAddConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:29)  - Call made
+2012-06-21 10:12:32,509 INFO (UpdateAddConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:47)  - Adding conversation: [null] with read: True, updateTime: null, text: [], from: []
+2012-06-21 10:12:32,510 ERROR (UpdateAddConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:74)  - Error occurred in AddMessageAndUpdateConversation
+System.ArgumentNullException: Value cannot be null.
+Parameter name: input
+   at System.Text.RegularExpressions.Regex.Replace(String input, String replacement)
+   at SmsFeedback_Take4.Utilities.ConversationUtilities.RemovePrefixFromNumber(String number) in d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\Utilities.cs:line 28
+   at SmsFeedback_Take4.Utilities.EFInteraction.UpdateAddConversation(String from, String to, String conversationId, String text, Boolean readStatus, Nullable`1 updateTime) in d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:line 49
+2012-06-21 10:12:55,070 INFO (WorkingPointsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:39)  - getting workingPoints per logged in user
+2012-06-21 10:12:55,117 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:20)  - getting xmmpConn details per logged in user
+2012-06-21 10:12:55,118 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:103)  - Call made
+2012-06-21 10:12:55,128 DEBUG (ConversationsList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:143)  - ConversationList requested: showAll: True, showFavourites False, tags: complaint praise electronics , working points:  [], skip: 0, top: 10
+2012-06-21 10:12:55,189 INFO (GetLatestConversationForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:90)  - Call made
+2012-06-21 10:12:55,190 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:12:55,217 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:12:55,217 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:12:55,241 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:12:55,241 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:12:55,270 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:12:55,271 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:88)  - Retrieving conversations, lastUpdate:06/06/2012 15:55:53
+2012-06-21 10:12:55,985 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:99)  - Records returned by Twilio: 0
+2012-06-21 10:12:55,986 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:44)  - Call made
+2012-06-21 10:12:55,986 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:12:56,011 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:12:56,012 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:12:56,035 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:12:56,036 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:12:56,059 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:12:56,060 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:55)  - Records returned from EF db: 30
+2012-06-21 10:12:57,442 DEBUG (MessagesList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:67)  - Show messages for conversation: 442033221909-442033221134
+2012-06-21 10:12:57,443 INFO (GetMessagesForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:55)  - Call made
+2012-06-21 10:12:59,448 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:107)  - Call made
+2012-06-21 10:14:51,072 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:20)  - getting xmmpConn details per logged in user
+2012-06-21 10:14:51,074 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:103)  - Call made
+2012-06-21 10:14:51,076 INFO (WorkingPointsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:39)  - getting workingPoints per logged in user
+2012-06-21 10:14:51,081 DEBUG (ConversationsList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:143)  - ConversationList requested: showAll: True, showFavourites False, tags: complaint praise electronics , working points:  [], skip: 0, top: 10
+2012-06-21 10:14:51,300 INFO (GetLatestConversationForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:90)  - Call made
+2012-06-21 10:14:51,301 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:14:51,361 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:14:51,362 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:14:51,523 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:14:51,524 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:14:51,553 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:14:51,554 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:88)  - Retrieving conversations, lastUpdate:06/06/2012 15:55:53
+2012-06-21 10:14:52,054 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:99)  - Records returned by Twilio: 0
+2012-06-21 10:14:52,054 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:44)  - Call made
+2012-06-21 10:14:52,055 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:14:52,078 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:14:52,079 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:14:52,102 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:14:52,103 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:14:52,125 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:14:52,126 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:55)  - Records returned from EF db: 30
+2012-06-21 10:15:05,534 DEBUG (ConversationsList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:143)  - ConversationList requested: showAll: True, showFavourites False, tags: complaint praise electronics , working points:  [], skip: 0, top: 10
+2012-06-21 10:15:05,555 INFO (WorkingPointsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:39)  - getting workingPoints per logged in user
+2012-06-21 10:15:05,568 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:20)  - getting xmmpConn details per logged in user
+2012-06-21 10:15:05,569 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:103)  - Call made
+2012-06-21 10:15:05,583 INFO (GetLatestConversationForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:90)  - Call made
+2012-06-21 10:15:05,584 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:15:05,618 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:15:05,619 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:15:05,645 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:15:05,656 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:15:05,679 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:15:05,680 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:88)  - Retrieving conversations, lastUpdate:06/06/2012 15:55:53
+2012-06-21 10:15:06,380 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:99)  - Records returned by Twilio: 0
+2012-06-21 10:15:06,381 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:44)  - Call made
+2012-06-21 10:15:06,381 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:15:06,406 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:15:06,406 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:15:06,429 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:15:06,430 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:15:06,453 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:15:06,453 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:55)  - Records returned from EF db: 30
+2012-06-21 10:15:09,648 INFO (WorkingPointsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:39)  - getting workingPoints per logged in user
+2012-06-21 10:15:09,670 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:20)  - getting xmmpConn details per logged in user
+2012-06-21 10:15:09,671 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:103)  - Call made
+2012-06-21 10:15:09,671 DEBUG (ConversationsList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:143)  - ConversationList requested: showAll: True, showFavourites False, tags: complaint praise electronics , working points:  [], skip: 0, top: 10
+2012-06-21 10:15:09,721 INFO (GetLatestConversationForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:90)  - Call made
+2012-06-21 10:15:09,723 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:15:09,751 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:15:09,753 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:15:09,780 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:15:09,781 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:15:09,809 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:15:09,810 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:88)  - Retrieving conversations, lastUpdate:06/06/2012 15:55:53
+2012-06-21 10:15:10,508 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:99)  - Records returned by Twilio: 0
+2012-06-21 10:15:10,509 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:44)  - Call made
+2012-06-21 10:15:10,509 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:15:10,533 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:15:10,534 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:15:10,560 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:15:10,561 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:15:10,583 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:15:10,584 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:55)  - Records returned from EF db: 30
+2012-06-21 10:16:02,114 INFO (WorkingPointsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:39)  - getting workingPoints per logged in user
+2012-06-21 10:16:02,155 DEBUG (ConversationsList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:143)  - ConversationList requested: showAll: True, showFavourites False, tags: complaint praise electronics , working points:  [], skip: 0, top: 10
+2012-06-21 10:16:02,174 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:20)  - getting xmmpConn details per logged in user
+2012-06-21 10:16:02,175 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:103)  - Call made
+2012-06-21 10:16:02,202 INFO (GetLatestConversationForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:90)  - Call made
+2012-06-21 10:16:02,203 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:16:02,230 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:16:02,231 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:16:02,257 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:16:02,258 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:16:02,280 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:16:02,281 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:88)  - Retrieving conversations, lastUpdate:06/06/2012 15:55:53
+2012-06-21 10:16:02,910 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:99)  - Records returned by Twilio: 0
+2012-06-21 10:16:02,911 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:44)  - Call made
+2012-06-21 10:16:02,912 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:16:02,935 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:16:02,936 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:16:02,959 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:16:02,960 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:16:02,981 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:16:02,982 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:55)  - Records returned from EF db: 30
+2012-06-21 10:21:43,785 INFO (WorkingPointsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:39)  - getting workingPoints per logged in user
+2012-06-21 10:21:43,828 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:20)  - getting xmmpConn details per logged in user
+2012-06-21 10:21:43,831 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:103)  - Call made
+2012-06-21 10:21:43,878 DEBUG (ConversationsList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:143)  - ConversationList requested: showAll: True, showFavourites False, tags: complaint praise electronics , working points:  [], skip: 0, top: 10
+2012-06-21 10:21:44,345 INFO (GetLatestConversationForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:90)  - Call made
+2012-06-21 10:21:44,349 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:21:44,413 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:21:44,416 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:21:44,439 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:21:44,439 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:21:44,479 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:21:44,481 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:88)  - Retrieving conversations, lastUpdate:06/06/2012 15:55:53
+2012-06-21 10:21:45,204 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:99)  - Records returned by Twilio: 0
+2012-06-21 10:21:45,205 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:44)  - Call made
+2012-06-21 10:21:45,206 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:21:45,324 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:21:45,325 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:21:45,362 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:21:45,362 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:21:45,384 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:21:45,386 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:55)  - Records returned from EF db: 30
+2012-06-21 10:21:47,421 DEBUG (MessagesList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:67)  - Show messages for conversation: 442033221909-442033221134
+2012-06-21 10:21:47,426 INFO (GetMessagesForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:55)  - Call made
+2012-06-21 10:21:47,474 DEBUG (MessagesList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:67)  - Show messages for conversation: null
+2012-06-21 10:21:47,475 INFO (GetMessagesForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:55)  - Call made
+2012-06-21 10:21:49,444 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:107)  - Call made
+2012-06-21 10:21:49,488 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:107)  - Call made
+2012-06-21 10:21:50,478 INFO (MarkConversationAsRead) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:81)  - Marking conversation [null] as read
+2012-06-21 10:21:50,481 INFO (UpdateAddConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:29)  - Call made
+2012-06-21 10:21:50,525 INFO (UpdateAddConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:47)  - Adding conversation: [null] with read: True, updateTime: null, text: [], from: []
+2012-06-21 10:21:50,526 ERROR (UpdateAddConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:74)  - Error occurred in AddMessageAndUpdateConversation
+System.ArgumentNullException: Value cannot be null.
+Parameter name: input
+   at System.Text.RegularExpressions.Regex.Replace(String input, String replacement)
+   at SmsFeedback_Take4.Utilities.ConversationUtilities.RemovePrefixFromNumber(String number) in d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\Utilities.cs:line 28
+   at SmsFeedback_Take4.Utilities.EFInteraction.UpdateAddConversation(String from, String to, String conversationId, String text, Boolean readStatus, Nullable`1 updateTime) in d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:line 49
+2012-06-21 10:22:09,204 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:107)  - Call made
+2012-06-21 10:22:19,567 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:22:22,539 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:22:22,967 INFO (RemoveTagFromConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:163)  - Call made
+2012-06-21 10:22:24,144 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:22:25,527 INFO (AddTagToDB) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:110)  - Call made
+2012-06-21 10:22:25,590 INFO (AddTagToConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:145)  - Call made
+2012-06-21 10:22:37,450 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:22:37,864 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:22:38,229 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:22:39,521 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:22:43,474 INFO (AddTagToDB) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:110)  - Call made
+2012-06-21 10:22:43,556 INFO (AddTagToConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:145)  - Call made
+2012-06-21 10:22:54,620 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:22:56,381 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:23:14,787 INFO (WorkingPointsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:39)  - getting workingPoints per logged in user
+2012-06-21 10:23:14,843 DEBUG (ConversationsList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:143)  - ConversationList requested: showAll: True, showFavourites False, tags: complaint praise electronics , working points:  [], skip: 0, top: 10
+2012-06-21 10:23:14,856 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:20)  - getting xmmpConn details per logged in user
+2012-06-21 10:23:14,856 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:103)  - Call made
+2012-06-21 10:23:14,888 INFO (GetLatestConversationForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:90)  - Call made
+2012-06-21 10:23:14,888 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:23:14,913 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:23:14,915 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:23:14,938 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:23:14,939 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:23:14,962 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:23:14,962 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:88)  - Retrieving conversations, lastUpdate:06/06/2012 15:55:53
+2012-06-21 10:23:15,558 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:99)  - Records returned by Twilio: 0
+2012-06-21 10:23:15,558 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:44)  - Call made
+2012-06-21 10:23:15,559 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:23:15,593 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:23:15,594 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:23:15,617 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:23:15,618 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:23:15,640 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:23:15,640 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:55)  - Records returned from EF db: 30
+2012-06-21 10:23:18,842 DEBUG (MessagesList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:67)  - Show messages for conversation: 442033221909-442033221134
+2012-06-21 10:23:18,843 INFO (GetMessagesForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:55)  - Call made
+2012-06-21 10:23:18,947 DEBUG (MessagesList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:67)  - Show messages for conversation: null
+2012-06-21 10:23:18,948 INFO (GetMessagesForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:55)  - Call made
+2012-06-21 10:23:20,842 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:107)  - Call made
+2012-06-21 10:23:20,900 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:107)  - Call made
+2012-06-21 10:23:21,877 INFO (MarkConversationAsRead) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:81)  - Marking conversation [null] as read
+2012-06-21 10:23:21,878 INFO (UpdateAddConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:29)  - Call made
+2012-06-21 10:23:21,897 INFO (UpdateAddConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:47)  - Adding conversation: [null] with read: True, updateTime: null, text: [], from: []
+2012-06-21 10:23:21,898 ERROR (UpdateAddConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:74)  - Error occurred in AddMessageAndUpdateConversation
+System.ArgumentNullException: Value cannot be null.
+Parameter name: input
+   at System.Text.RegularExpressions.Regex.Replace(String input, String replacement)
+   at SmsFeedback_Take4.Utilities.ConversationUtilities.RemovePrefixFromNumber(String number) in d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\Utilities.cs:line 28
+   at SmsFeedback_Take4.Utilities.EFInteraction.UpdateAddConversation(String from, String to, String conversationId, String text, Boolean readStatus, Nullable`1 updateTime) in d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:line 49
+2012-06-21 10:23:25,587 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:107)  - Call made
+2012-06-21 10:23:59,841 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:24:00,446 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:24:01,145 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:24:01,691 INFO (AddTagToDB) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:110)  - Call made
+2012-06-21 10:24:01,781 INFO (AddTagToConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:145)  - Call made
+2012-06-21 10:24:06,967 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:24:27,010 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:24:28,676 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:24:29,806 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:24:30,483 INFO (AddTagToDB) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:110)  - Call made
+2012-06-21 10:24:30,561 INFO (AddTagToConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:145)  - Call made
+2012-06-21 10:24:37,419 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:107)  - Call made
+2012-06-21 10:24:41,932 INFO (RemoveTagFromConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:163)  - Call made
+2012-06-21 10:24:45,568 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:107)  - Call made
+2012-06-21 10:24:54,182 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:24:56,529 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:24:57,296 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:24:58,923 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:25:13,036 INFO (WorkingPointsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:39)  - getting workingPoints per logged in user
+2012-06-21 10:25:13,056 DEBUG (ConversationsList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:143)  - ConversationList requested: showAll: True, showFavourites False, tags: complaint praise electronics , working points:  [], skip: 0, top: 10
+2012-06-21 10:25:13,075 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:20)  - getting xmmpConn details per logged in user
+2012-06-21 10:25:13,075 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:103)  - Call made
+2012-06-21 10:25:13,103 INFO (GetLatestConversationForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:90)  - Call made
+2012-06-21 10:25:13,104 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:25:13,130 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:25:13,131 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:25:13,158 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:25:13,159 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:25:13,185 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:25:13,186 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:88)  - Retrieving conversations, lastUpdate:06/06/2012 15:55:53
+2012-06-21 10:25:13,788 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:99)  - Records returned by Twilio: 0
+2012-06-21 10:25:13,789 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:44)  - Call made
+2012-06-21 10:25:13,789 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:25:13,814 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 19
+2012-06-21 10:25:13,815 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:25:13,838 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 11
+2012-06-21 10:25:13,839 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:25)  - Call made
+2012-06-21 10:25:13,861 INFO (GetConversationsForNumber) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:32)  - Records returned from EF db: 0
+2012-06-21 10:25:13,861 INFO (GetConversationsForNumbers) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:55)  - Records returned from EF db: 30
+2012-06-21 10:26:00,935 DEBUG (MessagesList) (d:\Work\smsFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:67)  - Show messages for conversation: 442033221909-442033221134
+2012-06-21 10:26:00,936 INFO (GetMessagesForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\TwilioIntegrationSmsRepository.cs:55)  - Call made
+2012-06-21 10:26:02,938 INFO (GetTagsForConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:107)  - Call made
+2012-06-21 10:28:35,140 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:28:35,469 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:28:38,062 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:28:41,566 INFO (FindMatchingTags) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:22)  - Call made
+2012-06-21 10:44:53,088 INFO (AddTagToDB) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:110)  - Call made
+2012-06-21 10:44:53,277 INFO (AddTagToConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:145)  - Call made
+2012-06-21 10:44:55,173 INFO (RemoveTagFromConversation) (d:\Work\smsFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:163)  - Call made

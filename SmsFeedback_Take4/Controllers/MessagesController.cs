@@ -75,30 +75,6 @@ namespace SmsFeedback_Take4.Controllers
 
       }
 
-      public JsonResult FindMatchingTags(string term)
-      {
-         return Json(mEFInterface.FindMatchingTags(term), JsonRequestBehavior.AllowGet);
-      }
-
-      public JsonResult Tags(string conversationID)
-      {
-         if (conversationID == null)
-         {
-            logger.Error("conversationID was null");
-            return null;
-         }
-         try
-         {
-            System.Threading.Thread.Sleep(2000);
-            return Json(SMSRepository.GetTagsForConversation(conversationID), JsonRequestBehavior.AllowGet);
-         }
-         catch (Exception ex)
-         {
-            logger.Error("Error occurred in Tags", ex);
-            return null;
-         }
-      }
-
       [HttpGet]
       public JsonResult MarkConversationAsRead(string conversationId)
       {

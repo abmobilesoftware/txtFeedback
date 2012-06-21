@@ -12,7 +12,7 @@ function TagsArea() {
    var TagsPool = Backbone.Collection.extend({
       model: Tag,
       url: function () {
-         return "Messages/Tags";
+         return "Tags/GetTagsForConversation";
       }
    });
    _.templateSettings = {
@@ -70,7 +70,7 @@ function TagsArea() {
             'width': 'auto',
             'onAddTag' : this.onAddTag,
             'onRemoveTag': this.onRemoveTag,
-            'autocomplete_url': "Messages/FindMatchingTags",          
+            'autocomplete_url': "Tags/FindMatchingTags",          
          });
 
          _.bindAll(this, 'render', 'appendTag', 'tagsPoolChanged', 'getTags');
@@ -80,16 +80,33 @@ function TagsArea() {
          this.appendTag.bind("remove", this.tagsPoolChanged, this);
       },
       onAddTag: function (tagValue) {
-         
+         $.getJSON('Tags/AddTagToConversations',
+                { tagName: tagValue,
+                   convID: gSelectedConversationID
+                },
+                function (data) {
+                   //tag added to conversation (or not? )
+                   console.log(data);
+                }
+        );
       },
       onRemoveTag: function (tagValue) {
-         
+         $.getJSON('Tags/RemoveTagFromConversation',
+                {
+                   tagName: tagValue,
+                   convID: gSelectedConversationID
+                },
+                function (data) {
+                   //tag removed from conversation (or not? )
+                   console.log(data);
+                }
+        );
       },
       getTags: function (convId) {
          //$('#tagsPool').html('');
          var tg = $('#tags');
          tg.importTags('')
-         $('#tags_tagsinput').hide();
+         //$('#tags_tagsinput').hide();
          //$('#tags_tag').hide();
          var target = document.getElementById('tagsContainer');         
          spinner.spin(target);
@@ -97,7 +114,7 @@ function TagsArea() {
             data: { "conversationID": convId },
             success: function () {
                spinner.stop();
-               $('#tags_tagsinput').show();
+               //$('#tags_tagsinput').show();
                //$('#tags_tag').show();
             }
          })

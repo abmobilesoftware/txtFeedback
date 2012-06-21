@@ -23,21 +23,12 @@ namespace SmsFeedback_Take4.Models
          //here we don't aplly skip or load, as they will be applied on the merged list
          //TODO add filtering
          logger.Info("Call made");         
-         //if (showAll)
-         //{
          string consistentWP = ConversationUtilities.RemovePrefixFromNumber(workingPointsNumber);
          var convs1 = from wp in mContext.WorkingPoints
                       where wp.TelNumber == consistentWP 
                          select (from c in wp.Conversations orderby c.TimeUpdated descending 
                                  select (new SmsMessage() { Id = c.Id, From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
-          var  conversations = convs1.First().AsQueryable();
-         //}
-         //conversations = (from c in mContext.Conversations orderby c.TimeUpdated descending select new SmsMessage() { Id = c.Id, From = c.From, To = null, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID =c.ConvId });
-         //else
-         //{
-         //   //filter according to numbers
-         //   conversations = (from c in mContext.Conversations orderby c.TimeUpdated descending select new SmsMessage() { Id = c.Id, From = c.From, To = null, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId });
-         //}
+          var  conversations = convs1.First().AsQueryable();         
          logger.InfoFormat("Records returned from EF db: {0}", conversations.Count());
          return conversations;
       }
