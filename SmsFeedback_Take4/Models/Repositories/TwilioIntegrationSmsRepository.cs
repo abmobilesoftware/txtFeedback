@@ -119,5 +119,10 @@ namespace SmsFeedback_Take4.Models
       {
          throw new NotImplementedException();
       }
+
+      public System.Collections.Generic.IEnumerable<ConversationTag> GetTagsForConversation(string convID)
+      {
+         throw new NotImplementedException();
+      }
     }
 }

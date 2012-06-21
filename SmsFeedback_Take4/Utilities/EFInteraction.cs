@@ -17,6 +17,13 @@ namespace SmsFeedback_Take4.Utilities
 
       }
 
+      public IEnumerable<string> FindMatchingTags(string queryString)
+      {
+         logger.Info("Call made");
+         var tags = from tag in mContext.Tags where tag.Name.Contains(queryString) select tag.Name;
+         return tags;
+      }
+
       public int UpdateAddConversation(String from, String to, String conversationId, String text, Boolean readStatus, DateTime? updateTime)
       {
          logger.Info("Call made");

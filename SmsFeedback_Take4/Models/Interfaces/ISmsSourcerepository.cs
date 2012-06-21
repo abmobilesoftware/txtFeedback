@@ -19,10 +19,13 @@ namespace SmsFeedback_Take4.Models
                                                                                           int top,
                                                                                           DateTime? lastUpdate);
       System.Collections.Generic.IEnumerable<SmsMessage> GetMessagesForConversation(string convID);
+      System.Collections.Generic.IEnumerable<ConversationTag> GetTagsForConversation(string convID);
+
       Dictionary<string,SmsMessage> GetLatestConversationForNumbers(string[] workingPointNumbers);
       void SendMessage(string from, string to, string message, Action<string> callback);
       System.Collections.Generic.IEnumerable<WorkingPoint> GetWorkingPointsPerUser(String userName);
    }
+   
    interface ISmsSourceRepository
    {
       System.Collections.Generic.IEnumerable<SmsMessage> GetConversationsForNumbers(bool showAll,
@@ -33,6 +36,7 @@ namespace SmsFeedback_Take4.Models
                                                                                           int top,
                                                                                           DateTime lastUpdate);
       System.Collections.Generic.IEnumerable<SmsMessage> GetMessagesForConversation(string convID);
+      System.Collections.Generic.IEnumerable<ConversationTag> GetTagsForConversation(string convID);
       void SendMessage(string from, string to, string message, Action<string> callback);
       System.Collections.Generic.IEnumerable<WorkingPoint> GetWorkingPointsPerUser(String userName);
    }

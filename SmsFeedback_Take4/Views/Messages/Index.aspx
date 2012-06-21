@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="SmsFeedback" Language="C#" MasterPageFile="~/Views/Shared/Site.Master"
-   Inherits="System.Web.Mvc.ViewPage<SmsFeedback_Take4.Models.ViewModels.MessagesContext>" %>
+   Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
    <%: ViewData["Title"] %>
@@ -9,21 +9,35 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/messages.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/conversations.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/filtersStrip.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/tags.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/jquery.tagsinput.css") %>" />
    <script src="<%: Url.Content("~/Scripts/spin.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/jquery.cookie.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/splitter.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/jquery.simplemodal.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/MyScripts/Utilities.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/MyScripts/WorkingPoints.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.Content("~/Scripts/jquery.tagsinput.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/MyScripts/Messages.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/MyScripts/contact.js") %>" type="text/javascript"></script>
+   
    <script src="<%: Url.Content("~/MyScripts/Conversations.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.Content("~/MyScripts/Tags.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/Strophe/strophe.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/flxhr/flXHR.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/flxhr/strophe.flxhr.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/MyScripts/XMPP.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/MyScripts/Facade.js") %>" type="text/javascript"></script>
    
+     <script type="text/template" id="tag-template">       
+		<span class="tag"  >
+			<span>{{ Name }}</span>
+			<span class="removeTag">
+				<img class="removeTagIcon" src="<%: Url.Content("~/Content/images/close14x14.png") %>"/>
+			</span>
+		</span>
+   </script>
+
    <script type="text/template" id="phoneNumber-template">       
 		<span >
 			<span>{{ Name }}</span>
@@ -50,6 +64,7 @@
             </div>            
         <div class="clear"></div>
    </script>
+
    <script type="text/template" id="message-template">
         <div class="textMessage">
            <span>{{ Text }} </span> 
@@ -101,10 +116,13 @@
             </div>
            
          </div>
-         <div id="messageTagsSeparator"></div>          
-         <div id="tagsPool" class="tagsPhoneNumbers">
-            <span>Here will be the tags</span>
-         </div>
+         <div id="messageTagsSeparator"></div>       
+         <div id="tagsContainer">
+            <div id="tagsPool" class="tagsPhoneNumbers">
+              <%-- <span>Here will be the tags</span>--%>
+            </div>
+           <input name="tags" id="tags" />
+          </div>   
          <div id="textareaContainer" class="invisible">          
             <form id="replyToMessageForm">
                <div id="inputTextContainer">

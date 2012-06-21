@@ -88,6 +88,11 @@ namespace SmsFeedback_Take4.Models
          return mTwilioRep.GetMessagesForConversation(convID);
       }
 
+      public IEnumerable<ConversationTag> GetTagsForConversation(string convID)
+      {
+         return mEFRep.GetTagsForConversation(convID);
+      }
+
       public void SendMessage(string from, string to, string message, Action<string> callback)
       {
          mTwilioRep.SendMessage(from, to, message, callback);

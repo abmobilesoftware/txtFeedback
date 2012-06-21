@@ -10,14 +10,6 @@
    margin: 5px auto;
 }
 
-#tagsPool {
-   width: 90%;
-   margin-left: 5%;
-   border-radius: 10px;
-   -moz-border-radius: 10px;
-   -webkit-border-radius: 10px;
-   background-color: #DFE7EA;
-}
 /*For the messages display*/
 #messagesArea {
    border-radius: 10px;

@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using SmsFeedback_Take4.Utilities;
 using SmsFeedback_Take4.Models;
-using SmsFeedback_Take4.Models.ViewModels;
 using SmsFeedback_EFModels;
 using Twilio;
 using Newtonsoft.Json;
@@ -28,12 +27,11 @@ namespace SmsFeedback_Take4.Controllers
          }        
       }
       
-      private MessagesContext mMsgContext = MessagesContext.getInstance();
       private EFInteraction mEFInterface = new EFInteraction();      
       public ActionResult Index()
       {
          ViewData["Title"] = "SmsFeedback/Messages";
-         return View(mMsgContext);
+         return View();
       }
 
       public JsonResult WorkingPointsPerUser()
@@ -76,9 +74,29 @@ namespace SmsFeedback_Take4.Controllers
          }
 
       }
+
+      public JsonResult FindMatchingTags(string term)
+      {
+         return Json(mEFInterface.FindMatchingTags(term), JsonRequestBehavior.AllowGet);
+      }
+
       public JsonResult Tags(string conversationID)
       {
-         return null;
+         if (conversationID == null)
+         {
+            logger.Error("conversationID was null");
+            return null;
+         }
+         try
+         {
+            System.Threading.Thread.Sleep(2000);
+            return Json(SMSRepository.GetTagsForConversation(conversationID), JsonRequestBehavior.AllowGet);
+         }
+         catch (Exception ex)
+         {
+            logger.Error("Error occurred in Tags", ex);
+            return null;
+         }
       }
 
       [HttpGet]
@@ -108,7 +126,7 @@ namespace SmsFeedback_Take4.Controllers
                           new { Id = c.Id, ConvID = conversationID, From = c.From, To = c.To, Text = c.Text, TimeReceived = c.TimeReceived, Read = c.Read };
          if (HttpContext.Request.IsAjaxRequest())
          {
-            System.Threading.Thread.Sleep(1000);
+            //System.Threading.Thread.Sleep(1000);
             return Json(records,
                           JsonRequestBehavior.AllowGet);
          }
@@ -198,7 +216,7 @@ namespace SmsFeedback_Take4.Controllers
             String response = "received successfully"; //TODO should be a class
             return Json(response, JsonRequestBehavior.AllowGet);
          }
-         return View(mMsgContext);
+         return View();
       }
 
       private void AddMessageAndUpdateConversation(String from, String to, String conversationId, String text, Boolean readStatus, DateTime updateTime)

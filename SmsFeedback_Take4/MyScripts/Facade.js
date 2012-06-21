@@ -22,7 +22,8 @@ function InitializeGUI() {
    //build the areas
     var wpsArea =  WorkingPointsArea();
     var convView = ConversationArea();
-    var msgView = MessagesArea(convView);   
+    var tagsArea = TagsArea();
+    var msgView = MessagesArea(convView, tagsArea);   
    //get the initial working points
     wpsArea.getWorkingPoints();
     //get the initial conversations
@@ -72,8 +73,12 @@ function resizeTriggered() {
    var msgAreaCalculatedHeight = messagesAreaHeight + msgAreaMarginTop;
    if (contentWindowHeight <= msgAreaCalculatedHeight) {
       $('.container_12').height(msgAreaCalculatedHeight);
+      //$('#conversationsArea').height(msgAreaCalculatedHeight - msgAreaMarginTop);
    }
    else {
       $('.container_12').height(contentWindowHeight);
+      //$('#conversationsArea').height(contentWindowHeight - msgAreaMarginTop);
+      //$('#scrollableconversations').height(contentWindowHeight - msgAreaMarginTop);
+      //$('#conversations').height(contentWindowHeight - msgAreaMarginTop);
    } 
 }

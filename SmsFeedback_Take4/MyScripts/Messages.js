@@ -37,7 +37,7 @@ function startTimer(intervalToWait) {
     }
 }
 
-function MessagesArea(convView) {
+function MessagesArea(convView, tagsArea) {
     $("#conversations").selectable({
         selected: function (event, ui) {
             //prepare to mark the conversation as read in 3 seconds - once the messages have been loaded
@@ -48,6 +48,7 @@ function MessagesArea(convView) {
             var convId = ui.selected.getAttribute("conversationid");
             gSelectedConversationID = convId;
             appview.getMessages(convId);
+            tagsArea.getTags(convId);
             
         }
     });

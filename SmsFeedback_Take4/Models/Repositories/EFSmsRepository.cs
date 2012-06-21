@@ -70,17 +70,7 @@ namespace SmsFeedback_Take4.Models
          logger.Info("Call made");
          var res = from conv in mContext.Conversations where conv.ConvId == convID 
                    select (from msg in conv.Messages
-                           select new SmsMessage() { Id = msg.Id, From = msg.From, To = msg.To, Text = msg.Text, TimeReceived = msg.TimeReceived, Read = msg.Read, ConvID = convID });
-         //var convIds = from c in mContext.Conversations where c.ConvId == convID select c.Id;
-         ////defend for the non-logical case where the converationID was invalid
-         //if (convIds.Count() == 0)
-         //{
-         //   logger.Error("conversationId was invalid");
-         //   return null;
-         //}
-         //var convId = convIds.First();
-         //var records = from c in mContext.Messages
-         //              where c.ConversationId == convId
+                           select new SmsMessage() { Id = msg.Id, From = msg.From, To = msg.To, Text = msg.Text, TimeReceived = msg.TimeReceived, Read = msg.Read, ConvID = convID });       
          if (res != null && res.Count() > 0)         {
             return res.First();
          }
@@ -119,6 +109,23 @@ namespace SmsFeedback_Take4.Models
             }
          }
          return res;
+      }
+
+      public System.Collections.Generic.IEnumerable<ConversationTag> GetTagsForConversation(string convID)
+      {
+         logger.Info("Call made");
+         var res = from conv in mContext.Conversations
+                   where conv.ConvId == convID
+                   select (from tag in conv.Tags
+                           select new ConversationTag() { Id=tag.Id, Name = tag.Name, Description = tag.Description });
+         if (res != null && res.Count() > 0)
+         {
+            return res.First();
+         }
+         else
+         {
+            return null;
+         }
       }
 
    }

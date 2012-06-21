@@ -344,7 +344,7 @@ div#title {
 /*Common definition for both messages & conversations*/
 .scrollablebox {
    min-height: 500px;
-   max-height: 500px;
+   /*max-height: 500px;*/
    height: 500px;
 }
 

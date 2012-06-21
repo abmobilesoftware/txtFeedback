@@ -28,11 +28,6 @@
    text-decoration: none;
    }
 
-.deletePhoneNumber {
-   margin-left: 7px;
-   position: relative;
-   top: 2px;
-}
 
 #phoneNumbersPool {   
    padding: 2px 2px 2px 2px;
