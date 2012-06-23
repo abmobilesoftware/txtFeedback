@@ -170,7 +170,16 @@
 	$.fn.tagExist = function(val) {
 		var id = $(this).attr('id');
 		var tagslist = $(this).val().split(delimiter[id]);
-		return (jQuery.inArray(val, tagslist) >= 0); //true when tag exists, false when not
+	   //we do a case insensitive search
+		var result = false;
+		$.each(tagslist, function (index, value) {
+		   if (value.toLowerCase() === val.toLowerCase()) {
+		      result = true;
+		      return false;
+		   }
+      });
+		return result;
+		//return (jQuery.inArray(val, tagslist) >= 0); //true when tag exists, false when not
 	};
 	
 	// clear all existing tags and import new ones from a string

@@ -28,12 +28,20 @@
 
 .tag {
    margin-right: 5px;
-   margin-bottom: 5px;   
-   border: 1px solid #a5d24a;
+   margin-bottom: 5px;
+   /*border: 1px solid transparen;*/
    border-radius: 2px;
    -moz-border-radius: 2px;
-   -webkit-border-radius: 2px;      
+   -webkit-border-radius: 2px;
+   
    background-color: #a4b7c3;
+   background-image: linear-gradient(bottom, rgb(180,201,214) 47%, rgb(150,168,179) 14%);
+   background-image: -o-linear-gradient(bottom, rgb(180,201,214) 47%, rgb(150,168,179) 14%);
+   background-image: -moz-linear-gradient(bottom, rgb(180,201,214) 47%, rgb(150,168,179) 14%);
+   background-image: -webkit-linear-gradient(bottom, rgb(180,201,214) 47%, rgb(150,168,179) 14%);
+   background-image: -ms-linear-gradient(bottom, rgb(180,201,214) 47%, rgb(150,168,179) 14%);
+   background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.47, rgb(180,201,214)), color-stop(0.14, rgb(150,168,179)) );
+   
    border-bottom: 1px solid #3E6D8E;
    border-right: 1px solid #7F9FB6;
    padding: 3px 4px 3px 4px;
@@ -55,13 +63,19 @@
    vertical-align: middle;   
 }
 .tag:hover {
-   background-color: #a4b7c3;   
+   background-color: #a4b7c3;
+   background-image: linear-gradient(bottom, rgb(106,120,128) 47%, rgb(96,106,112) 14%);
+   background-image: -o-linear-gradient(bottom, rgb(106,120,128) 47%, rgb(96,106,112) 14%);
+   background-image: -moz-linear-gradient(bottom, rgb(106,120,128) 47%, rgb(96,106,112) 14%);
+   background-image: -webkit-linear-gradient(bottom, rgb(106,120,128) 47%, rgb(96,106,112) 14%);
+   background-image: -ms-linear-gradient(bottom, rgb(106,120,128) 47%, rgb(96,106,112) 14%);
+   background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.47, rgb(106,120,128)), color-stop(0.14, rgb(96,106,112)) );
    border-bottom: 1px solid #37607D;
    border-right: 1px solid #37607D;
-   color: #E0EAF1;
-   font-weight: bold;
+   color: white !important;
+   cursor: pointer;
    text-decoration: none;
-   }
+}
 
 .removeTag {
    margin-left: 7px;

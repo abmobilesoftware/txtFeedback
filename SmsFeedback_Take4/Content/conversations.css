@@ -63,14 +63,23 @@
    border-width: 2px 2px 2px 2px;
    border-style: outset;
    border-color:  transparent;
-   -moz-border-radius: 10px;
-   -webkit-border-radius: 10px; 
-   -moz-border-radius: 10px;
-   -webkit-border-radius: 10px;   
-   margin-top: 7px;
-   background-color:#D6DEE3;
+   background-color: transparent;
+    
+   
 }
-
+#conversationsArea {
+   margin-top: 7px;
+   border-radius: 10px;
+   -moz-border-radius: 10px;
+   -webkit-border-radius: 10px;
+   background-color: #D6DEE3;
+   background-image: linear-gradient(top, rgb(214,222,227) 26%, rgb(216,222,227) 65%);
+   background-image: -o-linear-gradient(top, rgb(214,222,227) 26%, rgb(216,222,227) 65%);
+   background-image: -moz-linear-gradient(top, rgb(214,222,227) 26%, rgb(216,222,227) 65%);
+   background-image: -webkit-linear-gradient(top, rgb(214,222,227) 26%, rgb(216,222,227) 65%);
+   background-image: -ms-linear-gradient(top, rgb(214,222,227) 26%, rgb(216,222,227) 65%);
+   background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, rgb(214,222,227)), color-stop(0.65, rgb(216,222,227)) );
+}
 img.images {
    height:  100%;
 }

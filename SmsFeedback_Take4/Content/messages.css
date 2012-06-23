@@ -17,6 +17,12 @@
    -webkit-border-radius: 10px;
    border: 2px solid transparent;
    background-color: #F5F8FA;
+   background-image: linear-gradient(top, rgb(240,248,250) 26%, rgb(245,248,250) 65%);
+   background-image: -o-linear-gradient(top, rgb(240,248,250) 26%, rgb(245,248,250) 65%);
+   background-image: -moz-linear-gradient(top, rgb(240,248,250) 26%, rgb(245,248,250) 65%);
+   background-image: -webkit-linear-gradient(top, rgb(240,248,250) 26%, rgb(245,248,250) 65%);
+   background-image: -ms-linear-gradient(top, rgb(240,248,250) 26%, rgb(245,248,250) 65%);
+   background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, rgb(240,248,250)), color-stop(0.65, rgb(245,248,250)) );
    margin-top: 7px;
 }
 
@@ -99,6 +105,12 @@ div.actionButtons {
 #messagesbox .messagefrom {
    float: left;
    background-color: #00A2E4;
+   background-image: linear-gradient(top, rgb(0,159,227) 26%, rgb(0,159,227) 65%);
+   background-image: -o-linear-gradient(top, rgb(0,159,227) 26%, rgb(0,159,227) 65%);
+   background-image: -moz-linear-gradient(top, rgb(0,159,227) 26%, rgb(0,159,227) 65%);
+   background-image: -webkit-linear-gradient(top, rgb(0,159,227) 26%, rgb(0,159,227) 65%);
+   background-image: -ms-linear-gradient(top, rgb(0,159,227) 26%, rgb(0,159,227) 65%);
+   background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, rgb(0,159,227)), color-stop(0.65, rgb(0,159,227)) );
 }
 #messagesbox span {
    margin-top: auto;
@@ -161,6 +173,12 @@ div.actionButtons {
 #messagesbox .messageto {
    float: right;
    background-color: #91C841;
+   background-image: linear-gradient(top, rgb(146,200,65) 26%, rgb(146,200,65) 65%);
+   background-image: -o-linear-gradient(top, rgb(146,200,65) 26%, rgb(146,200,65) 65%);
+   background-image: -moz-linear-gradient(top, rgb(146,200,65) 26%, rgb(146,200,65) 65%);
+   background-image: -webkit-linear-gradient(top, rgb(146,200,65) 26%, rgb(146,200,65) 65%);
+   background-image: -ms-linear-gradient(top, rgb(146,200,65) 26%, rgb(146,200,65) 65%);
+   background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, rgb(146,200,65)), color-stop(0.65, rgb(146,200,65)) );
 }
 
 #messagesbox .ui-selecting {
@@ -212,8 +230,16 @@ div.actionButtons {
    float: left;
    margin-left: 2%;
    margin-right: 5%;
-   background-color: #8DC63F;
-   color: white;
+  background: rgb(146,200,65); /* Old browsers */
+background: -moz-radial-gradient(center, ellipse cover,  rgb(146,200,65) 22%, rgb(128,175,58) 65%); /* FF3.6+ */
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(22%,rgb(146,200,65)), color-stop(65%,rgb(128,175,58))); /* Chrome,Safari4+ */
+background: -webkit-radial-gradient(center, ellipse cover,  rgb(146,200,65) 22%,rgb(128,175,58) 65%); /* Chrome10+,Safari5.1+ */
+background: -o-radial-gradient(center, ellipse cover,  rgb(146,200,65) 22%,rgb(128,175,58) 65%); /* Opera 12+ */
+background: -ms-radial-gradient(center, ellipse cover,  rgb(146,200,65) 22%,rgb(128,175,58) 65%); /* IE10+ */
+background: radial-gradient(center, ellipse cover,  rgb(146,200,65) 22%,rgb(128,175,58) 65%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#92c841', endColorstr='#80af3a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+   color: black;
    font-weight: bold;
    font-size: 2em;
    border-radius: 10px;
@@ -221,6 +247,9 @@ div.actionButtons {
    -webkit-border-radius: 10px;
    cursor: pointer;
 }
+   #replyBtn:hover {
+      color: white;    
+   }
 
 input[name="countdown"] {
    background-color: transparent;

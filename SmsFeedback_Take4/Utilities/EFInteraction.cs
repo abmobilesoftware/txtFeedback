@@ -27,7 +27,7 @@ namespace SmsFeedback_Take4.Utilities
          return tags;
       }
 
-      public int UpdateAddConversation(String from, String to, String conversationId, String text, Boolean readStatus, DateTime? updateTime)
+      public int UpdateAddConversation(String from, String to, String conversationId, String text, Boolean readStatus, DateTime? updateTime, bool markConversationAsRead = false)
       {
          logger.Info("Call made");
          try
@@ -42,9 +42,10 @@ namespace SmsFeedback_Take4.Utilities
                convId = conv.Id;
                //since twilio returns messages >= the latest message it could be that the latest message is returned again - the only difference is that now "read" is false
                //so make sure that something changed, besides "read"
-               if (conv.Text != text && updateTime.Value != conv.TimeUpdated)
+               if (markConversationAsRead || (conv.Text != text && updateTime.Value != conv.TimeUpdated))
                {
-                  conv.TimeUpdated = updateTime.Value;
+                  //updateTime for when marking a conversation as read will be "null"
+                  if(updateTime.HasValue) conv.TimeUpdated = updateTime.Value;
                   if (!string.IsNullOrEmpty(text)) conv.Text = text;
                   conv.Read = readStatus;
                   mContext.SaveChanges();              

@@ -1,8 +1,5 @@
 ﻿"use strict";
 var checkedPhoneNumbers;
-//the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
-//var domainName = '/smsfeedback';
-var domainName = '';
 
 function WorkingPointsArea() {
     var PhoneNumber = Backbone.Model.extend({
@@ -21,7 +18,6 @@ function WorkingPointsArea() {
           return "Messages/WorkingPointsPerUser";
        }
     });
-   
 
     _.templateSettings = {
         interpolate: /\{\{(.+?)\}\}/g

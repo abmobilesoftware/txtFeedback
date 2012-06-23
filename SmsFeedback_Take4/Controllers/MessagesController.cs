@@ -82,7 +82,7 @@ namespace SmsFeedback_Take4.Controllers
          if (string.IsNullOrEmpty(conversationId))
             return Json("Please provide a conversationId", JsonRequestBehavior.AllowGet);
 
-         mEFInterface.UpdateAddConversation(null, null, conversationId, null, true,null);
+         mEFInterface.UpdateAddConversation(null, null, conversationId, null, true,null,true);
          return Json("Update successful", JsonRequestBehavior.AllowGet);         
       }
 

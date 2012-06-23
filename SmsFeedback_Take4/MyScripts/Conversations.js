@@ -2,7 +2,7 @@
 var defaultNrOfConversationsToDisplay = 10;
 var cummulativeSkip = defaultNrOfConversationsToDisplay;
 
-function ConversationArea() {
+function ConversationArea(filterArea) {
     //define the models
     var Conversation = Backbone.Model.extend({
         defaults: {
@@ -99,6 +99,7 @@ function ConversationArea() {
     var ConversationsView = Backbone.View.extend({
        el: $("#conversations"),
        initialize: function () {
+          this.filters = filterArea;
           _.bindAll(this, "render", "getConversations", "addConversationBasicEffect", "updateConversation", "removeConversation", "addConversationWithEffect");
           this.convsList = new ConversationsList();
           this.convsList.bind("reset", this.render);
