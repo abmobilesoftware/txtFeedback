@@ -179,12 +179,12 @@ ul#menu li#greeting {
       text-decoration: none;
       line-height: 2.8em;
       background-color: #183540;
-      background-image: linear-gradient(top, rgb(71,92,99) 26%, rgb(71,92,99) 82%);
-      background-image: -o-linear-gradient(top, rgb(71,92,99) 26%, rgb(71,92,99) 82%);
-      background-image: -moz-linear-gradient(top, rgb(71,92,99) 26%, rgb(71,92,99) 82%);
-      background-image: -webkit-linear-gradient(top, rgb(71,92,99) 26%, rgb(71,92,99) 82%);
-      background-image: -ms-linear-gradient(top, rgb(71,92,99) 26%, rgb(71,92,99) 82%);
-      background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, rgb(71,92,99)), color-stop(0.82, rgb(71,92,99)) );
+     background-image: linear-gradient(top, #183540 26%, #183540 82%);
+   background-image: -o-linear-gradient(top, #183540 26%, #183540 82%);
+   background-image: -moz-linear-gradient(top, #183540) 26%, #183540 82%);
+   background-image: -webkit-linear-gradient(top, #183540 26%, #183540 82%);
+   background-image: -ms-linear-gradient(top, #183540 26%, #183540 82%);
+   background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, #183540), color-stop(0.82, #183540) );
       color: white;
       border-radius: 4px 4px 0 0;
       -webkit-border-radius: 4px 4px 0 0;
@@ -360,9 +360,9 @@ div#title {
 
 /*Common definition for both messages & conversations*/
 .scrollablebox {
-   min-height: 500px;
+   min-height: 300px;
    /*max-height: 500px;*/
-   height: 500px;
+   height: 300px;
 }
 
 /*The status bar*/

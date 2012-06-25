@@ -1,7 +1,8 @@
 ﻿/*Style for numbers box*/
 .phoneNumber {
-   border-bottom: 2px solid #5496c4;
-   border-right: 1px solid transparent;
+   border-top: 1px solid #294957;
+   border-bottom: 1px solid #294957;
+   /*border-right: 1px solid transparent;*/
    font-size: 100%;
    line-height: 2.4;
    padding: 4px 4px 4px 4px;
@@ -16,14 +17,7 @@
 }
 .phoneNumberSelected {
    color: white;
-   background: rgb(71,92,99); /* Old browsers */
-   background: -moz-linear-gradient(top, rgb(71,92,99) 27%, rgb(40,52,56) 100%); /* FF3.6+ */
-   background: -webkit-gradient(linear, left top, left bottom, color-stop(27%,rgb(71,92,99)), color-stop(100%,rgb(40,52,56))); /* Chrome,Safari4+ */
-   background: -webkit-linear-gradient(top, rgb(71,92,99) 27%,rgb(40,52,56) 100%); /* Chrome10+,Safari5.1+ */
-   background: -o-linear-gradient(top, rgb(71,92,99) 27%,rgb(40,52,56) 100%); /* Opera 11.10+ */
-   background: -ms-linear-gradient(top, rgb(71,92,99) 27%,rgb(40,52,56) 100%); /* IE10+ */
-   background: linear-gradient(top, rgb(71,92,99) 27%,rgb(40,52,56) 100%); /* W3C */
-   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#475c63', endColorstr='#283438',GradientType=0 ); /* IE6-9 */
+   
 }
 .phoneNumberUnselected {
    color:   #8CADBD;
@@ -46,12 +40,12 @@
    min-height: 500px;
    overflow: auto;
    background-color: #183540;
-   background-image: linear-gradient(top, rgb(71,92,99) 26%, rgb(16,34,41) 82%);
-   background-image: -o-linear-gradient(top, rgb(71,92,99) 26%, rgb(16,34,41) 82%);
-   background-image: -moz-linear-gradient(top, rgb(71,92,99) 26%, rgb(16,34,41) 82%);
-   background-image: -webkit-linear-gradient(top, rgb(71,92,99) 26%, rgb(16,34,41) 82%);
-   background-image: -ms-linear-gradient(top, rgb(71,92,99) 26%, rgb(16,34,41) 82%);
-   background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, rgb(71,92,99)), color-stop(0.82, rgb(16,34,41)) );
+   background-image: linear-gradient(top, #183540 26%, #183540 82%);
+   background-image: -o-linear-gradient(top, #183540 26%, #183540 82%);
+   background-image: -moz-linear-gradient(top, #183540 26%, #183540 82%);
+   background-image: -webkit-linear-gradient(top, #183540 26%, #183540 82%);
+   background-image: -ms-linear-gradient(top, #183540 26%, #183540 82%);
+   background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, #183540), color-stop(0.82, #183540) );
 }
 
 .wordwrap { 

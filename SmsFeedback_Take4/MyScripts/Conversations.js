@@ -21,7 +21,7 @@ function ConversationArea(filterArea) {
             if (unTrimmedText.length > 40) {
                 unTrimmedText = unTrimmedText.substring(0, 37) + '...';
             }
-            data.Text = unTrimmedText; //it is up to the model to make sure that we use only 40 characters
+            //data.Text = unTrimmedText; //it is up to the model to make sure that we use only 40 characters
             return data;
         },
         idAttribute: "ConvID" //the id shold be the combination from-to

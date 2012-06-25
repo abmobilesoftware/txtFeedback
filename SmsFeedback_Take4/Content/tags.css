@@ -1,6 +1,6 @@
 ﻿.tagArea {
-    width: 90%;
-    margin-left: 5%;
+    margin-left: 20px;
+    margin-right: 20px;
     border-radius: 5px;
    -moz-border-radius: 5px;
    -webkit-border-radius: 5px;
@@ -23,7 +23,7 @@
    -webkit-border-radius: 10px;
    background-color: #DFE7EA;*/
    background-color: transparent;
-    /*padding: 2px 6px 2px 6px;*/
+    /*padding: 2px 6px 2px 6px;*/    
 }
 
 .tag {
@@ -59,6 +59,11 @@
    color: #3E6D8E;   
 }
 
+#tags_tagsinput {
+   max-height: 25px; /*same size as min-height*/
+   display:  block;
+   overflow: hidden;
+}
 .removeTagIcon {
    vertical-align: middle;   
 }

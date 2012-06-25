@@ -49,14 +49,16 @@
    </script>
 
    <script type="text/template" id="conversation-template">
-           <div class="leftLiDiv">
+           <div class="leftLiDiv convColumn">
                 <img src="<%: Url.Content("~/Content/images/delete.ico") %>" class="images" />
             </div>
-            <div class="rightLiDiv">                
-                <div class="spanClassFrom">
+            <div class="rightLiDiv convColumn">    
+                   
+               <div class="spanClassFrom rightSideMembers">
                     <span>{{ From }} for " {{ To }} "</span>
                 </div>
-                <div class="spanClassText">
+               <div class='clear'></div>
+                <div class="spanClassText rightSideMembers">
                     <span>{{ Text }}</span>
                 </div>
             </div>        
@@ -72,7 +74,7 @@
             <div class="clear"></div>
            <span class="timeReceived">{{ TimeReceived }} </span>
         </div>
-        <%--<div class="clear"></div>--%>
+        <div class="clear"></div>
         <div class="extramenu" hoverID="{{ Id }}">
             <div class="actionButtons">
                 <button id="markAsImportant" >Star</button>
@@ -140,7 +142,7 @@
                <br>
                   <div class="clear"></div>
                <span>
-                  <font size="1"><input readonly type="text" name="countdown" size="3" value="160"> </font>
+                  <font size="1"><input readonly type="text" name="countdown" size="2" value="160"> </font>
                </span>               
                </div>
             </form>          
@@ -148,5 +150,4 @@
          </div>
       </div>    
    
-  <%-- <div class="clear"></div>--%>
 </asp:Content>
