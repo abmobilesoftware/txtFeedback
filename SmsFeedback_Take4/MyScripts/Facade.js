@@ -17,6 +17,11 @@ function selectedWPsChanged(convView, msgView, checkedWorkingPoints) {
    msgView.resetViewToDefault();
 }
 
+function refreshConversationList(convView, msgView) {
+   convView.getConversations(null);
+   msgView.resetViewToDefault();
+}
+
 function InitializeGUI() {
    if (window.Prototype) {
       delete Object.prototype.toJSON;
@@ -28,7 +33,7 @@ function InitializeGUI() {
 
    //build the areas
    var wpsArea = WorkingPointsArea();
-   var convView = ConversationArea(filterArea);
+   var convView = ConversationArea(filterArea, wpsArea);
    var tagsArea = TagsArea();
    var msgView = MessagesArea(convView, tagsArea);
 
@@ -63,6 +68,10 @@ function InitializeGUI() {
 
    $(document).bind('selectedWPsChanged', function (ev, data) {
       selectedWPsChanged(convView, msgView, data);
+   });
+
+   $(document).bind('refreshConversationList', function (ev, data) {
+      refreshConversationList(convView, msgView);
    });
 
    window.addEventListener("resize", resizeTriggered, false);

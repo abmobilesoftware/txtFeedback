@@ -9,6 +9,9 @@ function FilterArea() {
       'onAddTag': function (tagValue) {
          var delimiter = ',';
          self.tagsForFiltering = $("#filterTag").val().split(delimiter);
+         if (self.tagFilteringEnabled) {
+            $(document).trigger('refreshConversationList');
+         }
       },
       'onRemoveTag': function(tagValue) {
          var delimiter = ',';
@@ -18,6 +21,9 @@ function FilterArea() {
          if ("" === self.tagsForFiltering[0]) {
             self.tagsForFiltering = [];
          }
+         if (self.tagFilteringEnabled) {
+            $(document).trigger('refreshConversationList');
+         }
       }
    });  
    this.tagsForFiltering = [];
@@ -25,15 +31,15 @@ function FilterArea() {
    this.tagFilteringEnabled = false;
    $("#includeTagsInFilter").bind('click', function () {
       if (self.tagFilteringEnabled) {
-         self.tagFilteringEnabled = false;
-         
+         self.tagFilteringEnabled = false;       
       }
       else {
-         self.tagFilteringEnabled = true;
+         self.tagFilteringEnabled = true;        
       }
-      setCheckboxState($(this), self.tagFilteringEnabled);
-      //var checkboxImg = $("img", this.$el);
-      
+      setCheckboxState($(this), self.tagFilteringEnabled);      
+      if (self.tagsForFiltering.length != 0) {
+         $(document).trigger('refreshConversationList');
+      }
    });
 
 }

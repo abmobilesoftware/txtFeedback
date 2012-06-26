@@ -2,7 +2,7 @@
 var defaultNrOfConversationsToDisplay = 10;
 var cummulativeSkip = defaultNrOfConversationsToDisplay;
 
-function ConversationArea(filterArea) {
+function ConversationArea(filterArea, workingPointsArea) {
     //define the models
     var Conversation = Backbone.Model.extend({
         defaults: {
@@ -100,6 +100,7 @@ function ConversationArea(filterArea) {
        el: $("#conversations"),
        initialize: function () {
           this.filters = filterArea;
+          this.workingpoints = workingPointsArea;
           _.bindAll(this, "render", "getConversations", "addConversationBasicEffect", "updateConversation", "removeConversation", "addConversationWithEffect");
           this.convsList = new ConversationsList();
           this.convsList.bind("reset", this.render);
@@ -122,14 +123,12 @@ function ConversationArea(filterArea) {
           if (this.filters.tagFilteringEnabled) {
              selectedTags = this.filters.tagsForFiltering;
           }          
-          var workingPointsNumbers;
-          if (workingPoints === null) {
-             workingPointsNumbers = [];
-          }
-          else {
+          var workingPointsNumbers = this.selectedWorkingPoints;
+          //var workingPoints = checkedWorkingPoints.checkedPhoneNumbers;
+          if (workingPoints !== null) {
              workingPointsNumbers = workingPoints;
              this.selectedWorkingPoints = workingPoints;
-          }
+          }          
           //reset the cummulative skip because we start with a "fresh" view
           cummulativeSkip = defaultNrOfConversationsToDisplay;
 
