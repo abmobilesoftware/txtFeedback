@@ -13,39 +13,70 @@ namespace SmsFeedback_Take4.Models
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
       public IEnumerable<SmsMessage> GetConversationsForNumber(bool showAll,
-                                                                      bool showFavourites,
-                                                                      string[] tags,
-                                                                      string workingPointsNumber,
-                                                                      int skip,
-                                                                      int top,
-                                                                      DateTime? lastUpdate)
-      {
+                                                               bool showFavourites,
+                                                               string[] tags,
+                                                               string workingPointsNumber,
+                                                               int skip,
+                                                               int top,
+                                                               DateTime? lastUpdate,
+                                                               String userName)
+{
          //here we don't aplly skip or load, as they will be applied on the merged list
          //TODO add filtering
          logger.Info("Call made");         
          string consistentWP = ConversationUtilities.RemovePrefixFromNumber(workingPointsNumber);
-         var convs1 = from wp in mContext.WorkingPoints
-                      where wp.TelNumber == consistentWP 
-                         select (from c in wp.Conversations orderby c.TimeUpdated descending 
-                                 select (new SmsMessage() { Id = c.Id, From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
-          var  conversations = convs1.First().AsQueryable();         
+         IQueryable<IEnumerable<SmsMessage>> convs = null;
+         if (tags != null && tags.Count() != 0)
+         {
+            var company = (from u in mContext.Users where u.UserName == userName select u.Company).First();
+            
+            //var filterTags = new List<Tag>();
+            //foreach (var tagName in tags)
+            //{
+            //   filterTags.Add(new Tag() { Name = tagName, Company = company});
+            //}
+            //var temp = from c in mContext.Conversations where !tags.Except(c.Tags.Select(tag => tag.Name)).Any() select c;
+            //var t1 = temp.Count();
+            //var t2 = temp.FirstOrDefault();
+
+
+            convs = from wp in mContext.WorkingPoints
+                    where wp.TelNumber == consistentWP
+                    select (from c in wp.Conversations
+                            where !tags.Except(c.Tags.Select(tag => tag.Name)).Any()
+                            //where c.Tags.Contains(filterTags.First())
+                            orderby c.TimeUpdated descending 
+                            select (new SmsMessage() { Id = c.Id, From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
+         }
+         else
+         {
+            convs = from wp in mContext.WorkingPoints
+                    where wp.TelNumber == consistentWP
+                    select (from c in wp.Conversations
+                            orderby c.TimeUpdated descending
+                            select (new SmsMessage() { Id = c.Id, From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
+         }
+         
+         
+          var  conversations = convs.First().AsQueryable();         
          logger.InfoFormat("Records returned from EF db: {0}", conversations.Count());
          return conversations;
       }
       public IEnumerable<SmsMessage> GetConversationsForNumbers(bool showAll,
-                                                             bool showFavourites,
-                                                             string[] tags,
-                                                             string[] workingPointsNumbers,
-                                                             int skip,
-                                                             int top,
-                                                             DateTime? lastUpdate)
+                                                                bool showFavourites,
+                                                                string[] tags,
+                                                                string[] workingPointsNumbers,
+                                                                int skip,
+                                                                int top,
+                                                                DateTime? lastUpdate,
+                                                                String userName)
       {         
          //TODO we could have a performance penalty for not applying top and skip
          logger.Info("Call made");
          IEnumerable<SmsMessage> results = null;
          foreach (var wp in workingPointsNumbers)
          {            
-            var conversations = GetConversationsForNumber(showAll,showFavourites,tags,wp,skip,top,lastUpdate);                         
+            var conversations = GetConversationsForNumber(showAll,showFavourites,tags,wp,skip,top,lastUpdate,userName);                         
             if (results == null) results = conversations;
             //merge all the results 
             results = results.Union(conversations);
@@ -91,7 +122,7 @@ namespace SmsFeedback_Take4.Models
          Dictionary<string, SmsMessage> res = new Dictionary<string, SmsMessage>();
          foreach(string wp in workingPointNumbers)
          {            
-            var conversations = GetConversationsForNumber(true, false, null, wp, 0, 1, null);          
+            var conversations = GetConversationsForNumber(true, false, null, wp, 0, 1, null, string.Empty);          
             if (conversations.Count() > 0) {
                res.Add(wp, conversations.First());
             }

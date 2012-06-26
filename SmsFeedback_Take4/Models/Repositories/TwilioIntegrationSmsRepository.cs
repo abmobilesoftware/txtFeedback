@@ -82,7 +82,8 @@ namespace SmsFeedback_Take4.Models
                                                                string workingPointsNumber,
                                                                int skip,
                                                                int top,
-                                                               DateTime? lastUpdate)
+                                                               DateTime? lastUpdate,
+                                                               String userName)
       {
          //here we don't aplly skip or load, as they will be applied on the merged list
          logger.InfoFormat("Retrieving conversations, lastUpdate:{0}",lastUpdate);
@@ -105,7 +106,8 @@ namespace SmsFeedback_Take4.Models
                                                               string[] workingPointsNumber,
                                                               int skip,
                                                               int top,
-                                                              DateTime? lastUpdate)
+                                                              DateTime? lastUpdate,
+                                                              String userName)
       {
          throw new NotImplementedException();
       }

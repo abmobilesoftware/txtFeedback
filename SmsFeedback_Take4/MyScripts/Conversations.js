@@ -118,7 +118,10 @@ function ConversationArea(filterArea) {
           $('#loadMoreConversations').hide();
           $('#conversations').html('');
           spinner.spin(target);
-          var selectedTags = ["complaint", "praise", "electronics"];
+          var selectedTags =[];
+          if (this.filters.tagFilteringEnabled) {
+             selectedTags = this.filters.tagsForFiltering;
+          }          
           var workingPointsNumbers;
           if (workingPoints === null) {
              workingPointsNumbers = [];

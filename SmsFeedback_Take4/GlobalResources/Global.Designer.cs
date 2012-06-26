@@ -196,6 +196,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tag(s): .
+        /// </summary>
+        public static string tagsLabel {
+            get {
+                return ResourceManager.GetString("tagsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Welcome.
         /// </summary>
         public static string welcomeMessage {

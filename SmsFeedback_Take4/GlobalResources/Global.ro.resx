@@ -165,4 +165,7 @@
   <data name="tabSettings" xml:space="preserve">
     <value>Setari</value>
   </data>
+  <data name="tagsLabel" xml:space="preserve">
+    <value>Etichet(e):</value>
+  </data>
 </root>

@@ -49,6 +49,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SmsFeedbackModels.edmx</DependentUpon>
     </Compile>
+    <Compile Include="NonEFGenerated\Tag.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

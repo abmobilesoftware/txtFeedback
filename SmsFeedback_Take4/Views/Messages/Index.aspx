@@ -41,10 +41,9 @@
 
    <script type="text/template" id="phoneNumber-template">       
 		<span >
-			<span>{{ Name }}</span>
-			<span class="deletePhoneNumber">
-				<img class="deletePhoneNumberIconSelected" src="<%: Url.Content("~/Content/images/checkbox_checked.png") %>"/>
-			</span>
+         <img class="wpItem wpSelectorIcon deletePhoneNumberIconSelected" src="<%: Url.Content("~/Content/images/check-white.svg") %>"/>			
+			<span class="wpItem" >{{ Name }}</span>			
+			
 		</span>
    </script>
 
@@ -100,8 +99,12 @@
    <div id="filtersStrip">
       <div class="grid_2 filterStripElement"></div>
       <div class="grid_4 filterStripElement"></div>
-      <div class="grid_6 filterStripElement">
-         <div id="tagFiltering" class="tagArea">
+      <div class="grid_6 filterStripElement tagFilterArea">
+         <div id="tagsLabel">
+          <img id="includeTagsInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconSelected" src="<%: Url.Content("~/Content/images/transparent.gif") %>"/>	
+          <span style="vertical-align: middle"> <%: Resources.Global.tagsLabel %></span>
+         </div>
+         <div id="tagFiltering">
              <input name="filterTag" id="filterTag" />
          </div>
       </div>
@@ -130,11 +133,11 @@
          <div id="messageTagsSeparator"></div>       
          <div id="tagsContainer" class="tagArea">
             <div id="tagsPool" class="tagsPhoneNumbers">
-              <%-- <span>Here will be the tags</span>--%>
             </div>
            <input name="tags" id="tags" />
           </div>   
-         <div id="textareaContainer" class="invisible">          
+         <div id="textareaContainer" class="invisible">    
+            <div id="replyFormArea">
             <form id="replyToMessageForm">
                <div id="inputTextContainer">
                <textarea id="limitedtextarea" onkeydown="limitText(this.form.limitedtextarea,this.form.countdown,160);"
@@ -142,11 +145,14 @@
                <br>
                   <div class="clear"></div>
                <span>
-                  <font size="1"><input readonly type="text" name="countdown" size="2" value="160"> </font>
+                  <font size="0.5"><input readonly type="text" name="countdown" size="2" value="160"> </font>
                </span>               
                </div>
-            </form>          
-            <button id="replyBtn">Reply</button>
+            </form>
+           </div>                
+            <div id="replyButtonArea">
+            <button id="replyBtn">Send</button>
+            </div>
          </div>
       </div>    
    

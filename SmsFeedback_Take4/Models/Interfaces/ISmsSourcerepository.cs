@@ -10,14 +10,16 @@ namespace SmsFeedback_Take4.Models
                                                                                           string workingPointsNumber,
                                                                                           int skip,
                                                                                           int top,
-                                                                                          DateTime? lastUpdate);      
+                                                                                          DateTime? lastUpdate,
+                                                                                          String userName);      
       System.Collections.Generic.IEnumerable<SmsMessage> GetConversationsForNumbers(bool showAll,
                                                                                           bool showFavourites,
                                                                                           string[] tags,
                                                                                           string[] workingPointsNumbers,
                                                                                           int skip,
                                                                                           int top,
-                                                                                          DateTime? lastUpdate);
+                                                                                          DateTime? lastUpdate,
+                                                                                          String userName);
       System.Collections.Generic.IEnumerable<SmsMessage> GetMessagesForConversation(string convID);
       System.Collections.Generic.IEnumerable<ConversationTag> GetTagsForConversation(string convID);
 
@@ -29,12 +31,13 @@ namespace SmsFeedback_Take4.Models
    interface ISmsSourceRepository
    {
       System.Collections.Generic.IEnumerable<SmsMessage> GetConversationsForNumbers(bool showAll,
-                                                                                          bool showFavourites,
-                                                                                          string[] tags,
-                                                                                          string[] workingPointsNumber,
-                                                                                          int skip,
-                                                                                          int top,
-                                                                                          DateTime lastUpdate);
+                                                                                    bool showFavourites,
+                                                                                    string[] tags,
+                                                                                    string[] workingPointsNumber,
+                                                                                    int skip,
+                                                                                    int top,
+                                                                                    DateTime? lastUpdate,
+                                                                                    String userName);
       System.Collections.Generic.IEnumerable<SmsMessage> GetMessagesForConversation(string convID);
       System.Collections.Generic.IEnumerable<ConversationTag> GetTagsForConversation(string convID);
       void SendMessage(string from, string to, string message, Action<string> callback);

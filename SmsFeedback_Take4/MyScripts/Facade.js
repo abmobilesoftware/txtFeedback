@@ -79,12 +79,19 @@ function resizeTriggered() {
    var headerHeight = $('header').height();
    var contentWindowHeight = window_height - headerHeight - (2 * padding) - filterStripHeigh;
    var msgAreaCalculatedHeight = messagesAreaHeight + msgAreaMarginTop;
+   //TODO determine this factor
+   var factor = 140;
+   var minHeight = 400; //px
    if (contentWindowHeight <= msgAreaCalculatedHeight) {
       $('.container_12').height(msgAreaCalculatedHeight);
+      $('#scrollablemessagebox').height(minHeight);
+      $('#scrollableconversations').height(minHeight + factor - 12);
       //$('#conversationsArea').height(msgAreaCalculatedHeight - msgAreaMarginTop);
    }
    else {
       $('.container_12').height(contentWindowHeight);
+      $('#scrollablemessagebox').height(contentWindowHeight - factor);
+      $('#scrollableconversations').height(contentWindowHeight - 12);
       //$('#conversationsArea').height(contentWindowHeight - msgAreaMarginTop);
       //$('#scrollableconversations').height(contentWindowHeight - msgAreaMarginTop);
       //$('#conversations').height(contentWindowHeight - msgAreaMarginTop);

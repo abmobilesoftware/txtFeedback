@@ -26,6 +26,7 @@
    background-image: -ms-linear-gradient(top, rgb(240,248,250) 26%, rgb(245,248,250) 65%);
    background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, rgb(240,248,250)), color-stop(0.65, rgb(245,248,250)) );
    margin-top: 7px;
+   padding-bottom: 4px;
 }
 
 #scrollablemessagebox {
@@ -204,14 +205,10 @@ div.actionButtons {
    visibility: visible;
 }
 
-#textareaContainer {
-   padding: 2px 2px 2px 2px;
-   display: inline-block;
-   width: 100%;
-}
+
 
 #inputTextContainer {
-   display: inline-block;
+   display: inline-block; 
    background-color: #DFE7EA;
    width: 100%;
    border-radius: 10px;
@@ -220,9 +217,10 @@ div.actionButtons {
 }
 
 #replyToMessageForm {
-   float: left;
-   width: 68%;
-   margin-left: 5%;
+   /*float: left;*/
+   /*width: 68%;*/   
+   /*padding-left: 20px;*/
+   /*background-color: yellow;*/
 }
 
    #replyToMessageForm span {
@@ -230,11 +228,8 @@ div.actionButtons {
    }
 
 #replyBtn {
-   height: 108px;
-   width: 108px;
-   float: left;
-   margin-left: 2%;
-   margin-right: 5%;
+   height: 65px;
+   width: 78px;   
    background: rgb(146,200,65); /* Old browsers */
    background: -moz-radial-gradient(center, ellipse cover, rgb(146,200,65) 22%, rgb(128,175,58) 65%); /* FF3.6+ */
    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(22%,rgb(146,200,65)), color-stop(65%,rgb(128,175,58))); /* Chrome,Safari4+ */
@@ -243,9 +238,10 @@ div.actionButtons {
    background: -ms-radial-gradient(center, ellipse cover, rgb(146,200,65) 22%,rgb(128,175,58) 65%); /* IE10+ */
    background: radial-gradient(center, ellipse cover, rgb(146,200,65) 22%,rgb(128,175,58) 65%); /* W3C */
    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#92c841', endColorstr='#80af3a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-   color: black;
+   color: white;
    font-weight: bold;
-   font-size: 2em;
+   padding-top: 0px;
+   font-size: 1.5em;
    border-radius: 10px;
    -moz-border-radius: 10px;
    -webkit-border-radius: 10px;
@@ -253,18 +249,18 @@ div.actionButtons {
 }
 
    #replyBtn:hover {
-      color: white;
+      color: black;
    }
 
 input[name="countdown"] {
    background-color: transparent;
    border-width: 0px;
    width: 30px;
+   font-size: 0.6em;
 }
 
 #limitedtextarea {
-   width: 100%;
-   height: px;
+   width: 100%;   
    overflow: hidden;
    resize: none;
    color: #222;
@@ -286,4 +282,37 @@ input[name="countdown"] {
 
 .clear {
    clear: both;
+}
+
+#textareaContainer {
+   margin-top:4px;
+   /*padding: 2px 2px 2px 2px;*/
+   padding-left: 20px;
+   padding-right: 108px;
+   /*display: inline-block;*/
+   /*width: 100%;*/  
+}
+
+#replyFormArea {
+   float:left;
+   position: relative;
+   /*background-color: rgba(0,0,255,0.8);*/
+  
+   overflow: hidden;
+   width: 100%;   
+}
+
+#replyButtonArea {
+   margin-right: -168px;
+   padding-left: 10px;
+   float:left;
+   position: relative;
+   /*background-color: #FECA40;*/
+   /*width: 78px;
+   min-width: 78px;
+   max-width: 78px;*/
+   /*height: 78px;
+   min-height: 78px;
+   max-height: 78px;*/
+   /*float: right;*/
 }

@@ -105,3 +105,20 @@ function cleanupPhoneNumber(data) {
    data = data.replace(prefix, "");   
    return data;
 }
+
+//checkbox is the button img
+function setCheckboxState(checkbox, state)
+{
+   if (state === true) {
+      checkbox.attr('src', domainName + "/Content/images/check-white.svg");
+      checkbox.removeClass('deletePhoneNumberIconUnselected');
+      checkbox.addClass('deletePhoneNumberIconSelected');
+   }
+   else {
+      //we actually need only the img placeholder (for the border and background)
+      //so we set the image to a transparent 1 pixel gif
+      checkbox.attr('src', domainName + "/Content/images/transparent.gif")
+      checkbox.removeClass('deletePhoneNumberIconSelected');
+      checkbox.addClass('deletePhoneNumberIconUnselected');
+   }
+}

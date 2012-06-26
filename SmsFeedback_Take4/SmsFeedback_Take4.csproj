@@ -201,6 +201,7 @@
     <Content Include="Content\images\exclamationMark.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\logo1.png" />
+    <Content Include="Content\images\transparent.gif" />
     <Content Include="Content\jquery.tagsinput.css" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\messages.css" />

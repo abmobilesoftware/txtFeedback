@@ -12,7 +12,11 @@
 #tagFiltering {
  background-color: transparent;
  border: 1px solid #6B9BB3;
+ border-radius: 5px;
+ -moz-border-radius: 5px;
+ -webkit-border-radius: 5px;
  color: white; 
+ overflow: hidden;
 }
 
 #tagsPool {
@@ -28,7 +32,7 @@
 
 .tag {
    margin-right: 5px;
-   margin-bottom: 5px;
+   /*margin-bottom: 5px;*/
    /*border: 1px solid transparen;*/
    border-radius: 2px;
    -moz-border-radius: 2px;
@@ -44,7 +48,7 @@
    
    border-bottom: 1px solid #3E6D8E;
    border-right: 1px solid #7F9FB6;
-   padding: 3px 4px 3px 4px;
+   padding: 0px 4px 0px 4px;
    text-decoration: none;
    font-size: 90%;
    line-height: 1.5;
@@ -60,7 +64,13 @@
 }
 
 #tags_tagsinput {
-   max-height: 25px; /*same size as min-height*/
+   max-height: 22px; /*same size as min-height*/
+   display:  block;
+   overflow: hidden;
+}
+
+#filterTag_tagsinput {
+   max-height: 22px; /*same size as min-height*/
    display:  block;
    overflow: hidden;
 }
@@ -86,4 +96,16 @@
    margin-left: 7px;
    position: relative;
    top: 2px;
+}
+
+#tagFilterArea {
+   
+}
+
+#tagsLabel {
+   float: left;
+   color: #6B9BB3;
+   margin-right: 10px;
+   margin-left: 20px;
+   margin-top: 8px; /*This is for vertical alignment*/
 }

@@ -36,7 +36,7 @@ div.tagsinput {
       font-family: helvetica;
       font-size: 13px;
       border: 1px solid transparent;
-      padding: 5px;
+      /*padding: 5px;*/
       background: transparent;
       color: #000;
       outline: 0px;

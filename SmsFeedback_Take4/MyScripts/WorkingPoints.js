@@ -54,20 +54,14 @@ function WorkingPointsArea() {
          
            if (this.model.get('CheckedStatus') === true) {
               this.$el.removeClass('phoneNumberUnselected');
-              this.$el.addClass('phoneNumberSelected');
-              checkboxImg.attr('src', domainName + "/Content/images/checkbox_checked.png");
-              //checkboxImg.attr('src', domainName + "/Content/images/check-white.svg")
-              checkboxImg.removeClass('deletePhoneNumberIconUnselected');
-              checkboxImg.addClass('deletePhoneNumberIconSelected');
+              this.$el.addClass('phoneNumberSelected');              
+              setCheckboxState(checkboxImg, true);
            }
            else {
               this.$el.removeClass('phoneNumberSelected');
               this.$el.addClass('phoneNumberUnselected');
-            
-              checkboxImg.attr('src', domainName + "/Content/images/checkbox_unchecked.png");
-              //checkboxImg.attr('src', domainName + "/Content/images/check-grey.svg")
-              checkboxImg.removeClass('deletePhoneNumberIconSelected');
-              checkboxImg.addClass('deletePhoneNumberIconUnselected');
+              
+              setCheckboxState(checkboxImg, false);
            }
            //make sure we start from the initial view where all the phone numbers are selected         
            var checkedPhoneNumbersArray = [];

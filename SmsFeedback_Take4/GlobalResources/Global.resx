@@ -165,4 +165,7 @@
   <data name="tabSettings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="tagsLabel" xml:space="preserve">
+    <value>Tag(s): </value>
+  </data>
 </root>

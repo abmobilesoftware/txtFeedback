@@ -122,10 +122,13 @@ namespace SmsFeedback_Take4.Controllers
          try
          {
             System.Text.StringBuilder receivedTags = new System.Text.StringBuilder();
-            foreach (String tag in tags)
+            if (tags != null)
             {
-               receivedTags.Append(tag);
-               receivedTags.Append(" ");
+               foreach (String tag in tags)
+               {
+                  receivedTags.Append(tag);
+                  receivedTags.Append(" ");
+               }
             }
             System.Text.StringBuilder wps = new System.Text.StringBuilder();
             if (workingPointsNumbers != null)
@@ -149,9 +152,9 @@ namespace SmsFeedback_Take4.Controllers
                                         top));
             //IQueryable conversations = GetConversationsFromDb(showAll,showFavourites, tags,workingPointsNumbers, skip, top);
             if (HttpContext.Request.IsAjaxRequest())
-            {
-               DateTime lastUpdate = new DateTime(2012, 5, 1);
-               var conversations = SMSRepository.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers, skip, top, lastUpdate);
+            {               
+               var userId = User.Identity.Name;               
+               var conversations = SMSRepository.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers, skip, top, null, userId);
                //System.Threading.Thread.Sleep(1000);
                return Json(conversations, JsonRequestBehavior.AllowGet);
             }

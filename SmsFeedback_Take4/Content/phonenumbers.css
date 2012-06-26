@@ -53,8 +53,26 @@
 }
 
 .deletePhoneNumberIconSelected {
-   background: white;
+   background: transparent;
+   border: 1.5px solid white;
+   border-radius: 2px;
+   -moz-border-radius: 2px;
+   -webkit-border-radius: 2px;
 }
 .deletePhoneNumberIconUnselected {
-    background: #3678a7;
+    /*background: #3678a7;*/
+    border: 1px solid #6B9BB3;
+    border-radius: 2px;
+   -moz-border-radius: 2px;
+   -webkit-border-radius: 2px;
+   background-color: #294957;
+}
+
+.wpSelectorIcon {
+   width: 17px;
+   height: 17px;   
+}
+
+.wpItem {
+   vertical-align: middle;
 }

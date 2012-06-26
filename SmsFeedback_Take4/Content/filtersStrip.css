@@ -8,13 +8,18 @@
    background-image: -ms-linear-gradient(top, #183540 26%, #183540 82%);
    background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, #183540), color-stop(0.82, #183540) );
    height: 45px;
+   padding: 0px !important;
 }
 
 .filterStripElement {
      min-height:  28px;
-     margin-top: 4px;
+     margin-top: 6px;
 }
 
 #filterTag_tag {
    color: white !important;
+}
+
+#includeTagsInFilter {
+   cursor:  pointer;
 }
