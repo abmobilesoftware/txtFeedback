@@ -16,16 +16,28 @@ namespace SmsFeedback_Take4.Utilities
       {
 
       }
-
-      public IEnumerable<string> FindMatchingTags(string queryString, string userName)
+      /// <summary>
+      /// Return all tags containing a certain string
+      /// </summary>
+      /// <param name="queryString">the string sequence to look for</param>
+      /// <param name="userName">the logged in user</param>
+      /// <returns></returns>
+      public IEnumerable<string> FindMatchingTagsForUser(string queryString, string userName)
       {
          logger.Info("Call made");
          //get the company name
          var companyNames = from u in mContext.Users where u.UserName == userName select u.Company_Name;
          var companyName = companyNames.First();
+         return FindMatchingTagsForCompany(queryString, companyName);
+      }
+      
+      public IEnumerable<string> FindMatchingTagsForCompany(string queryString, string companyName)
+      {
+         logger.Info("Call made");
          var tags = from tag in mContext.Tags where (tag.CompanyName == companyName && tag.Name.Contains(queryString)) select tag.Name;
          return tags;
       }
+
 
       public int UpdateAddConversation(String from, String to, String conversationId, String text, Boolean readStatus, DateTime? updateTime, bool markConversationAsRead = false)
       {

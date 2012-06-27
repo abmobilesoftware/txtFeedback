@@ -101,7 +101,7 @@
       <div class="grid_4 filterStripElement"></div>
       <div class="grid_6 filterStripElement tagFilterArea">
          <div id="tagsLabel">
-          <img id="includeTagsInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconSelected" src="<%: Url.Content("~/Content/images/transparent.gif") %>"/>	
+          <img id="includeTagsInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected" src="<%: Url.Content("~/Content/images/transparent.gif") %>"/>	
           <span style="vertical-align: middle"> <%: Resources.Global.tagsLabel %></span>
          </div>
          <div id="tagFiltering">

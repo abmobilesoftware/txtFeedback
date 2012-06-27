@@ -30,7 +30,7 @@ namespace SmsFeedback_Take4.Controllers
        public JsonResult FindMatchingTags(string term)
        {
           var userId = User.Identity.Name;
-          return Json(mEFInterface.FindMatchingTags(term, userId), JsonRequestBehavior.AllowGet);
+          return Json(mEFInterface.FindMatchingTagsForUser(term, userId), JsonRequestBehavior.AllowGet);
        }
 
        public JsonResult GetTagsForConversation(string conversationID)
