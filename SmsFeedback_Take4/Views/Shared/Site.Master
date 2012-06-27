@@ -33,11 +33,10 @@
               
             <nav>
                 <ul id="menu">                    
-                    <li><%: Html.ActionLink(Resources.Global.tabMessages, "Index", "Messages")%></li>
-                   <li><%: Html.ActionLink(Resources.Global.tabReports, "Index", "Reports")%></li>
-                   <li><%: Html.ActionLink(Resources.Global.tabSettings, "Index", "Settings")%></li>
-                   <li><%: Html.ActionLink(Resources.Global.tabHelp, "Index", "Help")%></li>
-                    
+                   <li ><%: Html.MenuLink(Resources.Global.tabMessages, "Index", "Messages")%></li>
+                   <li ><%: Html.MenuLink(Resources.Global.tabReports, "Index", "Reports")%></li>
+                   <li ><%: Html.MenuLink(Resources.Global.tabSettings, "Index", "Settings")%></li>
+                   <li ><%: Html.MenuLink(Resources.Global.tabHelp, "Index", "Help")%></li>                    
                 </ul>
             </nav>
         </header>

@@ -28,4 +28,6 @@ namespace SmsFeedback_Take4.Utilities
          return rgx.Replace(number, "");
       }
    }
+
+
 }

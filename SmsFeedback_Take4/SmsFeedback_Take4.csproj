@@ -182,6 +182,7 @@
     <Compile Include="Models\BusinessObjects\XmppConn.cs" />
     <Compile Include="Utilities\CustomAuthorizeAtribute.cs" />
     <Compile Include="Utilities\EFInteraction.cs" />
+    <Compile Include="Utilities\LinkHelper.cs" />
     <Compile Include="Utilities\SwitchLanguageHelper.cs" />
     <Compile Include="Utilities\Utilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

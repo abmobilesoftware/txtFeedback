@@ -78,6 +78,13 @@ function InitializeGUI() {
    resizeTriggered();
 }
 
+$(document).ready(function () {
+   $(".menuItem a").click(function () {
+      $(".menuItem .active-link").removeClass("active-link");
+      $(this).addClass("active-link");
+   });
+});
+
 function resizeTriggered() {
    //pick the highest between window size (- header) and messagesArea
    var padding = 5;
