@@ -122,7 +122,8 @@ function ConversationArea(filterArea, workingPointsArea) {
           var selectedTags =[];
           if (this.filters.tagFilteringEnabled) {
              selectedTags = this.filters.tagsForFiltering;
-          }          
+          }
+          var showFavorites = this.filters.starredFilteringEnabled;
           var workingPointsNumbers = this.selectedWorkingPoints;
           //var workingPoints = checkedWorkingPoints.checkedPhoneNumbers;
           if (workingPoints !== null) {
@@ -135,7 +136,7 @@ function ConversationArea(filterArea, workingPointsArea) {
           var top = defaultNrOfConversationsToDisplay;
           var skip = 0;
           this.convsList.fetch({
-             data: { "showAll": true, "showFavourites": false, "tags": selectedTags, "workingPointsNumbers": workingPointsNumbers, "skip": skip, "top": top },
+             data: { "showAll": true, "showFavourites": showFavorites, "tags": selectedTags, "workingPointsNumbers": workingPointsNumbers, "skip": skip, "top": top },
              traditional: true,
              success: function () {
                 spinner.stop();

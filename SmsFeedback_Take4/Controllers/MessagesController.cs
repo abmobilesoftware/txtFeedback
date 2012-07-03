@@ -142,7 +142,6 @@ namespace SmsFeedback_Take4.Controllers
                                         wps.ToString(),
                                         skip,
                                         top));
-            //IQueryable conversations = GetConversationsFromDb(showAll,showFavourites, tags,workingPointsNumbers, skip, top);
             if (HttpContext.Request.IsAjaxRequest())
             {               
                var userId = User.Identity.Name;               

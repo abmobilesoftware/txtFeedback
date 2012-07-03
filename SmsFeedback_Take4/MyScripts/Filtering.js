@@ -76,9 +76,7 @@ function FilterArea() {
       //change checkbox state
       setCheckboxState($(this), self.starredFilteringEnabled);
       //trigger filtering if required
-      //if (self.tagsForFiltering.length != 0) {
-      //   $(document).trigger('refreshConversationList');
-      //}
+      $(document).trigger('refreshConversationList');     
    });
 
 }

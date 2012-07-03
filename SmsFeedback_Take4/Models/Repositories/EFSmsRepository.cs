@@ -26,25 +26,49 @@ namespace SmsFeedback_Take4.Models
          logger.Info("Call made");         
          string consistentWP = ConversationUtilities.RemovePrefixFromNumber(workingPointsNumber);
          IQueryable<IEnumerable<SmsMessage>> convs = null;
-         if (tags != null && tags.Count() != 0)
-         {
-            var company = (from u in mContext.Users where u.UserName == userName select u.Company).First();
-            convs = from wp in mContext.WorkingPoints
-                    where wp.TelNumber == consistentWP
-                    select (from c in wp.Conversations
-                            where !tags.Except(c.Tags.Select(tag => tag.Name)).Any()
-                            //where c.Tags.Contains(filterTags.First())
-                            orderby c.TimeUpdated descending 
-                            select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
+         if (showFavourites)         {
+            if (tags != null && tags.Count() != 0)
+            {
+               var company = (from u in mContext.Users where u.UserName == userName select u.Company).First();
+               convs = from wp in mContext.WorkingPoints
+                       where wp.TelNumber == consistentWP
+                       select (from c in wp.Conversations
+                               where (c.Starred == true) && (!tags.Except(c.Tags.Select(tag => tag.Name)).Any())
+                               //where c.Tags.Contains(filterTags.First())
+                               orderby c.TimeUpdated descending
+                               select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
+            }
+            else
+            {
+               convs = from wp in mContext.WorkingPoints
+                       where wp.TelNumber == consistentWP
+                       select (from c in wp.Conversations where (c.Starred == true)
+                               orderby c.TimeUpdated descending
+                               select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
+            }
          }
-         else
-         {
-            convs = from wp in mContext.WorkingPoints
-                    where wp.TelNumber == consistentWP
-                    select (from c in wp.Conversations
-                            orderby c.TimeUpdated descending
-                            select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
+         else {
+            if (tags != null && tags.Count() != 0)
+            {
+               var company = (from u in mContext.Users where u.UserName == userName select u.Company).First();
+               convs = from wp in mContext.WorkingPoints
+                       where wp.TelNumber == consistentWP
+                       select (from c in wp.Conversations
+                               where !tags.Except(c.Tags.Select(tag => tag.Name)).Any()
+                               //where c.Tags.Contains(filterTags.First())
+                               orderby c.TimeUpdated descending
+                               select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
+            }
+            else
+            {
+               convs = from wp in mContext.WorkingPoints
+                       where wp.TelNumber == consistentWP
+                       select (from c in wp.Conversations
+                               orderby c.TimeUpdated descending
+                               select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
+            }
          }
+         
          
          
           var  conversations = convs.First().AsQueryable();         
