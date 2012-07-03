@@ -20,9 +20,9 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UpgradeBackupLocation />
     <TargetFrameworkProfile />
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
@@ -69,7 +69,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NuGet.Core, Version=1.0.11220.104, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -165,9 +165,11 @@
       <DependentUpon>Global.ro.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\BusinessObjects\ConversationTag.cs" />
+    <Compile Include="Models\Interfaces\ISMSRepository.cs" />
+    <Compile Include="Models\Interfaces\IInternalSMSRepository.cs" />
     <Compile Include="Models\Repositories\EFSmsRepository.cs" />
     <Compile Include="Models\Repositories\FacadeSMSRepository.cs" />
-    <Compile Include="Models\Interfaces\ISmsSourcerepository.cs" />
+    <Compile Include="Models\Interfaces\IExternalSmsRepository.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Models\LocalizationDisplayNameAttribute.cs" />
     <Compile Include="Models\BusinessObjects\SmsMessage.cs" />

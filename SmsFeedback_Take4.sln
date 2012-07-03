@@ -14,6 +14,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TxtFeedback_tests", "TxtFeedback_tests\TxtFeedback_tests.csproj", "{F4FC6BAC-DCC0-4E25-9749-745E2D33D29A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{01EEDA94-CA40-44C7-91EB-AAFC3F469B1B}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SmsFeedback_Take4.vsmdi
@@ -35,6 +42,10 @@ Global
 		{F2DFC840-77CC-44F6-93D8-559639AD2580}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2DFC840-77CC-44F6-93D8-559639AD2580}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2DFC840-77CC-44F6-93D8-559639AD2580}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4FC6BAC-DCC0-4E25-9749-745E2D33D29A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4FC6BAC-DCC0-4E25-9749-745E2D33D29A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4FC6BAC-DCC0-4E25-9749-745E2D33D29A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4FC6BAC-DCC0-4E25-9749-745E2D33D29A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

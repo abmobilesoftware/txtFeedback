@@ -168,4 +168,16 @@
   <data name="tagsLabel" xml:space="preserve">
     <value>Etichet(e):</value>
   </data>
+  <data name="dateLabel" xml:space="preserve">
+    <value>Data:</value>
+  </data>
+  <data name="fromDate" xml:space="preserve">
+    <value>de la</value>
+  </data>
+  <data name="starredLabel" xml:space="preserve">
+    <value>Favorite</value>
+  </data>
+  <data name="toDate" xml:space="preserve">
+    <value>pana la</value>
+  </data>
 </root>

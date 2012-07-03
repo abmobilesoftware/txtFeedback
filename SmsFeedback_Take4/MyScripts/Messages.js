@@ -246,8 +246,8 @@ function MessagesArea(convView, tagsArea) {
              });
             spinner.stop();
             //scroll to bottom
-            var messagesEl = $("#scrollablemessagebox");
-            messagesEl.animate({ scrollTop: messagesEl.prop("scrollHeight") }, 3000);
+            //var messagesEl = $("#scrollablemessagebox");
+            //messagesEl.animate({ scrollTop: messagesEl.prop("scrollHeight") }, 3000);
         
             return this;
         },

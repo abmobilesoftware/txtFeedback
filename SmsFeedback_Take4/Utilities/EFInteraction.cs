@@ -11,7 +11,7 @@ namespace SmsFeedback_Take4.Utilities
    {
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
       private smsfeedbackEntities mContext = new smsfeedbackEntities();
-      public const int CONVERSATION_NOT_MODIFIED = -1;      
+      public const string CONVERSATION_NOT_MODIFIED = "invalidConvId";      
       public EFInteraction()
       {
 
@@ -20,7 +20,7 @@ namespace SmsFeedback_Take4.Utilities
       /// Return all tags containing a certain string
       /// </summary>
       /// <param name="queryString">the string sequence to look for</param>
-      /// <param name="userName">the logged in user</param>
+      /// <param name="userName">the logged-in user</param>
       /// <returns></returns>
       public IEnumerable<string> FindMatchingTagsForUser(string queryString, string userName)
       {
@@ -30,7 +30,12 @@ namespace SmsFeedback_Take4.Utilities
          var companyName = companyNames.First();
          return FindMatchingTagsForCompany(queryString, companyName);
       }
-      
+      /// <summary>
+      /// Return all tags containing a certain string
+      /// </summary>
+      /// <param name="queryString"> the string sequence to look for</param>
+      /// <param name="companyName"> the company to whom these tags belong to</param>
+      /// <returns></returns>
       public IEnumerable<string> FindMatchingTagsForCompany(string queryString, string companyName)
       {
          logger.Info("Call made");
@@ -39,19 +44,19 @@ namespace SmsFeedback_Take4.Utilities
       }
 
 
-      public int UpdateAddConversation(String from, String to, String conversationId, String text, Boolean readStatus, DateTime? updateTime, bool markConversationAsRead = false)
+      public string UpdateAddConversation(String from, String to, String conversationId, String text, Boolean readStatus, DateTime? updateTime, bool markConversationAsRead = false)
       {
          logger.Info("Call made");
          try
          {
             var conversations = from c in mContext.Conversations where c.ConvId == conversationId select c;
-            int convId = CONVERSATION_NOT_MODIFIED;
+            string convId = CONVERSATION_NOT_MODIFIED;
             var updateDateToInsert = updateTime.HasValue ? updateTime.Value.ToString() : "null";
             if (conversations.Count() > 0)
             {
                logger.InfoFormat("Updating conversation: [{0}] with read: {1}, updateTime: {2}", conversationId, readStatus.ToString(), updateDateToInsert);
                var conv = conversations.First();
-               convId = conv.Id;
+               convId = conv.ConvId;
                //since twilio returns messages >= the latest message it could be that the latest message is returned again - the only difference is that now "read" is false
                //so make sure that something changed, besides "read"
                if (markConversationAsRead || (conv.Text != text && updateTime.Value != conv.TimeUpdated))
@@ -68,7 +73,7 @@ namespace SmsFeedback_Take4.Utilities
                logger.InfoFormat("Adding conversation: [{0}] with read: {1}, updateTime: {2}, text: [{3}], from: [{4}]", conversationId, readStatus.ToString(), updateDateToInsert, text, from);
                //get the working point id
                string consistentWP = ConversationUtilities.RemovePrefixFromNumber(to);
-               var workingPointIDs = from wp in mContext.WorkingPoints where wp.TelNumber == consistentWP select wp.Id;
+               var workingPointIDs = from wp in mContext.WorkingPoints where wp.TelNumber == consistentWP select wp;
                if (workingPointIDs != null && workingPointIDs.Count() > 0)
                {
                   var wpId = workingPointIDs.First();
@@ -80,12 +85,12 @@ namespace SmsFeedback_Take4.Utilities
                      Read = readStatus,
                      TimeUpdated = updateTime.Value,
                      From = from,
-                     WorkingPointId = wpId
+                     WorkingPoint = wpId
                   });
                   mContext.SaveChanges();
                   //now get the id of the added conversation
                   conversations = from c in mContext.Conversations where c.ConvId == conversationId select c;
-                  convId = conversations.First().Id;
+                  convId = conversations.First().ConvId;
                }
             }
             return convId;
@@ -97,25 +102,28 @@ namespace SmsFeedback_Take4.Utilities
          }
       }
 
-      public void AddMessage(String from, String to, String conversationId, String text, Boolean readStatus, DateTime updateTime, int convId)
+      public Message AddMessage(String from, String to, String conversationId, String text, Boolean readStatus, DateTime updateTime)
       {
          logger.Info("Call made");
          try
          {
-            mContext.Messages.AddObject(new Message
+            var msg = new Message()
             {
                From = from,
                To = to,
                Text = text,
                TimeReceived = updateTime,
-               ConversationId = convId,
+               ConversationId = conversationId,
                Read = readStatus
-            });
+            };
+            mContext.Messages.AddObject(msg);
             mContext.SaveChanges();
+            return msg;
          }
          catch (Exception ex)
          {
-            logger.Error("Error occurred in AddMessage", ex);           
+            logger.Error("Error occurred in AddMessage", ex);
+            return null;
          }
       }
 

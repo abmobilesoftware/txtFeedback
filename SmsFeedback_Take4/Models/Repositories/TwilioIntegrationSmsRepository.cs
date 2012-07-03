@@ -33,7 +33,7 @@ namespace SmsFeedback_Take4.Models
          return obj.DateSent.GetHashCode();
       }
    }
-   public class TwilioIntegrationSmsRepository : SmsFeedback_Take4.Models.IInternalSmsSourceRepository 
+   public class TwilioIntegrationSmsRepository : SmsFeedback_Take4.Models.IExternalSmsRepository 
     {
       private static  readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
       
@@ -99,32 +99,6 @@ namespace SmsFeedback_Take4.Models
          var ret = result.Distinct(new ConversationsComparer());
          logger.InfoFormat("Records returned by Twilio: {0}", ret.Count());
          return ret;
-      }
-      public IEnumerable<SmsMessage> GetConversationsForNumbers(bool showAll,
-                                                              bool showFavourites,
-                                                              string[] tags,
-                                                              string[] workingPointsNumber,
-                                                              int skip,
-                                                              int top,
-                                                              DateTime? lastUpdate,
-                                                              String userName)
-      {
-         throw new NotImplementedException();
-      }
-
-      public System.Collections.Generic.IEnumerable<WorkingPoint> GetWorkingPointsPerUser(String userName)
-      {
-         throw new NotImplementedException();
-      }
-
-      public Dictionary<string, SmsMessage> GetLatestConversationForNumbers(string[] workingPointNumbers)
-      {
-         throw new NotImplementedException();
-      }
-
-      public System.Collections.Generic.IEnumerable<ConversationTag> GetTagsForConversation(string convID)
-      {
-         throw new NotImplementedException();
-      }
+      }     
     }
 }

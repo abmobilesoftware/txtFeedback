@@ -7,7 +7,7 @@ using SmsFeedback_Take4.Utilities;
 
 namespace SmsFeedback_Take4.Models
 {
-   public class EFSmsRepository : SmsFeedback_Take4.Models.IInternalSmsSourceRepository 
+   public class EFSmsRepository : SmsFeedback_Take4.Models.IInternalSMSRepository 
    {
       private smsfeedbackEntities mContext = new smsfeedbackEntities();
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -29,24 +29,13 @@ namespace SmsFeedback_Take4.Models
          if (tags != null && tags.Count() != 0)
          {
             var company = (from u in mContext.Users where u.UserName == userName select u.Company).First();
-            
-            //var filterTags = new List<Tag>();
-            //foreach (var tagName in tags)
-            //{
-            //   filterTags.Add(new Tag() { Name = tagName, Company = company});
-            //}
-            //var temp = from c in mContext.Conversations where !tags.Except(c.Tags.Select(tag => tag.Name)).Any() select c;
-            //var t1 = temp.Count();
-            //var t2 = temp.FirstOrDefault();
-
-
             convs = from wp in mContext.WorkingPoints
                     where wp.TelNumber == consistentWP
                     select (from c in wp.Conversations
                             where !tags.Except(c.Tags.Select(tag => tag.Name)).Any()
                             //where c.Tags.Contains(filterTags.First())
                             orderby c.TimeUpdated descending 
-                            select (new SmsMessage() { Id = c.Id, From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
+                            select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
          }
          else
          {
@@ -54,7 +43,7 @@ namespace SmsFeedback_Take4.Models
                     where wp.TelNumber == consistentWP
                     select (from c in wp.Conversations
                             orderby c.TimeUpdated descending
-                            select (new SmsMessage() { Id = c.Id, From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
+                            select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
          }
          
          
@@ -87,24 +76,20 @@ namespace SmsFeedback_Take4.Models
          return results.Skip(skip).Take(top);
       }
 
-      public IEnumerable<SmsMessage> GetMessagesForConversation(string convID)
-      {         
-         logger.Info("Call made");
-         var res = from conv in mContext.Conversations where conv.ConvId == convID 
-                   select (from msg in conv.Messages
-                           select new SmsMessage() { Id = msg.Id, From = msg.From, To = msg.To, Text = msg.Text, TimeReceived = msg.TimeReceived, Read = msg.Read, ConvID = convID });       
-         if (res != null && res.Count() > 0)         {
-            return res.First();
-         }
-         else         {
-            return null;
-         }
-      }
-
-      public void SendMessage(string from, string to, string message, Action<string> callback)
-      {
-         throw new NotImplementedException();
-      }
+      //public IEnumerable<SmsMessage> GetMessagesForConversation(string convID)
+      //{         
+      //   logger.Info("Call made");
+      //   var res = from conv in mContext.Conversations where conv.ConvId == convID 
+      //             select (from msg in conv.Messages
+      //                     select new SmsMessage() { Id = msg.Id, From = msg.From, To = msg.To, Text = msg.Text, TimeReceived = msg.TimeReceived, Read = msg.Read, ConvID = convID });       
+      //   if (res != null && res.Count() > 0)         {
+      //      return res.First();
+      //   }
+      //   else         {
+      //      return null;
+      //   }
+      //}
+      
 
       public IEnumerable<WorkingPoint> GetWorkingPointsPerUser(string userName)
       {

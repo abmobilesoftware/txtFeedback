@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="d:\Work\smsFeedback\TxtFeedback_tests\bin\Debug\TxtFeedback_tests.dll" total="2" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2012-06-27" time="19:59:41">
+  <environment nunit-version="2.6.0.12051" clr-version="2.0.50727.5456" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="D:\Work\smsFeedback\TxtFeedback_tests\bin\Debug" machine-name="DEVANDO" user="Ando" user-domain="DevAndo" />
+  <culture-info current-culture="ro-RO" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="d:\Work\smsFeedback\TxtFeedback_tests\bin\Debug\TxtFeedback_tests.dll" executed="True" result="Success" success="True" time="0.375" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="TxtFeedback_tests" executed="True" result="Success" success="True" time="0.348" asserts="0">
+        <results>
+          <test-suite type="Namespace" name="Utilities" executed="True" result="Success" success="True" time="0.347" asserts="0">
+            <results>
+              <test-suite type="TestFixture" name="Utilities_Tests" executed="True" result="Success" success="True" time="0.345" asserts="0">
+                <results>
+                  <test-case name="TxtFeedback_tests.Utilities.Utilities_Tests.BuildConversationIDFromFromAndTo_ValidFromTo_returnsValidConvId" executed="True" result="Success" success="True" time="0.298" asserts="1" />
+                  <test-case name="TxtFeedback_tests.Utilities.Utilities_Tests.GetFromAndToFromConversationIDTest_ValidConvID_returnsValidArrayWithFromAndTo" executed="True" result="Success" success="True" time="0.006" asserts="1" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

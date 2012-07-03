@@ -11,18 +11,35 @@ using SmsFeedback_Take4.Utilities;
 namespace SmsFeedback_Take4.Models
 {
 
-   public class FacadeSMSRepository : ISmsSourceRepository
+   public class AggregateSmsRepository 
    {
 
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-      private IInternalSmsSourceRepository mTwilioRep = new TwilioIntegrationSmsRepository();
-      private IInternalSmsSourceRepository mEFRep = new EFSmsRepository();
+      private IExternalSmsRepository mTwilioRep = new TwilioIntegrationSmsRepository();
+      private IInternalSMSRepository mEFRep = new EFSmsRepository();
       private EFInteraction mEFInterface = new EFInteraction();
       private string LoggedInUser { get; set; }
-      public FacadeSMSRepository(string loggedInUserName)
+      private static AggregateSmsRepository _instance = null;
+      #region "Constructors"
+      private AggregateSmsRepository()
+      {
+
+      }
+      private AggregateSmsRepository(string loggedInUserName)
       {
          LoggedInUser = loggedInUserName;
       }
+
+      //right now this is a singleton - check with multiple logged in users for issues
+      public static AggregateSmsRepository GetInstance(string loggedInUserName)
+      {
+         if (_instance == null)
+         {
+            _instance = new AggregateSmsRepository(loggedInUserName);
+         }
+         return _instance;
+      }
+#endregion
       public IEnumerable<SmsMessage> GetConversationsForNumbers(bool showAll, bool showFavourites, string[] tags, string[] workingPointsNumbers, int skip, int top, DateTime? lastUpdate, String userName)
       { 
          //the convention is that if workingPoints number is empty then we retrieve all the conversations

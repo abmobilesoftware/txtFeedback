@@ -187,9 +187,9 @@ ul#menu {
          background-image: -ms-linear-gradient(top, #A2B4BD 26%, #A2B4BD 82%);
          background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, #A2B4BD), color-stop(0.82, #A2B4BD) );
          color: #183540;
-         border-radius: 4px 4px 0 0;
-         -webkit-border-radius: 4px 4px 0 0;
-         -moz-border-radius: 4px 4px 0 0;
+         border-radius: 3px 3px 0 0;
+         -webkit-border-radius: 3px 3px 0 0;
+         -moz-border-radius: 3px 3px 0 0;
       }
 
 .currentMenuItem {

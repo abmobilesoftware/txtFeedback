@@ -70,6 +70,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date:.
+        /// </summary>
+        public static string dateLabel {
+            get {
+                return ResourceManager.GetString("dateLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to from.
+        /// </summary>
+        public static string fromDate {
+            get {
+                return ResourceManager.GetString("fromDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log On.
         /// </summary>
         public static string LogOnButtonMessage {
@@ -160,6 +178,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Favorites.
+        /// </summary>
+        public static string starredLabel {
+            get {
+                return ResourceManager.GetString("starredLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string tabHelp {
@@ -201,6 +228,15 @@ namespace Resources {
         public static string tagsLabel {
             get {
                 return ResourceManager.GetString("tagsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to to.
+        /// </summary>
+        public static string toDate {
+            get {
+                return ResourceManager.GetString("toDate", resourceCulture);
             }
         }
         

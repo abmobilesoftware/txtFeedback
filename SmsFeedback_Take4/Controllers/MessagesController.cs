@@ -17,12 +17,12 @@ namespace SmsFeedback_Take4.Controllers
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
       private smsfeedbackEntities mContext = new smsfeedbackEntities();
 
-      private ISmsSourceRepository mSmsRepository;
-      private ISmsSourceRepository SMSRepository
+      private AggregateSmsRepository mSmsRepository;
+      private AggregateSmsRepository SMSRepository
       {
          get {
             if (mSmsRepository == null) 
-               mSmsRepository = new FacadeSMSRepository(User.Identity.Name);            
+               mSmsRepository = AggregateSmsRepository.GetInstance(User.Identity.Name);            
             return mSmsRepository; 
          }        
       }
@@ -87,17 +87,9 @@ namespace SmsFeedback_Take4.Controllers
       }
 
       private JsonResult GetMessagesFromDb(string conversationID)
-      {
-         var convIds = from c in mContext.Conversations where c.ConvId == conversationID select c.Id;
-         //defend for the non-logical case where the converationID was invalid
-         if (convIds.Count() == 0)
-         {
-            logger.Error("conversationId was invalid");
-            return null;
-         }
-         var convId = convIds.First();
+      {         
          var records = from c in mContext.Messages
-                       where c.ConversationId == convId
+                       where c.ConversationId == conversationID
                        select
                           new { Id = c.Id, ConvID = conversationID, From = c.From, To = c.To, Text = c.Text, TimeReceived = c.TimeReceived, Read = c.Read };
          if (HttpContext.Request.IsAjaxRequest())
@@ -200,8 +192,9 @@ namespace SmsFeedback_Take4.Controllers
 
       private void AddMessageAndUpdateConversation(String from, String to, String conversationId, String text, Boolean readStatus, DateTime updateTime)
       {
-         int convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime);
-         mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime, convID);         
+         string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime);
+         //since now we guarantee that the conversation exits there is no need for convID
+         mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime);         
       }
 
       public JsonResult SendMessage(String from, String to, String text)

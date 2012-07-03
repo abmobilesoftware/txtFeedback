@@ -6,10 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="9c032a5472b642ed9bdfb92c9ffa1550" Name="Diagram1" ZoomLevel="97">
         <EntityTypeShape EntityType="smsfeedbackModel.Conversation" Width="1.5" PointX="7" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="smsfeedbackModel.Message" Width="1.5" PointX="9.625" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Message" PointX="11.375" PointY="1" Width="2.25" IsExpanded="true" />
         <EntityTypeShape EntityType="smsfeedbackModel.WorkingPoint" Width="1.5" PointX="4.375" PointY="1.125" IsExpanded="true" />
-        <AssociationConnector Association="smsfeedbackModel.FK_ConversationMessage" ManuallyRouted="false" />
-        <AssociationConnector Association="smsfeedbackModel.FK_WorkingPointConversation" ManuallyRouted="false" />
         <EntityTypeShape EntityType="smsfeedbackModel.User" Width="1.5" PointX="0.75" PointY="4.125" />
         <EntityTypeShape EntityType="smsfeedbackModel.Role" Width="1.5" PointX="3.875" PointY="3.625" />
         <AssociationConnector Association="smsfeedbackModel.UsersInRoles" />
@@ -21,6 +19,8 @@
         <EntityTypeShape EntityType="smsfeedbackModel.Tag" Width="1.5" PointX="6.75" PointY="8.375" />
         <AssociationConnector Association="smsfeedbackModel.FK_CompanyTag" />
         <AssociationConnector Association="smsfeedbackModel.ConversationTags" />
+        <AssociationConnector Association="smsfeedbackModel.WorkingPointConversation" />
+        <AssociationConnector Association="smsfeedbackModel.ConversationMessage" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

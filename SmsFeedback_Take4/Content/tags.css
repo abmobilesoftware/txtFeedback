@@ -10,13 +10,7 @@
    background-color: #DFE7EA;  
 }
 #tagFiltering {
- background-color: transparent;
- border: 1px solid #6B9BB3;
- border-radius: 5px;
- -moz-border-radius: 5px;
- -webkit-border-radius: 5px;
- color: white; 
- overflow: hidden;
+
 }
 
 #tagsPool {
@@ -102,10 +96,3 @@
    
 }
 
-#tagsLabel {
-   float: left;
-   color: #6B9BB3;
-   margin-right: 10px;
-   margin-left: 20px;
-   margin-top: 8px; /*This is for vertical alignment*/
-}

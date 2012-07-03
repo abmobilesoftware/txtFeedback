@@ -15,13 +15,13 @@ namespace SmsFeedback_Take4.Controllers
        private EFInteraction mEFInterface = new EFInteraction();
        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-       private ISmsSourceRepository mSmsRepository;
-       private ISmsSourceRepository SMSRepository
+       private AggregateSmsRepository mSmsRepository;
+       private AggregateSmsRepository SMSRepository
        {
           get
           {
              if (mSmsRepository == null)
-                mSmsRepository = new FacadeSMSRepository(User.Identity.Name);
+                mSmsRepository = AggregateSmsRepository.GetInstance(User.Identity.Name);
              return mSmsRepository;
           }
        }

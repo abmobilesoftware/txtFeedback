@@ -97,14 +97,30 @@
       });
    </script>  
    <div id="filtersStrip">
-      <div class="grid_2 filterStripElement"></div>
-      <div class="grid_4 filterStripElement"></div>
+      <div class="grid_2 filterStripElement">
+         <div id="starredLabel" class="filterLabel">
+            <img id="includeStarredInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected" src="<%: Url.Content("~/Content/images/transparent.gif") %>"/>	
+            <span style="vertical-align: middle"> <%: Resources.Global.starredLabel %></span>
+         </div>
+      </div>
+      <div class="grid_4 filterStripElement">
+         <div>
+         <div id="dateLabel" class="filterLabel">
+            <img id="includeDateInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected" src="<%: Url.Content("~/Content/images/transparent.gif") %>"/>	
+            <span style="vertical-align: middle"> <%: Resources.Global.dateLabel %></span>
+         </div>
+         <div id="datePickersArea">
+            <input type="dateTimePicker" id="startDateTimePicker" class="filterDate filterInputBox" value="<%: Resources.Global.fromDate %>"> </input>
+            <input type="dateTimePicker" id="endDateTimePicker" class="filterDate filterInputBox" value="<%: Resources.Global.toDate %>"> </input>
+         </div>
+         </div>
+      </div>
       <div class="grid_6 filterStripElement tagFilterArea">
-         <div id="tagsLabel">
+         <div id="tagsLabel" class="filterLabel">
           <img id="includeTagsInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected" src="<%: Url.Content("~/Content/images/transparent.gif") %>"/>	
           <span style="vertical-align: middle"> <%: Resources.Global.tagsLabel %></span>
          </div>
-         <div id="tagFiltering">
+         <div id="tagFiltering" class="filterInputBox">
              <input name="filterTag" id="filterTag" />
          </div>
       </div>
