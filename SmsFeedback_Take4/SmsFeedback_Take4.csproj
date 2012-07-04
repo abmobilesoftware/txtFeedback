@@ -167,6 +167,7 @@
     <Compile Include="Models\BusinessObjects\ConversationTag.cs" />
     <Compile Include="Models\Interfaces\ISMSRepository.cs" />
     <Compile Include="Models\Interfaces\IInternalSMSRepository.cs" />
+    <Compile Include="Models\Repositories\EFContext.cs" />
     <Compile Include="Models\Repositories\EFSmsRepository.cs" />
     <Compile Include="Models\Repositories\FacadeSMSRepository.cs" />
     <Compile Include="Models\Interfaces\IExternalSmsRepository.cs" />

@@ -9,17 +9,7 @@
           <EntitySet Name="Companies" EntityType="smsfeedbackModel.Store.Companies" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Conversations" EntityType="smsfeedbackModel.Store.Conversations" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ConversationTags" EntityType="smsfeedbackModel.Store.ConversationTags" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Messages" EntityType="smsfeedbackModel.Store.Messages" store:Type="Tables" store:Schema="dbo" store:Name="Messages">
-            <DefiningQuery>SELECT 
-      [Messages].[Id] AS [Id], 
-      [Messages].[From] AS [From], 
-      [Messages].[To] AS [To], 
-      [Messages].[Text] AS [Text], 
-      [Messages].[TimeReceived] AS [TimeReceived], 
-      [Messages].[Read] AS [Read], 
-      [Messages].[ConversationId] AS [ConversationId]
-      FROM [dbo].[Messages] AS [Messages]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="Messages" EntityType="smsfeedbackModel.Store.Messages" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Roles" EntityType="smsfeedbackModel.Store.Roles" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Tags" EntityType="smsfeedbackModel.Store.Tags" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Users" EntityType="smsfeedbackModel.Store.Users" store:Type="Tables" Schema="dbo" />
@@ -91,6 +81,7 @@
           <Property Name="From" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Starred" Type="bit" Nullable="false" />
           <Property Name="WorkingPoint_Id" Type="int" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="ConversationTags">
           <Key>
@@ -102,18 +93,9 @@
           <Property Name="Tags_Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Tags_CompanyName" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'sms_feedback_2.dbo.Messages' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
         <EntityType Name="Messages">
           <Key>
             <PropertyRef Name="Id" />
-            
-            
-            
-            
-            
-            
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="From" Type="nvarchar" Nullable="false" MaxLength="30" />
@@ -379,6 +361,7 @@
           <Property Type="Boolean" Name="Starred" Nullable="false" />
           <NavigationProperty Name="WorkingPoint" Relationship="smsfeedbackModel.WorkingPointConversation" FromRole="Conversation" ToRole="WorkingPoint" />
           <NavigationProperty Name="Messages" Relationship="smsfeedbackModel.ConversationMessage" FromRole="Conversation" ToRole="Message" />
+          <Property Type="DateTime" Name="StartTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -533,7 +516,8 @@
     <EntitySetMapping Name="Conversations">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Conversation)">
         <MappingFragment StoreEntitySet="Conversations">
-          <ScalarProperty Name="ConvId" ColumnName="ConvId" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="ConvId" ColumnName="ConvId" />
           <ScalarProperty Name="Text" ColumnName="Text" />
           <ScalarProperty Name="Read" ColumnName="Read" />
           <ScalarProperty Name="TimeUpdated" ColumnName="TimeUpdated" />

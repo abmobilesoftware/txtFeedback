@@ -458,7 +458,8 @@ namespace SmsFeedback_EFModels
         /// <param name="timeUpdated">Initial value of the TimeUpdated property.</param>
         /// <param name="from">Initial value of the From property.</param>
         /// <param name="starred">Initial value of the Starred property.</param>
-        public static Conversation CreateConversation(global::System.String convId, global::System.String text, global::System.Boolean read, global::System.DateTime timeUpdated, global::System.String from, global::System.Boolean starred)
+        /// <param name="startTime">Initial value of the StartTime property.</param>
+        public static Conversation CreateConversation(global::System.String convId, global::System.String text, global::System.Boolean read, global::System.DateTime timeUpdated, global::System.String from, global::System.Boolean starred, global::System.DateTime startTime)
         {
             Conversation conversation = new Conversation();
             conversation.ConvId = convId;
@@ -467,6 +468,7 @@ namespace SmsFeedback_EFModels
             conversation.TimeUpdated = timeUpdated;
             conversation.From = from;
             conversation.Starred = starred;
+            conversation.StartTime = startTime;
             return conversation;
         }
 
@@ -620,6 +622,30 @@ namespace SmsFeedback_EFModels
         private global::System.Boolean _Starred;
         partial void OnStarredChanging(global::System.Boolean value);
         partial void OnStarredChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime StartTime
+        {
+            get
+            {
+                return _StartTime;
+            }
+            set
+            {
+                OnStartTimeChanging(value);
+                ReportPropertyChanging("StartTime");
+                _StartTime = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("StartTime");
+                OnStartTimeChanged();
+            }
+        }
+        private global::System.DateTime _StartTime;
+        partial void OnStartTimeChanging(global::System.DateTime value);
+        partial void OnStartTimeChanged();
 
         #endregion
 

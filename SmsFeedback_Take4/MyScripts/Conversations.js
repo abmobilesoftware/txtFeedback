@@ -133,12 +133,27 @@ function ConversationArea(filterArea, workingPointsArea) {
           //reset the cummulative skip because we start with a "fresh" view
           cummulativeSkip = defaultNrOfConversationsToDisplay;
 
+          var startDate, endDate;
+          if (this.filters.dateFilteringEnabled) {
+             startDate = this.filters.startDate;
+             endDate = this.filters.endDate;
+          }
+          
           var top = defaultNrOfConversationsToDisplay;
           var skip = 0;
           this.convsList.fetch({
-             data: { "showAll": true, "showFavourites": showFavorites, "tags": selectedTags, "workingPointsNumbers": workingPointsNumbers, "skip": skip, "top": top },
+             data: {
+                "showAll": true,
+                "showFavourites": showFavorites,
+                "tags": selectedTags,
+                "workingPointsNumbers": workingPointsNumbers,
+                "startDate" : startDate,
+                "endDate" : endDate,
+                "skip": skip,
+                "top": top
+             },
              traditional: true,
-             success: function () {
+             success: function (data) {               
                 spinner.stop();
              }
           });

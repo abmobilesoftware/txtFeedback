@@ -7,97 +7,116 @@ using SmsFeedback_Take4.Utilities;
 
 namespace SmsFeedback_Take4.Models
 {
-   public class EFSmsRepository : SmsFeedback_Take4.Models.IInternalSMSRepository 
+   public class EFSmsRepository : SmsFeedback_Take4.Models.IInternalSMSRepository
    {
-      private smsfeedbackEntities mContext = new smsfeedbackEntities();
+      private smsfeedbackEntities mContext = SmsFeedback_Take4.Models.Repositories.EFContext.GetEFContext();
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
       public IEnumerable<SmsMessage> GetConversationsForNumber(bool showAll,
                                                                bool showFavourites,
                                                                string[] tags,
                                                                string workingPointsNumber,
+                                                               DateTime? startDate,
+                                                               DateTime? endDate,
                                                                int skip,
                                                                int top,
                                                                DateTime? lastUpdate,
                                                                String userName)
-{
+      {
          //here we don't aplly skip or load, as they will be applied on the merged list
-         //TODO add filtering
-         logger.Info("Call made");         
-         string consistentWP = ConversationUtilities.RemovePrefixFromNumber(workingPointsNumber);
+         logger.Info("Call made");
+         //the strongest filter first
+         //1.favourites
+         //2.startDate
+         //3.endDate
+         //4.tags    
+         //since we only give as input the dd/mm/yy we make sure that the comparison date is the lowest/highest possible
+         DateTime? earliestStartDate = null;
+         DateTime? latestEndDate = null;
+         if (startDate.HasValue)
+         {
+            var oldVal = startDate.Value;
+            earliestStartDate = new DateTime(oldVal.Year, oldVal.Month, oldVal.Day, 0, 0, 0);
+         }
+         if (endDate.HasValue)
+         {
+            var oldVal = endDate.Value;
+            latestEndDate = new DateTime(oldVal.Year, oldVal.Month, oldVal.Day, 23, 59, 59);
+         }
          IQueryable<IEnumerable<SmsMessage>> convs = null;
-         if (showFavourites)         {
-            if (tags != null && tags.Count() != 0)
-            {
-               var company = (from u in mContext.Users where u.UserName == userName select u.Company).First();
-               convs = from wp in mContext.WorkingPoints
-                       where wp.TelNumber == consistentWP
-                       select (from c in wp.Conversations
-                               where (c.Starred == true) && (!tags.Except(c.Tags.Select(tag => tag.Name)).Any())
-                               //where c.Tags.Contains(filterTags.First())
-                               orderby c.TimeUpdated descending
-                               select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
-            }
-            else
-            {
-               convs = from wp in mContext.WorkingPoints
-                       where wp.TelNumber == consistentWP
-                       select (from c in wp.Conversations where (c.Starred == true)
-                               orderby c.TimeUpdated descending
-                               select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
-            }
+         string consistentWP = ConversationUtilities.RemovePrefixFromNumber(workingPointsNumber);
+         if (tags != null && tags.Count() != 0)
+         {
+            convs = from wp in mContext.WorkingPoints
+                    where wp.TelNumber == consistentWP
+                    select (from c in wp.Conversations
+                            where (showFavourites ? c.Starred == true : true) &&
+                            (earliestStartDate.HasValue ? c.StartTime >= earliestStartDate.Value : true) &&
+                            (latestEndDate.HasValue ? c.TimeUpdated <= latestEndDate.Value : true) &&
+                            !tags.Except(c.Tags.Select(tag => tag.Name)).Any()
+                            orderby c.TimeUpdated descending
+                            select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
          }
-         else {
-            if (tags != null && tags.Count() != 0)
-            {
-               var company = (from u in mContext.Users where u.UserName == userName select u.Company).First();
-               convs = from wp in mContext.WorkingPoints
-                       where wp.TelNumber == consistentWP
-                       select (from c in wp.Conversations
-                               where !tags.Except(c.Tags.Select(tag => tag.Name)).Any()
-                               //where c.Tags.Contains(filterTags.First())
-                               orderby c.TimeUpdated descending
-                               select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
-            }
-            else
-            {
-               convs = from wp in mContext.WorkingPoints
-                       where wp.TelNumber == consistentWP
-                       select (from c in wp.Conversations
-                               orderby c.TimeUpdated descending
-                               select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
-            }
+         else
+         {
+            convs = from wp in mContext.WorkingPoints
+                    where wp.TelNumber == consistentWP
+                    select (from c in wp.Conversations
+                            where (showFavourites ? c.Starred == true : true) &&
+                            (earliestStartDate.HasValue ? c.StartTime >= earliestStartDate.Value : true) &&
+                            (latestEndDate.HasValue ? c.TimeUpdated <= latestEndDate.Value : true)
+                            orderby c.TimeUpdated descending
+                            select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId }));
          }
-         
-         
-         
-          var  conversations = convs.First().AsQueryable();         
-         logger.InfoFormat("Records returned from EF db: {0}", conversations.Count());
-         return conversations;
+         if (convs != null && convs.Count() > 0)
+         {
+            var conversations = convs.First().AsQueryable();
+            logger.InfoFormat("Records returned from EF db: {0}", conversations.Count());
+            return conversations;
+         }
+         else
+         {
+            logger.InfoFormat("No records returned from db for nr: {0}", workingPointsNumber);
+            return null;
+         }
       }
       public IEnumerable<SmsMessage> GetConversationsForNumbers(bool showAll,
                                                                 bool showFavourites,
                                                                 string[] tags,
                                                                 string[] workingPointsNumbers,
+                                                                DateTime? startDate,
+                                                                DateTime? endDate,
                                                                 int skip,
                                                                 int top,
                                                                 DateTime? lastUpdate,
                                                                 String userName)
-      {         
+      {
          //TODO we could have a performance penalty for not applying top and skip
          logger.Info("Call made");
          IEnumerable<SmsMessage> results = null;
          foreach (var wp in workingPointsNumbers)
-         {            
-            var conversations = GetConversationsForNumber(showAll,showFavourites,tags,wp,skip,top,lastUpdate,userName);                         
-            if (results == null) results = conversations;
-            //merge all the results 
-            results = results.Union(conversations);
+         {
+            var conversations = GetConversationsForNumber(showAll, showFavourites, tags, wp, startDate, endDate, skip, top, lastUpdate, userName);
+            if (conversations != null)
+            {
+               if (results == null) results = conversations;
+               //merge all the results 
+               results = results.Union(conversations);
+            }
+
          }
          //order then descending by TimeReceived
-         results = results.OrderByDescending(record => record.TimeReceived);
-         logger.InfoFormat("Records returned from EF db: {0}", results != null ? results.Count() : 0);
-         return results.Skip(skip).Take(top);
+         if (results != null)
+         {
+            results = results.OrderByDescending(record => record.TimeReceived);
+            logger.InfoFormat("Records returned from EF db: {0}", results != null ? results.Count() : 0);
+            return results.Skip(skip).Take(top);
+         }
+         else
+         {
+            logger.Info("No records for numbers returned from db");
+            return null;
+         }
       }
 
       //public IEnumerable<SmsMessage> GetMessagesForConversation(string convID)
@@ -113,29 +132,31 @@ namespace SmsFeedback_Take4.Models
       //      return null;
       //   }
       //}
-      
+
 
       public IEnumerable<WorkingPoint> GetWorkingPointsPerUser(string userName)
       {
          //get logged in user
          //var userID = new Guid("fca4bd52-b855-440d-9611-312708b14c2f");
-         var workingPoints = from u in mContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select new WorkingPoint() {TelNumber = wp.TelNumber, Name=wp.Name, Description=wp.Description });
+         var workingPoints = from u in mContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select new WorkingPoint() { TelNumber = wp.TelNumber, Name = wp.Name, Description = wp.Description });
          if (workingPoints.Count() >= 0)
             return workingPoints.First();
          else return null;
       }
 
-      public Dictionary<string, SmsMessage> GetLatestConversationForNumbers(string[] workingPointNumbers)
+      public Dictionary<string, SmsMessage> GetLatestConversationForNumbers(string[] workingPointNumbers, string userName)
       {
          logger.Info("Call made");
          Dictionary<string, SmsMessage> res = new Dictionary<string, SmsMessage>();
-         foreach(string wp in workingPointNumbers)
-         {            
-            var conversations = GetConversationsForNumber(true, false, null, wp, 0, 1, null, string.Empty);          
-            if (conversations.Count() > 0) {
+         foreach (string wp in workingPointNumbers)
+         {
+            var conversations = GetConversationsForNumber(true, false, null, wp, null, null, 0, 1, null, userName);
+            if (conversations != null && conversations.Count() > 0)
+            {
                res.Add(wp, conversations.First());
             }
-            else {
+            else
+            {
                res.Add(wp, null);
             }
          }
@@ -148,7 +169,7 @@ namespace SmsFeedback_Take4.Models
          var res = from conv in mContext.Conversations
                    where conv.ConvId == convID
                    select (from tag in conv.Tags
-                           select new ConversationTag() { CompanyName= tag.CompanyName, Name = tag.Name, Description = tag.Description });
+                           select new ConversationTag() { CompanyName = tag.CompanyName, Name = tag.Name, Description = tag.Description });
          if (res != null && res.Count() > 0)
          {
             return res.First();

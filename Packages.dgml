@@ -1,12 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
+    <Node Id="TxtFeedback_tests" Label="TxtFeedback_tests" Category="Project" />
+    <Node Id="NUnit 2.6.0.12054" Label="NUnit 2.6.0.12054" Category="Package" />
     <Node Id="SmsFeedback_EFModels" Label="SmsFeedback_EFModels" Category="Project" />
     <Node Id="System.Web.Providers.Core 1.0" Label="System.Web.Providers.Core 1.0" Category="Package" />
     <Node Id="SmsFeedback_Take4" Label="SmsFeedback_Take4" Category="Project" />
     <Node Id="JWT 1.2" Label="JWT 1.2" Category="Package" />
     <Node Id="MvcMailer 1.1" Label="MvcMailer 1.1" Category="Package" />
-    <Node Id="Newtonsoft.Json 4.5.6" Label="Newtonsoft.Json 4.5.6" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.5.7" Label="Newtonsoft.Json 4.5.7" Category="Package" />
     <Node Id="RestSharp 103.1" Label="RestSharp 103.1" Category="Package" />
     <Node Id="System.Web.Providers 1.1" Label="System.Web.Providers 1.1" Category="Package" />
     <Node Id="System.Web.Providers.Core 1.0" Label="System.Web.Providers.Core 1.0" Category="Package" />
@@ -16,9 +18,10 @@
     <Node Id="TwilioSharpMVC 1.0" Label="TwilioSharpMVC 1.0" Category="Package" />
   </Nodes>
   <Links>
+    <Link Source="TxtFeedback_tests" Target="NUnit 2.6.0.12054" Category="Installed Package" />
     <Link Source="SmsFeedback_EFModels" Target="System.Web.Providers.Core 1.0" Category="Installed Package" />
     <Link Source="System.Web.Providers 1.1" Target="System.Web.Providers.Core 1.0" Category="Package Dependency" />
-    <Link Source="Twilio 3.4.2" Target="Newtonsoft.Json 4.5.6" Category="Package Dependency" />
+    <Link Source="Twilio 3.4.2" Target="Newtonsoft.Json 4.5.7" Category="Package Dependency" />
     <Link Source="Twilio 3.4.2" Target="RestSharp 103.1" Category="Package Dependency" />
     <Link Source="Twilio.Client 3.4.1" Target="JWT 1.2" Category="Package Dependency" />
     <Link Source="TwilioSharpMVC 1.0" Target="TwilioSharpCore 1.0" Category="Package Dependency" />

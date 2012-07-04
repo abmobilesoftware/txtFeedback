@@ -8,8 +8,7 @@ namespace SmsFeedback_Take4.Models
    public class SmsMessage
    {
       public SmsMessage()
-      {
-
+      {         
       }
 
       public SmsMessage(int id, string from, string to, string text, DateTime timeReceived, bool readStatus, string convID)

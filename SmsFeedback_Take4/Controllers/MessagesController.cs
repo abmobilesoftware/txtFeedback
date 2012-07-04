@@ -15,7 +15,7 @@ namespace SmsFeedback_Take4.Controllers
     public class MessagesController : BaseController
    {
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-      private smsfeedbackEntities mContext = new smsfeedbackEntities();
+      private smsfeedbackEntities mContext = SmsFeedback_Take4.Models.Repositories.EFContext.GetEFContext();
 
       private AggregateSmsRepository mSmsRepository;
       private AggregateSmsRepository SMSRepository
@@ -106,6 +106,8 @@ namespace SmsFeedback_Take4.Controllers
                                             bool showFavourites,
                                             string[] tags,
                                             string[] workingPointsNumbers,
+                                            DateTime? startDate,
+                                            DateTime? endDate,
                                             int skip,
                                             int top)
       {
@@ -144,8 +146,10 @@ namespace SmsFeedback_Take4.Controllers
                                         top));
             if (HttpContext.Request.IsAjaxRequest())
             {               
-               var userId = User.Identity.Name;               
-               var conversations = SMSRepository.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers, skip, top, null, userId);
+               var userId = User.Identity.Name;
+               if (!startDate.HasValue || startDate.Value.Date == DateTime.Now.Date) startDate = null;
+               if (!endDate.HasValue || endDate.Value.Date == DateTime.Now.Date) endDate = null;
+               var conversations = SMSRepository.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers,startDate,endDate, skip, top, null, userId);
                //System.Threading.Thread.Sleep(1000);
                return Json(conversations, JsonRequestBehavior.AllowGet);
             }

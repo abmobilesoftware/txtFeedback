@@ -40,7 +40,16 @@ namespace SmsFeedback_Take4.Models
          return _instance;
       }
 #endregion
-      public IEnumerable<SmsMessage> GetConversationsForNumbers(bool showAll, bool showFavourites, string[] tags, string[] workingPointsNumbers, int skip, int top, DateTime? lastUpdate, String userName)
+      public IEnumerable<SmsMessage> GetConversationsForNumbers(bool showAll, 
+                                                                  bool showFavourites, 
+                                                                  string[] tags,
+                                                                  string[] workingPointsNumbers,
+                                                                  DateTime? startDate,
+                                                                  DateTime? endDate,
+                                                                  int skip,
+                                                                  int top,
+                                                                  DateTime? lastUpdate,
+                                                                  String userName)
       { 
          //the convention is that if workingPoints number is empty then we retrieve all the conversations
          if (workingPointsNumbers == null)
@@ -61,7 +70,7 @@ namespace SmsFeedback_Take4.Models
 
                //TODO check if we have access to the given numbers to avoid a security breach
                //first update our db with the latest from twilio (nexmo) then do our conditional select
-               Dictionary<string, SmsMessage> lastConversations = mEFRep.GetLatestConversationForNumbers(workingPointsNumbers);
+               Dictionary<string, SmsMessage> lastConversations = mEFRep.GetLatestConversationForNumbers(workingPointsNumbers, userName);
                foreach (var item in lastConversations)
                {
                   //TODO decide how to combine the results for more numbers
@@ -83,7 +92,7 @@ namespace SmsFeedback_Take4.Models
                      AddTwilioConversationsToDb(twilioConversationsForNumbers);
                   }
                }
-               IEnumerable<SmsMessage> efConversationsForNumbers = mEFRep.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers, skip, top, lastUpdate, userName);
+               IEnumerable<SmsMessage> efConversationsForNumbers = mEFRep.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers,startDate,endDate, skip, top, lastUpdate, userName);
                return efConversationsForNumbers;           
          }
          catch (Exception ex)

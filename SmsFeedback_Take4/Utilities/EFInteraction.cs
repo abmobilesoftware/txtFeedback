@@ -10,7 +10,7 @@ namespace SmsFeedback_Take4.Utilities
    public class EFInteraction
    {
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-      private smsfeedbackEntities mContext = new smsfeedbackEntities();
+      private smsfeedbackEntities mContext = SmsFeedback_Take4.Models.Repositories.EFContext.GetEFContext();
       public const string CONVERSATION_NOT_MODIFIED = "invalidConvId";      
       public EFInteraction()
       {
