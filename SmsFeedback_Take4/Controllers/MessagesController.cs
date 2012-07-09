@@ -106,8 +106,8 @@ namespace SmsFeedback_Take4.Controllers
                                             bool showFavourites,
                                             string[] tags,
                                             string[] workingPointsNumbers,
-                                            DateTime? startDate,
-                                            DateTime? endDate,
+                                            string startDate,
+                                            string endDate,
                                             int skip,
                                             int top)
       {
@@ -147,10 +147,23 @@ namespace SmsFeedback_Take4.Controllers
             if (HttpContext.Request.IsAjaxRequest())
             {               
                var userId = User.Identity.Name;
-               if (!startDate.HasValue || startDate.Value.Date == DateTime.Now.Date) startDate = null;
-               if (!endDate.HasValue || endDate.Value.Date == DateTime.Now.Date) endDate = null;
-               var conversations = SMSRepository.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers,startDate,endDate, skip, top, null, userId);
-               //System.Threading.Thread.Sleep(1000);
+               //we get the dates as strings so it is up to us to convert them to dates
+               DateTime? startDateAsDate = null;
+               DateTime? endDateAsDate = null;
+               if (!String.IsNullOrEmpty(startDate) && !startDate.Equals("null"))
+               {
+                  //dateFormatForDatePicker = "dd-mm-yy";
+                  var dateInfo = startDate.Split('-');                  
+                  startDateAsDate = new DateTime(Int32.Parse(dateInfo[2]), Int32.Parse(dateInfo[1]), Int32.Parse(dateInfo[0]));
+                  if (startDateAsDate.Value.Date == DateTime.Now.Date) startDateAsDate = null;
+               }
+               if (!String.IsNullOrEmpty(endDate) && !endDate.Equals("null")) 
+               {
+                  var dateInfo = endDate.Split('-');                  
+                  endDateAsDate = new DateTime(Int32.Parse(dateInfo[2]), Int32.Parse(dateInfo[1]), Int32.Parse(dateInfo[0]));
+                  if (endDateAsDate.Value.Date == DateTime.Now.Date) endDateAsDate = null;
+               }
+               var conversations = SMSRepository.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers, startDateAsDate, endDateAsDate, skip, top, null, userId);
                return Json(conversations, JsonRequestBehavior.AllowGet);
             }
          }
@@ -159,24 +172,6 @@ namespace SmsFeedback_Take4.Controllers
             logger.Error("Error occurred in ConversationsList", ex);
          }
          return null;
-      }
-
-      private IQueryable GetConversationsFromDb(bool showAll,
-                                               bool showFavourites,
-                                               string[] tags,
-                                               string[] workingPointsNumbers,
-                                               int skip,
-                                               int top)
-      {
-         IQueryable conversations;
-         if (showAll)
-            conversations = (from c in mContext.Conversations orderby c.TimeUpdated descending select new { ConvID = c.ConvId, TimeUpdated = c.TimeUpdated, Read = c.Read, Text = c.Text, From = c.From }).Skip(skip).Take(top);
-         else
-         {
-            //filter according to numbers
-            conversations = (from c in mContext.Conversations orderby c.TimeUpdated descending select new { ConvID = c.ConvId, TimeUpdated = c.TimeUpdated, Read = c.Read, Text = c.Text, From = c.From }).Skip(skip).Take(top);
-         }
-         return conversations;
       }
 
       public ActionResult MessageReceived(String from, String to, String text, DateTime receivedTime, bool readStatus)

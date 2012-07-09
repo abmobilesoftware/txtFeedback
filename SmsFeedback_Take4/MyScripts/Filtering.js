@@ -1,5 +1,5 @@
 ﻿"use strict";
-
+var dateFormatForDatePicker = 'dd-mm-yy';
 function FilterArea() {
    var self = this;
    $("#filterTag").tagsInput({
@@ -45,33 +45,68 @@ function FilterArea() {
       }
    });
 
+   
    //TODO add option to specify which language to use (according to selected language)
-   var startDatePicker =   $("#startDateTimePicker");
-   startDatePicker.datepicker({ currentText: "Now", dateFormat: "dd-mm-yy", showButtonPanel: true });   
-   this.defaultStartDate = $.datepicker.formatDate('yy-mm-dd', startDatePicker.datepicker("getDate"));
-   var endDatePicker  = $("#endDateTimePicker");
-   endDatePicker.datepicker({ dateFormat: "dd-mm-yy" });
-   this.defaultEndDate = $.datepicker.formatDate('yy-mm-dd',endDatePicker.datepicker("getDate"));
+   var startDatePicker = $("#startDateTimePicker");
+   this.previousStartDate = $.datepicker.formatDate(dateFormatForDatePicker, startDatePicker.datepicker("getDate"))
+   startDatePicker.datepicker({
+      dateFormat: dateFormatForDatePicker,
+      onClose: function (dateText, inst) {
+         //compare the new value with the previous value
+         //if changed and date filtering is checked, trigger refreshConversationList
+         if (self.previousStartDate !== dateText)
+         {
+            //the date has been modified
+            self.previousStartDate = dateText;
+            self.startDate = dateText;
+            if (self.dateFilteringEnabled) {
+               $(document).trigger('refreshConversationList');
+            }
+         }
+         
+      }
+   });
+   this.defaultStartDate = $.datepicker.formatDate(dateFormatForDatePicker, startDatePicker.datepicker("getDate"));
+   var endDatePicker = $("#endDateTimePicker");
+   this.previousEndDate = $.datepicker.formatDate(dateFormatForDatePicker, endDatePicker.datepicker("getDate"))
+   endDatePicker.datepicker({
+      dateFormat: dateFormatForDatePicker,
+      onClose: function (dateText, inst) {
+         //compare the new value with the previous value
+         //if changed and date filtering is checked, trigger refreshConversationList
+         if (self.previousEndDate !== dateText) {
+            //the date has been modified
+            self.previousEndDate = dateText;
+            self.endDate = dateText;
+            if (self.dateFilteringEnabled) {
+               $(document).trigger('refreshConversationList');
+            }
+         }
+
+      }
+   });
+   this.defaultEndDate = $.datepicker.formatDate(dateFormatForDatePicker,endDatePicker.datepicker("getDate"));
    this.dateFilteringEnabled = false;
 
    this.startDate = null;
    this.endDate = null;
    $("#includeDateInFilter").bind('click', function () {
       //set internal state
-      if (self.dateFilteringEnabled) {
-         self.dateFilteringEnabled = false;
-      }
-      else {
-         self.dateFilteringEnabled = true;
-      }
+      self.dateFilteringEnabled = !self.dateFilteringEnabled;
+      //if (self.dateFilteringEnabled) {
+      //   self.dateFilteringEnabled = false;
+      //}
+      //else {
+      //   self.dateFilteringEnabled = true;
+      //}
       //change checkbox state
       setCheckboxState($(this), self.dateFilteringEnabled);
 
       //get the values for start/end date
       var startDatePicker = $("#startDateTimePicker");
-      var newStartDate = $.datepicker.formatDate('yy-mm-dd', startDatePicker.datepicker("getDate"));
+      var newStartDate = $.datepicker.formatDate(dateFormatForDatePicker, startDatePicker.datepicker("getDate"));
       var endDatePicker = $("#endDateTimePicker");
-      var newEndDate = $.datepicker.formatDate('yy-mm-dd', endDatePicker.datepicker("getDate"));
+      var newEndDate = $.datepicker.formatDate(dateFormatForDatePicker, endDatePicker.datepicker("getDate"));
       //trigger filtering if required
       if (self.defaultStartDate !== newStartDate || self.defaultEndDate !== newEndDate) {
          self.startDate = newStartDate;

@@ -95,7 +95,16 @@ namespace SmsFeedback_Take4.Models
          //the lastUpdate parameter will be used by default with the = operator. I need the >= parameter.
          SmsMessageResult res = twilio.ListSmsMessages(toNumber, "", lastUpdate, ComparisonType.GreaterThanOrEqualTo, null, null);
          //twilio.ListSmsMessages(
-         var result = from c in res.SMSMessages orderby c.DateSent descending select  new SmsMessage(){Id=c.Sid.GetHashCode(),From= c.From, To= c.To, Text= c.Body, TimeReceived= c.DateSent,Read=false,ConvID=Utilities.ConversationUtilities.BuildConversationIDFromFromAndTo(c.From,c.To) };
+         var result = from c in res.SMSMessages orderby c.DateSent descending select  
+                         new SmsMessage(){
+                            Id=c.Sid.GetHashCode(),
+                            From= c.From, 
+                            To= c.To, 
+                            Text= c.Body, 
+                            TimeReceived= c.DateSent,
+                            Read=false,
+                            ConvID=Utilities.ConversationUtilities.BuildConversationIDFromFromAndTo(c.From,c.To) ,                            
+                         };
          var ret = result.Distinct(new ConversationsComparer());
          logger.InfoFormat("Records returned by Twilio: {0}", ret.Count());
          return ret;

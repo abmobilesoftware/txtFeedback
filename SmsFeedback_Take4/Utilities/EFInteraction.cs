@@ -78,6 +78,7 @@ namespace SmsFeedback_Take4.Utilities
                {
                   var wpId = workingPointIDs.First();
                   //add the conversation and give back the id
+                  //if we add a new conversation then we the start time will be the update time of the first message
                   mContext.Conversations.AddObject(new Conversation
                   {
                      ConvId = conversationId,
@@ -85,7 +86,8 @@ namespace SmsFeedback_Take4.Utilities
                      Read = readStatus,
                      TimeUpdated = updateTime.Value,
                      From = from,
-                     WorkingPoint = wpId
+                     WorkingPoint = wpId,
+                     StartTime = updateTime.Value
                   });
                   mContext.SaveChanges();
                   //now get the id of the added conversation
