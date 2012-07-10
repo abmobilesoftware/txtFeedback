@@ -28,5 +28,6 @@ namespace SmsFeedback_Take4.Models
       public DateTime TimeReceived { get; set; }
       public bool Read { get; set; }
       public string ConvID { get; set; }
+      public bool Starred { get; set; }
    }
 }

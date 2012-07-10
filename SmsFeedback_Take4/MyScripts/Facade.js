@@ -1,20 +1,20 @@
 ﻿"use strict";
 
 //the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
-var domainName = '/smsfeedback';
-//var domainName = '';
+//var domainName = '/smsfeedback';
+var domainName = '';
 
 function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
    console.log("inside newMessageReceived");
    //the conversations window expects that the toID be a "name" and not a telephone number
    convView.newMessageReceived(fromID, toId, convID, dateReceived, text);
-   msgView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
+   msgView.MessagesView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
 }
 
 function selectedWPsChanged(convView, msgView, checkedWorkingPoints) {
    console.log('selectedWPsChanged triggered');
    convView.getConversations(checkedWorkingPoints.checkedPhoneNumbers);
-   msgView.resetViewToDefault();
+   msgView.MessagesView.resetViewToDefault();
 }
 
 function refreshConversationList(convView, msgView) {
@@ -23,55 +23,51 @@ function refreshConversationList(convView, msgView) {
 }
 
 function InitializeGUI() {
+   var self = this;
    if (window.Prototype) {
       delete Object.prototype.toJSON;
       delete Array.prototype.toJSON;
       delete String.prototype.toJSON;
    }
    //initialize the filters area
-   var filterArea = new FilterArea();
+   this.filterArea = new FilterArea();
 
    //build the areas
-   var wpsArea = WorkingPointsArea();
-   var convView = ConversationArea(filterArea, wpsArea);
-   var tagsArea = TagsArea();
-   var msgView = MessagesArea(convView, tagsArea);
+   this.wpsArea = WorkingPointsArea();
+   this.convView = ConversationArea(self.filterArea, self.wpsArea);
+   this.tagsArea = TagsArea();
+   this.msgView = new MessagesArea(self.convView, self.tagsArea);
 
    //get the initial working points
-   wpsArea.getWorkingPoints();
+   this.wpsArea.getWorkingPoints();
    //get the initial conversations
-   convView.getConversations();
+   this.convView.getConversations();
 
    //the xmpp handler for new messages
-   var xmppHandler = CreateXMPPHandler(convView, msgView);
+   this.xmppHandler = CreateXMPPHandler(self.convView, self.msgView);
    $.getJSON('Xmpp/GetConnectionDetailsForLoggedInUser', function (data) {
-      xmppHandler.connect(data.XmppUser, data.XmppPassword);
+      self.xmppHandler.connect(data.XmppUser, data.XmppPassword);
    });
-
-
+   
    $(document).bind('msgReceived', function (ev, data) {
       $.getJSON('Messages/MessageReceived',
                     { from: data.fromID, to: data.toID, text: data.text, receivedTime: data.dateReceived, readStatus: data.readStatus },
                     function (data) {
                        //delivered successfully? if yes - indicate this
                        console.log(data);
-                    });
-      //we listen for all numbers so we have to filter what to show
-      _.each(checkedPhoneNumbers.models, function (wp) {
-         if (wp.get('CheckedStatus') === true && comparePhoneNumbers(wp.get('TelNumber'), data.toID)) {
-            //checkedPhoneNumbersArray.push(wp.get('TelNumber'));
-            newMessageReceivedGUI(convView, msgView, data.fromID, wp.get('Name'), data.convID, data.msgID, data.dateReceived, data.text);
-         }
-      });
-
+                    });      
+      //it's better to build the conversation id ourselves to avoid prefixes issues
+      var convId = buildConversationID(data.fromID, data.toID);
+      newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toId, convId, data.msgID, data.dateReceived, data.text, false);
+      //self.msgView.MessagesView.newMessageReceived(data.fromID, convId, data.msgID, data.dateReceived, data.text);
    });
 
    $(document).bind('selectedWPsChanged', function (ev, data) {
-      selectedWPsChanged(convView, msgView, data);
+      selectedWPsChanged(self.convView, self.msgView, data);
    });
 
    $(document).bind('refreshConversationList', function (ev, data) {
-      refreshConversationList(convView, msgView);
+      refreshConversationList(self.convView, self.msgView);
    });
 
    window.addEventListener("resize", resizeTriggered, false);

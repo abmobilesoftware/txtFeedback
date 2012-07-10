@@ -90,7 +90,7 @@ function getFromToFromConversation(convID) {
 }
 
 function buildConversationID(from, to) {
-    return from + "-" + to;
+   return cleanupPhoneNumber(from) + "-" + cleanupPhoneNumber(to);
 }
 
 function comparePhoneNumbers(phoneNumber1, phoneNumber2)

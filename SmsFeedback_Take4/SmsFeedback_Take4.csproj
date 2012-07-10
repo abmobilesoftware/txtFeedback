@@ -186,6 +186,7 @@
     <Compile Include="Utilities\CustomAuthorizeAtribute.cs" />
     <Compile Include="Utilities\EFInteraction.cs" />
     <Compile Include="Utilities\LinkHelper.cs" />
+    <Compile Include="Utilities\Rfc822Convertor.cs" />
     <Compile Include="Utilities\SwitchLanguageHelper.cs" />
     <Compile Include="Utilities\Utilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -205,6 +206,9 @@
     <Content Include="Content\images\exclamationMark.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\logo1.png" />
+    <Content Include="Content\images\mail.png" />
+    <Content Include="Content\images\star.svg" />
+    <Content Include="Content\images\star-selected.svg" />
     <Content Include="Content\images\transparent.gif" />
     <Content Include="Content\jquery.tagsinput.css" />
     <Content Include="Content\layout.css" />
@@ -366,7 +370,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>4631</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

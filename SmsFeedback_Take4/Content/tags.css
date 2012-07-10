@@ -96,3 +96,12 @@
    
 }
 
+.tag a {
+   color: #385D6E;
+   text-decoration: initial;
+}
+
+   .tag a:hover {
+   color: white;
+   text-decoration: initial;
+   }

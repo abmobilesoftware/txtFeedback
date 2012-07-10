@@ -61,12 +61,16 @@ div.textMessage {
 
 /*for toMessages we display the menu at their left*/
 .messageto div.extramenu {
-   left: -100px;
+   left: -60px;
+   top: 5px;
+   bottom: 5px;
 }
 
 /*for fromMessages we display the menu at their right*/
 .messagefrom div.extramenu {
-   right: -100px;
+   right: -60px;
+   top: 5px;
+   bottom: 5px;
 }
 
 div.extramenu {
@@ -77,14 +81,53 @@ div.extramenu {
    background-color: transparent;
    display: none;
    position: absolute;
-   top: 10px;
+   /*top: -5px;*/
+   /*bottom: -5px;*/
+   /*padding: 10px;*/
    /*visibility: hidden;*/
 }
 
+.arrowInnerLeft:after{ /*arrow added to leftarrowdiv DIV*/
+content:'';
+display:block;
+position:absolute;
+top:8px;
+left:-12px; /*should be set to -border-width x 2 */
+width:0;
+height:0;
+border-color: transparent #f7941d transparent transparent; /*border color should be same as div div background color*/
+border-style: solid;
+border-width: 6px;
+}
+
+.arrowInnerRight:after{ /*arrow added to rightarrowdiv DIV*/
+content:'';
+display:block;
+position:absolute;
+top:8px;
+left:100%; /*should be set to 100% */
+width:0;
+height:0;
+border-color: transparent transparent transparent #f7941d; /*border color should be same as div div background color*/
+border-style: solid;
+border-width: 6px;
+}
+
+div.innerExtraMenu {
+   padding: 0px;
+   border-radius: 3px;
+   -moz-border-radius: 3px;
+   -webkit-border-radius: 3px;
+   background: #f7941d; /* Old browsers */   
+}
 div.actionButtons {
    /*margin:  0px;*/
+   padding: 6.5px;
    float: right;
-}
+  }
+   div.actionButtons:hover {
+      cursor: pointer;
+   }
 
 #messagesbox .message {
    width: 75%;
@@ -108,14 +151,13 @@ div.actionButtons {
 #messagesbox .messagefrom {
    float: left;
    background: #00a4e4; /* Old browsers */
-background: -moz-linear-gradient(top,  #00a4e4 2%, #009de2 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,#00a4e4), color-stop(100%,#009de2)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top,  #00a4e4 2%,#009de2 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top,  #00a4e4 2%,#009de2 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top,  #00a4e4 2%,#009de2 100%); /* IE10+ */
-background: linear-gradient(top,  #00a4e4 2%,#009de2 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a4e4', endColorstr='#009de2',GradientType=0 ); /* IE6-9 */
-
+   background: -moz-linear-gradient(top, #00a4e4 2%, #009de2 100%); /* FF3.6+ */
+   background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,#00a4e4), color-stop(100%,#009de2)); /* Chrome,Safari4+ */
+   background: -webkit-linear-gradient(top, #00a4e4 2%,#009de2 100%); /* Chrome10+,Safari5.1+ */
+   background: -o-linear-gradient(top, #00a4e4 2%,#009de2 100%); /* Opera 11.10+ */
+   background: -ms-linear-gradient(top, #00a4e4 2%,#009de2 100%); /* IE10+ */
+   background: linear-gradient(top, #00a4e4 2%,#009de2 100%); /* W3C */
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a4e4', endColorstr='#009de2',GradientType=0 ); /* IE6-9 */
 }
 
 #messagesbox span {
@@ -132,7 +174,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a4e4', end
    border-top-width: 14px;
    bottom: -14px;
    right: auto;
-   left: 5%;
+   left: 20px;
    margin-left: -7px;
    position: absolute;
 }
@@ -142,8 +184,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a4e4', end
    border-right: 0;
    border-top-width: 14px;
    bottom: -14px;
-   right: auto;
-   left: 95%;
+   right: 20px;
+   left: auto;
    margin-left: -7px;
    position: absolute;
 }
@@ -181,14 +223,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a4e4', end
 #messagesbox .messageto {
    float: right;
    background: #92c942; /* Old browsers */
-background: -moz-linear-gradient(top,  #92c942 0%, #8ac53d 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#92c942), color-stop(100%,#8ac53d)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top,  #92c942 0%,#8ac53d 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top,  #92c942 0%,#8ac53d 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top,  #92c942 0%,#8ac53d 100%); /* IE10+ */
-background: linear-gradient(top,  #92c942 0%,#8ac53d 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#92c942', endColorstr='#8ac53d',GradientType=0 ); /* IE6-9 */
-
+   background: -moz-linear-gradient(top, #92c942 0%, #8ac53d 100%); /* FF3.6+ */
+   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#92c942), color-stop(100%,#8ac53d)); /* Chrome,Safari4+ */
+   background: -webkit-linear-gradient(top, #92c942 0%,#8ac53d 100%); /* Chrome10+,Safari5.1+ */
+   background: -o-linear-gradient(top, #92c942 0%,#8ac53d 100%); /* Opera 11.10+ */
+   background: -ms-linear-gradient(top, #92c942 0%,#8ac53d 100%); /* IE10+ */
+   background: linear-gradient(top, #92c942 0%,#8ac53d 100%); /* W3C */
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#92c942', endColorstr='#8ac53d',GradientType=0 ); /* IE6-9 */
 }
 
 #messagesbox .ui-selecting {
@@ -209,10 +250,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#92c942', end
    visibility: visible;
 }
 
-
-
 #inputTextContainer {
-   display: inline-block; 
+   display: inline-block;
    background-color: #DFE7EA;
    width: 100%;
    border-radius: 10px;
@@ -220,20 +259,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#92c942', end
    -webkit-border-radius: 10px;
 }
 
-#replyToMessageForm {
-   /*float: left;*/
-   /*width: 68%;*/   
-   /*padding-left: 20px;*/
-   /*background-color: yellow;*/
+#replyToMessageForm span {
+   float: right;
 }
-
-   #replyToMessageForm span {
-      float: right;
-   }
 
 #replyBtn {
    height: 65px;
-   width: 78px;   
+   width: 78px;
    background: rgb(146,200,65); /* Old browsers */
    background: -moz-radial-gradient(center, ellipse cover, rgb(146,200,65) 22%, rgb(128,175,58) 65%); /* FF3.6+ */
    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(22%,rgb(146,200,65)), color-stop(65%,rgb(128,175,58))); /* Chrome,Safari4+ */
@@ -252,9 +284,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#92c942', end
    cursor: pointer;
 }
 
-   #replyBtn:hover {
-      color: black;
-   }
+#replyBtn:hover {
+   color: black;
+}
 
 input[name="countdown"] {
    background-color: transparent;
@@ -264,7 +296,7 @@ input[name="countdown"] {
 }
 
 #limitedtextarea {
-   width: 100%;   
+   width: 100%;
    overflow: hidden;
    resize: none;
    color: #222;
@@ -289,34 +321,21 @@ input[name="countdown"] {
 }
 
 #textareaContainer {
-   margin-top:4px;
-   /*padding: 2px 2px 2px 2px;*/
+   margin-top: 4px;
    padding-left: 20px;
    padding-right: 108px;
-   /*display: inline-block;*/
-   /*width: 100%;*/  
 }
 
 #replyFormArea {
-   float:left;
+   float: left;
    position: relative;
-   /*background-color: rgba(0,0,255,0.8);*/
-  
    overflow: hidden;
-   width: 100%;   
+   width: 100%;
 }
 
 #replyButtonArea {
    margin-right: -168px;
    padding-left: 10px;
-   float:left;
-   position: relative;
-   /*background-color: #FECA40;*/
-   /*width: 78px;
-   min-width: 78px;
-   max-width: 78px;*/
-   /*height: 78px;
-   min-height: 78px;
-   max-height: 78px;*/
-   /*float: right;*/
+   float: left;
+   position: relative; 
 }

@@ -60,10 +60,7 @@
                 <div class="spanClassText rightSideMembers">
                     <span>{{ Text }}</span>
                 </div>
-            </div>        
-            <div class="exclamationcontainer">
-                <img class="images" src="<%: Url.Content("~/Content/images/exclamationMark.png") %>"/>
-            </div>            
+            </div>                         
         <div class="clear"></div>
    </script>
 
@@ -74,26 +71,25 @@
            <span class="timeReceived">{{ TimeReceived }} </span>
         </div>
         <div class="clear"></div>
-        <div class="extramenu" hoverID="{{ Id }}">
+      <div class="extramenu" hoverID="{{ Id }}">
+         <div class="innerExtraMenu">
             <div class="actionButtons">
-                <button id="markAsImportant" >Star</button>
+               <img class="favConversation" src="<%: Url.Content("~/Content/images/star.svg") %>" />                
             </div>
             <div class="actionButtons sendEmailButton">
-                <button id="sendEmail" >Email</button>                 
+               <img src="<%: Url.Content("~/Content/images/mail.png") %>" />
             </div>
-      <div class="clear"></div>
-            <div class="actionButtons">
-                <button id="copyText" >Copy</button>               
-            </div>
-            <div class="clear"></div>
-         </div>
-         <div class="arrow">
+         <div class="clear"></div>      
+                 
+         </div>               
+      </div>
+        <div class="arrow">
          <div class="arrowInner"> </div>
        </div>
    </script>
    <script type="text/javascript">
       $(function () {
-         InitializeGUI();
+        var newGUI = new InitializeGUI();
       });
    </script>  
    <div id="filtersStrip">

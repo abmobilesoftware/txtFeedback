@@ -11,7 +11,8 @@ function ConversationArea(filterArea, workingPointsArea) {
             Read: false,
             Text: "some data",
             From: "defaultNumber",
-            To: "defaultRecipient"
+            To: "defaultRecipient",
+            Starred: false
         },
         parse: function (data, xhc) {
             //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
@@ -108,7 +109,7 @@ function ConversationArea(filterArea, workingPointsArea) {
           this.selectedWorkingPoints = [];
           // this.convsList.change("change", this.updatedConversation, this);
           this.convsList.bind("remove", this.removeConversation, this);
-          $("#conversations").selectable();
+          //$("#conversations").selectable();
           // create an array of views to keep track of children
           this._convViews = [];
           //by default conversations are "new"
@@ -202,12 +203,22 @@ function ConversationArea(filterArea, workingPointsArea) {
              self.addConversationBasicEffect(conv);
           });
        },
-       addConversationWithEffect: function (conv, addConversationAsNewElement) {
+       addConversationWithEffect: function (conv, addConversationAsNewElement, newElementIsSelected) {
           if (addConversationAsNewElement === null) {
              addConversationAsNewElement = true;
           }
+          if (newElementIsSelected === null) {
+             newElementIsSelected = false;
+          }
           var item = this.addConversationNoEffect(conv, addConversationAsNewElement);
           var timer = 300;
+          //if the element that was updated was selected - reflect this on the new element
+          if (newElementIsSelected) {
+             $(item).addClass("ui-selected");
+             gSelectedElement = item;
+             resetTimer();
+             startTimer(3000);
+          }
           $(item).hide().fadeIn(timer).fadeOut(timer).fadeIn(timer).fadeOut(timer).fadeIn(timer).fadeOut(timer).fadeIn(timer);
        },
        addConversationBasicEffect: function (conv, addConversationAsNewElement) {
@@ -218,6 +229,7 @@ function ConversationArea(filterArea, workingPointsArea) {
           $(item).hide().fadeIn("slow");
        },
        addConversationNoEffect: function (conv, addConversationAsNewElement) {
+       
           var convView = new ConversationView({ model: conv });
           this._convViews.push(convView);
           var item = convView.render().el;
@@ -227,6 +239,7 @@ function ConversationArea(filterArea, workingPointsArea) {
           else {
              $(this.el).append(item);
           }
+       
           var self = this;
           conv.on("change", function (model) {
              self.updateConversation(model);
@@ -245,25 +258,26 @@ function ConversationArea(filterArea, workingPointsArea) {
           })[0];
           this._convViews = _(this._convViews).without(viewToRemove);
           if (this._rendered) {
+             var thisElementWasSelected = false;
+             if (gSelectedElement === viewToRemove.el) {
+                thisElementWasSelected = true;
+             }
              var elem = $(viewToRemove.el);
              elem.fadeOut("slow", function () {
                 elem.remove();
                 //make sure to clear any event handlers, so we don't handle the same event twice
                 conversation.off("change");
-                self.addConversationWithEffect(conversation,true);
+                self.addConversationWithEffect(conversation, true, thisElementWasSelected);
              });
           }
        },
        newMessageReceived: function (fromID, toID, convID, dateReceived, newText) {
-          //if the given conversation exists we update it, otherwise we create a new conversation
-          if (newText.length > 40) {
-             newText = newText.substring(0, 37) + '...';
-          } //make sure that we display max 40 characters
-
+          //if the given conversation exists we update it, otherwise we create a new conversation         
           var modelToUpdate = convView.convsList.get(convID);
-          if (modelToUpdate) {
-             //make sure that the text does not exceed 40 characters
+          if (modelToUpdate) {             
              modelToUpdate.set("Text", newText);
+             //if the current conversation is the selected conversation reset the timers
+             //if
           }
           else {
              var modelToAdd = new Conversation({ From: fromID,To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText });

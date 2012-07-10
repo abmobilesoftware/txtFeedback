@@ -8,8 +8,8 @@ var timer_is_on = 0;
 
 function markConversationAsRead()
 {
-    $(gSelectedElement.selected).removeClass("unreadconversation");
-    $(gSelectedElement.selected).addClass("readconversation");
+    $(gSelectedElement).removeClass("unreadconversation");
+    $(gSelectedElement).addClass("readconversation");
     //call the server to mark the conversation as read
     $.getJSON('Messages/MarkConversationAsRead',
                 { conversationId: gSelectedConversationID },
@@ -30,7 +30,7 @@ function resetTimer() {
 function startTimer(intervalToWait) {
     if (!timer_is_on) {       
         //establish if any action is still required - maybe the conversation is already read
-        if (!$(gSelectedElement.selected).hasClass("readconversation")) {
+        if (!$(gSelectedElement).hasClass("readconversation")) {
             timer = setTimeout(markConversationAsRead, intervalToWait);
             timer_is_on = true;
         }
@@ -38,17 +38,22 @@ function startTimer(intervalToWait) {
 }
 
 function MessagesArea(convView, tagsArea) {
-    $("#conversations").selectable({
-        selected: function (event, ui) {
+   var self = this;
+   this.convView = convView;
+   this.tagsArea = tagsArea;
+   //set the filter to make on the top div (conversation) selecteble
+  // in the absence of the filter option all elements within the conversation are made "selectable"
+   $("#conversations").selectable({
+       filter: ".conversation",
+       selected: function (event, ui) {           
             //prepare to mark the conversation as read in 3 seconds - once the messages have been loaded
             //for now make sure to other timers are active
-            gSelectedElement = ui;
-            resetTimer();
-            
+            gSelectedElement = ui.selected;
+            resetTimer();                        
             var convId = ui.selected.getAttribute("conversationid");
             gSelectedConversationID = convId;
-            appview.getMessages(convId);
-            tagsArea.getTags(convId);
+            self.MessagesView.getMessages(convId);
+            self.tagsArea.getTags(convId);
             
         }
     });
@@ -65,15 +70,15 @@ function MessagesArea(convView, tagsArea) {
         newMsg.set("Direction", "to");
         newMsg.set("Text", msgContent);
 
-        var fromTo = getFromToFromConversation(appview.currentConversationId);
+        var fromTo = getFromToFromConversation(self.currentConversationId);
         var from = fromTo[1];
         var to = fromTo[0];
         newMsg.set("From", from);
         newMsg.set("To", to);        
         newMsg.set("TimeReceived", (new Date()).toUTCString());
-        appview.messagesRep[appview.currentConversationId].add(newMsg);
+        self.messagesRep[self.currentConversationId].add(newMsg);
        //TODO - here TO is incorrect, as it should be the description 
-        convView.newMessageReceived(from, to, appview.currentConversationId, Date.now(), msgContent);
+        self.convView.newMessageReceived(from, to, self.currentConversationId, Date.now(), msgContent);
         //reset the input form
         $("#replyToMessageForm")[0].reset();
         //send it to the server
@@ -152,16 +157,24 @@ function MessagesArea(convView, tagsArea) {
             var direction = "messagefrom";
             var arrowClass = "arrowFrom";
             var arrowInnerClass = "arrowInnerFrom";
+            var arrowInnerMenuLeft = "arrowInnerLeft";
+            //var arrowExtraMenu="arrowExtraMenuFrom";
+            //var arrowInnerExtraMenu = "arrowInnerExtraMenuFrom";
             if (this.model.attributes["Direction"] == "to") {
                direction = "messageto";
                arrowClass= "arrowTo";
-                arrowInnerClass = "arrowInnerTo";
+               arrowInnerClass = "arrowInnerTo";
+               //arrowExtraMenu = "arrowExtraMenuTo";
+               arrowInnerMenuLeft = "arrowInnerRight";
+               //arrowInnerExtraMenu = "arrowInnerExtraMenuTo";
             }
             this.$el.addClass("message");
             this.$el.addClass(direction);
             
             $(".arrow", this.$el).addClass(arrowClass);
             $(".arrowInner", this.$el).addClass(arrowInnerClass);
+            $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
+            //$(".arrowInnerExtraMenu", this.$el).addClass(arrowInnerExtraMenu);
             return this;
         }
     });
@@ -183,14 +196,16 @@ function MessagesArea(convView, tagsArea) {
         left: 'auto' // Left position relative to parent in px
     };
     var spinner = new Spinner(opts);
+
+    this.messagesRep = {};
+    this.currentConversationId = '';
+
     //we fade in when we first load a conversation, afterwards we just render - no fade in
     var performFadeIn = false;
     var MessagesView = Backbone.View.extend({
         el: $("#messagesbox"),
         initialize: function () {
-           _.bindAll(this, "render", "getMessages", "appendMessage", "appendMessageToDiv", "resetViewToDefault");// to solve the this issue
-            this.messagesRep = {};
-            this.currentConversationId = '';
+           _.bindAll(this, "render", "getMessages", "appendMessage", "appendMessageToDiv", "resetViewToDefault");// to solve the this issue                  
             this.messages = new MessagesList();
             this.messages.bind("reset", this.render);
             //$("#messagesbox").selectable();
@@ -206,8 +221,8 @@ function MessagesArea(convView, tagsArea) {
             var target = document.getElementById('scrollablemessagebox');
             spinner.spin(target);
             
-            this.currentConversationId = conversationId;
-            if (this.currentConversationId in this.messagesRep) {
+            self.currentConversationId = conversationId;
+            if (self.currentConversationId in self.messagesRep) {
                 //we have already loaded this conversation
                 performFadeIn = false;
                 spinner.stop();
@@ -234,15 +249,15 @@ function MessagesArea(convView, tagsArea) {
                         $("textareaContainer").fadeIn("slow");
                     }
                 });
-                this.messagesRep[this.currentConversationId] = messages1;
+                self.messagesRep[self.currentConversationId] = messages1;
             }
         },
         render: function () {           
             $("#messagesbox").html('');
-            var self = this;
-            this.messagesRep[this.currentConversationId].each(function (msg) {
+            var selfMessageView = this;
+            self.messagesRep[self.currentConversationId].each(function (msg) {
                 //don't scroll to bottom as we will do it when loading is done
-                self.appendMessageToDiv(msg, performFadeIn, false);
+               selfMessageView.appendMessageToDiv(msg, performFadeIn, false);
              });
             spinner.stop();
             //scroll to bottom
@@ -252,19 +267,24 @@ function MessagesArea(convView, tagsArea) {
             return this;
         },
         appendMessage: function (msg) {
-            console.log("Adding new message " + msg.get("Text"));
-            //when appending a new message always scroll to bottom
-            this.appendMessageToDiv(msg, true, true);
+           //append only if the current view is the one in focus
+           if (msg.get('ConvID') === self.currentConversationId) {
+              console.log("Adding new message: " + msg.get("Text"));
+              //when appending a new message always scroll to bottom
+              this.appendMessageToDiv(msg, true, true);
+            
+           }
         },
-        newMessageReceived: function (fromID, convID, msgID, dateReceived, text ) {
-            var newMsg = new Message({ ID: msgID });            
+        newMessageReceived: function (fromID, convID, msgID, dateReceived, text) {
+            console.log("new message received: " + text);
+            var newMsg = new Message({ Id: msgID });            
             newMsg.set("Direction", "from");
             newMsg.set("From", fromID);
             newMsg.set("ConvID", convID);
             newMsg.set("Text", text);
             newMsg.set("TimeReceived", dateReceived);            
             //we add the message only if are in correct conversation            
-            appview.messagesRep[convID].add(newMsg);
+            self.messagesRep[convID].add(newMsg);
         },
         appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
             var msgView = new MessageView({ model: msg });
@@ -282,7 +302,8 @@ function MessagesArea(convView, tagsArea) {
                 var helperDiv = $(this).find("div.extramenu")[0];
                 //$(helperDiv).fadeOut("fast");
                 $(helperDiv).hide();
-            });
+             });
+           
           
             if (performFadeIn) {
                 $(item).hide().fadeIn("2000");
@@ -295,10 +316,12 @@ function MessagesArea(convView, tagsArea) {
             }
             
         }
+     });
+    $(".favConversation").live("click",function () {
+       $(this).attr('src', domainName + "/Content/images/star-selected.svg");
     });
 
-    var appview = new MessagesView();
-    return appview;
+    this.MessagesView = new MessagesView();
 }
 
 function limitText(limitField, limitCount, limitNum) {

@@ -59,10 +59,10 @@ namespace SmsFeedback_Take4.Models
          var twilio = new TwilioRestClient(accoundSID, authToken);
 
          string[] utilitiesGetFromAndToFromConversationID = ConversationUtilities.GetFromAndToFromConversationID(convID);
-         //var fromNumber = utilitiesGetFromAndToFromConversationID[0];
-         //var toNumber = utilitiesGetFromAndToFromConversationID[1];
-         var fromNumber = "442033221909"; //the client
-         var toNumber = "442033221134"; //the twilio number
+         var fromNumber = utilitiesGetFromAndToFromConversationID[0];
+         var toNumber = utilitiesGetFromAndToFromConversationID[1];
+         //var fromNumber = "442033221909"; //the client
+         //var toNumber = "442033221134"; //the twilio number
          //get messages from a person
          SmsMessageResult listOfIncomingMessages = twilio.ListSmsMessages(toNumber, fromNumber, null, null, null);
          //get message to that person         

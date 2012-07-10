@@ -174,11 +174,12 @@ namespace SmsFeedback_Take4.Controllers
          return null;
       }
 
-      public ActionResult MessageReceived(String from, String to, String text, DateTime receivedTime, bool readStatus)
+      public ActionResult MessageReceived(String from, String to, String text, string receivedTime, bool readStatus)
       {
          logger.Debug(String.Format("Message received: from: {0}, to: {1}, text: {2}, receivedTime: {3}, readStatus: {4}", from, to, text, receivedTime.ToString(), readStatus.ToString()));
-         String conversationId = from + "-" + to;
-         AddMessageAndUpdateConversation(from, to, conversationId, text, readStatus, receivedTime);
+         String conversationId = ConversationUtilities.BuildConversationIDFromFromAndTo(from, to);
+         DateTime receivedTimeAsDate = Utilities.Rfc822DateTime.Parse(receivedTime);
+         AddMessageAndUpdateConversation(from, to, conversationId, text, readStatus, receivedTimeAsDate);
          if (HttpContext.Request.IsAjaxRequest())
          {
             //I should return the sent time (if successful)              
@@ -192,7 +193,7 @@ namespace SmsFeedback_Take4.Controllers
       {
          string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime);
          //since now we guarantee that the conversation exits there is no need for convID
-         mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime);         
+        // mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime);         
       }
 
       public JsonResult SendMessage(String from, String to, String text)

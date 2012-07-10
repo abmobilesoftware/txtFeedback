@@ -98,19 +98,19 @@
 				if (value !='' && skipTag != true) { 
                     $('<span>').addClass('tag').append(
                         $('<span>').text(value).append('&nbsp;&nbsp;'),
-                        //$('<a>', {
-                        //    href  : '#',
-                        //    title : 'Removing tag',
-                        //    text  : 'x'
-                        //}).click(function () {
-                        //    return $('#' + id).removeTag(escape(value));
-                        // })
-                         $('<img>', {
-                            src: domainName + '/Content/images/close14x14.png',
-                            class: 'removeTagIcon'
-                         }).click(function () {
+                        $('<a>', {
+                            href  : '#',
+                            title : 'Removing tag',
+                            text  : 'x'
+                        }).click(function () {
                             return $('#' + id).removeTag(escape(value));
                          })
+                         //$('<img>', {
+                         //   src: domainName + '/Content/images/close14x14.png',
+                         //   class: 'removeTagIcon'
+                         //}).click(function () {
+                         //   return $('#' + id).removeTag(escape(value));
+                         //})
                     ).insertBefore('#' + id + '_addTag');
 
 					tagslist.push(value);
