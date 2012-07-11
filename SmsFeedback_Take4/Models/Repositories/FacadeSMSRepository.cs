@@ -54,7 +54,7 @@ namespace SmsFeedback_Take4.Models
          //the convention is that if workingPoints number is empty then we retrieve all the conversations
          if (workingPointsNumbers == null)
          {//we have to get all the working points 
-            workingPointsNumbers = (from wp in mEFRep.GetWorkingPointsPerUser(LoggedInUser) select wp.TelNumber).ToArray();            
+            workingPointsNumbers = (from wp in mEFRep.GetWorkingPointsPerUser(userName) select wp.TelNumber).ToArray();            
          }
          //we reverse the result as the last should be the newest
          try

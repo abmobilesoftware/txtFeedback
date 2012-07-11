@@ -20,9 +20,8 @@ namespace SmsFeedback_Take4.Controllers
        {
           get
           {
-             if (mSmsRepository == null)
                 mSmsRepository = AggregateSmsRepository.GetInstance(User.Identity.Name);
-             return mSmsRepository;
+                return mSmsRepository;
           }
        }
        #endregion

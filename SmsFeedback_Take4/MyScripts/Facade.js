@@ -1,25 +1,25 @@
 ﻿"use strict";
 
 //the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
-//var domainName = '/smsfeedback';
-var domainName = '';
+var domainName = '/smsfeedback';
+//var domainName = '';
 
 function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
    console.log("inside newMessageReceived");
    //the conversations window expects that the toID be a "name" and not a telephone number
    convView.newMessageReceived(fromID, toId, convID, dateReceived, text);
-   msgView.MessagesView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
+   msgView.messagesView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
 }
 
 function selectedWPsChanged(convView, msgView, checkedWorkingPoints) {
    console.log('selectedWPsChanged triggered');
    convView.getConversations(checkedWorkingPoints.checkedPhoneNumbers);
-   msgView.MessagesView.resetViewToDefault();
+   msgView.messagesView.resetViewToDefault();
 }
 
 function refreshConversationList(convView, msgView) {
    convView.getConversations(null);
-   msgView.resetViewToDefault();
+   msgView.messagesView.resetViewToDefault();
 }
 
 function InitializeGUI() {
@@ -34,7 +34,8 @@ function InitializeGUI() {
 
    //build the areas
    this.wpsArea = WorkingPointsArea();
-   this.convView = ConversationArea(self.filterArea, self.wpsArea);
+   this.convArea = new ConversationArea(self.filterArea, self.wpsArea);
+   this.convView = this.convArea.convsView;
    this.tagsArea = TagsArea();
    this.msgView = new MessagesArea(self.convView, self.tagsArea);
 
@@ -52,14 +53,13 @@ function InitializeGUI() {
    $(document).bind('msgReceived', function (ev, data) {
       $.getJSON('Messages/MessageReceived',
                     { from: data.fromID, to: data.toID, text: data.text, receivedTime: data.dateReceived, readStatus: data.readStatus },
-                    function (data) {
-                       //delivered successfully? if yes - indicate this
+                    function (data) {                       
                        console.log(data);
                     });      
       //it's better to build the conversation id ourselves to avoid prefixes issues
       var convId = buildConversationID(data.fromID, data.toID);
       newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toId, convId, data.msgID, data.dateReceived, data.text, false);
-      //self.msgView.MessagesView.newMessageReceived(data.fromID, convId, data.msgID, data.dateReceived, data.text);
+      //self.msgView.messagesView.newMessageReceived(data.fromID, convId, data.msgID, data.dateReceived, data.text);
    });
 
    $(document).bind('selectedWPsChanged', function (ev, data) {

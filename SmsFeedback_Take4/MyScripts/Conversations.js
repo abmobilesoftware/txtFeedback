@@ -3,6 +3,7 @@ var defaultNrOfConversationsToDisplay = 10;
 var cummulativeSkip = defaultNrOfConversationsToDisplay;
 
 function ConversationArea(filterArea, workingPointsArea) {
+   var self = this;
     //define the models
     var Conversation = Backbone.Model.extend({
         defaults: {
@@ -102,7 +103,16 @@ function ConversationArea(filterArea, workingPointsArea) {
        initialize: function () {
           this.filters = filterArea;
           this.workingpoints = workingPointsArea;
-          _.bindAll(this, "render", "getConversations", "addConversationBasicEffect", "updateConversation", "removeConversation", "addConversationWithEffect");
+          _.bindAll(this,
+             "render",
+             "getConversations",
+             "getAdditionalConversations",
+             "addConversationWithEffect",
+             "addConversationBasicEffect",
+             "updateConversation",
+             "newMessageReceived",
+             "removeConversation",                        
+             "filterConversations");
           this.convsList = new ConversationsList();
           this.convsList.bind("reset", this.render);
           this.convsList.bind("add", this.addConversationWithEffect, this);
@@ -273,16 +283,17 @@ function ConversationArea(filterArea, workingPointsArea) {
        },
        newMessageReceived: function (fromID, toID, convID, dateReceived, newText) {
           //if the given conversation exists we update it, otherwise we create a new conversation         
-          var modelToUpdate = convView.convsList.get(convID);
+          var modelToUpdate = self.convsView.convsList.get(convID);
           if (modelToUpdate) {             
              modelToUpdate.set("Text", newText);
+             modelToUpdate.set("Read", false);
              //if the current conversation is the selected conversation reset the timers
              //if
           }
           else {
              var modelToAdd = new Conversation({ From: fromID,To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText });
              //model.id = assign unique id
-             convView.convsList.add(modelToAdd);
+             self.convsView.convsList.add(modelToAdd);
           }
        },
        removeConversation: function (conv) {
@@ -318,9 +329,8 @@ function ConversationArea(filterArea, workingPointsArea) {
     });
        
     $("#loadMoreConversations").bind("click", function () {
-        convView.getAdditionalConversations();
+       self.convsView.getAdditionalConversations();
     });
 
-    var convView = new ConversationsView();   
-    return convView;
+    this.convsView = new ConversationsView();     
 }

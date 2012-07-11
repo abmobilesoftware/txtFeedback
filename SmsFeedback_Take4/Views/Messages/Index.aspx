@@ -143,11 +143,12 @@
            
          </div>
          <div id="messageTagsSeparator"></div>       
-         <div id="tagsContainer" class="tagArea">
-            <div id="tagsPool" class="tagsPhoneNumbers">
-            </div>
-           <input name="tags" id="tags" />
-          </div>   
+        
+            <div id="tagsContainer" class="tagArea">
+               <div id="tagsPool" class="tagsPhoneNumbers"></div>
+               <input name="tags" id="tags" />
+            </div>   
+        
          <div id="textareaContainer" class="invisible">    
             <div id="replyFormArea">
             <form id="replyToMessageForm">

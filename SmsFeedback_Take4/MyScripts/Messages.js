@@ -39,7 +39,7 @@ function startTimer(intervalToWait) {
 
 function MessagesArea(convView, tagsArea) {
    var self = this;
-   this.convView = convView;
+   this.convView = convView.convsView;
    this.tagsArea = tagsArea;
    //set the filter to make on the top div (conversation) selecteble
   // in the absence of the filter option all elements within the conversation are made "selectable"
@@ -52,7 +52,7 @@ function MessagesArea(convView, tagsArea) {
             resetTimer();                        
             var convId = ui.selected.getAttribute("conversationid");
             gSelectedConversationID = convId;
-            self.MessagesView.getMessages(convId);
+            self.messagesView.getMessages(convId);
             self.tagsArea.getTags(convId);
             
         }
@@ -205,7 +205,13 @@ function MessagesArea(convView, tagsArea) {
     var MessagesView = Backbone.View.extend({
         el: $("#messagesbox"),
         initialize: function () {
-           _.bindAll(this, "render", "getMessages", "appendMessage", "appendMessageToDiv", "resetViewToDefault");// to solve the this issue                  
+           _.bindAll(this,
+              "render",
+              "getMessages",
+              "appendMessage",
+              "appendMessageToDiv",
+              "resetViewToDefault", 
+              "newMessageReceived");// to solve the this issue
             this.messages = new MessagesList();
             this.messages.bind("reset", this.render);
             //$("#messagesbox").selectable();
@@ -321,7 +327,7 @@ function MessagesArea(convView, tagsArea) {
        $(this).attr('src', domainName + "/Content/images/star-selected.svg");
     });
 
-    this.MessagesView = new MessagesView();
+    this.messagesView = new MessagesView();
 }
 
 function limitText(limitField, limitCount, limitNum) {

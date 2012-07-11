@@ -48,7 +48,6 @@ function TagsArea() {
             'autocomplete_url': "Tags/FindMatchingTags",          
          });
          _.bindAll(this, 'render', 'appendTag', 'onAddTag', 'onRemoveTag','getTags');         
-         //this.tagsPool.bind("add", this.appendTag, this);
              
       },
       onAddTag: function (tagValue) {
@@ -89,9 +88,10 @@ function TagsArea() {
       getTags: function (convId) {
          //$('#tagsPool').html('');
       
+         //$('#tagsPool').hide();
+         //$('#tags').hide();
          //$('#tags_tagsinput').hide();
-         //$('#tags_tag').hide();
-         var target = document.getElementById('tagsContainer');         
+         var target = document.getElementById('tagsContainer');
          spinner.spin(target);
          this.conversationID = convId;
          if( convId in tagsRep) {

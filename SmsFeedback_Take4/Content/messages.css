@@ -34,7 +34,7 @@
    background-color: transparent;
    position: relative;
    /*padding: 4px 4px 4px 4px;*/
-   overflow: auto;
+   /*overflow: auto;*/
    overflow-x: hidden;
    width: 100%;
    /*border-width: 0px 0px 2px 0px;
@@ -338,4 +338,8 @@ input[name="countdown"] {
    padding-left: 10px;
    float: left;
    position: relative; 
+}
+
+#tagContainerForSpinner {
+   width: 100%;
 }

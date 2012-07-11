@@ -54,7 +54,7 @@ namespace SmsFeedback_Take4.Utilities
             var updateDateToInsert = updateTime.HasValue ? updateTime.Value.ToString() : "null";
             if (conversations.Count() > 0)
             {
-               logger.InfoFormat("Updating conversation: [{0}] with read: {1}, updateTime: {2}", conversationId, readStatus.ToString(), updateDateToInsert);
+               logger.InfoFormat("Updating conversation: [{0}] with read: {1}, updateTime: {2},  text: {3}" , conversationId, readStatus.ToString(), updateDateToInsert, text);
                var conv = conversations.First();
                convId = conv.ConvId;
                //since twilio returns messages >= the latest message it could be that the latest message is returned again - the only difference is that now "read" is false
