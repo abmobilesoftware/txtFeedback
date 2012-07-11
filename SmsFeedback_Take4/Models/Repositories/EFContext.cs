@@ -8,14 +8,14 @@ namespace SmsFeedback_Take4.Models.Repositories
 {
    public static class EFContext
    {
-      private static smsfeedbackEntities _instance = null;
-      public static smsfeedbackEntities GetEFContext() {
-         if (_instance == null)
-         {
-            _instance = new smsfeedbackEntities();
-            _instance.Connection.Open();               
-         }
-         return _instance;
-      }
+      //private static smsfeedbackEntities _instance = null;
+      //public static smsfeedbackEntities GetEFContext() {
+      //   if (_instance == null)
+      //   {
+      //      _instance = new smsfeedbackEntities();
+      //      _instance.Connection.Open();               
+      //   }
+      //   return _instance;
+      //}
    }
 }

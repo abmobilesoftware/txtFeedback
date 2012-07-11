@@ -7,6 +7,7 @@ using System.Collections;
 using System.Web.Script.Serialization;
 using System.Collections.ObjectModel;
 using SmsFeedback_Take4.Utilities;
+using SmsFeedback_EFModels;
 
 namespace SmsFeedback_Take4.Models
 {
@@ -15,8 +16,8 @@ namespace SmsFeedback_Take4.Models
    {
 
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-      private IExternalSmsRepository mTwilioRep = new TwilioIntegrationSmsRepository();
-      private IInternalSMSRepository mEFRep = new EFSmsRepository();
+      private TwilioIntegrationSmsRepository mTwilioRep = new TwilioIntegrationSmsRepository();
+      private EFSmsRepository mEFRep = new EFSmsRepository();
       private EFInteraction mEFInterface = new EFInteraction();
       private string LoggedInUser { get; set; }
       private static AggregateSmsRepository _instance = null;
@@ -49,12 +50,13 @@ namespace SmsFeedback_Take4.Models
                                                                   int skip,
                                                                   int top,
                                                                   DateTime? lastUpdate,
-                                                                  String userName)
+                                                                  String userName,
+                                                                  smsfeedbackEntities dbContext)
       { 
          //the convention is that if workingPoints number is empty then we retrieve all the conversations
          if (workingPointsNumbers == null)
          {//we have to get all the working points 
-            workingPointsNumbers = (from wp in mEFRep.GetWorkingPointsPerUser(userName) select wp.TelNumber).ToArray();            
+            workingPointsNumbers = (from wp in mEFRep.GetWorkingPointsPerUser(userName,dbContext) select wp.TelNumber).ToArray();            
          }
          //we reverse the result as the last should be the newest
          try
@@ -70,10 +72,9 @@ namespace SmsFeedback_Take4.Models
 
                //TODO check if we have access to the given numbers to avoid a security breach
                //first update our db with the latest from twilio (nexmo) then do our conditional select
-               Dictionary<string, SmsMessage> lastConversations = mEFRep.GetLatestConversationForNumbers(workingPointsNumbers, userName);
+               Dictionary<string, SmsMessage> lastConversations = mEFRep.GetLatestConversationForNumbers(workingPointsNumbers, userName,dbContext);
                foreach (var item in lastConversations)
                {
-                  //TODO decide how to combine the results for more numbers
                   if (item.Value != null)
                   {
                      //unfortunatelly twilio is rather imprecisse (YYYY-MM-DD) -> we could/will get the same messages twice 
@@ -81,7 +82,7 @@ namespace SmsFeedback_Take4.Models
                      var lastConversationTime = item.Value.TimeReceived; 
                      IEnumerable<SmsMessage> twilioConversationsForNumbers = mTwilioRep.GetConversationsForNumber(showAll, showFavourites, tags, item.Key, skip, top, lastConversationTime, userName);
                      //we need to add the twilio conversations to our conversations list
-                     AddTwilioConversationsToDb(twilioConversationsForNumbers);
+                     AddTwilioConversationsToDb(twilioConversationsForNumbers,dbContext);
                      //TODO - remove the break
                      break; //temporary - until we have real data
                      //now we can select from our db the latest conversations
@@ -89,10 +90,10 @@ namespace SmsFeedback_Take4.Models
                   else
                   {
                      IEnumerable<SmsMessage> twilioConversationsForNumbers = mTwilioRep.GetConversationsForNumber(showAll, showFavourites, tags, item.Key, skip, top, lastUpdate, userName);
-                     AddTwilioConversationsToDb(twilioConversationsForNumbers);
+                     AddTwilioConversationsToDb(twilioConversationsForNumbers,dbContext);
                   }
                }
-               IEnumerable<SmsMessage> efConversationsForNumbers = mEFRep.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers,startDate,endDate, skip, top, lastUpdate, userName);
+               IEnumerable<SmsMessage> efConversationsForNumbers = mEFRep.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers,startDate,endDate, skip, top, lastUpdate, userName,dbContext);
                return efConversationsForNumbers;           
          }
          catch (Exception ex)
@@ -102,23 +103,25 @@ namespace SmsFeedback_Take4.Models
          return null;
       }
 
-      private void AddTwilioConversationsToDb(IEnumerable<SmsMessage> twilioConversationsForNumbers)
+      private void AddTwilioConversationsToDb(IEnumerable<SmsMessage> twilioConversationsForNumbers, smsfeedbackEntities dbContext)
       {
          foreach (SmsMessage sms in twilioConversationsForNumbers)
          {
-            mEFInterface.UpdateAddConversation(sms.From, sms.To, sms.ConvID, sms.Text, sms.Read, sms.TimeReceived);
+            mEFInterface.UpdateAddConversation(sms.From, sms.To, sms.ConvID, sms.Text, sms.Read, sms.TimeReceived,dbContext);
          }
       }
 
-      public IEnumerable<SmsMessage> GetMessagesForConversation(string convID)
+      public IEnumerable<SmsMessage> GetMessagesForConversation(string convID, smsfeedbackEntities dbContext)
       {
+         //if the conversation is marked as "favourite" then all the messages will be "favourite"
+         var isConvFavourite = mEFInterface.IsConversationFavourite(convID, dbContext);
          //we get the messages for a certain conversation from Twilio 
-         return mTwilioRep.GetMessagesForConversation(convID);
+         return mTwilioRep.GetMessagesForConversation(convID,isConvFavourite);
       }
 
-      public IEnumerable<ConversationTag> GetTagsForConversation(string convID)
+      public IEnumerable<ConversationTag> GetTagsForConversation(string convID, smsfeedbackEntities dbContext)
       {
-         return mEFRep.GetTagsForConversation(convID);
+         return mEFRep.GetTagsForConversation(convID,dbContext);
       }
 
       public void SendMessage(string from, string to, string message, Action<string> callback)
@@ -126,14 +129,9 @@ namespace SmsFeedback_Take4.Models
          mTwilioRep.SendMessage(from, to, message, callback);
       }
 
-      public System.Collections.Generic.IEnumerable<WorkingPoint> GetWorkingPointsPerUser(String userName)
+      public System.Collections.Generic.IEnumerable<WorkingPoint> GetWorkingPointsPerUser(String userName, smsfeedbackEntities dbContext)
       {
-         return mEFRep.GetWorkingPointsPerUser(userName);
-      }
-
-      //public Dictionary<string, SmsMessage> GetLatestConversationForNumbers(string[] workinPointNumbers)
-      //{
-      //   throw new NotImplementedException();
-      //}
+         return mEFRep.GetWorkingPointsPerUser(userName,dbContext);
+      }      
    }
 }

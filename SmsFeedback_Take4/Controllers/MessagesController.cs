@@ -11,23 +11,23 @@ using Newtonsoft.Json;
 
 namespace SmsFeedback_Take4.Controllers
 {
-   [CustomAuthorizeAtribute]   
-    public class MessagesController : BaseController
+   [CustomAuthorizeAtribute]
+   public class MessagesController : BaseController
    {
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-      private smsfeedbackEntities mContext = SmsFeedback_Take4.Models.Repositories.EFContext.GetEFContext();
 
       private AggregateSmsRepository mSmsRepository;
       private AggregateSmsRepository SMSRepository
       {
-         get {
-            if (mSmsRepository == null) 
-               mSmsRepository = AggregateSmsRepository.GetInstance(User.Identity.Name);            
-            return mSmsRepository; 
-         }        
+         get
+         {
+            if (mSmsRepository == null)
+               mSmsRepository = AggregateSmsRepository.GetInstance(User.Identity.Name);
+            return mSmsRepository;
+         }
       }
-      
-      private EFInteraction mEFInterface = new EFInteraction();      
+
+      private EFInteraction mEFInterface = new EFInteraction();
       public ActionResult Index()
       {
          ViewData["Title"] = "SmsFeedback/Messages";
@@ -42,9 +42,13 @@ namespace SmsFeedback_Take4.Controllers
             if (HttpContext.Request.IsAjaxRequest())
             {
                var userId = User.Identity.Name;
-               var workingPoints = SMSRepository.GetWorkingPointsPerUser(userId);
+               smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+
+               var workingPoints = SMSRepository.GetWorkingPointsPerUser(userId, lContextPerRequest);
                System.Threading.Thread.Sleep(1000);
                return Json(workingPoints, JsonRequestBehavior.AllowGet);
+
+
             }
          }
          catch (Exception ex)
@@ -55,17 +59,18 @@ namespace SmsFeedback_Take4.Controllers
          return null;
       }
       public JsonResult MessagesList(string conversationID)
-      {         
+      {
          //defend when conversationID is null
          if (conversationID == null)
-         {            
+         {
             logger.Error("conversationID was null");
             return null;
          }
          try
          {
             logger.Debug(String.Format("Show messages for conversation: {0}", conversationID));
-            return Json(SMSRepository.GetMessagesForConversation(conversationID), JsonRequestBehavior.AllowGet);
+            smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+            return Json(SMSRepository.GetMessagesForConversation(conversationID,lContextPerRequest), JsonRequestBehavior.AllowGet);
          }
          catch (Exception ex)
          {
@@ -78,27 +83,29 @@ namespace SmsFeedback_Take4.Controllers
       [HttpGet]
       public JsonResult MarkConversationAsRead(string conversationId)
       {
+
          logger.InfoFormat("Marking conversation [{0}] as read", conversationId);
          if (string.IsNullOrEmpty(conversationId))
-            return Json("Please provide a conversationId", JsonRequestBehavior.AllowGet);
-
-         mEFInterface.UpdateAddConversation(null, null, conversationId, null, true,null,true);
-         return Json("Update successful", JsonRequestBehavior.AllowGet);         
-      }
-
-      private JsonResult GetMessagesFromDb(string conversationID)
-      {         
-         var records = from c in mContext.Messages
-                       where c.ConversationId == conversationID
-                       select
-                          new { Id = c.Id, ConvID = conversationID, From = c.From, To = c.To, Text = c.Text, TimeReceived = c.TimeReceived, Read = c.Read };
-         if (HttpContext.Request.IsAjaxRequest())
          {
-            //System.Threading.Thread.Sleep(1000);
-            return Json(records,
-                          JsonRequestBehavior.AllowGet);
+            return Json("Please provide a conversationId", JsonRequestBehavior.AllowGet);
          }
-         return null;
+         smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+
+         mEFInterface.UpdateAddConversation(null, null, conversationId, null, true, null, lContextPerRequest, true);
+         return Json("Update successful", JsonRequestBehavior.AllowGet);
+
+      }
+      [HttpGet]
+      public JsonResult ChangeStarredStatusForConversation(string convID, bool newStarredStatus)
+      {
+         logger.InfoFormat("Changing starred status for conversation [{0}] ", convID);
+         if (string.IsNullOrEmpty(convID))
+         {
+            return Json("Please provide a conversationId", JsonRequestBehavior.AllowGet);
+         }
+         smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+         mEFInterface.UpdateAddConversation(null, null, convID, null, true, null, lContextPerRequest, false, newStarredStatus);
+         return Json("Update successful", JsonRequestBehavior.AllowGet);
       }
 
       //todo add date from/date to to list
@@ -145,7 +152,7 @@ namespace SmsFeedback_Take4.Controllers
                                         skip,
                                         top));
             if (HttpContext.Request.IsAjaxRequest())
-            {               
+            {
                var userId = User.Identity.Name;
                //we get the dates as strings so it is up to us to convert them to dates
                DateTime? startDateAsDate = null;
@@ -153,18 +160,21 @@ namespace SmsFeedback_Take4.Controllers
                if (!String.IsNullOrEmpty(startDate) && !startDate.Equals("null"))
                {
                   //dateFormatForDatePicker = "dd-mm-yy";
-                  var dateInfo = startDate.Split('-');                  
+                  var dateInfo = startDate.Split('-');
                   startDateAsDate = new DateTime(Int32.Parse(dateInfo[2]), Int32.Parse(dateInfo[1]), Int32.Parse(dateInfo[0]));
                   if (startDateAsDate.Value.Date == DateTime.Now.Date) startDateAsDate = null;
                }
-               if (!String.IsNullOrEmpty(endDate) && !endDate.Equals("null")) 
+               if (!String.IsNullOrEmpty(endDate) && !endDate.Equals("null"))
                {
-                  var dateInfo = endDate.Split('-');                  
+                  var dateInfo = endDate.Split('-');
                   endDateAsDate = new DateTime(Int32.Parse(dateInfo[2]), Int32.Parse(dateInfo[1]), Int32.Parse(dateInfo[0]));
                   if (endDateAsDate.Value.Date == DateTime.Now.Date) endDateAsDate = null;
                }
-               var conversations = SMSRepository.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers, startDateAsDate, endDateAsDate, skip, top, null, userId);
+               smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+
+               var conversations = SMSRepository.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers, startDateAsDate, endDateAsDate, skip, top, null, userId, lContextPerRequest);
                return Json(conversations, JsonRequestBehavior.AllowGet);
+
             }
          }
          catch (Exception ex)
@@ -174,26 +184,36 @@ namespace SmsFeedback_Take4.Controllers
          return null;
       }
 
-      public ActionResult MessageReceived(String from, String to, String text, string receivedTime, bool readStatus)
+      public JsonResult MessageReceived(String from, String to, String text, string receivedTime, bool readStatus)
       {
          logger.Debug(String.Format("Message received: from: {0}, to: {1}, text: {2}, receivedTime: {3}, readStatus: {4}", from, to, text, receivedTime.ToString(), readStatus.ToString()));
-         String conversationId = ConversationUtilities.BuildConversationIDFromFromAndTo(from, to);
-         DateTime receivedTimeAsDate = Utilities.Rfc822DateTime.Parse(receivedTime);
-         AddMessageAndUpdateConversation(from, to, conversationId, text, readStatus, receivedTimeAsDate);
          if (HttpContext.Request.IsAjaxRequest())
          {
-            //I should return the sent time (if successful)              
-            String response = "received successfully"; //TODO should be a class
-            return Json(response, JsonRequestBehavior.AllowGet);
+            try
+            {
+               String conversationId = ConversationUtilities.BuildConversationIDFromFromAndTo(from, to);
+               DateTime receivedTimeAsDate = Utilities.Rfc822DateTime.Parse(receivedTime);
+               smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+
+               AddMessageAndUpdateConversation(from, to, conversationId, text, readStatus, receivedTimeAsDate, lContextPerRequest);
+               //I should return the sent time (if successful)              
+               String response = "received successfully"; //TODO should be a class
+               return Json(response, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+               logger.Error("MessageReceived error", ex);
+            }
          }
-         return View();
+         return null;
       }
 
-      private void AddMessageAndUpdateConversation(String from, String to, String conversationId, String text, Boolean readStatus, DateTime updateTime)
+      private void AddMessageAndUpdateConversation(String from, String to, String conversationId, String text, Boolean readStatus, DateTime updateTime, smsfeedbackEntities dbContext)
       {
-         string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime);
+         string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, dbContext);
          //since now we guarantee that the conversation exits there is no need for convID
-        // mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime);         
+         // mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime);         
       }
 
       public JsonResult SendMessage(String from, String to, String text)
@@ -201,18 +221,28 @@ namespace SmsFeedback_Take4.Controllers
          if (HttpContext.Request.IsAjaxRequest())
          {
             String conversationId = to + "-" + from;
-            AddMessageAndUpdateConversation(from, to, conversationId, text, true, DateTime.Now);
-            //send message via twilio
-            from = "442033221134";
-            to = "442033221909";
-            SMSRepository.SendMessage(from, to, text, (msg) =>
+            try
             {
+               smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
 
-            });
-            //I should wait for the twilio call to finish
-            //I should return the sent time (if successful)              
-            String response = "sent successfully"; //TODO should be a class
-            return Json(response, JsonRequestBehavior.AllowGet);
+               AddMessageAndUpdateConversation(from, to, conversationId, text, true, DateTime.Now, lContextPerRequest);
+
+               //send message via twilio
+               from = "442033221134";
+               to = "442033221909";
+               SMSRepository.SendMessage(from, to, text, (msg) =>
+               {
+
+               });
+               //I should wait for the twilio call to finish
+               //I should return the sent time (if successful)              
+               String response = "sent successfully"; //TODO should be a class
+               return Json(response, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+               logger.Error("SendMessage error", ex);
+            }
          }
          return null;
       }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using SmsFeedback_EFModels;
 using SmsFeedback_Take4.Utilities;
 
 namespace SmsFeedback_Take4.Controllers
@@ -23,8 +24,12 @@ namespace SmsFeedback_Take4.Controllers
             if (HttpContext.Request.IsAjaxRequest())
             {
                var userId = User.Identity.Name;
-               var connectionDetails = mEFInterface.GetXmppConnectionDetailsPerUser(userId);
-               return Json(connectionDetails, JsonRequestBehavior.AllowGet);
+               smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+               using (lContextPerRequest)
+               {
+                  var connectionDetails = mEFInterface.GetXmppConnectionDetailsPerUser(userId, lContextPerRequest);
+                  return Json(connectionDetails, JsonRequestBehavior.AllowGet);   
+               }
             }
          }
          catch (Exception ex)

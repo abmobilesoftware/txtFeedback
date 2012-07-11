@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using SmsFeedback_EFModels;
 
 namespace SmsFeedback_Take4.Models
 {
@@ -23,6 +24,7 @@ namespace SmsFeedback_Take4.Models
       /// <param name="top"></param>
       /// <param name="lastUpdate"></param>
       /// <param name="userName"></param>
+      /// <param name="dbContext"></param>
       /// <returns></returns>
       System.Collections.Generic.IEnumerable<SmsMessage> GetConversationsForNumbers(bool showAll,
                                                                                     bool showFavourites,
@@ -33,7 +35,8 @@ namespace SmsFeedback_Take4.Models
                                                                                     int skip,
                                                                                     int top,
                                                                                     DateTime? lastUpdate,
-                                                                                    String userName);
+                                                                                    String userName,
+                                                                                    smsfeedbackEntities dbContext);
       /// <summary>
       /// 
       /// </summary>
@@ -47,6 +50,7 @@ namespace SmsFeedback_Take4.Models
       /// <param name="top"></param>
       /// <param name="lastUpdate"></param>
       /// <param name="userName"></param>
+      /// <param name="dbContext"></param>
       /// <returns></returns>
       IEnumerable<SmsMessage> GetConversationsForNumber(bool showAll,
                                                                bool showFavourites,
@@ -57,10 +61,11 @@ namespace SmsFeedback_Take4.Models
                                                                int skip,
                                                                int top,
                                                                DateTime? lastUpdate,
-                                                               String userName);
-      System.Collections.Generic.IEnumerable<ConversationTag> GetTagsForConversation(string convID);
-      System.Collections.Generic.IEnumerable<WorkingPoint> GetWorkingPointsPerUser(String userName);
-      Dictionary<string, SmsMessage> GetLatestConversationForNumbers(string[] workingPointNumbers,string userName);
+                                                               String userName,
+                                                               smsfeedbackEntities dbContext);
+      System.Collections.Generic.IEnumerable<ConversationTag> GetTagsForConversation(string convID,  smsfeedbackEntities dbContext);
+      System.Collections.Generic.IEnumerable<WorkingPoint> GetWorkingPointsPerUser(String userName, smsfeedbackEntities dbContext);
+      Dictionary<string, SmsMessage> GetLatestConversationForNumbers(string[] workingPointNumbers,string userName, smsfeedbackEntities dbContext);
    }
    
 }

@@ -87,12 +87,13 @@ function TagsArea() {
       },
       getTags: function (convId) {
          //$('#tagsPool').html('');
-      
+         var tg = $('#tags');
+         tg.importTags('')
          //$('#tagsPool').hide();
          //$('#tags').hide();
          //$('#tags_tagsinput').hide();
          var target = document.getElementById('tagsContainer');
-         spinner.spin(target);
+         //spinner.spin(target);
          this.conversationID = convId;
          if( convId in tagsRep) {
             spinner.stop();
@@ -104,7 +105,7 @@ function TagsArea() {
             tagCollection.fetch({
                data: { "conversationID": convId },
                success: function () {
-                  spinner.stop();
+                  //spinner.stop();
                   //$('#tags_tagsinput').show();
                   //$('#tags_tag').show();
                }
@@ -114,7 +115,7 @@ function TagsArea() {
          
       },
       render: function () {
-          var tg = $('#tags');
+         var tg = $('#tags');
          tg.importTags('')
          var self = this;
          tagsRep[this.conversationID].each(function (tag) {

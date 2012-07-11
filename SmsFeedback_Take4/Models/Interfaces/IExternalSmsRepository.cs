@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 namespace SmsFeedback_Take4.Models
 {
    interface IExternalSmsRepository
@@ -11,8 +12,8 @@ namespace SmsFeedback_Take4.Models
                                                                                           int skip,
                                                                                           int top,
                                                                                           DateTime? lastUpdate,
-                                                                                          String userName);      
-      System.Collections.Generic.IEnumerable<SmsMessage> GetMessagesForConversation(string convID);
+                                                                                          String userName);
+      System.Collections.Generic.IEnumerable<SmsMessage> GetMessagesForConversation(string convID, bool isConvFavourite);
       void SendMessage(string from, string to, string message, Action<string> callback);
    }
      

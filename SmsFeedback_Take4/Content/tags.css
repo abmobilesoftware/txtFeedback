@@ -33,12 +33,12 @@
    -webkit-border-radius: 2px;
    
    background-color: #a4b7c3;
-   background-image: linear-gradient(bottom, rgb(180,201,214) 47%, rgb(150,168,179) 14%);
-   background-image: -o-linear-gradient(bottom, rgb(180,201,214) 47%, rgb(150,168,179) 14%);
-   background-image: -moz-linear-gradient(bottom, rgb(180,201,214) 47%, rgb(150,168,179) 14%);
-   background-image: -webkit-linear-gradient(bottom, rgb(180,201,214) 47%, rgb(150,168,179) 14%);
-   background-image: -ms-linear-gradient(bottom, rgb(180,201,214) 47%, rgb(150,168,179) 14%);
-   background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.47, rgb(180,201,214)), color-stop(0.14, rgb(150,168,179)) );
+   background-image: linear-gradient(bottom, #B4C9D6 47%, #96A8B3 14%);
+   background-image: -o-linear-gradient(bottom, #B4C9D6 47%, #96A8B3 14%);
+   background-image: -moz-linear-gradient(bottom, #96A8B3 14%, #B4C9D6 47%);
+   background-image: -webkit-linear-gradient(bottom, #B4C9D6 47%, #96A8B3 14%);
+   background-image: -ms-linear-gradient(bottom, #B4C9D6 47%, #96A8B3 14%);
+   background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.47, #B4C9D6), color-stop(0.14, #96A8B3) );
    
    border-bottom: 1px solid #3E6D8E;
    border-right: 1px solid #7F9FB6;

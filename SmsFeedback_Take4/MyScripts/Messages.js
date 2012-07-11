@@ -111,7 +111,8 @@ function MessagesArea(convView, tagsArea) {
             TimeReceived: null,            
             ConvID: 1,
             Direction: "from",
-            Read: false            
+            Read: false,
+            Starred: false
         },
         parse: function (data, xhc) {
             //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
@@ -149,7 +150,8 @@ function MessagesArea(convView, tagsArea) {
         tagName: "div",
         messageTemplate: _.template($('#message-template').html()),        
         initialize: function () {
-            _.bindAll(this, 'render');
+           _.bindAll(this, 'render', 'updateView');
+           this.model.on("change", this.updateView);
             return this.render;
         },
         render: function () {
@@ -160,7 +162,7 @@ function MessagesArea(convView, tagsArea) {
             var arrowInnerMenuLeft = "arrowInnerLeft";
             //var arrowExtraMenu="arrowExtraMenuFrom";
             //var arrowInnerExtraMenu = "arrowInnerExtraMenuFrom";
-            if (this.model.attributes["Direction"] == "to") {
+            if (this.model.attributes["Direction"] === "to") {
                direction = "messageto";
                arrowClass= "arrowTo";
                arrowInnerClass = "arrowInnerTo";
@@ -168,14 +170,28 @@ function MessagesArea(convView, tagsArea) {
                arrowInnerMenuLeft = "arrowInnerRight";
                //arrowInnerExtraMenu = "arrowInnerExtraMenuTo";
             }
+            if (this.model.attributes["Starred"] === true)
+            {
+               $(".favConversation", this.$el).attr('src', domainName + "/Content/images/star-selected.svg");
+            }
             this.$el.addClass("message");
             this.$el.addClass(direction);
-            
+         
             $(".arrow", this.$el).addClass(arrowClass);
             $(".arrowInner", this.$el).addClass(arrowInnerClass);
             $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
             //$(".arrowInnerExtraMenu", this.$el).addClass(arrowInnerExtraMenu);
             return this;
+        },
+        updateView: function () {
+           //the Starred attribute has changed (most probably) so reflect this in the view
+           if (this.model.attributes["Starred"] === true) {
+              $(".favConversation", this.$el).attr('src', domainName + "/Content/images/star-selected.svg");
+           }
+           else {
+              $(".favConversation", this.$el).attr('src', domainName + "/Content/images/star.svg");
+           }                  
+           return this;
         }
     });
 
@@ -219,6 +235,7 @@ function MessagesArea(convView, tagsArea) {
         resetViewToDefault: function () {
            $('#messagesbox').html(' No conversation selected, please select one');
            $("#textareaContainer").addClass("invisible");
+           $("#tagsContainer").addClass("invisible");
            //$("textareaContainer").hide("slow");
         },
         getMessages: function (conversationId) {
@@ -235,8 +252,11 @@ function MessagesArea(convView, tagsArea) {
                 startTimer(3000);
                 this.render();
                 $("#textareaContainer").removeClass("invisible");
-                //$("#textareaContainer").addClass("visible");
                 $("textareaContainer").fadeIn("slow");
+                $("#tagsContainer").removeClass("invisible");
+                $("#tagsContainer").fadeIn("slow");
+                //$("#textareaContainer").addClass("visible");
+                
             }
             else {
                 var messages1 = new MessagesList();
@@ -251,8 +271,9 @@ function MessagesArea(convView, tagsArea) {
                         startTimer(3000);
                         spinner.stop();
                         $("#textareaContainer").removeClass("invisible");
-                        //$("#textareaContainer").addClass("visible");
                         $("textareaContainer").fadeIn("slow");
+                        $("#tagsContainer").removeClass("invisible");
+                        $("#tagsContainer").fadeIn("slow");
                     }
                 });
                 self.messagesRep[self.currentConversationId] = messages1;
@@ -323,8 +344,24 @@ function MessagesArea(convView, tagsArea) {
             
         }
      });
-    $(".favConversation").live("click",function () {
-       $(this).attr('src', domainName + "/Content/images/star-selected.svg");
+    $(".favConversation").live("click", function (e) {
+       e.preventDefault();
+       //signal to the server that this conversation's starred status has changed
+             
+       //reflect the change visually
+        var newStarredStatus = false;
+        self.messagesRep[self.currentConversationId].each(function (msg) {
+           //var newStarredValue = ;
+           msg.set("Starred", !msg.attributes["Starred"]);
+           newStarredStatus = msg.attributes["Starred"];
+        });
+
+        $.getJSON('Messages/ChangeStarredStatusForConversation',
+                { convID: self.currentConversationId, newStarredStatus: newStarredStatus },
+                function (data) {
+                   //conversation starred status changed
+                   console.log(data);
+                });
     });
 
     this.messagesView = new MessagesView();

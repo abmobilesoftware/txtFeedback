@@ -91,82 +91,83 @@
       $(function () {
         var newGUI = new InitializeGUI();
       });
-   </script>  
+   </script>
    <div id="filtersStrip">
       <div class="grid_2 filterStripElement">
          <div id="starredLabel" class="filterLabel">
-            <img id="includeStarredInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected" src="<%: Url.Content("~/Content/images/transparent.gif") %>"/>	
-            <span style="vertical-align: middle"> <%: Resources.Global.starredLabel %></span>
+            <img id="includeStarredInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+               src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
+            <span style="vertical-align: middle">
+               <%: Resources.Global.starredLabel %></span>
          </div>
       </div>
       <div class="grid_4 filterStripElement">
          <div>
-         <div id="dateLabel" class="filterLabel">
-            <img id="includeDateInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected" src="<%: Url.Content("~/Content/images/transparent.gif") %>"/>	
-            <span style="vertical-align: middle"> <%: Resources.Global.dateLabel %></span>
-         </div>
-         <div id="datePickersArea">
-            <input type="dateTimePicker" id="startDateTimePicker" class="filterDate filterInputBox" value="<%: Resources.Global.fromDate %>"> </input>
-            <input type="dateTimePicker" id="endDateTimePicker" class="filterDate filterInputBox" value="<%: Resources.Global.toDate %>"> </input>
-         </div>
+            <div id="dateLabel" class="filterLabel">
+               <img id="includeDateInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+                  src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
+               <span style="vertical-align: middle">
+                  <%: Resources.Global.dateLabel %></span>
+            </div>
+            <div id="datePickersArea">
+               <input type="dateTimePicker" id="startDateTimePicker" class="filterDate filterInputBox"
+                  value="<%: Resources.Global.fromDate %>"> </input>
+               <input type="dateTimePicker" id="endDateTimePicker" class="filterDate filterInputBox"
+                  value="<%: Resources.Global.toDate %>"> </input>
+            </div>
          </div>
       </div>
       <div class="grid_6 filterStripElement tagFilterArea">
          <div id="tagsLabel" class="filterLabel">
-          <img id="includeTagsInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected" src="<%: Url.Content("~/Content/images/transparent.gif") %>"/>	
-          <span style="vertical-align: middle"> <%: Resources.Global.tagsLabel %></span>
+            <img id="includeTagsInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+               src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
+            <span style="vertical-align: middle">
+               <%: Resources.Global.tagsLabel %></span>
          </div>
          <div id="tagFiltering" class="filterInputBox">
-             <input name="filterTag" id="filterTag" />
+            <input name="filterTag" id="filterTag" />
          </div>
       </div>
-   </div>     
+   </div>
    <div class="clear"></div>
    <div id="phoneNumbersPool" class="wordwrap tagsPhoneNumbers grid_2">
    </div>
-      <div id="conversationsArea" class="grid_4">
-         <div id="scrollableconversations" class="conversationbox scrollablebox">
-            <div id="conversations" class="conversationbox">
-            </div>
-             <div id="loadMoreConversations" class="readable">
-             Load More Conversations
-                 </div>
+   <div id="conversationsArea" class="grid_4">
+      <div id="scrollableconversations" class="conversationbox scrollablebox">
+         <div id="conversations" class="conversationbox">
+         </div>
+         <div id="loadMoreConversations" class="readable">
+            Load More Conversations
          </div>
       </div>
-      
-      <div id="messagesArea" class="grid_6">        
-        
-         <div id="scrollablemessagebox" class="messagesboxcontainerclass scrollablebox">
-            <div id="messagesbox" class="messagesboxclass">
-               <span>No conversation selected, please select one</span>
-            </div>
-           
+   </div>
+   <div id="messagesArea" class="grid_6">
+      <div id="scrollablemessagebox" class="messagesboxcontainerclass scrollablebox">
+         <div id="messagesbox" class="messagesboxclass">
+            <span>No conversation selected, please select one</span>
          </div>
-         <div id="messageTagsSeparator"></div>       
-        
-            <div id="tagsContainer" class="tagArea">
-               <div id="tagsPool" class="tagsPhoneNumbers"></div>
-               <input name="tags" id="tags" />
-            </div>   
-        
-         <div id="textareaContainer" class="invisible">    
-            <div id="replyFormArea">
+      </div>
+      <div id="messageTagsSeparator"></div>
+      <div id="tagsContainer" class="tagArea invisible">
+         <div id="tagsPool" class="tagsPhoneNumbers"></div>
+         <input name="tags" id="tags" />
+      </div>
+      <div id="textareaContainer" class="invisible">
+         <div id="replyFormArea">
             <form id="replyToMessageForm">
-               <div id="inputTextContainer">
+            <div id="inputTextContainer">
                <textarea id="limitedtextarea" onkeydown="limitText(this.form.limitedtextarea,this.form.countdown,160);"
                   onkeyup="limitText(this.form.limitedtextarea,this.form.countdown,160);" dir="ltr"></textarea>
                <br>
-                  <div class="clear"></div>
-               <span>
-                  <font size="0.5"><input readonly type="text" name="countdown" size="2" value="160"> </font>
-               </span>               
-               </div>
-            </form>
-           </div>                
-            <div id="replyButtonArea">
-            <button id="replyBtn">Send</button>
+               <div class="clear"></div>
+               <span><font size="0.5"><input readonly type="text" name="countdown" size="2" value="160"> </font>
+               </span>
             </div>
+            </form>
          </div>
-      </div>    
-   
+         <div id="replyButtonArea">
+            <button id="replyBtn">Send</button>
+         </div>
+      </div>
+   </div>
 </asp:Content>
