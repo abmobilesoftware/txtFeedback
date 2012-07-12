@@ -45,6 +45,7 @@ function FilterArea() {
       }
    });
 
+
    
    //TODO add option to specify which language to use (according to selected language)
    var startDatePicker = $("#startDateTimePicker");
@@ -92,13 +93,7 @@ function FilterArea() {
    this.endDate = null;
    $("#includeDateInFilter").bind('click', function () {
       //set internal state
-      self.dateFilteringEnabled = !self.dateFilteringEnabled;
-      //if (self.dateFilteringEnabled) {
-      //   self.dateFilteringEnabled = false;
-      //}
-      //else {
-      //   self.dateFilteringEnabled = true;
-      //}
+      self.dateFilteringEnabled = !self.dateFilteringEnabled;     
       //change checkbox state
       setCheckboxState($(this), self.dateFilteringEnabled);
 
@@ -115,20 +110,24 @@ function FilterArea() {
       }
    });
 
-   this.starredFilteringEnabled = false;
-  
+   this.starredFilteringEnabled = false;  
    $("#includeStarredInFilter").bind('click', function () {
       //set internal state
-      if (self.starredFilteringEnabled) {
-         self.starredFilteringEnabled = false;
-      }
-      else {
-         self.starredFilteringEnabled = true;
-      }
+      self.starredFilteringEnabled = !self.starredFilteringEnabled;      
       //change checkbox state
       setCheckboxState($(this), self.starredFilteringEnabled);      
       //trigger filtering if required
       $(document).trigger('refreshConversationList');     
+   });
+
+   this.unreadFilteringEnabled = false;
+   $("#includeUnreadInFilter").bind('click', function () {
+      //set internal state
+      self.unreadFilteringEnabled = !self.unreadFilteringEnabled;      
+      //change checkbox state
+      setCheckboxState($(this), self.unreadFilteringEnabled);
+      //trigger filtering if required
+      $(document).trigger('refreshConversationList');
    });
 
 }

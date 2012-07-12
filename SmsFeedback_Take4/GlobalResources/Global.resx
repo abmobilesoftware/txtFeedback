@@ -180,4 +180,7 @@
   <data name="toDate" xml:space="preserve">
     <value>to</value>
   </data>
+  <data name="readLabel" xml:space="preserve">
+    <value>Unread</value>
+  </data>
 </root>

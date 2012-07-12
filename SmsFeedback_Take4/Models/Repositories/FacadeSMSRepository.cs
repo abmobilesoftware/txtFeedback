@@ -47,6 +47,7 @@ namespace SmsFeedback_Take4.Models
                                                                   string[] workingPointsNumbers,
                                                                   DateTime? startDate,
                                                                   DateTime? endDate,
+                                                                  bool onlyUnread,
                                                                   int skip,
                                                                   int top,
                                                                   DateTime? lastUpdate,
@@ -58,12 +59,13 @@ namespace SmsFeedback_Take4.Models
          {//we have to get all the working points 
             workingPointsNumbers = (from wp in mEFRep.GetWorkingPointsPerUser(userName,dbContext) select wp.TelNumber).ToArray();            
          }
-         //we reverse the result as the last should be the newest
+        
          try
          {
             //in our db we have the conversations
             //we could have additional conversations (which have not been yet read) in Twilio
-            //here we decide regarding the loading logic
+            //A possible optimization would be that for favourites we don't update with the twilio conversations (as the favourites is our own concept)
+            //for Unread we have to retrieve data from Twilio as new twilio conversations are by default unread
             
                //we may have the following scenario - we get ask for first 10 records, skip 0
                //in our db we have only "old" conversations, so the twilio db returns 40 records
@@ -93,7 +95,7 @@ namespace SmsFeedback_Take4.Models
                      AddTwilioConversationsToDb(twilioConversationsForNumbers,dbContext);
                   }
                }
-               IEnumerable<SmsMessage> efConversationsForNumbers = mEFRep.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers,startDate,endDate, skip, top, lastUpdate, userName,dbContext);
+               IEnumerable<SmsMessage> efConversationsForNumbers = mEFRep.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers,startDate,endDate,onlyUnread, skip, top, lastUpdate, userName,dbContext);
                return efConversationsForNumbers;           
          }
          catch (Exception ex)

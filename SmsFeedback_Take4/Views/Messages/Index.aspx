@@ -93,16 +93,9 @@
       });
    </script>
    <div id="filtersStrip">
-      <div class="grid_2 filterStripElement">
-         <div id="starredLabel" class="filterLabel">
-            <img id="includeStarredInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
-               src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
-            <span style="vertical-align: middle">
-               <%: Resources.Global.starredLabel %></span>
-         </div>
-      </div>
-      <div class="grid_4 filterStripElement">
-         <div>
+
+      <div class="grid_4_custom filterStripElement">
+         <div id="dateFilterArea">
             <div id="dateLabel" class="filterLabel">
                <img id="includeDateInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
@@ -115,6 +108,18 @@
                <input type="dateTimePicker" id="endDateTimePicker" class="filterDate filterInputBox"
                   value="<%: Resources.Global.toDate %>"> </input>
             </div>
+         </div>
+         <div id="starredFilterArea" class="filterLabel">
+            <img id="includeStarredInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+               src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
+            <span style="vertical-align: middle">
+               <%: Resources.Global.starredLabel %></span>
+         </div>
+         <div id="unreadFilterArea" class="filterLabel">
+            <img id="includeUnreadInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+               src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
+            <span style="vertical-align: middle">
+               <%: Resources.Global.readLabel %></span>
          </div>
       </div>
       <div class="grid_6 filterStripElement tagFilterArea">

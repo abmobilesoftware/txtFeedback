@@ -41,8 +41,7 @@ namespace SmsFeedback_Take4.Utilities
          var tags = from tag in dbContext.Tags where (tag.CompanyName == companyName && tag.Name.Contains(queryString)) select tag.Name;
          return tags;
       }
-
-
+      
       public string UpdateAddConversation(
                                           String from,
                                           String to, 
@@ -51,8 +50,8 @@ namespace SmsFeedback_Take4.Utilities
                                           Boolean readStatus, 
                                           DateTime? updateTime,
                                           smsfeedbackEntities dbContext, 
-                                          bool markConversationAsRead = false,
-                                          bool? newStarredStatus = null )
+                                          bool markConversationAsRead = false
+                                          )
       {
          logger.Info("Call made");
          try
@@ -65,22 +64,16 @@ namespace SmsFeedback_Take4.Utilities
                logger.InfoFormat("Updating conversation: [{0}] with read: {1}, updateTime: {2},  text: {3}" , conversationId, readStatus.ToString(), updateDateToInsert, text);
                var conv = conversations.First();
                convId = conv.ConvId;
-               //since twilio returns messages >= the latest message it could be that the latest message is returned again - the only difference is that now "read" is false
+               //since twilio returns (messages >= the latest message) it could be that the latest message is returned again - the only difference is that now "read" is false
                //so make sure that something changed, besides "read"
-               if (markConversationAsRead || (conv.Text != text && (updateTime.HasValue && updateTime.Value != conv.TimeUpdated)))
+               if (conv.Text != text && (updateTime.HasValue && updateTime.Value != conv.TimeUpdated))
                {
                   //updateTime for when marking a conversation as read will be "null"
                   if(updateTime.HasValue) conv.TimeUpdated = updateTime.Value;
                   if (!string.IsNullOrEmpty(text)) conv.Text = text;
                   conv.Read = readStatus;
                   dbContext.SaveChanges();              
-               }
-               //I made a new branch as this will be a separate call (maybe deserves another method)
-               if (newStarredStatus.HasValue)
-               {
-                  conv.Starred = newStarredStatus.Value;
-                  dbContext.SaveChanges();
-               }
+               }               
             }
             else
             {
@@ -116,6 +109,20 @@ namespace SmsFeedback_Take4.Utilities
             logger.Error("Error occurred in AddMessageAndUpdateConversation", ex);
             return CONVERSATION_NOT_MODIFIED;
          }
+      }
+
+      public Conversation MarkConversationAsRead(string convID, smsfeedbackEntities dbContext)
+      {
+         var conversations = from c in dbContext.Conversations where c.ConvId == convID select c;
+         if (conversations.Count() > 0)
+         {
+            var conv = conversations.First();
+            conv.Read = true;
+            dbContext.SaveChanges();
+            return conv;
+         }
+         //if there was no conversation associated to this convID 
+         return null; 
       }
 
       public Conversation UpdateStarredStatusForConversation(string convID, bool newStarredStatus, smsfeedbackEntities dbContext)

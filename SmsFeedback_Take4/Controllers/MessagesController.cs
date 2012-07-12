@@ -91,7 +91,7 @@ namespace SmsFeedback_Take4.Controllers
          }
          smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
 
-         mEFInterface.UpdateAddConversation(null, null, conversationId, null, true, null, lContextPerRequest, true);
+         mEFInterface.MarkConversationAsRead(conversationId, lContextPerRequest);
          return Json("Update successful", JsonRequestBehavior.AllowGet);
 
       }
@@ -121,6 +121,7 @@ namespace SmsFeedback_Take4.Controllers
                                             string[] workingPointsNumbers,
                                             string startDate,
                                             string endDate,
+                                            bool? onlyUnread,
                                             int skip,
                                             int top)
       {
@@ -177,8 +178,9 @@ namespace SmsFeedback_Take4.Controllers
                   if (endDateAsDate.Value.Date == DateTime.Now.Date) endDateAsDate = null;
                }
                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-
-               var conversations = SMSRepository.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers, startDateAsDate, endDateAsDate, skip, top, null, userId, lContextPerRequest);
+               bool retrieveOnlyUnreadConversations = false;
+               if (onlyUnread.HasValue && onlyUnread.Value == true) retrieveOnlyUnreadConversations = true;
+               var conversations = SMSRepository.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers, startDateAsDate, endDateAsDate, retrieveOnlyUnreadConversations, skip, top, null, userId, lContextPerRequest);
                return Json(conversations, JsonRequestBehavior.AllowGet);
 
             }

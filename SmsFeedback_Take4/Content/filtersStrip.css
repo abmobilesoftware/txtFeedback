@@ -25,7 +25,7 @@
 }
 
 .filterLabel {
-   float: left;
+   /*float: left;*/
    color: #6B9BB3;
    margin-top: 8px; /*This is for vertical alignment*/
    margin-right: 10px;
@@ -33,12 +33,12 @@
 }
 
 #tagsLabel { 
-   
+   float: left;
 }
 
 .filterDate {
-   width: 80px ;
-   min-width: 80px ;
+   width: 71px;
+   min-width: 71px ;
    padding: 2px; 
    height: 28px; /*align with tagfilter*/
 }
@@ -66,6 +66,25 @@
    display: block;
 }
 
-#starredLabel {
+#unreadFilterArea {
+   width: 21%;
+}
+#starredFilterArea {
    float: right;
+   width: 20%;
+}
+#dateFilterArea {
+   float: right;
+   width: 54%;
+}
+
+.grid_4_custom {
+   width: 46.5%;
+   display: inline;
+   float: left;
+   margin-right: 0.5%;
+}
+
+#dateLabel {
+   float: left;
 }

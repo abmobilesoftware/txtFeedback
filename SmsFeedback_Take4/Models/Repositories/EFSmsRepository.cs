@@ -17,6 +17,7 @@ namespace SmsFeedback_Take4.Models
                                                                string workingPointsNumber,
                                                                DateTime? startDate,
                                                                DateTime? endDate,
+                                                               bool onlyUnread,
                                                                int skip,
                                                                int top,
                                                                DateTime? lastUpdate,
@@ -51,6 +52,7 @@ namespace SmsFeedback_Take4.Models
                     where wp.TelNumber == consistentWP
                     select (from c in wp.Conversations
                             where (showFavourites ? c.Starred == true : true) &&
+                            (onlyUnread? c.Read == false : true) &&
                             (earliestStartDate.HasValue ? c.StartTime >= earliestStartDate.Value : true) &&
                             (latestEndDate.HasValue ? c.TimeUpdated <= latestEndDate.Value : true) &&
                             !tags.Except(c.Tags.Select(tag => tag.Name)).Any()
@@ -63,6 +65,7 @@ namespace SmsFeedback_Take4.Models
                     where wp.TelNumber == consistentWP
                     select (from c in wp.Conversations
                             where (showFavourites ? c.Starred == true : true) &&
+                            (onlyUnread ? c.Read == false : true) &&
                             (earliestStartDate.HasValue ? c.StartTime >= earliestStartDate.Value : true) &&
                             (latestEndDate.HasValue ? c.TimeUpdated <= latestEndDate.Value : true)
                             orderby c.TimeUpdated descending
@@ -86,6 +89,7 @@ namespace SmsFeedback_Take4.Models
                                                                 string[] workingPointsNumbers,
                                                                 DateTime? startDate,
                                                                 DateTime? endDate,
+                                                                bool onlyUnread,
                                                                 int skip,
                                                                 int top,
                                                                 DateTime? lastUpdate,
@@ -97,7 +101,7 @@ namespace SmsFeedback_Take4.Models
          IEnumerable<SmsMessage> results = null;
          foreach (var wp in workingPointsNumbers)
          {
-            var conversations = GetConversationsForNumber(showAll, showFavourites, tags, wp, startDate, endDate, skip, top, lastUpdate, userName,dbContext);
+            var conversations = GetConversationsForNumber(showAll, showFavourites, tags, wp, startDate, endDate,onlyUnread, skip, top, lastUpdate, userName,dbContext);
             if (conversations != null)
             {
                if (results == null) results = conversations;
@@ -136,7 +140,7 @@ namespace SmsFeedback_Take4.Models
          Dictionary<string, SmsMessage> res = new Dictionary<string, SmsMessage>();
          foreach (string wp in workingPointNumbers)
          {
-            var conversations = GetConversationsForNumber(true, false, null, wp, null, null, 0, 1, null, userName,dbContext);
+            var conversations = GetConversationsForNumber(true, false, null, wp, null, null,false, 0, 1, null, userName,dbContext);
             if (conversations != null && conversations.Count() > 0)
             {
                res.Add(wp, conversations.First());

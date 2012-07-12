@@ -150,6 +150,8 @@ function ConversationArea(filterArea, workingPointsArea) {
              endDate = this.filters.endDate;
           }
           
+          var onlyUnreadConvs = this.filters.unreadFilteringEnabled;
+
           var top = defaultNrOfConversationsToDisplay;
           var skip = 0;
           this.convsList.fetch({
@@ -159,7 +161,8 @@ function ConversationArea(filterArea, workingPointsArea) {
                 "tags": selectedTags,
                 "workingPointsNumbers": workingPointsNumbers,
                 "startDate" : startDate,
-                "endDate" : endDate,
+                "endDate": endDate,
+                "onlyUnread": onlyUnreadConvs,
                 "skip": skip,
                 "top": top
              },
@@ -175,16 +178,44 @@ function ConversationArea(filterArea, workingPointsArea) {
           $(target).removeClass("readable");
           $(target).addClass("unreadable");
           spinnerAddConvs.spin(target);
-          var selectedTags = ["complaint", "praise", "electronics"];
+          var selectedTags = [];
+          if (this.filters.tagFilteringEnabled) {
+             selectedTags = this.filters.tagsForFiltering;
+          }
+          var showFavorites = this.filters.starredFilteringEnabled;
           var workingPointsNumbers = this.selectedWorkingPoints;
+          //var workingPoints = checkedWorkingPoints.checkedPhoneNumbers;
+          if (workingPoints !== null) {
+             workingPointsNumbers = workingPoints;
+             this.selectedWorkingPoints = workingPoints;
+          }
+                var startDate, endDate;
+          if (this.filters.dateFilteringEnabled) {
+             startDate = this.filters.startDate;
+             endDate = this.filters.endDate;
+          }
+
+          var onlyUnreadConvs = this.filters.unreadFilteringEnabled;
+
           var top = defaultNrOfConversationsToDisplay;
           var skip = cummulativeSkip;
           cummulativeSkip = cummulativeSkip + defaultNrOfConversationsToDisplay;
+
           //add these "old" conversations to the end
           var self = this;
           $.ajax({
              url: "Messages/ConversationsList",
-             data: { "showAll": true, "showFavourites": false, "tags": selectedTags, "workingPointsNumbers": workingPointsNumbers, "skip": skip, "top": top },
+             data: {
+                "showAll": true,
+                "showFavourites": showFavorites,
+                "tags": selectedTags,
+                "workingPointsNumbers": workingPointsNumbers,
+                "startDate": startDate,
+                "endDate": endDate,
+                "onlyUnread": onlyUnreadConvs,
+                "skip": skip,
+                "top": top
+             },
              traditional: true,
              success: function (data) {
                 spinnerAddConvs.stop();
@@ -192,7 +223,15 @@ function ConversationArea(filterArea, workingPointsArea) {
                 $(target).addClass("readable");
 
                 $.each(data, function () {
-                   var conv = new Conversation({ From: $(this).attr("From"), ConvID: $(this).attr("ConvID"), TimeReceived: $(this).attr("TimeReceived"), Text: $(this).attr("Text"), Read: $(this).attr("Read"), To: $(this).attr('To') });
+                   var conv = new Conversation({
+                      From: $(this).attr("From"),
+                      ConvID: $(this).attr("ConvID"),
+                      TimeReceived: $(this).attr("TimeReceived"),
+                      Text: $(this).attr("Text"),
+                      Read: $(this).attr("Read"),
+                      To: $(this).attr('To'),
+                      Starred:$(this).attr('Starred')
+                   });
                    self.addConversationBasicEffect(conv, false);
                 });
                 if (data.length === 0 || data.length < defaultNrOfConversationsToDisplay) {
