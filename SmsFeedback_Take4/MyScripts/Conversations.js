@@ -266,29 +266,31 @@ function ConversationArea(filterArea, workingPointsArea) {
           var viewToRemove = _(this._convViews).select(function (cv) {
              return cv.model.get("ConvID") === conversation.get("ConvID");
           })[0];
-          this._convViews = _(this._convViews).without(viewToRemove);
-          if (this._rendered) {
-             var thisElementWasSelected = false;
-             if (gSelectedElement === viewToRemove.el) {
-                thisElementWasSelected = true;
+          if (viewToRemove !== null) {
+             this._convViews = _(this._convViews).without(viewToRemove);
+             if (this._rendered) {
+                var thisElementWasSelected = false;
+                if (gSelectedElement === viewToRemove.el) {
+                   thisElementWasSelected = true;
+                }
+                var elem = $(viewToRemove.el);
+                elem.fadeOut("slow", function () {
+                   elem.remove();
+                   //make sure to clear any event handlers, so we don't handle the same event twice
+                   conversation.off("change");
+                   self.addConversationWithEffect(conversation, true, thisElementWasSelected);
+                });
              }
-             var elem = $(viewToRemove.el);
-             elem.fadeOut("slow", function () {
-                elem.remove();
-                //make sure to clear any event handlers, so we don't handle the same event twice
-                conversation.off("change");
-                self.addConversationWithEffect(conversation, true, thisElementWasSelected);
-             });
           }
        },
        newMessageReceived: function (fromID, toID, convID, dateReceived, newText) {
           //if the given conversation exists we update it, otherwise we create a new conversation         
           var modelToUpdate = self.convsView.convsList.get(convID);
-          if (modelToUpdate) {             
-             modelToUpdate.set("Text", newText);
-             modelToUpdate.set("Read", false);
-             //if the current conversation is the selected conversation reset the timers
-             //if
+          if (modelToUpdate) {
+             //since the view will react to model changes we make sure that we do "batch updates" - only the last update will trigger the update
+             //all the previous updates will be "silent"
+             modelToUpdate.set({ "Text": newText }, { silent: true });
+             modelToUpdate.set("Read", false);             
           }
           else {
              var modelToAdd = new Conversation({ From: fromID,To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText });

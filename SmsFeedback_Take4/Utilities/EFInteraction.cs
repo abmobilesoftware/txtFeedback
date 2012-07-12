@@ -117,6 +117,20 @@ namespace SmsFeedback_Take4.Utilities
             return CONVERSATION_NOT_MODIFIED;
          }
       }
+
+      public Conversation UpdateStarredStatusForConversation(string convID, bool newStarredStatus, smsfeedbackEntities dbContext)
+      {
+         var conversations = from c in dbContext.Conversations where c.ConvId == convID select c;
+         if (conversations.Count() > 0)
+         {
+            var conv = conversations.First();
+            conv.Starred = newStarredStatus;
+            dbContext.SaveChanges();
+            return conv;            
+         }
+         //if there was no conversation associated to this convID 
+         return null;      
+      }
     
       public Message AddMessage(String from, String to, String conversationId, String text, Boolean readStatus, DateTime updateTime, smsfeedbackEntities dbContext)
       {

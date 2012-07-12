@@ -96,16 +96,22 @@ namespace SmsFeedback_Take4.Controllers
 
       }
       [HttpGet]
-      public JsonResult ChangeStarredStatusForConversation(string convID, bool newStarredStatus)
+      public JsonResult ChangeStarredStatusForConversation(string convID, bool? newStarredStatus)
       {
          logger.InfoFormat("Changing starred status for conversation [{0}] ", convID);
          if (string.IsNullOrEmpty(convID))
          {
             return Json("Please provide a conversationId", JsonRequestBehavior.AllowGet);
          }
-         smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-         mEFInterface.UpdateAddConversation(null, null, convID, null, true, null, lContextPerRequest, false, newStarredStatus);
-         return Json("Update successful", JsonRequestBehavior.AllowGet);
+         if (newStarredStatus.HasValue)
+         {
+            smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+            mEFInterface.UpdateStarredStatusForConversation(convID, newStarredStatus.Value, lContextPerRequest);
+            return Json("Update successful", JsonRequestBehavior.AllowGet);
+         }
+         else {
+            return Json("Please provide a valid starredStatus", JsonRequestBehavior.AllowGet);
+         }
       }
 
       //todo add date from/date to to list
@@ -220,16 +226,16 @@ namespace SmsFeedback_Take4.Controllers
       {
          if (HttpContext.Request.IsAjaxRequest())
          {
+            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], text: [{2}]", from, to, text);
             String conversationId = to + "-" + from;
             try
             {
                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-
                AddMessageAndUpdateConversation(from, to, conversationId, text, true, DateTime.Now, lContextPerRequest);
 
                //send message via twilio
-               from = "442033221134";
-               to = "442033221909";
+               //from = "442033221134";
+               //to = "442033221909";
                SMSRepository.SendMessage(from, to, text, (msg) =>
                {
 

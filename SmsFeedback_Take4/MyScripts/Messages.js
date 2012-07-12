@@ -39,7 +39,7 @@ function startTimer(intervalToWait) {
 
 function MessagesArea(convView, tagsArea) {
    var self = this;
-   this.convView = convView.convsView;
+   this.convView = convView;
    this.tagsArea = tagsArea;
    //set the filter to make on the top div (conversation) selecteble
   // in the absence of the filter option all elements within the conversation are made "selectable"
@@ -76,12 +76,9 @@ function MessagesArea(convView, tagsArea) {
         newMsg.set("From", from);
         newMsg.set("To", to);        
         newMsg.set("TimeReceived", (new Date()).toUTCString());
-        self.messagesRep[self.currentConversationId].add(newMsg);
-       //TODO - here TO is incorrect, as it should be the description 
-        self.convView.newMessageReceived(from, to, self.currentConversationId, Date.now(), msgContent);
-        //reset the input form
-        $("#replyToMessageForm")[0].reset();
-        //send it to the server
+        newMsg.set("ConvID", self.currentConversationId);
+       
+      //send it to the server
         $.getJSON('Messages/SendMessage',
                 { from: from, to: to, text: msgContent },
                 function (data) {
@@ -89,6 +86,12 @@ function MessagesArea(convView, tagsArea) {
                  console.log(data);
                  }
         );
+       
+        self.messagesRep[self.currentConversationId].add(newMsg);
+       //TODO - here TO is incorrect, as it should be the description
+        self.convView.newMessageReceived(from, to, self.currentConversationId, Date.now(), msgContent);
+       //reset the input form
+        $("#replyToMessageForm")[0].reset();
     };
 
     $("#replyBtn").click(function () {
