@@ -11,14 +11,14 @@ function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, d
    msgView.messagesView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
 }
 
-function selectedWPsChanged(convView, msgView, checkedWorkingPoints) {
+function selectedWPsChanged(convView, msgView) {
    console.log('selectedWPsChanged triggered');
-   convView.getConversations(checkedWorkingPoints.checkedPhoneNumbers);
+   convView.getConversations();
    msgView.messagesView.resetViewToDefault();
 }
 
 function refreshConversationList(convView, msgView) {
-   convView.getConversations(null);
+   convView.getConversations();
    msgView.messagesView.resetViewToDefault();
 }
 
@@ -33,14 +33,15 @@ function InitializeGUI() {
    this.filterArea = new FilterArea();
 
    //build the areas
-   this.wpsArea = WorkingPointsArea();
+   this.wpsArea = new WorkingPointsArea();
+   this.wpsView = this.wpsArea.wpPoolView;
    this.convArea = new ConversationArea(self.filterArea, self.wpsArea);
    this.convView = this.convArea.convsView;
    this.tagsArea = TagsArea();
    this.msgView = new MessagesArea(self.convView, self.tagsArea);
 
    //get the initial working points
-   this.wpsArea.getWorkingPoints();
+   this.wpsView.getWorkingPoints();
    //get the initial conversations
    this.convView.getConversations();
 
@@ -63,7 +64,7 @@ function InitializeGUI() {
    });
 
    $(document).bind('selectedWPsChanged', function (ev, data) {
-      selectedWPsChanged(self.convView, self.msgView, data);
+      selectedWPsChanged(self.convView, self.msgView);
    });
 
    $(document).bind('refreshConversationList', function (ev, data) {

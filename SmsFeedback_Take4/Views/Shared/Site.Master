@@ -27,8 +27,8 @@
             </div>
             <div id="logindisplay">               
                 <% Html.RenderPartial("LogOnUserControl"); %>
-                <%: Html.LanguageSelectorLink("en-US", "[English]", "English", null) %>
-                <%: Html.LanguageSelectorLink("ro-RO", "[Romanian]", "Romanian", null) %>                
+                <%: Html.LanguageSelectorLink("en-US", "en", "en", null) %>
+                <%: Html.LanguageSelectorLink("ro-RO", "ro", "ro", null) %>                
             </div>
               
             <nav>

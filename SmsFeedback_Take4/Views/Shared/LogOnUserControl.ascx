@@ -2,7 +2,7 @@
 <%
     if (Request.IsAuthenticated) {
 %>
-        Welcome <strong><%: Page.User.Identity.Name %></strong>!
+         <%: Resources.Global.welcomeMessage %> <strong><%: Page.User.Identity.Name %></strong>!
         [ <%: Html.ActionLink("Log Off", "LogOff", "Account") %> ]
 <%
     }

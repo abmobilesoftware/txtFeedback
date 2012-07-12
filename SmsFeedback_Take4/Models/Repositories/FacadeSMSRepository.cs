@@ -41,8 +41,8 @@ namespace SmsFeedback_Take4.Models
          return _instance;
       }
 #endregion
-      public IEnumerable<SmsMessage> GetConversationsForNumbers(bool showAll, 
-                                                                  bool showFavourites, 
+      public IEnumerable<SmsMessage> GetConversationsForNumbers(
+                                                                  bool onlyFavorites, 
                                                                   string[] tags,
                                                                   string[] workingPointsNumbers,
                                                                   DateTime? startDate,
@@ -82,7 +82,7 @@ namespace SmsFeedback_Take4.Models
                      //unfortunatelly twilio is rather imprecisse (YYYY-MM-DD) -> we could/will get the same messages twice 
                      //we'll tackle this in the addupdate logic
                      var lastConversationTime = item.Value.TimeReceived; 
-                     IEnumerable<SmsMessage> twilioConversationsForNumbers = mTwilioRep.GetConversationsForNumber(showAll, showFavourites, tags, item.Key, skip, top, lastConversationTime, userName);
+                     IEnumerable<SmsMessage> twilioConversationsForNumbers = mTwilioRep.GetConversationsForNumber(onlyFavorites, tags, item.Key, skip, top, lastConversationTime, userName);
                      //we need to add the twilio conversations to our conversations list
                      AddTwilioConversationsToDb(twilioConversationsForNumbers,dbContext);
                      //TODO - remove the break
@@ -91,11 +91,11 @@ namespace SmsFeedback_Take4.Models
                   }
                   else
                   {
-                     IEnumerable<SmsMessage> twilioConversationsForNumbers = mTwilioRep.GetConversationsForNumber(showAll, showFavourites, tags, item.Key, skip, top, lastUpdate, userName);
+                     IEnumerable<SmsMessage> twilioConversationsForNumbers = mTwilioRep.GetConversationsForNumber( onlyFavorites, tags, item.Key, skip, top, lastUpdate, userName);
                      AddTwilioConversationsToDb(twilioConversationsForNumbers,dbContext);
                   }
                }
-               IEnumerable<SmsMessage> efConversationsForNumbers = mEFRep.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers,startDate,endDate,onlyUnread, skip, top, lastUpdate, userName,dbContext);
+               IEnumerable<SmsMessage> efConversationsForNumbers = mEFRep.GetConversationsForNumbers(onlyFavorites, tags, workingPointsNumbers,startDate,endDate,onlyUnread, skip, top, lastUpdate, userName,dbContext);
                return efConversationsForNumbers;           
          }
          catch (Exception ex)

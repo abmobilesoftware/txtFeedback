@@ -79,13 +79,13 @@ function MessagesArea(convView, tagsArea) {
         newMsg.set("ConvID", self.currentConversationId);
        
       //send it to the server
-        $.getJSON('Messages/SendMessage',
-                { from: from, to: to, text: msgContent },
-                function (data) {
-                    //delivered successfully? if yes - indicate this
-                 console.log(data);
-                 }
-        );
+        //$.getJSON('Messages/SendMessage',
+        //        { from: from, to: to, text: msgContent },
+        //        function (data) {
+        //            //delivered successfully? if yes - indicate this
+        //         console.log(data);
+        //         }
+        //);
        
         self.messagesRep[self.currentConversationId].add(newMsg);
        //TODO - here TO is incorrect, as it should be the description

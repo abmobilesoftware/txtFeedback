@@ -171,7 +171,7 @@
             </form>
          </div>
          <div id="replyButtonArea">
-            <button id="replyBtn">Send</button>
+            <button id="replyBtn"> <%: Resources.Global.sendButton %></button>
          </div>
       </div>
    </div>

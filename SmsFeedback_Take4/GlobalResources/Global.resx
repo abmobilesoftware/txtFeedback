@@ -183,4 +183,7 @@
   <data name="readLabel" xml:space="preserve">
     <value>Unread</value>
   </data>
+  <data name="sendButton" xml:space="preserve">
+    <value>Send</value>
+  </data>
 </root>

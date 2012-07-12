@@ -5,8 +5,8 @@ namespace SmsFeedback_Take4.Models
 {
    interface IExternalSmsRepository
    {
-      System.Collections.Generic.IEnumerable<SmsMessage> GetConversationsForNumber(bool showAll,
-                                                                                          bool showFavourites,
+      System.Collections.Generic.IEnumerable<SmsMessage> GetConversationsForNumber(
+                                                                                          bool onlyFavorites,
                                                                                           string[] tags,
                                                                                           string workingPointsNumber,
                                                                                           int skip,

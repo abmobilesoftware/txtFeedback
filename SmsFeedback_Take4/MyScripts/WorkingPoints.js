@@ -1,8 +1,9 @@
 ﻿"use strict";
-var checkedPhoneNumbers;
+
 
 function WorkingPointsArea() {
-    var PhoneNumber = Backbone.Model.extend({
+    var self = this;
+    var WorkingPoint = Backbone.Model.extend({
        defaults: {
           TelNumber: "defaultNumber",
           Name: "defaultNumber",
@@ -12,8 +13,8 @@ function WorkingPointsArea() {
         idAttribute: "TelNumber"     
      });
 
-    var PhoneNumbersPool = Backbone.Collection.extend({
-       model: PhoneNumber,    
+    var WorkingPointPool = Backbone.Collection.extend({
+       model: WorkingPoint,    
        url: function () {
           return "Messages/WorkingPointsPerUser";
        }
@@ -21,9 +22,12 @@ function WorkingPointsArea() {
 
     _.templateSettings = {
         interpolate: /\{\{(.+?)\}\}/g
-    };
-    var PhoneNumberView = Backbone.View.extend({
-        model: PhoneNumber,
+     };
+
+    self.checkedPhoneNumbersArray = [];
+
+    var WorkingPointView = Backbone.View.extend({
+        model: WorkingPoint,
         tagName: "span",
         phoneNumberTemplate: _.template($('#phoneNumber-template').html()),
         events: {
@@ -46,11 +50,10 @@ function WorkingPointsArea() {
         deletePhoneNumber: function () {
             this.model.destroy();
         },
-        triggerFiltering: function () {
-           
+        triggerFiltering: function () {           
            //only perform the changes if we have more than 1 number selected
            var counterForAlreadySelectedNumbers = 0;
-           _.each(checkedPhoneNumbers.models, function (wp) {
+           _.each(self.checkedPhoneNumbers.models, function (wp) {
               if (wp.get('CheckedStatus') === true) {
                  counterForAlreadySelectedNumbers++;
               }
@@ -72,16 +75,14 @@ function WorkingPointsArea() {
                  setCheckboxState(checkboxImg, false);
               }
               //make sure we start from the initial view where all the phone numbers are selected
-              var checkedPhoneNumbersArray = [];
-              _.each(checkedPhoneNumbers.models, function (wp) {
+              self.checkedPhoneNumbersArray = [];
+              _.each(self.checkedPhoneNumbers.models, function (wp) {
                  if (wp.get('CheckedStatus') === true) {
-                    checkedPhoneNumbersArray.push(wp.get('TelNumber'));
+                    self.checkedPhoneNumbersArray.push(wp.get('TelNumber'));
                  }
               });
-              $(document).trigger('selectedWPsChanged', { 'checkedPhoneNumbers': checkedPhoneNumbersArray });
+              $(document).trigger('selectedWPsChanged');
            }
-         
-          
         }
      });
 
@@ -103,16 +104,16 @@ function WorkingPointsArea() {
     };
     var spinner = new Spinner(opts);
 
-    var PhoneNumbersPoolView = Backbone.View.extend({
+    self.checkedPhoneNumbers = null;
+    var WpPoolView = Backbone.View.extend({
         el: $("#phoneNumbersPool"),
         //allConversations: null,
         initialize: function () {
-           _.bindAll(this, 'render', 'appendWorkingPoint', 'phoneNumbersPoolChanged','getWorkingPoints');
-           this.phoneNumbersPool = new PhoneNumbersPool();
-           checkedPhoneNumbers = this.phoneNumbersPool;
+           _.bindAll(this, 'render', 'appendWorkingPoint', 'getWorkingPoints');
+           this.phoneNumbersPool = new WorkingPointPool();
+           self.checkedPhoneNumbers = this.phoneNumbersPool;
            this.phoneNumbersPool.bind("add", this.appendWorkingPoint, this);
-           this.phoneNumbersPool.bind("reset", this.render);
-           //this.phoneNumbersPool.bind("remove", this.phoneNumbersPoolChanged, this);           
+           this.phoneNumbersPool.bind("reset", this.render);          
         },
         getWorkingPoints: function () {
            var target = document.getElementById('phoneNumbersPool');
@@ -124,23 +125,15 @@ function WorkingPointsArea() {
            });
         },
         render: function () {
-           var self = this;
+           var selfWpPoolView = this;
            this.phoneNumbersPool.each(function (wp) {
-              self.appendWorkingPoint(wp);
+              selfWpPoolView.appendWorkingPoint(wp);
            });            
         },
         appendWorkingPoint: function (wp) {
-           var phoneNumberView = new PhoneNumberView({ model: wp });
-           $(this.el).append(phoneNumberView.render().el);
-        },
-        phoneNumbersPoolChanged: function () {
-            if (this.phoneNumbersPool.models.length === 1) {
-                //this.$el.hide();
-                $(".deletePhoneNumber").hide();
-            }
+           var wpView = new WorkingPointView({ model: wp });
+           $(this.el).append(wpView.render().el);
         }
     });
-
-    var phoneNumbersPoolView = new PhoneNumbersPoolView();
-    return phoneNumbersPoolView;
+    self.wpPoolView = new WpPoolView();   
 }

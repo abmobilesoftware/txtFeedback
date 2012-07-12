@@ -14,8 +14,7 @@ namespace SmsFeedback_Take4.Models
       /// <summary>
       /// 
       /// </summary>
-      /// <param name="showAll"></param>
-      /// <param name="showFavourites"></param>
+      /// <param name="onlyFavorites"></param>
       /// <param name="tags"></param>
       /// <param name="workingPointsNumber"></param>
       /// <param name="startDate">null if no condition is wanted</param>
@@ -26,8 +25,8 @@ namespace SmsFeedback_Take4.Models
       /// <param name="userName"></param>
       /// <param name="dbContext"></param>
       /// <returns></returns>
-      System.Collections.Generic.IEnumerable<SmsMessage> GetConversationsForNumbers(bool showAll,
-                                                                                    bool showFavourites,
+      System.Collections.Generic.IEnumerable<SmsMessage> GetConversationsForNumbers(
+                                                                                    bool onlyFavorites,
                                                                                     string[] tags,
                                                                                     string[] workingPointsNumber,
                                                                                     DateTime? startDate,
@@ -41,8 +40,7 @@ namespace SmsFeedback_Take4.Models
       /// <summary>
       /// 
       /// </summary>
-      /// <param name="showAll"></param>
-      /// <param name="showFavourites"></param>
+      /// <param name="onlyFavorites"></param>
       /// <param name="tags"></param>
       /// <param name="workingPointsNumber"></param>
       /// <param name="startDate">null if no condition is wanted</param>
@@ -53,8 +51,8 @@ namespace SmsFeedback_Take4.Models
       /// <param name="userName"></param>
       /// <param name="dbContext"></param>
       /// <returns></returns>
-      IEnumerable<SmsMessage> GetConversationsForNumber(bool showAll,
-                                                               bool showFavourites,
+      IEnumerable<SmsMessage> GetConversationsForNumber(
+                                                               bool onlyFavorites,
                                                                string[] tags,
                                                                string workingPointsNumber,
                                                                DateTime? startDate,

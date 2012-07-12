@@ -67,11 +67,11 @@
 }
 
 #unreadFilterArea {
-   width: 21%;
+   width: 20%;
 }
 #starredFilterArea {
    float: right;
-   width: 20%;
+   width: 19%;
 }
 #dateFilterArea {
    float: right;

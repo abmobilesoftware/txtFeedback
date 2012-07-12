@@ -115,8 +115,8 @@ namespace SmsFeedback_Take4.Controllers
       }
 
       //todo add date from/date to to list
-      public JsonResult ConversationsList(bool showAll,
-                                            bool showFavourites,
+      public JsonResult ConversationsList(
+                                            bool onlyFavorites,
                                             string[] tags,
                                             string[] workingPointsNumbers,
                                             string startDate,
@@ -151,9 +151,8 @@ namespace SmsFeedback_Take4.Controllers
             {
                wps.Append(" []");
             }
-            logger.Debug(String.Format("ConversationList requested: showAll: {0}, showFavourites {1}, tags: {2}, working points: {3}, skip: {4}, top: {5}",
-                                        showAll.ToString(),
-                                        showFavourites.ToString(),
+            logger.Debug(String.Format("ConversationList requested: onlyFavourites {0}, tags: {1}, working points: {2}, skip: {3}, top: {4}",                                        
+                                        onlyFavorites.ToString(),
                                         receivedTags.ToString(),
                                         wps.ToString(),
                                         skip,
@@ -180,7 +179,7 @@ namespace SmsFeedback_Take4.Controllers
                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
                bool retrieveOnlyUnreadConversations = false;
                if (onlyUnread.HasValue && onlyUnread.Value == true) retrieveOnlyUnreadConversations = true;
-               var conversations = SMSRepository.GetConversationsForNumbers(showAll, showFavourites, tags, workingPointsNumbers, startDateAsDate, endDateAsDate, retrieveOnlyUnreadConversations, skip, top, null, userId, lContextPerRequest);
+               var conversations = SMSRepository.GetConversationsForNumbers(onlyFavorites, tags, workingPointsNumbers, startDateAsDate, endDateAsDate, retrieveOnlyUnreadConversations, skip, top, null, userId, lContextPerRequest);
                return Json(conversations, JsonRequestBehavior.AllowGet);
 
             }

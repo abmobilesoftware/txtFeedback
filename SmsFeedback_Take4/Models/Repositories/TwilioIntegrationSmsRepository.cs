@@ -76,8 +76,8 @@ namespace SmsFeedback_Take4.Models
          return records;
       }
 
-      public IEnumerable<SmsMessage> GetConversationsForNumber(bool showAll,
-                                                               bool showFavourites,
+      public IEnumerable<SmsMessage> GetConversationsForNumber(
+                                                               bool onlyFavorites,
                                                                string[] tags,
                                                                string workingPointsNumber,
                                                                int skip,

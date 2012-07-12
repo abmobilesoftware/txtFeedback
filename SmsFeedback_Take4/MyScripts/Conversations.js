@@ -1,6 +1,7 @@
 ﻿"use strict";
 var defaultNrOfConversationsToDisplay = 10;
-var cummulativeSkip = defaultNrOfConversationsToDisplay;
+var defaultNrOfConversationsToSkip = 0;
+var cummulativeSkip = defaultNrOfConversationsToSkip;
 
 function ConversationArea(filterArea, workingPointsArea) {
    var self = this;
@@ -102,7 +103,8 @@ function ConversationArea(filterArea, workingPointsArea) {
        el: $("#conversations"),
        initialize: function () {
           this.filters = filterArea;
-          this.workingpoints = workingPointsArea;
+          this.workingPoints = workingPointsArea;
+          //this.workingpoints = workingPointsArea;
           _.bindAll(this,
              "render",
              "getConversations",
@@ -112,11 +114,12 @@ function ConversationArea(filterArea, workingPointsArea) {
              "updateConversation",
              "newMessageReceived",
              "removeConversation",                        
-             "filterConversations");
+             "filterConversations",
+             "gatherFilterOptions");
           this.convsList = new ConversationsList();
           this.convsList.bind("reset", this.render);
           this.convsList.bind("add", this.addConversationWithEffect, this);
-          this.selectedWorkingPoints = [];
+          //this.selectedWorkingPoints = [];
           // this.convsList.change("change", this.updatedConversation, this);
           this.convsList.bind("remove", this.removeConversation, this);
           //$("#conversations").selectable();
@@ -126,96 +129,81 @@ function ConversationArea(filterArea, workingPointsArea) {
           this.addConversationAsNewElement = true;
        },
        getConversations: function (workingPoints) {
+          //#region  Reseting internal variables                    
+          this._convViews = [];
+
+          //reset the cummulative skip because we start with a "fresh" view
+          cummulativeSkip = defaultNrOfConversationsToSkip;
+          //#endregion
+
+          //#region Visual manipulation
           var target = document.getElementById('scrollableconversations');
           $('#loadMoreConversations').hide();
           $('#conversations').html('');
           spinner.spin(target);
-          var selectedTags =[];
-          if (this.filters.tagFilteringEnabled) {
-             selectedTags = this.filters.tagsForFiltering;
-          }
-          var showFavorites = this.filters.starredFilteringEnabled;
-          var workingPointsNumbers = this.selectedWorkingPoints;
-          //var workingPoints = checkedWorkingPoints.checkedPhoneNumbers;
-          if (workingPoints !== null) {
-             workingPointsNumbers = workingPoints;
-             this.selectedWorkingPoints = workingPoints;
-          }          
-          //reset the cummulative skip because we start with a "fresh" view
-          cummulativeSkip = defaultNrOfConversationsToDisplay;
+          //#endregion
+                    
+          //#region Prepare parameters
+          var options = this.gatherFilterOptions();                  
+          //#endregion
 
-          var startDate, endDate;
-          if (this.filters.dateFilteringEnabled) {
-             startDate = this.filters.startDate;
-             endDate = this.filters.endDate;
-          }
-          
-          var onlyUnreadConvs = this.filters.unreadFilteringEnabled;
-
-          var top = defaultNrOfConversationsToDisplay;
-          var skip = 0;
           this.convsList.fetch({
-             data: {
-                "showAll": true,
-                "showFavourites": showFavorites,
-                "tags": selectedTags,
-                "workingPointsNumbers": workingPointsNumbers,
-                "startDate" : startDate,
-                "endDate": endDate,
-                "onlyUnread": onlyUnreadConvs,
-                "skip": skip,
-                "top": top
-             },
-             traditional: true,
+             data: options,
+             traditional:true,
              success: function (data) {               
                 spinner.stop();
              }
           });
        },
+       gatherFilterOptions: function () {
+          var filterOptions = {};        
+          var selectedTags = [];
+          if (this.filters.tagFilteringEnabled) {
+             selectedTags = this.filters.tagsForFiltering;
+          }
+          var showFavorites = this.filters.starredFilteringEnabled;     
+          var workingPointsNumbers = this.workingPoints.checkedPhoneNumbersArray;
+     
+          var startDate, endDate;
+          if (this.filters.dateFilteringEnabled) {
+             startDate = this.filters.startDate;
+             endDate = this.filters.endDate;
+          }
+          var onlyUnreadConvs = this.filters.unreadFilteringEnabled;
+          var top = defaultNrOfConversationsToDisplay;
+          var skip = cummulativeSkip;
+
+          filterOptions["onlyFavorites"] = showFavorites;
+          filterOptions["tags"] = selectedTags;
+          filterOptions["workingPointsNumbers"] = workingPointsNumbers;
+          filterOptions["startDate"] = startDate;
+          filterOptions["endDate"] = endDate;
+          filterOptions["onlyUnread"] = onlyUnreadConvs;
+          filterOptions["skip"] = skip;
+          filterOptions["top"] = top;
+          return filterOptions;
+       },
        getAdditionalConversations: function () {
+          //#region Visual manipulation
           //the spinner button should only affect the LoadMoreConversationsDiv
           var target = document.getElementById('loadMoreConversations');
           $(target).removeClass("readable");
           $(target).addClass("unreadable");
           spinnerAddConvs.spin(target);
-          var selectedTags = [];
-          if (this.filters.tagFilteringEnabled) {
-             selectedTags = this.filters.tagsForFiltering;
-          }
-          var showFavorites = this.filters.starredFilteringEnabled;
-          var workingPointsNumbers = this.selectedWorkingPoints;
-          //var workingPoints = checkedWorkingPoints.checkedPhoneNumbers;
-          if (workingPoints !== null) {
-             workingPointsNumbers = workingPoints;
-             this.selectedWorkingPoints = workingPoints;
-          }
-                var startDate, endDate;
-          if (this.filters.dateFilteringEnabled) {
-             startDate = this.filters.startDate;
-             endDate = this.filters.endDate;
-          }
-
-          var onlyUnreadConvs = this.filters.unreadFilteringEnabled;
-
-          var top = defaultNrOfConversationsToDisplay;
-          var skip = cummulativeSkip;
+          //#endregion
+      
+          //update the cumulativeSkip (supporting the use case where we use LoadMoreConversations multiple times)
           cummulativeSkip = cummulativeSkip + defaultNrOfConversationsToDisplay;
+          
+          //#region Prepare parameters
+          var options = this.gatherFilterOptions();
+          //#endregion
 
           //add these "old" conversations to the end
-          var self = this;
+          var selfConversationsView = this;
           $.ajax({
              url: "Messages/ConversationsList",
-             data: {
-                "showAll": true,
-                "showFavourites": showFavorites,
-                "tags": selectedTags,
-                "workingPointsNumbers": workingPointsNumbers,
-                "startDate": startDate,
-                "endDate": endDate,
-                "onlyUnread": onlyUnreadConvs,
-                "skip": skip,
-                "top": top
-             },
+             data: options,
              traditional: true,
              success: function (data) {
                 spinnerAddConvs.stop();
@@ -232,7 +220,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                       To: $(this).attr('To'),
                       Starred:$(this).attr('Starred')
                    });
-                   self.addConversationBasicEffect(conv, false);
+                   selfConversationsView.addConversationBasicEffect(conv, false);
                 });
                 if (data.length === 0 || data.length < defaultNrOfConversationsToDisplay) {
                    $(target).hide('slow');
@@ -247,9 +235,9 @@ function ConversationArea(filterArea, workingPointsArea) {
 
           var convEl = $("#conversations");
           convEl.html('');
-          var self = this;
+          var selfConversationsView = this;
           this.convsList.each(function (conv) {
-             self.addConversationBasicEffect(conv);
+             selfConversationsView.addConversationBasicEffect(conv);
           });
        },
        addConversationWithEffect: function (conv, addConversationAsNewElement, newElementIsSelected) {
@@ -289,9 +277,9 @@ function ConversationArea(filterArea, workingPointsArea) {
              $(this.el).append(item);
           }
        
-          var self = this;
+          var selfConversationsView = this;
           conv.on("change", function (model) {
-             self.updateConversation(model);
+             selfConversationsView.updateConversation(model);
           });
           //if we are displaying more then 10 conversations then prepare to
           if (this.convsList.models.length >= defaultNrOfConversationsToDisplay) {
@@ -301,11 +289,11 @@ function ConversationArea(filterArea, workingPointsArea) {
        },
        updateConversation: function (conversation) {
           //when we get an update the conversation will move to the top of the list
-          var self = this;
+          var selfConversationsView = this;
           var viewToRemove = _(this._convViews).select(function (cv) {
              return cv.model.get("ConvID") === conversation.get("ConvID");
           })[0];
-          if (viewToRemove !== null) {
+          if (viewToRemove != undefined && viewToRemove !== null) {
              this._convViews = _(this._convViews).without(viewToRemove);
              if (this._rendered) {
                 var thisElementWasSelected = false;
@@ -317,7 +305,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                    elem.remove();
                    //make sure to clear any event handlers, so we don't handle the same event twice
                    conversation.off("change");
-                   self.addConversationWithEffect(conversation, true, thisElementWasSelected);
+                   selfConversationsView.addConversationWithEffect(conversation, true, thisElementWasSelected);
                 });
              }
           }

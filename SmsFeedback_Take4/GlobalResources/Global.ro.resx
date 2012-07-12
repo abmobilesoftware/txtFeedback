@@ -139,7 +139,7 @@
     <value>Mesaje</value>
   </data>
   <data name="welcomeMessage" xml:space="preserve">
-    <value>Bine ati venit</value>
+    <value>Bine ai venit</value>
   </data>
   <data name="accountInformation" xml:space="preserve">
     <value>Informatii cont</value>
@@ -166,7 +166,7 @@
     <value>Setari</value>
   </data>
   <data name="tagsLabel" xml:space="preserve">
-    <value>Etichet(e):</value>
+    <value>Etichete:</value>
   </data>
   <data name="dateLabel" xml:space="preserve">
     <value>Data:</value>
@@ -182,5 +182,8 @@
   </data>
   <data name="readLabel" xml:space="preserve">
     <value>Necitite</value>
+  </data>
+  <data name="sendButton" xml:space="preserve">
+    <value>Trimite</value>
   </data>
 </root>

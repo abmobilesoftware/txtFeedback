@@ -11,8 +11,8 @@ namespace SmsFeedback_Take4.Models
    {
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-      public IEnumerable<SmsMessage> GetConversationsForNumber(bool showAll,
-                                                               bool showFavourites,
+      public IEnumerable<SmsMessage> GetConversationsForNumber(
+                                                               bool onlyFavorites,
                                                                string[] tags,
                                                                string workingPointsNumber,
                                                                DateTime? startDate,
@@ -51,7 +51,7 @@ namespace SmsFeedback_Take4.Models
             convs = from wp in dbContext.WorkingPoints
                     where wp.TelNumber == consistentWP
                     select (from c in wp.Conversations
-                            where (showFavourites ? c.Starred == true : true) &&
+                            where (onlyFavorites ? c.Starred == true : true) &&
                             (onlyUnread? c.Read == false : true) &&
                             (earliestStartDate.HasValue ? c.StartTime >= earliestStartDate.Value : true) &&
                             (latestEndDate.HasValue ? c.TimeUpdated <= latestEndDate.Value : true) &&
@@ -64,7 +64,7 @@ namespace SmsFeedback_Take4.Models
             convs = from wp in dbContext.WorkingPoints
                     where wp.TelNumber == consistentWP
                     select (from c in wp.Conversations
-                            where (showFavourites ? c.Starred == true : true) &&
+                            where (onlyFavorites ? c.Starred == true : true) &&
                             (onlyUnread ? c.Read == false : true) &&
                             (earliestStartDate.HasValue ? c.StartTime >= earliestStartDate.Value : true) &&
                             (latestEndDate.HasValue ? c.TimeUpdated <= latestEndDate.Value : true)
@@ -83,8 +83,8 @@ namespace SmsFeedback_Take4.Models
             return null;
          }
       }
-      public IEnumerable<SmsMessage> GetConversationsForNumbers(bool showAll,
-                                                                bool showFavourites,
+      public IEnumerable<SmsMessage> GetConversationsForNumbers(
+                                                                bool onlyFavorites,
                                                                 string[] tags,
                                                                 string[] workingPointsNumbers,
                                                                 DateTime? startDate,
@@ -101,7 +101,7 @@ namespace SmsFeedback_Take4.Models
          IEnumerable<SmsMessage> results = null;
          foreach (var wp in workingPointsNumbers)
          {
-            var conversations = GetConversationsForNumber(showAll, showFavourites, tags, wp, startDate, endDate,onlyUnread, skip, top, lastUpdate, userName,dbContext);
+            var conversations = GetConversationsForNumber(onlyFavorites, tags, wp, startDate, endDate,onlyUnread, skip, top, lastUpdate, userName,dbContext);
             if (conversations != null)
             {
                if (results == null) results = conversations;
@@ -140,7 +140,7 @@ namespace SmsFeedback_Take4.Models
          Dictionary<string, SmsMessage> res = new Dictionary<string, SmsMessage>();
          foreach (string wp in workingPointNumbers)
          {
-            var conversations = GetConversationsForNumber(true, false, null, wp, null, null,false, 0, 1, null, userName,dbContext);
+            var conversations = GetConversationsForNumber(false, null, wp, null, null,false, 0, 1, null, userName,dbContext);
             if (conversations != null && conversations.Count() > 0)
             {
                res.Add(wp, conversations.First());
