@@ -2,7 +2,7 @@
 
 //#region WorkingPoint model
 $(function () {
-   window.app = window.app || {};   //window.app = window.app || { } will set window.app to an empty object if there is no window.app and will leave window.app alone if it has already been set; doing it like that makes the JavaScript files more self-contained and less subject to loading order
+   window.app = window.app || {};   //window.app = window.app || { } will set window.app to an empty object if there is no window.app and will leave window.app alone if it has already been set; doing it like this makes the JavaScript files more self-contained and less subject to loading order
    window.app.WorkingPoint = Backbone.Model.extend({
       defaults: {
          TelNumber: "defaultNumber",

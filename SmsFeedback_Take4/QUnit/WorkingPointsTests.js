@@ -1,18 +1,5 @@
-﻿$(document).ready(function () {
-   module("WorkingPoints", {
-      setup: function () {
-         this.wpArea = new WorkingPointsArea();
-      },
-      teardown: function () { }
-   });
-   test("constructor_allMemberVariablesAreProperlyInitialized", function () {      
-      ok(typeof(this.wpArea.wpPoolView) != undefined, "The WpPoolView should be exposed to the outside world");
-      ok(typeof(this.wpArea.checkedPhoneNumbers) != undefined, "The checked phone numbers should be exposed");
-      ok(typeof (this.wpArea.wpPoolView.getWorkingPoints) != undefined, "getWorkingPoints should be exposed");
-      ok(typeof (this.wpArea.wpPoolView.phoneNumbersPool) != undefined, "we should have a collection of wps");
-   });
-
-   module("WorkingPoint")
+﻿$(document).ready(function () {   
+   module("WorkingPoint");
    test("Constructor_defaultConstructor_CheckedStateIsTrue", function () {
       var wp = new app.WorkingPoint();
       deepEqual(wp.get('CheckedStatus'), true, "By default a number should be checked");
@@ -54,4 +41,18 @@
       $(this.wpView).trigger(event);
       deepEqual(this.wpView.model.get('CheckedStatus'), !initialValue, "When clicking on the checkbutton the model is updated");
    });
+
+   module("WorkingPoints", {
+      setup: function () {
+         this.wpArea = new WorkingPointsArea();
+      },
+      teardown: function () { }
+   });
+   test("constructor_allMemberVariablesAreProperlyInitialized", function () {
+      ok(typeof (this.wpArea.wpPoolView) != undefined, "The WpPoolView should be exposed to the outside world");
+      ok(typeof (this.wpArea.checkedPhoneNumbers) != undefined, "The checked phone numbers should be exposed");
+      ok(typeof (this.wpArea.wpPoolView.getWorkingPoints) != undefined, "getWorkingPoints should be exposed");
+      ok(typeof (this.wpArea.wpPoolView.phoneNumbersPool) != undefined, "we should have a collection of wps");
+   });
+
 });

@@ -3,66 +3,67 @@ var defaultNrOfConversationsToDisplay = 10;
 var defaultNrOfConversationsToSkip = 0;
 var cummulativeSkip = defaultNrOfConversationsToSkip;
 
+//#region Conversation Model
+$(function () {
+   window.app = window.app || {};
+   window.app.Conversation = Backbone.Model.extend({
+      defaults: {         
+         TimeUpdated: Date.now(),         
+         Read: false,
+         Text: "some data",
+         From: "defaultNumber",
+         To: "defaultRecipient",
+         Starred: false
+      },
+      idAttribute: "ConvID" //the id shold be the combination from-to
+   });
+});
+//#endregion
+
+//#region ConversationsList
+$(function () {
+   window.app = window.app || {};
+   window.app.ConversationsList = Backbone.Collection.extend({
+      model: app.Conversation,
+      convID: null,
+      url: function () {
+         return "Messages/ConversationsList";
+      }
+   });
+});
+//#endregion
+
+//#region ConversationView
+$(function () {
+   window.app = window.app || {};
+   _.templateSettings = {
+      interpolate: /\{\{(.+?)\}\}/g
+   };
+   window.app.ConversationView = Backbone.View.extend({
+      model: app.Conversation,
+      tagName: "div",
+      conversationTemplate: _.template($('#conversation-template').html()),
+      initialize: function () {
+         _.bindAll(this, 'render');
+         return this.render;
+      },
+      render: function () {
+         this.$el.html(this.conversationTemplate(this.model.toJSON()));
+         var readUnread = "unreadconversation";
+         if (this.model.attributes.Read === true) {
+            readUnread = "readconversation";
+         }
+         this.$el.addClass("conversation");
+         this.$el.addClass(readUnread);
+         $(this.el).attr("conversationId", this.model.attributes.ConvID);
+         return this;
+      }
+   });
+});
+//#endregion
+
 function ConversationArea(filterArea, workingPointsArea) {
-   var self = this;
-    //define the models
-    var Conversation = Backbone.Model.extend({
-        defaults: {
-            ConvID: 1,
-            TimeUpdated: Date.now(),         
-            Read: false,
-            Text: "some data",
-            From: "defaultNumber",
-            To: "defaultRecipient",
-            Starred: false
-        },
-        parse: function (data, xhc) {
-            //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
-            //in the DateTimeInTicks property we have the same info coded as ticks, so we replace the TimeReceived value with a value build from the ticks value
-            //data["TimeReceived"] = (new Date(data["DateTimeInTicks"])).toUTCString();
-            var unTrimmedText = data.Text;
-            if (unTrimmedText.length > 40) {
-                unTrimmedText = unTrimmedText.substring(0, 37) + '...';
-            }
-            //data.Text = unTrimmedText; //it is up to the model to make sure that we use only 40 characters
-            return data;
-        },
-        idAttribute: "ConvID" //the id shold be the combination from-to
-    });
-
-    var ConversationsList = Backbone.Collection.extend({
-        model: Conversation,
-        convID: null,        
-        url: function () {
-            return "Messages/ConversationsList";
-        }
-    });
-
-    _.templateSettings = {
-        interpolate: /\{\{(.+?)\}\}/g
-    };
-
-    var ConversationView = Backbone.View.extend({
-        model: Conversation,
-        tagName: "div",
-        conversationTemplate: _.template($('#conversation-template').html()),
-        initialize: function () {
-            _.bindAll(this, 'render');
-            return this.render;
-        },
-        render: function () {
-            this.$el.html(this.conversationTemplate(this.model.toJSON()));
-            var readUnread = "unreadconversation";
-            if (this.model.attributes.Read === true) {
-               readUnread = "readconversation";
-            }
-            this.$el.addClass("conversation");
-            this.$el.addClass(readUnread);
-            $(this.el).attr("conversationId", this.model.attributes.ConvID);
-            return this;
-        }
-     });
-
+    var self = this;    
     var opts = {
         lines: 13, // The number of lines to draw
         length: 7, // The length of each line
@@ -79,6 +80,7 @@ function ConversationArea(filterArea, workingPointsArea) {
         top: 'auto', // Top position relative to parent in px
         left: 'auto' // Left position relative to parent in px
      };
+    var spinner = new Spinner(opts);
 
     var optsForLoadMoreConversationsSpinner = {
        lines: 13, // The number of lines to draw
@@ -96,10 +98,9 @@ function ConversationArea(filterArea, workingPointsArea) {
        top: 'auto', // Top position relative to parent in px
        left: 'auto' // Left position relative to parent in px
     };
-    var spinner = new Spinner(opts);
-
     var spinnerAddConvs = new Spinner(optsForLoadMoreConversationsSpinner);
-    var ConversationsView = Backbone.View.extend({
+
+    var ConversationsArea = Backbone.View.extend({
        el: $("#conversations"),
        initialize: function () {
           this.filters = filterArea;
@@ -113,16 +114,10 @@ function ConversationArea(filterArea, workingPointsArea) {
              "addConversationBasicEffect",
              "updateConversation",
              "newMessageReceived",
-             "removeConversation",                        
-             "filterConversations",
              "gatherFilterOptions");
-          this.convsList = new ConversationsList();
+          this.convsList = new app.ConversationsList();
           this.convsList.bind("reset", this.render);
           this.convsList.bind("add", this.addConversationWithEffect, this);
-          //this.selectedWorkingPoints = [];
-          // this.convsList.change("change", this.updatedConversation, this);
-          this.convsList.bind("remove", this.removeConversation, this);
-          //$("#conversations").selectable();
           // create an array of views to keep track of children
           this._convViews = [];
           //by default conversations are "new"
@@ -211,7 +206,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                 $(target).addClass("readable");
 
                 $.each(data, function () {
-                   var conv = new Conversation({
+                   var conv = new app.Conversation({
                       From: $(this).attr("From"),
                       ConvID: $(this).attr("ConvID"),
                       TimeReceived: $(this).attr("TimeReceived"),
@@ -267,7 +262,7 @@ function ConversationArea(filterArea, workingPointsArea) {
        },
        addConversationNoEffect: function (conv, addConversationAsNewElement) {
        
-          var convView = new ConversationView({ model: conv });
+          var convView = new app.ConversationView({ model: conv });
           this._convViews.push(convView);
           var item = convView.render().el;
           if (addConversationAsNewElement) {
@@ -320,39 +315,9 @@ function ConversationArea(filterArea, workingPointsArea) {
              modelToUpdate.set("Read", false);             
           }
           else {
-             var modelToAdd = new Conversation({ From: fromID,To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText });
+             var modelToAdd = new app.Conversation({ From: fromID,To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText });
              //model.id = assign unique id
              self.convsView.convsList.add(modelToAdd);
-          }
-       },
-       removeConversation: function (conv) {
-          //select the correct view based on the model
-          var viewToRemove = _(this._convViews).select(function (cv) {
-             return cv.model.get("ConvID") === conv.get("ConvID");
-          })[0];
-          this._convViews = _(this._convViews).without(viewToRemove);
-          if (this._rendered) {
-             var elem = $(viewToRemove.el);
-             elem.fadeOut("slow", function () {
-                elem.remove();
-             });
-          }
-       },
-       filterConversations: function (convID, slideUp) {
-          var viewToFilter = _(this._convViews).select(function (cv) {
-             return cv.model.get("ConvID") === convID;
-          })[0];
-          if (viewToFilter) {
-             if (this._rendered) {
-                var elem = $(viewToFilter.el);
-                if (slideUp) {
-                   elem.slideUp();
-                }
-                else {
-                   elem.slideDown();
-                }
-
-             }
           }
        }
     });
@@ -361,5 +326,5 @@ function ConversationArea(filterArea, workingPointsArea) {
        self.convsView.getAdditionalConversations();
     });
 
-    this.convsView = new ConversationsView();     
+    this.convsView = new ConversationsArea();     
 }
