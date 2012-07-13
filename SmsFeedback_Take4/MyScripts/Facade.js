@@ -1,9 +1,4 @@
 ﻿"use strict";
-
-//the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
-//var domainName = '/smsfeedback';
-var domainName = '';
-
 function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
    console.log("inside newMessageReceived");
    //the conversations window expects that the toID be a "name" and not a telephone number

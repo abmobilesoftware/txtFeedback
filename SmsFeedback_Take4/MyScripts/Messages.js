@@ -175,7 +175,7 @@ function MessagesArea(convView, tagsArea) {
             }
             if (this.model.attributes["Starred"] === true)
             {
-               $(".favConversation", this.$el).attr('src', domainName + "/Content/images/star-selected.svg");
+               $(".favConversation", this.$el).attr('src', app.domainName + "/Content/images/star-selected.svg");
             }
             this.$el.addClass("message");
             this.$el.addClass(direction);
@@ -189,10 +189,10 @@ function MessagesArea(convView, tagsArea) {
         updateView: function () {
            //the Starred attribute has changed (most probably) so reflect this in the view
            if (this.model.attributes["Starred"] === true) {
-              $(".favConversation", this.$el).attr('src', domainName + "/Content/images/star-selected.svg");
+              $(".favConversation", this.$el).attr('src', app.domainName + "/Content/images/star-selected.svg");
            }
            else {
-              $(".favConversation", this.$el).attr('src', domainName + "/Content/images/star.svg");
+              $(".favConversation", this.$el).attr('src', app.domainName + "/Content/images/star.svg");
            }                  
            return this;
         }

@@ -257,6 +257,9 @@
     <Content Include="MyScripts\WorkingPoints.js" />
     <Content Include="MyScripts\Utilities.js" />
     <Content Include="MyScripts\XMPP.js" />
+    <Content Include="QUnit\QUnitTests.html" />
+    <Content Include="QUnit\UtilitiesTests.js" />
+    <Content Include="QUnit\WorkingPointsTests.js" />
     <Content Include="Scripts\flxhr\flXHR.js" />
     <Content Include="Scripts\flxhr\strophe.flxhr.js" />
     <Content Include="Scripts\jquery.simplemodal.js" />
@@ -274,7 +277,6 @@
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\Messages.js" />
     <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
     <Content Include="Views\EmailSend\GetEmailMessageForm.aspx" />
     <Content Include="Views\EmailSend\Index.ascx" />

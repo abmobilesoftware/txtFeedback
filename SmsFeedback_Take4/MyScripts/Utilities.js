@@ -78,19 +78,28 @@
 // or do nothing and get a default status bar
 
 var _statusbar = null;
+var cConversationIdNumbersSeparator = '-';
 function showStatus(message, timeout, additive, isError) {
     if (!_statusbar)
         _statusbar = new StatusBar();
     _statusbar.show(message, timeout, additive, isError);
 }
 
+
+$(function () {
+   //the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
+   window.app = window.app || {};
+   window.app.domainName = '';
+   //window.app.domainName = '/smsfeedback';
+})
+
 function getFromToFromConversation(convID) {
-    var fromToArray = convID.split('-');
+   var fromToArray = convID.split(cConversationIdNumbersSeparator);
     return fromToArray;
 }
 
 function buildConversationID(from, to) {
-   return cleanupPhoneNumber(from) + "-" + cleanupPhoneNumber(to);
+   return cleanupPhoneNumber(from) + cConversationIdNumbersSeparator + cleanupPhoneNumber(to);
 }
 
 function comparePhoneNumbers(phoneNumber1, phoneNumber2)
@@ -110,14 +119,14 @@ function cleanupPhoneNumber(data) {
 function setCheckboxState(checkbox, state)
 {
    if (state === true) {
-      checkbox.attr('src', domainName + "/Content/images/check-white.svg");
+      checkbox.attr('src', app.domainName + "/Content/images/check-white.svg");
       checkbox.removeClass('deletePhoneNumberIconUnselected');
       checkbox.addClass('deletePhoneNumberIconSelected');
    }
    else {
       //we actually need only the img placeholder (for the border and background)
       //so we set the image to a transparent 1 pixel gif
-      checkbox.attr('src', domainName + "/Content/images/transparent.gif")
+      checkbox.attr('src', app.domainName + "/Content/images/transparent.gif")
       checkbox.removeClass('deletePhoneNumberIconSelected');
       checkbox.addClass('deletePhoneNumberIconUnselected');
    }

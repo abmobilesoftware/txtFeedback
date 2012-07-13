@@ -13,7 +13,6 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/jquery.tagsinput.css") %>" />
    <script src="<%: Url.Content("~/Scripts/spin.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/jquery.cookie.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/Scripts/splitter.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/jquery.simplemodal.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/MyScripts/Utilities.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/MyScripts/WorkingPoints.js") %>" type="text/javascript"></script>
@@ -30,7 +29,7 @@
    <script src="<%: Url.Content("~/MyScripts/XMPP.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/MyScripts/Facade.js") %>" type="text/javascript"></script>
    
-     <script type="text/template" id="tag-template">       
+   <script type="text/template" id="tag-template">       
 		<span class="tag"  >
 			<span>{{ Name }}</span>
 			<span class="removeTag">
@@ -38,15 +37,12 @@
 			</span>
 		</span>
    </script>
-
    <script type="text/template" id="phoneNumber-template">       
 		<span >
          <img class="wpItem wpSelectorIcon deletePhoneNumberIconSelected" src="<%: Url.Content("~/Content/images/check-white.svg") %>"/>			
-			<span class="wpItem" >{{ Name }}</span>			
-			
+			<span class="wpItem" >{{ Name }}</span>						
 		</span>
    </script>
-
    <script type="text/template" id="conversation-template">
            <div class="leftLiDiv convColumn">
                 <img src="<%: Url.Content("~/Content/images/delete.ico") %>" class="images" />
@@ -63,14 +59,13 @@
             </div>                         
         <div class="clear"></div>
    </script>
-
    <script type="text/template" id="message-template">
-        <div class="textMessage">
-           <span>{{ Text }} </span> 
-            <div class="clear"></div>
-           <span class="timeReceived">{{ TimeReceived }} </span>
-        </div>
-        <div class="clear"></div>
+      <div class="textMessage">
+         <span>{{ Text }} </span> 
+         <div class="clear"></div>
+         <span class="timeReceived">{{ TimeReceived }} </span>
+      </div>
+      <div class="clear"></div>
       <div class="extramenu" hoverID="{{ Id }}">
          <div class="innerExtraMenu">
             <div class="actionButtons">
@@ -79,8 +74,7 @@
             <div class="actionButtons sendEmailButton">
                <img src="<%: Url.Content("~/Content/images/mail.png") %>" />
             </div>
-         <div class="clear"></div>      
-                 
+         <div class="clear"></div>                       
          </div>               
       </div>
         <div class="arrow">
@@ -92,6 +86,7 @@
         var newGUI = new InitializeGUI();
       });
    </script>
+
    <div id="filtersStrip">
 
       <div class="grid_4_custom filterStripElement">
