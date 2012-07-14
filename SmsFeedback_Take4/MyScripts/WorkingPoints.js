@@ -161,7 +161,7 @@ function WorkingPointsArea() {
                  self.checkedPhoneNumbersArray.push(wp.get('TelNumber'));
               }
            });
-           $(document).trigger('selectedWPsChanged');
+           $(document).trigger('refreshConversationList');
         }
     });
     self.wpPoolView = new WpPoolArea();   

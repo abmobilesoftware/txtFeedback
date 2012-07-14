@@ -6,15 +6,9 @@ function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, d
    msgView.messagesView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
 }
 
-function selectedWPsChanged(convView, msgView) {
-   console.log('selectedWPsChanged triggered');
-   convView.getConversations();
-   msgView.messagesView.resetViewToDefault();
-}
-
 function refreshConversationList(convView, msgView) {
-   convView.getConversations();
-   msgView.messagesView.resetViewToDefault();
+      convView.getConversations();
+      msgView.messagesView.resetViewToDefault();
 }
 
 function InitializeGUI() {
@@ -55,11 +49,6 @@ function InitializeGUI() {
       //it's better to build the conversation id ourselves to avoid prefixes issues
       var convId = buildConversationID(data.fromID, data.toID);
       newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toId, convId, data.msgID, data.dateReceived, data.text, false);
-      //self.msgView.messagesView.newMessageReceived(data.fromID, convId, data.msgID, data.dateReceived, data.text);
-   });
-
-   $(document).bind('selectedWPsChanged', function (ev, data) {
-      selectedWPsChanged(self.convView, self.msgView);
    });
 
    $(document).bind('refreshConversationList', function (ev, data) {

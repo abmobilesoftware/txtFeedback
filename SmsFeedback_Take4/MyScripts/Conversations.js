@@ -122,19 +122,26 @@ function ConversationArea(filterArea, workingPointsArea) {
           this._convViews = [];
           //by default conversations are "new"
           this.addConversationAsNewElement = true;
+          //in refreshsInProgress we keep count of how many refresh requests are running simultaneously
+          this.refreshsInProgress = 0;
        },
        getConversations: function (workingPoints) {
           //#region  Reseting internal variables                    
           this._convViews = [];
-
+          
+          var selfConvArea = this;
           //reset the cummulative skip because we start with a "fresh" view
           cummulativeSkip = defaultNrOfConversationsToSkip;
           //#endregion
 
+          this.refreshsInProgress++;
+
           //#region Visual manipulation
           var target = document.getElementById('scrollableconversations');
+          
           $('#loadMoreConversations').hide();
           $('#conversations').html('');
+          
           spinner.spin(target);
           //#endregion
                     
@@ -145,8 +152,11 @@ function ConversationArea(filterArea, workingPointsArea) {
           this.convsList.fetch({
              data: options,
              traditional:true,
-             success: function (data) {               
-                spinner.stop();
+             success: function (data) {
+                if (selfConvArea.refreshsInProgress <= 1) {
+                   spinner.stop();
+                }
+                //spinner.stop();
              }
           });
        },
@@ -227,13 +237,16 @@ function ConversationArea(filterArea, workingPointsArea) {
        render: function () {
           // We keep track of the rendered state of the view
           this._rendered = true;
+          this.refreshsInProgress--;
 
-          var convEl = $("#conversations");
-          convEl.html('');
-          var selfConversationsView = this;
-          this.convsList.each(function (conv) {
-             selfConversationsView.addConversationBasicEffect(conv);
-          });
+          if (this.refreshsInProgress == 0) {
+             var convEl = $("#conversations");
+             convEl.html('');
+             var selfConversationsView = this;
+             this.convsList.each(function (conv) {
+                selfConversationsView.addConversationBasicEffect(conv);
+             });
+          }
        },
        addConversationWithEffect: function (conv, addConversationAsNewElement, newElementIsSelected) {
           if (addConversationAsNewElement === null) {
