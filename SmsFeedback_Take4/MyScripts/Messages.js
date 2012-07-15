@@ -6,6 +6,7 @@ var gSelectedElement = null;
 var timer; //this will be responsible for triggering the "mark conversation as read event"
 var timer_is_on = 0;
 
+//#region Mark Conversation as Read function
 function markConversationAsRead()
 {
     $(gSelectedElement).removeClass("unreadconversation");
@@ -19,7 +20,9 @@ function markConversationAsRead()
                 }
         );
 }
+//#endregion
 
+//#region Timer for marking a conversation as being read
 function resetTimer() {
     if (timer_is_on) {
         clearTimeout(timer);
@@ -36,7 +39,50 @@ function startTimer(intervalToWait) {
         }
     }
 }
+//#endregion
 
+//#region Message model
+window.app.Message = Backbone.Model.extend({
+   defaults: {
+      From: "0752345678",
+      To: "0751569435",
+      Text: "defaulttext",            
+      //DateTimeInTicks: (new Date()).valueOf(),
+      TimeReceived: Date.now(),            
+      ConvID: 1,
+      Direction: "from",
+      Read: false,
+      Starred: false
+   },
+   parse: function (data, xhc) {
+      //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
+      //in the TimeReceived property we have the same info coded as ticks, so we replace the TimeReceived value with a value build from the ticks value
+      var dateInTicks = data.TimeReceived.substring(6,19);
+      data.TimeReceived = (new Date(parseInt(dateInTicks, 10))).toUTCString();
+      //we have to determine the direction
+      var dir = cleanupPhoneNumber(data.From) + "-" + cleanupPhoneNumber(data.To);
+      if (dir === data.ConvID) {
+         dir = "from";
+      }
+      else {
+         dir = "to";
+      }
+      data.Direction = dir;
+      return data;
+   },
+   idAttribute: "Id"
+});
+//#endregion
+
+//#region MessagesPool
+window.app.MessagesList = Backbone.Collection.extend({
+   model: app.Message,
+   identifier: null,
+   url: function () {
+      return "Messages/MessagesList";
+   }
+});
+//#endregion
 function MessagesArea(convView, tagsArea) {
    var self = this;
    this.convView = convView;
@@ -61,7 +107,7 @@ function MessagesArea(convView, tagsArea) {
     var id = 12344; //this should be unique
     var sendMessageToClient = function () {
         var inputBox = $("#limitedtextarea");
-        var newMsg = new Message({ Id: id });        
+        var newMsg = new app.Message({ Id: id });        
         id++;
         //add it to the visual list
 
@@ -103,53 +149,14 @@ function MessagesArea(convView, tagsArea) {
             sendMessageToClient();
             event.preventDefault();
         }
-    });
-
-    var Message = Backbone.Model.extend({
-        defaults: {
-            From: "0752345678",
-            To: "0751569435",
-            Text: "Hey you",            
-            //DateTimeInTicks: (new Date()).valueOf(),
-            TimeReceived: null,            
-            ConvID: 1,
-            Direction: "from",
-            Read: false,
-            Starred: false
-        },
-        parse: function (data, xhc) {
-            //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
-            //in the TimeReceived property we have the same info coded as ticks, so we replace the TimeReceived value with a value build from the ticks value
-            var dateInTicks = data.TimeReceived.substring(6,19);
-            data.TimeReceived = (new Date(parseInt(dateInTicks, 10))).toUTCString();
-            //we have to determine the direction
-            var dir = cleanupPhoneNumber(data.From) + "-" + cleanupPhoneNumber(data.To);
-            if (dir === data.ConvID) {
-                dir = "from";
-            }
-            else {
-                dir = "to";
-            }
-            data.Direction = dir;
-            return data;
-        },
-        idAttribute: "Id"
-    });
-
-    var MessagesList = Backbone.Collection.extend({
-        model: Message,
-        identifier: null,
-        url: function () {
-            return "Messages/MessagesList";
-        }
-    });
+    });   
 
     _.templateSettings = {
         interpolate: /\{\{(.+?)\}\}/g
     };
 
     var MessageView = Backbone.View.extend({
-        model: Message,
+        model: app.Message,
         tagName: "div",
         messageTemplate: _.template($('#message-template').html()),        
         initialize: function () {
@@ -231,7 +238,7 @@ function MessagesArea(convView, tagsArea) {
               "appendMessageToDiv",
               "resetViewToDefault", 
               "newMessageReceived");// to solve the this issue
-            this.messages = new MessagesList();
+            this.messages = new app.MessagesList();
             this.messages.bind("reset", this.render);
             //$("#messagesbox").selectable();
         },
@@ -262,7 +269,7 @@ function MessagesArea(convView, tagsArea) {
                 
             }
             else {
-                var messages1 = new MessagesList();
+                var messages1 = new app.MessagesList();
                 messages1.identifier = conversationId;
                 messages1.bind("reset", this.render);
                 messages1.bind('add', this.appendMessage);
@@ -307,7 +314,7 @@ function MessagesArea(convView, tagsArea) {
         },
         newMessageReceived: function (fromID, convID, msgID, dateReceived, text) {
             console.log("new message received: " + text);
-            var newMsg = new Message({ Id: msgID });            
+            var newMsg = new app.Message({ Id: msgID });            
             newMsg.set("Direction", "from");
             newMsg.set("From", fromID);
             newMsg.set("ConvID", convID);

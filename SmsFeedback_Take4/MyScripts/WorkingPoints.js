@@ -1,8 +1,6 @@
 ﻿"use strict";
-
+window.app = window.app || {}; //window.app = window.app || { } will set window.app to an empty object if there is no window.app and will leave window.app alone if it has already been set; doing it like this makes the JavaScript files more self-contained and less subject to loading order
 //#region WorkingPoint model
-$(function () {
-   window.app = window.app || {};   //window.app = window.app || { } will set window.app to an empty object if there is no window.app and will leave window.app alone if it has already been set; doing it like this makes the JavaScript files more self-contained and less subject to loading order
    window.app.WorkingPoint = Backbone.Model.extend({
       defaults: {
          TelNumber: "defaultNumber",
@@ -12,29 +10,23 @@ $(function () {
       },
       idAttribute: "TelNumber"
    });
-})
 //#endregion 
 
 //#region WorkingPointPool
-$(function () {
-   window.app = window.app || {};
    window.app.WorkingPointPool = Backbone.Collection.extend({
       model: app.WorkingPoint,
       url: function () {
          return "Messages/WorkingPointsPerUser";
       }
    });
-})
 //#endregion
 
 //#region Global variables
-$(function () {
-   window.app = window.app || {};
    window.app.nrOfCheckedWorkingPoints = 0;
-});
 //#endregion
 
 //#region WorkingPointView
+//for reasons I don't know yet WorkingPointView has to be inside document.ready
 $(function () {
    window.app = window.app || {};
 

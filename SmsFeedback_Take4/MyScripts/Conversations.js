@@ -1,35 +1,36 @@
 ﻿"use strict";
-var defaultNrOfConversationsToDisplay = 10;
-var defaultNrOfConversationsToSkip = 0;
-var cummulativeSkip = defaultNrOfConversationsToSkip;
+window.app = window.app || {};
+
+//#region Constants
+window.app.defaultNrOfConversationsToDisplay = 10;
+window.app.defaultNrOfConversationsToSkip = 0;
+window.app.cummulativeSkip = window.app.defaultNrOfConversationsToSkip;
+//#endregion
 
 //#region Conversation Model
-$(function () {
-   window.app = window.app || {};
-   window.app.Conversation = Backbone.Model.extend({
-      defaults: {         
-         TimeUpdated: Date.now(),         
-         Read: false,
-         Text: "some data",
-         From: "defaultNumber",
-         To: "defaultRecipient",
-         Starred: false
-      },
-      idAttribute: "ConvID" //the id shold be the combination from-to
-   });
+window.app.Conversation = Backbone.Model.extend({
+   defaults: {         
+      TimeUpdated: Date.now(),         
+      Read: false,
+      Text: "some data",
+      From: "defaultNumber",
+      To: "defaultRecipient",
+      Starred: false
+   },
+   parse: function (data, xhc) {
+      this.TimeUpdated = data.TimeReceived;
+   },
+   idAttribute: "ConvID" //the id shold be the combination from-to
 });
 //#endregion
 
 //#region ConversationsList
-$(function () {
-   window.app = window.app || {};
-   window.app.ConversationsList = Backbone.Collection.extend({
-      model: app.Conversation,
-      convID: null,
-      url: function () {
-         return "Messages/ConversationsList";
-      }
-   });
+window.app.ConversationsList = Backbone.Collection.extend({
+   model: app.Conversation,
+   convID: null,
+   url: function () {
+      return "Messages/ConversationsList";
+   }
 });
 //#endregion
 
@@ -131,7 +132,7 @@ function ConversationArea(filterArea, workingPointsArea) {
           
           var selfConvArea = this;
           //reset the cummulative skip because we start with a "fresh" view
-          cummulativeSkip = defaultNrOfConversationsToSkip;
+          app.cummulativeSkip = app.defaultNrOfConversationsToSkip;
           //#endregion
 
           this.refreshsInProgress++;
@@ -175,8 +176,8 @@ function ConversationArea(filterArea, workingPointsArea) {
              endDate = this.filters.endDate;
           }
           var onlyUnreadConvs = this.filters.unreadFilteringEnabled;
-          var top = defaultNrOfConversationsToDisplay;
-          var skip = cummulativeSkip;
+          var top = app.defaultNrOfConversationsToDisplay;
+          var skip = app.cummulativeSkip;
 
           filterOptions["onlyFavorites"] = showFavorites;
           filterOptions["tags"] = selectedTags;
@@ -198,7 +199,7 @@ function ConversationArea(filterArea, workingPointsArea) {
           //#endregion
       
           //update the cumulativeSkip (supporting the use case where we use LoadMoreConversations multiple times)
-          cummulativeSkip = cummulativeSkip + defaultNrOfConversationsToDisplay;
+          app.cummulativeSkip = app.cummulativeSkip + app.defaultNrOfConversationsToDisplay;
           
           //#region Prepare parameters
           var options = this.gatherFilterOptions();
@@ -227,7 +228,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                    });
                    selfConversationsView.addConversationBasicEffect(conv, false);
                 });
-                if (data.length === 0 || data.length < defaultNrOfConversationsToDisplay) {
+                if (data.length === 0 || data.length < app.defaultNrOfConversationsToDisplay) {
                    $(target).hide('slow');
                 }
              }
@@ -290,7 +291,7 @@ function ConversationArea(filterArea, workingPointsArea) {
              selfConversationsView.updateConversation(model);
           });
           //if we are displaying more then 10 conversations then prepare to
-          if (this.convsList.models.length >= defaultNrOfConversationsToDisplay) {
+          if (this.convsList.models.length >= app.defaultNrOfConversationsToDisplay) {
              $("#loadMoreConversations").show('slow');
           }
           return item;
