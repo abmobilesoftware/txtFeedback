@@ -18,7 +18,8 @@ window.app.Conversation = Backbone.Model.extend({
       Starred: false
    },
    parse: function (data, xhc) {
-      this.TimeUpdated = data.TimeReceived;
+      data.TimeUpdated = data.TimeReceived;
+      return data;
    },
    idAttribute: "ConvID" //the id shold be the combination from-to
 });
