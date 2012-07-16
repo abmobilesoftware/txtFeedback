@@ -203,6 +203,8 @@
     <Content Include="Content\images\exclamationMark.jpg" />
     <Content Include="Content\images\exclamationMark.png" />
     <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\images\loginImage.png" />
+    <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\mail.png" />
     <Content Include="Content\images\star.svg" />
