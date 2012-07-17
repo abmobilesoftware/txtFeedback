@@ -1,4 +1,6 @@
-﻿function StatusBar(sel, options) {
+﻿window.app = window.app || {};
+
+function StatusBar(sel, options) {
     var _I = this;
     var _sb = null;
 
@@ -86,12 +88,14 @@ function showStatus(message, timeout, additive, isError) {
 }
 
 
-$(function () {
+//$(function () {
    //the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
-   window.app = window.app || {};
-   //window.app.domainName = '';
-   window.app.domainName = '/smsfeedback';
-})
+window.app = window.app || {};
+//window.app.domainName = '';
+window.app.domainName = '/smsfeedback';
+window.app.firstCall = true;
+   
+//})
 
 function getFromToFromConversation(convID) {
    var fromToArray = convID.split(cConversationIdNumbersSeparator);
@@ -130,4 +134,15 @@ function setCheckboxState(checkbox, state)
       checkbox.removeClass('deletePhoneNumberIconSelected');
       checkbox.addClass('deletePhoneNumberIconUnselected');
    }
+}
+
+window.app.nrOfUnreadConvs = 0;
+window.app.incrementNrOfUnreadConvs = function () {
+   app.nrOfUnreadConvs++;
+   app.setNrOfUnreadConversationOnTab(app.nrOfUnreadConvs);
+}
+
+window.app.decrementNrOfUnreadConvs = function () {
+   app.nrOfUnreadConvs--;
+   app.setNrOfUnreadConversationOnTab(app.nrOfUnreadConvs);
 }

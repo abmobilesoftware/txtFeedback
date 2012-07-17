@@ -114,6 +114,23 @@ namespace SmsFeedback_Take4.Controllers
          }
       }
 
+      public JsonResult NrOfUnreadConversations()
+      {
+         try {
+            if (HttpContext.Request.IsAjaxRequest()) { 
+                var userId = User.Identity.Name;
+                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+                var lUnreadMsg = new KeyValuePair<string, int>("unreadConvs", SMSRepository.NrOfUnreadConversations(userId, lContextPerRequest));
+               return Json(lUnreadMsg, JsonRequestBehavior.AllowGet);
+            }
+            return null;
+         }
+         catch (Exception ex)
+         {
+            logger.Error("Error occurred in NrOfUnreadConversations", ex);
+            return null;
+         }
+      }
       //todo add date from/date to to list
       public JsonResult ConversationsList(
                                             bool onlyFavorites,

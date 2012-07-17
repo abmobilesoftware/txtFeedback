@@ -1,4 +1,5 @@
 ﻿"use strict";
+window.app = window.app || {};
 var gSelectedMessage = null;
 var gSelectedConversationID = null;
 var gSelectedElement = null;
@@ -11,11 +12,12 @@ function markConversationAsRead()
 {
     $(gSelectedElement).removeClass("unreadconversation");
     $(gSelectedElement).addClass("readconversation");
+    app.decrementNrOfUnreadConvs();
     //call the server to mark the conversation as read
     $.getJSON('Messages/MarkConversationAsRead',
                 { conversationId: gSelectedConversationID },
                 function (data) {
-                    //conversation marked as read
+                   //conversation marked as read
                     console.log(data);
                 }
         );
@@ -374,8 +376,17 @@ function MessagesArea(convView, tagsArea) {
                 });
     });
 
+   
     this.messagesView = new MessagesView();
 }
+
+window.app.setNrOfUnreadConversationOnTab = function (unreadConvs) {
+   app.nrOfUnreadConvs = unreadConvs;
+   var toShow = "(" + unreadConvs + ")";
+   $("#msgTabcount").text(toShow);
+}
+
+
 
 function limitText(limitField, limitCount, limitNum) {
     if (limitField.value.length > limitNum) {

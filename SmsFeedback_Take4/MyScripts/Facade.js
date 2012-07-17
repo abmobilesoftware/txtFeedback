@@ -31,6 +31,8 @@ function InitializeGUI() {
 
    //get the initial working points
    this.wpsView.getWorkingPoints();
+
+   app.nrOfUnreadConvs = 0;
    //get the initial conversations
    this.convView.getConversations();
 

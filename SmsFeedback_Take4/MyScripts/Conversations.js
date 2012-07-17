@@ -53,7 +53,7 @@ $(function () {
          this.$el.html(this.conversationTemplate(this.model.toJSON()));
          var readUnread = "unreadconversation";
          if (this.model.attributes.Read === true) {
-            readUnread = "readconversation";
+            readUnread = "readconversation";          
          }
          this.$el.addClass("conversation");
          this.$el.addClass(readUnread);
@@ -127,7 +127,7 @@ function ConversationArea(filterArea, workingPointsArea) {
           //in refreshsInProgress we keep count of how many refresh requests are running simultaneously
           this.refreshsInProgress = 0;
        },
-       getConversations: function (workingPoints) {
+       getConversations: function () {
           //#region  Reseting internal variables                    
           this._convViews = [];
           
@@ -157,6 +157,15 @@ function ConversationArea(filterArea, workingPointsArea) {
              success: function (data) {
                 if (selfConvArea.refreshsInProgress <= 1) {
                    spinner.stop();
+                }
+                if (app.firstCall) {
+                   $.getJSON('Messages/NrOfUnreadConversations',
+                function (data) {
+                   if (data != null) {
+                      app.setNrOfUnreadConversationOnTab(data.Value);                      
+                      app.firstCall = false;
+                   }
+                });
                 }
                 //spinner.stop();
              }
@@ -334,6 +343,7 @@ function ConversationArea(filterArea, workingPointsArea) {
              //model.id = assign unique id
              self.convsView.convsList.add(modelToAdd);
           }
+          app.incrementNrOfUnreadConvs();
        }
     });
        

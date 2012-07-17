@@ -497,3 +497,7 @@ top: 40px;
 .selectedLanguage {
    border-bottom: 1px solid black;
 }
+
+#msgTabcount {
+   color: #F7941D;
+}

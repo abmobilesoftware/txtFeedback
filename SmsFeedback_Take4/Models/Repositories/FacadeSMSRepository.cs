@@ -134,6 +134,11 @@ namespace SmsFeedback_Take4.Models
       public System.Collections.Generic.IEnumerable<WorkingPoint> GetWorkingPointsPerUser(String userName, smsfeedbackEntities dbContext)
       {
          return mEFRep.GetWorkingPointsPerUser(userName,dbContext);
-      }      
+      }
+
+      public int NrOfUnreadConversations(string userName, smsfeedbackEntities dbContext)
+      {
+         return mEFRep.NrOfUnreadConversations(userName, dbContext);
+      }
    }
 }
