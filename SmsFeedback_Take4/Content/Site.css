@@ -478,3 +478,22 @@ top: 40px;
 #RememberMe {
    margin: 3px 3px 0px 3px;
 }
+
+#changeLanguage {
+   margin-top: 20px;
+}
+
+#changeLanguage img {
+   width: 16px;
+   height: 16px;
+   background: transparent;
+   
+}
+
+#changeLanguage img:hover {   
+   background: grey;   
+}
+
+.selectedLanguage {
+   border-bottom: 1px solid black;
+}

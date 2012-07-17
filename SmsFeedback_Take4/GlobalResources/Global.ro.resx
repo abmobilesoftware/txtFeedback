@@ -195,4 +195,10 @@
   <data name="lblUserName" xml:space="preserve">
     <value>utilizator</value>
   </data>
+  <data name="logOnLogOffMsg" xml:space="preserve">
+    <value>Deconectare</value>
+  </data>
+  <data name="logOnLogOnMsg" xml:space="preserve">
+    <value>Conectare</value>
+  </data>
 </root>

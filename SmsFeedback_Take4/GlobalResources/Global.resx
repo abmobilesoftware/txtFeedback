@@ -195,4 +195,10 @@
   <data name="lblUserName" xml:space="preserve">
     <value>username</value>
   </data>
+  <data name="logOnLogOffMsg" xml:space="preserve">
+    <value>Log off</value>
+  </data>
+  <data name="logOnLogOnMsg" xml:space="preserve">
+    <value>Log on</value>
+  </data>
 </root>

@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<SmsFeedback_Take4.Models.LogOnModel>" %>
-
+<%@ Import Namespace="SmsFeedback_Take4.Utilities" %>
 <!DOCTYPE html>
 
 <html>
@@ -18,14 +18,13 @@
 <body>
    <script>
       $(function () {
-
          $("#UserName").focus(function () {
             var x = this;
          });
       });
    </script>
    <img id="bkgImage" src="<%: Url.Content("~/Content/images/loginImage.png") %>"/>
-   
+     
     <div id="logOnContainer">   
   
     <script src="<%: Url.Content("~/Scripts/jquery.validate.min.js") %>" type="text/javascript"></script>
@@ -35,7 +34,7 @@
         <%: Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.") %>
         <div id="loginContainer" >
             <div id="logoContainerOnLogin">
-            <img src="<%: Url.Content("~/Content/images/logo.png") %>" />
+               <img src="<%: Url.Content("~/Content/images/logo.png") %>" />
             </div>
             <fieldset id="loginForm">
                 <legend>
@@ -64,6 +63,11 @@
                     <input id="loginBtn" type="submit" value="<%: Resources.Global.LogOnButtonMessage %>" />
                 </p>
                  <p><%: Html.ActionLink(Resources.Global.logOnRegister, "Register") %>    </p>
+               <div id="changeLanguage">                                               
+                
+                <%: Html.ImageLink(Url.Content("~/Content/images/Uk_flag.png"), "en-US",null,null) %>
+                <%: Html.ImageLink(Url.Content("~/Content/images/Ro_flag.png"), "ro-RO",null,null) %>
+             </div>
             </fieldset>
         </div>
     <% } %>

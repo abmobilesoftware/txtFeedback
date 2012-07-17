@@ -83,6 +83,28 @@ public static class SwitchLanguageHelper
             return link;
         }
 
-    }
+        public static MvcHtmlString ImageLink(this HtmlHelper htmlHelper, string imgSrc, string cultureName, object htmlAttributes, object imgHtmlAttributes, string languageRouteName = "lang", bool strictSelected = false)
+        {
+           UrlHelper urlHelper = ((Controller)htmlHelper.ViewContext.Controller).Url;
+           TagBuilder imgTag = new TagBuilder("img");
+           imgTag.MergeAttribute("src", imgSrc);
+           imgTag.MergeAttributes((IDictionary<string, string>)imgHtmlAttributes, true);
+          
+           var language = htmlHelper.LanguageUrl(cultureName, languageRouteName, strictSelected);                      
+           string url = language.Url;
 
+           TagBuilder imglink = new TagBuilder("a");
+           imglink.MergeAttribute("href", url);
+           imglink.InnerHtml = imgTag.ToString();
+           imglink.MergeAttributes((IDictionary<string, string>)htmlAttributes, true);
+
+           //if the current page already contains the language parameter make sure the corresponding html element is marked
+           string currentLanguage = htmlHelper.ViewContext.RouteData.GetRequiredString("lang");
+           if (cultureName.Equals(currentLanguage, StringComparison.InvariantCultureIgnoreCase))
+           {
+              imglink.AddCssClass("selectedLanguage");
+           }
+           return new MvcHtmlString(imglink.ToString());
+        }
+    }
 }

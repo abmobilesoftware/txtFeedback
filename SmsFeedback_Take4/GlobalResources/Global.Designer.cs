@@ -124,6 +124,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Log off.
+        /// </summary>
+        public static string logOnLogOffMsg {
+            get {
+                return ResourceManager.GetString("logOnLogOffMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log on.
+        /// </summary>
+        public static string logOnLogOnMsg {
+            get {
+                return ResourceManager.GetString("logOnLogOnMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log On.
         /// </summary>
         public static string logOnMessage {
