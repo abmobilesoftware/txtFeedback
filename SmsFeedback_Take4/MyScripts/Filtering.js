@@ -128,5 +128,6 @@ function FilterArea() {
       setCheckboxState($(this), self.unreadFilteringEnabled);
       //trigger filtering if required
       $(document).trigger('refreshConversationList');
-   });   
+   });
+
 }

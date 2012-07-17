@@ -89,8 +89,8 @@ function showStatus(message, timeout, additive, isError) {
 $(function () {
    //the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
    window.app = window.app || {};
-   //window.app.domainName = '';
-   window.app.domainName = '/smsfeedback';
+   window.app.domainName = '';
+   //window.app.domainName = '/smsfeedback';
 })
 
 function getFromToFromConversation(convID) {
