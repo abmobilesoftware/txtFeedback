@@ -483,14 +483,14 @@ top: 40px;
    margin-top: 20px;
 }
 
-#changeLanguage img {
+#changeLanguage img, #logindisplay img {
    width: 16px;
    height: 16px;
    background: transparent;
    
 }
 
-#changeLanguage img:hover {   
+#changeLanguage img:hover,#logindisplay img:hover {   
    background: grey;   
 }
 
