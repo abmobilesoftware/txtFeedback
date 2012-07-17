@@ -45,7 +45,11 @@
    </script>
    <script type="text/template" id="conversation-template">
            <div class="leftLiDiv convColumn">
-                <img src="<%: Url.Content("~/Content/images/delete.ico") %>" class="images" />
+                {% if (Read) { %}
+                        <img src="<%: Url.Content("~/Content/images/exclamationMark.png") %>" class="images" />
+                {% } else { %}
+                        <img src="<%: Url.Content("~/Content/images/star.svg") %>" class="images" />
+                {% }  %}
             </div>
             <div class="rightLiDiv convColumn">    
                    
@@ -127,6 +131,7 @@
          <div id="tagFiltering" class="filterInputBox">
             <input name="filterTag" id="filterTag" />
          </div>
+        <a href="#" id="disconnectBtn">Disconnect</a>
       </div>
    </div>
    <div class="clear"></div>

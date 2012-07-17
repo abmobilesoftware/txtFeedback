@@ -30,9 +30,16 @@ window.app = window.app || {}; //window.app = window.app || { } will set window.
 $(function () {
    window.app = window.app || {};
 
-   _.templateSettings = {
+   /*_.templateSettings = {
       interpolate: /\{\{(.+?)\}\}/g
-   };
+   };*/
+
+   _.templateSettings = {
+       interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
+       evaluate: /\{%([\s\S]+?)%\}/g,   // excute code: {% code_to_execute %}
+       escape: /\{%-([\s\S]+?)%\}/g
+   }; // excape HTML: {%- <script> %} prints &lt
+
    window.app.WorkingPointView = Backbone.View.extend({
       model: app.WorkingPoint,
       tagName: "span",

@@ -53,6 +53,10 @@ function InitializeGUI() {
       newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toId, convId, data.msgID, data.dateReceived, data.text, false);
    });
 
+   $(document).bind('disconnect', function (ev, data) {       
+       self.xmppHandler.disconnect();
+   });
+
    $(document).bind('refreshConversationList', function (ev, data) {
       refreshConversationList(self.convView, self.msgView);
    });
@@ -65,6 +69,11 @@ $(document).ready(function () {
    $(".menuItem a").click(function () {
       $(".menuItem .active-link").removeClass("active-link");
       $(this).addClass("active-link");
+   });
+
+   $("#disconnectBtn").click(function () {
+       $(document).trigger("disconnect");
+       return false;
    });
 });
 

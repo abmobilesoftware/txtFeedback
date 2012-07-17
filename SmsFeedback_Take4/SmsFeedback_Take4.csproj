@@ -258,6 +258,8 @@
     <Content Include="MyScripts\Filtering.js" />
     <Content Include="MyScripts\Messages.js" />
     <Content Include="MyScripts\ConversationTags.js" />
+    <Content Include="MyScripts\OOPLesson.html" />
+    <Content Include="MyScripts\OOPLesson.js" />
     <Content Include="MyScripts\WorkingPoints.js" />
     <Content Include="MyScripts\Utilities.js" />
     <Content Include="MyScripts\XMPP.js" />

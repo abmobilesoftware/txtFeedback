@@ -45,7 +45,6 @@ namespace SmsFeedback_Take4.Controllers
                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
 
                var workingPoints = SMSRepository.GetWorkingPointsPerUser(userId, lContextPerRequest);
-               System.Threading.Thread.Sleep(1000);
                return Json(workingPoints, JsonRequestBehavior.AllowGet);
 
 
