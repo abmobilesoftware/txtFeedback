@@ -254,6 +254,8 @@
     <Content Include="MyScripts\Filtering.js" />
     <Content Include="MyScripts\Messages.js" />
     <Content Include="MyScripts\ConversationTags.js" />
+    <Content Include="MyScripts\OOPLesson.html" />
+    <Content Include="MyScripts\OOPLesson.js" />
     <Content Include="MyScripts\WorkingPoints.js" />
     <Content Include="MyScripts\Utilities.js" />
     <Content Include="MyScripts\XMPP.js" />
@@ -336,9 +338,6 @@
     <None Include="Properties\PublishProfiles\cluj.info.pubxml" />
     <Content Include="Views\UserMailer\_Layout.Master" />
     <Content Include="Scripts\jquery.cookie.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmsFeedback_EFModels\SmsFeedback_EFModels.csproj">

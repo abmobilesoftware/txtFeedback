@@ -127,6 +127,7 @@
          <div id="tagFiltering" class="filterInputBox">
             <input name="filterTag" id="filterTag" />
          </div>
+        <a href="#" id="disconnectBtn">Disconnect</a>
       </div>
    </div>
    <div class="clear"></div>

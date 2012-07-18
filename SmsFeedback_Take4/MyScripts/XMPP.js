@@ -55,6 +55,7 @@ function CreateXMPPHandler(conversationsView, messagesView) {
             self.userid = userid;
             self.password = password;
             window.app.xmppConn = this;
+
             self.conn.connect(userid, password, self.connectCallback);
         },
         disconnect: function () {
@@ -79,6 +80,7 @@ function CreateXMPPHandler(conversationsView, messagesView) {
         send_initial_presence: function (to) {
             var presence = $pres().c("status").t("Ready or not");
             this.connection.send(presence);
+
             this.log("Initial presence sent");
         },
         send_reply: function (from, to, message) {
