@@ -11,6 +11,7 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/filtersStrip.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/tags.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/jquery.tagsinput.css") %>" />
+
    <script src="<%: Url.Content("~/Scripts/spin.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/jquery.cookie.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/jquery.simplemodal.js") %>" type="text/javascript"></script>

@@ -151,7 +151,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EmailSendController.cs" />
+    <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Controllers\XmppController.cs" />
     <Compile Include="GlobalResources\Global.Designer.cs">
@@ -191,6 +194,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\contact.css" />
+    <Content Include="Content\css\help.css" />
+    <Content Include="Content\css\reports.css" />
+    <Content Include="Content\css\settings.css" />
     <Content Include="Content\filtersStrip.css" />
     <Content Include="Content\grid.css" />
     <Content Include="Content\images\06-web-2.png" />
@@ -289,9 +295,12 @@
     <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
     <Content Include="Views\EmailSend\GetEmailMessageForm.aspx" />
     <Content Include="Views\EmailSend\Index.ascx" />
+    <Content Include="Views\Help\Index.aspx" />
     <Content Include="Views\Messages\Index.aspx" />
     <Content Include="Views\Messages\MyMessages.ascx" />
     <Content Include="Views\Messages\TstView.ascx" />
+    <Content Include="Views\Reports\Index.aspx" />
+    <Content Include="Views\Settings\Index.aspx" />
     <Content Include="Views\UserMailer\Welcome.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

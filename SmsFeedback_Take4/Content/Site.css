@@ -306,6 +306,8 @@ div#title {
    float: left;
    text-align: left;
    margin-right: 20px;
+   position: relative;
+   z-index: 1;
 }
 
 #logindisplay {

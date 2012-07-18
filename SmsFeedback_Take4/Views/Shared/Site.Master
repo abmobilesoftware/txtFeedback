@@ -22,8 +22,8 @@
 <body>     
     <div class="page">
         <header>
-            <div id="title">                
-                <img id="logo" src="<%: Url.Content("~/Content/images/06-web-2.png") %>"/>
+            <div id="title">                                               
+               <%: Url.ImageLink(Url.Content("~/Content/images/06-web-2.png"),"home","Index","Messages",null,"logo") %>
             </div>
             <div id="logindisplay">               
                 <% Html.RenderPartial("LogOnUserControl"); %>
