@@ -1,55 +1,65 @@
 ﻿"use strict";
+window.app = window.app || {};
+window.app.xmppConn = {};
 function CreateXMPPHandler(conversationsView, messagesView) {
     var convView = conversationsView;
     var msgView = messagesView;
-
     var msgID = 12345;
-
+    
     var XMPPhandler = {
         account_number: "+442033221134",
         sender_number: null,
         receiver_number: null,
-
+        userid: null,
+        password: null,
+        conn: null,
+               
         office_number: null, // folosit pentru afisarea mesajelor pentru o anumita conversatie. Care e office number-ul?
         connection: null,
+        connectCallback: function (status) {
+            if (status === Strophe.Status.CONNECTED) {
+                showStatus("XMPP connected", 5000);
+                console.log("CONNECTED");
+                app.xmppConn.connection = app.xmppConn.conn;
+                app.xmppConn.connection.addHandler(app.xmppConn.handle_infoquery, null, "iq", null, "ping1");
+                app.xmppConn.connection.addHandler(app.xmppConn.handle_message, null, "message", null, null);
+                var domain = Strophe.getDomainFromJid(app.xmppConn.connection.jid);
+                app.xmppConn.send_ping(domain);
+                app.xmppConn.send_initial_presence(domain);
+                //self.request_conversations(self.account_number);                   
+            } else if (status === Strophe.Status.CONNECTING) {
+                showStatus("XMPP CONNECTING", 5000);
+                console.log("CONNECTING");
+            } else if (status === Strophe.Status.AUTHENTICATING) {
+                showStatus("XMPP AUTHENTICATING", 5000);
+                console.log("AUTHENTICATING");
+            } else if (status === Strophe.Status.DISCONNECTED) {
+                showStatus("XMPP DISCONNECTED", 5000);
+                console.log("DISCONNECTED");
+                app.xmppConn.connect(app.xmppConn.userid, app.xmppConn.password, app.xmppConn.connectCallback);
+            } else if (status === Strophe.Status.CONNFAIL) {
+                showStatus("XMPP CONNFAILED", 5000);
+                console.log("CONNFAILED");
+            } else if (status === Strophe.Status.AUTHFAIL) {
+                showStatus("XMPP AUTHFAIL", 5000);
+                console.log("AUTHFAIL");
+            } else if (status === Strophe.Status.ERROR) {
+                showStatus("XMPP ERROR", 5000);
+                console.log("ERROR");
+            }
+        },
         connect: function (userid, password) {
             var self = this;
             var xmppServerAddress = "http://176.34.122.48:7070/http-bind/";
-            //Strophe.log = function (level, msg) {
-            //    console.log(msg);
-            //};
-            var conn = new Strophe.Connection(xmppServerAddress);
-            conn.connect(userid, password, function (status) {
-                if (status === Strophe.Status.CONNECTED) {
-                    showStatus("XMPP connected", 5000);
-                    console.log("CONNECTED");
-                    self.connection = conn;
-                    self.connection.addHandler(self.handle_infoquery, null, "iq", null, "ping1");
-                    self.connection.addHandler(self.handle_message, null, "message", null, null);
-                    var domain = Strophe.getDomainFromJid(self.connection.jid);
-                    self.send_ping(domain);
-                    self.send_initial_presence(domain);
-                    //self.request_conversations(self.account_number);                   
-                } else if (status === Strophe.Status.CONNECTING) {
-                    showStatus("XMPP CONNECTING" , 5000);
-                    console.log("CONNECTING");
-                } else if (status === Strophe.Status.AUTHENTICATING) {
-                    showStatus("XMPP AUTHENTICATING", 5000);                    
-                    console.log("AUTHENTICATING");
-                } else if (status === Strophe.Status.DISCONNECTED) {
-                    showStatus("XMPP DISCONNECTED", 5000);                    
-                    console.log("DISCONNECTED");
-                } else if (status === Strophe.Status.CONNFAIL) {
-                    showStatus("XMPP CONNFAILED", 5000);                    
-                    console.log("CONNFAILED");
-                } else if (status === Strophe.Status.AUTHFAIL) {
-                    showStatus("XMPP AUTHFAIL", 5000);                    
-                    console.log("AUTHFAIL");
-                } else if (status === Strophe.Status.ERROR) {
-                    showStatus("XMPP ERROR", 5000);                    
-                    console.log("ERROR");
-                }
-            });
+            self.conn = new Strophe.Connection(xmppServerAddress);
+            self.userid = userid;
+            self.password = password;
+            window.app.xmppConn = this;
+            self.conn.connect(userid, password, self.connectCallback);
+        },
+        disconnect: function () {
+            var self = this;
+            self.conn.disconnect();
         },
         start_time: null,
         log: function (msg) {
@@ -88,6 +98,16 @@ function CreateXMPPHandler(conversationsView, messagesView) {
         handle_infoquery: function (iq) {
             var elapsed = (new Date()).getTime() - this.start_time;
             console.log("Received pong from server in " + elapsed + "ms");
+            var pong = $iq({
+                to: $(iq).attr("from"),
+                from: $(iq).attr("to"),
+                type: "result",
+                id: $(iq).attr("id")
+            });
+
+            if ($(iq).children("ping") != null) {
+                app.xmppConn.connection.send(pong);
+            }
             //Hello.connection.disconnect();
             return false;
         }, 
