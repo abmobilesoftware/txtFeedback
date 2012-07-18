@@ -38,9 +38,15 @@ window.app.ConversationsList = Backbone.Collection.extend({
 //#region ConversationView
 $(function () {
    window.app = window.app || {};
-   _.templateSettings = {
+   /*_.templateSettings = {
       interpolate: /\{\{(.+?)\}\}/g
-   };
+   };*/
+   _.templateSettings = {
+       interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
+       evaluate: /\{%([\s\S]+?)%\}/g,   // excute code: {% code_to_execute %}
+       escape: /\{%-([\s\S]+?)%\}/g
+   }; // excape HTML: {%- <script> %} prints &lt
+
    window.app.ConversationView = Backbone.View.extend({
       model: app.Conversation,
       tagName: "div",

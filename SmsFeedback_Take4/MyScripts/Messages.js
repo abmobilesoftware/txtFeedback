@@ -151,9 +151,15 @@ function MessagesArea(convView, tagsArea) {
         }
     });   
 
-    _.templateSettings = {
+    /*_.templateSettings = {
         interpolate: /\{\{(.+?)\}\}/g
-    };
+    };*/
+
+    _.templateSettings = {
+        interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
+        evaluate: /\{%([\s\S]+?)%\}/g,   // excute code: {% code_to_execute %}
+        escape: /\{%-([\s\S]+?)%\}/g
+    }; // excape HTML: {%- <script> %} prints &lt
 
     var MessageView = Backbone.View.extend({
         model: app.Message,
