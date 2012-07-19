@@ -375,7 +375,7 @@ function MessagesArea(convView, tagsArea) {
         });
 
         $.getJSON('Messages/ChangeStarredStatusForConversation',
-                { convID: self.currentConversationId, newStarredStatus: newStarredStatus },
+                { conversationId: self.currentConversationId, newStarredStatus: newStarredStatus },
                 function (data) {
                    //conversation starred status changed
                    console.log(data);
