@@ -259,6 +259,7 @@
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
     <Content Include="Content\conversations.css" />
     <Content Include="crossdomain.xml" />
+    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="InstallationDummyFile.txt" />
     <Content Include="MyScripts\contact.js" />
