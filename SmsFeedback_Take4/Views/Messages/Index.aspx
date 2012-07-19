@@ -1,34 +1,34 @@
 ﻿<%@ Page Title="SmsFeedback" Language="C#" MasterPageFile="~/Views/Shared/Site.Master"
    Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
-
+<%@ Import Namespace="SmsFeedback_Take4.Utilities" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
    <%: ViewData["Title"] %>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/phonenumbers.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/messages.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/conversations.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/filtersStrip.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/tags.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/jquery.tagsinput.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/phonenumbers.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/messages.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/conversations.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/filtersStrip.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/tags.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/jquery.tagsinput.css") %>" />
 
-   <script src="<%: Url.Content("~/Scripts/spin.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/Scripts/jquery.cookie.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/Scripts/jquery.simplemodal.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/MyScripts/Utilities.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/MyScripts/WorkingPoints.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/Scripts/jquery.tagsinput.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/MyScripts/Messages.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/MyScripts/contact.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.cookie.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.simplemodal.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Utilities.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/WorkingPoints.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.tagsinput.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Messages.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/contact.js") %>" type="text/javascript"></script>
    
-   <script src="<%: Url.Content("~/MyScripts/Conversations.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/MyScripts/Filtering.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/MyScripts/ConversationTags.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Conversations.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Filtering.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/ConversationTags.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/Strophe/strophe.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/flxhr/flXHR.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/flxhr/strophe.flxhr.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/MyScripts/XMPP.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/MyScripts/Facade.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/XMPP.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Facade.js") %>" type="text/javascript"></script>
    
    <script type="text/template" id="tag-template">       
 		<span class="tag"  >

@@ -1,5 +1,5 @@
 ﻿window.app = window.app || {};
-
+//this is a very important change that must be reflected immediatelly
 function StatusBar(sel, options) {
     var _I = this;
     var _sb = null;
