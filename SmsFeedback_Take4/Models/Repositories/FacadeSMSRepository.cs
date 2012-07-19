@@ -52,6 +52,7 @@ namespace SmsFeedback_Take4.Models
                                                                   int top,
                                                                   DateTime? lastUpdate,
                                                                   String userName,
+                                                                  bool performUpdateFromExternalSources,
                                                                   smsfeedbackEntities dbContext)
       { 
          //the convention is that if workingPoints number is empty then we retrieve all the conversations
@@ -74,27 +75,30 @@ namespace SmsFeedback_Take4.Models
 
                //TODO check if we have access to the given numbers to avoid a security breach
                //first update our db with the latest from twilio (nexmo) then do our conditional select
-               Dictionary<string, SmsMessage> lastConversations = mEFRep.GetLatestConversationForNumbers(workingPointsNumbers, userName,dbContext);
+            if (performUpdateFromExternalSources)
+            {
+               Dictionary<string, SmsMessage> lastConversations = mEFRep.GetLatestConversationForNumbers(workingPointsNumbers, userName, dbContext);
                foreach (var item in lastConversations)
                {
                   if (item.Value != null)
                   {
                      //unfortunatelly twilio is rather imprecisse (YYYY-MM-DD) -> we could/will get the same messages twice 
                      //we'll tackle this in the addupdate logic
-                     var lastConversationTime = item.Value.TimeReceived; 
+                     var lastConversationTime = item.Value.TimeReceived;
                      IEnumerable<SmsMessage> twilioConversationsForNumbers = mTwilioRep.GetConversationsForNumber(onlyFavorites, tags, item.Key, skip, top, lastConversationTime, userName);
                      //we need to add the twilio conversations to our conversations list
-                     AddTwilioConversationsToDb(twilioConversationsForNumbers,dbContext);
+                     AddTwilioConversationsToDb(twilioConversationsForNumbers, dbContext);
                      //TODO - remove the break
                      break; //temporary - until we have real data
                      //now we can select from our db the latest conversations
                   }
                   else
                   {
-                     IEnumerable<SmsMessage> twilioConversationsForNumbers = mTwilioRep.GetConversationsForNumber( onlyFavorites, tags, item.Key, skip, top, lastUpdate, userName);
-                     AddTwilioConversationsToDb(twilioConversationsForNumbers,dbContext);
+                     IEnumerable<SmsMessage> twilioConversationsForNumbers = mTwilioRep.GetConversationsForNumber(onlyFavorites, tags, item.Key, skip, top, lastUpdate, userName);
+                     AddTwilioConversationsToDb(twilioConversationsForNumbers, dbContext);
                   }
                }
+            }
                IEnumerable<SmsMessage> efConversationsForNumbers = mEFRep.GetConversationsForNumbers(onlyFavorites, tags, workingPointsNumbers,startDate,endDate,onlyUnread, skip, top, lastUpdate, userName,dbContext);
                return efConversationsForNumbers;           
          }

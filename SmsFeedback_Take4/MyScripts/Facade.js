@@ -34,6 +34,7 @@ function InitializeGUI() {
 
    app.nrOfUnreadConvs = 0;
    //get the initial conversations
+   app.requestIndex = 0; //make sure the first time we update from external sources
    this.convView.getConversations();
 
    //the xmpp handler for new messages

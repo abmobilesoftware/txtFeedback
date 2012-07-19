@@ -138,6 +138,7 @@ namespace SmsFeedback_Take4.Controllers
                                             string startDate,
                                             string endDate,
                                             bool? onlyUnread,
+                                            int requestIndex,
                                             int skip,
                                             int top)
       {
@@ -167,12 +168,12 @@ namespace SmsFeedback_Take4.Controllers
             {
                wps.Append(" []");
             }
-            logger.Debug(String.Format("ConversationList requested: onlyFavourites {0}, tags: {1}, working points: {2}, skip: {3}, top: {4}",                                        
+            logger.Debug(String.Format("ConversationList requested: onlyFavourites {0}, tags: {1}, working points: {2}, skip: {3}, top: {4}, requestIndex: {5}",                                        
                                         onlyFavorites.ToString(),
                                         receivedTags.ToString(),
                                         wps.ToString(),
                                         skip,
-                                        top));
+                                        top, requestIndex));
             if (HttpContext.Request.IsAjaxRequest())
             {
                var userId = User.Identity.Name;
@@ -195,7 +196,9 @@ namespace SmsFeedback_Take4.Controllers
                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
                bool retrieveOnlyUnreadConversations = false;
                if (onlyUnread.HasValue && onlyUnread.Value == true) retrieveOnlyUnreadConversations = true;
-               var conversations = SMSRepository.GetConversationsForNumbers(onlyFavorites, tags, workingPointsNumbers, startDateAsDate, endDateAsDate, retrieveOnlyUnreadConversations, skip, top, null, userId, lContextPerRequest);
+               //decide if we want to update from external sources or not
+               var updateFromExternalSources = DecideIfUpdateFromExternalSourcesIsRequired(requestIndex);               
+               var conversations = SMSRepository.GetConversationsForNumbers(onlyFavorites, tags, workingPointsNumbers, startDateAsDate, endDateAsDate, retrieveOnlyUnreadConversations, skip, top, null, userId,updateFromExternalSources, lContextPerRequest);
                return Json(conversations, JsonRequestBehavior.AllowGet);
 
             }
@@ -205,6 +208,11 @@ namespace SmsFeedback_Take4.Controllers
             logger.Error("Error occurred in ConversationsList", ex);
          }
          return null;
+      }
+
+      private bool DecideIfUpdateFromExternalSourcesIsRequired(int requestIndex)
+      {
+         return requestIndex % 5 == 0;
       }
 
       public JsonResult MessageReceived(String from, String to, String text, string receivedTime, bool readStatus)

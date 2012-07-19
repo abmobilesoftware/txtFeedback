@@ -56,6 +56,7 @@
       filterOptions["onlyUnread"] = false;
       filterOptions["skip"] = 0;
       filterOptions["top"] = 10;
+      filterOptions["requestIndex"] = 0
 
       var validUrlLocationForConversationsList = "/ro-RO/Messages/ConversationsList";
       $.ajax({

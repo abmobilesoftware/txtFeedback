@@ -170,9 +170,11 @@ function ConversationArea(filterArea, workingPointsArea) {
                    if (data != null) {
                       app.setNrOfUnreadConversationOnTab(data.Value);                      
                       app.firstCall = false;
+                     
                    }
                 });
                 }
+                app.requestIndex++;
                 //spinner.stop();
              }
           });
@@ -203,6 +205,7 @@ function ConversationArea(filterArea, workingPointsArea) {
           filterOptions["onlyUnread"] = onlyUnreadConvs;
           filterOptions["skip"] = skip;
           filterOptions["top"] = top;
+          filterOptions["requestIndex"] = app.requestIndex;
           return filterOptions;
        },
        getAdditionalConversations: function () {
