@@ -137,12 +137,23 @@ function setCheckboxState(checkbox, state)
 }
 
 window.app.nrOfUnreadConvs = 0;
-window.app.incrementNrOfUnreadConvs = function () {
-   app.nrOfUnreadConvs++;
-   app.setNrOfUnreadConversationOnTab(app.nrOfUnreadConvs);
+window.app.convsWithNewMessage = {};
+window.app.incrementNrOfUnreadConvs = function (convId) {
+   //we receive multiple new messages for one conversation - still the counter for unread conversations should only be incremented with 1 
+   var convWithNewMessage = app.convsWithNewMessage[convId];   
+   if(convWithNewMessage == undefined || (convWithNewMessage != undefined && convWithNewMessage === 0))
+   {
+      app.nrOfUnreadConvs++;
+      app.setNrOfUnreadConversationOnTab(app.nrOfUnreadConvs);
+      app.convsWithNewMessage[convId] = 1;
+   }   
 }
 
-window.app.decrementNrOfUnreadConvs = function () {
-   app.nrOfUnreadConvs--;
-   app.setNrOfUnreadConversationOnTab(app.nrOfUnreadConvs);
+window.app.decrementNrOfUnreadConvs = function (convId) {
+   var convWithNewMessage = app.convsWithNewMessage[convId];
+   if (convWithNewMessage == undefined || (convWithNewMessage != undefined && convWithNewMessage == 1)) {
+      app.nrOfUnreadConvs--;
+      app.setNrOfUnreadConversationOnTab(app.nrOfUnreadConvs);
+      app.convsWithNewMessage[convId] = 0;
+   }
 }

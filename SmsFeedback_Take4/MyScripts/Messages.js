@@ -12,7 +12,7 @@ function markConversationAsRead()
 {
     $(gSelectedElement).removeClass("unreadconversation");
     $(gSelectedElement).addClass("readconversation");
-    app.decrementNrOfUnreadConvs();
+    app.decrementNrOfUnreadConvs(gSelectedConversationID);
     //call the server to mark the conversation as read
     $.getJSON('Messages/MarkConversationAsRead',
                 { conversationId: gSelectedConversationID },
@@ -321,15 +321,16 @@ function MessagesArea(convView, tagsArea) {
            }
         },
         newMessageReceived: function (fromID, convID, msgID, dateReceived, text) {
-            console.log("new message received: " + text);
+            console.log("new message received: " + text + " with ID:" + msgID);
             var newMsg = new app.Message({ Id: msgID });            
             newMsg.set("Direction", "from");
             newMsg.set("From", fromID);
             newMsg.set("ConvID", convID);
             newMsg.set("Text", text);
             newMsg.set("TimeReceived", dateReceived);            
-            //we add the message only if are in correct conversation            
-            self.messagesRep[convID].add(newMsg);
+           //we add the message only if are in correct conversation
+            if (self.messagesRep[convID] != undefined)
+            { self.messagesRep[convID].add(newMsg); }
         },
         appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
             var msgView = new MessageView({ model: msg });
