@@ -108,7 +108,7 @@ function ConversationArea(filterArea, workingPointsArea) {
     };
     var spinnerAddConvs = new Spinner(optsForLoadMoreConversationsSpinner);
 
-    var ConversationsArea = Backbone.View.extend({
+    var ConversationsView = Backbone.View.extend({
        el: $("#conversations"),
        initialize: function () {
           this.filters = filterArea;
@@ -165,14 +165,8 @@ function ConversationArea(filterArea, workingPointsArea) {
                    spinner.stop();
                 }
                 if (app.firstCall) {
-                   $.getJSON('Messages/NrOfUnreadConversations',
-                function (data) {
-                   if (data != null) {
-                      app.setNrOfUnreadConversationOnTab(data.Value);                      
-                      app.firstCall = false;
-                     
-                   }
-                });
+                   app.updateNrOfUnreadConversations();
+                   app.firstCall = false;
                 }
                 app.requestIndex++;
                 //spinner.stop();
@@ -340,25 +334,30 @@ function ConversationArea(filterArea, workingPointsArea) {
           }
        },
        newMessageReceived: function (fromID, toID, convID, dateReceived, newText) {
-          //if the given conversation exists we update it, otherwise we create a new conversation         
+          //if the given conversation exists we update it, otherwise we create a new conversation
+          var newReadStatus = false;
+          $.getJSON('Messages/MessageReceived',
+                    { from: fromID, to: toID, text: newText, receivedTime: dateReceived, readStatus: newReadStatus },
+                    function (data) {
+                       console.log(data);
+                       app.updateNrOfUnreadConversations();                       
+                    });
+
           var modelToUpdate = self.convsView.convsList.get(convID);
           if (modelToUpdate) {
              //since the view will react to model changes we make sure that we do "batch updates" - only the last update will trigger the update
              //all the previous updates will be "silent"
-             modelToUpdate.set({ "Text": newText }, { silent: true });
-             var convWasUnreadSoFar = (modelToUpdate.get("Read") === true);            
-             if (convWasUnreadSoFar) {
-                app.incrementNrOfUnreadConvs(convID);
-             }
-             modelToUpdate.set("Read", false);
+             modelToUpdate.set({ "Text": newText }, { silent: true });             
+             modelToUpdate.set("Read", newReadStatus);
           }
           else {
-             var modelToAdd = new app.Conversation({ From: fromID,To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText });
-             //model.id = assign unique id
-             self.convsView.convsList.add(modelToAdd);
-             app.incrementNrOfUnreadConvs(convID);
-          }
-          
+             //indicate that a new message has been received
+             //show conversation only if not filtering
+             if (!self.convsView.filters.IsFilteringEnabled()) {
+                var modelToAdd = new app.Conversation({ From: fromID, To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText });
+                self.convsView.convsList.add(modelToAdd);
+             }             
+          }          
        }
     });
        
@@ -366,5 +365,5 @@ function ConversationArea(filterArea, workingPointsArea) {
        self.convsView.getAdditionalConversations();
     });
 
-    this.convsView = new ConversationsArea();     
+    this.convsView = new ConversationsView();     
 }
