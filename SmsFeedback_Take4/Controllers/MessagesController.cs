@@ -97,7 +97,7 @@ namespace SmsFeedback_Take4.Controllers
       [HttpGet]
       public JsonResult ChangeStarredStatusForConversation(string convID, bool? newStarredStatus)
       {
-         logger.InfoFormat("Changing starred status for conversation [{0}] ", convID);
+         logger.InfoFormat("Changing starred status for conversation [{0}], to {1}", convID, (newStarredStatus.HasValue ? newStarredStatus.Value.ToString() : "nothing") );
          if (string.IsNullOrEmpty(convID))
          {
             return Json("Please provide a conversationId", JsonRequestBehavior.AllowGet);

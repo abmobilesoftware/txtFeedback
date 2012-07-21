@@ -28,6 +28,7 @@ namespace SmsFeedback_Take4
             //get rid of all the favicon issues when routing
             routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{*bosh}", new { bosh = @"(.*/http-bindours/)"});
             routes.MapRoute(
                 "LogOn", // Route name
                  "Account/{action}", // URL with parameters

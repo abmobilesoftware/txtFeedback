@@ -191,6 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\contact.css" />
+    <Content Include="Content\conversations_mb.css" />
     <Content Include="Content\filtersStrip.css" />
     <Content Include="Content\grid.css" />
     <Content Include="Content\images\06-web-2.png" />
@@ -200,11 +201,17 @@
     <Content Include="Content\images\checkbox_unchecked.png" />
     <Content Include="Content\images\close14x14.png" />
     <Content Include="Content\images\delete.ico" />
+    <Content Include="Content\images\exclamation-blue.svg" />
+    <Content Include="Content\images\exclamation-green.svg" />
+    <Content Include="Content\images\exclamation-orange.svg" />
     <Content Include="Content\images\exclamationMark.jpg" />
     <Content Include="Content\images\exclamationMark.png" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\mail.png" />
+    <Content Include="Content\images\question-blue.svg" />
+    <Content Include="Content\images\question-green.svg" />
+    <Content Include="Content\images\question-orange.svg" />
     <Content Include="Content\images\star.svg" />
     <Content Include="Content\images\star-selected.svg" />
     <Content Include="Content\images\transparent.gif" />
