@@ -7,3 +7,5 @@ SmsFeedbackTest/bin/*
 SmsFeedbackTest/obj/*
 SmsFeedback_Take4.v11.suo
 Local.testsettings
+*.suo
+SmsFeedback_Take4.v11.suo

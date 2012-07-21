@@ -21,8 +21,13 @@ namespace System.Web.Mvc.Html
       {
          string currentAction = htmlHelper.ViewContext.RouteData.GetRequiredString("action");
          string currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");
+         if (controllerName == "Messages" && actionName=="Index")
+         {
+             return MenuLinkForMessages(htmlHelper,linkText,actionName,controllerName);
+           }
          if (actionName == currentAction && controllerName == currentController)
          {
+            string classForElement = "currentMenuItem";
             return htmlHelper.ActionLink(
                 linkText,
                 actionName,
@@ -30,10 +35,34 @@ namespace System.Web.Mvc.Html
                 null,
                 new
                 {
-                   @class = "currentMenuItem"
+                   @class = classForElement
                 });
          }
          return htmlHelper.ActionLink(linkText, actionName, controllerName);
       }
+      public static MvcHtmlString MenuLinkForMessages(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName) 
+      {
+         var urlHelper = ((Controller)htmlHelper.ViewContext.Controller).Url;
+         var url = "#";
+         if (!string.IsNullOrEmpty(actionName))
+            url = urlHelper.Action(actionName, controllerName, null);
+         TagBuilder countTag = new TagBuilder("span");
+         countTag.MergeAttribute("id", "msgTabcount");
+         countTag.SetInnerText("(0)");
+
+         TagBuilder txtlink = new TagBuilder("a");
+         txtlink.MergeAttribute("href", url);
+         txtlink.InnerHtml = linkText + " " + countTag.ToString();
+
+         string currentAction = htmlHelper.ViewContext.RouteData.GetRequiredString("action");
+         string currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");
+         if (actionName == currentAction && controllerName == currentController)
+         {
+            txtlink.AddCssClass("currentMenuItem");
+         }
+         return new MvcHtmlString(txtlink.ToString());
+      }
    }
+
+   
 }

@@ -186,4 +186,19 @@
   <data name="sendButton" xml:space="preserve">
     <value>Trimite</value>
   </data>
+  <data name="accountAuthenticate" xml:space="preserve">
+    <value>Autentificati-va</value>
+  </data>
+  <data name="lblPassword" xml:space="preserve">
+    <value>parola</value>
+  </data>
+  <data name="lblUserName" xml:space="preserve">
+    <value>utilizator</value>
+  </data>
+  <data name="logOnLogOffMsg" xml:space="preserve">
+    <value>Deconectare</value>
+  </data>
+  <data name="logOnLogOnMsg" xml:space="preserve">
+    <value>Conectare</value>
+  </data>
 </root>

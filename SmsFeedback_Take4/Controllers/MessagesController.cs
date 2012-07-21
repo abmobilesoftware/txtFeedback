@@ -57,19 +57,19 @@ namespace SmsFeedback_Take4.Controllers
          }
          return null;
       }
-      public JsonResult MessagesList(string conversationID)
+      public JsonResult MessagesList(string conversationId)
       {
          //defend when conversationID is null
-         if (conversationID == null)
+         if (string.IsNullOrEmpty(conversationId))
          {
             logger.Error("conversationID was null");
             return null;
          }
          try
          {
-            logger.Debug(String.Format("Show messages for conversation: {0}", conversationID));
+            logger.Debug(String.Format("Show messages for conversation: {0}", conversationId));
             smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-            return Json(SMSRepository.GetMessagesForConversation(conversationID,lContextPerRequest), JsonRequestBehavior.AllowGet);
+            return Json(SMSRepository.GetMessagesForConversation(conversationId,lContextPerRequest), JsonRequestBehavior.AllowGet);
          }
          catch (Exception ex)
          {
@@ -82,37 +82,70 @@ namespace SmsFeedback_Take4.Controllers
       [HttpGet]
       public JsonResult MarkConversationAsRead(string conversationId)
       {
-
-         logger.InfoFormat("Marking conversation [{0}] as read", conversationId);
          if (string.IsNullOrEmpty(conversationId))
          {
-            return Json("Please provide a conversationId", JsonRequestBehavior.AllowGet);
+            logger.Error("conversationId was null");
+            return null;
          }
+         logger.InfoFormat("Marking conversation [{0}] as read", conversationId);
          smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
 
-         mEFInterface.MarkConversationAsRead(conversationId, lContextPerRequest);
-         return Json("Update successful", JsonRequestBehavior.AllowGet);
-
+         var conv = mEFInterface.MarkConversationAsRead(conversationId, lContextPerRequest);
+         if (conv != null)
+         {
+            return Json("Update successful", JsonRequestBehavior.AllowGet);
+         }
+         else 
+         {
+            //convId was invalid
+            return null;
+         }
       }
       [HttpGet]
-      public JsonResult ChangeStarredStatusForConversation(string convID, bool? newStarredStatus)
+      public JsonResult ChangeStarredStatusForConversation(string conversationId, bool? newStarredStatus)
       {
-         logger.InfoFormat("Changing starred status for conversation [{0}], to {1}", convID, (newStarredStatus.HasValue ? newStarredStatus.Value.ToString() : "nothing") );
-         if (string.IsNullOrEmpty(convID))
+         logger.InfoFormat("Changing starred status for conversation [{0}] ", conversationId);
+         if (string.IsNullOrEmpty(conversationId))
          {
-            return Json("Please provide a conversationId", JsonRequestBehavior.AllowGet);
+            logger.Error("conversationId was null");
+            return null;
          }
          if (newStarredStatus.HasValue)
          {
             smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-            mEFInterface.UpdateStarredStatusForConversation(convID, newStarredStatus.Value, lContextPerRequest);
-            return Json("Update successful", JsonRequestBehavior.AllowGet);
+            var conv = mEFInterface.UpdateStarredStatusForConversation(conversationId, newStarredStatus.Value, lContextPerRequest);
+            if (conv != null)
+            {
+               return Json("Update successful", JsonRequestBehavior.AllowGet);
+            }
+            else {
+               //most likely the convId was invalid
+               return null;
+            }
          }
          else {
-            return Json("Please provide a valid starredStatus", JsonRequestBehavior.AllowGet);
+            logger.Error("Please provide a valid starredStatus");
+            return null;
          }
       }
 
+      public JsonResult NrOfUnreadConversations()
+      {
+         try {
+            if (HttpContext.Request.IsAjaxRequest()) { 
+                var userId = User.Identity.Name;
+                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+                var lUnreadMsg = new KeyValuePair<string, int>("unreadConvs", SMSRepository.NrOfUnreadConversations(userId, lContextPerRequest));
+               return Json(lUnreadMsg, JsonRequestBehavior.AllowGet);
+            }
+            return null;
+         }
+         catch (Exception ex)
+         {
+            logger.Error("Error occurred in NrOfUnreadConversations", ex);
+            return null;
+         }
+      }
       //todo add date from/date to to list
       public JsonResult ConversationsList(
                                             bool onlyFavorites,
@@ -121,6 +154,7 @@ namespace SmsFeedback_Take4.Controllers
                                             string startDate,
                                             string endDate,
                                             bool? onlyUnread,
+                                            int requestIndex,
                                             int skip,
                                             int top)
       {
@@ -150,12 +184,12 @@ namespace SmsFeedback_Take4.Controllers
             {
                wps.Append(" []");
             }
-            logger.Debug(String.Format("ConversationList requested: onlyFavourites {0}, tags: {1}, working points: {2}, skip: {3}, top: {4}",                                        
+            logger.Debug(String.Format("ConversationList requested: onlyFavourites {0}, tags: {1}, working points: {2}, skip: {3}, top: {4}, requestIndex: {5}",                                        
                                         onlyFavorites.ToString(),
                                         receivedTags.ToString(),
                                         wps.ToString(),
                                         skip,
-                                        top));
+                                        top, requestIndex));
             if (HttpContext.Request.IsAjaxRequest())
             {
                var userId = User.Identity.Name;
@@ -178,7 +212,9 @@ namespace SmsFeedback_Take4.Controllers
                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
                bool retrieveOnlyUnreadConversations = false;
                if (onlyUnread.HasValue && onlyUnread.Value == true) retrieveOnlyUnreadConversations = true;
-               var conversations = SMSRepository.GetConversationsForNumbers(onlyFavorites, tags, workingPointsNumbers, startDateAsDate, endDateAsDate, retrieveOnlyUnreadConversations, skip, top, null, userId, lContextPerRequest);
+               //decide if we want to update from external sources or not
+               var updateFromExternalSources = DecideIfUpdateFromExternalSourcesIsRequired(requestIndex);               
+               var conversations = SMSRepository.GetConversationsForNumbers(onlyFavorites, tags, workingPointsNumbers, startDateAsDate, endDateAsDate, retrieveOnlyUnreadConversations, skip, top, null, userId,updateFromExternalSources, lContextPerRequest);
                return Json(conversations, JsonRequestBehavior.AllowGet);
 
             }
@@ -188,6 +224,11 @@ namespace SmsFeedback_Take4.Controllers
             logger.Error("Error occurred in ConversationsList", ex);
          }
          return null;
+      }
+
+      private bool DecideIfUpdateFromExternalSourcesIsRequired(int requestIndex)
+      {
+         return requestIndex % 5 == 0;
       }
 
       public JsonResult MessageReceived(String from, String to, String text, string receivedTime, bool readStatus)

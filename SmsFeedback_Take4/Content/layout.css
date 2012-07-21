@@ -289,7 +289,7 @@ td.currency {
 
 /* forms
 ----------------------------------------------- */
-form {
+/*form {
 	overflow:hidden;
 }
 fieldset {
@@ -340,7 +340,7 @@ input.search.text {
 input.search.button {
 	width:28%;
 	margin-left:2%;
-}
+}*/
 
 
 /* articles

@@ -122,6 +122,7 @@ namespace SmsFeedback_Take4.Utilities
             return conv;
          }
          //if there was no conversation associated to this convID 
+         logger.ErrorFormat("No conversation with id {0} found", convID);
          return null; 
       }
 
@@ -136,6 +137,7 @@ namespace SmsFeedback_Take4.Utilities
             return conv;            
          }
          //if there was no conversation associated to this convID 
+         logger.ErrorFormat("No conversation with id {0} found", convID);
          return null;      
       }
     
@@ -253,8 +255,12 @@ namespace SmsFeedback_Take4.Utilities
          try
          {
             var conv = from c in dbContext.Conversations where c.ConvId == convID select c.Starred;
-            if(conv.Count() > 0)return conv.First();
-            return false;
+            if (conv.Count() > 0) { return conv.First(); }
+            else 
+            {
+               //this conversationID was not found in our db - for sure it's not a favourite
+               return false;
+            }
          }
          catch (Exception ex)
          {

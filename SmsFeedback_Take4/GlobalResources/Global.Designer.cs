@@ -61,6 +61,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Authenticate.
+        /// </summary>
+        public static string accountAuthenticate {
+            get {
+                return ResourceManager.GetString("accountAuthenticate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Information.
         /// </summary>
         public static string accountInformation {
@@ -88,11 +97,47 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to password.
+        /// </summary>
+        public static string lblPassword {
+            get {
+                return ResourceManager.GetString("lblPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to username.
+        /// </summary>
+        public static string lblUserName {
+            get {
+                return ResourceManager.GetString("lblUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log On.
         /// </summary>
         public static string LogOnButtonMessage {
             get {
                 return ResourceManager.GetString("LogOnButtonMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log off.
+        /// </summary>
+        public static string logOnLogOffMsg {
+            get {
+                return ResourceManager.GetString("logOnLogOffMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log on.
+        /// </summary>
+        public static string logOnLogOnMsg {
+            get {
+                return ResourceManager.GetString("logOnLogOnMsg", resourceCulture);
             }
         }
         

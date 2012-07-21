@@ -22,13 +22,13 @@
 <body>     
     <div class="page">
         <header>
-            <div id="title">                
-                <img id="logo" src="<%: Url.Content("~/Content/images/06-web-2.png") %>"/>
+            <div id="title">                                               
+               <%: Url.ImageLink(Url.Content("~/Content/images/06-web-2.png"),"home","Index","Messages",null,"logo") %>
             </div>
             <div id="logindisplay">               
                 <% Html.RenderPartial("LogOnUserControl"); %>
-                <%: Html.LanguageSelectorLink("en-US", "en", "en", null) %>
-                <%: Html.LanguageSelectorLink("ro-RO", "ro", "ro", null) %>                
+                <%: Html.ImageLink(Url.Content("~/Content/images/Uk_flag.png"), "en-US",null,null) %>
+                <%: Html.ImageLink(Url.Content("~/Content/images/Ro_flag.png"), "ro-RO",null,null) %>               
             </div>
               
             <nav>

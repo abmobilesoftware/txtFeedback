@@ -39,7 +39,7 @@ namespace SmsFeedback_Take4.Controllers
                }
                else
                {
-                  return RedirectToAction("Index", "Home");
+                  return RedirectToAction("Index", "Messages");
                }
             }
             else
@@ -59,7 +59,7 @@ namespace SmsFeedback_Take4.Controllers
       {
          FormsAuthentication.SignOut();
 
-         return RedirectToAction("Index", "Home");
+         return RedirectToAction("LogOn", "Account");
       }
 
       //
@@ -85,7 +85,7 @@ namespace SmsFeedback_Take4.Controllers
             if (createStatus == MembershipCreateStatus.Success)
             {
                FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
-               return RedirectToAction("Index", "Home");
+               return RedirectToAction("Index", "Messages");
             }
             else
             {

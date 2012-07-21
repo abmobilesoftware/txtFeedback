@@ -1,4 +1,5 @@
 "use strict";
+window.app = window.app || {};
 var gSelectedMessage = null;
 var gSelectedConversationID = null;
 var gSelectedElement = null;
@@ -12,11 +13,12 @@ function markConversationAsRead()
     $(gSelectedElement).removeClass("unreadconversation");
     $(gSelectedElement).addClass("readconversation");
     app.selectedConversation.set({"Read": true});
+    app.decrementNrOfUnreadConvs(gSelectedConversationID);
     //call the server to mark the conversation as read
     $.getJSON('Messages/MarkConversationAsRead',
                 { conversationId: gSelectedConversationID },
                 function (data) {
-                    //conversation marked as read
+                   //conversation marked as read
                     console.log(data);
                 }
         );
@@ -322,14 +324,14 @@ function MessagesArea(convView, tagsArea) {
            }
         },
         newMessageReceived: function (fromID, convID, msgID, dateReceived, text) {
-            console.log("new message received: " + text);
+            console.log("new message received: " + text + " with ID:" + msgID);
             var newMsg = new app.Message({ Id: msgID });            
             newMsg.set("Direction", "from");
             newMsg.set("From", fromID);
             newMsg.set("ConvID", convID);
             newMsg.set("Text", text);
             newMsg.set("TimeReceived", dateReceived);            
-            //we add the message only if are in correct conversation            
+           //we add the message only if are in correct conversation
             if (self.messagesRep[convID] != undefined) {
                 self.messagesRep[convID].add(newMsg);
             }
@@ -379,7 +381,7 @@ function MessagesArea(convView, tagsArea) {
         });
 
         $.getJSON('Messages/ChangeStarredStatusForConversation',
-                { convID: self.currentConversationId, newStarredStatus: newStarredStatus },
+                { conversationId: self.currentConversationId, newStarredStatus: newStarredStatus },
                 function (data) {
                    //conversation starred status changed
                    console.log(data);
@@ -388,8 +390,17 @@ function MessagesArea(convView, tagsArea) {
 
 
 
+   
     this.messagesView = new MessagesView();
 }
+
+window.app.setNrOfUnreadConversationOnTab = function (unreadConvs) {
+   app.nrOfUnreadConvs = unreadConvs;
+   var toShow = "(" + unreadConvs + ")";
+   $("#msgTabcount").text(toShow);
+}
+
+
 
 function limitText(limitField, limitCount, limitNum) {
     if (limitField.value.length > limitNum) {

@@ -24,11 +24,10 @@ namespace SmsFeedback_Take4
         }
 
         public static void RegisterRoutes(RouteCollection routes)
-        {
-            //get rid of all the favicon issues when routing
-            routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
+        {            
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            routes.IgnoreRoute("{*bosh}", new { bosh = @"(.*/http-bindours/)"});
+            routes.IgnoreRoute("{*bosh}", new { bosh = @"^(.*)/http-bindours(\/?)$" });
+
             routes.MapRoute(
                 "LogOn", // Route name
                  "Account/{action}", // URL with parameters
@@ -38,17 +37,15 @@ namespace SmsFeedback_Take4
             routes.MapRoute(
              "Localization", // Route name
              "{lang}/{controller}/{action}/{id}", // URL with parameters
-             new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+             new { controller = "Messages", action = "Index", id = UrlParameter.Optional },// Parameter defaults
+             new { lang = @"\w{2,3}(-\w{4})?(-\w{2,3})?"} //match the language and pass it as a parameter
             );
 
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
-            );
-
-            
-
+                new { controller = "Messages", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+            );           
         }
 
         protected void Application_Start()

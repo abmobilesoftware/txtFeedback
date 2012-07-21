@@ -222,14 +222,19 @@ ul#menu {
 ----------------------------------------------------------*/
 
 fieldset {
-   border: 1px solid #ddd;
-   padding: 0 1.4em 1.4em 1.4em;
-   margin: 0 0 1.5em 0;
+  padding: 5px 20px 5px 20px;
+   margin: 0px;
 }
 
 legend {
-   font-size: 1.2em;
+   font-size: 1.6em;
    font-weight: bold;
+   display: block;
+   padding: 0.5em 0 0.3em;
+   width: 100%;
+   border: none;
+   margin: 0;
+   color: #0b4663;
 }
 
 textarea {
@@ -238,10 +243,15 @@ textarea {
 
 input[type="text"], input[type="password"] {
    border: 1px solid #ccc;
-   padding: 2px;
+   /*padding: 2px;*/
+   background-color: #ebebeb !important;
    /*font-size: 1.2em;*/
    color: #444;
-   width: 200px;
+   width: 100%;
+   font-size: 1.1em;
+   border-radius: 3px;
+   -moz-border-radius: 3px;
+   -webkit-border-radius: 3px;
 }
 
 select {
@@ -296,6 +306,8 @@ div#title {
    float: left;
    text-align: left;
    margin-right: 20px;
+   position: relative;
+   z-index: 1;
 }
 
 #logindisplay {
@@ -348,11 +360,12 @@ div#title {
 /* Styles for editor and display helpers
 ----------------------------------------------------------*/
 .display-label, .editor-label {
-   margin: 1em 0 0 0;
+   margin: 0.5em 0 2em 0;
 }
 
 .display-field, .editor-field {
    margin: 0.5em 0 0 0;
+   width: 100%;
 }
 
 .text-box {
@@ -406,4 +419,87 @@ div.statusbarclose {
 
 #logOnContainer {
    float: right;
+}
+
+#bkgImage {
+  /* Set rules to fill background */
+	min-height: 100%;
+	min-width: 1024px;
+	
+	/* Set up proportionate scaling */
+	width: 100%;
+	height: auto;
+	
+	/* Set up positioning */
+	position: fixed;
+	top: 0;
+	left: 0; 
+   
+   opacity:0.67;
+}
+
+@media screen and (max-width: 1024px) {
+   #bkgImage {
+      left: 50%;
+		margin-left: -512px;   /* 50% */
+   }
+}
+
+#loginBtn {
+background: #22a6de;
+border: 0px solid transparent;
+border-radius: 3px;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+width: 100%;
+}
+
+#loginContainer {
+   border: 1px solid #ddd;
+   padding: 10px;
+   position:  relative;   
+   margin-right: 18%;
+   background:#ffffff;
+   width: 255px;
+   min-width: 255px;
+   margin-right: 200px;
+   margin-top:200px;
+}
+
+#loginContainer p {
+   margin-bottom: 0px;
+}
+
+#logoContainerOnLogin {
+   height: 0px;
+position: relative;
+right: 400px;
+top: 40px;
+}
+
+#RememberMe {
+   margin: 3px 3px 0px 3px;
+}
+
+#changeLanguage {
+   margin-top: 20px;
+}
+
+#changeLanguage img, #logindisplay img {
+   width: 16px;
+   height: 16px;
+   background: transparent;
+   
+}
+
+#changeLanguage img:hover,#logindisplay img:hover {   
+   background: grey;   
+}
+
+.selectedLanguage {
+   border-bottom: 1px solid black;
+}
+
+#msgTabcount {
+   color: #F7941D;
 }

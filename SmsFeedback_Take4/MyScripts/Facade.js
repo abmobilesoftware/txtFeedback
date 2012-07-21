@@ -31,16 +31,22 @@ function InitializeGUI() {
 
    //get the initial working points
    this.wpsView.getWorkingPoints();
+
+   app.nrOfUnreadConvs = 0;
    //get the initial conversations
+   app.requestIndex = 0; //make sure the first time we update from external sources
    this.convView.getConversations();
 
    //the xmpp handler for new messages
-   this.xmppHandler = CreateXMPPHandler(self.convView, self.msgView);
+   this.xmppHandler = new app.XMPPhandler();
    $.getJSON('Xmpp/GetConnectionDetailsForLoggedInUser', function (data) {
-      self.xmppHandler.connect(data.XmppUser, data.XmppPassword);
+      if (data !== "") {
+         self.xmppHandler.connect(data.XmppUser, data.XmppPassword);
+      }
    });
    
    $(document).bind('msgReceived', function (ev, data) {
+      console.log("msgReceived triggered");
       $.getJSON('Messages/MessageReceived',
                     { from: data.fromID, to: data.toID, text: data.text, receivedTime: data.dateReceived, readStatus: data.readStatus },
                     function (data) {                       
@@ -64,7 +70,6 @@ $(document).ready(function () {
       $(".menuItem .active-link").removeClass("active-link");
       $(this).addClass("active-link");
    });
-      
 });
 
 function resizeTriggered() {

@@ -33,7 +33,7 @@ namespace SmsFeedback_Take4.Controllers
                 }
                 else
                 {
-                    // set the culture by the location if not speicified
+                    // set the culture by the location if not specified
                     langHeader = HttpContext.Request.UserLanguages[0];
                     Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(langHeader);
                 }

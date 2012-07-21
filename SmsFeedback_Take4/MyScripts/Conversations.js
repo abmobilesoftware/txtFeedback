@@ -62,7 +62,7 @@ $(function () {
          this.$el.html(this.conversationTemplate(this.model.toJSON()));
          var readUnread = "unreadconversation";
          if (this.model.attributes.Read === true) {
-            readUnread = "readconversation";
+            readUnread = "readconversation";          
          }
          this.$el.addClass("conversation");
          this.$el.addClass(readUnread);
@@ -136,7 +136,7 @@ function ConversationArea(filterArea, workingPointsArea) {
           //in refreshsInProgress we keep count of how many refresh requests are running simultaneously
           this.refreshsInProgress = 0;
        },
-       getConversations: function (workingPoints) {
+       getConversations: function () {
           //#region  Reseting internal variables                    
           this._convViews = [];
           
@@ -167,6 +167,17 @@ function ConversationArea(filterArea, workingPointsArea) {
                 if (selfConvArea.refreshsInProgress <= 1) {
                    spinner.stop();
                 }
+                if (app.firstCall) {
+                   $.getJSON('Messages/NrOfUnreadConversations',
+                function (data) {
+                   if (data != null) {
+                      app.setNrOfUnreadConversationOnTab(data.Value);                      
+                      app.firstCall = false;
+                     
+                   }
+                });
+                }
+                app.requestIndex++;
                 //spinner.stop();
              }
           });
@@ -197,6 +208,7 @@ function ConversationArea(filterArea, workingPointsArea) {
           filterOptions["onlyUnread"] = onlyUnreadConvs;
           filterOptions["skip"] = skip;
           filterOptions["top"] = top;
+          filterOptions["requestIndex"] = app.requestIndex;
           return filterOptions;
        },
        getAdditionalConversations: function () {
@@ -327,12 +339,13 @@ function ConversationArea(filterArea, workingPointsArea) {
                    thisElementWasSelected = true;
                 }
                 var elem = $(viewToRemove.el);
-                elem.fadeOut("slow", function () {
-                   elem.remove();
-                   //make sure to clear any event handlers, so we don't handle the same event twice
-                   conversation.off("change");
-                   selfConversationsView.addConversationWithEffect(conversation, true, thisElementWasSelected);
-                });
+              
+                   elem.fadeOut("slow", function () {
+                      elem.remove();
+                      //make sure to clear any event handlers, so we don't handle the same event twice
+                      conversation.off("change");
+                      selfConversationsView.addConversationWithEffect(conversation, true, thisElementWasSelected);
+                   });              
              }
           }
        },
@@ -343,13 +356,19 @@ function ConversationArea(filterArea, workingPointsArea) {
              //since the view will react to model changes we make sure that we do "batch updates" - only the last update will trigger the update
              //all the previous updates will be "silent"
              modelToUpdate.set({ "Text": newText }, { silent: true });
-             modelToUpdate.set("Read", false);             
+             var convWasUnreadSoFar = (modelToUpdate.get("Read") === true);            
+             if (convWasUnreadSoFar) {
+                app.incrementNrOfUnreadConvs(convID);
+             }
+             modelToUpdate.set("Read", false);
           }
           else {
              var modelToAdd = new app.Conversation({ From: fromID,To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText });
              //model.id = assign unique id
              self.convsView.convsList.add(modelToAdd);
+             app.incrementNrOfUnreadConvs(convID);
           }
+          
        }
     });
        

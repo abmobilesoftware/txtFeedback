@@ -134,6 +134,17 @@ namespace SmsFeedback_Take4.Models
          else return null;
       }
 
+      public int NrOfUnreadConversations(string userName, smsfeedbackEntities dbContext)
+      { 
+         var unreadConvs = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select (from c in wp.Conversations where c.Read == false  select c.Read));
+         var nrUnread = 0;
+         foreach (var unreads in unreadConvs.First())
+         {
+            nrUnread += unreads.Count();
+         }
+         return nrUnread;
+      }
+
       public Dictionary<string, SmsMessage> GetLatestConversationForNumbers(string[] workingPointNumbers, string userName, smsfeedbackEntities dbContext)
       {
          logger.Info("Call made");
