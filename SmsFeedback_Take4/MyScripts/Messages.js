@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 var gSelectedMessage = null;
 var gSelectedConversationID = null;
 var gSelectedElement = null;
@@ -11,6 +11,7 @@ function markConversationAsRead()
 {
     $(gSelectedElement).removeClass("unreadconversation");
     $(gSelectedElement).addClass("readconversation");
+    app.selectedConversation.set({"Read": true});
     //call the server to mark the conversation as read
     $.getJSON('Messages/MarkConversationAsRead',
                 { conversationId: gSelectedConversationID },
@@ -98,10 +99,12 @@ function MessagesArea(convView, tagsArea) {
             resetTimer();                        
             var convId = ui.selected.getAttribute("conversationid");
             gSelectedConversationID = convId;
+            app.selectedConversation = self.convView.convsList.get(convId);
             self.messagesView.getMessages(convId);
             self.tagsArea.getTags(convId);
             
-        }
+       },
+       cancel: ".conversationStarIcon"
     });
 
     var id = 12344; //this should be unique
@@ -327,7 +330,10 @@ function MessagesArea(convView, tagsArea) {
             newMsg.set("Text", text);
             newMsg.set("TimeReceived", dateReceived);            
             //we add the message only if are in correct conversation            
-            self.messagesRep[convID].add(newMsg);
+            if (self.messagesRep[convID] != undefined) {
+                self.messagesRep[convID].add(newMsg);
+            }
+
         },
         appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
             var msgView = new MessageView({ model: msg });
@@ -379,6 +385,8 @@ function MessagesArea(convView, tagsArea) {
                    console.log(data);
                 });
     });
+
+
 
     this.messagesView = new MessagesView();
 }
