@@ -50,7 +50,7 @@ function InitializeGUI() {
     
       //it's better to build the conversation id ourselves to avoid prefixes issues
       var convId = buildConversationID(data.fromID, data.toID);
-      newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toID, convId, data.msgID, data.dateReceived, data.text, false);
+      newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
    });
 
    $(document).bind('disconnect', function (ev, data) {       

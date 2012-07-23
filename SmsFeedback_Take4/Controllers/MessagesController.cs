@@ -132,6 +132,7 @@ namespace SmsFeedback_Take4.Controllers
       public JsonResult NrOfUnreadConversations()
       {
          try {
+            logger.Info("Call made");
             if (HttpContext.Request.IsAjaxRequest()) { 
                 var userId = User.Identity.Name;
                 smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
@@ -257,7 +258,7 @@ namespace SmsFeedback_Take4.Controllers
       }
 
       private void AddMessageAndUpdateConversation(String from, String to, String conversationId, String text, Boolean readStatus, DateTime updateTime, smsfeedbackEntities dbContext)
-      {
+      {         
          string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, dbContext);
          //since now we guarantee that the conversation exits there is no need for convID
          // mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime);         
@@ -293,6 +294,5 @@ namespace SmsFeedback_Take4.Controllers
          }
          return null;
       }
-
    }
 }

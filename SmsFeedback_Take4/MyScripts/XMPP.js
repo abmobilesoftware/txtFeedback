@@ -76,6 +76,7 @@ window.app.receivedMsgID = 12345;
 
          this.log("Initial presence sent");
       };
+
       this.send_reply= function (from, to, message) {
          var message_body = Strophe.xmlescape("<sms>" +
                                         " <sms_from>" + from + "</sms_from>" +
@@ -150,7 +151,9 @@ window.app.receivedMsgID = 12345;
                toID: toID,
                convID: convID,
                msgID: app.receivedMsgID,
-               dateReceived: dateReceived, text: newText, readStatus: false
+               dateReceived: dateReceived,
+               text: newText,
+               readStatus: false
             });
             app.receivedMsgID++;
          }

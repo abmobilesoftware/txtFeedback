@@ -12,4 +12,12 @@
       ok(msg.has("Starred"), "Starred should be present");
    });
 
+   module("MessageArea");
+   test("ConstructorMessagesArea_defaultPropertiesArePresentAndInitialized", function () {
+      var tagsArea, convView = {};
+      var msgArea = new MessagesArea(convView, tagsArea);
+      ok($(msgArea).attr("messagesRep") != undefined, "messagesRep should be present");
+      ok($(msgArea).attr("currentConversationId") != undefined, "currentConversationId should be present");
+      ok($(msgArea).attr("messagesView") != undefined, "messagesView should be present");
+   });
 });
