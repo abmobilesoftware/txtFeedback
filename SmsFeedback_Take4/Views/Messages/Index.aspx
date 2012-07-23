@@ -4,7 +4,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
    <%: ViewData["Title"] %>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server" ContentType="text/xml">
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/phonenumbers.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/messages.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/conversations.css") %>" />
@@ -13,22 +13,24 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/tags.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/jquery.tagsinput.css") %>" />
 
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.cookie.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.simplemodal.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Utilities.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/WorkingPoints.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.tagsinput.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Messages.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/contact.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="application/javascript" ></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.cookie.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.simplemodal.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Utilities.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/WorkingPoints.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.tagsinput.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Messages.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/contact.js") %>" type="application/javascript"></script>
    
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Conversations.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Filtering.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/ConversationTags.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/Scripts/Strophe/strophe.js") %>" type="text/javascript"></script>
-   
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/XMPP.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Facade.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Conversations.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Filtering.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/ConversationTags.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.Content("~/Scripts/Strophe/strophe.js") %>" type="application/javascript"></script>
+    <script src="<%: Url.Content("~/Scripts/flxhr/flXHR.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.Content("~/Scripts/flxhr/strophe.flxhr.js") %>" type="text/javascript"></script>
+
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/XMPP.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Facade.js") %>" type="application/javascript"></script>
    
    <script type="text/template" id="tag-template">       
 		<span class="tag"  >

@@ -348,7 +348,7 @@ function ConversationArea(filterArea, workingPointsArea) {
           //if the given conversation exists we update it, otherwise we create a new conversation
           var newReadStatus = false;
           $.getJSON('Messages/MessageReceived',
-                    { from: fromID, to: toID, text: newText, receivedTime: dateReceived, readStatus: newReadStatus },
+                    { from: fromID, to: toID, text: newText, convId: convID, receivedTime: dateReceived, readStatus: newReadStatus },
                     function (data) {
                        console.log(data);
                        app.updateNrOfUnreadConversations();                       

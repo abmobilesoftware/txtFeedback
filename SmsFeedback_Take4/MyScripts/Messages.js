@@ -122,21 +122,14 @@ function MessagesArea(convView, tagsArea) {
     var id = 412536; //this should be unique
     var sendMessageToClient = function () {
         var inputBox = $("#limitedtextarea");
-        var newMsg = new app.Message({ Id: id });        
         id++;
         //add it to the visual list
         //I should set values to all the properties
         var msgContent = inputBox.val();
-        newMsg.set("Direction", "to");
-        newMsg.set("Text", msgContent);
 
         var fromTo = getFromToFromConversation(self.currentConversationId);
         var from = fromTo[0];
         var to = fromTo[1];
-        newMsg.set("From", from);
-        newMsg.set("To", to);        
-        newMsg.set("TimeReceived", (new Date()).toUTCString());
-        newMsg.set("ConvID", self.currentConversationId);
        //send it to the server
         //$.getJSON('Messages/SendMessage',
         //        { from: from, to: to, text: msgContent },
@@ -146,8 +139,7 @@ function MessagesArea(convView, tagsArea) {
         //         }
        //);
 
-        app.globalMessagesRep[self.currentConversationId].add(newMsg);
-        /TODO should be RFC822 format
+        //TODO should be RFC822 format
         var timeSent = (new Date()).toUTCString();
         $(document).trigger('msgReceived', {
            fromID: to,
