@@ -88,13 +88,11 @@ function showStatus(message, timeout, additive, isError) {
 }
 
 
-//$(function () {
-   //the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
+ //the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
 window.app.domainName = '';
 //window.app.domainName = '/smsfeedback';
 window.app.firstCall = true;
 window.app.requestIndex = 0;
-//})
 
 function getFromToFromConversation(convID) {
    var fromToArray = convID.split(cConversationIdNumbersSeparator);
@@ -134,28 +132,6 @@ function setCheckboxState(checkbox, state)
       checkbox.addClass('deletePhoneNumberIconUnselected');
    }
 }
-
-//window.app.nrOfUnreadConvs = 0;
-//window.app.convsWithNewMessage = {};
-//window.app.incrementNrOfUnreadConvs = function (convId) {
-//   //we receive multiple new messages for one conversation - still the counter for unread conversations should only be incremented with 1 
-//   var convWithNewMessage = app.convsWithNewMessage[convId];   
-//   if(convWithNewMessage == undefined || (convWithNewMessage != undefined && convWithNewMessage === 0))
-//   {
-//      app.nrOfUnreadConvs++;
-//      app.setNrOfUnreadConversationOnTab(app.nrOfUnreadConvs);
-//      app.convsWithNewMessage[convId] = 1;
-//   }   
-//}
-
-//window.app.decrementNrOfUnreadConvs = function (convId) {
-//   var convWithNewMessage = app.convsWithNewMessage[convId];
-//   if (convWithNewMessage == undefined || (convWithNewMessage != undefined && convWithNewMessage == 1)) {
-//      app.nrOfUnreadConvs--;
-//      app.setNrOfUnreadConversationOnTab(app.nrOfUnreadConvs);
-//      app.convsWithNewMessage[convId] = 0;
-//   }
-//}
 
 window.app.updateNrOfUnreadConversations = function () {
    console.log("updateNrOfUnreadConversations called");
