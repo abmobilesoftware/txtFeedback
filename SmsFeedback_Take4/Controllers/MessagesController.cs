@@ -147,13 +147,17 @@ namespace SmsFeedback_Take4.Controllers
          }
       }
 
-      public JsonResult NrOfUnreadConversations()
+      public JsonResult NrOfUnreadConversations(bool? performUpdateBefore)
       {
          try {
-            logger.Info("Call made");
+            logger.DebugFormat("performUpdateBefore: {0}", performUpdateBefore.HasValue ? performUpdateBefore.Value.ToString() : "null");
             if (HttpContext.Request.IsAjaxRequest()) { 
                 var userId = User.Identity.Name;
                 smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+                if (performUpdateBefore.HasValue && performUpdateBefore.Value == true)
+                {
+                   SMSRepository.UpdateConversationsFromExternalSources(null, null, userId, lContextPerRequest);
+                }                
                 var lUnreadMsg = new KeyValuePair<string, int>("unreadConvs", SMSRepository.NrOfUnreadConversations(userId, lContextPerRequest));
                return Json(lUnreadMsg, JsonRequestBehavior.AllowGet);
             }
