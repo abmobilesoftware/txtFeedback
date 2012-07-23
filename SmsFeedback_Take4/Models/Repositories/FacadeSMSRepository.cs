@@ -77,27 +77,7 @@ namespace SmsFeedback_Take4.Models
                //first update our db with the latest from twilio (nexmo) then do our conditional select
             if (performUpdateFromExternalSources)
             {
-               Dictionary<string, SmsMessage> lastConversations = mEFRep.GetLatestConversationForNumbers(workingPointsNumbers, userName, dbContext);
-               foreach (var item in lastConversations)
-               {
-                  if (item.Value != null)
-                  {
-                     //unfortunatelly twilio is rather imprecisse (YYYY-MM-DD) -> we could/will get the same messages twice 
-                     //we'll tackle this in the addupdate logic
-                     var lastConversationTime = item.Value.TimeReceived;
-                     IEnumerable<SmsMessage> twilioConversationsForNumbers = mTwilioRep.GetConversationsForNumber(onlyFavorites, tags, item.Key, skip, top, lastConversationTime, userName);
-                     //we need to add the twilio conversations to our conversations list
-                     AddTwilioConversationsToDb(twilioConversationsForNumbers, dbContext);
-                     //TODO - remove the break
-                     break; //temporary - until we have real data
-                     //now we can select from our db the latest conversations
-                  }
-                  else
-                  {
-                     IEnumerable<SmsMessage> twilioConversationsForNumbers = mTwilioRep.GetConversationsForNumber(onlyFavorites, tags, item.Key, skip, top, lastUpdate, userName);
-                     AddTwilioConversationsToDb(twilioConversationsForNumbers, dbContext);
-                  }
-               }
+               UpdateConversationsFromExternalSources(workingPointsNumbers, lastUpdate, userName, dbContext);
             }
                IEnumerable<SmsMessage> efConversationsForNumbers = mEFRep.GetConversationsForNumbers(onlyFavorites, tags, workingPointsNumbers,startDate,endDate,onlyUnread, skip, top, lastUpdate, userName,dbContext);
                return efConversationsForNumbers;           
@@ -107,6 +87,40 @@ namespace SmsFeedback_Take4.Models
             logger.Error("Error occurred", ex);
          }
          return null;
+      }
+
+      public void UpdateConversationsFromExternalSources(string[] workingPointsNumbers, DateTime? lastUpdate, String userName, smsfeedbackEntities dbContext)
+      {
+         if (workingPointsNumbers == null || workingPointsNumbers.Length == 0 )
+         {//we have to get all the working points 
+            workingPointsNumbers = (from wp in mEFRep.GetWorkingPointsPerUser(userName, dbContext) select wp.TelNumber).ToArray();
+         }
+         UpdateConversationsFromTwilio(workingPointsNumbers, lastUpdate, userName, dbContext);
+      }
+
+      private void UpdateConversationsFromTwilio(string[] workingPointsNumbers, DateTime? lastUpdate, String userName, smsfeedbackEntities dbContext)
+      {
+         Dictionary<string, SmsMessage> lastConversations = mEFRep.GetLatestConversationForNumbers(workingPointsNumbers, userName, dbContext);
+         foreach (var item in lastConversations)
+         {
+            if (item.Value != null)
+            {
+               //unfortunatelly twilio is rather imprecisse (YYYY-MM-DD) -> we could/will get the same messages twice 
+               //we'll tackle this in the addupdate logic
+               var lastConversationTime = item.Value.TimeReceived;
+               IEnumerable<SmsMessage> twilioConversationsForNumbers = mTwilioRep.GetConversationsForNumber( item.Key, lastConversationTime, userName);
+               //we need to add the twilio conversations to our conversations list
+               AddTwilioConversationsToDb(twilioConversationsForNumbers, dbContext);
+               //TODO - remove the break
+               break; //temporary - until we have real data
+               //now we can select from our db the latest conversations
+            }
+            else
+            {
+               IEnumerable<SmsMessage> twilioConversationsForNumbers = mTwilioRep.GetConversationsForNumber(item.Key, lastUpdate, userName);
+               AddTwilioConversationsToDb(twilioConversationsForNumbers, dbContext);
+            }
+         }
       }
 
       private void AddTwilioConversationsToDb(IEnumerable<SmsMessage> twilioConversationsForNumbers, smsfeedbackEntities dbContext)

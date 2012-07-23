@@ -18,7 +18,7 @@ function markConversationAsRead()
                 { conversationId: gSelectedConversationID },
                 function (data) {
                    //conversation marked as read
-                   app.updateNrOfUnreadConversations();
+                   app.updateNrOfUnreadConversations(false);
                    console.log("MarkConversationAsRead done");
                 }
         );
@@ -89,9 +89,9 @@ window.app.MessagesList = Backbone.Collection.extend({
 
 //#region MessagesArea default properties
 window.app.defaultMessagesOptions = {
-   messagesRep : {},
-   currentConversationId : ""
-}
+   messagesRep: {},
+   currentConversationId: ""
+};
 //#endregion
 
 //window.app.SendMessageToClient(convView,
@@ -350,7 +350,7 @@ function MessagesArea(convView, tagsArea) {
             newMsg.set("Text", text);
             newMsg.set("TimeReceived", dateReceived);            
            //we add the message only if are in correct conversation
-            if (app.globalMessagesRep[convID] != undefined) {
+            if (app.globalMessagesRep[convID] !== undefined) {
                 app.globalMessagesRep[convID].add(newMsg);
             }
 
@@ -406,12 +406,6 @@ function MessagesArea(convView, tagsArea) {
 
 
     this.messagesView = new MessagesView();
-}
-
-window.app.setNrOfUnreadConversationOnTab = function (unreadConvs) {
-   app.nrOfUnreadConvs = unreadConvs;
-   var toShow = "(" + unreadConvs + ")";
-   $("#msgTabcount").text(toShow);
 }
 
 function limitText(limitField, limitCount, limitNum) {

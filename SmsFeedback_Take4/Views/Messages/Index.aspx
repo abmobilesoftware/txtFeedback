@@ -16,7 +16,7 @@
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="application/javascript" ></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.cookie.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.simplemodal.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Utilities.js") %>" type="application/javascript"></script>
+  
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/WorkingPoints.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.tagsinput.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Messages.js") %>" type="application/javascript"></script>
@@ -25,11 +25,7 @@
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Conversations.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Filtering.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/ConversationTags.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.Content("~/Scripts/Strophe/strophe.js") %>" type="application/javascript"></script>
-    <script src="<%: Url.Content("~/Scripts/flxhr/flXHR.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/Scripts/flxhr/strophe.flxhr.js") %>" type="text/javascript"></script>
-
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/XMPP.js") %>" type="application/javascript"></script>
+   
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Facade.js") %>" type="application/javascript"></script>
    
    <script type="text/template" id="tag-template">       

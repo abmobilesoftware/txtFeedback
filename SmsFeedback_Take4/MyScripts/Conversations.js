@@ -169,7 +169,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                    spinner.stop();
                 }
                 if (app.firstCall) {
-                   app.updateNrOfUnreadConversations();
+                   app.updateNrOfUnreadConversations(false);
                    app.firstCall = false;
                 }
                 app.requestIndex++;
@@ -346,14 +346,7 @@ function ConversationArea(filterArea, workingPointsArea) {
        },
        newMessageReceived: function (fromID, toID, convID, dateReceived, newText) {
           //if the given conversation exists we update it, otherwise we create a new conversation
-          var newReadStatus = false;
-          $.getJSON('Messages/MessageReceived',
-                    { from: fromID, to: toID, text: newText, convId: convID, receivedTime: dateReceived, readStatus: newReadStatus },
-                    function (data) {
-                       console.log(data);
-                       app.updateNrOfUnreadConversations();                       
-                    });
-
+          var newReadStatus = false;        
           var modelToUpdate = self.convsView.convsList.get(convID);
           if (modelToUpdate) {
              //since the view will react to model changes we make sure that we do "batch updates" - only the last update will trigger the update

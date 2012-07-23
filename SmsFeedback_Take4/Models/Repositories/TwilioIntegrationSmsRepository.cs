@@ -82,12 +82,8 @@ namespace SmsFeedback_Take4.Models
          }
       }
 
-      public IEnumerable<SmsMessage> GetConversationsForNumber(
-                                                               bool onlyFavorites,
-                                                               string[] tags,
-                                                               string workingPointsNumber,
-                                                               int skip,
-                                                               int top,
+      public IEnumerable<SmsMessage> GetConversationsForNumber(                                                             
+                                                               string workingPointsNumber,                                                               
                                                                DateTime? lastUpdate,
                                                                String userName)
       {

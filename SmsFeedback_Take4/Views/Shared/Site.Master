@@ -1,51 +1,66 @@
 ﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
 <%@ Import Namespace="SmsFeedback_Take4.Utilities" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>    
-    <link rel="stylesheet" type="text/css" media="all" href="../../Content/reset.css" />
+   <title>
+      <asp:ContentPlaceHolder ID="TitleContent" runat="server" />
+   </title>
+   <link rel="stylesheet" type="text/css" media="all" href="../../Content/reset.css" />
    <link rel="stylesheet" href="../../Content/themes/base/jquery.ui.all.css">
-    <link rel="stylesheet" type="text/css" media="all" href="../../Content/text.css" />
-    <link rel="stylesheet" type="text/css" media="all" href="../../Content/grid.css" /> 
-    <link rel="stylesheet" type="text/css" media="all" href="../../Content/layout.css" /> 
-    <link rel="stylesheet" type="text/css" media="all" href="../../Content/nav.css" /> 
-    <link rel="stylesheet" type="text/css" media="all" href="../../Content/Site.css" />
-
-    <script src="<%: Url.Content("~/Scripts/jquery-1.6.2.min.js") %>" type="text/javascript"></script>
-    <script src="<%: Url.Content("~/Scripts/jquery-ui-1.8.11.min.js") %>" type="text/javascript"></script>
-    <script src="<%: Url.Content("~/Scripts/modernizr-2.0.6-development-only.js") %>" type="text/javascript"></script>
-   	<script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
-	<script src="http://documentcloud.github.com/underscore/underscore.js"></script>
-	<script src="http://documentcloud.github.com/backbone/backbone.js"></script>
+   <link rel="stylesheet" type="text/css" media="all" href="../../Content/text.css" />
+   <link rel="stylesheet" type="text/css" media="all" href="../../Content/grid.css" />
+   <link rel="stylesheet" type="text/css" media="all" href="../../Content/layout.css" />
+   <link rel="stylesheet" type="text/css" media="all" href="../../Content/nav.css" />
+   <link rel="stylesheet" type="text/css" media="all" href="../../Content/Site.css" />
+   <script src="<%: Url.Content("~/Scripts/jquery-1.6.2.min.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.Content("~/Scripts/jquery-ui-1.8.11.min.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.Content("~/Scripts/modernizr-2.0.6-development-only.js") %>"
+      type="text/javascript"></script>
+   <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+   <script src="http://documentcloud.github.com/underscore/underscore.js"></script>
+   <script src="http://documentcloud.github.com/backbone/backbone.js"></script>
+   <script src="<%: Url.Content("~/Scripts/persist-min.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Utilities.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.Content("~/Scripts/Strophe/strophe.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.Content("~/Scripts/flxhr/flXHR.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.Content("~/Scripts/flxhr/strophe.flxhr.js") %>" type="text/javascript"></script>   
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/XMPP.js") %>" type="application/javascript"></script>
 </head>
-<body>     
-    <div class="page">
-        <header>
-            <div id="title">                                               
-               <%: Url.ImageLink(Url.Content("~/Content/images/06-web-2.png"),"home","Index","Messages",null,"logo") %>
-            </div>
-            <div id="logindisplay">               
-                <% Html.RenderPartial("LogOnUserControl"); %>
-                <%: Html.ImageLink(Url.Content("~/Content/images/Uk_flag.png"), "en-US",null,null) %>
-                <%: Html.ImageLink(Url.Content("~/Content/images/Ro_flag.png"), "ro-RO",null,null) %>               
-            </div>
-              
-            <nav>
-                <ul id="menu">                    
-                   <li ><%: Html.MenuLink(Resources.Global.tabMessages, "Index", "Messages")%></li>
-                   <li ><%: Html.MenuLink(Resources.Global.tabReports, "Index", "Reports")%></li>
-                   <li ><%: Html.MenuLink(Resources.Global.tabSettings, "Index", "Settings")%></li>
-                   <li ><%: Html.MenuLink(Resources.Global.tabHelp, "Index", "Help")%></li>                    
-                </ul>
-            </nav>
-        </header>
-       <div class="clear"></div>
-        <div class="container_12">
-            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
-            <footer>
-            </footer>
-        </div>
-    </div>
+<body>
+   <script type="text/javascript">
+    
+   </script>
+   <div class="page">
+      <header>
+         <div id="title">
+            <%: Url.ImageLink(Url.Content("~/Content/images/06-web-2.png"),"home","Index","Messages",null,"logo") %>
+         </div>
+         <div id="logindisplay">
+            <% Html.RenderPartial("LogOnUserControl"); %>
+            <%: Html.ImageLink(Url.Content("~/Content/images/Uk_flag.png"), "en-US",null,null) %>
+            <%: Html.ImageLink(Url.Content("~/Content/images/Ro_flag.png"), "ro-RO",null,null) %>
+         </div>
+         <nav>
+            <ul id="menu">
+               <li>
+                  <%: Html.MenuLink(Resources.Global.tabMessages, "Index", "Messages")%></li>
+               <li>
+                  <%: Html.MenuLink(Resources.Global.tabReports, "Index", "Reports")%></li>
+               <li>
+                  <%: Html.MenuLink(Resources.Global.tabSettings, "Index", "Settings")%></li>
+               <li>
+                  <%: Html.MenuLink(Resources.Global.tabHelp, "Index", "Help")%></li>
+            </ul>
+         </nav>
+      </header>
+      <div class="clear"></div>
+      <div class="container_12">
+         <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+         <footer>
+         </footer>
+      </div>
+   </div>
 </body>
 </html>

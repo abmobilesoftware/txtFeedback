@@ -133,9 +133,12 @@ function setCheckboxState(checkbox, state)
    }
 }
 
-window.app.updateNrOfUnreadConversations = function () {
+window.app.updateNrOfUnreadConversations = function (performUpdateBefore) {
    console.log("updateNrOfUnreadConversations called");
    $.getJSON('Messages/NrOfUnreadConversations',
+   {
+      performUpdateBefore: performUpdateBefore
+   }, 
                 function (data) {
                    if (data != null) {
                       console.log("new value for nr of conversations received");
@@ -143,3 +146,22 @@ window.app.updateNrOfUnreadConversations = function () {
                    }
                 });
 }
+
+$(function() {
+   $(window).unload(function () {
+      //save the state of the nr of unread messages
+      var store = new Persist.Store('SmsFeedback');
+      store.set('msgTabcountValue', $("#msgTabcount").text());
+      
+   });
+   
+})
+
+$(function () {
+   var store = new Persist.Store('SmsFeedback');
+   store.get('msgTabcountValue', function (ok, val) {
+      if (ok)
+         $("#msgTabcount").text(val);
+   });
+})
+
