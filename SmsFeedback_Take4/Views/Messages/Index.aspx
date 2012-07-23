@@ -55,9 +55,9 @@
                         var fromTo = getFromToFromConversation(ConvID);
                         if (fromTo[0] == From) {
                         %}
-                            <img src="<%: Url.Content("~/Content/images/exclamation-green.svg") %>" class="images conversationImageUnread" />
-                        {% } else { %}
                             <img src="<%: Url.Content("~/Content/images/exclamation-blue.svg") %>" class="images conversationImageUnread" />
+                        {% } else { %}
+                            <img src="<%: Url.Content("~/Content/images/exclamation-green.svg") %>" class="images conversationImageUnread" />
                         {% }    
                 }  %}
             </div>

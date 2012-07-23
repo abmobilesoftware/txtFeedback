@@ -361,7 +361,7 @@ function ConversationArea(filterArea, workingPointsArea) {
              modelToUpdate.set({ "Text": newText }, { silent: true });             
              modelToUpdate.set("Read", newReadStatus);
              modelToUpdate.set("LastMessageDirection", "from");
-             modelToUpdate.set("To", toID);
+             //modelToUpdate.set("To", toID);
              modelToUpdate.set("From", fromID);
           }
           else {
