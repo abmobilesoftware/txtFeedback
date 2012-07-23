@@ -10,6 +10,7 @@ window.app.receivedMsgID = 12345;
       this.connection = null;
       this.start_time= null;
       this.connectCallback = function (status) {
+            var needReconnect = false;
          if (status === Strophe.Status.CONNECTED) {
             showStatus("XMPP connected", 5000);
             console.log("CONNECTED");
@@ -29,21 +30,27 @@ window.app.receivedMsgID = 12345;
          } else if (status === Strophe.Status.DISCONNECTED) {
             showStatus("XMPP DISCONNECTED", 5000);
             console.log("DISCONNECTED");
-            app.xmppConn.connect(app.xmppConn.userid, app.xmppConn.password, app.xmppConn.connectCallback);
+                needReconnect = true;
          } else if (status === Strophe.Status.CONNFAIL) {
             showStatus("XMPP CONNFAILED", 5000);
             console.log("CONNFAILED");
+                needReconnect = true;
          } else if (status === Strophe.Status.AUTHFAIL) {
             showStatus("XMPP AUTHFAIL", 5000);
             console.log("AUTHFAIL");
+                needReconnect = true;
          } else if (status === Strophe.Status.ERROR) {
             showStatus("XMPP ERROR", 5000);
             console.log("ERROR");
+            needReconnect = true;
+         }
+            if (needReconnect) {
+              app.xmppConn.connect(app.xmppConn.userid, app.xmppConn.password, app.xmppConn.connectCallback);
          }
       };
       this.connect = function (userid, password) {
          var self = this;
-         var xmppServerAddress = "http://176.34.122.48:7070/http-bind/";
+            var xmppServerAddress = "http://localhost:3333/app/dsadsa/http-bindours/";
          //var xmppServerAddress = "http://www.cluj-info.com/smsfeedback/nocontroller/http-bindours/";
          self.conn = new Strophe.Connection(xmppServerAddress);
          self.userid = userid;

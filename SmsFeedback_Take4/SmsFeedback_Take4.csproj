@@ -168,6 +168,7 @@
       <DependentUpon>Global.ro.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\BusinessObjects\ConversationTag.cs" />
+    <Compile Include="Models\Helpers\Error.cs" />
     <Compile Include="Models\Interfaces\IInternalSMSRepository.cs" />
     <Compile Include="Models\Repositories\EFSmsRepository.cs" />
     <Compile Include="Models\Repositories\FacadeSMSRepository.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Models\BusinessObjects\AccountModels.cs" />
     <Compile Include="Models\BusinessObjects\WorkingPoint.cs" />
     <Compile Include="Models\BusinessObjects\XmppConn.cs" />
+    <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\CustomAuthorizeAtribute.cs" />
     <Compile Include="Utilities\EFInteraction.cs" />
     <Compile Include="Utilities\LinkHelper.cs" />
@@ -197,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\contact.css" />
+    <Content Include="Content\conversations_mb.css" />
     <Content Include="Content\css\help.css" />
     <Content Include="Content\css\reports.css" />
     <Content Include="Content\css\settings.css" />
@@ -209,6 +212,9 @@
     <Content Include="Content\images\checkbox_unchecked.png" />
     <Content Include="Content\images\close14x14.png" />
     <Content Include="Content\images\delete.ico" />
+    <Content Include="Content\images\exclamation-blue.svg" />
+    <Content Include="Content\images\exclamation-green.svg" />
+    <Content Include="Content\images\exclamation-orange.svg" />
     <Content Include="Content\images\exclamationMark.jpg" />
     <Content Include="Content\images\exclamationMark.png" />
     <Content Include="Content\images\loading.gif" />
@@ -216,7 +222,10 @@
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\mail.png" />
+    <Content Include="Content\images\question-blue.svg" />
     <Content Include="Content\images\Ro_flag.png" />
+    <Content Include="Content\images\question-green.svg" />
+    <Content Include="Content\images\question-orange.svg" />
     <Content Include="Content\images\star.svg" />
     <Content Include="Content\images\star-selected.svg" />
     <Content Include="Content\images\transparent.gif" />

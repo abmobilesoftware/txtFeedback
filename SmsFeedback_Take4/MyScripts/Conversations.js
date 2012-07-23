@@ -1,5 +1,7 @@
 ﻿"use strict";
 window.app = window.app || {};
+window.app.selectedConversation = {}
+window.app.globalMessagesRep = {}
 
 //#region Constants
 window.app.defaultNrOfConversationsToDisplay = 10;
@@ -41,6 +43,7 @@ $(function () {
    /*_.templateSettings = {
       interpolate: /\{\{(.+?)\}\}/g
    };*/
+
    _.templateSettings = {
        interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
        evaluate: /\{%([\s\S]+?)%\}/g,   // excute code: {% code_to_execute %}
@@ -52,7 +55,8 @@ $(function () {
       tagName: "div",
       conversationTemplate: _.template($('#conversation-template').html()),
       initialize: function () {
-         _.bindAll(this, 'render');
+          _.bindAll(this, 'render');
+         this.model.on("change", this.render);
          return this.render;
       },
       render: function () {
@@ -301,7 +305,14 @@ function ConversationArea(filterArea, workingPointsArea) {
        
           var selfConversationsView = this;
           conv.on("change", function (model) {
-             selfConversationsView.updateConversation(model);
+              if (model.hasChanged("Read") && model.get("Read")) {
+                  // read status s-a schimbat in true -> mesaj citit. 
+              } else if (model.hasChanged("Starred")) {
+                  // s-a schimbat doar favorites status.
+              } else {
+                  selfConversationsView.updateConversation(model);
+              }
+                  
           });
           //if we are displaying more then 10 conversations then prepare to
           if (this.convsList.models.length >= app.defaultNrOfConversationsToDisplay) {
@@ -363,6 +374,29 @@ function ConversationArea(filterArea, workingPointsArea) {
        
     $("#loadMoreConversations").bind("click", function () {
        self.convsView.getAdditionalConversations();
+    });
+
+    $(".conversationStarIconImg").live("click", function (e) {
+        e.preventDefault();
+        var id = $(this).parents(".conversation").attr("conversationId");
+        var newStarredStatus = false;
+        if (app.globalMessagesRep[id] != undefined) {
+            app.globalMessagesRep[id].each(function (msg) {
+                //var newStarredValue = ;
+                msg.set("Starred", !msg.attributes["Starred"]);
+                newStarredStatus = msg.attributes["Starred"];
+            });
+        }
+        var starredStatus = self.convsView.convsList.get(id).get("Starred");
+        self.convsView.convsList.get(id).set("Starred", !starredStatus);
+
+        $.getJSON('Messages/ChangeStarredStatusForConversation',
+                { conversationId: id, newStarredStatus: !starredStatus },
+                function (data) {
+                    //conversation starred status changed
+                    console.log(data);
+                });
+                
     });
 
     this.convsView = new ConversationsView();     

@@ -53,10 +53,6 @@ function InitializeGUI() {
       newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
    });
 
-   $(document).bind('disconnect', function (ev, data) {       
-       self.xmppHandler.disconnect();
-   });
-
    $(document).bind('refreshConversationList', function (ev, data) {
       refreshConversationList(self.convView, self.msgView);
    });

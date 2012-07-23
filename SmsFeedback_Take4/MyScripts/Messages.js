@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 window.app = window.app || {};
 var gSelectedMessage = null;
 var gSelectedConversationID = null;
@@ -12,7 +12,7 @@ function markConversationAsRead()
 {
     $(gSelectedElement).removeClass("unreadconversation");
     $(gSelectedElement).addClass("readconversation");
-   
+    app.selectedConversation.set({"Read": true});
     //call the server to mark the conversation as read
     $.getJSON('Messages/MarkConversationAsRead',
                 { conversationId: gSelectedConversationID },
@@ -112,9 +112,11 @@ function MessagesArea(convView, tagsArea) {
             resetTimer();                        
             var convId = ui.selected.getAttribute("conversationid");
             gSelectedConversationID = convId;
+            app.selectedConversation = self.convView.convsList.get(convId);
             self.messagesView.getMessages(convId);
             self.tagsArea.getTags(convId);
-        }
+       },
+       cancel: ".conversationStarIcon"
     });
 
     var id = 412536; //this should be unique
@@ -144,7 +146,8 @@ function MessagesArea(convView, tagsArea) {
         //         }
        //);
 
-       //TODO should be RFC822 format
+        app.globalMessagesRep[self.currentConversationId].add(newMsg);
+        /TODO should be RFC822 format
         var timeSent = (new Date()).toUTCString();
         $(document).trigger('msgReceived', {
            fromID: to,
@@ -278,7 +281,7 @@ function MessagesArea(convView, tagsArea) {
             spinner.spin(target);
 
             self.currentConversationId = conversationId;
-            if (self.currentConversationId in self.messagesRep) {
+            if (self.currentConversationId in app.globalMessagesRep) {
                 //we have already loaded this conversation
                 performFadeIn = false;
                 spinner.stop();
@@ -309,13 +312,17 @@ function MessagesArea(convView, tagsArea) {
                         $("#tagsContainer").fadeIn("slow");
                     }
                 });
-                self.messagesRep[self.currentConversationId] = messages1;
+                app.globalMessagesRep[self.currentConversationId] = messages1;
+                $.each(messages1, function (index, value) {
+                    value.set("Starred", app.selectedConversation.get("Starred"));
+                });
             }
+            
         },
         render: function () {           
             $("#messagesbox").html('');
             var selfMessageView = this;
-            self.messagesRep[self.currentConversationId].each(function (msg) {
+            app.globalMessagesRep[self.currentConversationId].each(function (msg) {
                 //don't scroll to bottom as we will do it when loading is done
                selfMessageView.appendMessageToDiv(msg, performFadeIn, false);
              });
@@ -351,8 +358,10 @@ function MessagesArea(convView, tagsArea) {
             newMsg.set("Text", text);
             newMsg.set("TimeReceived", dateReceived);            
            //we add the message only if are in correct conversation
-            if (self.messagesRep[convID] != undefined)
-            { self.messagesRep[convID].add(newMsg); }
+            if (app.globalMessagesRep[convID] != undefined) {
+                app.globalMessagesRep[convID].add(newMsg);
+            }
+
         },
         appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
             var msgView = new MessageView({ model: msg });
@@ -395,12 +404,15 @@ function MessagesArea(convView, tagsArea) {
                 });
        //reflect the change visually
         var newStarredStatus = false;
-        self.messagesRep[self.currentConversationId].each(function (msg) {
+        app.globalMessagesRep[self.currentConversationId].each(function (msg) {
            //var newStarredValue = ;
            msg.set("Starred", !msg.attributes["Starred"]);
            newStarredStatus = msg.attributes["Starred"];
         });
+        app.selectedConversation.set("Starred", newStarredStatus);
     });
+
+
     this.messagesView = new MessagesView();
 }
 

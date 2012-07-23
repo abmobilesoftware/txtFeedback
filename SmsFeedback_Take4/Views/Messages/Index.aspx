@@ -8,6 +8,7 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/phonenumbers.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/messages.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/conversations.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/conversations_mb.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/filtersStrip.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/tags.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/jquery.tagsinput.css") %>" />
@@ -25,8 +26,7 @@
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Filtering.js") %>" type="text/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/ConversationTags.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/Strophe/strophe.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/Scripts/flxhr/flXHR.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/Scripts/flxhr/strophe.flxhr.js") %>" type="text/javascript"></script>
+   
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/XMPP.js") %>" type="text/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Facade.js") %>" type="text/javascript"></script>
    
@@ -47,19 +47,26 @@
    <script type="text/template" id="conversation-template">
            <div class="leftLiDiv convColumn">
                 {% if (Read) { %}
-                        <img src="<%: Url.Content("~/Content/images/exclamationMark.png") %>" class="images" />
+                        <img src="<%: Url.Content("~/Content/images/check-grey.svg") %>" class="images conversationImageRead" />
                 {% } else { %}
-                        <img src="<%: Url.Content("~/Content/images/star.svg") %>" class="images" />
+                        <img src="<%: Url.Content("~/Content/images/exclamation-green.svg") %>" class="images conversationImageUnread" />
                 {% }  %}
             </div>
             <div class="rightLiDiv convColumn">    
                    
                <div class="spanClassFrom rightSideMembers">
-                    <span>{{ From }} for " {{ To }} "</span>
+                    <span>{% countryPrefix = From.substring(0,3); localPrefix = From.substring(3, 5); group1 = From.substring(5, 9); group2 = From.substring(9,13); %} {{ countryPrefix }} ({{ localPrefix }}) {{ group1 }} {{ group2 }} <span class='conversationArrows'> >> </span>  {{ To }} </span>
                 </div>
                <div class='clear'></div>
                 <div class="spanClassText rightSideMembers">
                     <span>{{ Text }}</span>
+                </div>
+                <div class="conversationStarIcon">
+                    {% if (Starred) { %}
+                            <img src="<%: Url.Content("~/Content/images/star-selected.svg") %>" class="conversationStarIconImg" />
+                    {% } else { %}
+                            <img src="<%: Url.Content("~/Content/images/star.svg") %>" class="conversationStarIconImg" /> 
+                    {% } %}
                 </div>
             </div>                         
         <div class="clear"></div>
@@ -131,7 +138,7 @@
          </div>
          <div id="tagFiltering" class="filterInputBox">
             <input name="filterTag" id="filterTag" />
-         </div>
+         </div>        
       </div>
    </div>
    <div class="clear"></div>
