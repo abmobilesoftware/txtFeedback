@@ -59,21 +59,27 @@ namespace SmsFeedback_Take4.Models
          var twilio = new TwilioRestClient(accoundSID, authToken);
 
          string[] utilitiesGetFromAndToFromConversationID = ConversationUtilities.GetFromAndToFromConversationID(convID);
-         var fromNumber = utilitiesGetFromAndToFromConversationID[0];
-         var toNumber = utilitiesGetFromAndToFromConversationID[1];
-         //var fromNumber = "442033221909"; //the client
-         //var toNumber = "442033221134"; //the twilio number
-         //get messages from a person
-         SmsMessageResult listOfIncomingMessages = twilio.ListSmsMessages(toNumber, fromNumber, null, null, null);
-         //get message to that person         
-         SmsMessageResult listOfOutgoingMessages = twilio.ListSmsMessages(fromNumber, toNumber, null, null, null);
-         //combine the results
+         if (utilitiesGetFromAndToFromConversationID.Length == 2)
+         {
+             var fromNumber = utilitiesGetFromAndToFromConversationID[0];
+             var toNumber = utilitiesGetFromAndToFromConversationID[1];
+             //var fromNumber = "442033221909"; //the client
+             //var toNumber = "442033221134"; //the twilio number
+             //get messages from a person
+             SmsMessageResult listOfIncomingMessages = twilio.ListSmsMessages(toNumber, fromNumber, null, null, null);
+             //get message to that person         
+             SmsMessageResult listOfOutgoingMessages = twilio.ListSmsMessages(fromNumber, toNumber, null, null, null);
+             //combine the results
 
-         
-         IEnumerable<SMSMessage> union = listOfIncomingMessages.SMSMessages.Union(listOfOutgoingMessages.SMSMessages).Distinct(new MessagesComparer());
-         //this should be ordered ascending by datesent as the last will be at the end
-         var records = from c in union orderby c.DateSent select new SmsMessage(){Id=c.Sid.GetHashCode(),From=c.From, To= c.To,Text= c.Body, TimeReceived =c.DateSent,Read=true, ConvID=convID,Starred= isConvFavourite };
-         return records;
+
+             IEnumerable<SMSMessage> union = listOfIncomingMessages.SMSMessages.Union(listOfOutgoingMessages.SMSMessages).Distinct(new MessagesComparer());
+             //this should be ordered ascending by datesent as the last will be at the end
+             var records = from c in union orderby c.DateSent select new SmsMessage() { Id = c.Sid.GetHashCode(), From = c.From, To = c.To, Text = c.Body, TimeReceived = c.DateSent, Read = true, ConvID = convID, Starred = isConvFavourite };
+             return records;
+         }
+         else {
+             return null;
+         }
       }
 
       public IEnumerable<SmsMessage> GetConversationsForNumber(

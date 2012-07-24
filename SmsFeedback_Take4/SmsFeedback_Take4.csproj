@@ -168,6 +168,7 @@
       <DependentUpon>Global.ro.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\BusinessObjects\ConversationTag.cs" />
+    <Compile Include="Models\Helpers\Error.cs" />
     <Compile Include="Models\Interfaces\IInternalSMSRepository.cs" />
     <Compile Include="Models\Repositories\EFSmsRepository.cs" />
     <Compile Include="Models\Repositories\FacadeSMSRepository.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Models\BusinessObjects\AccountModels.cs" />
     <Compile Include="Models\BusinessObjects\WorkingPoint.cs" />
     <Compile Include="Models\BusinessObjects\XmppConn.cs" />
+    <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\CustomAuthorizeAtribute.cs" />
     <Compile Include="Utilities\EFInteraction.cs" />
     <Compile Include="Utilities\LinkHelper.cs" />

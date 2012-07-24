@@ -1,6 +1,7 @@
 ﻿"use strict";
 window.app = window.app || {};
-window.selectedConversation = {}
+window.app.selectedConversation = {}
+window.app.globalMessagesRep = {}
 
 //#region Constants
 window.app.defaultNrOfConversationsToDisplay = 10;
@@ -379,17 +380,19 @@ function ConversationArea(filterArea, workingPointsArea) {
     $(".conversationStarIconImg").live("click", function (e) {
         e.preventDefault();
         var id = $(this).parents(".conversation").attr("conversationId");
-        /*var newStarredStatus = false;
-        self.messagesRep[id].each(function (msg) {
-            //var newStarredValue = ;
-            msg.set("Starred", !msg.attributes["Starred"]);
-            newStarredStatus = msg.attributes["Starred"];
-        });*/
+        var newStarredStatus = false;
+        if (app.globalMessagesRep[id] != undefined) {
+            app.globalMessagesRep[id].each(function (msg) {
+                //var newStarredValue = ;
+                msg.set("Starred", !msg.attributes["Starred"]);
+                newStarredStatus = msg.attributes["Starred"];
+            });
+        }
         var starredStatus = self.convsView.convsList.get(id).get("Starred");
         self.convsView.convsList.get(id).set("Starred", !starredStatus);
 
         $.getJSON('Messages/ChangeStarredStatusForConversation',
-                { convID: id, newStarredStatus: !starredStatus },
+                { conversationId: id, newStarredStatus: !starredStatus },
                 function (data) {
                     //conversation starred status changed
                     console.log(data);

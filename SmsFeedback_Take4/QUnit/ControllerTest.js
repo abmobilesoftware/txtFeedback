@@ -84,7 +84,7 @@
          }
       })
    });
-   asyncTest("Messages/MessagesList_nullConvID_EmptyStringShouldBeReturned", 1, function () {
+   asyncTest("Messages/MessagesList_nullConvID_JsonWithErrorMessageShouldBeReturned", 1, function () {
       var nullConvID = null;
       var validUrlLocationForMessagesList = "/ro-RO/Messages/MessagesList";
       //we have to be logged in for this to work, otherwise we would receive back the LogOn dialog
@@ -92,7 +92,8 @@
          url: validUrlLocationForMessagesList,
          data: { "conversationId": nullConvID },
          success: function (data) {
-            ok(data === "", '""  should be returned');
+            var msg = data;
+            ok($(msg).attr("error") == "NullConvId", "The convId is null, json with message describing the error should be returned");
             start();
          },
          error: function (xhr, ajaxOptions, thrownError) {
@@ -101,7 +102,7 @@
          }
       })
    });
-   asyncTest("Messages/MessagesList_invalidConvID_noDataIsReturned",2, function () {
+   asyncTest("Messages/MessagesList_invalidConvID_noDataIsReturned",1, function () {
       var invalidConvID = "000000000000";
       var validUrlLocationForMessagesList = "/ro-RO/Messages/MessagesList";
       //we have to be logged in for this to work, otherwise we would receive back the LogOn dialog
@@ -109,8 +110,7 @@
          url: validUrlLocationForMessagesList,
          data: { "conversationId": invalidConvID },
          success: function (data) {
-            ok(data.length == 0, "Empty string should be returned (length = 0)");
-            ok(data === "", "Empty string should be returned");            
+            ok(data == null, "Null result received");
             start();
          },
          error: function (xhr, ajaxOptions, thrownError) {
@@ -170,7 +170,7 @@
          }
       });
    });
-   asyncTest("Messages/ChangeStarredStatusForConversation_nullConvId_emptyStringIsReturned",1, function () {
+   asyncTest("Messages/ChangeStarredStatusForConversation_nullConvId_JsonWithErrorMessageIsReturned",1, function () {
       var validUrlForChangeStarredStatus = "/ro-RO/Messages/ChangeStarredStatusForConversation";
       var nullConvIdValue = null;
       var validStarredStatus = true;
@@ -181,7 +181,7 @@
             "newStarredStatus": validStarredStatus
          },
          success: function (data) {
-            ok(data === "", "Empty string should be returned");
+            ok($(data).attr("error") == "NullConvId", "Json with error message: NullConvId");
             start();
          },
          error: function (xhr, ajaxOptions, thrownError) {
@@ -190,13 +190,13 @@
          }
       });
    });
-   asyncTest("Messages/ChangeStarredStatusForConversation_noParamsPassed_emptyStringIsReturned", 1, function () {
+   asyncTest("Messages/ChangeStarredStatusForConversation_noParamsPassed_JsonWithErrorMessageIsReturned", 1, function () {
       var validUrlForChangeStarredStatus = "/ro-RO/Messages/ChangeStarredStatusForConversation";
       
       $.ajax({
          url: validUrlForChangeStarredStatus,      
          success: function (data) {
-            ok(data === "", "Empty string should be returned");
+             ok($(data).attr("error") == "noConvIdPassed", "Json with error message: noConvIdPassed");             
             start();
          },
          error: function (xhr, ajaxOptions, thrownError) {
@@ -205,7 +205,7 @@
          }
       });
    });
-   asyncTest("Messages/ChangeStarredStatusForConversation_nullStarredStatusPassed_emptyStringIsReturned", 1, function () {
+   asyncTest("Messages/ChangeStarredStatusForConversation_nullStarredStatusPassed_JsonWithErrorMessageIsReturned", 1, function () {
       var validUrlForChangeStarredStatus = "/ro-RO/Messages/ChangeStarredStatusForConversation";
       var validConvIdValue = "442033221134-442033221134";
       var nullStarredStatus = null;
@@ -216,7 +216,7 @@
             newStarredStatus: nullStarredStatus
          },
          success: function (data) {
-            ok(data === "", "Empty string should be returned");
+            ok($(data).attr("error") == "nullStarredStatus", "Json with error message: nullStarredStatus");
             start();
          },
          error: function (xhr, ajaxOptions, thrownError) {
@@ -225,14 +225,14 @@
          }
       });
    });
-   asyncTest("Messages/MarkConversationAsRead_nullConvID_emptyStringIsReturned", 1, function () {
+   asyncTest("Messages/MarkConversationAsRead_nullConvID_JsonWithErrorMessageIsReturned", 1, function () {
       var validUrlForMarkAsRead = "/ro-RO/Messages/MarkConversationAsRead";
       var nullConvId = null;
       $.ajax({
          url: validUrlForMarkAsRead,
          data: { conversationId: nullConvId },
          success: function (data) {
-            ok(data === "", "Empty string should be returned");
+             ok($(data).attr("error") == "NullConvId", "Json with error message: NullConvId");
             start();
          },
          error: function (xhr, ajaxOptions, thrownError) {

@@ -60,11 +60,17 @@ namespace SmsFeedback_Take4.Controllers
       public JsonResult MessagesList(string conversationId)
       {
          //defend when conversationID is null
-         if (string.IsNullOrEmpty(conversationId))
-         {
-            logger.Error("conversationID was null");
-            return null;
-         }
+          if (conversationId == null)
+          {
+              logger.Error("no conversationId passed");
+              return Json(new Error(Constants.noConvIdErrorMessage), JsonRequestBehavior.AllowGet);
+          }
+
+          if (conversationId.Equals(Constants.nullString))
+          {
+              logger.Error("conversationId was null");
+              return Json(new Error(Constants.nullConvIdErrorMessage), JsonRequestBehavior.AllowGet);
+          }
          try
          {
             logger.Debug(String.Format("Show messages for conversation: {0}", conversationId));
@@ -82,11 +88,17 @@ namespace SmsFeedback_Take4.Controllers
       [HttpGet]
       public JsonResult MarkConversationAsRead(string conversationId)
       {
-         if (string.IsNullOrEmpty(conversationId))
-         {
-            logger.Error("conversationId was null");
-            return null;
-         }
+          if (conversationId == null)
+          {
+              logger.Error("no conversationId passed");
+              return Json(new Error(Constants.noConvIdErrorMessage), JsonRequestBehavior.AllowGet);
+          }
+
+          if (conversationId.Equals(Constants.nullString))
+          {
+              logger.Error("conversationId was null");
+              return Json(new Error(Constants.nullConvIdErrorMessage), JsonRequestBehavior.AllowGet);
+          }
          logger.InfoFormat("Marking conversation [{0}] as read", conversationId);
          smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
 
@@ -104,14 +116,20 @@ namespace SmsFeedback_Take4.Controllers
       [HttpGet]
       public JsonResult ChangeStarredStatusForConversation(string conversationId, bool? newStarredStatus)
       {
-         logger.InfoFormat("Changing starred status for conversation [{0}] ", conversationId);
-         if (string.IsNullOrEmpty(conversationId))
+          if (conversationId == null)
+          {
+              logger.Error("no conversationId passed");
+              return Json(new Error(Constants.noConvIdErrorMessage), JsonRequestBehavior.AllowGet);
+          }
+
+         if (conversationId.Equals(Constants.nullString)) 
          {
             logger.Error("conversationId was null");
-            return null;
+            return Json(new Error(Constants.nullConvIdErrorMessage), JsonRequestBehavior.AllowGet);
          }
          if (newStarredStatus.HasValue)
          {
+            logger.InfoFormat("Changing starred status for conversation [{0}] to {1}", conversationId, ((bool)newStarredStatus ? "True" : "False"));
             smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
             var conv = mEFInterface.UpdateStarredStatusForConversation(conversationId, newStarredStatus.Value, lContextPerRequest);
             if (conv != null)
@@ -125,7 +143,7 @@ namespace SmsFeedback_Take4.Controllers
          }
          else {
             logger.Error("Please provide a valid starredStatus");
-            return null;
+            return Json(new Error(Constants.nullStarredStatusErrorMessage), JsonRequestBehavior.AllowGet);
          }
       }
 

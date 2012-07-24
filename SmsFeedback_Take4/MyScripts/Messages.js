@@ -138,7 +138,8 @@ function MessagesArea(convView, tagsArea) {
         //         }
         //);
        
-        self.messagesRep[self.currentConversationId].add(newMsg);
+        app.globalMessagesRep[self.currentConversationId].add(newMsg);
+
        //TODO - here TO is incorrect, as it should be the description
         self.convView.newMessageReceived(from, to, self.currentConversationId, Date.now(), msgContent);
        //reset the input form
@@ -234,7 +235,7 @@ function MessagesArea(convView, tagsArea) {
     };
     var spinner = new Spinner(opts);
 
-    this.messagesRep = {};
+    
     this.currentConversationId = '';
 
     //we fade in when we first load a conversation, afterwards we just render - no fade in
@@ -266,7 +267,7 @@ function MessagesArea(convView, tagsArea) {
             spinner.spin(target);
             
             self.currentConversationId = conversationId;
-            if (self.currentConversationId in self.messagesRep) {
+            if (self.currentConversationId in app.globalMessagesRep) {
                 //we have already loaded this conversation
                 performFadeIn = false;
                 spinner.stop();
@@ -297,13 +298,17 @@ function MessagesArea(convView, tagsArea) {
                         $("#tagsContainer").fadeIn("slow");
                     }
                 });
-                self.messagesRep[self.currentConversationId] = messages1;
+                app.globalMessagesRep[self.currentConversationId] = messages1;
+                $.each(messages1, function (index, value) {
+                    value.set("Starred", app.selectedConversation.get("Starred"));
+                });
             }
+            
         },
         render: function () {           
             $("#messagesbox").html('');
             var selfMessageView = this;
-            self.messagesRep[self.currentConversationId].each(function (msg) {
+            app.globalMessagesRep[self.currentConversationId].each(function (msg) {
                 //don't scroll to bottom as we will do it when loading is done
                selfMessageView.appendMessageToDiv(msg, performFadeIn, false);
              });
@@ -332,8 +337,8 @@ function MessagesArea(convView, tagsArea) {
             newMsg.set("Text", text);
             newMsg.set("TimeReceived", dateReceived);            
            //we add the message only if are in correct conversation
-            if (self.messagesRep[convID] != undefined) {
-                self.messagesRep[convID].add(newMsg);
+            if (app.globalMessagesRep[convID] != undefined) {
+                app.globalMessagesRep[convID].add(newMsg);
             }
 
         },
@@ -374,11 +379,12 @@ function MessagesArea(convView, tagsArea) {
              
        //reflect the change visually
         var newStarredStatus = false;
-        self.messagesRep[self.currentConversationId].each(function (msg) {
+        app.globalMessagesRep[self.currentConversationId].each(function (msg) {
            //var newStarredValue = ;
            msg.set("Starred", !msg.attributes["Starred"]);
            newStarredStatus = msg.attributes["Starred"];
         });
+        app.selectedConversation.set("Starred", newStarredStatus);
 
         $.getJSON('Messages/ChangeStarredStatusForConversation',
                 { conversationId: self.currentConversationId, newStarredStatus: newStarredStatus },
