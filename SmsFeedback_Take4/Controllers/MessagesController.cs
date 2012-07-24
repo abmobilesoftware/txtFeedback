@@ -295,14 +295,14 @@ namespace SmsFeedback_Take4.Controllers
             try
             {
                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-               AddMessageAndUpdateConversation(from, to, conversationId, text, true, DateTime.Now, lContextPerRequest);
+             
 
                //send message via twilio
                //from = "442033221134";
                //to = "442033221909";
-               SMSRepository.SendMessage(from, to, text, (msg) =>
+               SMSRepository.SendMessage(from, to, text, (msgDateSent) =>
                {
-
+                  AddMessageAndUpdateConversation(from, to, conversationId, text, true, msgDateSent, lContextPerRequest);
                });
                //I should wait for the twilio call to finish
                //I should return the sent time (if successful)              

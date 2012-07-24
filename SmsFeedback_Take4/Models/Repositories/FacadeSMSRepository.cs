@@ -144,7 +144,7 @@ namespace SmsFeedback_Take4.Models
          return mEFRep.GetTagsForConversation(convID,dbContext);
       }
 
-      public void SendMessage(string from, string to, string message, Action<string> callback)
+      public void SendMessage(string from, string to, string message, Action<DateTime> callback)
       {
          mTwilioRep.SendMessage(from, to, message, callback);
       }

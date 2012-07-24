@@ -37,16 +37,17 @@ namespace SmsFeedback_Take4.Models
     {
       private static  readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
       
-      public void SendMessage(string from, string to, string message, Action<string> callback )
+      public void SendMessage(string from, string to, string message, Action<DateTime> callback )
       {
          logger.Info("Call made");
             var accoundSID = "ACf79c0f33a5f74621ac527c0d2ab30981";
             var authToken  = "cfdeca286645c1dca6674b45729a895c";            
            var twilio = new TwilioRestClient(accoundSID, authToken);
            twilio.SendSmsMessage(from, to, message,  (msg) =>  {
+              var sentMessage = msg as SMSMessage;
               //message was successfully sent
               logger.DebugFormat("Sent message with id: {0}", msg.Sid );
-              callback("Sent successfully");
+              callback(sentMessage.DateCreated);
            });           
       }
 
