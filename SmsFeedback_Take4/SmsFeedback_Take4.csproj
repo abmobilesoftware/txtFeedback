@@ -246,6 +246,18 @@
     <Content Include="Content\jquery.tagsinput.css" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\messages.css" />
+    <Content Include="Content\Minified\conversations.css" />
+    <Content Include="Content\Minified\filtersStrip.css" />
+    <Content Include="Content\Minified\grid.css" />
+    <Content Include="Content\Minified\jquery.tagsinput.css" />
+    <Content Include="Content\Minified\layout.css" />
+    <Content Include="Content\Minified\messages.css" />
+    <Content Include="Content\Minified\nav.css" />
+    <Content Include="Content\Minified\phonenumbers.css" />
+    <Content Include="Content\Minified\reset.css" />
+    <Content Include="Content\Minified\Site.css" />
+    <Content Include="Content\Minified\tags.css" />
+    <Content Include="Content\Minified\text.css" />
     <Content Include="Content\nav.css" />
     <Content Include="Content\phonenumbers.css" />
     <Content Include="Content\reset.css" />
@@ -290,6 +302,15 @@
     <Content Include="MyScripts\Filtering.js" />
     <Content Include="MyScripts\Messages.js" />
     <Content Include="MyScripts\ConversationTags.js" />
+    <Content Include="MyScripts\Minified\contact.js" />
+    <Content Include="MyScripts\Minified\Conversations.js" />
+    <Content Include="MyScripts\Minified\ConversationTags.js" />
+    <Content Include="MyScripts\Minified\Facade.js" />
+    <Content Include="MyScripts\Minified\Filtering.js" />
+    <Content Include="MyScripts\Minified\Messages.js" />
+    <Content Include="MyScripts\Minified\Utilities.js" />
+    <Content Include="MyScripts\Minified\WorkingPoints.js" />
+    <Content Include="MyScripts\Minified\XMPP.js" />
     <Content Include="MyScripts\WorkingPoints.js" />
     <Content Include="MyScripts\Utilities.js" />
     <Content Include="MyScripts\XMPP.js" />
@@ -304,6 +325,10 @@
     <Content Include="Scripts\flxhr\strophe.flxhr.js" />
     <Content Include="Scripts\jquery.simplemodal.js" />
     <Content Include="Scripts\jquery.tagsinput.js" />
+    <Content Include="Scripts\Minified\jquery.cookie.js" />
+    <Content Include="Scripts\Minified\jquery.simplemodal.js" />
+    <Content Include="Scripts\Minified\jquery.tagsinput.js" />
+    <Content Include="Scripts\Minified\spin.js" />
     <Content Include="Scripts\persist-min.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\splitter.js" />
@@ -362,7 +387,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\ViewModels\" />
-    <Folder Include="MyScripts\Minified\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -400,6 +424,10 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
