@@ -18,7 +18,7 @@ window.app.Conversation = Backbone.Model.extend({
       From: "defaultNumber",
       To: "defaultRecipient",
       Starred: false
-   },
+},
    parse: function (data, xhc) {
       data.TimeUpdated = data.TimeReceived;
       return data;
@@ -362,6 +362,9 @@ function ConversationArea(filterArea, workingPointsArea) {
                 app.incrementNrOfUnreadConvs(convID);
              }
              modelToUpdate.set("Read", false);
+             modelToUpdate.set("LastMessageDirection", "from");
+             modelToUpdate.set("To", toID);
+             modelToUpdate.set("From", fromID);
           }
           else {
              var modelToAdd = new app.Conversation({ From: fromID,To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText });

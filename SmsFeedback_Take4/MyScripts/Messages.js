@@ -112,37 +112,35 @@ function MessagesArea(convView, tagsArea) {
     var id = 12344; //this should be unique
     var sendMessageToClient = function () {
         var inputBox = $("#limitedtextarea");
-        var newMsg = new app.Message({ Id: id });        
         id++;
         //add it to the visual list
-
         //I should set values to all the properties
         var msgContent = inputBox.val();
-        newMsg.set("Direction", "to");
-        newMsg.set("Text", msgContent);
 
         var fromTo = getFromToFromConversation(self.currentConversationId);
-        var from = fromTo[1];
-        var to = fromTo[0];
-        newMsg.set("From", from);
-        newMsg.set("To", to);        
-        newMsg.set("TimeReceived", (new Date()).toUTCString());
-        newMsg.set("ConvID", self.currentConversationId);
-       
-      //send it to the server
+        var from = fromTo[0];
+        var to = fromTo[1];
+        //send it to the server
         //$.getJSON('Messages/SendMessage',
-        //        { from: from, to: to, text: msgContent },
-        //        function (data) {
-        //            //delivered successfully? if yes - indicate this
-        //         console.log(data);
-        //         }
+        // { from: from, to: to, text: msgContent },
+        // function (data) {
+        // //delivered successfully? if yes - indicate this
+        // console.log(data);
+        // }
         //);
-       
-        app.globalMessagesRep[self.currentConversationId].add(newMsg);
 
-       //TODO - here TO is incorrect, as it should be the description
-        self.convView.newMessageReceived(from, to, self.currentConversationId, Date.now(), msgContent);
-       //reset the input form
+        //TODO should be RFC822 format
+        var timeSent = (new Date()).toUTCString();
+        $(document).trigger('msgReceived', {
+            fromID: to,
+            toID: from,
+            convID: self.currentConversationId,
+            msgID: id,
+            dateReceived: timeSent,
+            text: msgContent,
+            readStatus: false
+        });
+        //reset the input form
         $("#replyToMessageForm")[0].reset();
     };
 

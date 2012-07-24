@@ -27,6 +27,9 @@
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/ConversationTags.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/Strophe/strophe.js") %>" type="text/javascript"></script>
    
+   <script src="<%: Url.Content("~/Scripts/flxhr/flXHR.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.Content("~/Scripts/flxhr/strophe.flxhr.js") %>" type="text/javascript"></script>
+
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/XMPP.js") %>" type="text/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Facade.js") %>" type="text/javascript"></script>
    
@@ -48,9 +51,15 @@
            <div class="leftLiDiv convColumn">
                 {% if (Read) { %}
                         <img src="<%: Url.Content("~/Content/images/check-grey.svg") %>" class="images conversationImageRead" />
-                {% } else { %}
-                        <img src="<%: Url.Content("~/Content/images/exclamation-green.svg") %>" class="images conversationImageUnread" />
-                {% }  %}
+                {% } else {
+                        var fromTo = getFromToFromConversation(ConvID);
+                        if (fromTo[0] == From) {
+                        %}
+                            <img src="<%: Url.Content("~/Content/images/exclamation-green.svg") %>" class="images conversationImageUnread" />
+                        {% } else { %}
+                            <img src="<%: Url.Content("~/Content/images/exclamation-blue.svg") %>" class="images conversationImageUnread" />
+                        {% }    
+                }  %}
             </div>
             <div class="rightLiDiv convColumn">    
                    

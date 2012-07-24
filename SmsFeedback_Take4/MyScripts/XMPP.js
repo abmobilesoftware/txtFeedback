@@ -50,8 +50,9 @@ window.app.receivedMsgID = 12345;
       };
       this.connect = function (userid, password) {
          var self = this;
-            var xmppServerAddress = "http://localhost:3333/app/dsadsa/http-bindours/";
-         //var xmppServerAddress = "http://www.cluj-info.com/smsfeedback/nocontroller/http-bindours/";
+         //var xmppServerAddress = "http://localhost:3333/app/dsadsa/http-bindours/";
+          //var xmppServerAddress = "http://www.cluj-info.com/smsfeedback/nocontroller/http-bindours/";
+         var xmppServerAddress = "http://176.34.122.48:7070/http-bind/";
          self.conn = new Strophe.Connection(xmppServerAddress);
          self.userid = userid;
          self.password = password;
