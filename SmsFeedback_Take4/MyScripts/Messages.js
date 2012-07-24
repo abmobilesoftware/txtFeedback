@@ -131,13 +131,13 @@ function MessagesArea(convView, tagsArea) {
         var from = fromTo[0];
         var to = fromTo[1];
        //send it to the server
-        //$.getJSON('Messages/SendMessage',
-        //        { from: from, to: to, text: msgContent },
-        //        function (data) {
-        //            //delivered successfully? if yes - indicate this
-        //         console.log(data);
-        //         }
-       //);
+        $.getJSON('Messages/SendMessage',
+                { from: from, to: to, text: msgContent },
+                function (data) {
+                    //delivered successfully? if yes - indicate this
+                 console.log(data);
+                 }
+       );
 
         //TODO should be RFC822 format
         var timeSent = (new Date()).toUTCString();

@@ -82,15 +82,14 @@ function StatusBar(sel, options) {
 var _statusbar = null;
 var cConversationIdNumbersSeparator = '-';
 function showStatus(message, timeout, additive, isError) {
-    if (!_statusbar)
-        _statusbar = new StatusBar();
-    _statusbar.show(message, timeout, additive, isError);
+  
 }
 
 
  //the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
-window.app.domainName = '';
-//window.app.domainName = '/smsfeedback';
+//window.app.domainName = '';
+window.app.domainName = '/smsfeedback';
+//window.app.domainName = '/SmsFeedback_Take4';
 window.app.firstCall = true;
 window.app.requestIndex = 0;
 

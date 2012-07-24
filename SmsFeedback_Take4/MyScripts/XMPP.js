@@ -6,7 +6,7 @@ window.app.receivedMsgID = 12345;
 function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, text, readStatus) {
    console.log("signalMsgReceivedAtServer");
    //the conversations window expects that the toID be a "name" and not a telephone number   
-   $.getJSON('Messages/MessageReceived',
+   $.getJSON('/Messages/MessageReceived',
                     { from: fromID, to: toId, text: text, convId: convID, receivedTime: dateReceived, readStatus: readStatus },
                     function (data) {
                        console.log(data);
@@ -25,7 +25,7 @@ window.app.xmppHandlerInstance = {};
 $(function () {
    //the xmpp handler for new messages
    app.xmppHandlerInstance = new app.XMPPhandler();
-   $.getJSON('Xmpp/GetConnectionDetailsForLoggedInUser', function (data) {
+   $.getJSON(app.domainName + '/Xmpp/GetConnectionDetailsForLoggedInUser', function (data) {
       if (data !== "") {
          app.xmppHandlerInstance.connect(data.XmppUser, data.XmppPassword);
          app.updateNrOfUnreadConversations(true);

@@ -4,7 +4,7 @@ window.app.selectedConversation = {}
 window.app.globalMessagesRep = {}
 
 //#region Constants
-window.app.defaultNrOfConversationsToDisplay = 10;
+window.app.defaultNrOfConversationsToDisplay = 2;
 window.app.defaultNrOfConversationsToSkip = 0;
 window.app.cummulativeSkip = window.app.defaultNrOfConversationsToSkip;
 //#endregion
@@ -391,6 +391,5 @@ function ConversationArea(filterArea, workingPointsArea) {
                 });
                 
     });
-
     this.convsView = new ConversationsView();     
 }
