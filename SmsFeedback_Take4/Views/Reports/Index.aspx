@@ -5,6 +5,10 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+      <% if (Html.IsReleaseBuild())      { %>
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/css/reports.css") %>" />
+    <% }      else      { %>
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/css/reports.css") %>" />
+     <% } %>
    <span class="bodyText">Work in progress</span>
 </asp:Content>

@@ -55,10 +55,12 @@ namespace SmsFeedback_Take4.Utilities
 
       public static MvcHtmlString UpdatedResourceLink(this UrlHelper helper, string resourceURL)
       {
+         //Dragos: convention - we always look at the "source" file and not at the minified file -> we disregard the /Minified folder from the path        
          var link = helper.Content(resourceURL);
+         var originalFile = resourceURL.Replace("/Minified", "");
          try
          {
-            var fileLink = HttpContext.Current.Server.MapPath(resourceURL);
+            var fileLink = HttpContext.Current.Server.MapPath(originalFile);
             var file = File.GetLastWriteTime(fileLink);
             var fileTimestamp = file.ToString("yyyyMMddHHmmss");
 
@@ -77,6 +79,15 @@ namespace SmsFeedback_Take4.Utilities
             //TODO we should log this somewhere
          }
          return new MvcHtmlString(link);
+      }
+
+      public static bool IsReleaseBuild(this HtmlHelper helper)
+      {
+#if DEBUG
+         return false;
+#else
+    return true;
+#endif
       }
    }
 }

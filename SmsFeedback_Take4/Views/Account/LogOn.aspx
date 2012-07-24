@@ -4,14 +4,25 @@
 
 <html>
 <head runat="server">
-    <link rel="stylesheet" type="text/css" media="all" href="../../Content/reset.css" />
-    <link rel="stylesheet" href="../../Content/themes/base/jquery.ui.all.css">
-    <link rel="stylesheet" type="text/css" media="all" href="../../Content/text.css" />
-    <link rel="stylesheet" type="text/css" media="all" href="../../Content/grid.css" /> 
-    <link rel="stylesheet" type="text/css" media="all" href="../../Content/layout.css" /> 
-    <link rel="stylesheet" type="text/css" media="all" href="../../Content/nav.css" /> 
-    <link rel="stylesheet" type="text/css" media="all" href="../../Content/Site.css" />
-    <script src="<%: Url.Content("~/Scripts/jquery-1.6.2.min.js") %>" type="text/javascript"></script>
+   <link rel="stylesheet" href="../../Content/themes/base/jquery.ui.all.css">
+
+      <% if (Html.IsReleaseBuild())      { %>
+   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/reset.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/text.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/grid.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/layout.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/nav.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/Site.css") %>" />
+   <% }      else      { %>
+   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/reset.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/text.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/grid.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/layout.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/nav.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Site.css") %>" />
+   <% } %>
+
+   <script src="<%: Url.Content("~/Scripts/jquery-1.6.2.min.js") %>" type="text/javascript"></script>
     <title>Log On</title>
 </head>
 
