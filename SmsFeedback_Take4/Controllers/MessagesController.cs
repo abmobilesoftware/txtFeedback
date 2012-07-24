@@ -150,6 +150,7 @@ namespace SmsFeedback_Take4.Controllers
       public JsonResult NrOfUnreadConversations()
       {
          try {
+            logger.Info("Call made");
             if (HttpContext.Request.IsAjaxRequest()) { 
                 var userId = User.Identity.Name;
                 smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
@@ -249,9 +250,9 @@ namespace SmsFeedback_Take4.Controllers
          return requestIndex % 5 == 0;
       }
 
-      public JsonResult MessageReceived(String from, String to, String text, string receivedTime, bool readStatus)
+      public JsonResult MessageReceived(String from, String to, String convId, String text, string receivedTime, bool readStatus)
       {
-         logger.Debug(String.Format("Message received: from: {0}, to: {1}, text: {2}, receivedTime: {3}, readStatus: {4}", from, to, text, receivedTime.ToString(), readStatus.ToString()));
+         logger.Debug(String.Format("Message received: from: {0}, to: {1}, convId: {2}, text: {3}, receivedTime: {4}, readStatus: {5}", from, to, convId, text, receivedTime.ToString(), readStatus.ToString()));
          if (HttpContext.Request.IsAjaxRequest())
          {
             try
@@ -260,7 +261,7 @@ namespace SmsFeedback_Take4.Controllers
                DateTime receivedTimeAsDate = Utilities.Rfc822DateTime.Parse(receivedTime);
                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
 
-               AddMessageAndUpdateConversation(from, to, conversationId, text, readStatus, receivedTimeAsDate, lContextPerRequest);
+               AddMessageAndUpdateConversation(from, to, convId, text, readStatus, receivedTimeAsDate, lContextPerRequest);
                //I should return the sent time (if successful)              
                String response = "received successfully"; //TODO should be a class
                return Json(response, JsonRequestBehavior.AllowGet);
@@ -275,7 +276,7 @@ namespace SmsFeedback_Take4.Controllers
       }
 
       private void AddMessageAndUpdateConversation(String from, String to, String conversationId, String text, Boolean readStatus, DateTime updateTime, smsfeedbackEntities dbContext)
-      {
+      {         
          string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, dbContext);
          //since now we guarantee that the conversation exits there is no need for convID
          // mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime);         
@@ -311,6 +312,5 @@ namespace SmsFeedback_Take4.Controllers
          }
          return null;
       }
-
    }
 }

@@ -47,12 +47,8 @@ function InitializeGUI() {
    
    $(document).bind('msgReceived', function (ev, data) {
       console.log("msgReceived triggered");
-      $.getJSON('Messages/MessageReceived',
-                    { from: data.fromID, to: data.toID, text: data.text, receivedTime: data.dateReceived, readStatus: data.readStatus },
-                    function (data) {                       
-                       console.log(data);
-                    });      
-      newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toId, data.convID, data.msgID, data.dateReceived, data.text, false);
+    
+      newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
    });
 
    $(document).bind('refreshConversationList', function (ev, data) {

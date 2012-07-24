@@ -284,6 +284,7 @@
     <Content Include="MyScripts\XMPP.js" />
     <Content Include="QUnit\ControllerTest.js" />
     <Content Include="QUnit\ConversationsTest.js" />
+    <Content Include="QUnit\FilteringTest.js" />
     <Content Include="QUnit\MessagesTests.js" />
     <Content Include="QUnit\QUnitTests.html" />
     <Content Include="QUnit\UtilitiesTests.js" />

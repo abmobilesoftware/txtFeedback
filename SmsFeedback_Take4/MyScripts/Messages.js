@@ -13,13 +13,13 @@ function markConversationAsRead()
     $(gSelectedElement).removeClass("unreadconversation");
     $(gSelectedElement).addClass("readconversation");
     app.selectedConversation.set({"Read": true});
-    app.decrementNrOfUnreadConvs(gSelectedConversationID);
     //call the server to mark the conversation as read
     $.getJSON('Messages/MarkConversationAsRead',
                 { conversationId: gSelectedConversationID },
                 function (data) {
                    //conversation marked as read
-                    console.log(data);
+                   app.updateNrOfUnreadConversations();
+                   console.log("MarkConversationAsRead done");
                 }
         );
 }
@@ -86,8 +86,19 @@ window.app.MessagesList = Backbone.Collection.extend({
    }
 });
 //#endregion
+
+//#region MessagesArea default properties
+window.app.defaultMessagesOptions = {
+   messagesRep : {},
+   currentConversationId : ""
+}
+//#endregion
+
+//window.app.SendMessageToClient(convView,
 function MessagesArea(convView, tagsArea) {
    var self = this;
+   $.extend(this, app.defaultMessagesOptions);
+
    this.convView = convView;
    this.tagsArea = tagsArea;
    //set the filter to make on the top div (conversation) selecteble
@@ -104,12 +115,11 @@ function MessagesArea(convView, tagsArea) {
             app.selectedConversation = self.convView.convsList.get(convId);
             self.messagesView.getMessages(convId);
             self.tagsArea.getTags(convId);
-            
        },
        cancel: ".conversationStarIcon"
     });
 
-    var id = 12344; //this should be unique
+    var id = 412536; //this should be unique
     var sendMessageToClient = function () {
         var inputBox = $("#limitedtextarea");
         id++;
@@ -127,7 +137,7 @@ function MessagesArea(convView, tagsArea) {
         // //delivered successfully? if yes - indicate this
         // console.log(data);
         // }
-        //);
+       //);
 
         //TODO should be RFC822 format
         var timeSent = (new Date()).toUTCString();
@@ -233,9 +243,6 @@ function MessagesArea(convView, tagsArea) {
     };
     var spinner = new Spinner(opts);
 
-    
-    this.currentConversationId = '';
-
     //we fade in when we first load a conversation, afterwards we just render - no fade in
     var performFadeIn = false;
     var MessagesView = Backbone.View.extend({
@@ -256,6 +263,7 @@ function MessagesArea(convView, tagsArea) {
            $('#messagesbox').html(' No conversation selected, please select one');
            $("#textareaContainer").addClass("invisible");
            $("#tagsContainer").addClass("invisible");
+           self.currentConversationId = '';
            //$("textareaContainer").hide("slow");
         },
         getMessages: function (conversationId) {
@@ -263,7 +271,7 @@ function MessagesArea(convView, tagsArea) {
             $("#messagesbox").html('');
             var target = document.getElementById('scrollablemessagebox');
             spinner.spin(target);
-            
+
             self.currentConversationId = conversationId;
             if (self.currentConversationId in app.globalMessagesRep) {
                 //we have already loaded this conversation
@@ -328,8 +336,15 @@ function MessagesArea(convView, tagsArea) {
         },
         newMessageReceived: function (fromID, convID, msgID, dateReceived, text) {
             console.log("new message received: " + text + " with ID:" + msgID);
-            var newMsg = new app.Message({ Id: msgID });            
-            newMsg.set("Direction", "from");
+            var newMsg = new app.Message({ Id: msgID });
+           //decide if this is a from or to message
+            var fromTo = getFromToFromConversation(self.currentConversationId);
+            var from = fromTo[0];
+            var direction = "from";
+            if (!comparePhoneNumbers(fromID,from)) {
+               direction = "to";
+            }
+            newMsg.set("Direction", direction);
             newMsg.set("From", fromID);
             newMsg.set("ConvID", convID);
             newMsg.set("Text", text);
@@ -357,7 +372,6 @@ function MessagesArea(convView, tagsArea) {
                 //$(helperDiv).fadeOut("fast");
                 $(helperDiv).hide();
              });
-           
           
             if (performFadeIn) {
                 $(item).hide().fadeIn("2000");
@@ -368,13 +382,18 @@ function MessagesArea(convView, tagsArea) {
                 var messagesEl = $("#scrollablemessagebox");
                 messagesEl.animate({ scrollTop: messagesEl.prop("scrollHeight") }, 3000);
             }
-            
         }
      });
+
     $(".favConversation").live("click", function (e) {
        e.preventDefault();
        //signal to the server that this conversation's starred status has changed
-             
+       $.getJSON('Messages/ChangeStarredStatusForConversation',
+                { conversationId: self.currentConversationId, newStarredStatus: newStarredStatus },
+                function (data) {
+                   //conversation starred status changed
+                   console.log(data);
+                });
        //reflect the change visually
         var newStarredStatus = false;
         app.globalMessagesRep[self.currentConversationId].each(function (msg) {
@@ -383,18 +402,9 @@ function MessagesArea(convView, tagsArea) {
            newStarredStatus = msg.attributes["Starred"];
         });
         app.selectedConversation.set("Starred", newStarredStatus);
-
-        $.getJSON('Messages/ChangeStarredStatusForConversation',
-                { conversationId: self.currentConversationId, newStarredStatus: newStarredStatus },
-                function (data) {
-                   //conversation starred status changed
-                   console.log(data);
-                });
     });
 
 
-
-   
     this.messagesView = new MessagesView();
 }
 
@@ -403,8 +413,6 @@ window.app.setNrOfUnreadConversationOnTab = function (unreadConvs) {
    var toShow = "(" + unreadConvs + ")";
    $("#msgTabcount").text(toShow);
 }
-
-
 
 function limitText(limitField, limitCount, limitNum) {
     if (limitField.value.length > limitNum) {
