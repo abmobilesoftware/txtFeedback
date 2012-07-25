@@ -59,7 +59,7 @@
    </script>
    <script type="text/template" id="phoneNumber-template">       
 		<span >
-         <img class="wpItem wpSelectorIcon deletePhoneNumberIconSelected" src="<%: Url.Content("~/Content/images/check-white.svg") %>"/>			
+         <img class="wpItem wpSelectorIcon deletePhoneNumberIconSelected" title="<%: Resources.Global.tooltipWpImg %>" src="<%: Url.Content("~/Content/images/check-white.svg") %>"/>			
 			<span class="wpItem" >{{ Name }}</span>						
 		</span>
    </script>
@@ -82,9 +82,9 @@
                 </div>
                 <div class="conversationStarIcon">
                     {% if (Starred) { %}
-                            <img src="<%: Url.Content("~/Content/images/star-selected.svg") %>" class="conversationStarIconImg" />
+                            <img title="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected.svg") %>" class="conversationStarIconImg" />
                     {% } else { %}
-                            <img src="<%: Url.Content("~/Content/images/star.svg") %>" class="conversationStarIconImg" /> 
+                            <img title="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star.svg") %>" class="conversationStarIconImg" /> 
                     {% } %}
                 </div>
             </div>                         
@@ -100,10 +100,10 @@
       <div class="extramenu" hoverID="{{ Id }}">
          <div class="innerExtraMenu">
             <div class="actionButtons">
-               <img class="favConversation" src="<%: Url.Content("~/Content/images/star.svg") %>" />                
+               <img class="favConversation" title="Mark as favorite" src="<%: Url.Content("~/Content/images/star.svg") %>" />                
             </div>
             <div class="actionButtons sendEmailButton">
-               <img src="<%: Url.Content("~/Content/images/mail.png") %>" />
+               <img title="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/mail.png") %>" />
             </div>
          <div class="clear"></div>                       
          </div>               
@@ -123,7 +123,7 @@
       <div class="grid_4_custom filterStripElement">
          <div id="dateFilterArea">
             <div id="dateLabel" class="filterLabel">
-               <img id="includeDateInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+               <img title="<%: Resources.Global.tooltipIncludeDateInFilter %>" id="includeDateInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
                <span style="vertical-align: middle">
                   <%: Resources.Global.dateLabel %></span>
@@ -136,13 +136,13 @@
             </div>
          </div>
          <div id="starredFilterArea" class="filterLabel">
-            <img id="includeStarredInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+            <img id="includeStarredInFilter" title="<%: Resources.Global.tooltipIncludeStarredInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
             <span style="vertical-align: middle">
                <%: Resources.Global.starredLabel %></span>
          </div>
          <div id="unreadFilterArea" class="filterLabel">
-            <img id="includeUnreadInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+            <img id="includeUnreadInFilter" title="<%: Resources.Global.tooltipIncludeUnreadInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
             <span style="vertical-align: middle">
                <%: Resources.Global.readLabel %></span>
@@ -150,7 +150,7 @@
       </div>
       <div class="grid_6 filterStripElement tagFilterArea">
          <div id="tagsLabel" class="filterLabel">
-            <img id="includeTagsInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+            <img id="includeTagsInFilter" title="<%: Resources.Global.tooltipIncludeTagsInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
             <span style="vertical-align: middle">
                <%: Resources.Global.tagsLabel %></span>
@@ -197,7 +197,7 @@
             </form>
          </div>
          <div id="replyButtonArea">
-            <button id="replyBtn"> <%: Resources.Global.sendButton %></button>
+            <button title="<%: Resources.Global.tooltipReplyBtn %>" id="replyBtn"> <%: Resources.Global.sendButton %></button>
          </div>
       </div>
    </div>

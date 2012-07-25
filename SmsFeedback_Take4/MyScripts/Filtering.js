@@ -155,4 +155,12 @@ function FilterArea() {
       return self.tagFilteringEnabled || self.dateFilteringEnabled || self.starredFilteringEnabled || self.unreadFilteringEnabled;
    }
    //#endregion
+
+   $("#includeDateInFilter,#includeStarredInFilter,#includeUnreadInFilter,#includeTagsInFilter").each(function () {
+      $(this).qtip({
+         content: { text: false },
+         style: 'light'
+      });
+   });
+
 }

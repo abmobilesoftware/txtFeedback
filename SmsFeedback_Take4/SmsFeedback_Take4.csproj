@@ -323,6 +323,7 @@
     <Content Include="QUnit\WorkingPointsTests.js" />
     <Content Include="Scripts\flxhr\flXHR.js" />
     <Content Include="Scripts\flxhr\strophe.flxhr.js" />
+    <Content Include="Scripts\jquery.qtip-1.0.0-rc3.min.js" />
     <Content Include="Scripts\jquery.simplemodal.js" />
     <Content Include="Scripts\jquery.tagsinput.js" />
     <Content Include="Scripts\Minified\jquery.cookie.js" />

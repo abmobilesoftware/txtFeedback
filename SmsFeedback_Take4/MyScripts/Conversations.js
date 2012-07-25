@@ -68,6 +68,10 @@ $(function () {
          this.$el.addClass("conversation");
          this.$el.addClass(readUnread);
          $(this.el).attr("conversationId", this.model.attributes.ConvID);
+         $(".conversationStarIcon img", this.$el).qtip({
+            content: { text: false },
+            style: 'dark'
+         });
          return this;
       }
    });
@@ -75,7 +79,17 @@ $(function () {
 //#endregion
 
 function ConversationArea(filterArea, workingPointsArea) {
-    var self = this;    
+   var self = this;
+
+   $("#replyBtn").qtip({
+      content: { text: false },      
+      position: {corner: {
+         target: 'leftMiddle',
+         tooltip: 'rightMiddle'}
+      },
+      style: 'dark'
+   });
+
     var opts = {
         lines: 13, // The number of lines to draw
         length: 7, // The length of each line
@@ -129,7 +143,7 @@ function ConversationArea(filterArea, workingPointsArea) {
              "gatherFilterOptions");
           this.convsList = new app.ConversationsList();
           this.convsList.bind("reset", this.render);
-          this.convsList.bind("add", this.addConversationWithEffect, this);
+         // this.convsList.bind("add", this.addConversationWithEffect, this);
           // create an array of views to keep track of children
           this._convViews = [];
           //by default conversations are "new"
@@ -243,7 +257,9 @@ function ConversationArea(filterArea, workingPointsArea) {
                       To: $(this).attr('To'),
                       Starred:$(this).attr('Starred')
                    });
+                   selfConversationsView.convsList.add(conv, { silent: true });
                    selfConversationsView.addConversationBasicEffect(conv, false);
+
                 });
                 if (data.length === 0 || data.length < app.defaultNrOfConversationsToDisplay) {
                    $(target).hide('slow');

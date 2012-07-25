@@ -210,6 +210,11 @@ function MessagesArea(convView, tagsArea) {
             $(".arrow", this.$el).addClass(arrowClass);
             $(".arrowInner", this.$el).addClass(arrowInnerClass);
             $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
+
+            $("div.sendEmailButton img", this.$el).qtip({
+               content: { text: false },
+               style: 'dark'
+            });
             //$(".arrowInnerExtraMenu", this.$el).addClass(arrowInnerExtraMenu);
             return this;
         },
@@ -381,7 +386,8 @@ function MessagesArea(convView, tagsArea) {
             if (scrollToBottomParam) {
                 var messagesEl = $("#scrollablemessagebox");
                 messagesEl.animate({ scrollTop: messagesEl.prop("scrollHeight") }, 3000);
-            }
+             }
+          
         }
      });
 
@@ -403,8 +409,7 @@ function MessagesArea(convView, tagsArea) {
         });
         app.selectedConversation.set("Starred", newStarredStatus);
     });
-
-
+      
     this.messagesView = new MessagesView();
 }
 
