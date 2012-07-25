@@ -61,14 +61,14 @@ div.textMessage {
 
 /*for toMessages we display the menu at their left*/
 .messageto div.extramenu {
-   left: -60px;
+   left: -30px;
    top: 5px;
    bottom: 5px;
 }
 
 /*for fromMessages we display the menu at their right*/
 .messagefrom div.extramenu {
-   right: -60px;
+   right: -30px;
    top: 5px;
    bottom: 5px;
 }

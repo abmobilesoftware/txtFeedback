@@ -98,10 +98,7 @@
       </div>
       <div class="clear"></div>
       <div class="extramenu" hoverID="{{ Id }}">
-         <div class="innerExtraMenu">
-            <div class="actionButtons">
-               <img class="favConversation" title="Mark as favorite" src="<%: Url.Content("~/Content/images/star.svg") %>" />                
-            </div>
+         <div class="innerExtraMenu">            
             <div class="actionButtons sendEmailButton">
                <img title="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/mail.png") %>" />
             </div>

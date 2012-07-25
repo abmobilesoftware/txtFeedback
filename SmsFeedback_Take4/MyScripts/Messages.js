@@ -199,11 +199,7 @@ function MessagesArea(convView, tagsArea) {
                //arrowExtraMenu = "arrowExtraMenuTo";
                arrowInnerMenuLeft = "arrowInnerRight";
                //arrowInnerExtraMenu = "arrowInnerExtraMenuTo";
-            }
-            if (this.model.attributes["Starred"] === true)
-            {
-               $(".favConversation", this.$el).attr('src', app.domainName + "/Content/images/star-selected.svg");
-            }
+            }            
             this.$el.addClass("message");
             this.$el.addClass(direction);
          
@@ -218,14 +214,7 @@ function MessagesArea(convView, tagsArea) {
             //$(".arrowInnerExtraMenu", this.$el).addClass(arrowInnerExtraMenu);
             return this;
         },
-        updateView: function () {
-           //the Starred attribute has changed (most probably) so reflect this in the view
-           if (this.model.attributes["Starred"] === true) {
-              $(".favConversation", this.$el).attr('src', app.domainName + "/Content/images/star-selected.svg");
-           }
-           else {
-              $(".favConversation", this.$el).attr('src', app.domainName + "/Content/images/star.svg");
-           }                  
+        updateView: function () {           
            return this;
         }
     });
@@ -390,25 +379,6 @@ function MessagesArea(convView, tagsArea) {
           
         }
      });
-
-    $(".favConversation").live("click", function (e) {
-       e.preventDefault();
-       //signal to the server that this conversation's starred status has changed
-       $.getJSON('Messages/ChangeStarredStatusForConversation',
-                { conversationId: self.currentConversationId, newStarredStatus: newStarredStatus },
-                function (data) {
-                   //conversation starred status changed
-                   console.log(data);
-                });
-       //reflect the change visually
-        var newStarredStatus = false;
-        app.globalMessagesRep[self.currentConversationId].each(function (msg) {
-           //var newStarredValue = ;
-           msg.set("Starred", !msg.attributes["Starred"]);
-           newStarredStatus = msg.attributes["Starred"];
-        });
-        app.selectedConversation.set("Starred", newStarredStatus);
-    });
       
     this.messagesView = new MessagesView();
 }
