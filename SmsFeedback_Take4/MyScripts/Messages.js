@@ -132,7 +132,12 @@ function MessagesArea(convView, tagsArea) {
         var to = fromTo[1];
        //send it to the server
         $.getJSON('Messages/SendMessage',
-                { from: from, to: to, text: msgContent },
+                {
+                   from: to,
+                   to: from,
+                   convId: self.currentConversationId,
+                   text: msgContent
+                },
                 function (data) {
                     //delivered successfully? if yes - indicate this
                  console.log(data);
@@ -148,7 +153,8 @@ function MessagesArea(convView, tagsArea) {
            msgID: id,
            dateReceived: timeSent,
            text: msgContent,
-           readStatus: false
+           readStatus: false,
+           messageIsSent: true
         });       
        //reset the input form
         $("#replyToMessageForm")[0].reset();

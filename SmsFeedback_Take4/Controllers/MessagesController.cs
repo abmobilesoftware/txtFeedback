@@ -286,11 +286,11 @@ namespace SmsFeedback_Take4.Controllers
          // mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime);         
       }
 
-      public JsonResult SendMessage(String from, String to, String text)
+      public JsonResult SendMessage(String from, String to, String convId,String text)
       {
          if (HttpContext.Request.IsAjaxRequest())
          {
-            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], text: [{2}]", from, to, text);
+            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}]", from, to, convId, text);
             String conversationId = to + "-" + from;
             try
             {
@@ -302,7 +302,7 @@ namespace SmsFeedback_Take4.Controllers
                //to = "442033221909";
                SMSRepository.SendMessage(from, to, text, (msgDateSent) =>
                {
-                  AddMessageAndUpdateConversation(from, to, conversationId, text, true, msgDateSent, lContextPerRequest);
+                  AddMessageAndUpdateConversation(from, to, convId, text, true, msgDateSent, lContextPerRequest);
                });
                //I should wait for the twilio call to finish
                //I should return the sent time (if successful)              

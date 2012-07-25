@@ -6,7 +6,7 @@ window.app.receivedMsgID = 12345;
 function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, text, readStatus) {
    console.log("signalMsgReceivedAtServer");
    //the conversations window expects that the toID be a "name" and not a telephone number   
-   $.getJSON('/Messages/MessageReceived',
+   $.getJSON('Messages/MessageReceived',
                     { from: fromID, to: toId, text: text, convId: convID, receivedTime: dateReceived, readStatus: readStatus },
                     function (data) {
                        console.log(data);
@@ -33,7 +33,9 @@ $(function () {
    });
 
    $(document).bind('msgReceived', function (ev, data) {
-      signalMsgReceivedAtServer(data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
+      if (data.messageIsSent === undefined || (data.messageIsSent !== undefined && !data.messageIsSent)) {
+         signalMsgReceivedAtServer(data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
+      }
    });
 });
 
