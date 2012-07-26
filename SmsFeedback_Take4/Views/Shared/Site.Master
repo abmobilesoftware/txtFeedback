@@ -59,8 +59,7 @@
          <div id="logindisplay">
             <% Html.RenderPartial("LogOnUserControl"); %>
             <%: Html.ImageLink(Url.Content("~/Content/images/Uk_flag.png"), "en-US",null,null) %>
-            <%: Html.ImageLink(Url.Content("~/Content/images/Ro_flag.png"), "ro-RO",null,null) %>
-            <%: Html.ImageLink(Url.Content("~/Content/images/Ro_flag.png"), "de-DE",null,null) %>
+            <%: Html.ImageLink(Url.Content("~/Content/images/Ro_flag.png"), "ro-RO",null,null) %>           
          </div>
          <nav>
             <ul id="menu">
