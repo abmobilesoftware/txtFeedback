@@ -359,8 +359,8 @@ function ConversationArea(filterArea, workingPointsArea) {
              //since the view will react to model changes we make sure that we do "batch updates" - only the last update will trigger the update
              //all the previous updates will be "silent"
              modelToUpdate.set({ "Text": newText }, { silent: true });             
-             modelToUpdate.set("Read", newReadStatus);
-             modelToUpdate.set("LastMessageDirection", "from");
+             modelToUpdate.set({"Read": newReadStatus}, {silent: true}); ;
+             
              //modelToUpdate.set("To", toID);
              modelToUpdate.set("From", fromID);
           }

@@ -31,6 +31,7 @@ namespace SmsFeedback_Take4.Controllers
       public ActionResult Index()
       {
          ViewData["Title"] = "SmsFeedback/Messages";
+         ViewData["currentCulture"] = getCurrentCulture();
          return View();
       }
 

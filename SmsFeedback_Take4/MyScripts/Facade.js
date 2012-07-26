@@ -33,6 +33,7 @@ function InitializeGUI() {
    this.wpsView.getWorkingPoints();
 
    app.nrOfUnreadConvs = 0;
+   app.currentCulture = "en";
    //get the initial conversations
    app.requestIndex = 0; //make sure the first time we update from external sources
    this.convView.getConversations();
@@ -43,6 +44,12 @@ function InitializeGUI() {
       if (data !== "") {
          self.xmppHandler.connect(data.XmppUser, data.XmppPassword);
       }
+   });
+
+   $.getJSON('Home/GetCurrentCulture', function (data) {
+       if (data !== "") {
+           self.xmppHandler.connect(data.XmppUser, data.XmppPassword);
+       }
    });
    
    $(document).bind('msgReceived', function (ev, data) {

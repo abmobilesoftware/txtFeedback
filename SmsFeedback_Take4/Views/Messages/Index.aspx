@@ -5,10 +5,9 @@
    <%: ViewData["Title"] %>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server" ContentType="text/xml">
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/phonenumbers.css") %>" />
+    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/phonenumbers.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/messages.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/conversations.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/conversations_mb.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/filtersStrip.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/tags.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/jquery.tagsinput.css") %>" />
@@ -43,28 +42,37 @@
    </script>
    <script type="text/template" id="phoneNumber-template">       
 		<span >
-         <img class="wpItem wpSelectorIcon deletePhoneNumberIconSelected" src="<%: Url.Content("~/Content/images/check-white.svg") %>"/>			
+            <embed src="<%: Url.Content("~/Content/images/check-white.svg") %>" type="image/svg+xml" class="wpItem wpSelectorIcon deletePhoneNumberIconSelected" />		
 			<span class="wpItem" >{{ Name }}</span>						
 		</span>
    </script>
    <script type="text/template" id="conversation-template">
            <div class="leftLiDiv convColumn">
                 {% if (Read) { %}
-                        <img src="<%: Url.Content("~/Content/images/check-grey.svg") %>" class="images conversationImageRead" />
+                        <embed src="<%: Url.Content("~/Content/images/check-grey.svg") %>" type="image/svg+xml" class="images conversationImageRead" />
                 {% } else {
                         var fromTo = getFromToFromConversation(ConvID);
                         if (fromTo[0] == From) {
                         %}
-                            <img src="<%: Url.Content("~/Content/images/exclamation-blue.svg") %>" class="images conversationImageUnread" />
+                            <embed src="<%: Url.Content("~/Content/images/exclamation-blue.svg") %>" type="image/svg+xml" class="images conversationImageUnread" />
                         {% } else { %}
-                            <img src="<%: Url.Content("~/Content/images/exclamation-green.svg") %>" class="images conversationImageUnread" />
+                            <embed src="<%: Url.Content("~/Content/images/exclamation-green.svg") %>" type="image/svg+xml" class="images conversationImageUnread" />
                         {% }    
                 }  %}
             </div>
             <div class="rightLiDiv convColumn">    
                    
                <div class="spanClassFrom rightSideMembers">
-                    <span>{% countryPrefix = From.substring(0,3); localPrefix = From.substring(3, 5); group1 = From.substring(5, 9); group2 = From.substring(9,13); %} {{ countryPrefix }} ({{ localPrefix }}) {{ group1 }} {{ group2 }} <span class='conversationArrows'> >> </span>  {{ To }} </span>
+                    <span>
+                        {% 
+                           var fromTo = getFromToFromConversation(ConvID); 
+                           var FromNumber = fromTo[0]; 
+                           countryPrefix = FromNumber.substring(0,3);
+                           localPrefix = FromNumber.substring(3, 5);
+                           group1 = FromNumber.substring(5, 9);
+                           group2 = FromNumber.substring(9,13); 
+                        %} 
+                        {{ countryPrefix }} ({{ localPrefix }}) {{ group1 }} {{ group2 }} <span class='conversationArrows'> >> </span>  {{ To }} </span>
                 </div>
                <div class='clear'></div>
                 <div class="spanClassText rightSideMembers">
@@ -84,19 +92,23 @@
       <div class="textMessage">
          <span>{{ Text }} </span> 
          <div class="clear"></div>
-         <span class="timeReceived">{{ TimeReceived }} </span>
+         {% var timeReceivedLocal = transformDate(TimeReceived, $(".currentCulture").val()); %}
+         <span class="timeReceived">{{ timeReceivedLocal }} </span>
       </div>
+      
       <div class="clear"></div>
       <div class="extramenu" hoverID="{{ Id }}">
-         <div class="innerExtraMenu">
+       <div class="extraMenuWrapper"></div>  
+       <div class="innerExtraMenu">
             <div class="actionButtons">
-               <img class="favConversation" src="<%: Url.Content("~/Content/images/star.svg") %>" />                
-            </div>
+               <img class="favConversation" src="<%: Url.Content("~/Content/images/star.svg") %>" />      
+             </div>
             <div class="actionButtons sendEmailButton">
                <img src="<%: Url.Content("~/Content/images/mail.png") %>" />
             </div>
          <div class="clear"></div>                       
          </div>               
+        
       </div>
         <div class="arrow">
          <div class="arrowInner"> </div>
@@ -104,13 +116,194 @@
    </script>
    <script type="text/javascript">
       $(function () {
-        var newGUI = new InitializeGUI();
+          var newGUI = new InitializeGUI();
+         
       });
    </script>
+   <script type="text/javascript">
+       function Culture(name) {
+           this.culturesNames = new Array("ro-ro", "en-us");
+           this.culturesNamesEscaped = new Array("ro_ro", "en_us");
+           this.timeZones = new Array(3, -5);
+
+           for (i = 0; i < this.culturesNames.length; ++i) {
+               if (this.culturesNames[i] == name) return { cultureName: this.culturesNamesEscaped[i], timeZone: this.timeZones[i] };
+           }
+       }
+
+       function Month(name, culture, year) {
+           this.monthsNames_en_us = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+           this.monthsNames_ro_ro = new Array("Ian", "Feb", "Mar", "Apr", "Mai", "Iun", "Iul", "Aug", "Sep", "Oct", "Nov", "Dec");
+           this.monthsDays = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+           this.checkLeapYear = function(iYear) {
+               if (iYear % 4 == 0) {
+                   if (iYear % 100 == 0) {
+                       if (iYear % 400 != 0) {
+                           return "false";
+                       }
+                       if (iYear % 400 == 0) {
+                           return "true";
+                       }
+                   }
+                   if (iYear % 100 != 0) {
+                       return "true";
+                   }
+               }
+               if (iYear % 4 != 0) {
+                   return "false";
+               }
+           }
+           
+           for (i = 0; i < this.monthsNames_en_us.length; ++i) {
+               if (this.monthsNames_en_us[i] == name)
+                   if (!this.checkLeapYear(year)) {
+                       return { monthName: name, monthDays: this.monthsDays[i], monthNameByCulture: eval("this.monthsNames_" + culture.cultureName + "[" + i + "]"), monthIndex: i, nextMonth: this.monthsNames_en_us[i + 1 % 12], previousMonth: this.monthsNames_en_us[i - 1 % 12] };
+                   } else {
+                       if (name == "Feb") {
+                           return { monthName: name, monthDays: 29, monthNameByCulture: eval("this.monthsNames_" + culture.cultureName + "[" + i + "]"), monthIndex: i, nextMonth: this.monthsNames_en_us[i + 1 % 12], previousMonth: this.monthsNames_en_us[i - 1 % 12] };
+                       } else {
+                           return { monthName: name, monthDays: this.monthsDays[i], monthNameByCulture: eval("this.monthsNames_" + culture.cultureName + "[" + i + "]"), monthIndex: i, nextMonth: this.monthsNames_en_us[i + 1 % 12], previousMonth: this.monthsNames_en_us[i - 1 % 12] };
+                       }
+                   }
+            }
+       }
+
+       function Day(name, culture) {
+           this.daysNames_en_us = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+           this.daysNames_ro_ro = new Array("D", "L", "Ma", "Mi", "J", "V", "S");
+
+           for (i = 0; i < this.daysNames_en_us.length; ++i) {
+               if (this.daysNames_en_us[i] == name) return { dayName: name, dayNameByCulture: eval("this.daysNames_" + culture.cultureName + "[" + i + "]"), dayIndex: i, nextDay: this.daysNames_en_us[i + 1 % 7], previousDay: this.daysNames_en_us[i - 1 % 7] };
+           }           
+       }
+
+       function LocalDateTimeProcessor(iDate, iCulture) {
+           self = this;
+           this.currentCulture = iCulture;
+           this.currentDate = iDate;
+           
+           this.setCulture = function (culture) {
+               self.currentCulture = culture;
+           }
+           this.getCulture = function () {
+               return self.currentCulture;
+           }
+
+           this.computeLocalDateAndTimeAsString = function() {
+               var dateComponents = self.currentDate.split(" ");
+               var dayName = dateComponents[0].substring(0, dateComponents[0].length - 1);
+               var day = parseInt(dateComponents[1]);
+               var month = dateComponents[2];
+               var year = parseInt(dateComponents[3]);
+               var time = dateComponents[4];
+               var timeComponents = time.split(":");
+               var hours = parseInt(timeComponents[0]);
+               var minutes = parseInt(timeComponents[1]);
+               var secundes = parseInt(timeComponents[2]);
+               var zone = dateComponents[5];
+               return self.computeLocalDateAndTime(dayName, day, month, year, hours, minutes, secundes);
+           }
+           
+           this.computeLocalDateAndTime = function (iDayName, iDay, iMonthName, iYear, iHour, iMinutes, iSeconds) {
+               var currentDay = new Day(iDayName, self.currentCulture);
+               var currentMonth = new Month(iMonthName, self.currentCulture);
+
+               var hoursOverLimit = false;
+               var hoursUnderLimit = false;
+               var localHour = iHour + self.currentCulture.timeZone;
+               if (localHour > 23) {
+                   hoursOverLimit = true;
+               } else if (localHour < 0) {
+                   hoursUnderLimit = true;
+               }
+
+               if (hoursOverLimit) {
+                   localHour = localHour % 24;
+                   var localDay = new Day(currentDay.nextDay, self.currentCulture);
+                   var localDayIndex = iDay + 1;
+
+                   var daysOverLimit = false;
+                   if (localDayIndex > currentMonth.monthsDays) {
+                       daysOverLimit = true;
+                   }
+
+                   if (daysOverLimit) {
+                       localDayIndex = localDayIndex % currentMonth.monthsDays;
+                       var localMonth = new Month(currentMonth.nextMonth, self.currentCulture);
+
+                       var monthsOverLimit = false;
+                       if (localMonth.monthName == "Jan") {
+                           monthsOverLimit = true;
+                       }
+
+                       if (monthsOverLimit) {
+                           var localYear = iYear + 1;
+                           return self.buildDateAndTimeString(localDay.dayName, localDayIndex, localMonth.monthName, localYear, localHour, iMinutes, iSeconds, self.currentCulture);
+                       } else {
+                           return self.buildDateAndTimeString(localDay.dayName, localDayIndex, localMonth.monthName, iYear, localHour, iMinutes, iSeconds, self.currentCulture);
+                       }
+                   } else {
+                       return self.buildDateAndTimeString(localDay.dayName, localDayIndex, currentMonth.monthName, iYear, localHour, iMinutes, iSeconds, self.currentCulture);
+                   }
+                   
+
+               } else if (hoursUnderLimit) {
+                   localHour = 24 + localHour;
+                   var localDay = new Day(currentDay.previousDay, self.currentCulture);
+                   var localDayIndex = iDay - 1;
+
+                   var daysUnderLimit = false;
+                   if (localDayIndex < 1) {
+                       daysUnderLimit = true;
+                   }
+
+                   if (daysUnderLimit) {
+                       var localMonth = new Month(currentMonth.previousMonth, self.currentCulture);
+                       localDayIndex = localMonth.monthDays;
+
+                       var monthsUnderLimit = false;
+                       if (localMonth.monthName == "Dec") {
+                           monthsUnderLimit = true;
+                       } 
+
+                       if (monthsUnderLimit) {
+                           var localYear = iYear + 1;
+                           return self.buildDateAndTimeString(localDay.dayName, localDayIndex, localMonth.monthName, localYear, localHour, iMinutes, iSeconds, self.currentCulture);
+                       } else {
+                           return self.buildDateAndTimeString(localDay.dayName, localDayIndex, localMonth.monthName, iYear, localHour, iMinutes, iSeconds, self.currentCulture);
+                       }
+                   } else {
+                       return self.buildDateAndTimeString(localDay.dayName, localDayIndex, currentMonth.monthName, iYear, localHour, iMinutes, iSeconds, self.currentCulture);
+                   }
+               } else {
+                   return self.buildDateAndTimeString(iDayName, iDay, iMonthName, iYear, localHour, iMinutes, iSeconds, self.currentCulture);
+               }
+           }
+
+           this.buildDateAndTimeString = function (iDayName, iDay, iMonthName, iYear, iHour, iMinutes, iSeconds, iCulture) {
+               var zoneFormatted = (iCulture.timeZone > 0) ? "+" + iCulture.timeZone : iCulture.timeZone;
+               var hourFormatted = (iHour < 10) ? "0" + iHour : iHour;
+               var minutesFormatted = (iMinutes < 10) ? "0" + iMinutes : iMinutes;
+               var secondsFormatted = (iSeconds < 10) ? "0" + iSeconds : iSeconds;
+               return iDayName + ", " + iDay + " " + iMonthName + " " + iYear + " " + hourFormatted + ":" + minutesFormatted + ":" + secondsFormatted + " GMT " + zoneFormatted;
+           }
+                      
+       }
+
+           
+       function transformDate(date, currentCulture) {
+           var dateCulture = new Culture(currentCulture);
+           var dateProcessor = new LocalDateTimeProcessor(date, dateCulture);
+           return dateProcessor.computeLocalDateAndTimeAsString();
+       }
+       
+   </script>
+    
+    
+    
 
    <div id="filtersStrip">
-
-      <div class="grid_4_custom filterStripElement">
+       <div class="grid_4_custom filterStripElement">
          <div id="dateFilterArea">
             <div id="dateLabel" class="filterLabel">
                <img id="includeDateInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
@@ -189,6 +382,7 @@
          <div id="replyButtonArea">
             <button id="replyBtn"> <%: Resources.Global.sendButton %></button>
          </div>
+         <input type="hidden" value="<%: ViewData["currentCulture"] %>" class="currentCulture" />
       </div>
    </div>
 </asp:Content>

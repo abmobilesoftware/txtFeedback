@@ -37,7 +37,7 @@
    /*overflow: auto;*/
    overflow-x: hidden;
    width: 100%;
-   /*border-width: 0px 0px 2px 0px;
+    /*border-width: 0px 0px 2px 0px;
    border-style:  normal;
    border-color:  black;   
    margin-bottom: 3px;*/
@@ -62,14 +62,14 @@ div.textMessage {
 /*for toMessages we display the menu at their left*/
 .messageto div.extramenu {
    left: -60px;
-   top: 5px;
+   top: 0px;
    bottom: 5px;
 }
 
 /*for fromMessages we display the menu at their right*/
 .messagefrom div.extramenu {
    right: -60px;
-   top: 5px;
+   top: 0px;
    bottom: 5px;
 }
 
@@ -119,6 +119,10 @@ div.innerExtraMenu {
    -moz-border-radius: 3px;
    -webkit-border-radius: 3px;
    background: #f7941d; /* Old browsers */   
+   z-index: 100;
+   position:relative;
+   top: -27px;
+  
 }
 div.actionButtons {
    /*margin:  0px;*/
@@ -342,4 +346,61 @@ input[name="countdown"] {
 
 #tagContainerForSpinner {
    width: 100%;
+}
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px #183540; 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #183540; /* Old browsers */
+    background: -moz-linear-gradient(left, #183540 0%, #397596 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#183540), color-stop(100%,#397596)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left, #183540 0%,#397596 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, #183540 0%,#397596 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, #183540 0%,#397596 100%); /* IE10+ */
+    background: linear-gradient(to right, #183540 0%,#397596 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183540', endColorstr='#397596',GradientType=1 ); /* IE6-9 */
+
+    /*-webkit-box-shadow: inset 0 0 6px #183540;*/ 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: #183540; /* Old browsers */
+    background: -moz-linear-gradient(left, #183540 0%, #397596 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#183540), color-stop(100%,#397596)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left, #183540 0%,#397596 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, #183540 0%,#397596 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, #183540 0%,#397596 100%); /* IE10+ */
+    background: linear-gradient(to right, #183540 0%,#397596 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183540', endColorstr='#397596',GradientType=1 ); /* IE6-9 */
+}
+.extraMenuWrapperLeft
+ {
+    width: 30%;
+    height: 100%;
+    left: -14px;
+    position:relative;
+    z-index: 0;
+    top: 2px;
+}
+
+.extraMenuWrapperRight
+ {
+    width: 30%;
+    height: 100%;
+    left: 46px;
+    position:relative;
+    z-index: 0;
+    top: 2px;
 }

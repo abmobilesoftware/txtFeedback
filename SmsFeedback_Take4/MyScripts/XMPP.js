@@ -34,15 +34,18 @@ window.app.receivedMsgID = 12345;
          } else if (status === Strophe.Status.CONNFAIL) {
             showStatus("XMPP CONNFAILED", 5000);
             console.log("CONNFAILED");
-                needReconnect = true;
+            //needReconnect = true;
+            self.conn.disconnect();
          } else if (status === Strophe.Status.AUTHFAIL) {
             showStatus("XMPP AUTHFAIL", 5000);
             console.log("AUTHFAIL");
-                needReconnect = true;
+            //needReconnect = true;
+            self.conn.disconnect();
          } else if (status === Strophe.Status.ERROR) {
             showStatus("XMPP ERROR", 5000);
             console.log("ERROR");
-            needReconnect = true;
+            //needReconnect = true;
+            self.conn.disconnect();
          }
             if (needReconnect) {
               app.xmppConn.connect(app.xmppConn.userid, app.xmppConn.password, app.xmppConn.connectCallback);

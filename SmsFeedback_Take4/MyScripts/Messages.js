@@ -61,7 +61,7 @@ window.app.Message = Backbone.Model.extend({
       //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
       //in the TimeReceived property we have the same info coded as ticks, so we replace the TimeReceived value with a value build from the ticks value
       var dateInTicks = data.TimeReceived.substring(6,19);
-      data.TimeReceived = (new Date(parseInt(dateInTicks, 10))).toUTCString();
+      data.TimeReceived = (new Date(Date.UTC(data.Year, data.Month, data.Day, data.Hours, data.Minutes, data.Seconds))).toUTCString();
       //we have to determine the direction
       var dir = cleanupPhoneNumber(data.From) + "-" + cleanupPhoneNumber(data.To);
       if (dir === data.ConvID) {
@@ -116,7 +116,7 @@ function MessagesArea(convView, tagsArea) {
             self.messagesView.getMessages(convId);
             self.tagsArea.getTags(convId);
        },
-       cancel: ".conversationStarIcon"
+       cancel: ".conversationStarIconImg"
     });
 
     var id = 412536; //this should be unique
@@ -190,6 +190,7 @@ function MessagesArea(convView, tagsArea) {
             var arrowClass = "arrowFrom";
             var arrowInnerClass = "arrowInnerFrom";
             var arrowInnerMenuLeft = "arrowInnerLeft";
+            var extraMenuWrapperSide = "extraMenuWrapperLeft";
             //var arrowExtraMenu="arrowExtraMenuFrom";
             //var arrowInnerExtraMenu = "arrowInnerExtraMenuFrom";
             if (this.model.attributes["Direction"] === "to") {
@@ -198,6 +199,7 @@ function MessagesArea(convView, tagsArea) {
                arrowInnerClass = "arrowInnerTo";
                //arrowExtraMenu = "arrowExtraMenuTo";
                arrowInnerMenuLeft = "arrowInnerRight";
+               extraMenuWrapperSide = "extraMenuWrapperRight";
                //arrowInnerExtraMenu = "arrowInnerExtraMenuTo";
             }
             if (this.model.attributes["Starred"] === true)
@@ -210,6 +212,7 @@ function MessagesArea(convView, tagsArea) {
             $(".arrow", this.$el).addClass(arrowClass);
             $(".arrowInner", this.$el).addClass(arrowInnerClass);
             $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
+            $(".extraMenuWrapper", this.$el).addClass(extraMenuWrapperSide);
             //$(".arrowInnerExtraMenu", this.$el).addClass(arrowInnerExtraMenu);
             return this;
         },
@@ -388,12 +391,7 @@ function MessagesArea(convView, tagsArea) {
     $(".favConversation").live("click", function (e) {
        e.preventDefault();
        //signal to the server that this conversation's starred status has changed
-       $.getJSON('Messages/ChangeStarredStatusForConversation',
-                { conversationId: self.currentConversationId, newStarredStatus: newStarredStatus },
-                function (data) {
-                   //conversation starred status changed
-                   console.log(data);
-                });
+       
        //reflect the change visually
         var newStarredStatus = false;
         app.globalMessagesRep[self.currentConversationId].each(function (msg) {
@@ -402,6 +400,13 @@ function MessagesArea(convView, tagsArea) {
            newStarredStatus = msg.attributes["Starred"];
         });
         app.selectedConversation.set("Starred", newStarredStatus);
+
+        $.getJSON('Messages/ChangeStarredStatusForConversation',
+                { conversationId: self.currentConversationId, newStarredStatus: newStarredStatus },
+                function (data) {
+                    //conversation starred status changed
+                    console.log(data);
+                });
     });
 
 
