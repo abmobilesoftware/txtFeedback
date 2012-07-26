@@ -38,23 +38,21 @@ function InitializeGUI() {
    app.requestIndex = 0; //make sure the first time we update from external sources
    this.convView.getConversations();
 
-   //the xmpp handler for new messages
-   this.xmppHandler = new app.XMPPhandler();
-   $.getJSON('Xmpp/GetConnectionDetailsForLoggedInUser', function (data) {
-      if (data !== "") {
-         self.xmppHandler.connect(data.XmppUser, data.XmppPassword);
-      }
-   });
+   ////the xmpp handler for new messages
+   //this.xmppHandler = new app.XMPPhandler();
+   //$.getJSON('Xmpp/GetConnectionDetailsForLoggedInUser', function (data) {
+   //   if (data !== "") {
+   //      self.xmppHandler.connect(data.XmppUser, data.XmppPassword);
+   //   }
+   //});
 
    $.getJSON('Home/GetCurrentCulture', function (data) {
        if (data !== "") {
            self.xmppHandler.connect(data.XmppUser, data.XmppPassword);
        }
-   });
    
    $(document).bind('msgReceived', function (ev, data) {
-      console.log("msgReceived triggered");
-    
+      console.log("msgReceived triggered");    
       newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
    });
 

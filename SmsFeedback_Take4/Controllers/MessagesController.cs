@@ -148,13 +148,17 @@ namespace SmsFeedback_Take4.Controllers
          }
       }
 
-      public JsonResult NrOfUnreadConversations()
+      public JsonResult NrOfUnreadConversations(bool? performUpdateBefore)
       {
          try {
-            logger.Info("Call made");
+            logger.DebugFormat("performUpdateBefore: {0}", performUpdateBefore.HasValue ? performUpdateBefore.Value.ToString() : "null");
             if (HttpContext.Request.IsAjaxRequest()) { 
                 var userId = User.Identity.Name;
                 smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+                if (performUpdateBefore.HasValue && performUpdateBefore.Value == true)
+                {
+                   SMSRepository.UpdateConversationsFromExternalSources(null, null, userId, lContextPerRequest);
+                }                
                 var lUnreadMsg = new KeyValuePair<string, int>("unreadConvs", SMSRepository.NrOfUnreadConversations(userId, lContextPerRequest));
                return Json(lUnreadMsg, JsonRequestBehavior.AllowGet);
             }
@@ -283,23 +287,23 @@ namespace SmsFeedback_Take4.Controllers
          // mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime);         
       }
 
-      public JsonResult SendMessage(String from, String to, String text)
+      public JsonResult SendMessage(String from, String to, String convId,String text)
       {
          if (HttpContext.Request.IsAjaxRequest())
          {
-            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], text: [{2}]", from, to, text);
+            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}]", from, to, convId, text);
             String conversationId = to + "-" + from;
             try
             {
                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-               AddMessageAndUpdateConversation(from, to, conversationId, text, true, DateTime.Now, lContextPerRequest);
+             
 
                //send message via twilio
                //from = "442033221134";
                //to = "442033221909";
-               SMSRepository.SendMessage(from, to, text, (msg) =>
+               SMSRepository.SendMessage(from, to, text, (msgDateSent) =>
                {
-
+                  AddMessageAndUpdateConversation(from, to, convId, text, true, msgDateSent, lContextPerRequest);
                });
                //I should wait for the twilio call to finish
                //I should return the sent time (if successful)              

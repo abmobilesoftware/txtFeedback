@@ -2,7 +2,46 @@
 window.app = window.app || {};
 window.app.xmppConn = {};
 window.app.receivedMsgID = 12345;
-   window.app.XMPPhandler = function XMPPhandler() {
+
+function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, text, readStatus) {
+   console.log("signalMsgReceivedAtServer");
+   //the conversations window expects that the toID be a "name" and not a telephone number   
+   $.getJSON('Messages/MessageReceived',
+                    { from: fromID, to: toId, text: text, convId: convID, receivedTime: dateReceived, readStatus: readStatus },
+                    function (data) {
+                       console.log(data);
+                       app.updateNrOfUnreadConversations(false);
+                    });   
+}
+
+window.app.setNrOfUnreadConversationOnTab = function (unreadConvs) {
+   console.log("unread conversations: " + unreadConvs);
+   app.nrOfUnreadConvs = unreadConvs;
+   var toShow = "(" + unreadConvs + ")";
+   $("#msgTabcount").text(toShow);
+};
+
+window.app.xmppHandlerInstance = {};
+$(function () {
+   //the xmpp handler for new messages
+   app.xmppHandlerInstance = new app.XMPPhandler();
+   $.getJSON(app.domainName + '/Xmpp/GetConnectionDetailsForLoggedInUser', function (data) {
+      if (data !== "") {
+         app.xmppHandlerInstance.connect(data.XmppUser, data.XmppPassword);
+         app.updateNrOfUnreadConversations(true);
+      }
+   });
+
+   $(document).bind('msgReceived', function (ev, data) {
+      if (data.messageIsSent === undefined || (data.messageIsSent !== undefined && !data.messageIsSent)) {
+         signalMsgReceivedAtServer(data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
+      }
+   });
+});
+
+
+window.app.XMPPhandler = function XMPPhandler() {
+   console.log("Constructor called");
       this.userid = null;
       this.password = null;      
       this.conn = null;

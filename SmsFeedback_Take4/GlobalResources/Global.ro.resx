@@ -201,4 +201,28 @@
   <data name="logOnLogOnMsg" xml:space="preserve">
     <value>Conectare</value>
   </data>
+  <data name="tooltipIncludeDateInFilter" xml:space="preserve">
+    <value>Activati/deactivati filtrul conform datei</value>
+  </data>
+  <data name="tooltipIncludeStarredInFilter" xml:space="preserve">
+    <value>Activati/deactivati filtrul pentru favorite</value>
+  </data>
+  <data name="tooltipIncludeTagsInFilter" xml:space="preserve">
+    <value>Activati/deactivati filtrul conform etichetelor</value>
+  </data>
+  <data name="tooltipIncludeUnreadInFilter" xml:space="preserve">
+    <value>Activati/deactivati filtrul pentru doar conversatiile necitite</value>
+  </data>
+  <data name="tooltipMarkAsFavouriteImg" xml:space="preserve">
+    <value>Marcheaza ca si favorit</value>
+  </data>
+  <data name="tooltipReplyBtn" xml:space="preserve">
+    <value>Trimite mesaj de raspuns clientului</value>
+  </data>
+  <data name="tooltipSendEmailImg" xml:space="preserve">
+    <value>Trimite ca si email</value>
+  </data>
+  <data name="tooltipWpImg" xml:space="preserve">
+    <value>Activati/deactivati afisarea mesajelor pentru acest punct de lucru</value>
+  </data>
 </root>

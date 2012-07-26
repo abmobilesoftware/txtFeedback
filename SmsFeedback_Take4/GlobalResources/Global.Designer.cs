@@ -304,6 +304,78 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Turn date filtering on/off.
+        /// </summary>
+        public static string tooltipIncludeDateInFilter {
+            get {
+                return ResourceManager.GetString("tooltipIncludeDateInFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn favorites filtering on/off.
+        /// </summary>
+        public static string tooltipIncludeStarredInFilter {
+            get {
+                return ResourceManager.GetString("tooltipIncludeStarredInFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn tag filtering on/off.
+        /// </summary>
+        public static string tooltipIncludeTagsInFilter {
+            get {
+                return ResourceManager.GetString("tooltipIncludeTagsInFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn only unread conversations on/off.
+        /// </summary>
+        public static string tooltipIncludeUnreadInFilter {
+            get {
+                return ResourceManager.GetString("tooltipIncludeUnreadInFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark as favorite.
+        /// </summary>
+        public static string tooltipMarkAsFavouriteImg {
+            get {
+                return ResourceManager.GetString("tooltipMarkAsFavouriteImg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send reply to customer.
+        /// </summary>
+        public static string tooltipReplyBtn {
+            get {
+                return ResourceManager.GetString("tooltipReplyBtn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send as email.
+        /// </summary>
+        public static string tooltipSendEmailImg {
+            get {
+                return ResourceManager.GetString("tooltipSendEmailImg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable/disable displaying of messages for this working point.
+        /// </summary>
+        public static string tooltipWpImg {
+            get {
+                return ResourceManager.GetString("tooltipWpImg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Welcome.
         /// </summary>
         public static string welcomeMessage {

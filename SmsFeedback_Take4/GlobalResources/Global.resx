@@ -201,4 +201,28 @@
   <data name="logOnLogOnMsg" xml:space="preserve">
     <value>Log on</value>
   </data>
+  <data name="tooltipIncludeDateInFilter" xml:space="preserve">
+    <value>Turn date filtering on/off</value>
+  </data>
+  <data name="tooltipIncludeStarredInFilter" xml:space="preserve">
+    <value>Turn favorites filtering on/off</value>
+  </data>
+  <data name="tooltipIncludeTagsInFilter" xml:space="preserve">
+    <value>Turn tag filtering on/off</value>
+  </data>
+  <data name="tooltipIncludeUnreadInFilter" xml:space="preserve">
+    <value>Turn only unread conversations on/off</value>
+  </data>
+  <data name="tooltipMarkAsFavouriteImg" xml:space="preserve">
+    <value>Mark as favorite</value>
+  </data>
+  <data name="tooltipReplyBtn" xml:space="preserve">
+    <value>Send reply to customer</value>
+  </data>
+  <data name="tooltipSendEmailImg" xml:space="preserve">
+    <value>Send as email</value>
+  </data>
+  <data name="tooltipWpImg" xml:space="preserve">
+    <value>Enable/disable displaying of messages for this working point</value>
+  </data>
 </root>

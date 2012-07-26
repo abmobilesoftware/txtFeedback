@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace SmsFeedback_Take4.Controllers
 {
-    public class ReportsController : Controller
+   public class ReportsController : BaseController
     {
         public ActionResult Index()
         {

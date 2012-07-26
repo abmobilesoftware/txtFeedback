@@ -18,7 +18,7 @@ function markConversationAsRead()
                 { conversationId: gSelectedConversationID },
                 function (data) {
                    //conversation marked as read
-                   app.updateNrOfUnreadConversations();
+                   app.updateNrOfUnreadConversations(false);
                    console.log("MarkConversationAsRead done");
                 }
         );
@@ -89,9 +89,9 @@ window.app.MessagesList = Backbone.Collection.extend({
 
 //#region MessagesArea default properties
 window.app.defaultMessagesOptions = {
-   messagesRep : {},
-   currentConversationId : ""
-}
+   messagesRep: {},
+   currentConversationId: ""
+};
 //#endregion
 
 //window.app.SendMessageToClient(convView,
@@ -131,13 +131,18 @@ function MessagesArea(convView, tagsArea) {
         var from = fromTo[0];
         var to = fromTo[1];
         //send it to the server
-        //$.getJSON('Messages/SendMessage',
-        // { from: from, to: to, text: msgContent },
-        // function (data) {
-        // //delivered successfully? if yes - indicate this
-        // console.log(data);
-        // }
-       //);
+        $.getJSON('Messages/SendMessage',
+        //        { from: from, to: to, text: msgContent },
+        //        function (data) {
+        //            //delivered successfully? if yes - indicate this
+        //         console.log(data);
+        //         }
+                },
+                function (data) {
+                    //delivered successfully? if yes - indicate this
+                 console.log(data);
+                 }
+       );
 
         //TODO should be RFC822 format
         var timeSent = (new Date()).toUTCString();
@@ -148,7 +153,8 @@ function MessagesArea(convView, tagsArea) {
             msgID: id,
             dateReceived: timeSent,
             text: msgContent,
-            readStatus: false
+           readStatus: false,
+           messageIsSent: true
         });
         //reset the input form
         $("#replyToMessageForm")[0].reset();
@@ -201,11 +207,7 @@ function MessagesArea(convView, tagsArea) {
                arrowInnerMenuLeft = "arrowInnerRight";
                extraMenuWrapperSide = "extraMenuWrapperRight";
                //arrowInnerExtraMenu = "arrowInnerExtraMenuTo";
-            }
-            if (this.model.attributes["Starred"] === true)
-            {
-               $(".favConversation", this.$el).attr('src', app.domainName + "/Content/images/star-selected.svg");
-            }
+            }            
             this.$el.addClass("message");
             this.$el.addClass(direction);
          
@@ -213,17 +215,15 @@ function MessagesArea(convView, tagsArea) {
             $(".arrowInner", this.$el).addClass(arrowInnerClass);
             $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
             $(".extraMenuWrapper", this.$el).addClass(extraMenuWrapperSide);
+
+            $("div.sendEmailButton img", this.$el).qtip({
+               content: { text: false },
+               style: 'dark'
+            });
             //$(".arrowInnerExtraMenu", this.$el).addClass(arrowInnerExtraMenu);
             return this;
         },
-        updateView: function () {
-           //the Starred attribute has changed (most probably) so reflect this in the view
-           if (this.model.attributes["Starred"] === true) {
-              $(".favConversation", this.$el).attr('src', app.domainName + "/Content/images/star-selected.svg");
-           }
-           else {
-              $(".favConversation", this.$el).attr('src', app.domainName + "/Content/images/star.svg");
-           }                  
+        updateView: function () {           
            return this;
         }
     });
@@ -353,7 +353,7 @@ function MessagesArea(convView, tagsArea) {
             newMsg.set("Text", text);
             newMsg.set("TimeReceived", dateReceived);            
            //we add the message only if are in correct conversation
-            if (app.globalMessagesRep[convID] != undefined) {
+            if (app.globalMessagesRep[convID] !== undefined) {
                 app.globalMessagesRep[convID].add(newMsg);
             }
 
@@ -384,13 +384,9 @@ function MessagesArea(convView, tagsArea) {
             if (scrollToBottomParam) {
                 var messagesEl = $("#scrollablemessagebox");
                 messagesEl.animate({ scrollTop: messagesEl.prop("scrollHeight") }, 3000);
-            }
+             }
+          
         }
-     });
-
-    $(".favConversation").live("click", function (e) {
-       e.preventDefault();
-       //signal to the server that this conversation's starred status has changed
        
        //reflect the change visually
         var newStarredStatus = false;
@@ -407,16 +403,9 @@ function MessagesArea(convView, tagsArea) {
                     //conversation starred status changed
                     console.log(data);
                 });
-    });
-
-
+     });
+      
     this.messagesView = new MessagesView();
-}
-
-window.app.setNrOfUnreadConversationOnTab = function (unreadConvs) {
-   app.nrOfUnreadConvs = unreadConvs;
-   var toShow = "(" + unreadConvs + ")";
-   $("#msgTabcount").text(toShow);
 }
 
 function limitText(limitField, limitCount, limitNum) {

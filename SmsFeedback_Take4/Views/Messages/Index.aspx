@@ -5,9 +5,32 @@
    <%: ViewData["Title"] %>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server" ContentType="text/xml">
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/conversations_mb.css") %>" />
+
+   <% if (Html.IsReleaseBuild())      { %>
+  <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/phonenumbers.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/messages.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/conversations.css") %>" />   
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/filtersStrip.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/tags.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/jquery.tagsinput.css") %>" />
+
+    <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/spin.js") %>" type="application/javascript" ></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.cookie.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.simplemodal.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.tagsinput.js") %>" type="application/javascript"></script>
+
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/WorkingPoints.js") %>" type="application/javascript"></script>   
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Messages.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/contact.js") %>" type="application/javascript"></script>     
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Conversations.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Filtering.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/ConversationTags.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Facade.js") %>" type="application/javascript"></script>
+   <% } else { %>
     <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/phonenumbers.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/messages.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/conversations.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/conversations.css") %>" />   
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/filtersStrip.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/tags.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/jquery.tagsinput.css") %>" />
@@ -15,21 +38,16 @@
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="application/javascript" ></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.cookie.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.simplemodal.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Utilities.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/WorkingPoints.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.tagsinput.js") %>" type="application/javascript"></script>
+
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/WorkingPoints.js") %>" type="application/javascript"></script>   
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Messages.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/contact.js") %>" type="application/javascript"></script>
-   
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/contact.js") %>" type="application/javascript"></script>     
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Conversations.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Filtering.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/ConversationTags.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.Content("~/Scripts/Strophe/strophe.js") %>" type="application/javascript"></script>
-    <script src="<%: Url.Content("~/Scripts/flxhr/flXHR.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/Scripts/flxhr/strophe.flxhr.js") %>" type="text/javascript"></script>
-
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/XMPP.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Facade.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Facade.js") %>" type="application/javascript"></script>   
+   <% } %>
 
    
    <script type="text/template" id="tag-template">       
@@ -80,9 +98,9 @@
                 </div>
                 <div class="conversationStarIcon">
                     {% if (Starred) { %}
-                            <img src="<%: Url.Content("~/Content/images/star-selected.svg") %>" class="conversationStarIconImg" />
+                            <img title="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected.svg") %>" class="conversationStarIconImg" />
                     {% } else { %}
-                            <img src="<%: Url.Content("~/Content/images/star.svg") %>" class="conversationStarIconImg" /> 
+                            <img title="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star.svg") %>" class="conversationStarIconImg" /> 
                     {% } %}
                 </div>
             </div>                         
@@ -101,10 +119,10 @@
        <div class="extraMenuWrapper"></div>  
        <div class="innerExtraMenu">
             <div class="actionButtons">
-               <img class="favConversation" src="<%: Url.Content("~/Content/images/star.svg") %>" />      
+               <img title="<%: Resources.Global.tooltipSendEmailImg %>" class="favConversation" src="<%: Url.Content("~/Content/images/star.svg") %>" />      
              </div>
             <div class="actionButtons sendEmailButton">
-               <img src="<%: Url.Content("~/Content/images/mail.png") %>" />
+               <img title="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/mail.png") %>" />
             </div>
          <div class="clear"></div>                       
          </div>               
@@ -306,7 +324,7 @@
        <div class="grid_4_custom filterStripElement">
          <div id="dateFilterArea">
             <div id="dateLabel" class="filterLabel">
-               <img id="includeDateInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+               <img title="<%: Resources.Global.tooltipIncludeDateInFilter %>" id="includeDateInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
                <span style="vertical-align: middle">
                   <%: Resources.Global.dateLabel %></span>
@@ -319,13 +337,13 @@
             </div>
          </div>
          <div id="starredFilterArea" class="filterLabel">
-            <img id="includeStarredInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+            <img id="includeStarredInFilter" title="<%: Resources.Global.tooltipIncludeStarredInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
             <span style="vertical-align: middle">
                <%: Resources.Global.starredLabel %></span>
          </div>
          <div id="unreadFilterArea" class="filterLabel">
-            <img id="includeUnreadInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+            <img id="includeUnreadInFilter" title="<%: Resources.Global.tooltipIncludeUnreadInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
             <span style="vertical-align: middle">
                <%: Resources.Global.readLabel %></span>
@@ -333,7 +351,7 @@
       </div>
       <div class="grid_6 filterStripElement tagFilterArea">
          <div id="tagsLabel" class="filterLabel">
-            <img id="includeTagsInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+            <img id="includeTagsInFilter" title="<%: Resources.Global.tooltipIncludeTagsInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
             <span style="vertical-align: middle">
                <%: Resources.Global.tagsLabel %></span>
@@ -380,7 +398,7 @@
             </form>
          </div>
          <div id="replyButtonArea">
-            <button id="replyBtn"> <%: Resources.Global.sendButton %></button>
+            <button title="<%: Resources.Global.tooltipReplyBtn %>" id="replyBtn"> <%: Resources.Global.sendButton %></button>
          </div>
          <input type="hidden" value="<%: ViewData["currentCulture"] %>" class="currentCulture" />
       </div>

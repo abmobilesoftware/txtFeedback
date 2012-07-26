@@ -82,15 +82,12 @@ function StatusBar(sel, options) {
 var _statusbar = null;
 var cConversationIdNumbersSeparator = '-';
 function showStatus(message, timeout, additive, isError) {
-    if (!_statusbar)
-        _statusbar = new StatusBar();
-    _statusbar.show(message, timeout, additive, isError);
+  
 }
-
-
- //the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
+//the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
 window.app.domainName = '';
 //window.app.domainName = '/smsfeedback';
+
 window.app.firstCall = true;
 window.app.requestIndex = 0;
 
@@ -133,13 +130,46 @@ function setCheckboxState(checkbox, state)
    }
 }
 
-window.app.updateNrOfUnreadConversations = function () {
+window.app.updateNrOfUnreadConversations = function (performUpdateBefore) {
    console.log("updateNrOfUnreadConversations called");
    $.getJSON('Messages/NrOfUnreadConversations',
+   {
+      performUpdateBefore: performUpdateBefore
+   }, 
                 function (data) {
                    if (data != null) {
                       console.log("new value for nr of conversations received");
                       app.setNrOfUnreadConversationOnTab(data.Value);
                    }
                 });
+}
+
+$(function() {
+   $(window).unload(function () {
+      //save the state of the nr of unread messages
+      var store = new Persist.Store('SmsFeedback');
+      store.set('msgTabcountValue', $("#msgTabcount").text());
+      
+   });
+   
+})
+
+$(function () {
+   var store = new Persist.Store('SmsFeedback');
+   store.get('msgTabcountValue', function (ok, val) {
+      if (ok)
+         $("#msgTabcount").text(val);
+   });
+})
+
+$.fn.qtip.styles.txtFeedback = {
+   tip: 'bottomMiddle',
+   target: 'bottomMiddle',
+   border: {
+      width: 5,
+      radius: 6,
+      color: '#FA6900'
+   },
+   background: '#333',
+   color: '#FFF'
 }
