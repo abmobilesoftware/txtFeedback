@@ -211,7 +211,7 @@
     <value>Activati/deactivati filtrul conform etichetelor</value>
   </data>
   <data name="tooltipIncludeUnreadInFilter" xml:space="preserve">
-    <value>Activati/deactivati filtrul pentru doar conversatiile necitite</value>
+    <value>Activati/deactivati filtrul pentru conversatiile necitite</value>
   </data>
   <data name="tooltipMarkAsFavouriteImg" xml:space="preserve">
     <value>Marcheaza ca si favorit</value>
@@ -224,5 +224,8 @@
   </data>
   <data name="tooltipWpImg" xml:space="preserve">
     <value>Activati/deactivati afisarea mesajelor pentru acest punct de lucru</value>
+  </data>
+  <data name="addATagLabel" xml:space="preserve">
+    <value>adauga o eticheta</value>
   </data>
 </root>

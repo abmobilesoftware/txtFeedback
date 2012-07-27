@@ -225,4 +225,7 @@
   <data name="tooltipWpImg" xml:space="preserve">
     <value>Enable/disable displaying of messages for this working point</value>
   </data>
+  <data name="addATagLabel" xml:space="preserve">
+    <value>add a tag</value>
+  </data>
 </root>

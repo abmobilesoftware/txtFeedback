@@ -61,7 +61,7 @@ window.app.Message = Backbone.Model.extend({
       //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
       //in the TimeReceived property we have the same info coded as ticks, so we replace the TimeReceived value with a value build from the ticks value
       var dateInTicks = data.TimeReceived.substring(6,19);
-      data.TimeReceived = (new Date(Date.UTC(data.Year, data.Month, data.Day, data.Hours, data.Minutes, data.Seconds))).toUTCString();
+      data.TimeReceived = (new Date(Date.UTC(data.Year, data.Month - 1, data.Day, data.Hours, data.Minutes, data.Seconds)));
       //we have to determine the direction
       var dir = cleanupPhoneNumber(data.From) + "-" + cleanupPhoneNumber(data.To);
       if (dir === data.ConvID) {
@@ -96,7 +96,19 @@ window.app.defaultMessagesOptions = {
 
 //window.app.SendMessageToClient(convView,
 function MessagesArea(convView, tagsArea) {
-   var self = this;
+    var self = this;
+
+    $("#replyBtn").qtip({
+        content: { text: false },
+        position: {
+            corner: {
+                target: 'leftMiddle',
+                tooltip: 'rightMiddle'
+            }
+        },
+        style: 'dark'
+    });
+
    $.extend(this, app.defaultMessagesOptions);
 
    this.convView = convView;
@@ -131,21 +143,18 @@ function MessagesArea(convView, tagsArea) {
         var from = fromTo[0];
         var to = fromTo[1];
         //send it to the server
-        $.getJSON('Messages/SendMessage',
+        //$.getJSON('Messages/SendMessage',
         //        { from: from, to: to, text: msgContent },
         //        function (data) {
         //            //delivered successfully? if yes - indicate this
         //         console.log(data);
         //         }
-                },
-                function (data) {
-                    //delivered successfully? if yes - indicate this
-                 console.log(data);
-                 }
-       );
+        //        },
+        //
+        //);
 
         //TODO should be RFC822 format
-        var timeSent = (new Date()).toUTCString();
+        var timeSent = new Date();
         $(document).trigger('msgReceived', {
             fromID: to,
             toID: from,
@@ -251,23 +260,23 @@ function MessagesArea(convView, tagsArea) {
     var MessagesView = Backbone.View.extend({
         el: $("#messagesbox"),
         initialize: function () {
-           _.bindAll(this,
-              "render",
-              "getMessages",
-              "appendMessage",
-              "appendMessageToDiv",
-              "resetViewToDefault", 
-              "newMessageReceived");// to solve the this issue
+            _.bindAll(this,
+               "render",
+               "getMessages",
+               "appendMessage",
+               "appendMessageToDiv",
+               "resetViewToDefault",
+               "newMessageReceived");// to solve the this issue
             this.messages = new app.MessagesList();
             this.messages.bind("reset", this.render);
             //$("#messagesbox").selectable();
         },
         resetViewToDefault: function () {
-           $('#messagesbox').html(' No conversation selected, please select one');
-           $("#textareaContainer").addClass("invisible");
-           $("#tagsContainer").addClass("invisible");
-           self.currentConversationId = '';
-           //$("textareaContainer").hide("slow");
+            $('#messagesbox').html(' No conversation selected, please select one');
+            $("#textareaContainer").addClass("invisible");
+            $("#tagsContainer").addClass("invisible");
+            self.currentConversationId = '';
+            //$("textareaContainer").hide("slow");
         },
         getMessages: function (conversationId) {
             console.log("getting conversations with id:" + conversationId);
@@ -287,7 +296,7 @@ function MessagesArea(convView, tagsArea) {
                 $("#tagsContainer").removeClass("invisible");
                 $("#tagsContainer").fadeIn("slow");
                 //$("#textareaContainer").addClass("visible");
-                
+
             }
             else {
                 var messages1 = new app.MessagesList();
@@ -312,47 +321,47 @@ function MessagesArea(convView, tagsArea) {
                     value.set("Starred", app.selectedConversation.get("Starred"));
                 });
             }
-            
+
         },
-        render: function () {           
+        render: function () {
             $("#messagesbox").html('');
             var selfMessageView = this;
             app.globalMessagesRep[self.currentConversationId].each(function (msg) {
                 //don't scroll to bottom as we will do it when loading is done
-               selfMessageView.appendMessageToDiv(msg, performFadeIn, false);
-             });
+                selfMessageView.appendMessageToDiv(msg, performFadeIn, false);
+            });
             spinner.stop();
             //scroll to bottom
             //var messagesEl = $("#scrollablemessagebox");
             //messagesEl.animate({ scrollTop: messagesEl.prop("scrollHeight") }, 3000);
-        
+
             return this;
         },
         appendMessage: function (msg) {
-           //append only if the current view is the one in focus
-           if (msg.get('ConvID') === self.currentConversationId) {
-              console.log("Adding new message: " + msg.get("Text"));
-              //when appending a new message always scroll to bottom
-              this.appendMessageToDiv(msg, true, true);
-            
-           }
+            //append only if the current view is the one in focus
+            if (msg.get('ConvID') === self.currentConversationId) {
+                console.log("Adding new message: " + msg.get("Text"));
+                //when appending a new message always scroll to bottom
+                this.appendMessageToDiv(msg, true, true);
+
+            }
         },
         newMessageReceived: function (fromID, convID, msgID, dateReceived, text) {
             console.log("new message received: " + text + " with ID:" + msgID);
             var newMsg = new app.Message({ Id: msgID });
-           //decide if this is a from or to message
+            //decide if this is a from or to message
             var fromTo = getFromToFromConversation(self.currentConversationId);
             var from = fromTo[0];
             var direction = "from";
-            if (!comparePhoneNumbers(fromID,from)) {
-               direction = "to";
+            if (!comparePhoneNumbers(fromID, from)) {
+                direction = "to";
             }
             newMsg.set("Direction", direction);
             newMsg.set("From", fromID);
             newMsg.set("ConvID", convID);
             newMsg.set("Text", text);
-            newMsg.set("TimeReceived", dateReceived);            
-           //we add the message only if are in correct conversation
+            newMsg.set("TimeReceived", dateReceived);
+            //we add the message only if are in correct conversation
             if (app.globalMessagesRep[convID] !== undefined) {
                 app.globalMessagesRep[convID].add(newMsg);
             }
@@ -363,7 +372,7 @@ function MessagesArea(convView, tagsArea) {
             var item = msgView.render().el;
             $(this.el).append(item);
             $(item).hover(function () {
-                var helperDiv = $(this).find("div.extramenu")[0];               
+                var helperDiv = $(this).find("div.extramenu")[0];
                 //make sure to bind the buttons
                 // $(helperDiv).css("visibility", "visible");
                 gSelectedMessage = $($(this).find("div span")[0]).html();
@@ -374,8 +383,8 @@ function MessagesArea(convView, tagsArea) {
                 var helperDiv = $(this).find("div.extramenu")[0];
                 //$(helperDiv).fadeOut("fast");
                 $(helperDiv).hide();
-             });
-          
+            });
+
             if (performFadeIn) {
                 $(item).hide().fadeIn("2000");
             }
@@ -384,27 +393,11 @@ function MessagesArea(convView, tagsArea) {
             if (scrollToBottomParam) {
                 var messagesEl = $("#scrollablemessagebox");
                 messagesEl.animate({ scrollTop: messagesEl.prop("scrollHeight") }, 3000);
-             }
-          
+            }
         }
+    });
        
-       //reflect the change visually
-        var newStarredStatus = false;
-        app.globalMessagesRep[self.currentConversationId].each(function (msg) {
-           //var newStarredValue = ;
-           msg.set("Starred", !msg.attributes["Starred"]);
-           newStarredStatus = msg.attributes["Starred"];
-        });
-        app.selectedConversation.set("Starred", newStarredStatus);
-
-        $.getJSON('Messages/ChangeStarredStatusForConversation',
-                { conversationId: self.currentConversationId, newStarredStatus: newStarredStatus },
-                function (data) {
-                    //conversation starred status changed
-                    console.log(data);
-                });
-     });
-      
+          
     this.messagesView = new MessagesView();
 }
 

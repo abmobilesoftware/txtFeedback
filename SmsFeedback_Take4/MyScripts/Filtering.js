@@ -82,6 +82,7 @@ function FilterArea() {
 
          }
       });
+      
       this.previousStartDate = $.datepicker.formatDate(app.dateFormatForDatePicker, startDatePicker.datepicker("getDate"));
       this.defaultStartDate = $.datepicker.formatDate(app.dateFormatForDatePicker, startDatePicker.datepicker("getDate"));
    }    
@@ -105,6 +106,17 @@ function FilterArea() {
 
          }
       });
+      
+      var fromTranslation = $("#startDateTimePicker").val();
+      var toTranslation = $("#endDateTimePicker").val();
+            
+      $("#startDateTimePicker").datepicker("option", $.datepicker.regional[window.app.calendarCulture]);
+      $("#endDateTimePicker").datepicker("option", $.datepicker.regional[window.app.calendarCulture]);
+
+      $("#startDateTimePicker").val(fromTranslation);
+      $("#endDateTimePicker").val(toTranslation);
+
+      
       this.previousEndDate = $.datepicker.formatDate(app.dateFormatForDatePicker, endDatePicker.datepicker("getDate"))
       this.defaultEndDate = $.datepicker.formatDate(app.dateFormatForDatePicker, endDatePicker.datepicker("getDate"));
    }      
