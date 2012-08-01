@@ -228,4 +228,10 @@
   <data name="addATagLabel" xml:space="preserve">
     <value>adauga o eticheta</value>
   </data>
+  <data name="loginUnsuccessfulDetails" xml:space="preserve">
+    <value>Utilizator sau parola incorecte</value>
+  </data>
+  <data name="loginUnsuccessfulSummary" xml:space="preserve">
+    <value>Logare esuata. Corectati erorile si incercati din nou.</value>
+  </data>
 </root>

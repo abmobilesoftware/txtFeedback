@@ -228,4 +228,10 @@
   <data name="addATagLabel" xml:space="preserve">
     <value>add a tag</value>
   </data>
+  <data name="loginUnsuccessfulDetails" xml:space="preserve">
+    <value>The user name or password provided is incorrect.</value>
+  </data>
+  <data name="loginUnsuccessfulSummary" xml:space="preserve">
+    <value>Login was unsuccessful. Please correct the errors and try again.</value>
+  </data>
 </root>

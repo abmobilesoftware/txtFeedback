@@ -42,7 +42,7 @@
     <script src="<%: Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js") %>" type="text/javascript"></script>
 
     <% using (Html.BeginForm()) { %>
-        <%: Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.") %>
+    
         <div id="loginContainer" >
             <div id="logoContainerOnLogin">
                <img src="<%: Url.Content("~/Content/images/logo.png") %>" />
@@ -81,6 +81,7 @@
              </div>
             </fieldset>
         </div>
+        <%: Html.ValidationSummary(true, Resources.Global.loginUnsuccessfulSummary) %>
     <% } %>
    </div>
 </body>
