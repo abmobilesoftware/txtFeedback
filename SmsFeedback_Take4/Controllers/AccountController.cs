@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using SmsFeedback_Take4.Models;
+using Resources;
 
 namespace SmsFeedback_Take4.Controllers
 {
@@ -150,6 +151,8 @@ namespace SmsFeedback_Take4.Controllers
       {
          return View();
       }
+
+      
 
       #region Status Codes
       private static string ErrorCodeToString(MembershipCreateStatus createStatus)

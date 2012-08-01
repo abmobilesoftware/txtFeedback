@@ -75,7 +75,7 @@ namespace SmsFeedback_Take4.Models
 
              IEnumerable<SMSMessage> union = listOfIncomingMessages.SMSMessages.Union(listOfOutgoingMessages.SMSMessages).Distinct(new MessagesComparer());
              //this should be ordered ascending by datesent as the last will be at the end
-             var records = from c in union orderby c.DateSent select new SmsMessage() { Id = c.Sid.GetHashCode(), From = c.From, To = c.To, Text = c.Body, TimeReceived = c.DateSent, Read = true, ConvID = convID, Starred = isConvFavourite };
+             var records = from c in union orderby c.DateSent select new SmsMessage() { Id = c.Sid.GetHashCode(), From = c.From, To = c.To, Text = c.Body, TimeReceived = c.DateSent, Read = true, ConvID = convID, Starred = isConvFavourite, Day = c.DateSent.Day, Month = c.DateSent.Month, Year = c.DateSent.Year, Hours = c.DateSent.Hour, Minutes = c.DateSent.Minute, Seconds = c.DateSent.Second};
              return records;
          }
          else {

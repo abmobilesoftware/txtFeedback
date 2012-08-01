@@ -1,5 +1,7 @@
 ﻿"use strict";
 window.app = window.app || {}; //window.app = window.app || { } will set window.app to an empty object if there is no window.app and will leave window.app alone if it has already been set; doing it like this makes the JavaScript files more self-contained and less subject to loading order
+window.app.workingPoints = {};
+
 //#region WorkingPoint model
    window.app.WorkingPoint = Backbone.Model.extend({
       defaults: {
@@ -7,6 +9,13 @@ window.app = window.app || {}; //window.app = window.app || { } will set window.
          Name: "defaultNumber",
          Description: "defaultDescription",
          CheckedStatus: true
+      },
+      parse: function (data, xhc) {
+          //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
+          //in the TimeReceived property we have the same info coded as ticks, so we replace the TimeReceived value with a value build from the ticks value
+          app.workingPoints[data.TelNumber] = data.Name;
+
+          return data;
       },
       idAttribute: "TelNumber"
    });
@@ -122,15 +131,16 @@ function WorkingPointsArea() {
            this.phoneNumbersPool.bind("add", this.appendWorkingPoint, this);
            this.phoneNumbersPool.bind("reset", this.render);          
         },
-        getWorkingPoints: function () {
+        getWorkingPoints: function (getConversationsFunction) {
            //#region reset internal variables
            app.nrOfCheckedWorkingPoints = 0;
            //#endregion
            var target = document.getElementById('phoneNumbersPool');
            spinner.spin(target);           
            this.phoneNumbersPool.fetch({
-              success: function () {
-                 spinner.stop();
+               success: function () {
+                   spinner.stop();
+                   getConversationsFunction();
               }
            });
         },

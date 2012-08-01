@@ -57,7 +57,7 @@ namespace SmsFeedback_Take4.Models
                             (latestEndDate.HasValue ? c.TimeUpdated <= latestEndDate.Value : true) &&
                             !tags.Except(c.Tags.Select(tag => tag.Name)).Any()
                             orderby c.TimeUpdated descending
-                            select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId, Starred = c.Starred }));
+                            select (new SmsMessage() { From = c.From, To = c.From, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId, Starred = c.Starred }));
          }
          else
          {

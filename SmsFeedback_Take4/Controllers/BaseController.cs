@@ -11,12 +11,14 @@ namespace SmsFeedback_Take4.Controllers
 {
     public abstract class BaseController : Controller
     {
+        public string currentCulture = "en";
         protected override void ExecuteCore()
         {
             if (RouteData.Values["lang"] != null &&
                 !string.IsNullOrWhiteSpace(RouteData.Values["lang"].ToString()))
             {
                 // set the culture from the route data (url)
+                currentCulture = RouteData.Values["lang"].ToString();
                 var lang = RouteData.Values["lang"].ToString();
                 Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(lang);
             }
@@ -48,5 +50,12 @@ namespace SmsFeedback_Take4.Controllers
 
             base.ExecuteCore();
         }
+
+        public string getCurrentCulture() {
+            return currentCulture;
+        }
     }
+
+    
+
 }

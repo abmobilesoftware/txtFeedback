@@ -188,11 +188,23 @@
 		$('#'+id+'_tagsinput .tag').remove();
 		$.fn.tagsInput.importTags(this,str);
 	}
+
+	function tagsDefaultText(culture) {
+	    this.culturesNames = new Array("ro", "en-GB");
+	    this.defaultTextTranslation = new Array("adauga o eticheta", "add a tag");
+
+	    for (i = 0; i < this.culturesNames.length; ++i) {
+	        if (this.culturesNames[i] == culture) return { cultureName: this.culturesNames[i], translation: this.defaultTextTranslation[i] };
+	    }
+	    // default return en-us culture
+	    return { cultureName: "en_GB", translation: "add a tag" };
+	}
 		
 	$.fn.tagsInput = function(options) { 
-    var settings = jQuery.extend({
+	  var localizedDefaultText = new tagsDefaultText(window.app.calendarCulture);
+	  var settings = jQuery.extend({
       interactive:true,
-      defaultText:'add a tag',
+      defaultText: $(".filterLabel").val(),
       minChars:0,
       width:'300px',
       height:'100px',

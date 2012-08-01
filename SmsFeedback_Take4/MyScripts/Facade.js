@@ -1,4 +1,8 @@
 ﻿"use strict";
+
+window.app = window.app || {};
+window.app.calendarCulture = "";
+
 function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
    console.log("inside newMessageReceived");
    //the conversations window expects that the toID be a "name" and not a telephone number
@@ -29,13 +33,15 @@ function InitializeGUI() {
    this.tagsArea = TagsArea();
    this.msgView = new MessagesArea(self.convView, self.tagsArea);
 
-   //get the initial working points
-   this.wpsView.getWorkingPoints();
-
+    //get the initial working points   
+   this.wpsView.getWorkingPoints(function () {
+       self.convView.getConversations()
+   });
+   
    app.nrOfUnreadConvs = 0;
    //get the initial conversations
    app.requestIndex = 0; //make sure the first time we update from external sources
-   this.convView.getConversations();
+   
 
    ////the xmpp handler for new messages
    //this.xmppHandler = new app.XMPPhandler();
@@ -44,7 +50,8 @@ function InitializeGUI() {
    //      self.xmppHandler.connect(data.XmppUser, data.XmppPassword);
    //   }
    //});
-   
+
+     
    $(document).bind('msgReceived', function (ev, data) {
       console.log("msgReceived triggered");    
       newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
@@ -63,6 +70,17 @@ $(document).ready(function () {
       $(".menuItem .active-link").removeClass("active-link");
       $(this).addClass("active-link");
    });
+
+   window.app.calendarCulture = "en-GB";    
+   if ($(".currentCulture").val() != "en-us") {
+       window.app.calendarCulture = $(".currentCulture").val().substring(0,2);
+   }
+
+    // default 
+   if ($(".currentCulture").val() == "en") {
+       window.app.calendarCulture = "en-GB";
+   }
+
 });
 
 function resizeTriggered() {

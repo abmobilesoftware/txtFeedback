@@ -18,6 +18,7 @@
 
 #filterTag_tag {
    color: white !important;
+   width: 107px;
 }
 
 #includeTagsInFilter,#includeUnreadInFilter,#includeStarredInFilter,#includeDateInFilter {

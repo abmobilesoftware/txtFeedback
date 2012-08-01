@@ -1054,6 +1054,7 @@ Strophe = {
      */
     log: function (level, msg)
     {
+        //console.log("Level " + level + "with message: " + msg);
         return;
     },
 
@@ -2393,6 +2394,9 @@ Strophe.Connection.prototype = {
                 var plugin = this[k];
                 if (plugin.statusChanged) {
                     try {
+                        //if (status == Strophe.Status.CONNFAIL) {
+                          //  this.disconnect();
+                        //}
                         plugin.statusChanged(status, condition);
                     } catch (err) {
                         Strophe.error("" + k + " plugin caused an exception " +

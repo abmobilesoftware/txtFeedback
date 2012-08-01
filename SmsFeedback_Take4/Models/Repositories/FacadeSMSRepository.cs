@@ -98,7 +98,7 @@ namespace SmsFeedback_Take4.Models
          {//we have to get all the working points 
             workingPointsNumbers = (from wp in mEFRep.GetWorkingPointsPerUser(userName, dbContext) select wp.TelNumber).ToArray();
          }
-         UpdateConversationsFromTwilio(workingPointsNumbers, lastUpdate, userName, dbContext);
+         //UpdateConversationsFromTwilio(workingPointsNumbers, lastUpdate, userName, dbContext);
       }
 
       private void UpdateConversationsFromTwilio(string[] workingPointsNumbers, DateTime? lastUpdate, String userName, smsfeedbackEntities dbContext)

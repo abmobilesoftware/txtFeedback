@@ -73,15 +73,18 @@ window.app.XMPPhandler = function XMPPhandler() {
          } else if (status === Strophe.Status.CONNFAIL) {
             showStatus("XMPP CONNFAILED", 5000);
             console.log("CONNFAILED");
-                needReconnect = true;
+            //needReconnect = true;
+            self.conn.disconnect();
          } else if (status === Strophe.Status.AUTHFAIL) {
             showStatus("XMPP AUTHFAIL", 5000);
             console.log("AUTHFAIL");
-                needReconnect = true;
+            //needReconnect = true;
+            self.conn.disconnect();
          } else if (status === Strophe.Status.ERROR) {
             showStatus("XMPP ERROR", 5000);
             console.log("ERROR");
-            needReconnect = true;
+            //needReconnect = true;
+            self.conn.disconnect();
          }
             if (needReconnect) {
               app.xmppConn.connect(app.xmppConn.userid, app.xmppConn.password, app.xmppConn.connectCallback);
@@ -89,8 +92,9 @@ window.app.XMPPhandler = function XMPPhandler() {
       };
       this.connect = function (userid, password) {
          var self = this;
-            //var xmppServerAddress = "http://localhost:3333/app/dsadsa/http-bindours/";
-          var xmppServerAddress = "http://176.34.122.48:7070/http-bind/";
+         //var xmppServerAddress = "http://localhost:3333/app/dsadsa/http-bindours/";
+          //var xmppServerAddress = "http://www.cluj-info.com/smsfeedback/nocontroller/http-bindours/";
+         var xmppServerAddress = "http://176.34.122.48:7070/http-bind/";
          self.conn = new Strophe.Connection(xmppServerAddress);
          self.userid = userid;
          self.password = password;
