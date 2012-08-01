@@ -70,8 +70,9 @@ $(document).ready(function () {
       $(".menuItem .active-link").removeClass("active-link");
       $(this).addClass("active-link");
    });
+   window.app = window.app || {};
 
-   window.app.calendarCulture = "en-GB";    
+   window.app.calendarCulture = "en-GB";
    if ($(".currentCulture").val() != "en-us") {
        window.app.calendarCulture = $(".currentCulture").val().substring(0,2);
    }

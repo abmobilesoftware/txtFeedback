@@ -279,7 +279,22 @@ namespace SmsFeedback_Take4.Utilities
          var msgs = from conv in dbContext.Conversations
                     where conv.ConvId == convID
                     select
-                       (from msg in conv.Messages select new SmsMessage() { From = msg.From, To = msg.To, ConvID = msg.ConversationId, Read = msg.Read, Id = msg.Id, Starred = isConvFavourite, Text = msg.Text, TimeReceived = msg.TimeReceived });
+                       (from msg in conv.Messages select new SmsMessage() {
+                          From = msg.From, 
+                          To = msg.To,
+                          ConvID = msg.ConversationId, 
+                          Read = msg.Read, 
+                          Id = msg.Id, 
+                          Starred = isConvFavourite, 
+                          Text = msg.Text, 
+                          TimeReceived = msg.TimeReceived,
+                          Day = msg.TimeReceived.Day,
+                          Month = msg.TimeReceived.Month,
+                          Year = msg.TimeReceived.Year,
+                          Hours = msg.TimeReceived.Hour,
+                          Minutes = msg.TimeReceived.Minute,
+                          Seconds = msg.TimeReceived.Second
+                       });
 
          return msgs.First();
       }
