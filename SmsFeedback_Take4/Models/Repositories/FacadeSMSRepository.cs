@@ -13,10 +13,13 @@ namespace SmsFeedback_Take4.Models
 {
 
    public class AggregateSmsRepository 
-   {
+   {      
+      public const string TWILIO_PROVIDER = "twilio";
+      public const string NEXMO_PROVIDER = "nexmo";
 
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-      private TwilioIntegrationSmsRepository mTwilioRep = new TwilioIntegrationSmsRepository();
+      private TwilioSmsRepository mTwilioRep = new TwilioSmsRepository();
+      private NexmoSmsRepository mNexmoRep = new NexmoSmsRepository();
       private EFSmsRepository mEFRep = new EFSmsRepository();
       private EFInteraction mEFInterface = new EFInteraction();
       private string LoggedInUser { get; set; }
@@ -77,7 +80,7 @@ namespace SmsFeedback_Take4.Models
                //first update our db with the latest from twilio (nexmo) then do our conditional select
             if (performUpdateFromExternalSources)
             {
-               UpdateConversationsFromExternalSources(workingPointsNumbers, lastUpdate, userName, dbContext);
+               //UpdateConversationsFromExternalSources(workingPointsNumbers, lastUpdate, userName, dbContext);
             }
                IEnumerable<SmsMessage> efConversationsForNumbers = mEFRep.GetConversationsForNumbers(onlyFavorites, tags, workingPointsNumbers,startDate,endDate,onlyUnread, skip, top, lastUpdate, userName,dbContext);
                return efConversationsForNumbers;           
@@ -132,11 +135,10 @@ namespace SmsFeedback_Take4.Models
       }
 
       public IEnumerable<SmsMessage> GetMessagesForConversation(string convID, smsfeedbackEntities dbContext)
-      {
-         //if the conversation is marked as "favourite" then all the messages will be "favourite"
-         var isConvFavourite = mEFInterface.IsConversationFavourite(convID, dbContext);
+      {         
+         return mEFInterface.GetMessagesForConversation(convID, dbContext);
          //we get the messages for a certain conversation from Twilio 
-         return mTwilioRep.GetMessagesForConversation(convID,isConvFavourite);
+         //return mTwilioRep.GetMessagesForConversation(convID,isConvFavourite);
       }
 
       public IEnumerable<ConversationTag> GetTagsForConversation(string convID, smsfeedbackEntities dbContext)
@@ -144,9 +146,32 @@ namespace SmsFeedback_Take4.Models
          return mEFRep.GetTagsForConversation(convID,dbContext);
       }
 
-      public void SendMessage(string from, string to, string message, Action<DateTime> callback)
+      public void SendMessage(string fromWp, string to, string message, smsfeedbackEntities dbContext, Action<DateTime> callback)
       {
-         mTwilioRep.SendMessage(from, to, message, callback);
+         //get the provider and send the message using the correct network
+         var providers = from wp in dbContext.WorkingPoints where wp.TelNumber == fromWp select wp.Provider;
+         if (providers.Count() == 1)
+         {
+            var provider = providers.First();
+            switch (provider)
+            {
+               case TWILIO_PROVIDER:
+                  logger.Info("Sending message via twilio");
+                  mTwilioRep.SendMessage(fromWp, to, message, callback);
+                  break;
+               case NEXMO_PROVIDER:
+                  logger.Info("Sending message via nexmo");
+                  mNexmoRep.SendMessage(fromWp, to, message,callback);                  
+                  break;
+               default:
+                  logger.ErrorFormat("Invalid provider for number: {0}", fromWp);
+                  break;
+            }
+         }
+         else
+         {
+            logger.ErrorFormat("Number: {0} is not a valid working point", fromWp);
+         }                           
       }
 
       public System.Collections.Generic.IEnumerable<WorkingPoint> GetWorkingPointsPerUser(String userName, smsfeedbackEntities dbContext)

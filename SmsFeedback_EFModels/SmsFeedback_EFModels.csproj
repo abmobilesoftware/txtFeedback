@@ -53,7 +53,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SmsFeedbackModels.edmx</DependentUpon>
     </Compile>
-    <Compile Include="NonEFGenerated\Tag.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
@@ -71,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="NonEFGenerated\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

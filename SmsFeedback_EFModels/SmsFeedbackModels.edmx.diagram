@@ -5,9 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="9c032a5472b642ed9bdfb92c9ffa1550" Name="Diagram1" ZoomLevel="53">
-        <EntityTypeShape EntityType="smsfeedbackModel.Conversation" Width="1.5" PointX="12.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Conversation" Width="2.125" PointX="12.75" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="smsfeedbackModel.Message" PointX="15.875" PointY="1.375" Width="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="smsfeedbackModel.WorkingPoint" Width="1.5" PointX="8.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="smsfeedbackModel.WorkingPoint" Width="1.5" PointX="8.25" PointY="1.875" IsExpanded="true" />
         <EntityTypeShape EntityType="smsfeedbackModel.User" Width="1.5" PointX="8.25" PointY="5.625" />
         <EntityTypeShape EntityType="smsfeedbackModel.Role" Width="1.5" PointX="4.75" PointY="6.25" />
         <AssociationConnector Association="smsfeedbackModel.UsersInRoles" />
@@ -19,7 +19,6 @@
         <EntityTypeShape EntityType="smsfeedbackModel.Tag" Width="1.5" PointX="12.75" PointY="6.25" />
         <AssociationConnector Association="smsfeedbackModel.FK_CompanyTag" />
         <AssociationConnector Association="smsfeedbackModel.ConversationTags" />
-        <AssociationConnector Association="smsfeedbackModel.WorkingPointConversation" />
         <AssociationConnector Association="smsfeedbackModel.ConversationMessage" />
         <EntityTypeShape EntityType="smsfeedbackModel.Application" Width="1.5" PointX="4.875" PointY="9.625" />
         <EntityTypeShape EntityType="smsfeedbackModel.Membership" Width="1.5" PointX="7.25" PointY="11.5" />
@@ -29,6 +28,7 @@
         <AssociationConnector Association="smsfeedbackModel.UserApplication" />
         <AssociationConnector Association="smsfeedbackModel.MembershipUser" />
         <AssociationConnector Association="smsfeedbackModel.UserProfile" />
+        <AssociationConnector Association="smsfeedbackModel.FK_WorkingPointConversation" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
