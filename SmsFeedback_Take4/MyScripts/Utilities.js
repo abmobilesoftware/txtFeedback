@@ -161,15 +161,3 @@ $(function () {
          $("#msgTabcount").text(val);
    });
 })
-
-$.fn.qtip.styles.txtFeedback = {
-   tip: 'bottomMiddle',
-   target: 'bottomMiddle',
-   border: {
-      width: 5,
-      radius: 6,
-      color: '#FA6900'
-   },
-   background: '#333',
-   color: '#FFF'
-}
