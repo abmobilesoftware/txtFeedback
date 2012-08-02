@@ -356,22 +356,16 @@
     <Content Include="QUnit\QUnitTests.html" />
     <Content Include="QUnit\UtilitiesTests.js" />
     <Content Include="QUnit\WorkingPointsTests.js" />
-<<<<<<< HEAD
     <Content Include="Scripts\datepicker\datepicker.js" />
     <Content Include="Scripts\datepicker\eye.js" />
     <Content Include="Scripts\datepicker\jquery.js" />
     <Content Include="Scripts\datepicker\layout.js" />
     <Content Include="Scripts\datepicker\utils.js" />
-=======
->>>>>>> 592fb622cdddc76fc14363afcf0f9414b588e369
     <Content Include="Scripts\flxhr\checkplayer.js" />
     <Content Include="Scripts\flxhr\flensed.js" />
     <Content Include="Scripts\flxhr\flXHR.js" />
     <Content Include="Scripts\flxhr\flXHR.swf" />
-<<<<<<< HEAD
-=======
     <Content Include="Scripts\flxhr\flXHR.vbs" />
->>>>>>> 592fb622cdddc76fc14363afcf0f9414b588e369
     <Content Include="Scripts\flxhr\strophe.flxhr.js" />
     <Content Include="Scripts\flxhr\swfobject.js" />
     <Content Include="Scripts\flxhr\updateplayer.swf" />
@@ -452,9 +446,9 @@
   <ItemGroup>
     <EmbeddedResource Include="GlobalResources\Global.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Global.Designer.cs</LastGenOutput>
       <CustomToolNamespace>Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Global.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="GlobalResources\Global.de.resx">
       <Generator>ResXFileCodeGenerator</Generator>

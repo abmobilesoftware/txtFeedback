@@ -296,7 +296,7 @@ namespace SmsFeedback_Take4.Controllers
                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();             
                SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgDateSent) =>
                {
-                  AddMessageAndUpdateConversation(from, to, convId, text, true, msgDateSent, lContextPerRequest);
+                  AddMessageAndUpdateConversation(from, to, convId, text, false, msgDateSent, lContextPerRequest);
                });
                //we should wait for the call to finish
                //I should return the sent time (if successful)              
