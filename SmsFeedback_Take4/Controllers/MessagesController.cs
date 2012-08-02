@@ -290,8 +290,7 @@ namespace SmsFeedback_Take4.Controllers
       {
          if (HttpContext.Request.IsAjaxRequest())
          {
-            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}]", from, to, convId, text);
-            String conversationId = to + "-" + from;
+            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}]", from, to, convId, text);            
             try
             {
                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();             
