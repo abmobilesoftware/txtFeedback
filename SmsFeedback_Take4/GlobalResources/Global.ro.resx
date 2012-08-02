@@ -234,4 +234,10 @@
   <data name="noConversationSelected" xml:space="preserve">
     <value>Nicio conversatie selectata, va rugam sa selectati una</value>
   </data>
+  <data name="loginUnsuccessfulDetails" xml:space="preserve">
+    <value>Utilizator sau parola incorecte</value>
+  </data>
+  <data name="loginUnsuccessfulSummary" xml:space="preserve">
+    <value>Logare esuata. Corectati erorile si incercati din nou.</value>
+  </data>
 </root>

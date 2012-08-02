@@ -282,9 +282,8 @@ namespace SmsFeedback_Take4.Controllers
 
       private void AddMessageAndUpdateConversation(String from, String to, String conversationId, String text, Boolean readStatus, DateTime updateTime, smsfeedbackEntities dbContext)
       {         
-         string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, dbContext);
-         //since now we guarantee that the conversation exits there is no need for convID
-         // mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime);         
+         string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, dbContext);         
+         mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime,dbContext);         
       }
 
       public JsonResult SendMessage(String from, String to, String convId, String text)
@@ -294,17 +293,12 @@ namespace SmsFeedback_Take4.Controllers
             logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}]", from, to, text);
             try
             {
-               smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-             
-
-               //send message via twilio
-               //from = "442033221134";
-               //to = "442033221909";
-               SMSRepository.SendMessage(from, to, text, (msgDateSent) =>
+               smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();             
+               SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgDateSent) =>
                {
                   AddMessageAndUpdateConversation(from, to, convId, text, true, msgDateSent, lContextPerRequest);
                });
-               //I should wait for the twilio call to finish
+               //we should wait for the call to finish
                //I should return the sent time (if successful)              
                String response = "sent successfully"; //TODO should be a class
                return Json(response, JsonRequestBehavior.AllowGet);

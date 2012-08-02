@@ -3,15 +3,8 @@ window.app = window.app || {};
 window.app.xmppConn = {};
 window.app.receivedMsgID = 12345;
 
-function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, text, readStatus) {
-   console.log("signalMsgReceivedAtServer");
-   //the conversations window expects that the toID be a "name" and not a telephone number   
-   $.getJSON('Messages/MessageReceived',
-                    { from: fromID, to: toId, text: text, convId: convID, receivedTime: dateReceived, readStatus: readStatus },
-                    function (data) {
-                       console.log(data);
-                       app.updateNrOfUnreadConversations(false);
-                    });   
+function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, text, readStatus) {   
+   app.updateNrOfUnreadConversations(false); 
 }
 
 window.app.setNrOfUnreadConversationOnTab = function (unreadConvs) {

@@ -349,8 +349,12 @@ div#title {
 }
 
 .validation-summary-errors {
-   font-weight: bold;
+   font-weight: normal;
    color: #ff0000;
+   background-color: whitesmoke;
+   position: relative;
+   margin-top: 10px;
+   width: 277px;
 }
 
 .validation-summary-valid {

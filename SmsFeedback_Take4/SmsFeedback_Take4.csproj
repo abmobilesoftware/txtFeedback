@@ -79,6 +79,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Nexmo-CSharp-lib">
+      <HintPath>..\ExternalReferences\Nexmo-CSharp-lib.dll</HintPath>
+    </Reference>
     <Reference Include="NuGet.Core, Version=1.0.11220.104, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Nuget.Core.1.0.1120.104\lib\net40\NuGet.Core.dll</HintPath>
@@ -193,7 +196,7 @@
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Models\LocalizationDisplayNameAttribute.cs" />
     <Compile Include="Models\BusinessObjects\SmsMessage.cs" />
-    <Compile Include="Models\Repositories\TwilioIntegrationSmsRepository.cs" />
+    <Compile Include="Models\Repositories\TwilioSmsRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -202,6 +205,8 @@
     <Compile Include="Models\BusinessObjects\AccountModels.cs" />
     <Compile Include="Models\BusinessObjects\WorkingPoint.cs" />
     <Compile Include="Models\BusinessObjects\XmppConn.cs" />
+    <Compile Include="Models\Repositories\NexmoSmsRepository.cs" />
+    <Compile Include="Nexmo\NexmoTestController.cs" />
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\CustomAuthorizeAtribute.cs" />
     <Compile Include="Utilities\EFInteraction.cs" />
@@ -343,6 +348,7 @@
     <Content Include="MyScripts\WorkingPoints.js" />
     <Content Include="MyScripts\Utilities.js" />
     <Content Include="MyScripts\XMPP.js" />
+    <Content Include="Nexmo\nexmoTest.js" />
     <Content Include="QUnit\ControllerTest.js" />
     <Content Include="QUnit\ConversationsTest.js" />
     <Content Include="QUnit\FilteringTest.js" />
@@ -350,15 +356,22 @@
     <Content Include="QUnit\QUnitTests.html" />
     <Content Include="QUnit\UtilitiesTests.js" />
     <Content Include="QUnit\WorkingPointsTests.js" />
+<<<<<<< HEAD
     <Content Include="Scripts\datepicker\datepicker.js" />
     <Content Include="Scripts\datepicker\eye.js" />
     <Content Include="Scripts\datepicker\jquery.js" />
     <Content Include="Scripts\datepicker\layout.js" />
     <Content Include="Scripts\datepicker\utils.js" />
+=======
+>>>>>>> 592fb622cdddc76fc14363afcf0f9414b588e369
     <Content Include="Scripts\flxhr\checkplayer.js" />
     <Content Include="Scripts\flxhr\flensed.js" />
     <Content Include="Scripts\flxhr\flXHR.js" />
     <Content Include="Scripts\flxhr\flXHR.swf" />
+<<<<<<< HEAD
+=======
+    <Content Include="Scripts\flxhr\flXHR.vbs" />
+>>>>>>> 592fb622cdddc76fc14363afcf0f9414b588e369
     <Content Include="Scripts\flxhr\strophe.flxhr.js" />
     <Content Include="Scripts\flxhr\swfobject.js" />
     <Content Include="Scripts\flxhr\updateplayer.swf" />
@@ -394,6 +407,7 @@
     <Content Include="Views\Messages\Index.aspx" />
     <Content Include="Views\Messages\MyMessages.ascx" />
     <Content Include="Views\Messages\TstView.ascx" />
+    <Content Include="Views\NexmoTest\Index.aspx" />
     <Content Include="Views\Reports\Index.aspx" />
     <Content Include="Views\Settings\Index.aspx" />
     <Content Include="Views\UserMailer\Welcome.aspx" />
@@ -452,18 +466,18 @@
     <Content Include="Scripts\jquery.cookie.js" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SmsFeedback_EFModels\SmsFeedback_EFModels.csproj">
-      <Project>{f2dfc840-77cc-44f6-93d8-559639ad2580}</Project>
-      <Name>SmsFeedback_EFModels</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="GlobalResources\Global.ro.resx">
       <SubType>Designer</SubType>
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Global.ro.Designer.cs</LastGenOutput>
       <CustomToolNamespace>Resources</CustomToolNamespace>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SmsFeedback_EFModels\SmsFeedback_EFModels.csproj">
+      <Project>{f2dfc840-77cc-44f6-93d8-559639ad2580}</Project>
+      <Name>SmsFeedback_EFModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -142,14 +142,19 @@ function MessagesArea(convView, tagsArea) {
         var fromTo = getFromToFromConversation(self.currentConversationId);
         var from = fromTo[0];
         var to = fromTo[1];
-        //send it to the server
+       //send it to the server
         $.getJSON('Messages/SendMessage',
-                { from: to, to: from, convId: self.currentConversationId, text: msgContent },
+                {
+                   from: to,
+                   to: from,
+                   convId: self.currentConversationId,
+                   text: msgContent
+                },
                 function (data) {
-                    //delivered successfully? if yes - indicate this
-                    console.log(data);
-                 }                     
-        );
+                   //delivered successfully? if yes - indicate this
+                   console.log(data);
+                }
+       );
 
         //TODO should be RFC822 format
         var timeSent = new Date();

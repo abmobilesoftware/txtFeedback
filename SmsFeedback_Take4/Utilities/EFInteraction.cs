@@ -270,5 +270,33 @@ namespace SmsFeedback_Take4.Utilities
             return false;
          }
       }
+
+      public IEnumerable<SmsMessage> GetMessagesForConversation(string convID, smsfeedbackEntities dbContext)
+      {
+         //TODO: error handling & sanity checks
+         //if the conversation is marked as "favourite" then all the messages will be "favourite"
+         var isConvFavourite = IsConversationFavourite(convID, dbContext);
+         var msgs = from conv in dbContext.Conversations
+                    where conv.ConvId == convID
+                    select
+                       (from msg in conv.Messages select new SmsMessage() {
+                          From = msg.From, 
+                          To = msg.To,
+                          ConvID = msg.ConversationId, 
+                          Read = msg.Read, 
+                          Id = msg.Id, 
+                          Starred = isConvFavourite, 
+                          Text = msg.Text, 
+                          TimeReceived = msg.TimeReceived,
+                          Day = msg.TimeReceived.Day,
+                          Month = msg.TimeReceived.Month,
+                          Year = msg.TimeReceived.Year,
+                          Hours = msg.TimeReceived.Hour,
+                          Minutes = msg.TimeReceived.Minute,
+                          Seconds = msg.TimeReceived.Second
+                       });
+
+         return msgs.First();
+      }
    }
 }

@@ -70,6 +70,7 @@ $(document).ready(function () {
       $(".menuItem .active-link").removeClass("active-link");
       $(this).addClass("active-link");
    });
+   window.app = window.app || {};
 
    var culture = $(".currentCulture").val().substring(0,2).toLowerCase();
    if (culture == "en") {

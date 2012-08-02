@@ -45,7 +45,7 @@ namespace SmsFeedback_Take4.Controllers
             }
             else
             {
-               ModelState.AddModelError("", "The user name or password provided is incorrect.");
+               ModelState.AddModelError("", Resources.Global.loginUnsuccessfulDetails);
             }
          }
 

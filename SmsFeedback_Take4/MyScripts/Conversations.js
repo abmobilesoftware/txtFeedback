@@ -413,7 +413,7 @@ function ConversationArea(filterArea, workingPointsArea) {
         }
     });
 
-    $("#loadMoreConversations").bind("click", function () {
+    $("#loadMoreConversations").bind("click", function (e) {
         self.convsView.getAdditionalConversations();
     });
 
