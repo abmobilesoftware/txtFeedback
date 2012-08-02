@@ -47,8 +47,6 @@ namespace SmsFeedback_Take4.Controllers
 
                var workingPoints = SMSRepository.GetWorkingPointsPerUser(userId, lContextPerRequest);
                return Json(workingPoints, JsonRequestBehavior.AllowGet);
-
-
             }
          }
          catch (Exception ex)
@@ -64,19 +62,19 @@ namespace SmsFeedback_Take4.Controllers
           if (conversationId == null)
           {
               logger.Error("no conversationId passed");
-              return Json(new Error(Constants.noConvIdErrorMessage), JsonRequestBehavior.AllowGet);
+              return Json(new Error(Constants.NO_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
           }
 
-          if (conversationId.Equals(Constants.nullString))
+          if (conversationId.Equals(Constants.NULL_STRING))
           {
               logger.Error("conversationId was null");
-              return Json(new Error(Constants.nullConvIdErrorMessage), JsonRequestBehavior.AllowGet);
+              return Json(new Error(Constants.NULL_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
           }
          try
          {
             logger.Debug(String.Format("Show messages for conversation: {0}", conversationId));
             smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-            return Json(SMSRepository.GetMessagesForConversation(conversationId,lContextPerRequest), JsonRequestBehavior.AllowGet);
+            return Json( SMSRepository.GetMessagesForConversation(conversationId,lContextPerRequest), JsonRequestBehavior.AllowGet);            
          }
          catch (Exception ex)
          {
@@ -92,13 +90,13 @@ namespace SmsFeedback_Take4.Controllers
           if (conversationId == null)
           {
               logger.Error("no conversationId passed");
-              return Json(new Error(Constants.noConvIdErrorMessage), JsonRequestBehavior.AllowGet);
+              return Json(new Error(Constants.NO_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
           }
 
-          if (conversationId.Equals(Constants.nullString))
+          if (conversationId.Equals(Constants.NULL_STRING))
           {
               logger.Error("conversationId was null");
-              return Json(new Error(Constants.nullConvIdErrorMessage), JsonRequestBehavior.AllowGet);
+              return Json(new Error(Constants.NULL_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
           }
          logger.InfoFormat("Marking conversation [{0}] as read", conversationId);
          smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
@@ -120,13 +118,13 @@ namespace SmsFeedback_Take4.Controllers
           if (conversationId == null)
           {
               logger.Error("no conversationId passed");
-              return Json(new Error(Constants.noConvIdErrorMessage), JsonRequestBehavior.AllowGet);
+              return Json(new Error(Constants.NO_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
           }
 
-         if (conversationId.Equals(Constants.nullString)) 
+         if (conversationId.Equals(Constants.NULL_STRING)) 
          {
             logger.Error("conversationId was null");
-            return Json(new Error(Constants.nullConvIdErrorMessage), JsonRequestBehavior.AllowGet);
+            return Json(new Error(Constants.NULL_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
          }
          if (newStarredStatus.HasValue)
          {
@@ -144,7 +142,7 @@ namespace SmsFeedback_Take4.Controllers
          }
          else {
             logger.Error("Please provide a valid starredStatus");
-            return Json(new Error(Constants.nullStarredStatusErrorMessage), JsonRequestBehavior.AllowGet);
+            return Json(new Error(Constants.NULL_STARRED_STATUS_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
          }
       }
 

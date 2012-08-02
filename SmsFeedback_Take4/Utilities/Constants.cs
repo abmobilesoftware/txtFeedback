@@ -8,10 +8,10 @@ namespace SmsFeedback_Take4.Utilities
     public class Constants
     {
 
-        public const String nullConvIdErrorMessage = "NullConvId";
-        public const String nullString = "null";
-        public const String invalidConvIdErrorMessage = "InvalidConvId";
-        public const String noConvIdErrorMessage = "noConvIdPassed";
-        public const String nullStarredStatusErrorMessage = "nullStarredStatus";
+        public const String NULL_CONVID_ERROR_MESSAGE = "NullConvId";
+        public const String NULL_STRING = "null";
+        public const String INVALID_CONVID_ERROR_MESSAGE = "InvalidConvId";
+        public const String NO_CONVID_ERROR_MESSAGE = "noConvIdPassed";
+        public const String NULL_STARRED_STATUS_ERROR_MESSAGE = "nullStarredStatus";
     }
 }
