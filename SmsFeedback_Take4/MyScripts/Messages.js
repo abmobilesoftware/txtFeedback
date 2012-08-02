@@ -143,15 +143,13 @@ function MessagesArea(convView, tagsArea) {
         var from = fromTo[0];
         var to = fromTo[1];
         //send it to the server
-        //$.getJSON('Messages/SendMessage',
-        //        { from: from, to: to, text: msgContent },
-        //        function (data) {
-        //            //delivered successfully? if yes - indicate this
-        //         console.log(data);
-        //         }
-        //        },
-        //
-        //);
+        $.getJSON('Messages/SendMessage',
+                { from: to, to: from, convId: self.currentConversationId, text: msgContent },
+                function (data) {
+                    //delivered successfully? if yes - indicate this
+                    console.log(data);
+                 }                     
+        );
 
         //TODO should be RFC822 format
         var timeSent = new Date();
@@ -272,7 +270,7 @@ function MessagesArea(convView, tagsArea) {
             //$("#messagesbox").selectable();
         },
         resetViewToDefault: function () {
-            $('#messagesbox').html(' No conversation selected, please select one');
+            $('#messagesbox').html($("#noConversationSelectedMessage").val());
             $("#textareaContainer").addClass("invisible");
             $("#tagsContainer").addClass("invisible");
             self.currentConversationId = '';
@@ -360,12 +358,12 @@ function MessagesArea(convView, tagsArea) {
             newMsg.set("From", fromID);
             newMsg.set("ConvID", convID);
             newMsg.set("Text", text);
-            newMsg.set("TimeReceived", dateReceived);
+            //we receive the date as RFC 822 string - we need to convert it to a valid Date
+            newMsg.set("TimeReceived", new Date(Date.parse(dateReceived)));
             //we add the message only if are in correct conversation
             if (app.globalMessagesRep[convID] !== undefined) {
                 app.globalMessagesRep[convID].add(newMsg);
             }
-
         },
         appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
             var msgView = new MessageView({ model: msg });

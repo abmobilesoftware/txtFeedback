@@ -124,6 +124,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load More Conversations.
+        /// </summary>
+        public static string loadMoreConversations {
+            get {
+                return ResourceManager.GetString("loadMoreConversations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log On.
         /// </summary>
         public static string LogOnButtonMessage {
@@ -228,6 +237,15 @@ namespace Resources {
         public static string logOnWithUserPassMsg {
             get {
                 return ResourceManager.GetString("logOnWithUserPassMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No conversation selected, please select one.
+        /// </summary>
+        public static string noConversationSelected {
+            get {
+                return ResourceManager.GetString("noConversationSelected", resourceCulture);
             }
         }
         

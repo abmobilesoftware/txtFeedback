@@ -19,6 +19,10 @@
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.cookie.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.simplemodal.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.tagsinput.js") %>" type="application/javascript"></script>
+
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-de.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-ro.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-en-GB.js") %>" type="application/javascript"></script>
    
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/WorkingPoints.js") %>" type="application/javascript"></script>   
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Messages.js") %>" type="application/javascript"></script>
@@ -89,12 +93,11 @@
                         {% 
                            var fromTo = getFromToFromConversation(ConvID); 
                            var FromNumber = fromTo[0]; 
-                           countryPrefix = FromNumber.substring(0,3);
-                           localPrefix = FromNumber.substring(3, 5);
-                           group1 = FromNumber.substring(5, 9);
-                           group2 = FromNumber.substring(9,13); 
+                           countryPrefix = FromNumber.substring(0,2);
+                           localPrefix = FromNumber.substring(2, FromNumber.length);
+                            
                         %} 
-                        {{ countryPrefix }} ({{ localPrefix }}) {{ group1 }} {{ group2 }} <span class='conversationArrows'> >> </span>  {{ window.app.workingPoints[getFromToFromConversation(ConvID)[1]] }} </span>
+                        ({{ countryPrefix }}) {{ localPrefix }} <span class='conversationArrows'> >> </span>  {{ window.app.workingPoints[getFromToFromConversation(ConvID)[1]] }} </span>
                 </div>
                <div class='clear'></div>
                 <div class="spanClassText rightSideMembers">
@@ -117,8 +120,9 @@
          {% 
              var dateComponents = TimeReceived.toString().split(" ");
              var time = dateComponents[4];               
-        
-            var timeReceivedLocal = $.datepicker.formatDate('DD, MM d, yy', TimeReceived, 
+            var displayPattern = 'DD, MM d, yy';
+            if (window.app.calendarCulture == "ro") displayPattern = 'DD, d MM, yy';       
+            var timeReceivedLocal = $.datepicker.formatDate(displayPattern, TimeReceived, 
                                                             {dayNamesShort: $.datepicker.regional[window.app.calendarCulture].dayNamesShort, dayNames: $.datepicker.regional[window.app.calendarCulture].dayNames,
                                                              monthNamesShort: $.datepicker.regional[window.app.calendarCulture].monthNamesShort, monthNames: $.datepicker.regional[window.app.calendarCulture].monthNames}); 
             var timeReceivedLocal = timeReceivedLocal + " " + time;
@@ -199,14 +203,14 @@
          <div id="conversations" class="conversationbox">
          </div>
          <div id="loadMoreConversations" class="readable">
-            Load More Conversations
+            <%: Resources.Global.loadMoreConversations %>
          </div>
       </div>
    </div>
    <div id="messagesArea" class="grid_6">
       <div id="scrollablemessagebox" class="messagesboxcontainerclass scrollablebox">
          <div id="messagesbox" class="messagesboxclass">
-            <span>No conversation selected, please select one</span>
+            <span><%: Resources.Global.noConversationSelected %></span>
          </div>
       </div>
       <div id="messageTagsSeparator"></div>
@@ -223,14 +227,14 @@
                <br>
                <div class="clear"></div>
                <span><font size="0.5"><input readonly type="text" name="countdown" size="2" value="160"> </font>
-               </span>
-            </div>
+               &nbsp;</span></div>
             </form>
          </div>
          <div id="replyButtonArea">
             <button title="<%: Resources.Global.tooltipReplyBtn %>" id="replyBtn"> <%: Resources.Global.sendButton %></button>
          </div>
          <input type="hidden" value="<%: ViewData["currentCulture"] %>" class="currentCulture" />
+         <input type="hidden" value="<%: Resources.Global.noConversationSelected %>" id="noConversationSelectedMessage" />
       </div>
    </div>
 </asp:Content>

@@ -204,4 +204,10 @@
   <data name="addATagLabel" xml:space="preserve">
     <value>add a tag1</value>
   </data>
+  <data name="loadMoreConversations" xml:space="preserve">
+    <value>Load More Conversations</value>
+  </data>
+  <data name="noConversationSelected" xml:space="preserve">
+    <value>No conversation selected, please select one</value>
+  </data>
 </root>

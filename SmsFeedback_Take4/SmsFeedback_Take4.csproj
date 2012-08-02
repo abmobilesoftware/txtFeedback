@@ -181,6 +181,10 @@
       <DependentUpon>Global.de.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\BusinessObjects\ConversationTag.cs" />
+    <Compile Include="Models\Helpers\RepDataColumn.cs" />
+    <Compile Include="Models\Helpers\RepChartData.cs" />
+    <Compile Include="Models\Helpers\RepDataRow.cs" />
+    <Compile Include="Models\Helpers\RepDataRowCell.cs" />
     <Compile Include="Models\Helpers\Error.cs" />
     <Compile Include="Models\Interfaces\IInternalSMSRepository.cs" />
     <Compile Include="Models\Repositories\EFSmsRepository.cs" />
@@ -213,6 +217,8 @@
   <ItemGroup>
     <Content Include="Content\contact.css" />
     <Content Include="Content\conversations_mb.css" />
+    <Content Include="Content\css\datepicker\datepicker.css" />
+    <Content Include="Content\css\datepicker\layout.css" />
     <Content Include="Content\css\help.css" />
     <Content Include="Content\css\reports.css" />
     <Content Include="Content\css\settings.css" />
@@ -224,6 +230,23 @@
     <Content Include="Content\images\checkbox_checked.png" />
     <Content Include="Content\images\checkbox_unchecked.png" />
     <Content Include="Content\images\close14x14.png" />
+    <Content Include="Content\images\datepicker\custom_b.png" />
+    <Content Include="Content\images\datepicker\custom_bl.png" />
+    <Content Include="Content\images\datepicker\custom_br.png" />
+    <Content Include="Content\images\datepicker\custom_l.png" />
+    <Content Include="Content\images\datepicker\custom_r.png" />
+    <Content Include="Content\images\datepicker\custom_t.png" />
+    <Content Include="Content\images\datepicker\custom_tl.png" />
+    <Content Include="Content\images\datepicker\custom_tr.png" />
+    <Content Include="Content\images\datepicker\datepicker_b.png" />
+    <Content Include="Content\images\datepicker\datepicker_bl.png" />
+    <Content Include="Content\images\datepicker\datepicker_br.png" />
+    <Content Include="Content\images\datepicker\datepicker_l.png" />
+    <Content Include="Content\images\datepicker\datepicker_r.png" />
+    <Content Include="Content\images\datepicker\datepicker_t.png" />
+    <Content Include="Content\images\datepicker\datepicker_tl.png" />
+    <Content Include="Content\images\datepicker\datepicker_tr.png" />
+    <Content Include="Content\images\datepicker\field.png" />
     <Content Include="Content\images\delete.ico" />
     <Content Include="Content\images\exclamation-blue.svg" />
     <Content Include="Content\images\exclamation-green.svg" />
@@ -239,6 +262,7 @@
     <Content Include="Content\images\Ro_flag.png" />
     <Content Include="Content\images\question-green.svg" />
     <Content Include="Content\images\question-orange.svg" />
+    <Content Include="Content\images\star-selected_orange.svg" />
     <Content Include="Content\images\star.svg" />
     <Content Include="Content\images\star-selected.svg" />
     <Content Include="Content\images\transparent.gif" />
@@ -311,6 +335,11 @@
     <Content Include="MyScripts\Minified\Utilities.js" />
     <Content Include="MyScripts\Minified\WorkingPoints.js" />
     <Content Include="MyScripts\Minified\XMPP.js" />
+    <Content Include="MyScripts\Reports\GooglePieChart.js" />
+    <Content Include="MyScripts\Reports\Facade.js" />
+    <Content Include="MyScripts\Reports\GoogleChartsTool.js" />
+    <Content Include="MyScripts\Reports\Report.js" />
+    <Content Include="MyScripts\Reports\Reports.js" />
     <Content Include="MyScripts\WorkingPoints.js" />
     <Content Include="MyScripts\Utilities.js" />
     <Content Include="MyScripts\XMPP.js" />
@@ -321,8 +350,18 @@
     <Content Include="QUnit\QUnitTests.html" />
     <Content Include="QUnit\UtilitiesTests.js" />
     <Content Include="QUnit\WorkingPointsTests.js" />
+    <Content Include="Scripts\datepicker\datepicker.js" />
+    <Content Include="Scripts\datepicker\eye.js" />
+    <Content Include="Scripts\datepicker\jquery.js" />
+    <Content Include="Scripts\datepicker\layout.js" />
+    <Content Include="Scripts\datepicker\utils.js" />
+    <Content Include="Scripts\flxhr\checkplayer.js" />
+    <Content Include="Scripts\flxhr\flensed.js" />
     <Content Include="Scripts\flxhr\flXHR.js" />
+    <Content Include="Scripts\flxhr\flXHR.swf" />
     <Content Include="Scripts\flxhr\strophe.flxhr.js" />
+    <Content Include="Scripts\flxhr\swfobject.js" />
+    <Content Include="Scripts\flxhr\updateplayer.swf" />
     <Content Include="Scripts\jquery.qtip-1.0.0-rc3.min.js" />
     <Content Include="Scripts\jquery.simplemodal.js" />
     <Content Include="Scripts\jquery.tagsinput.js" />
@@ -336,6 +375,7 @@
     <Content Include="Scripts\persist-min.js" />
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\splitter.js" />
+    <Content Include="Scripts\jquery-ui-vertical-buttonset.js" />
     <Content Include="Scripts\strophe\strophe.js" />
     <Content Include="Templates\PhoneTemplates.txt" />
     <Content Include="Scripts\execute.js" />

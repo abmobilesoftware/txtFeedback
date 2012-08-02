@@ -287,12 +287,11 @@ namespace SmsFeedback_Take4.Controllers
          // mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime);         
       }
 
-      public JsonResult SendMessage(String from, String to, String convId,String text)
+      public JsonResult SendMessage(String from, String to, String convId, String text)
       {
          if (HttpContext.Request.IsAjaxRequest())
          {
-            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}]", from, to, convId, text);
-            String conversationId = to + "-" + from;
+            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}]", from, to, text);
             try
             {
                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();

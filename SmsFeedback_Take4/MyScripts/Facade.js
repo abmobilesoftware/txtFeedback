@@ -1,7 +1,7 @@
 ﻿"use strict";
 
 window.app = window.app || {};
-window.app.calendarCulture = "";
+window.app.calendarCulture = "en-GB";
 
 function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
    console.log("inside newMessageReceived");
@@ -71,15 +71,13 @@ $(document).ready(function () {
       $(this).addClass("active-link");
    });
 
-   window.app.calendarCulture = "en-GB";    
-   if ($(".currentCulture").val() != "en-us") {
-       window.app.calendarCulture = $(".currentCulture").val().substring(0,2);
+   var culture = $(".currentCulture").val().substring(0,2).toLowerCase();
+   if (culture == "en") {
+       window.app.calendarCulture = "en-GB";
+   } else {
+       window.app.calendarCulture = culture;
    }
 
-    // default 
-   if ($(".currentCulture").val() == "en") {
-       window.app.calendarCulture = "en-GB";
-   }
 
 });
 

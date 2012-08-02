@@ -202,16 +202,16 @@
     <value>Conectare</value>
   </data>
   <data name="tooltipIncludeDateInFilter" xml:space="preserve">
-    <value>Activati/deactivati filtrul conform datei</value>
+    <value>Activati/dezactivati filtrul conform datei</value>
   </data>
   <data name="tooltipIncludeStarredInFilter" xml:space="preserve">
-    <value>Activati/deactivati filtrul pentru favorite</value>
+    <value>Activati/dezactivati filtrul pentru favorite</value>
   </data>
   <data name="tooltipIncludeTagsInFilter" xml:space="preserve">
-    <value>Activati/deactivati filtrul conform etichetelor</value>
+    <value>Activati/dezactivati filtrul conform etichetelor</value>
   </data>
   <data name="tooltipIncludeUnreadInFilter" xml:space="preserve">
-    <value>Activati/deactivati filtrul pentru conversatiile necitite</value>
+    <value>Activati/dezactivati filtrul pentru conversatiile necitite</value>
   </data>
   <data name="tooltipMarkAsFavouriteImg" xml:space="preserve">
     <value>Marcheaza ca si favorit</value>
@@ -223,9 +223,15 @@
     <value>Trimite ca si email</value>
   </data>
   <data name="tooltipWpImg" xml:space="preserve">
-    <value>Activati/deactivati afisarea mesajelor pentru acest punct de lucru</value>
+    <value>Activati/dezactivati afisarea mesajelor pentru acest punct de lucru</value>
   </data>
   <data name="addATagLabel" xml:space="preserve">
     <value>adauga o eticheta</value>
+  </data>
+  <data name="loadMoreConversations" xml:space="preserve">
+    <value>Incarca mai multe conversatii</value>
+  </data>
+  <data name="noConversationSelected" xml:space="preserve">
+    <value>Nicio conversatie selectata, va rugam sa selectati una</value>
   </data>
 </root>
