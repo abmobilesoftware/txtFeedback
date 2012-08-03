@@ -3,7 +3,7 @@
     google.load('visualization', '1.0', { 'packages': ['corechart'] });
 
     // Set a callback to run when the Google Visualization API is loaded.
-    google.setOnLoadCallback(function () { this.drawChart("15.07.2012", "30.07.2012", "week") });
+    //google.setOnLoadCallback(function () { this.drawChart("15.07.2012", "30.07.2012", "day") });
 
 
     this.drawChart = function (intervalStart, intervalEnd, granularity) {

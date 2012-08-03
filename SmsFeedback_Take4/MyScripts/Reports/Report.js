@@ -7,8 +7,8 @@ function Report() {
         self.initializeCalendar();
         self.initializeButtons();
 
-        self.chartArea = new ChartArea();
-        self.chartArea.drawChart("15.07.2012", "18.07.2012", "week");
+        window.app.chartArea = new ChartArea();
+        window.app.chartArea.drawChart("15.07.2012", "18.07.2012", "day");
     }
 
     this.initializeCalendar = function () {
@@ -39,9 +39,10 @@ function Report() {
 
     this.initializeButtons = function () {
         // Radio buttons setup
+        self = this;
         $("#radio").buttonsetv();
         $(".radioOption").change(function () {
-            self.chartArea.drawChart("15.08.2012", "19.08.2012", $(this).val());
+            window.app.chartArea.drawChart("15.08.2012", "19.08.2012", $(this).val());
         });
     }
 }

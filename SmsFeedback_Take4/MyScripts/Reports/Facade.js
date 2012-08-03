@@ -19,6 +19,10 @@ $(document).ready(function () {
       
     var report = new Report();
     report.initialize();
+
+    
+    var reportsMenuView = new ReportsMenuView({ el: $("#leftColumn") });
+    CollapsibleLists.apply();
    
 });
 

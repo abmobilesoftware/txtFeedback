@@ -85,8 +85,8 @@ function showStatus(message, timeout, additive, isError) {
   
 }
 //the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
-//window.app.domainName = '';
-window.app.domainName = '/smsfeedback';
+window.app.domainName = '';
+//window.app.domainName = '/smsfeedback';
 
 window.app.firstCall = true;
 window.app.requestIndex = 0;
@@ -132,7 +132,7 @@ function setCheckboxState(checkbox, state)
 
 window.app.updateNrOfUnreadConversations = function (performUpdateBefore) {
    console.log("updateNrOfUnreadConversations called");
-   $.getJSON('Messages/NrOfUnreadConversations',
+   $.getJSON(window.app.domainName + '/Messages/NrOfUnreadConversations',
    {
       performUpdateBefore: performUpdateBefore
    }, 
