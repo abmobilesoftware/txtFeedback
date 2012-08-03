@@ -458,6 +458,7 @@
     <None Include="Properties\PublishProfiles\cluj.info.pubxml" />
     <Content Include="Views\UserMailer\_Layout.Master" />
     <Content Include="Scripts\jquery.cookie.js" />
+    <None Include="Properties\PublishProfiles\ToClujInfo.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GlobalResources\Global.ro.resx">
