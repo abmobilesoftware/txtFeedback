@@ -210,4 +210,13 @@
   <data name="loginUnsuccessfulSummary" xml:space="preserve">
     <value>Login was unsuccessful. Please correct the errors and try again.1</value>
   </data>
+  <data name="loadMoreConversations" xml:space="preserve">
+    <value>Load more conversations1</value>
+  </data>
+  <data name="lblNoConversationSelected" xml:space="preserve">
+    <value>No conversation selected, please select one1</value>
+  </data>
+  <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
+    <value>Number of conversations with unread messages1</value>
+  </data>
 </root>

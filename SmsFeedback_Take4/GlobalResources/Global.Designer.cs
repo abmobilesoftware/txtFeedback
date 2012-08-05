@@ -106,6 +106,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No conversation selected, please select one.
+        /// </summary>
+        public static string lblNoConversationSelected {
+            get {
+                return ResourceManager.GetString("lblNoConversationSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to password.
         /// </summary>
         public static string lblPassword {
@@ -120,6 +129,15 @@ namespace Resources {
         public static string lblUserName {
             get {
                 return ResourceManager.GetString("lblUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load more conversations.
+        /// </summary>
+        public static string loadMoreConversations {
+            get {
+                return ResourceManager.GetString("loadMoreConversations", resourceCulture);
             }
         }
         
@@ -372,6 +390,15 @@ namespace Resources {
         public static string tooltipMarkAsFavouriteImg {
             get {
                 return ResourceManager.GetString("tooltipMarkAsFavouriteImg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of conversations with unread messages.
+        /// </summary>
+        public static string tooltipNrOfConvsWithUnreadMsgs {
+            get {
+                return ResourceManager.GetString("tooltipNrOfConvsWithUnreadMsgs", resourceCulture);
             }
         }
         

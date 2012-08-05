@@ -16,14 +16,16 @@ namespace System.Web.Mvc.Html
              this HtmlHelper htmlHelper,
              string linkText,
              string actionName,
-             string controllerName
+             string controllerName,
+             string tooltip = ""
+                            
 )
       {
          string currentAction = htmlHelper.ViewContext.RouteData.GetRequiredString("action");
          string currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");
          if (controllerName == "Messages" && actionName=="Index")
          {
-             return MenuLinkForMessages(htmlHelper,linkText,actionName,controllerName);
+            return MenuLinkForMessages(htmlHelper, linkText, actionName, controllerName, tooltip);
            }
          if (actionName == currentAction && controllerName == currentController)
          {
@@ -40,7 +42,7 @@ namespace System.Web.Mvc.Html
          }
          return htmlHelper.ActionLink(linkText, actionName, controllerName);
       }
-      public static MvcHtmlString MenuLinkForMessages(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName) 
+      public static MvcHtmlString MenuLinkForMessages(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, string tooltip) 
       {
          var urlHelper = ((Controller)htmlHelper.ViewContext.Controller).Url;
          var url = "#";
@@ -48,6 +50,7 @@ namespace System.Web.Mvc.Html
             url = urlHelper.Action(actionName, controllerName, null);
          TagBuilder countTag = new TagBuilder("span");
          countTag.MergeAttribute("id", "msgTabcount");
+         countTag.MergeAttribute("title",tooltip);
          countTag.SetInnerText("(0)");
 
          TagBuilder txtlink = new TagBuilder("a");

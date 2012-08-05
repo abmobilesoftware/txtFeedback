@@ -203,14 +203,14 @@
          <div id="conversations" class="conversationbox">
          </div>
          <div id="loadMoreConversations" class="readable">
-            Load More Conversations
+            <%: Resources.Global.loadMoreConversations %>
          </div>
       </div>
    </div>
    <div id="messagesArea" class="grid_6">
       <div id="scrollablemessagebox" class="messagesboxcontainerclass scrollablebox">
          <div id="messagesbox" class="messagesboxclass">
-            <span>No conversation selected, please select one</span>
+            <span><%: Resources.Global.lblNoConversationSelected%></span>
          </div>
       </div>
       <div id="messageTagsSeparator"></div>
