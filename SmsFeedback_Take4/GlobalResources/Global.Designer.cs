@@ -304,7 +304,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Messages.
+        ///   Looks up a localized string similar to Conversations.
         /// </summary>
         public static string tabMessages {
             get {

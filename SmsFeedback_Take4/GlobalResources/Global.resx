@@ -136,7 +136,7 @@
     <value>Please enter your user name and password.</value>
   </data>
   <data name="tabMessages" xml:space="preserve">
-    <value>Messages</value>
+    <value>Conversations</value>
   </data>
   <data name="welcomeMessage" xml:space="preserve">
     <value>Welcome</value>
