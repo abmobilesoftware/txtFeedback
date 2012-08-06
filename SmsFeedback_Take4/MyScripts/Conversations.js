@@ -71,10 +71,8 @@ $(function () {
             this.$el.addClass("conversation");
             this.$el.addClass(readUnread);
             $(this.el).attr("conversationId", this.model.attributes.ConvID);
-            $(".conversationStarIcon img", this.$el).qtip({
-                content: { text: false },
-                style: 'dark'
-            });
+            var markAsFavImg = $(".conversationStarIcon img", this.$el);
+            setTooltipOnElement(markAsFavImg,markAsFavImg.attr('tooltiptitle'), 'dark');            
 
             //#region Click on Mark as Favorite
             $(".conversationStarIconImg", this.$el).bind("click", function (e) {
@@ -91,7 +89,7 @@ $(function () {
                 }
                 var starredStatus = selfConvView.model.get("Starred");
                 //hide the tooltip before changing the model
-                $(".conversationStarIcon img", selfConvView.$el).qtip("destroy");
+             
                 selfConvView.model.set("Starred", !starredStatus);
 
                 $.getJSON('Messages/ChangeStarredStatusForConversation',
@@ -105,11 +103,14 @@ $(function () {
             return this;
         },
         updateFavouritesIcon: function () {
+           var markAsFavImg = $(".conversationStarIcon img", this.$el);           
+           markAsFavImg.qtip("destroy");
             if (this.model.get("Starred")) {
-                $(".conversationStarIconImg", this.$el).attr("src", window.app.domainName + "/Content/images/star-selected_orange.svg");
+               markAsFavImg.attr("src", window.app.domainName + "/Content/images/star-selected_orange.svg");
             } else {
-                $(".conversationStarIconImg", this.$el).attr("src", window.app.domainName + "/Content/images/star.svg");
-            }
+               markAsFavImg.attr("src", window.app.domainName + "/Content/images/star.svg");
+             }
+            setTooltipOnElement(markAsFavImg, markAsFavImg.attr('tooltiptitle'), 'dark');
         }
     });
 });
@@ -121,7 +122,7 @@ function ConversationArea(filterArea, workingPointsArea) {
     var opts = {
         lines: 13, // The number of lines to draw
         length: 7, // The length of each line
-        width: 4, // The line thickness
+        width: 4, // The line7 thickness
         radius: 10, // The radius of the inner circle
         rotate: 0, // The rotation offset
         color: '#000', // #rgb or #rrggbb

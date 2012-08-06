@@ -68,7 +68,7 @@
    </script>
    <script type="text/template" id="phoneNumber-template">       
 		<span >
-            <img title="<%: Resources.Global.tooltipWpImg %>" src="<%: Url.Content("~/Content/images/check-white.svg") %>" class="wpItem wpSelectorIcon deletePhoneNumberIconSelected" />		
+            <img tooltiptitle="<%: Resources.Global.tooltipWpImg %>" src="<%: Url.Content("~/Content/images/check-white.svg") %>" class="wpItem wpSelectorIcon deletePhoneNumberIconSelected" />		
 			<span class="wpItem" >{{ Name }}</span>						
 		</span>
    </script>
@@ -105,9 +105,9 @@
                 </div>
                 <div class="conversationStarIcon">
                     {% if (Starred) { %}
-                            <img title="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected_orange.svg") %>" class="conversationStarIconImg" />
+                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected_orange.svg") %>" class="conversationStarIconImg" />
                     {% } else { %}
-                            <img title="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star.svg") %>" class="conversationStarIconImg" /> 
+                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star.svg") %>" class="conversationStarIconImg" /> 
                     {% } %}
                 </div>
             </div>                         
@@ -136,7 +136,7 @@
        <div class="innerExtraMenu">
             
             <div class="actionButtons sendEmailButton">
-               <img title="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/mail.png") %>" />
+               <img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/mail.png") %>" />
             </div>
          <div class="clear"></div>                       
          </div>               
@@ -157,7 +157,7 @@
        <div class="grid_4_custom filterStripElement">
          <div id="dateFilterArea">
             <div id="dateLabel" class="filterLabel">
-               <img title="<%: Resources.Global.tooltipIncludeDateInFilter %>" id="includeDateInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+               <img tooltiptitle="<%: Resources.Global.tooltipIncludeDateInFilter %>" id="includeDateInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
                <span style="vertical-align: middle">
                   <%: Resources.Global.dateLabel %></span>
@@ -170,13 +170,13 @@
             </div>
          </div>
          <div id="starredFilterArea" class="filterLabel">
-            <img id="includeStarredInFilter" title="<%: Resources.Global.tooltipIncludeStarredInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+            <img id="includeStarredInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeStarredInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
             <span style="vertical-align: middle">
                <%: Resources.Global.starredLabel %></span>
          </div>
          <div id="unreadFilterArea" class="filterLabel">
-            <img id="includeUnreadInFilter" title="<%: Resources.Global.tooltipIncludeUnreadInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+            <img id="includeUnreadInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeUnreadInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
             <span style="vertical-align: middle">
                <%: Resources.Global.readLabel %></span>
@@ -184,7 +184,7 @@
       </div>
       <div class="grid_6 filterStripElement tagFilterArea">
          <div id="tagsLabel" class="filterLabel">
-            <img id="includeTagsInFilter" title="<%: Resources.Global.tooltipIncludeTagsInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+            <img id="includeTagsInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeTagsInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
             <span style="vertical-align: middle">
                <%: Resources.Global.tagsLabel %></span>
@@ -231,7 +231,7 @@
             </form>
          </div>
          <div id="replyButtonArea">
-            <button title="<%: Resources.Global.tooltipReplyBtn %>" id="replyBtn"> <%: Resources.Global.sendButton %></button>
+            <button tooltiptitle="<%: Resources.Global.tooltipReplyBtn %>" id="replyBtn"> <%: Resources.Global.sendButton %></button>
          </div>
          <input type="hidden" value="<%: ViewData["currentCulture"] %>" class="currentCulture" />
          <input type="hidden" value="<%: Resources.Global.lblNoConversationSelected %>" id="noConversationSelectedMessage" />
