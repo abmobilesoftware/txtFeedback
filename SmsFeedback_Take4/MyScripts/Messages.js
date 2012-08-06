@@ -275,7 +275,7 @@ function MessagesArea(convView, tagsArea) {
             //$("#messagesbox").selectable();
         },
         resetViewToDefault: function () {
-            $('#messagesbox').html(' No conversation selected, please select one');
+            $('#messagesbox').html($("#noConversationSelectedMessage").val());
             $("#textareaContainer").addClass("invisible");
             $("#tagsContainer").addClass("invisible");
             self.currentConversationId = '';
@@ -369,7 +369,6 @@ function MessagesArea(convView, tagsArea) {
             if (app.globalMessagesRep[convID] !== undefined) {
                 app.globalMessagesRep[convID].add(newMsg);
             }
-
         },
         appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
             var msgView = new MessageView({ model: msg });

@@ -284,17 +284,17 @@ namespace SmsFeedback_Take4.Controllers
          mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime,dbContext);         
       }
 
-      public JsonResult SendMessage(String from, String to, String convId,String text)
+      public JsonResult SendMessage(String from, String to, String convId, String text)
       {
          if (HttpContext.Request.IsAjaxRequest())
          {
-            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}]", from, to, convId, text);            
+            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}]", from, to, text);
             try
             {
                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();             
                SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgDateSent) =>
                {
-                  AddMessageAndUpdateConversation(from, to, convId, text, true, msgDateSent, lContextPerRequest);
+                  AddMessageAndUpdateConversation(from, to, convId, text, false, msgDateSent, lContextPerRequest);
                });
                //we should wait for the call to finish
                //I should return the sent time (if successful)              

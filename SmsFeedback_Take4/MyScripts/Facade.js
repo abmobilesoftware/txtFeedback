@@ -72,11 +72,11 @@ $(document).ready(function () {
    });
    window.app = window.app || {};
 
-   var culture = $(".currentCulture").val().substring(0, 2).toLowerCase();
+   var culture = $(".currentCulture").val().substring(0,2).toLowerCase();
    if (culture == "en") {
-      window.app.calendarCulture = "en-GB";
+       window.app.calendarCulture = "en-GB";
    } else {
-      window.app.calendarCulture = culture;
+       window.app.calendarCulture = culture;
    }
 
 

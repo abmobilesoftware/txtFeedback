@@ -10,6 +10,11 @@ by customizing this MSBuild file. In order to learn more about this please visit
   <PropertyGroup>
     <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
     <LastUsedPlatform>Any CPU</LastUsedPlatform>
+
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA7s/JKu/vKkC1sVAUkxuc3wAAAAACAAAAAAAQZgAAAAEAACAAAAAZnkEPSaL5Q+k9WxaI6mpxafhXmHD5foCS44mcBuCNRAAAAAAOgAAAAAIAACAAAADiyh5kJspfTz+00qPjCznwboGwK+ThcmsQPfwkVcWYlSAAAABDohZQZRablEvvCWBgY4NJgVJSTD/gcbf3S0Bsi8LpL0AAAABDhlc5nLf1ZfUX9ahfgif9cPD83QWNBqP6rKkytz2B0yVrJg6qoSY00kEUMh1T/ptXjQ0frfycXlCKNzFjyNP3</EncryptedPassword>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA6D2/0eYoOEOspK/DV0RawwAAAAACAAAAAAAQZgAAAAEAACAAAADGUgkMJxbFjSgavIprY/DnTuiLX0m8LJSMZx+LXdSYYAAAAAAOgAAAAAIAACAAAADsIpSNAzzprskrlWX7NeliWSohU0ZKv/FsP06rlTOkdyAAAADAbgFkr9F+gt8FXMvzwG13xvGn/0v2BOaPfpAkpGLeKUAAAADmo9ZWlh8r5M08GlcSBSSbEeS7c/PXsG60UiV9kIFFTB3TdtW/LztgfvuwerdnIA6bUvL8+eO/iOAj0lFJD5wa</EncryptedPassword>
+592fb622cdddc76fc14363afcf0f9414b588e369
   </PropertyGroup>
 </Project>

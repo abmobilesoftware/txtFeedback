@@ -13,5 +13,9 @@ namespace SmsFeedback_Take4.Utilities
         public const String INVALID_CONVID_ERROR_MESSAGE = "InvalidConvId";
         public const String NO_CONVID_ERROR_MESSAGE = "noConvIdPassed";
         public const String NULL_STARRED_STATUS_ERROR_MESSAGE = "nullStarredStatus";
+        public const String dayGranularity = "day";
+        public const String weekGranularity = "week";
+        public const String monthGranularity = "month";
+        
     }
 }

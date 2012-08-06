@@ -54,9 +54,11 @@ $(function () {
         model: app.Conversation,
         tagName: "div",
         conversationTemplate: _.template($('#conversation-template').html()),
+        self: this,
         initialize: function () {
-            _.bindAll(this, 'render');
-            this.model.on("change", this.render);
+            _.bindAll(this, 'render', "updateFavouritesIcon");
+            this.model.on("change:Starred", this.updateFavouritesIcon);
+            this.model.on("change:Read", this.render);
             return this.render;
         },
         render: function () {
@@ -101,6 +103,13 @@ $(function () {
             });
             //#endregion
             return this;
+        },
+        updateFavouritesIcon: function () {
+            if (this.model.get("Starred")) {
+                $(".conversationStarIconImg", this.$el).attr("src", window.app.domainName + "/Content/images/star-selected_orange.svg");
+            } else {
+                $(".conversationStarIconImg", this.$el).attr("src", window.app.domainName + "/Content/images/star.svg");
+            }
         }
     });
 });
