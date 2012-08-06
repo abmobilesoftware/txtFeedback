@@ -38,7 +38,7 @@ namespace SmsFeedback_Take4
              "Localization", // Route name
              "{lang}/{controller}/{action}/{id}", // URL with parameters
              new { controller = "Messages", action = "Index", id = UrlParameter.Optional },// Parameter defaults
-             new { lang = @"\w{2,3}(-\w{4})?(-\w{2,3})?"} //match the language and pass it as a parameter
+             new { lang = @"\w{2,3}(-\w{4})?(-\w{2,3})?" } //match the language and pass it as a parameter
             );
 
             routes.MapRoute(
