@@ -231,20 +231,14 @@
   <data name="loadMoreConversations" xml:space="preserve">
     <value>Incarca mai multe conversatii</value>
   </data>
-  <data name="noConversationSelected" xml:space="preserve">
-    <value>Nicio conversatie selectata, va rugam sa selectati una</value>
-  </data>
   <data name="loginUnsuccessfulDetails" xml:space="preserve">
     <value>Utilizator sau parola incorecte</value>
   </data>
   <data name="loginUnsuccessfulSummary" xml:space="preserve">
     <value>Logare esuata. Corectati erorile si incercati din nou.</value>
   </data>
-  <data name="loadMoreConversations" xml:space="preserve">
-    <value>Incarca mai multe conversatii</value>
-  </data>
   <data name="lblNoConversationSelected" xml:space="preserve">
-    <value>Nu aveti selectata nici o conversatie</value>
+    <value>Nici o conversatie selectata, va rugam sa selectati una</value>
   </data>
   <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
     <value>Numarul conversatiilor cu mesaje necitite</value>

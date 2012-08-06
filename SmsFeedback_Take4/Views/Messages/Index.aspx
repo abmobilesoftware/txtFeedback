@@ -234,7 +234,7 @@
             <button title="<%: Resources.Global.tooltipReplyBtn %>" id="replyBtn"> <%: Resources.Global.sendButton %></button>
          </div>
          <input type="hidden" value="<%: ViewData["currentCulture"] %>" class="currentCulture" />
-         <input type="hidden" value="<%: Resources.Global.noConversationSelected %>" id="noConversationSelectedMessage" />
+         <input type="hidden" value="<%: Resources.Global.lblNoConversationSelected %>" id="noConversationSelectedMessage" />
       </div>
    </div>
 </asp:Content>

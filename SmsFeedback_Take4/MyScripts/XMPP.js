@@ -26,6 +26,7 @@ $(function () {
    });
 
    $(document).bind('msgReceived', function (ev, data) {
+      console.log("xmpp message received");
       if (data.messageIsSent === undefined || (data.messageIsSent !== undefined && !data.messageIsSent)) {
          signalMsgReceivedAtServer(data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
       }
