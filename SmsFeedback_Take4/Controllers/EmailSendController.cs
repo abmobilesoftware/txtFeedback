@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Mvc.Mailer;
+using SmsFeedback_EFModels;
 using SmsFeedback_Take4.Mailers;
+using SmsFeedback_Take4.Utilities;
 
 namespace SmsFeedback_Take4.Controllers
 {    
@@ -25,9 +27,18 @@ namespace SmsFeedback_Take4.Controllers
            ViewResult result = null;
            try
            {
+              
               ViewData["emailText"] = emailText;
-              string[] fromTo =convID.Split('-');
-              ViewData["emailSubject"] = "Txt exchange between " + fromTo[0] + " and " + fromTo[1];
+              string[] fromTo = ConversationUtilities.GetFromAndToFromConversationID(convID);
+              smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+              var wpTelNumber = fromTo[1];
+              var lEfInteraction = new EFInteraction();
+              var wpName = lEfInteraction.GetNameForWorkingPoint(wpTelNumber, lContextPerRequest);
+              if (String.IsNullOrEmpty(wpName))
+              {
+                 wpName = wpTelNumber;
+              }
+              ViewData["emailSubject"] = Resources.Global.sendEmailPrefixSubject + fromTo[0] + Resources.Global.sendEmailConjuctionSubject + wpName + "]";
               result = View();
            }
            catch (Exception ex)
@@ -43,7 +54,6 @@ namespace SmsFeedback_Take4.Controllers
           set { _mailer = value; }
        }
 
-
        [HttpPost]
        public ActionResult SendEmail(FormCollection formData)
         {
@@ -56,7 +66,7 @@ namespace SmsFeedback_Take4.Controllers
 
           //msg.From = new System.Net.Mail.MailAddress(System.Web.Security.Membership.GetUser(this.User.Identity.Name).Email);
           msg.Send();
-          return Json("Sent successfully");
+          return Json(Resources.Global.sendEmailEmailSentSuccessfuly);
         }
 
     }

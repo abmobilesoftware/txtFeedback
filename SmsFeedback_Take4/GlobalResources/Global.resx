@@ -243,4 +243,52 @@
   <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
     <value>Number of conversations with unread messages</value>
   </data>
+  <data name="sendEmailHeader" xml:space="preserve">
+    <value>Send email</value>
+  </data>
+  <data name="sendEmailMessage" xml:space="preserve">
+    <value>*Message:</value>
+  </data>
+  <data name="sendEmailSubject" xml:space="preserve">
+    <value>*Subject:</value>
+  </data>
+  <data name="sendEmailTo" xml:space="preserve">
+    <value>*To:</value>
+  </data>
+  <data name="sendEmailCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="sendEmailConjuctionSubject" xml:space="preserve">
+    <value>] and [</value>
+  </data>
+  <data name="sendEmailEmailSent" xml:space="preserve">
+    <value>Email sent!</value>
+  </data>
+  <data name="sendEmailEmailSentSuccessfuly" xml:space="preserve">
+    <value>Email sent successfuly</value>
+  </data>
+  <data name="sendEmailLoadingScreen" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="sendEmailPrefixSubject" xml:space="preserve">
+    <value>Txt exchange between [</value>
+  </data>
+  <data name="sendEmailSend" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="sendEmailSendingEmail" xml:space="preserve">
+    <value>Sending...</value>
+  </data>
+  <data name="sendEmailValidationEmailInvalid" xml:space="preserve">
+    <value>Email is invalid. </value>
+  </data>
+  <data name="sendEmailValidationEmailRequired" xml:space="preserve">
+    <value>Email is required. </value>
+  </data>
+  <data name="sendEmailValidationMessageRequired" xml:space="preserve">
+    <value>Message is required. </value>
+  </data>
+  <data name="sendEmailValidationSubjectRequired" xml:space="preserve">
+    <value>Subject is required. </value>
+  </data>
 </root>

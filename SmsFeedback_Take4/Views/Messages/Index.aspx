@@ -55,6 +55,8 @@
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Filtering.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/ConversationTags.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Facade.js")%>" type="application/javascript"></script>   
+   
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/contact.css") %>"/> 
    <% } %>
 
    
@@ -235,6 +237,13 @@
          </div>
          <input type="hidden" value="<%: ViewData["currentCulture"] %>" class="currentCulture" />
          <input type="hidden" value="<%: Resources.Global.lblNoConversationSelected %>" id="noConversationSelectedMessage" />
+         <input type="hidden" value="<%: Resources.Global.sendEmailLoadingScreen %>" id="sendEmailLoadingMsg" />
+         <input type="hidden" value="<%: Resources.Global.sendEmailSendingEmail %>" id="sendEmailSendingEmailMsg" />
+         <input type="hidden" value="<%: Resources.Global.sendEmailEmailSent %>" id="sendEmailEmailSentMsg" />
+         <input type="hidden" value="<%: Resources.Global.sendEmailValidationMessageRequired %>" id="sendEmailValidationMessageRequiredMsg" />
+         <input type="hidden" value="<%: Resources.Global.sendEmailValidationEmailInvalid %>" id="sendEmailValidationEmailInvalidMsg" />
+         <input type="hidden" value="<%: Resources.Global.sendEmailValidationEmailRequired %>" id="sendEmailValidationEmailRequiredMsg" />
+         <input type="hidden" value="<%: Resources.Global.sendEmailValidationSubjectRequired %>" id="sendEmailValidationSubjectRequiredMsg" />
       </div>
    </div>
 </asp:Content>

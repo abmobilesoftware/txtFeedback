@@ -243,4 +243,52 @@
   <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
     <value>Numarul conversatiilor cu mesaje necitite</value>
   </data>
+  <data name="sendEmailHeader" xml:space="preserve">
+    <value>Trimite email</value>
+  </data>
+  <data name="sendEmailMessage" xml:space="preserve">
+    <value>*Mesaj:</value>
+  </data>
+  <data name="sendEmailSubject" xml:space="preserve">
+    <value>*Subiect:</value>
+  </data>
+  <data name="sendEmailTo" xml:space="preserve">
+    <value>*Catre:</value>
+  </data>
+  <data name="sendEmailCancel" xml:space="preserve">
+    <value>Anuleaza</value>
+  </data>
+  <data name="sendEmailConjuctionSubject" xml:space="preserve">
+    <value>] si [</value>
+  </data>
+  <data name="sendEmailEmailSent" xml:space="preserve">
+    <value>Email trimis!</value>
+  </data>
+  <data name="sendEmailEmailSentSuccessfuly" xml:space="preserve">
+    <value>Email trimis cu succes</value>
+  </data>
+  <data name="sendEmailLoadingScreen" xml:space="preserve">
+    <value>Incarca...</value>
+  </data>
+  <data name="sendEmailPrefixSubject" xml:space="preserve">
+    <value>Schimb txt intre [</value>
+  </data>
+  <data name="sendEmailSend" xml:space="preserve">
+    <value>Trimite</value>
+  </data>
+  <data name="sendEmailSendingEmail" xml:space="preserve">
+    <value>Trimite...</value>
+  </data>
+  <data name="sendEmailValidationEmailInvalid" xml:space="preserve">
+    <value>Adresa email invalida. </value>
+  </data>
+  <data name="sendEmailValidationEmailRequired" xml:space="preserve">
+    <value>Destinatar necesar. </value>
+  </data>
+  <data name="sendEmailValidationMessageRequired" xml:space="preserve">
+    <value>Mesaj necesar. </value>
+  </data>
+  <data name="sendEmailValidationSubjectRequired" xml:space="preserve">
+    <value>Subiect necesar. </value>
+  </data>
 </root>

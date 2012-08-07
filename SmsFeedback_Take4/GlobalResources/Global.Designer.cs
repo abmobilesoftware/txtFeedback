@@ -286,6 +286,150 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string sendEmailCancel {
+            get {
+                return ResourceManager.GetString("sendEmailCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ] and [.
+        /// </summary>
+        public static string sendEmailConjuctionSubject {
+            get {
+                return ResourceManager.GetString("sendEmailConjuctionSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email sent!.
+        /// </summary>
+        public static string sendEmailEmailSent {
+            get {
+                return ResourceManager.GetString("sendEmailEmailSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email sent successfuly.
+        /// </summary>
+        public static string sendEmailEmailSentSuccessfuly {
+            get {
+                return ResourceManager.GetString("sendEmailEmailSentSuccessfuly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send email.
+        /// </summary>
+        public static string sendEmailHeader {
+            get {
+                return ResourceManager.GetString("sendEmailHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        public static string sendEmailLoadingScreen {
+            get {
+                return ResourceManager.GetString("sendEmailLoadingScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to *Message:.
+        /// </summary>
+        public static string sendEmailMessage {
+            get {
+                return ResourceManager.GetString("sendEmailMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Txt exchange between [.
+        /// </summary>
+        public static string sendEmailPrefixSubject {
+            get {
+                return ResourceManager.GetString("sendEmailPrefixSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send.
+        /// </summary>
+        public static string sendEmailSend {
+            get {
+                return ResourceManager.GetString("sendEmailSend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sending....
+        /// </summary>
+        public static string sendEmailSendingEmail {
+            get {
+                return ResourceManager.GetString("sendEmailSendingEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to *Subject:.
+        /// </summary>
+        public static string sendEmailSubject {
+            get {
+                return ResourceManager.GetString("sendEmailSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to *To:.
+        /// </summary>
+        public static string sendEmailTo {
+            get {
+                return ResourceManager.GetString("sendEmailTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email is invalid. .
+        /// </summary>
+        public static string sendEmailValidationEmailInvalid {
+            get {
+                return ResourceManager.GetString("sendEmailValidationEmailInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email is required. .
+        /// </summary>
+        public static string sendEmailValidationEmailRequired {
+            get {
+                return ResourceManager.GetString("sendEmailValidationEmailRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message is required. .
+        /// </summary>
+        public static string sendEmailValidationMessageRequired {
+            get {
+                return ResourceManager.GetString("sendEmailValidationMessageRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subject is required. .
+        /// </summary>
+        public static string sendEmailValidationSubjectRequired {
+            get {
+                return ResourceManager.GetString("sendEmailValidationSubjectRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Favorites.
         /// </summary>
         public static string starredLabel {
