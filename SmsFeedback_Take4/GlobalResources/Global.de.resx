@@ -123,17 +123,32 @@
   <data name="accountInformation" xml:space="preserve">
     <value>Account Information1</value>
   </data>
+  <data name="addATagLabel" xml:space="preserve">
+    <value>add a tag1</value>
+  </data>
   <data name="dateLabel" xml:space="preserve">
     <value>Date:1</value>
   </data>
   <data name="fromDate" xml:space="preserve">
     <value>from1</value>
   </data>
+  <data name="lblNoConversationSelected" xml:space="preserve">
+    <value>No conversation selected, please select one1</value>
+  </data>
   <data name="lblPassword" xml:space="preserve">
     <value>password1</value>
   </data>
   <data name="lblUserName" xml:space="preserve">
     <value>username1</value>
+  </data>
+  <data name="loadMoreConversations" xml:space="preserve">
+    <value>Load more conversations1</value>
+  </data>
+  <data name="loginUnsuccessfulDetails" xml:space="preserve">
+    <value>The user name or password provided is incorrect.1</value>
+  </data>
+  <data name="loginUnsuccessfulSummary" xml:space="preserve">
+    <value>Login was unsuccessful. Please correct the errors and try again.1</value>
   </data>
   <data name="LogOnButtonMessage" xml:space="preserve">
     <value>Log On1</value>
@@ -177,6 +192,54 @@
   <data name="sendButton" xml:space="preserve">
     <value>Send1</value>
   </data>
+  <data name="sendEmailCancel" xml:space="preserve">
+    <value>Cancel1</value>
+  </data>
+  <data name="sendEmailConjuctionSubject" xml:space="preserve">
+    <value>] and [1</value>
+  </data>
+  <data name="sendEmailEmailSent" xml:space="preserve">
+    <value>Email sent!1</value>
+  </data>
+  <data name="sendEmailEmailSentSuccessfuly" xml:space="preserve">
+    <value>Email sent successfuly1</value>
+  </data>
+  <data name="sendEmailHeader" xml:space="preserve">
+    <value>Send email1</value>
+  </data>
+  <data name="sendEmailLoadingScreen" xml:space="preserve">
+    <value>Loading...1</value>
+  </data>
+  <data name="sendEmailMessage" xml:space="preserve">
+    <value>*Message:1</value>
+  </data>
+  <data name="sendEmailPrefixSubject" xml:space="preserve">
+    <value>Txt exchange between [1</value>
+  </data>
+  <data name="sendEmailSend" xml:space="preserve">
+    <value>Send1</value>
+  </data>
+  <data name="sendEmailSendingEmail" xml:space="preserve">
+    <value>Sending...1</value>
+  </data>
+  <data name="sendEmailSubject" xml:space="preserve">
+    <value>*Subject:1</value>
+  </data>
+  <data name="sendEmailTo" xml:space="preserve">
+    <value>*To:1</value>
+  </data>
+  <data name="sendEmailValidationEmailInvalid" xml:space="preserve">
+    <value>Email is invalid. 1</value>
+  </data>
+  <data name="sendEmailValidationEmailRequired" xml:space="preserve">
+    <value>Email is required. 1</value>
+  </data>
+  <data name="sendEmailValidationMessageRequired" xml:space="preserve">
+    <value>Message is required. 1</value>
+  </data>
+  <data name="sendEmailValidationSubjectRequired" xml:space="preserve">
+    <value>Subject is required. 1</value>
+  </data>
   <data name="starredLabel" xml:space="preserve">
     <value>Favorites1</value>
   </data>
@@ -198,73 +261,52 @@
   <data name="toDate" xml:space="preserve">
     <value>to1</value>
   </data>
-  <data name="welcomeMessage" xml:space="preserve">
-    <value>Welcome1</value>
+  <data name="tooltipIncludeDateInFilter" xml:space="preserve">
+    <value>Turn date filtering on/off1</value>
   </data>
-  <data name="addATagLabel" xml:space="preserve">
-    <value>add a tag1</value>
+  <data name="tooltipIncludeStarredInFilter" xml:space="preserve">
+    <value>Turn favorites filtering on/off1</value>
   </data>
-  <data name="loadMoreConversations" xml:space="preserve">
-    <value>Load more conversations1</value>
+  <data name="tooltipIncludeTagsInFilter" xml:space="preserve">
+    <value>Turn tag filtering on/off1</value>
   </data>
-  <data name="loginUnsuccessfulDetails" xml:space="preserve">
-    <value>The user name or password provided is incorrect1</value>
+  <data name="tooltipIncludeUnreadInFilter" xml:space="preserve">
+    <value>Turn only unread conversations on/off1</value>
   </data>
-  <data name="loginUnsuccessfulSummary" xml:space="preserve">
-    <value>Login was unsuccessful. Please correct the errors and try again.1</value>
-  </data>
-  <data name="lblNoConversationSelected" xml:space="preserve">
-    <value>No conversation selected, please select one1</value>
+  <data name="tooltipMarkAsFavouriteImg" xml:space="preserve">
+    <value>Mark as favorite1</value>
   </data>
   <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
     <value>Number of conversations with unread messages1</value>
   </data>
-  <data name="sendEmailHeader" xml:space="preserve">
-    <value>Send email1</value>
+  <data name="tooltipReplyBtn" xml:space="preserve">
+    <value>Send reply to customer1</value>
   </data>
-  <data name="sendEmailMessage" xml:space="preserve">
-    <value>*Message:1</value>
+  <data name="tooltipSendEmailImg" xml:space="preserve">
+    <value>Send as email1</value>
   </data>
-  <data name="sendEmailSubject" xml:space="preserve">
-    <value>*Subject:1</value>
+  <data name="tooltipWpImg" xml:space="preserve">
+    <value>Enable/disable displaying of messages for this working point1</value>
   </data>
-  <data name="sendEmailTo" xml:space="preserve">
-    <value>*To:1</value>
+  <data name="welcomeMessage" xml:space="preserve">
+    <value>Welcome1</value>
   </data>
-  <data name="sendEmailCancel" xml:space="preserve">
-    <value>Cancel1</value>
+  <data name="feedbackSendUsFeedback" xml:space="preserve">
+    <value>Send us feedback1</value>
   </data>
-  <data name="sendEmailConjuctionSubject" xml:space="preserve">
-    <value>] and [1</value>
+  <data name="sendFeedbackFeedbackSentSuccessfully" xml:space="preserve">
+    <value>Your feedback has been sent - the TxtFeedback team thanks you for your time!1</value>
   </data>
-  <data name="sendEmailEmailSent" xml:space="preserve">
-    <value>Email sent!1</value>
+  <data name="sendFeedbackHeader" xml:space="preserve">
+    <value>Send feedback1</value>
   </data>
-  <data name="sendEmailEmailSentSuccessfuly" xml:space="preserve">
-    <value>Email sent successfully1</value>
+  <data name="sendFeedbackNegativeFeedbackSubject" xml:space="preserve">
+    <value>I don't like the fact that...1</value>
   </data>
-  <data name="sendEmailLoadingScreen" xml:space="preserve">
-    <value>Loading...1</value>
+  <data name="sendFeedbackPlaceholderMessage" xml:space="preserve">
+    <value>Replace this with your input1</value>
   </data>
-  <data name="sendEmailPrefixSubject" xml:space="preserve">
-    <value>Txt exchange between [1</value>
-  </data>
-  <data name="sendEmailSend" xml:space="preserve">
-    <value>Send1</value>
-  </data>
-  <data name="sendEmailSendingEmail" xml:space="preserve">
-    <value>Sending...1</value>
-  </data>
-  <data name="sendEmailValidationEmailInvalid" xml:space="preserve">
-    <value>Email is invalid.  1</value>
-  </data>
-  <data name="sendEmailValidationEmailRequired" xml:space="preserve">
-    <value>Email is required. 1</value>
-  </data>
-  <data name="sendEmailValidationMessageRequired" xml:space="preserve">
-    <value>Message is required. 1</value>
-  </data>
-  <data name="sendEmailValidationSubjectRequired" xml:space="preserve">
-    <value>Subject is required. 1</value>
+  <data name="sendFeedbackPositiveFeedbackSubject" xml:space="preserve">
+    <value>I like the fact that...1</value>
   </data>
 </root>

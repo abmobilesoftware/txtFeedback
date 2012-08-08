@@ -507,3 +507,16 @@ top: 40px;
 #msgTabcount {
    color: #F7941D;
 }
+
+#feedbackArea {
+   position: absolute;
+   top: 25px;
+   right: 5px;
+   padding-top: 15px;
+   z-index: 5;
+}
+
+   #feedbackArea img {
+      width: 20px;
+      cursor: pointer;
+   }

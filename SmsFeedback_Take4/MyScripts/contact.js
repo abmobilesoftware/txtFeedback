@@ -22,8 +22,44 @@ jQuery(function ($) {
                         onClose: contact.close                        
                     });
                 });
+             });
+
+            $('#sendPositiveFeedback').live("click", function (e) {
+               e.preventDefault();
+               $.get("EmailSend/GetFeedbackForm", { 'positiveFeedback': true }, function (data) {
+                  // create a modal dialog with the data
+                  $(data).modal({
+                     appendTo: 'body',
+                     closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
+                     minWidth: 600,
+                     position: ["15%", "30%"],
+                     overlayId: 'contact-overlay',
+                     containerId: 'contact-container',
+                     onOpen: contact.open,
+                     onShow: contact.show,
+                     onClose: contact.close
+                  });
+               });
+            });
+            $('#sendNegativeFeedback').live("click", function (e) {
+               e.preventDefault();
+               $.get("EmailSend/GetFeedbackForm", { 'positiveFeedback': false }, function (data) {
+                  // create a modal dialog with the data
+                  $(data).modal({
+                     appendTo: 'body',
+                     closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
+                     minWidth: 600,
+                     position: ["15%", "30%"],
+                     overlayId: 'contact-overlay',
+                     containerId: 'contact-container',
+                     onOpen: contact.open,
+                     onShow: contact.show,
+                     onClose: contact.close
+                  });
+               });
             });
         },
+       //#region Open
         open: function (dialog) {
             // add padding to the buttons in firefox/mozilla
             if ($.browser.mozilla) {
@@ -39,7 +75,7 @@ jQuery(function ($) {
             }
 
             // dynamically determine height
-            var h = 290;
+            var h = 300;
             if ($('#contact-subject').length) {
                 h += 26;
             }
@@ -83,6 +119,8 @@ jQuery(function ($) {
                 });
             });
         },
+       //#endregion
+       //#region Show
         show: function (dialog) {
             $('#contact-container .contact-send').click(function (e) {
                 e.preventDefault();
@@ -97,7 +135,8 @@ jQuery(function ($) {
                     $('#contact-container form').fadeOut(200);
                     $('#contact-container .contact-content').animate({
                         height: '80px'
-                    }, function () {
+                     }, function () {
+                        var serializedInfo = $('#contact-container form').serialize();
                         $('#contact-container .contact-loading').fadeIn(200, function () {
                             $.ajax({
                                 url: 'EmailSend/SendEmail',
@@ -135,6 +174,8 @@ jQuery(function ($) {
                 }
             });
         },
+       //#endregion
+       //#region Close
         close: function (dialog) {
             $('#contact-container').fadeOut(400, function () {
                 $.modal.close();
@@ -155,6 +196,7 @@ jQuery(function ($) {
             //    });
             //});
         },
+       //#endregion
         error: function (xhr) {
             alert(xhr.statusText);
         },

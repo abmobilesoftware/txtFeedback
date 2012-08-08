@@ -97,6 +97,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Send us feedback.
+        /// </summary>
+        public static string feedbackSendUsFeedback {
+            get {
+                return ResourceManager.GetString("feedbackSendUsFeedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to from.
         /// </summary>
         public static string fromDate {
@@ -426,6 +435,51 @@ namespace Resources {
         public static string sendEmailValidationSubjectRequired {
             get {
                 return ResourceManager.GetString("sendEmailValidationSubjectRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your feedback has been sent - the TxtFeedback team thanks you for your time!.
+        /// </summary>
+        public static string sendFeedbackFeedbackSentSuccessfully {
+            get {
+                return ResourceManager.GetString("sendFeedbackFeedbackSentSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send feedback.
+        /// </summary>
+        public static string sendFeedbackHeader {
+            get {
+                return ResourceManager.GetString("sendFeedbackHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I don&apos;t like the fact that....
+        /// </summary>
+        public static string sendFeedbackNegativeFeedbackSubject {
+            get {
+                return ResourceManager.GetString("sendFeedbackNegativeFeedbackSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replace this with your input.
+        /// </summary>
+        public static string sendFeedbackPlaceholderMessage {
+            get {
+                return ResourceManager.GetString("sendFeedbackPlaceholderMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I like the fact that....
+        /// </summary>
+        public static string sendFeedbackPositiveFeedbackSubject {
+            get {
+                return ResourceManager.GetString("sendFeedbackPositiveFeedbackSubject", resourceCulture);
             }
         }
         

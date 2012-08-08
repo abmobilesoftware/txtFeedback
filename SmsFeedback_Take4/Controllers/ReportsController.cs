@@ -9,6 +9,7 @@ using SmsFeedback_Take4.Utilities;
 
 namespace SmsFeedback_Take4.Controllers
 {
+   [CustomAuthorizeAtribute]
    public class ReportsController : BaseController
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

@@ -12,11 +12,18 @@ namespace SmsFeedback_Take4.Controllers
 {    
     public class EmailSendController : BaseController
     {
+       #region Private members and properties
        private static readonly log4net.ILog loggerEmailForm = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        //
-        // GET: /EmailSend/
+       
+       private IUserMailer _mailer = new UserMailer();
+       public IUserMailer Mailer
+       {
+          get { return _mailer; }
+          set { _mailer = value; }
+       }
+       #endregion
 
-        public ActionResult Index()
+       public ActionResult Index()
         {
             return View();
         }
@@ -47,11 +54,17 @@ namespace SmsFeedback_Take4.Controllers
            }
            return result;
         }
-       private IUserMailer _mailer = new UserMailer();
-       public IUserMailer Mailer
+
+       [HttpGet]
+       public ActionResult GetFeedbackForm(bool positiveFeedback)
        {
-          get { return _mailer; }
-          set { _mailer = value; }
+          ViewData["emailText"] = Resources.Global.sendFeedbackPlaceholderMessage;
+          string subject = Resources.Global.sendFeedbackPositiveFeedbackSubject;
+          if (!positiveFeedback) subject = Resources.Global.sendFeedbackNegativeFeedbackSubject;
+          ViewData["emailSubject"] = subject;
+          ViewData["emailTo"] = "support@txtfeedback.net";
+          ViewResult res = View();
+          return res;
        }
 
        [HttpPost]
@@ -62,11 +75,13 @@ namespace SmsFeedback_Take4.Controllers
           string message = formData["message"];
           string subject = formData["subject"];
           string from = this.User.Identity.Name;
+          bool isFeedbackForm = Boolean.Parse(formData["isFeedbackForm"]);
           System.Net.Mail.MailMessage msg = Mailer.SendMessageContent(email, subject, message, from);
-
           //msg.From = new System.Net.Mail.MailAddress(System.Web.Security.Membership.GetUser(this.User.Identity.Name).Email);
           msg.Send();
-          return Json(Resources.Global.sendEmailEmailSentSuccessfuly);
+          string msgSentAcknoledgement = Resources.Global.sendEmailEmailSentSuccessfuly;
+          if (isFeedbackForm) msgSentAcknoledgement = Resources.Global.sendFeedbackFeedbackSentSuccessfully;
+          return Json(msgSentAcknoledgement);
         }
 
     }

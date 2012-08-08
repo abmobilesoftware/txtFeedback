@@ -291,4 +291,22 @@
   <data name="sendEmailValidationSubjectRequired" xml:space="preserve">
     <value>Subject is required. </value>
   </data>
+  <data name="feedbackSendUsFeedback" xml:space="preserve">
+    <value>Send us feedback</value>
+  </data>
+  <data name="sendFeedbackFeedbackSentSuccessfully" xml:space="preserve">
+    <value>Your feedback has been sent - the TxtFeedback team thanks you for your time!</value>
+  </data>
+  <data name="sendFeedbackHeader" xml:space="preserve">
+    <value>Send feedback</value>
+  </data>
+  <data name="sendFeedbackNegativeFeedbackSubject" xml:space="preserve">
+    <value>I don't like the fact that...</value>
+  </data>
+  <data name="sendFeedbackPlaceholderMessage" xml:space="preserve">
+    <value>Replace this with your input</value>
+  </data>
+  <data name="sendFeedbackPositiveFeedbackSubject" xml:space="preserve">
+    <value>I like the fact that...</value>
+  </data>
 </root>

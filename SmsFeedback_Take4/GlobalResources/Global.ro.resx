@@ -291,4 +291,22 @@
   <data name="sendEmailValidationSubjectRequired" xml:space="preserve">
     <value>Subiect necesar. </value>
   </data>
+  <data name="feedbackSendUsFeedback" xml:space="preserve">
+    <value>Trimiteti-ne feedback</value>
+  </data>
+  <data name="sendFeedbackFeedbackSentSuccessfully" xml:space="preserve">
+    <value>Feedbackul dumneavoastra a fost trimis - echipa TxtFeedback va multumeste pentru timpul acordat!</value>
+  </data>
+  <data name="sendFeedbackHeader" xml:space="preserve">
+    <value>Trimite feedback</value>
+  </data>
+  <data name="sendFeedbackNegativeFeedbackSubject" xml:space="preserve">
+    <value>Nu imi place faptul ca...</value>
+  </data>
+  <data name="sendFeedbackPlaceholderMessage" xml:space="preserve">
+    <value>Inlocuiti cu mesajul dumneavoastra</value>
+  </data>
+  <data name="sendFeedbackPositiveFeedbackSubject" xml:space="preserve">
+    <value>Imi place faptul ca...</value>
+  </data>
 </root>

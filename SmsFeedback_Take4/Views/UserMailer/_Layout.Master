@@ -20,7 +20,9 @@
     <div id="mail-footer">
         <br />
         ____________________________________________ <br />
-        courtesy of txtFeedback<br />       
+       <img style="height: 20px" src="<%: Url.Abs(Url.Content("~/Content/images/logo1.png")) %>"/>
+       
+       <br />       
     </div>
 </body>
 </html>
