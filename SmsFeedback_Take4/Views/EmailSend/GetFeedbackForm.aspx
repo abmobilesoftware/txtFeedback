@@ -24,6 +24,7 @@
             <br />
             <input type='hidden' name='token' value='" . smcf_token($to) . "' />
             <input type='hidden' name='isFeedbackForm' value='true' />
+            <input type='hidden' name='url' value='<%: ViewData["url"] %>' />
         </form>
         <input type="hidden" value="<%: Resources.Global.sendEmailLoadingScreen %>" id="sendEmailLoadingMsg" />
          <input type="hidden" value="<%: Resources.Global.sendEmailSendingEmail %>" id="sendEmailSendingEmailMsg" />

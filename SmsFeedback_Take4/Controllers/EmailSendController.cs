@@ -56,13 +56,14 @@ namespace SmsFeedback_Take4.Controllers
         }
 
        [HttpGet]
-       public ActionResult GetFeedbackForm(bool positiveFeedback)
+       public ActionResult GetFeedbackForm(bool positiveFeedback, string url)
        {
           ViewData["emailText"] = Resources.Global.sendFeedbackPlaceholderMessage;
           string subject = Resources.Global.sendFeedbackPositiveFeedbackSubject;
           if (!positiveFeedback) subject = Resources.Global.sendFeedbackNegativeFeedbackSubject;
           ViewData["emailSubject"] = subject;
           ViewData["emailTo"] = "support@txtfeedback.net";
+          ViewData["url"] = url;
           ViewResult res = View();
           return res;
        }
@@ -76,7 +77,7 @@ namespace SmsFeedback_Take4.Controllers
           string subject = formData["subject"];
           string from = this.User.Identity.Name;
           bool isFeedbackForm = Boolean.Parse(formData["isFeedbackForm"]);
-          System.Net.Mail.MailMessage msg = Mailer.SendMessageContent(email, subject, message, from);
+          System.Net.Mail.MailMessage msg = Mailer.SendMessageContent(email, subject, message, from, formData["url"]);
           //msg.From = new System.Net.Mail.MailAddress(System.Web.Security.Membership.GetUser(this.User.Identity.Name).Email);
           msg.Send();
           string msgSentAcknoledgement = Resources.Global.sendEmailEmailSentSuccessfuly;

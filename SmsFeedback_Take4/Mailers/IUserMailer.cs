@@ -9,8 +9,8 @@ namespace SmsFeedback_Take4.Mailers
 { 
     public interface IUserMailer
     {
-				
-		MailMessage SendMessageContent(string email, string subject, string content,string from);
+
+       MailMessage SendMessageContent(string email, string subject, string content, string from, string location = "");
 			
 	}
 }

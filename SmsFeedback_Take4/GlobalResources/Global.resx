@@ -294,6 +294,9 @@
   <data name="feedbackSendUsFeedback" xml:space="preserve">
     <value>Send us feedback</value>
   </data>
+  <data name="sendEmailStartingText" xml:space="preserve">
+    <value>Message from TxtFeedback user</value>
+  </data>
   <data name="sendFeedbackFeedbackSentSuccessfully" xml:space="preserve">
     <value>Your feedback has been sent - the TxtFeedback team thanks you for your time!</value>
   </data>

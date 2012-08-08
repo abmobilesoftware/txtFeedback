@@ -16,12 +16,13 @@ namespace SmsFeedback_Take4.Mailers
 		}
 
 		
-		public virtual MailMessage SendMessageContent(string email, string subject, string content,string from)
+		public virtual MailMessage SendMessageContent(string email, string subject, string content,string from, string location ="")
 		{
 			var mailMessage = new MailMessage{Subject = subject};			
 			mailMessage.To.Add(email);
          ViewData["From"] = from;
-         ViewData["Content"] = content;  
+         ViewData["Content"] = content;
+         ViewData["Location"] = location;
 			PopulateBody(mailMessage, viewName: "Welcome");
 			return mailMessage;
 		}

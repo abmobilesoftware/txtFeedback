@@ -50,7 +50,7 @@ jQuery(function ($) {
 
             $('#sendPositiveFeedback').live("click", function (e) {
                e.preventDefault();
-               $.get("EmailSend/GetFeedbackForm", { 'positiveFeedback': true }, function (data) {
+               $.get("EmailSend/GetFeedbackForm", { 'positiveFeedback': true, 'url': document.URL }, function (data) {
                   // create a modal dialog with the data
                   $(data).modal({
                      appendTo: 'body',
@@ -67,7 +67,7 @@ jQuery(function ($) {
             });
             $('#sendNegativeFeedback').live("click", function (e) {
                e.preventDefault();
-               $.get("EmailSend/GetFeedbackForm", { 'positiveFeedback': false }, function (data) {
+               $.get("EmailSend/GetFeedbackForm", { 'positiveFeedback': false, 'url': document.URL }, function (data) {
                   // create a modal dialog with the data
                   $(data).modal({
                      appendTo: 'body',

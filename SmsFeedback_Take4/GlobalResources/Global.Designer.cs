@@ -385,6 +385,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Message from TxtFeedback user.
+        /// </summary>
+        public static string sendEmailStartingText {
+            get {
+                return ResourceManager.GetString("sendEmailStartingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to *Subject:.
         /// </summary>
         public static string sendEmailSubject {

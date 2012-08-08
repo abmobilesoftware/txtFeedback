@@ -13,7 +13,10 @@
 </head>
 <body>
    <div id="mail-message">
-       <h4>Message from txtfeedback user [ <%: ViewData["From"] %> ]</h4> <br />
+       <h4><%: Resources.Global.sendEmailStartingText %> [ <%: ViewData["From"] %> ]</h4> <br />
+       <% if(!String.IsNullOrEmpty((string)ViewData["Location"])) { %>
+         <h4> Location: <%: ViewData["Location"] %> </h4>
+      <%}%>
        <asp:ContentPlaceHolder ID="MainContent" runat="server">
         </asp:ContentPlaceHolder>
     </div>

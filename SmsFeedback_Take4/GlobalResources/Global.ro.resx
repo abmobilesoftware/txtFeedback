@@ -294,6 +294,9 @@
   <data name="feedbackSendUsFeedback" xml:space="preserve">
     <value>Trimiteti-ne feedback</value>
   </data>
+  <data name="sendEmailStartingText" xml:space="preserve">
+    <value>Mesaj de la utilizatorul TxtFeedback </value>
+  </data>
   <data name="sendFeedbackFeedbackSentSuccessfully" xml:space="preserve">
     <value>Feedbackul dumneavoastra a fost trimis - echipa TxtFeedback va multumeste pentru timpul acordat!</value>
   </data>

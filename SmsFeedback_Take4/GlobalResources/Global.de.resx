@@ -309,6 +309,9 @@
   <data name="sendFeedbackPositiveFeedbackSubject" xml:space="preserve">
     <value>I like the fact that...1</value>
   </data>
+  <data name="sendEmailStartingText" xml:space="preserve">
+    <value>Message from TxtFeedback user1</value>
+  </data>
   <data name="tooltipSendNegativeFeedback" xml:space="preserve">
     <value>Send negative feedback1</value>
   </data>
