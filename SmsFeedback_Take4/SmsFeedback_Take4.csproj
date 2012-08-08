@@ -332,7 +332,6 @@
     <Content Include="MyScripts\contact.js" />
     <Content Include="MyScripts\Conversations.js" />
     <Content Include="MyScripts\Facade.js" />
-    <Content Include="MyScripts\Feedback.js" />
     <Content Include="MyScripts\Filtering.js" />
     <Content Include="MyScripts\Messages.js" />
     <Content Include="MyScripts\ConversationTags.js" />
