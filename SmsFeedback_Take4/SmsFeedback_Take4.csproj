@@ -220,6 +220,7 @@
     <Compile Include="Models\BusinessObjects\XmppConn.cs" />
     <Compile Include="Models\Repositories\NexmoSmsRepository.cs" />
     <Compile Include="Nexmo\NexmoTestController.cs" />
+    <Compile Include="Test\HashPassword.cs" />
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\CustomAuthorizeAtribute.cs" />
     <Compile Include="Utilities\EFInteraction.cs" />
