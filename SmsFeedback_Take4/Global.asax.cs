@@ -44,7 +44,7 @@ namespace SmsFeedback_Take4
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Messages", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Account", action = "LogOn", id = UrlParameter.Optional } // Parameter defaults
             );           
         }
 

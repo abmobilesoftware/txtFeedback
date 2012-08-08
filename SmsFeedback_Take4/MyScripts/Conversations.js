@@ -272,7 +272,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                 url: "Messages/ConversationsList",
                 data: options,
                 traditional: true,
-                success: function (data) {
+                success: function (data, textStatus, jqXHR) {
                     spinnerAddConvs.stop();
                     $(target).removeClass("unreadable");
                     $(target).addClass("readable");

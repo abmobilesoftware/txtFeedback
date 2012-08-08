@@ -5,6 +5,9 @@ function showStatus(message, timeout, additive, isError) {
 //the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
 window.app.domainName = '';
 //window.app.domainName = '/smsfeedback';
+window.app.lastAjaxCall = { settings: null, jqXHR: null };
+window.app.loginSummaryUrl = "/Account/LogOnSummary";
+window.app.loginUrl = "/Account/LogOn";
 
 window.app.firstCall = true;
 window.app.requestIndex = 0;
@@ -82,11 +85,38 @@ $(function() {
    
 })
 
-$(function () {   
+$(function () {
    var store = new Persist.Store('SmsFeedback');
    store.get('msgTabcountValue', function (ok, val) {
       if (ok)
          $("#msgTabcount").text(val);
+   });
+   //#endregion
+})
+
+//#region handle "authentication expired"
+$(function () {
+   $(document).ready(function () {
+      $(document).ajaxError(function (event, jqxhr, settings) {
+         if (jqxhr.status == 401) {
+            //for the time being we redirect to the login screen - in the future we should bring up the "relogin" screen
+            window.location.href = window.app.loginUrl;
+            //if (window.app.loginSummaryUrl) {
+            //   if ($('.loginoverlay').length == 0) {
+            //      $("body").prepend("<div id='reLogin'><div class='loginoverlay'/><div class='iframe'><iframe id='relogin' src='" + window.app.loginSummaryUrl + "'></iframe></div></div>");
+            //      $("div.loginoverlay").show();
+            //      $('#summaryLoginBtn').bind('click', function (e) {
+            //         e.preventDefault();
+            //         $("#reLogin").fadeOut(400, function () { });
+            //      });
+            //      window.app.lastAjaxCall.jqXHR = jqxhr;
+            //      window.app.lastAjaxCall.settings = settings;
+            //   }
+            //}
+         }
+      });
+
+      
    });
 })
 //#endregion

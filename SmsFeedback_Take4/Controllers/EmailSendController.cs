@@ -9,7 +9,8 @@ using SmsFeedback_Take4.Mailers;
 using SmsFeedback_Take4.Utilities;
 
 namespace SmsFeedback_Take4.Controllers
-{    
+{
+   [CustomAuthorizeAtribute]
     public class EmailSendController : BaseController
     {
        #region Private members and properties
