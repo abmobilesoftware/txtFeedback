@@ -11,13 +11,13 @@
               <label for='contact-email'><%: Resources.Global.sendEmailTo %></label>
             <input type='text' id='contact-email' class='contact-input' name='email' tabindex='1001' />
              <label for='contact-subject'><%: Resources.Global.sendEmailSubject %></label>
-            <input type='text' id='contact-subject' class='contact-input' name='subject' value=' <%:  ViewData["emailSubject"]%>'
+            <input type='text' id='contact-subject' class='contact-input' name='subject' value='<%:  ViewData["emailSubject"]%>'
                 tabindex='1002' > 
                 
             </input>
            <label for='contact-message'><%: Resources.Global.sendEmailMessage %></label>
             <textarea id='contact-message' class='contact-input' name='message' cols='40' rows='8'
-                tabindex='1003'> <%: ViewData["emailText"] %></textarea>
+                tabindex='1003'><%: ViewData["emailText"] %></textarea>
             <br />
             <label>&nbsp;</label>
             <button type='submit' class='contact-send contact-button' tabindex='1004'> <%: Resources.Global.sendEmailSend %></button>
