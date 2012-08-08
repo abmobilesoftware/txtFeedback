@@ -100,6 +100,7 @@ $(function () {
       $(document).ajaxError(function (event, jqxhr, settings) {
          if (jqxhr.status == 401) {
             //for the time being we redirect to the login screen - in the future we should bring up the "relogin" screen
+            //http://stackoverflow.com/questions/7532261/ajax-and-formsauthentication-how-prevent-formsauthentication-overrides-http-401
             window.location.href = window.app.loginUrl;
             //if (window.app.loginSummaryUrl) {
             //   if ($('.loginoverlay').length == 0) {
