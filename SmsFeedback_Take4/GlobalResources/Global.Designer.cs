@@ -619,6 +619,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Send negative feedback.
+        /// </summary>
+        public static string tooltipSendNegativeFeedback {
+            get {
+                return ResourceManager.GetString("tooltipSendNegativeFeedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send positive feedback.
+        /// </summary>
+        public static string tooltipSendPositiveFeedback {
+            get {
+                return ResourceManager.GetString("tooltipSendPositiveFeedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable/disable displaying of messages for this working point.
         /// </summary>
         public static string tooltipWpImg {

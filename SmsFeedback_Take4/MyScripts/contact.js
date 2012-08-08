@@ -23,6 +23,30 @@ jQuery(function ($) {
                     });
                 });
              });
+           //#region Feedback buttons
+            var sendPosFeedbackButton = $("#sendPositiveFeedback");
+            sendPosFeedbackButton.qtip({
+               content: sendPosFeedbackButton.attr('tooltiptitle'),
+               position: {
+                  corner: {
+                     target: 'leftBottom',
+                     tooltip: 'rightTop'
+                  }
+               },
+               style: 'light'
+            });
+
+            var sendNegFeedbackButton = $("#sendNegativeFeedback");
+            sendNegFeedbackButton.qtip({
+               content: sendNegFeedbackButton.attr('tooltiptitle'),
+               position: {
+                  corner: {
+                     target: 'leftBottom',
+                     tooltip: 'rightTop'
+                  }
+               },
+               style: 'light'
+            });
 
             $('#sendPositiveFeedback').live("click", function (e) {
                e.preventDefault();
@@ -59,6 +83,7 @@ jQuery(function ($) {
                });
             });
         },
+       //#endregion
        //#region Open
         open: function (dialog) {
             // add padding to the buttons in firefox/mozilla
