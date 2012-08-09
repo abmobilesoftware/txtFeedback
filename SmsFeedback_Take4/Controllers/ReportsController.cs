@@ -95,7 +95,7 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
                                                                                                                                                     new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/getTotalNoOfSmsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAverageResponseTime, iSource: "Reports/getTotalNoOfSmsInfo")
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/getTotalNoOfSmsInfo")
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", true, new ReportResource[] { 
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "Reports/getSmsIncomingOutgoingTotal") 

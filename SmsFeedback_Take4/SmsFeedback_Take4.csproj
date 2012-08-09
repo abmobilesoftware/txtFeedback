@@ -183,6 +183,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Global.de.resx</DependentUpon>
     </Compile>
+    <Compile Include="GlobalResources\Reports.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reports.resx</DependentUpon>
+    </Compile>
     <Compile Include="Models\BusinessObjects\ConversationTag.cs" />
     <Compile Include="Models\Helpers\RepDataColumn.cs" />
     <Compile Include="Models\Helpers\RepChartData.cs" />
@@ -466,6 +471,11 @@
       <LastGenOutput>Global.de.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="GlobalResources\Reports.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Reports.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GlobalResources\Reports.ro.resx" />
     <None Include="Properties\PublishProfiles\cluj.info.pubxml" />
     <Content Include="Views\UserMailer\_Layout.Master" />
     <Content Include="Scripts\jquery.cookie.js" />

@@ -3286,3 +3286,47 @@
 2012-08-09 10:12:44,919 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:173)  - Call made
 2012-08-09 10:12:44,926 INFO (WorkingPointsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:40)  - getting workingPoints per logged in user
 2012-08-09 10:12:45,346 DEBUG (NrOfUnreadConversations) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:154)  - performUpdateBefore: True
+2012-08-09 10:27:29,038 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:21)  - getting xmmpConn details per logged in user
+2012-08-09 10:27:29,089 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:173)  - Call made
+2012-08-09 10:27:29,100 INFO (WorkingPointsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:40)  - getting workingPoints per logged in user
+2012-08-09 10:27:29,487 DEBUG (NrOfUnreadConversations) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:154)  - performUpdateBefore: True
+2012-08-09 10:31:25,067 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:21)  - getting xmmpConn details per logged in user
+2012-08-09 10:31:25,070 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:173)  - Call made
+2012-08-09 10:31:25,106 INFO (WorkingPointsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:40)  - getting workingPoints per logged in user
+2012-08-09 10:31:25,199 DEBUG (NrOfUnreadConversations) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:154)  - performUpdateBefore: True
+2012-08-09 10:31:25,315 DEBUG (ConversationsList) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:211)  - ConversationList requested: onlyFavourites False, tags: , working points:  [], skip: 0, top: 2, requestIndex: 0
+2012-08-09 10:31:25,359 INFO (GetConversationsForNumbers) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:100)  - Call made
+2012-08-09 10:31:25,370 INFO (GetConversationsForNumber) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:28)  - Call made
+2012-08-09 10:31:25,459 INFO (GetConversationsForNumber) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:77)  - Records returned from EF db: 3
+2012-08-09 10:31:25,460 INFO (GetConversationsForNumber) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:28)  - Call made
+2012-08-09 10:31:25,505 INFO (GetConversationsForNumber) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:77)  - Records returned from EF db: 3
+2012-08-09 10:31:25,507 INFO (GetConversationsForNumbers) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Models\Repositories\EFSmsRepository.cs:117)  - Records returned from EF db: 6
+2012-08-09 10:31:25,630 DEBUG (NrOfUnreadConversations) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:154)  - performUpdateBefore: False
+2012-08-09 10:52:12,190 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:21)  - getting xmmpConn details per logged in user
+2012-08-09 10:52:12,192 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:173)  - Call made
+2012-08-09 10:52:12,464 INFO (WorkingPointsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:40)  - getting workingPoints per logged in user
+2012-08-09 10:52:12,731 DEBUG (NrOfUnreadConversations) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:154)  - performUpdateBefore: True
+2012-08-09 10:56:09,693 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:21)  - getting xmmpConn details per logged in user
+2012-08-09 10:56:09,695 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:173)  - Call made
+2012-08-09 10:56:09,709 INFO (WorkingPointsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:40)  - getting workingPoints per logged in user
+2012-08-09 10:56:09,971 DEBUG (NrOfUnreadConversations) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:154)  - performUpdateBefore: True
+2012-08-09 10:56:19,182 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:21)  - getting xmmpConn details per logged in user
+2012-08-09 10:56:19,185 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:173)  - Call made
+2012-08-09 10:56:19,190 INFO (WorkingPointsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:40)  - getting workingPoints per logged in user
+2012-08-09 10:56:19,407 DEBUG (NrOfUnreadConversations) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:154)  - performUpdateBefore: True
+2012-08-09 10:56:31,805 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:21)  - getting xmmpConn details per logged in user
+2012-08-09 10:56:31,807 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:173)  - Call made
+2012-08-09 10:56:31,827 INFO (WorkingPointsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:40)  - getting workingPoints per logged in user
+2012-08-09 10:56:32,060 DEBUG (NrOfUnreadConversations) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:154)  - performUpdateBefore: True
+2012-08-09 10:56:42,211 INFO (WorkingPointsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:40)  - getting workingPoints per logged in user
+2012-08-09 10:56:42,230 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:21)  - getting xmmpConn details per logged in user
+2012-08-09 10:56:42,231 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:173)  - Call made
+2012-08-09 10:56:42,495 DEBUG (NrOfUnreadConversations) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:154)  - performUpdateBefore: True
+2012-08-09 11:12:38,397 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:21)  - getting xmmpConn details per logged in user
+2012-08-09 11:12:38,399 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:173)  - Call made
+2012-08-09 11:12:38,524 INFO (WorkingPointsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:40)  - getting workingPoints per logged in user
+2012-08-09 11:12:38,849 DEBUG (NrOfUnreadConversations) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:154)  - performUpdateBefore: True
+2012-08-09 11:13:29,962 INFO (WorkingPointsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:40)  - getting workingPoints per logged in user
+2012-08-09 11:13:30,012 INFO (GetConnectionDetailsForLoggedInUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\XmppController.cs:21)  - getting xmmpConn details per logged in user
+2012-08-09 11:13:30,013 INFO (GetXmppConnectionDetailsPerUser) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Utilities\EFInteraction.cs:173)  - Call made
+2012-08-09 11:13:30,811 DEBUG (NrOfUnreadConversations) (d:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_Take4\Controllers\MessagesController.cs:154)  - performUpdateBefore: True

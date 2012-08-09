@@ -277,15 +277,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average response time.
-        /// </summary>
-        public static string RepAverageResponseTime {
-            get {
-                return ResourceManager.GetString("RepAverageResponseTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Clients.
         /// </summary>
         public static string RepClients {
