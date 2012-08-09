@@ -230,14 +230,35 @@
   </data>
   <data name="loadMoreConversations" xml:space="preserve">
     <value>Load More Conversations</value>
-   </data>
+  </data>
   <data name="loginUnsuccessfulDetails" xml:space="preserve">
     <value>The user name or password provided is incorrect.</value>
   </data>
-   <data name="noConversationSelected" xml:space="preserve">
+  <data name="noConversationSelected" xml:space="preserve">
     <value>No conversation selected, please select one</value>
-   </data>
+  </data>
   <data name="loginUnsuccessfulSummary" xml:space="preserve">
     <value>Login was unsuccessful. Please correct the errors and try again.</value>
+  </data>
+  <data name="RepAverageResponseTime" xml:space="preserve">
+    <value>Average response time</value>
+  </data>
+  <data name="RepClients" xml:space="preserve">
+    <value>Clients</value>
+  </data>
+  <data name="RepConversations" xml:space="preserve">
+    <value>Conversations</value>
+  </data>
+  <data name="RepIncomingVsOutgoing" xml:space="preserve">
+    <value>Incoming vs Outgoing</value>
+  </data>
+  <data name="RepNewVsReturning" xml:space="preserve">
+    <value>New vs Returning</value>
+  </data>
+  <data name="RepOverview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="RepTotalNoOfSms" xml:space="preserve">
+    <value>Total no of sms</value>
   </data>
 </root>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,7 +10,7 @@ using SmsFeedback_Take4.Utilities;
 
 namespace SmsFeedback_Take4.Controllers
 {
-   public class ReportsController : BaseController
+    public class ReportsController : BaseController
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -19,88 +20,179 @@ namespace SmsFeedback_Take4.Controllers
             return View();
         }
 
-        public JsonResult getTotalNoOfSms(String iIntervalStart, String iIntervalEnd, String iGranularity)
+        public JsonResult getSmsIncomingOutgoingDetailed(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
         {
+            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+            // interval start and end dates received as rfc822
             if (iGranularity == Constants.dayGranularity)
             {
-                // a lot of bogus data
-                var hashTable = new Dictionary<String, RepDataRow>();
-                hashTable.Add("row1", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("15.07.2012"), new RepDataRowCell(18, "18 sms - 15.07.2012"), new RepDataRowCell(15, "15 sms - 15.07.2012") }));
-                hashTable.Add("row2", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("16.07.2012"), new RepDataRowCell(19, "19 sms - 16.07.2012"), new RepDataRowCell(14, "14 sms - 16.07.2012") }));
-                hashTable.Add("row3", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("17.07.2012"), new RepDataRowCell(21, "21 sms - 17.07.2012"), new RepDataRowCell(16, "16 sms - 17.07.2012") }));
-                hashTable.Add("row4", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("18.07.2012"), new RepDataRowCell(22, "22 sms - 18.07.2012"), new RepDataRowCell(19, "19 sms - 18.07.2012") }));
-                hashTable.Add("row5", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("19.07.2012"), new RepDataRowCell(21, "23 sms - 19.07.2012"), new RepDataRowCell(20, "20 sms - 18.07.2012") }));
-                hashTable.Add("row6", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("20.07.2012"), new RepDataRowCell(18, "18 sms - 20.07.2012"), new RepDataRowCell(17, "17 sms - 20.07.2012") }));
-                hashTable.Add("row7", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("21.07.2012"), new RepDataRowCell(16, "16 sms - 21.07.2012"), new RepDataRowCell(16, "16 sms - 21.07.2012") }));
-                hashTable.Add("row8", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("22.07.2012"), new RepDataRowCell(19, "19 sms - 22.07.2012"), new RepDataRowCell(18, "18 sms - 22.07.2012") }));
-                hashTable.Add("row9", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("23.07.2012"), new RepDataRowCell(20, "20 sms - 23.07.2012"), new RepDataRowCell(19, "19 sms - 23.07.2012") }));
-                hashTable.Add("row10", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("24.07.2012"), new RepDataRowCell(21, "21 sms - 24.07.2012"), new RepDataRowCell(20, "20 sms - 24.07.2012") }));
-                hashTable.Add("row11", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("25.07.2012"), new RepDataRowCell(23, "23 sms - 25.07.2012"), new RepDataRowCell(22, "22 sms - 25.07.2012") }));
-                hashTable.Add("row12", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("26.07.2012"), new RepDataRowCell(25, "25 sms - 26.07.2012"), new RepDataRowCell(24, "24 sms - 26.07.2012") }));
-                hashTable.Add("row13", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("27.07.2012"), new RepDataRowCell(26, "26 sms - 27.07.2012"), new RepDataRowCell(25, "25 sms - 27.07.2012") }));
-                hashTable.Add("row14", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("28.07.2012"), new RepDataRowCell(27, "27 sms - 28.07.2012"), new RepDataRowCell(26, "26 sms - 28.07.2012") }));
-                hashTable.Add("row15", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("29.07.2012"), new RepDataRowCell(27, "27 sms - 29.07.2012"), new RepDataRowCell(25, "25 sms - 29.07.2012") }));
-                hashTable.Add("row16", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("30.07.2012"), new RepDataRowCell(29, "29 sms - 30.07.2012"), new RepDataRowCell(28, "28 sms - 30.07.2012") }));
-                hashTable.Add("row17", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("31.07.2012"), new RepDataRowCell(28, "28 sms - 31.07.2012"), new RepDataRowCell(28, "28 sms - 31.07.2012") }));
-                hashTable.Add("row18", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("01.08.2012"), new RepDataRowCell(27, "27 sms - 01.08.2012"), new RepDataRowCell(25, "25 sms - 01.08.2012") }));
-                hashTable.Add("row19", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("02.08.2012"), new RepDataRowCell(25, "25 sms - 02.08.2012"), new RepDataRowCell(23, "23 sms - 02.08.2012") }));
-                hashTable.Add("row20", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("03.08.2012"), new RepDataRowCell(24, "24 sms - 03.08.2012"), new RepDataRowCell(23, "23 sms - 02.08.2012") }));
-                hashTable.Add("row21", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("04.08.2012"), new RepDataRowCell(23, "23 sms - 04.08.2012"), new RepDataRowCell(22, "22 sms - 04.08.2012") }));
-                hashTable.Add("row22", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("05.08.2012"), new RepDataRowCell(20, "20 sms - 05.08.2012"), new RepDataRowCell(19, "20 sms - 05.08.2012") }));
-                hashTable.Add("row23", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("06.08.2012"), new RepDataRowCell(19, "19 sms - 06.08.2012"), new RepDataRowCell(18, "18 sms - 06.08.2012") }));
-                hashTable.Add("row24", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("07.08.2012"), new RepDataRowCell(19, "19 sms - 07.08.2012"), new RepDataRowCell(18, "18 sms - 07.08.2012") }));
-                hashTable.Add("row25", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("08.08.2012"), new RepDataRowCell(21, "21 sms - 08.08.2012"), new RepDataRowCell(17, "17 sms - 08.08.2012") }));
-                hashTable.Add("row26", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("09.08.2012"), new RepDataRowCell(23, "23 sms - 09.08.2012"), new RepDataRowCell(22, "22 sms - 09.08.2012") }));
-                hashTable.Add("row27", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("10.08.2012"), new RepDataRowCell(24, "24 sms - 10.08.2012"), new RepDataRowCell(23, "23 sms - 10.08.2012") }));
-                hashTable.Add("row28", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("11.08.2012"), new RepDataRowCell(27, "27 sms - 11.08.2012"), new RepDataRowCell(26, "26 sms - 11.08.2012") }));
-                hashTable.Add("row29", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("12.08.2012"), new RepDataRowCell(30, "30 sms - 12.08.2012"), new RepDataRowCell(29, "29 sms - 12.08.2012") }));
-                hashTable.Add("row30", new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("13.08.2012"), new RepDataRowCell(31, "31 sms - 13.08.2012"), new RepDataRowCell(31, "31 sms - 13.08.2012") }));
-                List<RepDataRow> content = new List<RepDataRow>();
-                for (int i = 1; i < 30; ++i)
-                {
-                    var key = "row" + i;
-                    content.Add(hashTable[key]);                    
-                }
-
-
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Outgoing sms"), new RepDataColumn("19", "number", "Incoming sms")}, content);
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Outgoing sms"), new RepDataColumn("19", "number", "Incoming sms") }, bogusDataGenerator(30, scope));
 
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
-            else if (iGranularity == Constants.weekGranularity) 
+            else if (iGranularity == Constants.weekGranularity)
             {
-                var row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("15.07.2012-21.07.2012"), new RepDataRowCell(196, "196 sms - 15.07.2012-21.07.2012"), new RepDataRowCell(185, "185 sms - 15.07.2012-21.07.2012") });
-                var row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("22.07.2012-28.07.2012"), new RepDataRowCell(221, "221 sms - 22.07.2012-28.07.2012"), new RepDataRowCell(205, "205 sms - 22.07.2012-28.07.2012") });
-                var row3 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("29.07.2012-04.08.2012"), new RepDataRowCell(178, "178 sms - 29.07.2012-04.08.2012"), new RepDataRowCell(170, "172 sms - 29.07.2012-04.08.2012") });
-                var row4 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("05.08.2012-11.08.2012"), new RepDataRowCell(231, "231 sms - 05.08.2012-11.08.2012"), new RepDataRowCell(198, "198 sms - 05.08.2012-11.08.2012") });
-                var row5 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("12.07.2012-13.08.2012"), new RepDataRowCell(240, "240 sms - 12.07.2012-13.08.2012"), new RepDataRowCell(212, "212 sms - 12.07.2012-13.08.2012") });
-
-                List<RepDataRow> content = new List<RepDataRow>();
-                content.Add(row1);
-                content.Add(row2);
-                content.Add(row3);
-                content.Add(row4);
-                content.Add(row5);
-
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Outgoing sms"), new RepDataColumn("19", "number", "Incoming sms") }, content);
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Outgoing sms"), new RepDataColumn("19", "number", "Incoming sms") }, bogusDataGenerator(5, scope));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                var row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("15.08.2012-31.07.2012"), new RepDataRowCell(315, "315 sms - 15.07.2012-31.07.2012"), new RepDataRowCell(278, "278 sms - 15.07.2012-21.07.2012") });
-                var row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("01.08.2012-13.08.2012"), new RepDataRowCell(325, "325 sms - 01.08.2012-13.08.2012"), new RepDataRowCell(288, "288 sms - 01.08.2012-13.08.2012") });
-                
-                List<RepDataRow> content = new List<RepDataRow>();
-                content.Add(row1);
-                content.Add(row2);
-
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Outgoing sms"), new RepDataColumn("19", "number", "Incoming sms") }, content);
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Outgoing sms"), new RepDataColumn("19", "number", "Incoming sms") }, bogusDataGenerator(2, scope));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
 
         }
 
+        public JsonResult getSmsIncomingOutgoingTotal(String iIntervalStart, String iIntervalEnd, String culture, String scope)
+        {
+            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+            var row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("Incoming", "Incoming"), new RepDataRowCell(315, "315 sms - from customers") });
+            var row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("Outgoing", "Outgoing"), new RepDataRowCell(136, "136 sms - to customers") });
+
+            List<RepDataRow> content = new List<RepDataRow>();
+            content.Add(row1);
+            content.Add(row2);
+
+            RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Type"), new RepDataColumn("18", "number", "Number") }, content);
+            return Json(chartSource, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult getTotalNoOfSmsInfo(String iIntervalStart, String iIntervalEnd, String culture, String scope)
+        {
+            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            return Json(new RepInfoBox(350, "sms"), JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult getAvgResponseTimeInfo(String iIntervalStart, String iIntervalEnd, String culture, String scope)
+        {
+            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            return Json(new RepInfoBox(7, "min"), JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult getReportsMenuItems()
+        {
+            ReportsMenuItem[] reportsMenuItems = new ReportsMenuItem[] { new ReportsMenuItem(1, Resources.Global.RepConversations, false, 1), new ReportsMenuItem(2, Resources.Global.RepOverview, true, 1), 
+                                                                         new ReportsMenuItem(3, Resources.Global.RepNewVsReturning, true, 1), new ReportsMenuItem(4, Resources.Global.RepClients, false, 4),
+                                                                         new ReportsMenuItem(5, Resources.Global.RepOverview, true, 4), new ReportsMenuItem(6, Resources.Global.RepNewVsReturning , true, 4)};
+            return Json(reportsMenuItems, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult getReportById(int reportId)
+        {
+            var hashTable = new Dictionary<int, Report>();
+            var report2 = new Report(2, Resources.Global.RepOverview, "Global", new ReportSection[] { 
+                                                                                        new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "Reports/getSmsIncomingOutgoingDetailed") 
+                                                                                                                                                          }),
+                                                                                        new ReportSection("InfoBox", true, new ReportResource[] { 
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/getTotalNoOfSmsInfo"),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAverageResponseTime, iSource: "Reports/getTotalNoOfSmsInfo")
+                                                                                                                                                }),
+                                                                                        new ReportSection("SecondaryChartArea", true, new ReportResource[] { 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "Reports/getSmsIncomingOutgoingTotal") 
+                                                                                                                                                          }),
+                                                                                    });
+            var report3 = new Report(3, Resources.Global.RepIncomingVsOutgoing, "Global", new ReportSection[] { 
+                                                                                        new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "Reports/getSmsIncomingOutgoingDetailed") 
+                                                                                                                                                          }),
+                                                                                        new ReportSection("InfoBox", true, new ReportResource[] { 
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/getTotalNoOfSmsInfo"),                                                                                                                                                    
+                                                                                                                                                }),
+                                                                                        new ReportSection("SecondaryChartArea", true, new ReportResource[] { 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "Reports/getSmsIncomingOutgoingTotal") 
+                                                                                                                                                          }),
+                                                                                    });
+            var report5 = new Report(5, Resources.Global.RepOverview, "Global", new ReportSection[] { 
+                                                                                        new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "Reports/getSmsIncomingOutgoingDetailed") 
+                                                                                                                                                          }),
+                                                                                        new ReportSection("InfoBox", true, new ReportResource[] { 
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/getTotalNoOfSmsInfo"),                                                                                                                                                    
+                                                                                                                                                }),
+                                                                                        new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "Reports/getSmsIncomingOutgoingTotal") 
+                                                                                                                                                          }),
+                                                                                    });
+            var report6 = new Report(6, Resources.Global.RepNewVsReturning, "Global", new ReportSection[] { 
+                                                                                        new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "Reports/getSmsIncomingOutgoingDetailed") 
+                                                                                                                                                          }),
+                                                                                        new ReportSection("InfoBox", true, new ReportResource[] { 
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/getTotalNoOfSmsInfo"),                                                                                                                                                    
+                                                                                                                                                }),
+                                                                                        new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "Reports/getSmsIncomingOutgoingTotal") 
+                                                                                                                                                          }),
+                                                                                    });
+            hashTable.Add(2, report2);
+            hashTable.Add(3, report3);
+            hashTable.Add(5, report5);
+            hashTable.Add(6, report6);
+
+            return Json(hashTable[reportId], JsonRequestBehavior.AllowGet);
+
+        }
+
+        public List<RepDataRow> bogusDataGenerator(int intervalEnd, string workingPoint) {
+                
+                var hashTable = new Dictionary<String, RepDataRow>();
+                var keyPrefix = "row";               
+
+                int[] incomingSmsGlobal = new int[31] {17, 15, 16, 15, 17, 16, 14, 13, 14, 15, 16, 17, 15, 14, 11, 13, 16, 15, 14, 13, 13, 12, 11, 12, 13, 14, 15, 16, 15, 16, 14};
+                int[] incomingSmsWP1 = new int[31] {18, 19, 21, 22, 21,18, 16, 19, 20, 21, 23, 25, 26, 27, 27,29, 28, 27, 25, 24, 23, 20, 19, 19, 21, 23, 24, 27, 30, 31, 32};
+                int[] incomingSmsWP2 = new int[31] {23, 19, 18, 17, 15, 12, 11, 9, 8, 7, 11, 10, 11, 13, 15, 16, 17, 17,19, 18, 23, 25, 24, 23, 20, 19, 19, 21, 23, 24, 27};
+
+                int[] outgoingSmsGlobal = new int[31] {15, 14, 15, 15, 14, 15, 13, 12, 13, 14, 15, 16, 14, 13, 10, 12, 15, 14, 13, 12, 12, 11, 10, 11, 12, 13, 14, 15, 14, 15, 13};
+                int[] outgoingSmsWP1 = new int[31] {17, 18, 20, 21, 20, 17, 15, 18, 19, 18, 17, 16, 15, 14, 13, 15, 14, 11, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13};
+                int[] outgoingSmsWP2 = new int[31] {22, 18, 17, 16, 14, 11, 10, 8, 7, 6, 10, 9, 10, 12, 14, 15, 16, 16, 18, 17, 22, 24, 23, 22, 19, 18, 18, 20, 22, 23, 26};
+
+                int[] incoming = incomingSmsWP2;
+                int[] outgoing = outgoingSmsWP2; 
+
+                if (workingPoint.Equals("Global")) {
+                    incoming = incomingSmsGlobal;
+                    outgoing = outgoingSmsGlobal;
+                } else if (workingPoint.Equals("WP1")) {
+                    incoming = incomingSmsWP1;
+                    outgoing = outgoingSmsWP1;
+                } else {
+                    incoming = incomingSmsWP2;
+                    outgoing = outgoingSmsWP2;
+                }
+                
+                for (int i=0; i < intervalEnd; ++i) {
+                    var key = keyPrefix + i;
+                    var bogusData = i + ".07.2012";
+                    // Incoming
+                    var bogusIncomingSmsNo = incoming[i];
+                    var bogusIncomingSmsText = bogusIncomingSmsNo + " sms - " + bogusData;
+                    //Outgoing 
+                    var bogusOutgoingSmsNo = outgoing[i];
+                    var bogusOutgoingSmsText = bogusOutgoingSmsNo + " sms - " + bogusData;
+                    hashTable.Add(key, new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(bogusData), new RepDataRowCell(bogusIncomingSmsNo, bogusIncomingSmsText), new RepDataRowCell(bogusOutgoingSmsNo, bogusOutgoingSmsText) }));
+                }
+               
+                List<RepDataRow> content = new List<RepDataRow>();
+                for (int i = 0; i < intervalEnd; ++i)
+                {
+                    var key = "row" + i;
+                    content.Add(hashTable[key]);
+                }
+
+                return content;
+        }
+
     }
 
-   public class ReportMaxNrOfSms {       
-   }}
+}
+

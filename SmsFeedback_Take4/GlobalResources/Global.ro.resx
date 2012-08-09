@@ -240,4 +240,25 @@
   <data name="loginUnsuccessfulSummary" xml:space="preserve">
     <value>Logare esuata. Corectati erorile si incercati din nou.</value>
   </data>
+  <data name="RepAverageResponseTime" xml:space="preserve">
+    <value>Timpul mediu de raspuns</value>
+  </data>
+  <data name="RepClients" xml:space="preserve">
+    <value>Clienti</value>
+  </data>
+  <data name="RepConversations" xml:space="preserve">
+    <value>Conversatii</value>
+  </data>
+  <data name="RepIncomingVsOutgoing" xml:space="preserve">
+    <value>Receptionate vs Trimise</value>
+  </data>
+  <data name="RepNewVsReturning" xml:space="preserve">
+    <value>Noi vs Fideli</value>
+  </data>
+  <data name="RepOverview" xml:space="preserve">
+    <value>Sumar</value>
+  </data>
+  <data name="RepTotalNoOfSms" xml:space="preserve">
+    <value>Numarul total de sms-uri</value>
+  </data>
 </root>

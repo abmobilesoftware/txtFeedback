@@ -1,38 +1,47 @@
-﻿var ReportModel = Backbone.Model.extend({
-    defaults: {
-        name: "Total sms report",
-        menuItemName: "Overview",
-        sections: [
-                    {
-                        identifier: "PrimaryChartArea", visibility: true, resources: [
-                                                                                       {name: "Get total no of sms report", source: "Reports/getTotalNoOfSms"}
-                                                                                     ]
-                    },
-                    {
-                        identifier: "InfoBox", visibility: true, resources: [
-                                                                                { name: "Total no of sms", source: "Reports/getNoOfSms" }
-                                                                            ]
-                    },
-                    {
-                        identifier: "AdditionalChartArea", visibility: false, resources: []
-                    }
-                  ]
-    }
+﻿_.templateSettings = {
+    interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
+    evaluate: /\{%([\s\S]+?)%\}/g,   // excute code: {% code_to_execute %}
+    escape: /\{%-([\s\S]+?)%\}/g
+}; // excape HTML: {%- <script> %} prints &lt
+
+
+var ReportModel = Backbone.Model.extend({
+    reportId: 1,
+    title: "Total sms report",
+    scope: "Global",
+    startDate: "30  days earlier from this moment",
+    endDate: "now",
+    sections: [
+                {
+                    identifier: "PrimaryChartArea", visibility: true, resources: [
+                                                                                   { name: "Get total no of sms report", source: "/Reports/getTotalNoOfSms" }
+                    ]
+                },
+                {
+                    identifier: "InfoBox", visibility: true, resources: [
+                                                                            { name: "Total no of sms", source: "Reports/getNoOfSms" }
+                    ]
+                },
+                {
+                    identifier: "AdditionalChartArea", visibility: false, resources: []
+                }
+    ]
 });
 
-var ReportMenuItemModel = Backbone.Model.extend({
+var ReportsMenuItemModel = Backbone.Model.extend({
     defaults: {
-        itemIdentifier: 1,
+        itemId: 1,
         itemName: "Conversation",
         leaf: false,
         parent: 1
     }
 });
 
-
-
 var ReportsMenu = Backbone.Collection.extend({
-    model:ReportMenuItemModel
+    model: ReportsMenuItemModel,
+    url: function () {
+        return window.app.domainName + "/Reports/getReportsMenuItems";
+    }
 });
 
 var ReportsMenuItemView = Backbone.View.extend({
@@ -40,13 +49,13 @@ var ReportsMenuItemView = Backbone.View.extend({
     initialize: function () {
         _.bindAll(this, 'render');
     },
-    renderParent: function() {
-        $(this.el).html("<span class='reportMenuParentItem'>" + this.model.get("itemName") + "</span>" + "<ul class='item" + this.model.get("itemIdentifier") + "'></ul>");
+    renderParent: function () {
+        $(this.el).html("<span class='reportMenuParentItem'>" + this.model.get("itemName") + "</span>" + "<ul class='item" + this.model.get("itemId") + "'></ul>");
         return this;
     },
     renderLeaf: function () {
         $(this.el).addClass('innerLi')
-        $(this.el).html("<span class='reportMenuLeafItem' reportId='" + this.model.get("itemIdentifier") + "'>" + this.model.get("itemName") + "</span>");
+        $(this.el).html("<span class='reportMenuLeafItem' reportId='" + this.model.get("itemId") + "'>" + this.model.get("itemName") + "</span>");
         return this;
     }
 });
@@ -55,14 +64,14 @@ var ReportsMenuView = Backbone.View.extend({
     el: $("#leftColumn"),
     initialize: function () {
         _.bindAll(this, 'render');
-        var reportMenuItemModel1 = new ReportMenuItemModel({itemIdentifier: 1, itemName: "Conversation", leaf: false, parent: 1});
-        var reportMenuItemModel2 = new ReportMenuItemModel({ itemIdentifier: 2, itemName: "Overview", leaf: true, parent: 1 });
-        var reportMenuItemModel3 = new ReportMenuItemModel({ itemIdentifier: 3, itemName: "Incoming vs Outgoing", leaf: true, parent: 1 });
-        var reportMenuItemModel4 = new ReportMenuItemModel({ itemIdentifier: 4, itemName: "Clients", leaf: false, parent: 4 });
-        var reportMenuItemModel5 = new ReportMenuItemModel({ itemIdentifier: 5, itemName: "Overview", leaf: true, parent: 4 });
-        var reportMenuItemModel6 = new ReportMenuItemModel({ itemIdentifier: 6, itemName: "New vs Returning", leaf: true, parent: 4 });
-        this.menuItems = new ReportsMenu([reportMenuItemModel1, reportMenuItemModel2, reportMenuItemModel3, reportMenuItemModel4, reportMenuItemModel5, reportMenuItemModel6]);
-        this.render();
+        self = this;
+        this.menuItems = new ReportsMenu();
+        this.menuItems.fetch({
+            success: function () {
+                self.render();
+            }
+        });
+        //this.render();
     },
     render: function () {
         self = this;
@@ -79,7 +88,162 @@ var ReportsMenuView = Backbone.View.extend({
         $(".reportMenuLeafItem").click(function () {
             $("*").removeClass("reportMenuItemSelected");
             $(this).addClass("reportMenuItemSelected");
+            $(document).trigger("switchReport", $(this).attr("reportId"));
         });
-    }
+        CollapsibleLists.apply();
+        
+    }    
 });
+
+var ReportsContentArea = Backbone.View.extend({
+    el: $("#rightColumn"),
+    initialize: function () {
+        _.bindAll(this, 'render', 'setupEnvironment');
+        this.render();
+    },
+    render: function () {
+        var template = _.template($("#report-template").html(), this.model.toJSON());
+        // Load the compiled HTML into the Backbone "el"
+        $(this.el).html(template);
+        this.setupEnvironment();
+    },
+    setupEnvironment: function () {
+        // after rendering the template, initialize the scripts that will do the magic.
+        for (k = 0; k < this.model.get("sections").length; ++k) {
+            if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier == "PrimaryChartArea")) {
+                window.app.firstArea = new FirstArea(this.model.get("sections")[k].resources[0].source, "day");
+                window.app.firstArea.drawArea();
+            } else if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier == "SecondaryChartArea")) {
+                window.app.thirdArea = new ThirdArea(this.model.get("sections")[k].resources[0].source);
+                window.app.thirdArea.drawArea();
+            } else if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier == "InfoBox")) {
+                window.app.secondArea = new SecondArea(this.model.get("sections")[k].resources);
+                window.app.secondArea.drawArea();
+            }
+        }
+
+        //setTimeout(function () { }, 200);
+
+        // Calendar setup
+        $('#widgetCalendar').DatePicker({
+            flat: true,
+            format: 'd B, Y',
+            date: [window.app.dateHelper.transformDate(window.app.startDate), window.app.dateHelper.transformDate(window.app.endDate)],
+            calendars: 3,
+            mode: 'range',
+            starts: 1,
+            onChange: function (formated) {
+                // $('#widgetField span').get(0).innerHTML = formated.join(' &divide; '); // old formatting
+                window.app.newStartDate = new Date(formated[0]);
+                window.app.newEndDate = new Date(formated[1]);
+                $('#widgetField span').get(0).innerHTML = window.app.dateHelper.transformDateToLocal(window.app.newStartDate) + " - " + window.app.dateHelper.transformDateToLocal(window.app.newEndDate);
+
+            }
+        });
+        var state = false;
+        $('#widgetField>a').bind('click', function () {
+            $('#widgetCalendar').stop().animate({ height: state ? 0 : $('#widgetCalendar div.datepicker').get(0).offsetHeight }, 500);
+            state = !state;
+            // Datepicker was closed
+            if (!state) {
+                if (window.app.startDate != window.app.newStartDate || window.app.endDate != window.app.newEndDate) {
+                    window.app.startDate = window.app.newStartDate;
+                    window.app.endDate = window.app.newEndDate;
+                    $(document).trigger("intervalChanged");
+                }
+            }
+            return false;
+        });
+        $('#reportRange div.datepicker').css('position', 'absolute');
+
+        // Setup grannularity buttons. TODO: rename the radio buttons group more appropriate.
+        $("#radio").buttonsetv();
+        $("#radio").show();
+        $(".radioOption").change(function () {
+            window.app.firstArea.setGranularity($(this).val());
+            window.app.firstArea.drawArea();
+        });        
+    }
+
+});
+
+var ReportsArea = function () {
+    var self = this;
+    var localReportsRepository = {};
+        
+    // initializing leftColumn
+    var reportsMenu = new ReportsMenuView({ el: $("#leftColumn") });
+    // initializing rightColumn
+    var reportsContent;
+    
+
+    $(document).bind("workingPointChanged", function (event, newWorkingPoint) {
+        self.changeWorkingPoint(newWorkingPoint);
+    });
+
+    $(document).bind("intervalChanged", function (event) {
+        self.changeReportingInterval();
+    });
+
+    $(document).bind("switchReport", function (event, reportId) {
+        self.loadReport(reportId);
+    });
+
+    this.redrawContent = function () {
+        reportsContent.render();
+    }
+
+    this.changeWorkingPoint = function (newWorkingPoint) {
+        window.app.currentWorkingPoint = newWorkingPoint;
+        reportsContent.render();
+    }
+
+    this.changeReportingInterval = function () {
+        reportsContent.render();
+    }
+
+    this.displayReport = function (reportModel) {
+        reportsContent = new ReportsContentArea({ model: reportModel, el: $("#rightColumn") });
+    }
+
+    this.loadReport = function(reportId) {
+        
+        if (localReportsRepository[reportId] == undefined) {
+            $.getJSON('Reports/getReportById',
+               { reportId: reportId },
+               function (data) {
+                   var receivedReportModel = new ReportModel(data);
+                   localReportsRepository[reportId] = receivedReportModel;
+                   self.displayReport(localReportsRepository[reportId]);
+               }
+            );            
+                    
+        } else {
+            // load report from local repository
+            self.displayReport(localReportsRepository[reportId]);
+        }
+    }
+
+    this.loadWorkingPoints = function () {
+        $.getJSON('/Messages/WorkingPointsPerUser',
+               {},
+               function (data) {
+                   var workingPointsSelectorContent = "<option value='Global'>Global</option>";
+                   for (i = 0; i < data.length; ++i) {
+                       workingPointsSelectorContent += "<option value='" + data[i].Name + "'>" + data[i].Name + "</option>";
+                   }
+                   $("#workingPointSelector").append(workingPointsSelectorContent);
+               }
+            );
+    }
+
+    this.loadReport(2);
+
+    // initial setup of the page
+    $("#overlay").hide();
+    this.loadWorkingPoints();
+             
+    
+
+}
 
