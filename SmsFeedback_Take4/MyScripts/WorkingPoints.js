@@ -65,10 +65,8 @@ $(function () {
          this.$el.html(this.phoneNumberTemplate(this.model.toJSON()));
          this.$el.addClass("phoneNumber");
          this.$el.addClass("phoneNumberSelected");
-         $("img", this.$el).qtip({
-            content: { text: false },
-            style: 'light'
-         });
+         var selectWp = $("img", this.$el);
+         setTooltipOnElement(selectWp, selectWp.attr('tooltiptitle'), 'light');       
          return this;
       },
       unrender: function () {

@@ -98,8 +98,9 @@ window.app.defaultMessagesOptions = {
 function MessagesArea(convView, tagsArea) {
     var self = this;
 
-    $("#replyBtn").qtip({
-        content: { text: false },
+    var replyButton = $("#replyBtn");
+    replyButton.qtip({
+       content: replyButton.attr('tooltiptitle'),
         position: {
             corner: {
                 target: 'leftMiddle',
@@ -228,10 +229,8 @@ function MessagesArea(convView, tagsArea) {
             $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
             $(".extraMenuWrapper", this.$el).addClass(extraMenuWrapperSide);
 
-            $("div.sendEmailButton img", this.$el).qtip({
-               content: { text: false },
-               style: 'dark'
-            });
+            var sendEmail = $("div.sendEmailButton img", this.$el);
+            setTooltipOnElement(sendEmail, sendEmail.attr('tooltiptitle'),'dark');
             //$(".arrowInnerExtraMenu", this.$el).addClass(arrowInnerExtraMenu);
             return this;
         },

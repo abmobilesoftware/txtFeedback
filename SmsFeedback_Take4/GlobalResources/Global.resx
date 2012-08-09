@@ -136,7 +136,7 @@
     <value>Please enter your user name and password.</value>
   </data>
   <data name="tabMessages" xml:space="preserve">
-    <value>Messages</value>
+    <value>Conversations</value>
   </data>
   <data name="welcomeMessage" xml:space="preserve">
     <value>Welcome</value>
@@ -229,13 +229,10 @@
     <value>add a tag</value>
   </data>
   <data name="loadMoreConversations" xml:space="preserve">
-    <value>Load More Conversations</value>
+    <value>Load more conversations</value>
   </data>
   <data name="loginUnsuccessfulDetails" xml:space="preserve">
     <value>The user name or password provided is incorrect.</value>
-  </data>
-  <data name="noConversationSelected" xml:space="preserve">
-    <value>No conversation selected, please select one</value>
   </data>
   <data name="loginUnsuccessfulSummary" xml:space="preserve">
     <value>Login was unsuccessful. Please correct the errors and try again.</value>
@@ -243,19 +240,100 @@
   <data name="RepClients" xml:space="preserve">
     <value>Clients</value>
   </data>
+  <data name="lblNoConversationSelected" xml:space="preserve">
+    <value>No conversation selected, please select one</value>
+  </data>
   <data name="RepConversations" xml:space="preserve">
     <value>Conversations</value>
   </data>
+  <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
+    <value>Number of conversations with unread messages</value>
+  </data>
   <data name="RepIncomingVsOutgoing" xml:space="preserve">
     <value>Incoming vs Outgoing</value>
+   </data>
+  <data name="sendEmailHeader" xml:space="preserve">
+    <value>Send email</value>
   </data>
   <data name="RepNewVsReturning" xml:space="preserve">
     <value>New vs Returning</value>
   </data>
+  <data name="sendEmailMessage" xml:space="preserve">
+    <value>*Message:</value>
+  </data>
   <data name="RepOverview" xml:space="preserve">
     <value>Overview</value>
   </data>
+  <data name="sendEmailSubject" xml:space="preserve">
+    <value>*Subject:</value>
+  </data>
   <data name="RepTotalNoOfSms" xml:space="preserve">
     <value>Total no of sms</value>
+   </data>
+  <data name="sendEmailTo" xml:space="preserve">
+    <value>*To:</value>
+  </data>
+  <data name="sendEmailCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="sendEmailConjuctionSubject" xml:space="preserve">
+    <value>] and [</value>
+  </data>
+  <data name="sendEmailEmailSent" xml:space="preserve">
+    <value>Email sent!</value>
+  </data>
+  <data name="sendEmailEmailSentSuccessfuly" xml:space="preserve">
+    <value>Email sent successfuly</value>
+  </data>
+  <data name="sendEmailLoadingScreen" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="sendEmailPrefixSubject" xml:space="preserve">
+    <value>Txt exchange between [</value>
+  </data>
+  <data name="sendEmailSend" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="sendEmailSendingEmail" xml:space="preserve">
+    <value>Sending...</value>
+  </data>
+  <data name="sendEmailValidationEmailInvalid" xml:space="preserve">
+    <value>Email is invalid. </value>
+  </data>
+  <data name="sendEmailValidationEmailRequired" xml:space="preserve">
+    <value>Email is required. </value>
+  </data>
+  <data name="sendEmailValidationMessageRequired" xml:space="preserve">
+    <value>Message is required. </value>
+  </data>
+  <data name="sendEmailValidationSubjectRequired" xml:space="preserve">
+    <value>Subject is required. </value>
+  </data>
+  <data name="feedbackSendUsFeedback" xml:space="preserve">
+    <value>Send us feedback</value>
+  </data>
+  <data name="sendEmailStartingText" xml:space="preserve">
+    <value>Message from TxtFeedback user</value>
+  </data>
+  <data name="sendFeedbackFeedbackSentSuccessfully" xml:space="preserve">
+    <value>Your feedback has been sent - the TxtFeedback team thanks you for your time!</value>
+  </data>
+  <data name="sendFeedbackHeader" xml:space="preserve">
+    <value>Send feedback</value>
+  </data>
+  <data name="sendFeedbackNegativeFeedbackSubject" xml:space="preserve">
+    <value>I don't like the fact that...</value>
+  </data>
+  <data name="sendFeedbackPlaceholderMessage" xml:space="preserve">
+    <value>Replace this with your input</value>
+  </data>
+  <data name="sendFeedbackPositiveFeedbackSubject" xml:space="preserve">
+    <value>I like the fact that...</value>
+  </data>
+  <data name="tooltipSendNegativeFeedback" xml:space="preserve">
+    <value>Send negative feedback</value>
+  </data>
+  <data name="tooltipSendPositiveFeedback" xml:space="preserve">
+    <value>Send positive feedback</value>
   </data>
 </root>

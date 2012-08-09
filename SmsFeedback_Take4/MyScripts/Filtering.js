@@ -169,10 +169,8 @@ function FilterArea() {
    //#endregion
 
    $("#includeDateInFilter,#includeStarredInFilter,#includeUnreadInFilter,#includeTagsInFilter").each(function () {
-      $(this).qtip({
-         content: { text: false },
-         style: 'light'
-      });
+      var elementToShowTooltipOn = $(this);
+      setTooltipOnElement(elementToShowTooltipOn, elementToShowTooltipOn.attr('tooltiptitle'), 'light');
    });
 
 }

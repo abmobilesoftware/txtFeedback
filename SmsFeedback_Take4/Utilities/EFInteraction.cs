@@ -295,8 +295,26 @@ namespace SmsFeedback_Take4.Utilities
                           Minutes = msg.TimeReceived.Minute,
                           Seconds = msg.TimeReceived.Second
                        });
-
-         return msgs.First();
+         if (msgs.Count() > 0)
+         {
+            return msgs.First();
+         }
+         else
+         {
+            return new SmsMessage[]{};
+         }
+      }
+      public string GetNameForWorkingPoint(string wpTelNumber, smsfeedbackEntities dbContext)
+      {                   
+              var wpName = from wp in dbContext.WorkingPoints where wp.TelNumber == wpTelNumber select wp.Name;
+              if (wpName.Count() == 1)
+              {
+                 return wpName.First();
+              }
+              else
+              {
+                 return "";
+              }
       }
    }
 }

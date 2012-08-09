@@ -13,7 +13,8 @@ jQuery(function ($) {
                     $(data).modal({
                         appendTo: 'form',
                         closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
-                        position: ["15%", ],
+                        minWidth: 600,
+                        position: ["15%","30%" ],
                         overlayId: 'contact-overlay',
                         containerId: 'contact-container',
                         onOpen: contact.open,
@@ -21,8 +22,69 @@ jQuery(function ($) {
                         onClose: contact.close                        
                     });
                 });
+             });
+           //#region Feedback buttons
+            var sendPosFeedbackButton = $("#sendPositiveFeedback");
+            sendPosFeedbackButton.qtip({
+               content: sendPosFeedbackButton.attr('tooltiptitle'),
+               position: {
+                  corner: {
+                     target: 'leftBottom',
+                     tooltip: 'rightTop'
+                  }
+               },
+               style: 'light'
+            });
+
+            var sendNegFeedbackButton = $("#sendNegativeFeedback");
+            sendNegFeedbackButton.qtip({
+               content: sendNegFeedbackButton.attr('tooltiptitle'),
+               position: {
+                  corner: {
+                     target: 'leftBottom',
+                     tooltip: 'rightTop'
+                  }
+               },
+               style: 'light'
+            });
+
+            $('#sendPositiveFeedback').live("click", function (e) {
+               e.preventDefault();
+               $.get("EmailSend/GetFeedbackForm", { 'positiveFeedback': true, 'url': document.URL }, function (data) {
+                  // create a modal dialog with the data
+                  $(data).modal({
+                     appendTo: 'body',
+                     closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
+                     minWidth: 600,
+                     position: ["15%", "30%"],
+                     overlayId: 'contact-overlay',
+                     containerId: 'contact-container',
+                     onOpen: contact.open,
+                     onShow: contact.show,
+                     onClose: contact.close
+                  });
+               });
+            });
+            $('#sendNegativeFeedback').live("click", function (e) {
+               e.preventDefault();
+               $.get("EmailSend/GetFeedbackForm", { 'positiveFeedback': false, 'url': document.URL }, function (data) {
+                  // create a modal dialog with the data
+                  $(data).modal({
+                     appendTo: 'body',
+                     closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
+                     minWidth: 600,
+                     position: ["15%", "30%"],
+                     overlayId: 'contact-overlay',
+                     containerId: 'contact-container',
+                     onOpen: contact.open,
+                     onShow: contact.show,
+                     onClose: contact.close
+                  });
+               });
             });
         },
+       //#endregion
+       //#region Open
         open: function (dialog) {
             // add padding to the buttons in firefox/mozilla
             if ($.browser.mozilla) {
@@ -38,7 +100,7 @@ jQuery(function ($) {
             }
 
             // dynamically determine height
-            var h = 280;
+            var h = 300;
             if ($('#contact-subject').length) {
                 h += 26;
             }
@@ -47,7 +109,8 @@ jQuery(function ($) {
             }
 
             var title = $('#contact-container .contact-title').html();
-            $('#contact-container .contact-title').html('Loading...');
+            var loadingMessage = $('#sendEmailLoadingMsg').val();
+            $('#contact-container .contact-title').html(loadingMessage);
             dialog.overlay.fadeIn(200, function () {
                 dialog.container.fadeIn(200, function () {
                     dialog.data.fadeIn(200, function () {
@@ -81,6 +144,8 @@ jQuery(function ($) {
                 });
             });
         },
+       //#endregion
+       //#region Show
         show: function (dialog) {
             $('#contact-container .contact-send').click(function (e) {
                 e.preventDefault();
@@ -89,12 +154,14 @@ jQuery(function ($) {
                     var msg = $('#contact-container .contact-message');
                     msg.fadeOut(function () {
                         msg.removeClass('contact-error').empty();
-                    });
-                    $('#contact-container .contact-title').html('Sending...');
+                     });
+                    var sendingMsg = $('#sendEmailSendingEmailMsg').val();
+                    $('#contact-container .contact-title').html(sendingMsg);
                     $('#contact-container form').fadeOut(200);
                     $('#contact-container .contact-content').animate({
                         height: '80px'
-                    }, function () {
+                     }, function () {
+                        var serializedInfo = $('#contact-container form').serialize();
                         $('#contact-container .contact-loading').fadeIn(200, function () {
                             $.ajax({
                                 url: 'EmailSend/SendEmail',
@@ -103,8 +170,9 @@ jQuery(function ($) {
                                 cache: false,
                                 dataType: 'html',
                                 success: function (data) {
-                                    $('#contact-container .contact-loading').fadeOut(200, function () {
-                                        $('#contact-container .contact-title').html('Message sent!');
+                                   $('#contact-container .contact-loading').fadeOut(200, function () {
+                                      var emailSentMsg = $('#sendEmailEmailSentMsg').val();
+                                      $('#contact-container .contact-title').html(emailSentMsg);
                                         msg.html(data).fadeIn(200);
                                     });
                                 },
@@ -131,6 +199,8 @@ jQuery(function ($) {
                 }
             });
         },
+       //#endregion
+       //#region Close
         close: function (dialog) {
             $('#contact-container').fadeOut(400, function () {
                 $.modal.close();
@@ -151,27 +221,28 @@ jQuery(function ($) {
             //    });
             //});
         },
+       //#endregion
         error: function (xhr) {
             alert(xhr.statusText);
         },
         validate: function () {
             contact.message = '';
             if (!$('#contact-container #contact-subject').val()) {
-                contact.message += 'Subject is required. ';
+               contact.message += $('#sendEmailValidationSubjectRequiredMsg').val();
             }
 
             var email = $('#contact-container #contact-email').val();
             if (!email) {
-                contact.message += 'Email is required. ';
+               contact.message += $('#sendEmailValidationEmailRequiredMsg').val();
             }
             else {
                 if (!contact.validateEmail(email)) {
-                    contact.message += 'Email is invalid. ';
+                   contact.message +=$('#sendEmailValidationEmailInvalidMsg').val();
                 }
             }
 
             if (!$('#contact-container #contact-message').val()) {
-                contact.message += 'Message is required.';
+               contact.message += $('#sendEmailValidationMessageRequiredMsg').val();
             }
 
             if (contact.message.length > 0) {

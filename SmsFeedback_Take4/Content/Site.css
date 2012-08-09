@@ -507,3 +507,65 @@ top: 40px;
 #msgTabcount {
    color: #F7941D;
 }
+
+#feedbackArea {
+   position: absolute;
+   top: 25px;
+   right: 5px;
+   padding-top: 15px;
+   z-index: 5;
+}
+
+#feedbackArea img {
+   width: 20px;
+   cursor: pointer;
+}
+
+.loginoverlay {
+   background-color: #333;
+   cursor: wait;
+   opacity: 0.5;
+   z-index: 1001;
+   position: fixed;
+   width: 100%;
+   height: 100%;
+}
+
+.full {
+    width: 450px;
+}
+
+#reLogin {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+}
+
+.iframe {
+height: auto;
+width: auto;
+left: 40%;
+top: 30%;
+z-index: 1002;
+position: fixed;
+}
+
+#loginContainerSummary {
+    border: 1px solid #ddd;
+   padding: 10px;
+   position:  relative;      
+   background:#ffffff;   
+}
+
+#loginContainerSummary p {
+   margin-bottom: 0px;
+}
+
+#relogin {
+   height: 500px;
+    border-radius: 10px;
+   -moz-border-radius: 10px;
+   -webkit-border-radius: 10px;
+   border: 2px solid transparent;
+}
+

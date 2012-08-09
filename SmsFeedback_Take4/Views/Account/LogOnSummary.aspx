@@ -1,49 +1,23 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<SmsFeedback_Take4.Models.LogOnModel>" %>
 <%@ Import Namespace="SmsFeedback_Take4.Utilities" %>
 <!DOCTYPE html>
-
 <html>
-<head runat="server">
    <link rel="stylesheet" href="../../Content/themes/base/jquery.ui.all.css">
-
       <% if (Html.IsReleaseBuild())      { %>
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/reset.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/text.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/grid.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/layout.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/nav.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/Site.css") %>" />
    <% }      else      { %>
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/reset.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/text.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/grid.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/layout.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/nav.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Site.css") %>" />
    <% } %>
-
    <script src="<%: Url.Content("~/Scripts/jquery-1.6.2.min.js") %>" type="text/javascript"></script>
-    <title>Log On</title>
-</head>
-
-<body>
-   <script>
-      $(function () {
-         $("#UserName").focus(function () {
-            var x = this;
-         });
-      });
-   </script>
-   <img id="bkgImage" src="<%: Url.Content("~/Content/images/loginImage.png") %>"/>
-     
-    <div id="logOnContainer">   
-  
+    <div id="logOnSummaryContainer">     
     <script src="<%: Url.Content("~/Scripts/jquery.validate.min.js") %>" type="text/javascript"></script>
     <script src="<%: Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js") %>" type="text/javascript"></script>
-
-    <% using (Html.BeginForm()) { %>
-    
-        <div id="loginContainer" >
+    <% using (Html.BeginForm()) { %>    
+        <div id="loginContainerSummary" >
             <div id="logoContainerOnLogin">
                <img src="<%: Url.Content("~/Content/images/logo.png") %>" />
             </div>
@@ -52,9 +26,7 @@
                    <span class="text">
                    <%: Resources.Global.accountAuthenticate %>
                    </span>
-                </legend>
-                
-
+                </legend>                
                 <div class="editor-field">
                     <%: Html.TextBoxFor(m => m.UserName, new { @placeholder = Resources.Global.lblUserName}) %>
                     <%: Html.ValidationMessageFor(m => m.UserName) %>
@@ -68,22 +40,13 @@
                 <div class="editor-label">
                     <%: Html.CheckBoxFor(m => m.RememberMe) %>
                     <%: Html.LabelFor(m => m.RememberMe) %>
-                </div>
-                
+                </div>                
                 <p>
-                    <input id="loginBtn" type="submit" value="<%: Resources.Global.LogOnButtonMessage %>" />
-                </p>
-                 <p><%: Html.ActionLink(Resources.Global.logOnRegister, "Register") %>    </p>
-               <div id="changeLanguage">                                               
-                
-                <%: Html.ImageLink(Url.Content("~/Content/images/Uk_flag.png"), "en-US",null,null) %>
-                <%: Html.ImageLink(Url.Content("~/Content/images/De_flag.png"), "de-DE",null,null) %>
-                <%: Html.ImageLink(Url.Content("~/Content/images/Ro_flag.png"), "ro-RO",null,null) %>
-             </div>
+                    <button id="summaryLoginBtn" type="submit"><%: Resources.Global.LogOnButtonMessage %></button>
+                </p>                 
             </fieldset>
         </div>
         <%: Html.ValidationSummary(true, Resources.Global.loginUnsuccessfulSummary) %>
     <% } %>
    </div>
-</body>
 </html>

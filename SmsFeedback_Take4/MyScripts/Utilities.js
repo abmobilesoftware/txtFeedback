@@ -1,92 +1,13 @@
 ﻿window.app = window.app || {};
-//this is a very important change that must be reflected immediatelly
-function StatusBar(sel, options) {
-    var _I = this;
-    var _sb = null;
-
-    // options
-    this.elementId = "_showstatus";
-    this.prependMultiline = true;
-    this.showCloseButton = true;
-    this.afterTimeoutText = null;
-
-    this.cssClass = "statusbar";
-    this.highlightClass = "statusbarhighlight";
-    this.errorClass = "statuserror";
-    this.closeButtonClass = "statusbarclose";
-    this.additive = false;
-
-    $.extend(this, options);
-
-    if (sel)
-        _sb = $(sel);
-
-    // create statusbar object manually
-    if (!_sb) {
-        _sb = $("<div id='_statusbar' class='" + _I.cssClass + "'>" +
-                "<div class='" + _I.closeButtonClass + "'>" +
-                (_I.showCloseButton ? " X </div></div>" : ""))
-                 .appendTo(document.body)
-                 .show();
-    }
-    if (_I.showCloseButton) {
-        $("." + _I.cssClass).click(function (e) { $(_sb).hide(); });
-        //$("div.statusbarclose").bind("click", function () {
-        //    $(_sb).hide();
-        //});
-    }
-
-    this.show = function (message, timeout, isError) {
-        if (_I.additive) {
-            var html = "<div style='margin-bottom: 2px;' >" + message + "</div>";
-            if (_I.prependMultiline)
-                _sb.prepend(html);
-            else
-                _sb.append(html);
-        }
-        else {
-
-            if (!_I.showCloseButton)
-                _sb.text(message);
-            else {
-                var t = _sb.find("div.statusbarclose");
-                _sb.text(message).prepend(t);
-            }
-        }
-
-        _sb.show();
-
-        if (timeout) {
-            if (isError)
-                _sb.addClass(_I.errorClass);
-            else
-                _sb.addClass(_I.highlightClass);
-
-            setTimeout(
-                function () {
-                    _sb.removeClass(_I.highlightClass);
-                    if (_I.afterTimeoutText)
-                        _I.show(_I.afterTimeoutText);
-                },
-                 timeout);
-        }
-    }
-    this.release = function () {
-        if (_statusbar)
-            $(_statusbar).remove();
-    }
-}
-// use this as a global instance to customize constructor
-// or do nothing and get a default status bar
-
-var _statusbar = null;
-var cConversationIdNumbersSeparator = '-';
 function showStatus(message, timeout, additive, isError) {
   
 }
 //the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
 window.app.domainName = '';
 //window.app.domainName = '/smsfeedback';
+window.app.lastAjaxCall = { settings: null, jqXHR: null };
+window.app.loginSummaryUrl = "/Account/LogOnSummary";
+window.app.loginUrl = "/Account/LogOn";
 
 window.app.firstCall = true;
 window.app.requestIndex = 0;
@@ -96,21 +17,30 @@ function getFromToFromConversation(convID) {
     return fromToArray;
 }
 
+//#region Utilities for processing phone numbers
+var cConversationIdNumbersSeparator = '-';
 function buildConversationID(from, to) {
    return cleanupPhoneNumber(from) + cConversationIdNumbersSeparator + cleanupPhoneNumber(to);
 }
-
 function comparePhoneNumbers(phoneNumber1, phoneNumber2)
 {
    //take into account that they could start with + or 00 - so we strip away any leading + or 00
    return cleanupPhoneNumber(phoneNumber1) === cleanupPhoneNumber(phoneNumber2);
 }
-
 function cleanupPhoneNumber(data) {
    var prefixes = new Array("00", "\\+");   
    var prefix = new RegExp('^(' + prefixes.join('|') + ')', "g");   
    data = data.replace(prefix, "");   
    return data;
+}
+//#endregion
+
+//uses qtip
+function setTooltipOnElement(elem, tooltip, style) {
+   elem.qtip({
+      content: { text: tooltip },
+      style: style
+   });
 }
 
 //checkbox is the button img
@@ -144,6 +74,7 @@ window.app.updateNrOfUnreadConversations = function (performUpdateBefore) {
                 });
 }
 
+//#region Store/restore the nr of convs with unread messages when navigating between pages
 $(function() {
    $(window).unload(function () {
       //save the state of the nr of unread messages
@@ -160,4 +91,40 @@ $(function () {
       if (ok)
          $("#msgTabcount").text(val);
    });
+   //#endregion
 })
+
+//#region handle "authentication expired"
+$(function () {
+   $(document).ready(function () {
+      $(document).ajaxError(function (event, jqxhr, settings) {
+         if (jqxhr.status == 401) {
+            //for the time being we redirect to the login screen - in the future we should bring up the "relogin" screen
+            //http://stackoverflow.com/questions/7532261/ajax-and-formsauthentication-how-prevent-formsauthentication-overrides-http-401
+            window.location.href = window.app.loginUrl;
+            //if (window.app.loginSummaryUrl) {
+            //   if ($('.loginoverlay').length == 0) {
+            //      $("body").prepend("<div id='reLogin'><div class='loginoverlay'/><div class='iframe'><iframe id='relogin' src='" + window.app.loginSummaryUrl + "'></iframe></div></div>");
+            //      $("div.loginoverlay").show();
+            //      $('#summaryLoginBtn').bind('click', function (e) {
+            //         e.preventDefault();
+            //         $("#reLogin").fadeOut(400, function () { });
+            //      });
+            //      window.app.lastAjaxCall.jqXHR = jqxhr;
+            //      window.app.lastAjaxCall.settings = settings;
+            //   }
+            //}
+         }
+      });
+
+      
+   });
+})
+//#endregion
+
+//#region Set tooltip on Messages
+$(function () {
+   var nrOfConvsWithUnreadMessages = $("#msgTabcount");
+   setTooltipOnElement(nrOfConvsWithUnreadMessages, nrOfConvsWithUnreadMessages.attr('tooltiptitle'), 'light');
+})
+//#endregion

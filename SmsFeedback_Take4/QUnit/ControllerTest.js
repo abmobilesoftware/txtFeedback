@@ -1,7 +1,8 @@
-﻿$(function () {
+﻿var validConvID = "442033222249-442033221134";
+
+$(function () {
    module("MessagesController")   
    asyncTest("Messages/MessagesList_validConvID_dataIsReturnedWithRequiredFields", 9, function () {
-      var validConvID = "442033221134-442033221134";
       var validUrlLocationForMessagesList = "/ro-RO/Messages/MessagesList";
       //we have to be logged in for this to work, otherwise we would receive back the LogOn dialog
       $.ajax({         
@@ -29,7 +30,6 @@
       })   
    });
    asyncTest("Messages/MessagesList_validConvIDUppercaseParamSpec_dataIsReturnedWithRequiredFields", 9, function () {
-      var validConvID = "442033221134-442033221134";
       var validUrlLocationForMessagesList = "/ro-RO/Messages/MessagesList";
       //we have to be logged in for this to work, otherwise we would receive back the LogOn dialog
       $.ajax({
@@ -57,7 +57,6 @@
       })
    });
    asyncTest("Messages/MessagesList_validConvIDLowercaseParamSpec_dataIsReturnedWithRequiredFields", 9, function () {
-      var validConvID = "442033221134-442033221134";
       var validUrlLocationForMessagesList = "/ro-RO/Messages/MessagesList";
       //we have to be logged in for this to work, otherwise we would receive back the LogOn dialog
       $.ajax({
@@ -102,7 +101,7 @@
          }
       })
    });
-   asyncTest("Messages/MessagesList_invalidConvID_noDataIsReturned",1, function () {
+   asyncTest("Messages/MessagesList_invalidConvID_emptyArrayIsReturned",1, function () {
       var invalidConvID = "000000000000";
       var validUrlLocationForMessagesList = "/ro-RO/Messages/MessagesList";
       //we have to be logged in for this to work, otherwise we would receive back the LogOn dialog
@@ -110,7 +109,7 @@
          url: validUrlLocationForMessagesList,
          data: { "conversationId": invalidConvID },
          success: function (data) {
-            ok(data == null, "Null result received");
+            ok(data.length == 0, "Null result received");
             start();
          },
          error: function (xhr, ajaxOptions, thrownError) {
@@ -207,12 +206,11 @@
    });
    asyncTest("Messages/ChangeStarredStatusForConversation_nullStarredStatusPassed_JsonWithErrorMessageIsReturned", 1, function () {
       var validUrlForChangeStarredStatus = "/ro-RO/Messages/ChangeStarredStatusForConversation";
-      var validConvIdValue = "442033221134-442033221134";
       var nullStarredStatus = null;
       $.ajax({
          url: validUrlForChangeStarredStatus,
          data: {
-            conversationId: validConvIdValue,
+            conversationId: validConvID,
             newStarredStatus: nullStarredStatus
          },
          success: function (data) {

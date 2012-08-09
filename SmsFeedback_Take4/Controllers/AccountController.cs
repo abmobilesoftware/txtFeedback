@@ -19,11 +19,51 @@ namespace SmsFeedback_Take4.Controllers
 
       public ActionResult LogOn()
       {
-         return View();
+         //determine if the user is already logged in
+         var loggedInUser = User.Identity.Name; //will be empty if no user is logged in
+         if (string.IsNullOrEmpty(loggedInUser))
+         {
+            //not logged id - go to login page
+            return View();
+         }
+         else
+         {
+            //if already logged in redirect to start page
+            return RedirectToAction("Index", "Messages");
+         }
       }
 
-      //
-      // POST: /Account/LogOn
+      public ActionResult LogOnSummary()
+      {
+         return View();         
+      }
+
+      [HttpPost]
+      public ActionResult LogOnSummary(LogOnModel model, string returnUrl)
+      {
+         if (ModelState.IsValid)
+         {
+            if (Membership.ValidateUser(model.UserName, model.Password))
+            {
+               FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+               if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                   && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+               {
+                  return Redirect(returnUrl);
+               }
+               else
+               {
+                  return Json("done");
+               }
+            }
+            else
+            {
+               ModelState.AddModelError("", Resources.Global.loginUnsuccessfulDetails);
+            }
+         }
+         // If we got this far, something failed, redisplay form
+         return View(model);
+      }
 
       [HttpPost]
       public ActionResult LogOn(LogOnModel model, string returnUrl)
@@ -31,7 +71,7 @@ namespace SmsFeedback_Take4.Controllers
          if (ModelState.IsValid)
          {
             if (Membership.ValidateUser(model.UserName, model.Password))
-            {
+            {               
                FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                    && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
@@ -48,7 +88,6 @@ namespace SmsFeedback_Take4.Controllers
                ModelState.AddModelError("", Resources.Global.loginUnsuccessfulDetails);
             }
          }
-
          // If we got this far, something failed, redisplay form
          return View(model);
       }

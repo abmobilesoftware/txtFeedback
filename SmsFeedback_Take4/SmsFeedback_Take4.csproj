@@ -263,6 +263,7 @@
     <Content Include="Content\images\datepicker\datepicker_tr.png" />
     <Content Include="Content\images\datepicker\field.png" />
     <Content Include="Content\images\delete.ico" />
+    <Content Include="Content\images\De_flag.png" />
     <Content Include="Content\images\exclamation-blue.svg" />
     <Content Include="Content\images\exclamation-green.svg" />
     <Content Include="Content\images\exclamation-orange.svg" />
@@ -277,6 +278,8 @@
     <Content Include="Content\images\Ro_flag.png" />
     <Content Include="Content\images\question-green.svg" />
     <Content Include="Content\images\question-orange.svg" />
+    <Content Include="Content\images\Smiley-Happy-32.png" />
+    <Content Include="Content\images\Smiley-Sad-32.png" />
     <Content Include="Content\images\star-selected_orange.svg" />
     <Content Include="Content\images\star.svg" />
     <Content Include="Content\images\star-selected.svg" />
@@ -285,6 +288,7 @@
     <Content Include="Content\jquery.tagsinput.css" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\messages.css" />
+    <Content Include="Content\Minified\contact.css" />
     <Content Include="Content\Minified\conversations.css" />
     <Content Include="Content\Minified\filtersStrip.css" />
     <Content Include="Content\Minified\grid.css" />
@@ -411,7 +415,9 @@
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-2.0.6-development-only.js" />
+    <Content Include="Views\Account\LogOnSummary.aspx" />
     <Content Include="Views\EmailSend\GetEmailMessageForm.aspx" />
+    <Content Include="Views\EmailSend\GetFeedbackForm.aspx" />
     <Content Include="Views\EmailSend\Index.ascx" />
     <Content Include="Views\Help\Index.aspx" />
     <Content Include="Views\Messages\Index.aspx" />
@@ -479,6 +485,7 @@
     <None Include="Properties\PublishProfiles\cluj.info.pubxml" />
     <Content Include="Views\UserMailer\_Layout.Master" />
     <Content Include="Scripts\jquery.cookie.js" />
+    <None Include="Properties\PublishProfiles\product.txtfeedback.net.pubxml" />
     <None Include="Properties\PublishProfiles\ToClujInfo.pubxml" />
   </ItemGroup>
   <ItemGroup>
@@ -547,6 +554,7 @@ java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Co
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\conversations.css" -o "$(ProjectDir)Content\Minified\conversations.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\filtersStrip.css" -o "$(ProjectDir)Content\Minified\filtersStrip.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\tags.css" -o "$(ProjectDir)Content\Minified\tags.css"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\contact.css" -o "$(ProjectDir)Content\Minified\contact.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\jquery.tagsinput.css" -o "$(ProjectDir)Content\Minified\jquery.tagsinput.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Conversations.js" -o "$(ProjectDir)MyScripts\Minified\Conversations.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\contact.js" -o "$(ProjectDir)MyScripts\Minified\contact.js"
