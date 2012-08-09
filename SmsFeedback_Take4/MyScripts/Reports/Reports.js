@@ -9,8 +9,6 @@ var ReportModel = Backbone.Model.extend({
     reportId: 1,
     title: "Total sms report",
     scope: "Global",
-    startDate: "30  days earlier from this moment",
-    endDate: "now",
     sections: [
                 {
                     identifier: "PrimaryChartArea", visibility: true, resources: [
