@@ -28,6 +28,7 @@ namespace SmsFeedback_Take4.Controllers
                using (lContextPerRequest)
                {
                   var connectionDetails = mEFInterface.GetXmppConnectionDetailsPerUser(userId, lContextPerRequest);
+                  Response.BufferOutput = true;
                   return Json(connectionDetails, JsonRequestBehavior.AllowGet);   
                }
             }
@@ -35,8 +36,10 @@ namespace SmsFeedback_Take4.Controllers
          catch (Exception ex)
          {
             logger.Error("Error occurred in GetConnectionDetailsForLoggedInUser", ex);
+            Response.BufferOutput = true;
             return null;
          }
+         Response.BufferOutput = true;
          return null;
       }
    }
