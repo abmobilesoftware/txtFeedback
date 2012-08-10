@@ -119,203 +119,270 @@
   </resheader>
   <data name="logOnMessage" xml:space="preserve">
     <value>Log On</value>
+    <comment>Login:</comment>
   </data>
   <data name="LogOnModel_UserName_DisplayName" xml:space="preserve">
     <value>User</value>
+    <comment>Login:</comment>
   </data>
   <data name="LogOnModel_UserName_Required" xml:space="preserve">
     <value>The User name field is required</value>
+    <comment>Login:</comment>
   </data>
   <data name="logOnRegister" xml:space="preserve">
     <value>Register</value>
+    <comment>Login:</comment>
   </data>
   <data name="logOnRegisterSuffixMsg" xml:space="preserve">
     <value>if you don't have an account</value>
+    <comment>Login:</comment>
   </data>
   <data name="logOnWithUserPassMsg" xml:space="preserve">
     <value>Please enter your user name and password.</value>
+    <comment>Login:</comment>
   </data>
   <data name="tabMessages" xml:space="preserve">
     <value>Conversations</value>
+    <comment>conversations navigation menu</comment>
   </data>
   <data name="welcomeMessage" xml:space="preserve">
     <value>Welcome</value>
+    <comment>Conversation: header, top right message</comment>
   </data>
   <data name="accountInformation" xml:space="preserve">
     <value>Account Information</value>
+    <comment>Login:</comment>
   </data>
   <data name="LogOnButtonMessage" xml:space="preserve">
     <value>Log On</value>
+    <comment>Login:</comment>
   </data>
   <data name="LogOnModel_Password_DisplayName" xml:space="preserve">
     <value>Password</value>
+    <comment>Login:</comment>
   </data>
   <data name="LogOnModel_Password_Required" xml:space="preserve">
     <value>The Password field is required</value>
+    <comment>Login:</comment>
   </data>
   <data name="LogOnModel_RememberMe_DisplayName" xml:space="preserve">
     <value>Remember me?</value>
+    <comment>Login:</comment>
   </data>
   <data name="tabHelp" xml:space="preserve">
     <value>Help</value>
+    <comment>help navigation menu</comment>
   </data>
   <data name="tabReports" xml:space="preserve">
     <value>Reports</value>
+    <comment>reports navigation menu</comment>
   </data>
   <data name="tabSettings" xml:space="preserve">
     <value>Settings</value>
+    <comment>settings navigation menu </comment>
   </data>
   <data name="tagsLabel" xml:space="preserve">
     <value>Tag(s): </value>
+    <comment>Conversation: filters area, tags filtering label</comment>
   </data>
   <data name="dateLabel" xml:space="preserve">
     <value>Date:</value>
+    <comment>Conversations:Label for date filtering</comment>
   </data>
   <data name="fromDate" xml:space="preserve">
     <value>from</value>
+    <comment>Conversation: from datepicker placeholder</comment>
   </data>
   <data name="starredLabel" xml:space="preserve">
     <value>Favorites</value>
+    <comment>Conversation: filters area, favourites (starred) filter label</comment>
   </data>
   <data name="toDate" xml:space="preserve">
     <value>to</value>
+    <comment>Conversation: filters area, date filtering, to placeholder</comment>
   </data>
   <data name="readLabel" xml:space="preserve">
     <value>Unread</value>
+    <comment>Conversation:</comment>
   </data>
   <data name="sendButton" xml:space="preserve">
     <value>Send</value>
+    <comment>Conversation:</comment>
   </data>
   <data name="accountAuthenticate" xml:space="preserve">
     <value>Authenticate</value>
+    <comment>Login:</comment>
   </data>
   <data name="lblPassword" xml:space="preserve">
     <value>password</value>
+    <comment>Login:</comment>
   </data>
   <data name="lblUserName" xml:space="preserve">
     <value>username</value>
+    <comment>Login:</comment>
   </data>
   <data name="logOnLogOffMsg" xml:space="preserve">
     <value>Log off</value>
+    <comment>Login:</comment>
   </data>
   <data name="logOnLogOnMsg" xml:space="preserve">
     <value>Log on</value>
+    <comment>Login:</comment>
   </data>
   <data name="tooltipIncludeDateInFilter" xml:space="preserve">
     <value>Turn date filtering on/off</value>
+    <comment>Conversation: filters area, enable/disable date filtering checkbox tooltip</comment>
   </data>
   <data name="tooltipIncludeStarredInFilter" xml:space="preserve">
     <value>Turn favorites filtering on/off</value>
+    <comment>Conversation: filters area, favorites messages only checkbox tooltip</comment>
   </data>
   <data name="tooltipIncludeTagsInFilter" xml:space="preserve">
     <value>Turn tag filtering on/off</value>
+    <comment>Conversation: filters area, only conversations with certain tags checkbox tooltip</comment>
   </data>
   <data name="tooltipIncludeUnreadInFilter" xml:space="preserve">
     <value>Turn only unread conversations on/off</value>
+    <comment>Conversation: filters area, unread messages only checkbox tooltip</comment>
   </data>
   <data name="tooltipMarkAsFavouriteImg" xml:space="preserve">
     <value>Mark as favorite</value>
+    <comment>Conversation: conversations area, star icon tooltip</comment>
   </data>
   <data name="tooltipReplyBtn" xml:space="preserve">
     <value>Send reply to customer</value>
+    <comment>Conversation: messages area, reply button</comment>
   </data>
   <data name="tooltipSendEmailImg" xml:space="preserve">
     <value>Send as email</value>
+    <comment>Conversation: messages area, messages hover menu tooltip</comment>
   </data>
   <data name="tooltipWpImg" xml:space="preserve">
     <value>Enable/disable displaying of messages for this working point</value>
+    <comment>Conversation: working points area, enable/disable checkbox</comment>
   </data>
   <data name="addATagLabel" xml:space="preserve">
     <value>add a tag</value>
+    <comment>Conversations: Should be the placeholder text for adding a column</comment>
   </data>
   <data name="loadMoreConversations" xml:space="preserve">
     <value>Load more conversations</value>
+    <comment>Conversation:</comment>
   </data>
   <data name="loginUnsuccessfulDetails" xml:space="preserve">
     <value>The user name or password provided is incorrect.</value>
+    <comment>Login:</comment>
   </data>
   <data name="loginUnsuccessfulSummary" xml:space="preserve">
     <value>Login was unsuccessful. Please correct the errors and try again.</value>
+    <comment>Login:</comment>
   </data>
   <data name="lblNoConversationSelected" xml:space="preserve">
     <value>No conversation selected, please select one</value>
+    <comment>Conversation: messages area, default placeholder</comment>
   </data>
   <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
     <value>Number of conversations with unread messages</value>
+    <comment>Conversation: header area, number of the right of Conversations menu label</comment>
   </data>
   <data name="sendEmailHeader" xml:space="preserve">
     <value>Send email</value>
+    <comment>Conversation: send email: send email screen header</comment>
   </data>
   <data name="sendEmailMessage" xml:space="preserve">
     <value>*Message:</value>
+    <comment>Conversation: send email: Body label</comment>
   </data>
   <data name="sendEmailSubject" xml:space="preserve">
     <value>*Subject:</value>
+    <comment>Conversation: send email/feedback: Subject label</comment>
   </data>
   <data name="sendEmailTo" xml:space="preserve">
     <value>*To:</value>
+    <comment>Conversation: send email/feedback: To label</comment>
   </data>
   <data name="sendEmailCancel" xml:space="preserve">
     <value>Cancel</value>
+    <comment>Conversation: send email: Cancel button</comment>
   </data>
   <data name="sendEmailConjuctionSubject" xml:space="preserve">
     <value>] and [</value>
+    <comment>Conversation: send email: connecting word inside subject</comment>
   </data>
   <data name="sendEmailEmailSent" xml:space="preserve">
     <value>Email sent!</value>
+    <comment>Conversation: send email: after send header</comment>
   </data>
   <data name="sendEmailEmailSentSuccessfuly" xml:space="preserve">
     <value>Email sent successfuly</value>
+    <comment>Conversation: send email: after send OK message</comment>
   </data>
   <data name="sendEmailLoadingScreen" xml:space="preserve">
     <value>Loading...</value>
+    <comment>Conversation: send email: appears before loading the send email screen</comment>
   </data>
   <data name="sendEmailPrefixSubject" xml:space="preserve">
     <value>Txt exchange between [</value>
+    <comment>Conversation: send email: Subject prefix</comment>
   </data>
   <data name="sendEmailSend" xml:space="preserve">
     <value>Send</value>
+    <comment>Conversation: send email: Send button</comment>
   </data>
   <data name="sendEmailSendingEmail" xml:space="preserve">
     <value>Sending...</value>
+    <comment>Conversation: send email: appears when sending an email</comment>
   </data>
   <data name="sendEmailValidationEmailInvalid" xml:space="preserve">
     <value>Email is invalid. </value>
+    <comment>Conversation: send email/feedback: when the email address is invalid</comment>
   </data>
   <data name="sendEmailValidationEmailRequired" xml:space="preserve">
     <value>Email is required. </value>
+    <comment>Conversation: send email/feedback: when trying to send an email without To</comment>
   </data>
   <data name="sendEmailValidationMessageRequired" xml:space="preserve">
     <value>Message is required. </value>
+    <comment>Conversation: send email/feedback: when trying to send an email without body</comment>
   </data>
   <data name="sendEmailValidationSubjectRequired" xml:space="preserve">
     <value>Subject is required. </value>
+    <comment>Conversation: send email/feedback: when trying to send an email without subject</comment>
   </data>
   <data name="feedbackSendUsFeedback" xml:space="preserve">
     <value>Send us feedback</value>
+    <comment>Conversations: send us feedback label</comment>
   </data>
   <data name="sendEmailStartingText" xml:space="preserve">
     <value>Message from TxtFeedback user</value>
+    <comment>Conversation: send email: inside the email header</comment>
   </data>
   <data name="sendFeedbackFeedbackSentSuccessfully" xml:space="preserve">
     <value>Your feedback has been sent - the TxtFeedback team thanks you for your time!</value>
+    <comment>send feedback after you send the email message</comment>
   </data>
   <data name="sendFeedbackHeader" xml:space="preserve">
     <value>Send feedback</value>
+    <comment>send feedback window header</comment>
   </data>
   <data name="sendFeedbackNegativeFeedbackSubject" xml:space="preserve">
     <value>I don't like the fact that...</value>
+    <comment>send negative feedback Subject</comment>
   </data>
   <data name="sendFeedbackPlaceholderMessage" xml:space="preserve">
     <value>Replace this with your input</value>
+    <comment>send positive/negative feedback default email body</comment>
   </data>
   <data name="sendFeedbackPositiveFeedbackSubject" xml:space="preserve">
     <value>I like the fact that...</value>
+    <comment>send positive feedback Subject</comment>
   </data>
   <data name="tooltipSendNegativeFeedback" xml:space="preserve">
     <value>Send negative feedback</value>
+    <comment>Conversation: sad smiley</comment>
   </data>
   <data name="tooltipSendPositiveFeedback" xml:space="preserve">
     <value>Send positive feedback</value>
+    <comment>Conversation: happy smiley</comment>
   </data>
 </root>
