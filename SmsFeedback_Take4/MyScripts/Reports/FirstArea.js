@@ -1,7 +1,7 @@
 ﻿window.app = window.app || {};
 
 function FirstArea(iResource, iGranularity) {
-        
+    var self = this;
     var resource = iResource;
     var granularity = iGranularity;
     var opts = {
@@ -22,7 +22,17 @@ function FirstArea(iResource, iGranularity) {
     };
     var spinner = new Spinner(opts);
     var target = document.getElementById('overlay');
-    var self = this;
+    
+    //
+    var data = null;
+    var options = {
+        animation: {
+            duration: 1000,
+            easing: 'out'
+        },
+        hAxis: { gridlines: { count: 5 } }
+    };
+    var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
 
     this.drawArea = function () {
         //spinner.spin(target);
@@ -44,12 +54,7 @@ function FirstArea(iResource, iGranularity) {
 
     this.drawChart = function(jsonData) {
         // Create our data table out of JSON data loaded from server.
-        var data = new google.visualization.DataTable(jsonData);
-        var options = {
-            // hAxis: { title: 'Year', titleTextStyle: { color: 'black' } }
-        };
-        
-        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        data = new google.visualization.DataTable(jsonData);
         chart.draw(data, options);
     }
 

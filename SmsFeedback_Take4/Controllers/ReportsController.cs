@@ -21,7 +21,7 @@ namespace SmsFeedback_Take4.Controllers
             return View();
         }
 
-        public JsonResult getSmsIncomingOutgoingDetailed(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
+        public JsonResult GetSmsIncomingOutgoingDetailed(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
         {
             DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
@@ -29,24 +29,24 @@ namespace SmsFeedback_Take4.Controllers
             // interval start and end dates received as rfc822
             if (iGranularity == Constants.dayGranularity)
             {
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Outgoing sms"), new RepDataColumn("19", "number", "Incoming sms") }, bogusDataGenerator(30, scope));
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Outgoing sms"), new RepDataColumn("19", "number", "Incoming sms") }, BogusDataGenerator(30, scope));
 
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
             else if (iGranularity == Constants.weekGranularity)
             {
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Outgoing sms"), new RepDataColumn("19", "number", "Incoming sms") }, bogusDataGenerator(5, scope));
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Outgoing sms"), new RepDataColumn("19", "number", "Incoming sms") }, BogusDataGenerator(5, scope));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Outgoing sms"), new RepDataColumn("19", "number", "Incoming sms") }, bogusDataGenerator(2, scope));
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Outgoing sms"), new RepDataColumn("19", "number", "Incoming sms") }, BogusDataGenerator(2, scope));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
 
         }
 
-        public JsonResult getSmsIncomingOutgoingTotal(String iIntervalStart, String iIntervalEnd, String culture, String scope)
+        public JsonResult GetSmsIncomingOutgoingTotal(String iIntervalStart, String iIntervalEnd, String culture, String scope)
         {
             DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
@@ -63,7 +63,7 @@ namespace SmsFeedback_Take4.Controllers
 
         }
 
-        public JsonResult getTotalNoOfSmsInfo(String iIntervalStart, String iIntervalEnd, String culture, String scope)
+        public JsonResult GetTotalNoOfSmsInfo(String iIntervalStart, String iIntervalEnd, String culture, String scope)
         {
             DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
@@ -71,7 +71,7 @@ namespace SmsFeedback_Take4.Controllers
 
         }
 
-        public JsonResult getAvgResponseTimeInfo(String iIntervalStart, String iIntervalEnd, String culture, String scope)
+        public JsonResult GetAvgResponseTimeInfo(String iIntervalStart, String iIntervalEnd, String culture, String scope)
         {
             DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
@@ -79,7 +79,7 @@ namespace SmsFeedback_Take4.Controllers
 
         }
 
-        public JsonResult getReportsMenuItems()
+        public JsonResult GetReportsMenuItems()
         {
             ReportsMenuItem[] reportsMenuItems = new ReportsMenuItem[] { new ReportsMenuItem(1, Resources.Global.RepConversations, false, 1), new ReportsMenuItem(2, Resources.Global.RepOverview, true, 1), 
                                                                          new ReportsMenuItem(3, Resources.Global.RepNewVsReturning, true, 1), new ReportsMenuItem(4, Resources.Global.RepClients, false, 4),
@@ -87,52 +87,52 @@ namespace SmsFeedback_Take4.Controllers
             return Json(reportsMenuItems, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult getReportById(int reportId)
+        public JsonResult GetReportById(int reportId)
         {
             var hashTable = new Dictionary<int, Report>();
             var report2 = new Report(2, Resources.Global.RepOverview, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "Reports/getSmsIncomingOutgoingDetailed") 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "Reports/GetSmsIncomingOutgoingDetailed") 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/getTotalNoOfSmsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/getTotalNoOfSmsInfo")
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/GetTotalNoOfSmsInfo"),
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/GetTotalNoOfSmsInfo")
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "Reports/getSmsIncomingOutgoingTotal") 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "Reports/GetSmsIncomingOutgoingTotal") 
                                                                                                                                                           }),
                                                                                     });
             var report3 = new Report(3, Resources.Global.RepIncomingVsOutgoing, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "Reports/getSmsIncomingOutgoingDetailed") 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "Reports/GetSmsIncomingOutgoingDetailed") 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/getTotalNoOfSmsInfo"),                                                                                                                                                    
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/GetTotalNoOfSmsInfo"),                                                                                                                                                    
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "Reports/getSmsIncomingOutgoingTotal") 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "Reports/GetSmsIncomingOutgoingTotal") 
                                                                                                                                                           }),
                                                                                     });
             var report5 = new Report(5, Resources.Global.RepOverview, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "Reports/getSmsIncomingOutgoingDetailed") 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "Reports/GetSmsIncomingOutgoingDetailed") 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/getTotalNoOfSmsInfo"),                                                                                                                                                    
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/GetTotalNoOfSmsInfo"),                                                                                                                                                    
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "Reports/getSmsIncomingOutgoingTotal") 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "Reports/GetSmsIncomingOutgoingTotal") 
                                                                                                                                                           }),
                                                                                     });
             var report6 = new Report(6, Resources.Global.RepNewVsReturning, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "Reports/getSmsIncomingOutgoingDetailed") 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "Reports/GetSmsIncomingOutgoingDetailed") 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/getTotalNoOfSmsInfo"),                                                                                                                                                    
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/GetTotalNoOfSmsInfo"),                                                                                                                                                    
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "Reports/getSmsIncomingOutgoingTotal") 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "Reports/GetSmsIncomingOutgoingTotal") 
                                                                                                                                                           }),
                                                                                     });
             hashTable.Add(2, report2);
@@ -144,7 +144,7 @@ namespace SmsFeedback_Take4.Controllers
 
         }
 
-        public List<RepDataRow> bogusDataGenerator(int intervalEnd, string workingPoint) {
+        public List<RepDataRow> BogusDataGenerator(int intervalEnd, string workingPoint) {
                 
                 var hashTable = new Dictionary<String, RepDataRow>();
                 var keyPrefix = "row";               
@@ -180,7 +180,7 @@ namespace SmsFeedback_Take4.Controllers
                     //Outgoing 
                     var bogusOutgoingSmsNo = outgoing[i];
                     var bogusOutgoingSmsText = bogusOutgoingSmsNo + " sms - " + bogusData;
-                    hashTable.Add(key, new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(bogusData), new RepDataRowCell(bogusIncomingSmsNo, bogusIncomingSmsText), new RepDataRowCell(bogusOutgoingSmsNo, bogusOutgoingSmsText) }));
+                    hashTable.Add(key, new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(bogusData, bogusData), new RepDataRowCell(bogusIncomingSmsNo, bogusIncomingSmsText), new RepDataRowCell(bogusOutgoingSmsNo, bogusOutgoingSmsText) }));
                 }
                
                 List<RepDataRow> content = new List<RepDataRow>();

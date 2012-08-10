@@ -50,7 +50,7 @@ function SecondArea(iData) {
                                 "<div class='infoTitle'>" + name + "</div>" +
                                 "<div class='infoContent'>" + data.value + "</div>" +
                             "</div>";
-        $("#infoBoxArea").prepend(infoBoxString);
+        $("#infoBoxArea").html(infoBoxString);
     }
 
 }

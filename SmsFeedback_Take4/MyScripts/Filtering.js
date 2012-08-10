@@ -67,7 +67,9 @@ function FilterArea() {
    {     
       //TODO add option to specify which language to use (according to selected language)
       startDatePicker.datepicker({
-         dateFormat: app.dateFormatForDatePicker,
+          changeMonth: true,
+          numberOfMonths: 3,
+          dateFormat: app.dateFormatForDatePicker,
          onClose: function (dateText, inst) {
             //compare the new value with the previous value
             //if changed and date filtering is checked, trigger refreshConversationList
@@ -80,7 +82,10 @@ function FilterArea() {
                }
             }
 
-         }
+         },
+         onSelect: function (selectedDate) {
+                $("#endDateTimePicker").datepicker("option", "minDate", selectedDate);              
+             }
       });
       
       this.previousStartDate = $.datepicker.formatDate(app.dateFormatForDatePicker, startDatePicker.datepicker("getDate"));
@@ -90,7 +95,9 @@ function FilterArea() {
    this.previousEndDate = "";
    this.defaultEndDate = this.endDate;
    if (endDatePicker.length !== 0)   {
-      endDatePicker.datepicker({
+       endDatePicker.datepicker({
+         changeMonth: true,
+         numberOfMonths: 3,
          dateFormat: app.dateFormatForDatePicker,
          onClose: function (dateText, inst) {
             //compare the new value with the previous value
@@ -104,6 +111,9 @@ function FilterArea() {
                }
             }
 
+         },
+         onSelect: function (selectedDate) {
+             $("#startDateTimePicker").datepicker("option", "maxDate", selectedDate);             
          }
       });
       

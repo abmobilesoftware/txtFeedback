@@ -336,4 +336,16 @@
   <data name="RepTotalNoOfSms" xml:space="preserve">
     <value>Numarul total de sms-uri</value>
   </data>
+  <data name="RepAverageResponseTime" xml:space="preserve">
+    <value>Timpul mediu de raspuns</value>
+  </data>
+  <data name="RepDay" xml:space="preserve">
+    <value>Zi</value>
+  </data>
+  <data name="RepMonth" xml:space="preserve">
+    <value>Luna</value>
+  </data>
+  <data name="RepWeek" xml:space="preserve">
+    <value>Saptamana</value>
+  </data>
 </root>

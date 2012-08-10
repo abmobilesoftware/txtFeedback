@@ -7,11 +7,9 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
       <% if (Html.IsReleaseBuild())      { %>
            <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/css/reports.css") %>" />
-           <link rel="stylesheet" href="<%: Url.Content("~/Content/css/datepicker/datepicker.css") %>" type="text/css" />
-           <link rel="stylesheet" media="screen" type="text/css" href="<%: Url.Content("~/Content/css/datepicker/layout.css") %>" />
-
+                      
             <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="application/javascript" ></script>
-            <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+            <script type="text/javascript" src='https://www.google.com/jsapi?autoload={"modules":[{"name":"visualization","version":"1","packages":["corechart","table"]}]}'></script>
 
             
 
@@ -38,9 +36,7 @@
            
               
              <script type="text/javascript" src="<%: Url.Content("~/Scripts/CollapsibleLists.js") %>"></script>
-            <script type="text/javascript">
-                google.load('visualization', '1', { 'packages': ['corechart'] });
-           </script>
+            
            <script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery-ui-vertical-buttonset.js") %>"></script>
            
            
@@ -50,14 +46,13 @@
                
     <% }      else      { %>
            <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/css/reports.css") %>" />
-           <link rel="stylesheet" href="<%: Url.Content("~/Content/css/datepicker/datepicker.css") %>" type="text/css" />
-           <link rel="stylesheet" media="screen" type="text/css" href="<%: Url.Content("~/Content/css/datepicker/layout.css") %>" />
-
+               
             <!-- Cool spinner -->
             <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="application/javascript" ></script>
             
             <!-- Google Ajax library, for loading other packages -->
-            <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+            <script type="text/javascript" src='https://www.google.com/jsapi?autoload={"modules":[{"name":"visualization","version":"1","packages":["corechart","table"]}]}'></script>
+
             <!-- Range picker scripts -->
             <script type="text/javascript" src="<%: Url.Content("~/Scripts/datepicker/datepicker.js") %>"></script>
             <script type="text/javascript" src="<%: Url.Content("~/Scripts/datepicker/eye.js") %>"></script>
@@ -80,21 +75,15 @@
            <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Reports.js") %>" type="application/javascript"></script>
            <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Facade.js") %>" type="application/javascript"></script>
             
-            <!-- Granularity vertical buttons -->
-            <script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery-ui-vertical-buttonset.js") %>"></script>
-                      
             <!-- Left menu, collapsible menu -->
             <script type="text/javascript" src="<%: Url.Content("~/Scripts/CollapsibleLists.js") %>"></script>
            
             <!-- Early loading of the corechar package, it's used in charts -->
-            <script type="text/javascript">
-               google.load('visualization', '1', {'packages':['corechart']});
-           </script>
+            
            
                     
 
-           <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.22/themes/base/jquery-ui.css" type="text/css" media="all" /> 
-		   <link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css" type="text/css" media="all" />
+         
                
       <% } %>
    <!--<span class="bodyText">Work in progress</span>-->
@@ -102,16 +91,24 @@
     <script type="text/template" id="report-template">
                <div id="titleArea">
                 <span id="reportTitle">{{ title }}</span>
-                <div id="widgetWrapper">
-                   <div id="widget">
-		            <div id="widgetField">
-                        <span> {{ window.app.dateHelper.transformDateToLocal(window.app.startDate) }} - {{ window.app.dateHelper.transformDateToLocal(window.app.endDate) }} </span>
-				        <a href="#">Select date range</a>
-			        </div>
-			        <div id="widgetCalendar">
-			        </div>
-		           </div>
-                </div>
+                    <div id="widgetWrapper">
+                        <div id="widget">
+                            {%
+                                var startDay = (window.app.startDate.getDate() < 10) ? "0" + window.app.startDate.getDate() : window.app.startDate.getDate();
+                                var startMonth = (window.app.startDate.getMonth() + 1 < 10) ? "0" + (window.app.startDate.getMonth() + 1) : window.app.startDate.getMonth() + 1;
+                                var startYear = window.app.startDate.getFullYear();
+                                var startDateString = startDay + "-" + startMonth + "-" + startYear;
+
+                                var endDay = (window.app.endDate.getDate() < 10) ? "0" + window.app.endDate.getDate() : window.app.endDate.getDate();
+                                var endMonth = (window.app.endDate.getMonth() + 1 < 10) ? "0" + (window.app.endDate.getMonth() + 1) : window.app.endDate.getMonth() + 1;
+                                var endYear = window.app.endDate.getFullYear();
+                                var endDateString = endDay + "-" + endMonth + "-" + endYear;
+                            %}
+                            <input type="text" id="from" name="from" class="filterDate filterInputBox"  value="{{ startDateString }}"/> - 
+                            <input type="text" id="to" name="to" class="filterDate filterInputBox"  value="{{ endDateString }}"/>
+                            
+                        </div>
+                    </div>
                 <div class="clear"></div>
             </div>
 
@@ -119,10 +116,11 @@
                     if ((sections[i].identifier == "PrimaryChartArea") && sections[i].visibility) {
             %}
                         <div id="chartArea">
-                            <div id="radio">
-                                <input type="radio" id="radio1" name="radio" checked="checked" class="radioOption" value="day"/><label for="radio1">Day</label>
-		                        <input type="radio" id="radio2" name="radio" class="radioOption" value="week" /><label for="radio2">Week</label>
-		                        <input type="radio" id="radio3" name="radio" class="radioOption" value="year"/><label for="radio3">Month</label>
+                            <div id="granularitySelector">
+                                
+                                <div class="radioBtnWrapper active"><label for="day" class="radioBtn"><input type="radio" id="day" name="radio" checked="checked" class="radioOption" value="day"/><%: Resources.Global.RepDay %></label></div>
+		                        <div class="radioBtnWrapper"><label for="week" class="radioBtn"><input type="radio" id="week" name="radio" class="radioOption" value="week" /><%: Resources.Global.RepWeek %></label></div>
+		                        <div class="radioBtnWrapper"><label for="month" class="radioBtn"><input type="radio" id="month" name="radio" class="radioOption" value="year"/><%: Resources.Global.RepMonth %></label></div>
                             </div>
                             <div id="chart_div"></div>
             {%
