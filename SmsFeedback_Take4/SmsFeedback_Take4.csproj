@@ -183,12 +183,22 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Global.de.resx</DependentUpon>
     </Compile>
+    <Compile Include="GlobalResources\Reports.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reports.resx</DependentUpon>
+    </Compile>
     <Compile Include="Models\BusinessObjects\ConversationTag.cs" />
     <Compile Include="Models\Helpers\RepDataColumn.cs" />
     <Compile Include="Models\Helpers\RepChartData.cs" />
     <Compile Include="Models\Helpers\RepDataRow.cs" />
     <Compile Include="Models\Helpers\RepDataRowCell.cs" />
     <Compile Include="Models\Helpers\Error.cs" />
+    <Compile Include="Models\Helpers\RepInfoBox.cs" />
+    <Compile Include="Models\Helpers\Report.cs" />
+    <Compile Include="Models\Helpers\ReportResource.cs" />
+    <Compile Include="Models\Helpers\ReportSection.cs" />
+    <Compile Include="Models\Helpers\ReportsMenuItem.cs" />
     <Compile Include="Models\Interfaces\IInternalSMSRepository.cs" />
     <Compile Include="Models\Repositories\EFSmsRepository.cs" />
     <Compile Include="Models\Repositories\FacadeSMSRepository.cs" />
@@ -344,9 +354,12 @@
     <Content Include="MyScripts\Minified\Utilities.js" />
     <Content Include="MyScripts\Minified\WorkingPoints.js" />
     <Content Include="MyScripts\Minified\XMPP.js" />
-    <Content Include="MyScripts\Reports\GooglePieChart.js" />
+    <Content Include="MyScripts\Reports\DateHelper.js" />
+    <Content Include="MyScripts\Reports\GlobalVariables.js" />
+    <Content Include="MyScripts\Reports\SecondArea.js" />
+    <Content Include="MyScripts\Reports\ThirdArea.js" />
     <Content Include="MyScripts\Reports\Facade.js" />
-    <Content Include="MyScripts\Reports\GoogleChartsTool.js" />
+    <Content Include="MyScripts\Reports\FirstArea.js" />
     <Content Include="MyScripts\Reports\Report.js" />
     <Content Include="MyScripts\Reports\Reports.js" />
     <Content Include="MyScripts\WorkingPoints.js" />
@@ -360,6 +373,8 @@
     <Content Include="QUnit\QUnitTests.html" />
     <Content Include="QUnit\UtilitiesTests.js" />
     <Content Include="QUnit\WorkingPointsTests.js" />
+    <Content Include="Scripts\backbone.js" />
+    <Content Include="Scripts\CollapsibleLists.js" />
     <Content Include="Scripts\datepicker\datepicker.js" />
     <Content Include="Scripts\datepicker\eye.js" />
     <Content Include="Scripts\datepicker\jquery.js" />
@@ -388,6 +403,7 @@
     <Content Include="Scripts\splitter.js" />
     <Content Include="Scripts\jquery-ui-vertical-buttonset.js" />
     <Content Include="Scripts\strophe\strophe.js" />
+    <Content Include="Scripts\underscore.js" />
     <Content Include="Templates\PhoneTemplates.txt" />
     <Content Include="Scripts\execute.js" />
     <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
@@ -461,6 +477,11 @@
       <LastGenOutput>Global.de.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="GlobalResources\Reports.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Reports.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GlobalResources\Reports.ro.resx" />
     <None Include="Properties\PublishProfiles\cluj.info.pubxml" />
     <Content Include="Views\UserMailer\_Layout.Master" />
     <Content Include="Scripts\jquery.cookie.js" />

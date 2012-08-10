@@ -268,12 +268,12 @@ input[type="submit"] {
 
 /* TABLE
 ----------------------------------------------------------*/
-
+/* temporary disabled
 table {
    border: solid 1px #e8eef4;
    border-collapse: collapse;
 }
-
+  
    table td {
       padding: 5px;
       border: solid 1px #e8eef4;
@@ -285,7 +285,7 @@ table {
       background-color: #e8eef4;
       border: solid 1px #e8eef4;
    }
-
+    */
 /* MISC  
 ----------------------------------------------------------*/
 .clear {

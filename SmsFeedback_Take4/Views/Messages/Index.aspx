@@ -120,8 +120,8 @@
          <span>{{ Text }} </span> 
          <div class="clear"></div>
          {% 
-             var dateComponents = TimeReceived.toString().split(" ");
-             var time = dateComponents[4];               
+            var dateComponents = TimeReceived.toString().split(" ");
+            var time = dateComponents[4];               
             var displayPattern = 'DD, MM d, yy';
             if (window.app.calendarCulture == "ro") displayPattern = 'DD, d MM, yy';       
             var timeReceivedLocal = $.datepicker.formatDate(displayPattern, TimeReceived, 

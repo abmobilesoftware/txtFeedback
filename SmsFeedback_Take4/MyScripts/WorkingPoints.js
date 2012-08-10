@@ -25,7 +25,7 @@ window.app.workingPoints = {};
    window.app.WorkingPointPool = Backbone.Collection.extend({
       model: app.WorkingPoint,
       url: function () {
-         return "Messages/WorkingPointsPerUser";
+         return window.app.domainName + "/Messages/WorkingPointsPerUser";
       }
    });
 //#endregion

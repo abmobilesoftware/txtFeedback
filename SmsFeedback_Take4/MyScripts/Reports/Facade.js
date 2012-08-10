@@ -1,8 +1,5 @@
 ﻿"use strict";
 
-window.app = window.app || {};
-window.app.calendarCulture = "en-GB";
-
 function InitializeGUI() {
    var self = this;
    window.addEventListener("resize", resizeTriggered, false);
@@ -16,10 +13,14 @@ $(document).ready(function () {
     } else {
         window.app.calendarCulture = culture;
     }
-      
-    var report = new Report();
-    report.initialize();
-   
+         
+    window.app.reportsPage = new ReportsArea();
+
+    // Default setup of the page
+    $("#workingPointSelector").val("Global");
+    $("#workingPointSelector").change(function () {
+        $(document).trigger("workingPointChanged", $(this).val());
+    });
 });
 
 function resizeTriggered() {
@@ -33,4 +34,7 @@ function resizeTriggered() {
    
    $('#leftColumn').height(contentWindowHeight);
    $('#rightColumn').height(contentWindowHeight);
+
+   // the charts are redrawn at a more appropriate scale.
+   //window.app.reportsPage.redrawContent();
 }

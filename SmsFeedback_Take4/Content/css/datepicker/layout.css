@@ -207,10 +207,10 @@ input.inputDate {
 #widgetCalendar {
 	position: absolute;
 	top: 26px;
-	left: -436px;
+	left: -307px;
 	height: 0px;
 	overflow: hidden;
-	width: 726px;
+	width: 597px;
 	background: #183540;
     z-index:1500;
 }

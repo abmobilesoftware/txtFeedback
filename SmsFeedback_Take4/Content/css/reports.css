@@ -52,6 +52,11 @@ color: white;
 }
 
 #widget {
+    float: right;
+    display: inline;
+}
+
+#widgetWrapper {
     width: 35%;
     float: left;
     display: inline;
@@ -78,6 +83,7 @@ padding:10px;
     position:relative;
     left:20px;
     top:108px;
+    display:none;
 }
 
 #chart_div {
@@ -88,13 +94,15 @@ padding:10px;
 }
 
 .boxArea {
-    width: 19.5%;
+    width: 19.9%;
     display:inline;
     float:left;
     border-bottom: 1px solid #ccc;
-    border-right: 1px solid #ccc;
+    border-right: 1px dotted #ccc;
     text-align: center;
     padding-bottom: 20px;
+    padding-top:20px;
+    background: #eee;
 }
 
 .infoTitle {
@@ -109,7 +117,83 @@ padding:10px;
 }
 
 #tableChart {
-    width: 30%;
+    width: 29.9%;
     float:left;
+    border-left: 1px dotted #ccc;
 }
 
+.reportMenuParentItem {
+    font-weight: bold;
+    font-size: 16 em;
+}
+
+li {
+    margin-left: 0;
+    cursor: pointer;
+}
+
+li.innerLi {
+    margin-left: 25px;
+    margin-top: 5px;       
+}
+
+.collapsibleList {
+    padding-left: 20px;
+}
+
+.reportMenuItemSelected {
+    background: #2d5361;
+   -moz-border-radius: 10px;
+   border-radius: 10px;
+   padding:5px;
+}
+
+.tblRow {
+    padding: 10px;
+}
+
+.tblHead {
+    font-weight: bold;
+    background: #183540;
+    color: #fff;
+}
+
+.tblHead td {
+    padding:10px 0 10px 3px;
+}
+
+.tb {
+    margin-top: 20px;
+}
+
+ table tr.tblRow td {
+      padding: 5px;
+      border: solid 1px #e8eef4;
+   }
+
+ .styled-select select {
+   width: 90%;
+   padding: 5px;
+   font-size: 16px;
+   border: 1px solid #ccc;
+   height: 34px;
+   color: #fff;
+   font-family: Calibri;
+   margin-bottom: 20px;
+   margin-top:6px;
+   margin-left:5px;
+   background: #000 !important;
+}
+ 
+ #overlay {
+    position: fixed;
+    top: 115px;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    filter:alpha(opacity=50);
+    -moz-opacity:0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5;
+    z-index: 10000;
+}

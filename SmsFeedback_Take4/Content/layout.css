@@ -232,13 +232,15 @@ ul.section li.current > a.active:hover {
 }
 
 
-/* table
+/* table -- temporary disabled
 ----------------------------------------------- */
+
 table {
 	width:100%;
 	border:1px solid #bbb;
 	margin-bottom:10px;
 }
+/*
 col.colC {
 	width:8em;
 }
@@ -285,7 +287,7 @@ th.currency,
 td.currency {
 	text-align:right;
 }
-
+*/
 
 /* forms
 ----------------------------------------------- */

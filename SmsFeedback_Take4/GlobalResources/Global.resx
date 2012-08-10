@@ -277,26 +277,44 @@
     <value>Login was unsuccessful. Please correct the errors and try again.</value>
     <comment>Login:</comment>
   </data>
+  <data name="RepClients" xml:space="preserve">
+    <value>Clients</value>
+  </data>
   <data name="lblNoConversationSelected" xml:space="preserve">
     <value>No conversation selected, please select one</value>
     <comment>Conversation: messages area, default placeholder</comment>
+  </data>
+  <data name="RepConversations" xml:space="preserve">
+    <value>Conversations</value>
   </data>
   <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
     <value>Number of conversations with unread messages</value>
     <comment>Conversation: header area, number of the right of Conversations menu label</comment>
   </data>
+  <data name="RepIncomingVsOutgoing" xml:space="preserve">
+    <value>Incoming vs Outgoing</value>
+   </data>
   <data name="sendEmailHeader" xml:space="preserve">
     <value>Send email</value>
     <comment>Conversation: send email: send email screen header</comment>
+  </data>
+  <data name="RepNewVsReturning" xml:space="preserve">
+    <value>New vs Returning</value>
   </data>
   <data name="sendEmailMessage" xml:space="preserve">
     <value>*Message:</value>
     <comment>Conversation: send email: Body label</comment>
   </data>
+  <data name="RepOverview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
   <data name="sendEmailSubject" xml:space="preserve">
     <value>*Subject:</value>
     <comment>Conversation: send email/feedback: Subject label</comment>
   </data>
+  <data name="RepTotalNoOfSms" xml:space="preserve">
+    <value>Total no of sms</value>
+   </data>
   <data name="sendEmailTo" xml:space="preserve">
     <value>*To:</value>
     <comment>Conversation: send email/feedback: To label</comment>
