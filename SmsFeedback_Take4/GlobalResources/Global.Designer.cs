@@ -286,11 +286,11 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average response time.
+        ///   Looks up a localized string similar to Average number of sms per client.
         /// </summary>
-        public static string RepAverageResponseTime {
+        public static string RepAvgNoOfSmsPerClient {
             get {
-                return ResourceManager.GetString("RepAverageResponseTime", resourceCulture);
+                return ResourceManager.GetString("RepAvgNoOfSmsPerClient", resourceCulture);
             }
         }
         
@@ -300,6 +300,15 @@ namespace Resources {
         public static string RepAvgNoOfSmsPerDay {
             get {
                 return ResourceManager.GetString("RepAvgNoOfSmsPerDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average response time.
+        /// </summary>
+        public static string RepAvgResponseTime {
+            get {
+                return ResourceManager.GetString("RepAvgResponseTime", resourceCulture);
             }
         }
         

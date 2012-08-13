@@ -336,9 +336,6 @@
   <data name="tooltipSendPositiveFeedback" xml:space="preserve">
     <value>Send positive feedback</value>
   </data>
-  <data name="RepAverageResponseTime" xml:space="preserve">
-    <value>Average response time</value>
-  </data>
   <data name="RepDay" xml:space="preserve">
     <value>Day</value>
   </data>
@@ -350,6 +347,12 @@
   </data>
   <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
     <value>Average no of sms per day</value>
+  </data>
+  <data name="RepAvgNoOfSmsPerClient" xml:space="preserve">
+    <value>Average number of sms per client</value>
+  </data>
+  <data name="RepAvgResponseTime" xml:space="preserve">
+    <value>Average response time</value>
   </data>
   <data name="RepNoOfNewClients" xml:space="preserve">
     <value>Number of new clients</value>

@@ -336,9 +336,6 @@
   <data name="RepTotalNoOfSms" xml:space="preserve">
     <value>Numarul total de sms-uri</value>
   </data>
-  <data name="RepAverageResponseTime" xml:space="preserve">
-    <value>Timpul mediu de raspuns</value>
-  </data>
   <data name="RepDay" xml:space="preserve">
     <value>Zi</value>
   </data>
@@ -350,6 +347,12 @@
   </data>
   <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
     <value>Numarul mediu de sms-uri pe zi</value>
+  </data>
+  <data name="RepAvgNoOfSmsPerClient" xml:space="preserve">
+    <value>Numarul mediu de sms-uri pe client</value>
+  </data>
+  <data name="RepAvgResponseTime" xml:space="preserve">
+    <value>Timp mediu de raspuns</value>
   </data>
   <data name="RepNoOfNewClients" xml:space="preserve">
     <value>Numarul de noi clienti</value>
