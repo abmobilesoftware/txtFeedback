@@ -212,7 +212,7 @@
    <div id="messagesArea" class="grid_6">
       <div id="scrollablemessagebox" class="messagesboxcontainerclass scrollablebox">
          <div id="messagesbox" class="messagesboxclass">
-            <span><%: Resources.Global.lblNoConversationSelected%></span>
+            <span id="noConversationsLoaded"><%: Resources.Global.lblNoConversationSelected%></span>
          </div>
       </div>
       <div id="messageTagsSeparator"></div>
