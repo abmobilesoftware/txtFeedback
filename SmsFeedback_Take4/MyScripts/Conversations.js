@@ -171,9 +171,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                "newMessageReceived",
                "gatherFilterOptions");
             this.convsList = new app.ConversationsList();
-            this.convsList.bind("reset", this.render);
-            this.convsList.bind("add", this.render);
-            // this.convsList.bind("add", this.addConversationWithEffect, this);
+            this.convsList.bind("reset", this.render);            
             // create an array of views to keep track of children
             this._convViews = [];
             //by default conversations are "new"
@@ -217,7 +215,6 @@ function ConversationArea(filterArea, workingPointsArea) {
                         app.firstCall = false;
                     }
                     app.requestIndex++;
-                    //spinner.stop();
                 }
             });
         },
