@@ -274,7 +274,8 @@ function MessagesArea(convView, tagsArea) {
             //$("#messagesbox").selectable();
         },
         resetViewToDefault: function () {
-            $('#messagesbox').html($("#noConversationSelectedMessage").val());
+           var noConversationLoadedMessage = $("#noConversationSelectedMessage").val();
+           $('#messagesbox').html('<span id="noConversationsLoaded">'+noConversationLoadedMessage+'</span>');
             $("#textareaContainer").addClass("invisible");
             $("#tagsContainer").addClass("invisible");
             self.currentConversationId = '';
@@ -352,7 +353,7 @@ function MessagesArea(convView, tagsArea) {
             console.log("new message received: " + text + " with ID:" + msgID);
             var newMsg = new app.Message({ Id: msgID });
             //decide if this is a from or to message
-            var fromTo = getFromToFromConversation(self.currentConversationId);
+            var fromTo = getFromToFromConversation(convID);
             var from = fromTo[0];
             var direction = "from";
             if (!comparePhoneNumbers(fromID, from)) {
