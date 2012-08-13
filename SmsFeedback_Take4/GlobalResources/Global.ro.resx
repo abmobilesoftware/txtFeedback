@@ -348,4 +348,13 @@
   <data name="RepWeek" xml:space="preserve">
     <value>Saptamana</value>
   </data>
+  <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
+    <value>Numarul mediu de sms-uri pe zi</value>
+  </data>
+  <data name="RepNoOfNewClients" xml:space="preserve">
+    <value>Numarul de noi clienti</value>
+  </data>
+  <data name="RepTags" xml:space="preserve">
+    <value>Etichete</value>
+  </data>
 </root>

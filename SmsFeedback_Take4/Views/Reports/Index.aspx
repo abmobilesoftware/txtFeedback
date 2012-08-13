@@ -32,7 +32,7 @@
            
             
            <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Reports.js") %>" type="application/javascript"></script>
-           <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Facade.js") %>" type="application/javascript"></script>
+           <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/RepFacade.js") %>" type="application/javascript"></script>
            
               
              <script type="text/javascript" src="<%: Url.Content("~/Scripts/CollapsibleLists.js") %>"></script>
@@ -73,7 +73,7 @@
             <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/SecondArea.js") %>" type="application/javascript"></script>
             <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/ThirdArea.js") %>" type="application/javascript"></script>
            <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Reports.js") %>" type="application/javascript"></script>
-           <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Facade.js") %>" type="application/javascript"></script>
+           <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/RepFacade.js") %>" type="application/javascript"></script>
             
             <!-- Left menu, collapsible menu -->
             <script type="text/javascript" src="<%: Url.Content("~/Scripts/CollapsibleLists.js") %>"></script>

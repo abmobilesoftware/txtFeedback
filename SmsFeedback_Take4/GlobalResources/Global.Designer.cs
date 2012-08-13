@@ -295,6 +295,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Average no of sms per day.
+        /// </summary>
+        public static string RepAvgNoOfSmsPerDay {
+            get {
+                return ResourceManager.GetString("RepAvgNoOfSmsPerDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clients.
         /// </summary>
         public static string RepClients {
@@ -349,11 +358,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number of new clients.
+        /// </summary>
+        public static string RepNoOfNewClients {
+            get {
+                return ResourceManager.GetString("RepNoOfNewClients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Overview.
         /// </summary>
         public static string RepOverview {
             get {
                 return ResourceManager.GetString("RepOverview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        public static string RepTags {
+            get {
+                return ResourceManager.GetString("RepTags", resourceCulture);
             }
         }
         

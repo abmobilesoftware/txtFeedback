@@ -82,7 +82,12 @@ var ReportsMenuView = Backbone.View.extend({
         _(this.menuItems.models).each(function (menuItemModel) {
             var reportsMenuItemView = new ReportsMenuItemView({ model: menuItemModel });
             if (!menuItemModel.get("leaf")) {
-                $("ul.primaryList", self.el).append(reportsMenuItemView.renderParent().el);
+                if (menuItemModel.get("parent") == 0) {
+                    $("ul.primaryList", self.el).append(reportsMenuItemView.renderParent().el);
+                } else {
+                    var selector = ".item" + menuItemModel.get("parent");
+                    $(selector, self.el).append(reportsMenuItemView.renderParent().el);
+                }
             } else {
                 var selector = ".item" + menuItemModel.get("parent");
                 $(selector, self.el).append(reportsMenuItemView.renderLeaf().el);
@@ -260,12 +265,12 @@ var ReportsArea = function () {
     }
 
     this.loadWorkingPoints = function () {
-        $.getJSON('/Messages/WorkingPointsPerUser',
+        $.getJSON(window.app.domainName + '/Messages/WorkingPointsPerUser',
                {},
                function (data) {
                    var workingPointsSelectorContent = "<option value='Global'>Global</option>";
                    for (i = 0; i < data.length; ++i) {
-                       workingPointsSelectorContent += "<option value='" + data[i].Name + "'>" + data[i].Name + "</option>";
+                       workingPointsSelectorContent += "<option value='" + data[i].TelNumber + "'>" + data[i].Name + "</option>";
                    }
                    $("#workingPointSelector").append(workingPointsSelectorContent);
                }
