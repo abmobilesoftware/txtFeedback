@@ -72,8 +72,7 @@
                 
                 <p>
                     <input id="loginBtn" type="submit" value="<%: Resources.Global.LogOnButtonMessage %>" />
-                </p>
-                 <p><%: Html.ActionLink(Resources.Global.logOnRegister, "Register") %>    </p>
+                </p>                 
                <div id="changeLanguage">                                               
                 
                 <%: Html.ImageLink(Url.Content("~/Content/images/Uk_flag.png"), "en-US",null,null) %>
