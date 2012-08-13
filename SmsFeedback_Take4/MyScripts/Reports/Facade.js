@@ -23,6 +23,7 @@ $(document).ready(function () {
     });
 });
 
+
 function resizeTriggered() {
     //pick the highest between window size (- header) and messagesArea 
     // TODO: refactor variables names.
