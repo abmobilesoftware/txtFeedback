@@ -76,11 +76,10 @@ window.app.updateNrOfUnreadConversations = function (performUpdateBefore) {
 
 //#region Store/restore the nr of convs with unread messages when navigating between pages
 $(function() {
-   $(window).unload(function () {
+   $(window).unload(function () {  
       //save the state of the nr of unread messages
       var store = new Persist.Store('SmsFeedback');
-      store.set('msgTabcountValue', $("#msgTabcount").text());
-      
+      store.set('msgTabcountValue', $("#msgTabcount").text());      
    });
    
 })
@@ -121,7 +120,19 @@ $(function () {
    });
 })
 //#endregion
-
+//#region Client side javascript erros
+$(function () {
+   window.onerror = function (message, file, line) {
+      var details = file + ':' + line + '\n' + message;
+      $.ajax({
+         type: 'POST',
+         url: 'ErrorLog/LogError',
+         data: JSON.stringify({ errorMsg: details, context: navigator.userAgent }),
+         contentType: 'application/json; charset=utf-8'
+      });
+   };
+})
+//#endregion
 //#region Set tooltip on Messages
 $(function () {
    var nrOfConvsWithUnreadMessages = $("#msgTabcount");

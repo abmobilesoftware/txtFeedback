@@ -33,15 +33,22 @@
             <script type="text/javascript" src="<%: Url.Content("~/Scripts/datepicker/utils.js") %>"></script>
            
             
+           <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/FirstArea.js") %>" type="application/javascript"></script>
+            <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/SecondArea.js") %>" type="application/javascript"></script>
+            <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/ThirdArea.js") %>" type="application/javascript"></script>
            <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Reports.js") %>" type="application/javascript"></script>
            <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Facade.js") %>" type="application/javascript"></script>
+            
+            <!-- Granularity vertical buttons -->
+            <script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery-ui-vertical-buttonset.js") %>"></script>
+                      
+            <!-- Left menu, collapsible menu -->
+            <script type="text/javascript" src="<%: Url.Content("~/Scripts/CollapsibleLists.js") %>"></script>
            
-              
-             <script type="text/javascript" src="<%: Url.Content("~/Scripts/CollapsibleLists.js") %>"></script>
+            <!-- Early loading of the corechar package, it's used in charts -->
             <script type="text/javascript">
-                google.load('visualization', '1', { 'packages': ['corechart'] });
+               google.load('visualization', '1', { 'packages': ['corechart'] });
            </script>
-           <script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery-ui-vertical-buttonset.js") %>"></script>
            
            
            <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.22/themes/base/jquery-ui.css" type="text/css" media="all" />
