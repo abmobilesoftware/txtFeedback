@@ -257,7 +257,7 @@ function ConversationArea(filterArea, workingPointsArea) {
             //#endregion
 
             //update the cumulativeSkip (supporting the use case where we use LoadMoreConversations multiple times)
-            app.cummulativeSkip = app.cummulativeSkip + app.defaultNrOfConversationsToDisplay;
+            app.cummulativeSkip = this.convsList.length;
 
             //#region Prepare parameters
             var options = this.gatherFilterOptions();
