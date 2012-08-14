@@ -403,10 +403,34 @@
     <value>Send positive feedback</value>
     <comment>Conversation: happy smiley</comment>
   </data>
+  <data name="RepDay" xml:space="preserve">
+    <value>Day</value>
+  </data>
   <data name="filteringAddFilterTag" xml:space="preserve">
     <value>add filtering tag</value>
   </data>
   <data name="messagesAddTagPlaceHolder" xml:space="preserve">
     <value>add tag</value>
+    </data>
+  <data name="RepMonth" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="RepWeek" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
+    <value>Average no of sms per day</value>
+  </data>
+  <data name="RepAvgNoOfSmsPerClient" xml:space="preserve">
+    <value>Average number of sms per client</value>
+  </data>
+  <data name="RepAvgResponseTime" xml:space="preserve">
+    <value>Average response time</value>
+  </data>
+  <data name="RepNoOfNewClients" xml:space="preserve">
+    <value>Number of new clients</value>
+  </data>
+  <data name="RepTags" xml:space="preserve">
+    <value>Tags</value>
   </data>
 </root>

@@ -51,11 +51,16 @@ var ReportsMenuItemView = Backbone.View.extend({
         _.bindAll(this, 'render');
     },
     renderParent: function () {
-        $(this.el).html("<span class='reportMenuParentItem'>" + this.model.get("itemName") + "</span>" + "<ul class='item" + this.model.get("itemId") + "'></ul>");
+        $(this.el).addClass('outerLi');
+        $(this.el).addClass('listItem');
+        $(this.el).html("<div class='reportMenuParentItem'>" + this.model.get("itemName") + "</div>" + "<ul class='item" + this.model.get("itemId") + "'></ul>");
         return this;
     },
     renderLeaf: function () {
        $(this.el).addClass('innerLi');
+        $(this.el).addClass('listItem');
+        $(this.el).addClass('liItem' + this.model.get("itemId"));
+        $(this.el).attr("reportId", this.model.get("itemId"));
         $(this.el).html("<span class='reportMenuLeafItem' reportId='" + this.model.get("itemId") + "'>" + this.model.get("itemName") + "</span>");
         return this;
     }
@@ -81,18 +86,31 @@ var ReportsMenuView = Backbone.View.extend({
         _(this.menuItems.models).each(function (menuItemModel) {
             var reportsMenuItemView = new ReportsMenuItemView({ model: menuItemModel });
             if (!menuItemModel.get("leaf")) {
-                $("ul.primaryList", self.el).append(reportsMenuItemView.renderParent().el);
+                if (menuItemModel.get("parent") == 0) {
+                    $("ul.primaryList", self.el).append(reportsMenuItemView.renderParent().el);
+                } else {
+                    var selector = ".item" + menuItemModel.get("parent");
+                    $(selector, self.el).append(reportsMenuItemView.renderParent().el);
+                }
             } else {
                 var selector = ".item" + menuItemModel.get("parent");
                 $(selector, self.el).append(reportsMenuItemView.renderLeaf().el);
             }
         });
-        $(".reportMenuLeafItem").click(function () {
-            $("*").removeClass("reportMenuItemSelected");
+        
+        // open report functionality
+        $(".innerLi").click(function () {
+            $(this).parents(".collapsibleList").find(".reportMenuItemSelected").removeClass("reportMenuItemSelected");
             $(this).addClass("reportMenuItemSelected");
             $(document).trigger("switchReport", $(this).attr("reportId"));
         });
+
+        // apply collapsible functionality to list 
         CollapsibleLists.apply();
+
+        // mark the first opened report
+        $(".liItem2").addClass("reportMenuItemSelected");
+        $("ul.item1").css("display", "block");
         
     }    
 });
@@ -100,13 +118,15 @@ var ReportsMenuView = Backbone.View.extend({
 var ReportsContentArea = Backbone.View.extend({
     el: $("#rightColumn"),
     initialize: function () {
-        _.bindAll(this, 'render', 'setupEnvironment');
+        _.bindAll(this, 'render', 'setupEnvironment', 'updateReport');
         this.render();
     },
     render: function () {
         var template = _.template($("#report-template").html(), this.model.toJSON());
         // Load the compiled HTML into the Backbone "el"
         $(this.el).html(template);
+        
+
         this.setupEnvironment();
     },
     setupEnvironment: function () {
@@ -124,47 +144,69 @@ var ReportsContentArea = Backbone.View.extend({
             }
         }
 
-        //setTimeout(function () { }, 200);
+        // Setup the calendar
+        $("#from").datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3,
+            onSelect: function (selectedDate) {
+                $("#to").datepicker("option", "minDate", selectedDate);
+                var day = selectedDate.substring(0, 2);
+                var month = selectedDate.substring(3, 5) - 1;
+                var year = selectedDate.substring(6, selectedDate.length);
+                window.app.newStartDate = new Date(year, month, day);
 
-        // Calendar setup
-        $('#widgetCalendar').DatePicker({
-            flat: true,
-            format: 'd B, Y',
-            date: [window.app.dateHelper.transformDate(window.app.startDate), window.app.dateHelper.transformDate(window.app.endDate)],
-            calendars: 3,
-            mode: 'range',
-            starts: 1,
-            onChange: function (formated) {
-                // $('#widgetField span').get(0).innerHTML = formated.join(' &divide; '); // old formatting
-                window.app.newStartDate = new Date(formated[0]);
-                window.app.newEndDate = new Date(formated[1]);
-                $('#widgetField span').get(0).innerHTML = window.app.dateHelper.transformDateToLocal(window.app.newStartDate) + " - " + window.app.dateHelper.transformDateToLocal(window.app.newEndDate);
-
-            }
-        });
-        var state = false;
-        $('#widgetField>a').bind('click', function () {
-            $('#widgetCalendar').stop().animate({ height: state ? 0 : $('#widgetCalendar div.datepicker').get(0).offsetHeight }, 500);
-            state = !state;
-            // Datepicker was closed
-            if (!state) {
-                if (window.app.startDate !== window.app.newStartDate || window.app.endDate !== window.app.newEndDate) {
+                if (window.app.newStartDate != window.app.startDate) {
                     window.app.startDate = window.app.newStartDate;
                     window.app.endDate = window.app.newEndDate;
                     $(document).trigger("intervalChanged");
                 }
             }
-            return false;
         });
-        $('#reportRange div.datepicker').css('position', 'absolute');
+        $("#to").datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3,
+            onSelect: function (selectedDate) {
+                $("#from").datepicker("option", "maxDate", selectedDate);
+                var day = selectedDate.substring(0, 2);
+                var month = selectedDate.substring(3, 5) - 1;
+                var year = selectedDate.substring(6, selectedDate.length);
+                window.app.newEndDate = new Date(year, month, day);
+
+                if (window.app.newEndDate != window.app.endDate) {
+                    window.app.startDate = window.app.newStartDate;
+                    window.app.endDate = window.app.newEndDate;
+                    $(document).trigger("intervalChanged");
+                }
+            }
+        });
+        // Setup the calendar culture
+        var fromTranslation = $("#from").val();
+        var toTranslation = $("#to").val();
+
+        $("#from").datepicker("option", $.datepicker.regional[window.app.calendarCulture]);
+        $("#to").datepicker("option", $.datepicker.regional[window.app.calendarCulture]);
+
+        $("#from").val(fromTranslation);
+        $("#to").val(toTranslation);
 
         // Setup grannularity buttons. TODO: rename the radio buttons group more appropriate.
-        $("#radio").buttonsetv();
-        $("#radio").show();
+        $("#granularitySelector").show();
         $(".radioOption").change(function () {
+            $(this).parents("#granularitySelector").find(".active").removeClass("active");
+            $(this).parents(".radioBtnWrapper").addClass("active");
+            
             window.app.firstArea.setGranularity($(this).val());
             window.app.firstArea.drawArea();
-        });        
+        });
+
+        
+    },
+    updateReport: function () {
+        window.app.firstArea.drawArea();
+        window.app.secondArea.drawArea();
+        window.app.thirdArea.drawArea();
     }
 
 });
@@ -197,11 +239,11 @@ var ReportsArea = function () {
 
    this.changeWorkingPoint = function (newWorkingPoint) {
       window.app.currentWorkingPoint = newWorkingPoint;
-      reportsContent.render();
+        reportsContent.updateReport();
    };
 
    this.changeReportingInterval = function () {
-      reportsContent.render();
+        reportsContent.updateReport();
    };
 
    this.displayReport = function (reportModel) {
@@ -227,12 +269,12 @@ var ReportsArea = function () {
    };
 
    this.loadWorkingPoints = function () {
-      $.getJSON('/Messages/WorkingPointsPerUser',
+        $.getJSON(window.app.domainName + '/Messages/WorkingPointsPerUser',
                {},
                function (data) {
                   var workingPointsSelectorContent = "<option value='Global'>Global</option>";
                   for (var i = 0; i < data.length; ++i) {
-                     workingPointsSelectorContent += "<option value='" + data[i].Name + "'>" + data[i].Name + "</option>";
+                       workingPointsSelectorContent += "<option value='" + data[i].TelNumber + "'>" + data[i].Name + "</option>";
                   }
                   $("#workingPointSelector").append(workingPointsSelectorContent);
                }
@@ -240,7 +282,7 @@ var ReportsArea = function () {
    };
 
    this.loadReport(2);
-
+    
    // initial setup of the page
    $("#overlay").hide();
    this.loadWorkingPoints();

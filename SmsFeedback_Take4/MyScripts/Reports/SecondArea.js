@@ -23,6 +23,7 @@ function SecondArea(iData) {
     var self = this;
 
     this.drawArea = function () {
+        $("#infoBoxArea").empty();
         var boxWidth = 100 / data.length - 1;
         for (i = 0; i < data.length; ++i) {
             this.buildInfoBox(data[i].name, data[i].source, boxWidth);
@@ -50,7 +51,7 @@ function SecondArea(iData) {
                                 "<div class='infoTitle'>" + name + "</div>" +
                                 "<div class='infoContent'>" + data.value + "</div>" +
                             "</div>";
-        $("#infoBoxArea").prepend(infoBoxString);
+        $("#infoBoxArea").append(infoBoxString);
     }
 
 }

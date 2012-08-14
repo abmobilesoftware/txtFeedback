@@ -1,4 +1,5 @@
 ﻿function ThirdArea(iResource) {
+    var self = this;
     var resource = iResource;
     var opts = {
         lines: 13, // The number of lines to draw
@@ -18,7 +19,13 @@
     };
     var spinner = new Spinner(opts);
     var target = document.getElementById('overlay');
-    var self = this;
+    
+    var data = null;
+    var options = {
+        title: 'Incoming vs Outgoing sms'
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
 
     this.drawArea = function () {
         //spinner.spin(target);
@@ -40,13 +47,7 @@
 
     this.drawChart = function(jsonData) {
         // Create our data table out of JSON data loaded from server.
-        var data = new google.visualization.DataTable(jsonData);
-
-        var options = {
-            title: 'Incoming vs Outgoing sms'
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
+        data = new google.visualization.DataTable(jsonData);
         chart.draw(data, options);
     }
 

@@ -342,4 +342,28 @@
   <data name="messagesAddTagPlaceHolder" xml:space="preserve">
     <value>adauga eticheta</value>
   </data>
+  <data name="RepDay" xml:space="preserve">
+    <value>Zi</value>
+  </data>
+  <data name="RepMonth" xml:space="preserve">
+    <value>Luna</value>
+  </data>
+  <data name="RepWeek" xml:space="preserve">
+    <value>Saptamana</value>
+  </data>
+  <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
+    <value>Numarul mediu de sms-uri pe zi</value>
+  </data>
+  <data name="RepAvgNoOfSmsPerClient" xml:space="preserve">
+    <value>Numarul mediu de sms-uri pe client</value>
+  </data>
+  <data name="RepAvgResponseTime" xml:space="preserve">
+    <value>Timp mediu de raspuns</value>
+  </data>
+  <data name="RepNoOfNewClients" xml:space="preserve">
+    <value>Numarul de noi clienti</value>
+  </data>
+  <data name="RepTags" xml:space="preserve">
+    <value>Etichete</value>
+  </data>
 </root>

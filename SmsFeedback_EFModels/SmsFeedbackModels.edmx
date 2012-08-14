@@ -147,6 +147,7 @@
           <Property Name="TimeReceived" Type="datetime" Nullable="false" />
           <Property Name="Read" Type="bit" Nullable="false" />
           <Property Name="ConversationId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ResponseTime" Type="bigint" />
         </EntityType>
         <EntityType Name="Profiles">
           <Key>
@@ -185,8 +186,8 @@
           <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="IsAnonymous" Type="bit" Nullable="false" />
           <Property Name="LastActivityDate" Type="datetime" Nullable="false" />
-          <Property Name="XmppConnection_Id" Type="int" Nullable="false" />
-          <Property Name="Company_Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="XmppConnection_Id" Type="int" />
+          <Property Name="Company_Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="UsersForWorkingPoints">
           <Key>
@@ -476,6 +477,7 @@
           <Property Name="Read" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Conversation" Relationship="smsfeedbackModel.ConversationMessage" FromRole="Message" ToRole="Conversation" />
           <Property Type="String" Name="ConversationId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="ResponseTime" Nullable="true" />
         </EntityType>
         <EntityType Name="WorkingPoint">
           <Key>
@@ -751,7 +753,8 @@
     <EntitySetMapping Name="Messages">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Message)">
         <MappingFragment StoreEntitySet="Messages">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ResponseTime" ColumnName="ResponseTime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="From" ColumnName="From" />
           <ScalarProperty Name="To" ColumnName="To" />
           <ScalarProperty Name="Text" ColumnName="Text" />

@@ -1822,6 +1822,30 @@ namespace SmsFeedback_EFModels
         private global::System.String _ConversationId;
         partial void OnConversationIdChanging(global::System.String value);
         partial void OnConversationIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int64> ResponseTime
+        {
+            get
+            {
+                return _ResponseTime;
+            }
+            set
+            {
+                OnResponseTimeChanging(value);
+                ReportPropertyChanging("ResponseTime");
+                _ResponseTime = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ResponseTime");
+                OnResponseTimeChanged();
+            }
+        }
+        private Nullable<global::System.Int64> _ResponseTime;
+        partial void OnResponseTimeChanging(Nullable<global::System.Int64> value);
+        partial void OnResponseTimeChanged();
 
         #endregion
 

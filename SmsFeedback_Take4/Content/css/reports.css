@@ -20,7 +20,8 @@ color: white;
     background-color: #183540;
     min-width: 145px;
     overflow: auto;
-    width: 15%;
+    width: 14.666%;
+    padding-right: 2px;
 }
 
 #rightColumn {
@@ -75,7 +76,7 @@ color: white;
 padding:10px;
 }
 
-#radio {
+#granularitySelector {
     width: 5%;
     display:inline;
     float:left;
@@ -86,8 +87,53 @@ padding:10px;
     display:none;
 }
 
+#granularitySelector div {
+    font-size:19px;
+    padding:5px 0 5px 9px;
+    margin-bottom:7px;
+    border-left: 3px #629aaf solid;
+    width: 97px;
+}
+
+#granularitySelector div:hover {
+    font-size:19px;
+    padding:5px 0 5px 9px;
+    margin-bottom:7px;
+    border-left: 3px #183540 solid;
+}
+
+#granularitySelector div.active {
+    font-size:19px;
+    padding:5px 0 5px 9px;
+    margin-bottom:7px;
+    border-left: 3px #183540 solid;
+    background: #183540;
+    color: #fff;
+}
+
+.radioOption {
+    display: none;
+    background: #000;   
+ }
+
+.radioBtn {
+    cursor:pointer;
+}
+
+div.radioBtnWrapper {
+    
+}
+
+div.radioBtnWrapper.active {
+    font-size:19px;
+    padding:5px 0 5px 9px;
+    margin-bottom:7px;
+    border-left: 3px #ccc solid;
+}
+
+
 #chart_div {
-    width: 70%;
+    width: 95%;
     height: 350px;    
     display:inline;
     float:left;
@@ -125,27 +171,64 @@ padding:10px;
 .reportMenuParentItem {
     font-weight: bold;
     font-size: 16 em;
+    
+    border-bottom: 1px solid #294957;
+    display: block;
+    font-size: 100%;
+    line-height: 2.4;
+    margin-left:2%;
+    padding:4px;
+    text-decoration: none;
+    white-space: normal;
+    word-wrap: normal;
 }
 
-li {
+li.innerLi {    
+    border-bottom: 1px solid #294957;
+    /*border-top: 1px solid #294957;*/
+    display: block;
+    font-size: 100%;
+    line-height: 2.4;
+    margin-left:2% !important;
+    padding:4px;
+    text-decoration: none;
+    white-space: normal;
+    word-wrap: normal;
+}
+
+li.innerLi:hover {
+   background-color: #548bb2;   
+   border-bottom: 1px solid #37607D;
+   border-right: 1px solid #37607D;
+   color: #E0EAF1;
+   text-decoration: none;
+}
+
+.reportMenuLeafItem {
+    margin-left: 15px;
+}
+
+li.listItem {
     margin-left: 0;
     cursor: pointer;
-}
-
-li.innerLi {
-    margin-left: 25px;
-    margin-top: 5px;       
+    list-style:none;
 }
 
 .collapsibleList {
-    padding-left: 20px;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+ul.item1 {
+    display: block;
 }
 
 .reportMenuItemSelected {
-    background: #2d5361;
-   -moz-border-radius: 10px;
-   border-radius: 10px;
-   padding:5px;
+   background-color: #3E6D8E;   
+   border-bottom: 1px solid #37607D;
+   border-right: 1px solid #37607D;
+   color: #E0EAF1;
+   text-decoration: none;
 }
 
 .tblRow {
@@ -172,7 +255,7 @@ li.innerLi {
    }
 
  .styled-select select {
-   width: 90%;
+   width: 95%;
    padding: 5px;
    font-size: 16px;
    border: 1px solid #ccc;
@@ -191,9 +274,40 @@ li.innerLi {
     width: 100%;
     height: 100%;
     background-color: #000;
-    filter:alpha(opacity=50);
-    -moz-opacity:0.5;
-    -khtml-opacity: 0.5;
-    opacity: 0.5;
+    filter:alpha(opacity=20);
+    -moz-opacity:0.2;
+    -khtml-opacity: 0.2;
+    opacity: 0.2;
     z-index: 10000;
+}
+ 
+.spinner {
+    width: 100px;
+}
+
+/* range picker */ 
+input.filterDate {
+   width: 71px;
+   min-width: 71px ;
+   padding: 2px; 
+   height: 28px; /*align with tagfilter*/
+   font-size: 0.8em;
+}
+
+.filterInputBox {
+   background: #6b9bb3; /* Old browsers */
+   background: -moz-linear-gradient(left,  #6b9bb3 0%, #6b9bb3 100%); /* FF3.6+ */
+   background: -webkit-gradient(linear, left top, right top, color-stop(0%,#6b9bb3), color-stop(100%,#6b9bb3)); /* Chrome,Safari4+ */
+   background: -webkit-linear-gradient(left,  #6b9bb3 0%,#6b9bb3 100%); /* Chrome10+,Safari5.1+ */
+   background: -o-linear-gradient(left,  #6b9bb3 0%,#6b9bb3 100%); /* Opera 11.10+ */
+   background: -ms-linear-gradient(left,  #6b9bb3 0%,#6b9bb3 100%); /* IE10+ */
+   background: linear-gradient(to right,  #6b9bb3 0%,#6b9bb3 100%); /* W3C */
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6b9bb3', endColorstr='#6b9bb3',GradientType=1 ); /* IE6-9 */
+
+   border: 1px solid #6B9BB3;
+   border-radius: 5px;
+   -moz-border-radius: 5px;
+   -webkit-border-radius: 5px;
+   color: white !important;
+   overflow: hidden;
 }

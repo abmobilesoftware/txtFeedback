@@ -359,7 +359,7 @@
     <Content Include="MyScripts\Reports\GlobalVariables.js" />
     <Content Include="MyScripts\Reports\SecondArea.js" />
     <Content Include="MyScripts\Reports\ThirdArea.js" />
-    <Content Include="MyScripts\Reports\Facade.js" />
+    <Content Include="MyScripts\Reports\RepFacade.js" />
     <Content Include="MyScripts\Reports\FirstArea.js" />
     <Content Include="MyScripts\Reports\Report.js" />
     <Content Include="MyScripts\Reports\Reports.js" />
