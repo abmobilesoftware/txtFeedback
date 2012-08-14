@@ -90,12 +90,8 @@ namespace SmsFeedback_Take4.Controllers
         public JsonResult getReportById(int reportId)
         {
             var hashTable = new Dictionary<int, Report>();
-            var report2 = new Report(2, Resources.Global.RepOverview, "Global", new ReportSection[] { 
-                                                                                        new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "Reports/getSmsIncomingOutgoingDetailed") 
-                                                                                                                                                          }),
-                                                                                        new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/getTotalNoOfSmsInfo"),
+            var report2 = new Report(2, Resources.Global.RepOverview, "Global",
+               new ReportSection[] { new ReportSection("PrimaryChartArea", true, new ReportResource[] {new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "Reports/getSmsIncomingOutgoingDetailed") }), new ReportSection("InfoBox", true, new ReportResource[] { new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/getTotalNoOfSmsInfo"),
                                                                                                                                                     new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "Reports/getTotalNoOfSmsInfo")
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", true, new ReportResource[] { 

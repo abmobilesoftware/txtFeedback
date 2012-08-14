@@ -248,7 +248,13 @@
 			var markup = '<div id="'+id+'_tagsinput" class="tagsinput"><div id="'+id+'_addTag">';
 			
 			if (settings.interactive) {
-				markup = markup + '<input id="'+id+'_tag" value="" data-default="'+settings.defaultText+'" />';
+            var isIE = /*@cc_on!@*/false;
+			   if (settings.placeholder!= undefined && settings.placeholder != '' && !isIE) {
+			      markup = markup + '<input id="' + id + '_tag" value="" placeholder="' + settings.placeholder + '" />';
+			   }
+			   else {
+			      markup = markup + '<input id="' + id + '_tag" value="" data-default="' + settings.defaultText + '" />';
+			   }
 			}
 			
 			markup = markup + '</div><div class="tags_clear"></div></div>';
@@ -293,10 +299,11 @@
 					  	});
 					} else if (jQuery.ui.autocomplete !== undefined) {
 						$(data.fake_input).autocomplete(autocomplete_options);
-						$(data.fake_input).bind('autocompleteselect',data,function(event,ui) {
-							$(event.data.real_input).addTag(ui.item.value,{focus:true,unique:(settings.unique)});
+						$(data.fake_input).bind('autocompleteselect', data, function (event, ui) {
+						   gotAutoComplete = true;
+						   $(event.data.real_input).addTag(ui.item.value, { focus: true, unique: (settings.unique) });						   
 							return false;
-						});
+                  });						
 					}
 				
 					

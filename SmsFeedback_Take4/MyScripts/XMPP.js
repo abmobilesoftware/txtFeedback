@@ -8,7 +8,6 @@ function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, te
 }
 
 window.app.setNrOfUnreadConversationOnTab = function (unreadConvs) {
-   console.log("unread conversations: " + unreadConvs);
    app.nrOfUnreadConvs = unreadConvs;
    var toShow = "(" + unreadConvs + ")";
    $("#msgTabcount").text(toShow);
@@ -26,7 +25,6 @@ $(function () {
    });
 
    $(document).bind('msgReceived', function (ev, data) {
-      console.log("xmpp message received");
       if (data.messageIsSent === undefined || (data.messageIsSent !== undefined && !data.messageIsSent)) {
          signalMsgReceivedAtServer(data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
       }
@@ -35,7 +33,6 @@ $(function () {
 
 
 window.app.XMPPhandler = function XMPPhandler() {
-   console.log("Constructor called");
       this.userid = null;
       this.password = null;      
       this.conn = null;
@@ -45,8 +42,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       this.connectCallback = function (status) {
             var needReconnect = false;
          if (status === Strophe.Status.CONNECTED) {
-            showStatus("XMPP connected", 5000);
-            console.log("CONNECTED");
+            window.app.logDebugOnServer("XMPP connected");
             app.xmppConn.connection = app.xmppConn.conn;
             app.xmppConn.connection.addHandler(app.xmppConn.handle_infoquery, null, "iq", null, "ping1");
             app.xmppConn.connection.addHandler(app.xmppConn.handle_message, null, "message", null, null);
@@ -55,29 +51,20 @@ window.app.XMPPhandler = function XMPPhandler() {
             app.xmppConn.send_initial_presence(domain);
             //self.request_conversations(self.account_number);
          } else if (status === Strophe.Status.CONNECTING) {
-            showStatus("XMPP CONNECTING", 5000);
-            console.log("CONNECTING");
+            window.app.logDebugOnServer("XMPP connecting...");
          } else if (status === Strophe.Status.AUTHENTICATING) {
-            showStatus("XMPP AUTHENTICATING", 5000);
-            console.log("AUTHENTICATING");
+            window.app.logDebugOnServer("XMPP authenticating...");
          } else if (status === Strophe.Status.DISCONNECTED) {
-            showStatus("XMPP DISCONNECTED", 5000);
-            console.log("DISCONNECTED");
-                needReconnect = true;
+            window.app.logDebugOnServer("XMPP disconnected");
+            needReconnect = true;
          } else if (status === Strophe.Status.CONNFAIL) {
-            showStatus("XMPP CONNFAILED", 5000);
-            console.log("CONNFAILED");
-            //needReconnect = true;
+            window.app.logDebugOnServer("XMPP connection fail");            
             self.conn.disconnect();
-         } else if (status === Strophe.Status.AUTHFAIL) {
-            showStatus("XMPP AUTHFAIL", 5000);
-            console.log("AUTHFAIL");
-            //needReconnect = true;
+         } else if (status === Strophe.Status.AUTHFAIL) {            
+            window.app.logDebugOnServer("XMPP authentication failed");
             self.conn.disconnect();
-         } else if (status === Strophe.Status.ERROR) {
-            showStatus("XMPP ERROR", 5000);
-            console.log("ERROR");
-            //needReconnect = true;
+         } else if (status === Strophe.Status.ERROR) {            
+            window.app.logDebugOnServer("XMPP status error");
             self.conn.disconnect();
          }
             if (needReconnect) {
@@ -99,26 +86,20 @@ window.app.XMPPhandler = function XMPPhandler() {
       this.disconnect= function () {
          var self = this;
          self.conn.disconnect();
-      };
-      this.log = function (msg) {
-         console.log(msg);
-      };
+      };     
       this.send_ping= function (to) {
          var ping = $iq({
             to: to,
             type: "get",
             id: "ping1"
          }).c("ping", { xmlns: "urn:xmpp:ping" });
-
-         this.log("Sending ping to " + to + ".");
+         
          this.start_time = (new Date()).getTime();
          this.connection.send(ping);
       };
       this.send_initial_presence= function (to) {
          var presence = $pres().c("status").t("Ready or not");
          this.connection.send(presence);
-
-         this.log("Initial presence sent");
       };
 
       this.send_reply= function (from, to, message) {
@@ -132,12 +113,10 @@ window.app.XMPPhandler = function XMPPhandler() {
             from: "smsapp@smsfeedback.com",
             "type": "sendSmsRequest"
          }).c("body").t(message_body);
-         this.connection.send(replymsg);
-         this.log("Reply sent");
+         this.connection.send(replymsg);         
       };
       this.handle_infoquery = function (iq) {
          var elapsed = (new Date()).getTime() - this.start_time;
-         console.log("Received pong from server in " + elapsed + "ms");
          var pong = $iq({
             to: $(iq).attr("from"),
             from: $(iq).attr("to"),
@@ -152,13 +131,11 @@ window.app.XMPPhandler = function XMPPhandler() {
          return false;
       };
       this.handle_message = function (message) {
-         console.log(message);
          if ($(message).attr("type") === "getConversationsResponse") {
             //this.displayConversationsList(message);
-            this.log("Conversations list reponse received");
+            window.app.logDebugOnServer("XMPP Conversations list reponse received");            
          } else if ($(message).attr("type") === "sendSmsResponse") {
-            if ($(message).children("body").text() === "error") {
-               this.log("SMS send failed!!!");
+            if ($(message).children("body").text() === "error") {               
                $("#quick_replay_text").val("");
             } else {
                this.displayConversationsList(message);
@@ -166,8 +143,7 @@ window.app.XMPPhandler = function XMPPhandler() {
             }
          } else if ($(message).attr("type") === "getMessagesForConversationResponse") {
             var messages = $(message).children("body").text();
-            this.displayMessagesForConversation(messages);
-            this.log("Messages for conversation retrieved!");
+            this.displayMessagesForConversation(messages);            
          } else {
 
             var msgContent = (Strophe.getText(message.getElementsByTagName('body')[0]));

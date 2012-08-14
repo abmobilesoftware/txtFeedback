@@ -35,7 +35,7 @@ function TagsArea() {
    };
    var spinner = new Spinner(opts);
    
-
+   var placeholderValue = $('#messagesAddTagPlaceHolderMessage').val();
    var TagsPoolView = Backbone.View.extend({
       el: $("#tagsPool"),      
       initialize: function () {        
@@ -45,10 +45,12 @@ function TagsArea() {
             'width': 'auto',
             'onAddTag' : this.onAddTag,
             'onRemoveTag': this.onRemoveTag,
-            'autocomplete_url': "Tags/FindMatchingTags",          
+            'autocomplete_url': "Tags/FindMatchingTags",            
+            'defaultText': placeholderValue,
+            'placeholder': placeholderValue,
+            'interactve': true,
          });
-         _.bindAll(this, 'render', 'appendTag', 'onAddTag', 'onRemoveTag','getTags');         
-             
+         _.bindAll(this, 'render', 'appendTag', 'onAddTag', 'onRemoveTag','getTags');                      
       },
       onAddTag: function (tagValue) {
          //add the tag to the cache
@@ -61,8 +63,7 @@ function TagsArea() {
                    convID: gSelectedConversationID
                 },
                 function (data) {
-                   //tag added to conversation (or not? )
-                   console.log(data);
+                   //tag added to conversation (or not? )                   
                 }
         );
       },
@@ -81,7 +82,6 @@ function TagsArea() {
                 },
                 function (data) {
                    //tag removed from conversation (or not? )
-                   console.log(data);
                 }
         );
       },

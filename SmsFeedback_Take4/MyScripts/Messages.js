@@ -18,8 +18,7 @@ function markConversationAsRead()
                 { conversationId: gSelectedConversationID },
                 function (data) {
                    //conversation marked as read
-                   app.updateNrOfUnreadConversations(false);
-                   console.log("MarkConversationAsRead done");
+                   app.updateNrOfUnreadConversations(false);                   
                 }
         );
 }
@@ -153,7 +152,6 @@ function MessagesArea(convView, tagsArea) {
                 },
                 function (data) {
                    //delivered successfully? if yes - indicate this
-                   console.log(data);
                 }
        );
 
@@ -282,7 +280,6 @@ function MessagesArea(convView, tagsArea) {
             //$("textareaContainer").hide("slow");
         },
         getMessages: function (conversationId) {
-            console.log("getting conversations with id:" + conversationId);
             $("#messagesbox").html('');
             var target = document.getElementById('scrollablemessagebox');
             spinner.spin(target);
@@ -343,14 +340,12 @@ function MessagesArea(convView, tagsArea) {
         appendMessage: function (msg) {
             //append only if the current view is the one in focus
             if (msg.get('ConvID') === self.currentConversationId) {
-                console.log("Adding new message: " + msg.get("Text"));
                 //when appending a new message always scroll to bottom
                 this.appendMessageToDiv(msg, true, true);
 
             }
         },
         newMessageReceived: function (fromID, convID, msgID, dateReceived, text) {
-            console.log("new message received: " + text + " with ID:" + msgID);
             var newMsg = new app.Message({ Id: msgID });
             //decide if this is a from or to message
             var fromTo = getFromToFromConversation(convID);

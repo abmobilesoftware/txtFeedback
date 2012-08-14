@@ -61,14 +61,12 @@ function setCheckboxState(checkbox, state)
 }
 
 window.app.updateNrOfUnreadConversations = function (performUpdateBefore) {
-   console.log("updateNrOfUnreadConversations called");
    $.getJSON(window.app.domainName + '/Messages/NrOfUnreadConversations',
    {
       performUpdateBefore: performUpdateBefore
    }, 
                 function (data) {
                    if (data != null) {
-                      console.log("new value for nr of conversations received");
                       app.setNrOfUnreadConversationOnTab(data.Value);
                    }
                 });
@@ -121,15 +119,28 @@ $(function () {
 })
 //#endregion
 //#region Client side javascript erros
+window.app.logErrorOnServer = function logError(message) {
+   $.ajax({
+      type: 'POST',
+      url: 'ErrorLog/LogError',
+      data: JSON.stringify({ errorMsg: message, context: navigator.userAgent }),
+      contentType: 'application/json; charset=utf-8'
+   });
+}
+
+window.app.logDebugOnServer = function logError(message) {
+   $.ajax({
+      type: 'POST',
+      url: 'ErrorLog/LogDebug',
+      data: JSON.stringify({ errorMsg: message, context: navigator.userAgent }),
+      contentType: 'application/json; charset=utf-8'
+   });
+}
+
 $(function () {
    window.onerror = function (message, file, line) {
       var details = file + ':' + line + '\n' + message;
-      $.ajax({
-         type: 'POST',
-         url: 'ErrorLog/LogError',
-         data: JSON.stringify({ errorMsg: details, context: navigator.userAgent }),
-         contentType: 'application/json; charset=utf-8'
-      });
+      window.app.logErrorOnServer(details);
    };
 })
 //#endregion

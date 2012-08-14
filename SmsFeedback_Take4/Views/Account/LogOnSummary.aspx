@@ -12,7 +12,7 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/text.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Site.css") %>" />
    <% } %>
-   <script src="<%: Url.Content("~/Scripts/jquery-1.6.2.min.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.Content("~/Scripts/jquery-1.6.2.min.js") %>" type="text/javascript" charset="charset="UTF-8"></script>
     <div id="logOnSummaryContainer">     
     <script src="<%: Url.Content("~/Scripts/jquery.validate.min.js") %>" type="text/javascript"></script>
     <script src="<%: Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js") %>" type="text/javascript"></script>

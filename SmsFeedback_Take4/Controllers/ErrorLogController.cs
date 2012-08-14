@@ -17,5 +17,12 @@ namespace SmsFeedback_Take4.Controllers
            logger.ErrorFormat("Client side error: [{0}], context: [{1}]", errorMsg,context);
            return new EmptyResult();
         }
+
+       [HttpPost]
+       public ActionResult LogDebug(string errorMsg, string context)
+       {
+          logger.DebugFormat("Client side debug: [{0}], context: [{1}]", errorMsg, context);
+          return new EmptyResult();
+       }
     }
 }

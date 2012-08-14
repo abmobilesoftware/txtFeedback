@@ -95,8 +95,7 @@ $(function () {
                 $.getJSON('Messages/ChangeStarredStatusForConversation',
                         { conversationId: id, newStarredStatus: !starredStatus },
                         function (data) {
-                            //conversation starred status changed
-                            console.log(data);
+                            //conversation starred status changed                            
                         });
             });
             //#endregion
