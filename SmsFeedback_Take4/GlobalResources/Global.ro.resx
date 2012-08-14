@@ -366,4 +366,16 @@
   <data name="RepTags" xml:space="preserve">
     <value>Etichete</value>
   </data>
+  <data name="helpPageTitle" xml:space="preserve">
+    <value>Ajutor</value>
+  </data>
+  <data name="messagesPageTitle" xml:space="preserve">
+    <value>Mesaje</value>
+  </data>
+  <data name="reportsPageTitle" xml:space="preserve">
+    <value>Rapoarte</value>
+  </data>
+  <data name="settingsPageTitle" xml:space="preserve">
+    <value>Setari</value>
+  </data>
 </root>

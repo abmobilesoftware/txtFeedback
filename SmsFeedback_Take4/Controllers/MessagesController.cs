@@ -29,8 +29,7 @@ namespace SmsFeedback_Take4.Controllers
 
       private EFInteraction mEFInterface = new EFInteraction();
       public ActionResult Index()
-      {
-         ViewData["Title"] = "SmsFeedback/Messages";
+      {         
          ViewData["currentCulture"] = getCurrentCulture();
          return View();
       }

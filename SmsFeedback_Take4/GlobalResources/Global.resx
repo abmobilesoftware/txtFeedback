@@ -411,7 +411,7 @@
   </data>
   <data name="messagesAddTagPlaceHolder" xml:space="preserve">
     <value>add tag</value>
-    </data>
+  </data>
   <data name="RepMonth" xml:space="preserve">
     <value>Month</value>
   </data>
@@ -432,5 +432,21 @@
   </data>
   <data name="RepTags" xml:space="preserve">
     <value>Tags</value>
+  </data>
+  <data name="helpPageTitle" xml:space="preserve">
+    <value>Help</value>
+    <comment>The title (browser page description0</comment>
+  </data>
+  <data name="messagesPageTitle" xml:space="preserve">
+    <value>Messages</value>
+    <comment>The title (browser page description0</comment>
+  </data>
+  <data name="reportsPageTitle" xml:space="preserve">
+    <value>Reports</value>
+    <comment>The title (browser page description0</comment>
+  </data>
+  <data name="settingsPageTitle" xml:space="preserve">
+    <value>Settings</value>
+    <comment>The title (browser page description0</comment>
   </data>
 </root>

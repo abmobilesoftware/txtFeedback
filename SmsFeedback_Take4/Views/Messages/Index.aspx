@@ -2,7 +2,7 @@
    Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <%@ Import Namespace="SmsFeedback_Take4.Utilities" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-   <%: ViewData["Title"] %>
+   <%: Resources.Global.messagesPageTitle %>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server" ContentType="text/xml">
     <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/conversations_mb.css") %>" />

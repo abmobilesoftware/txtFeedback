@@ -324,4 +324,16 @@
   <data name="messagesAddTagPlaceHolder" xml:space="preserve">
     <value>add tag1</value>
   </data>
+  <data name="helpPageTitle" xml:space="preserve">
+    <value>Help1</value>
+  </data>
+  <data name="messagesPageTitle" xml:space="preserve">
+    <value>Messages1</value>
+  </data>
+  <data name="reportsPageTitle" xml:space="preserve">
+    <value>Reports1</value>
+  </data>
+  <data name="settingsPageTitle" xml:space="preserve">
+    <value>Settings1</value>
+  </data>
 </root>
