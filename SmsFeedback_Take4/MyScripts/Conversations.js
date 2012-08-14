@@ -1,7 +1,7 @@
 ﻿"use strict";
 window.app = window.app || {};
-window.app.selectedConversation = {}
-window.app.globalMessagesRep = {}
+window.app.selectedConversation = {};
+window.app.globalMessagesRep = {};
 
 //#region Constants
 window.app.defaultNrOfConversationsToDisplay = 2;
@@ -79,7 +79,7 @@ $(function () {
                 e.preventDefault();
                 var id = $(this).parents(".conversation").attr("conversationId");
                 var newStarredStatus = false;
-                if (app.globalMessagesRep[id] != undefined) {
+                if (app.globalMessagesRep[id] !== undefined) {
                     app.globalMessagesRep[id].each(function (msg) {
                         //var newStarredValue = ;
                         msg.set("Starred", !msg.attributes["Starred"]);
@@ -299,7 +299,7 @@ function ConversationArea(filterArea, workingPointsArea) {
             this._rendered = true;
             this.refreshsInProgress--;
 
-            if (this.refreshsInProgress == 0) {
+            if (this.refreshsInProgress === 0) {
                 var convEl = $("#conversations");
                 convEl.html('');
                 var selfConversationsView = this;
@@ -368,7 +368,7 @@ function ConversationArea(filterArea, workingPointsArea) {
             var viewToRemove = _(this._convViews).select(function (cv) {
                 return cv.model.get("ConvID") === conversation.get("ConvID");
             })[0];
-            if (viewToRemove != undefined && viewToRemove !== null) {
+            if (viewToRemove !== undefined && viewToRemove !== null) {
                 this._convViews = _(this._convViews).without(viewToRemove);
                 if (this._rendered) {
                     var thisElementWasSelected = false;
@@ -394,7 +394,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                 //since the view will react to model changes we make sure that we do "batch updates" - only the last update will trigger the update
                 //all the previous updates will be "silent"
                 modelToUpdate.set({ "Text": newText }, { silent: true });
-                modelToUpdate.set({ "Read": newReadStatus }, { silent: true });;
+                modelToUpdate.set({ "Read": newReadStatus }, { silent: true });
 
                 modelToUpdate.set("To", toID);
                 modelToUpdate.set("From", fromID);

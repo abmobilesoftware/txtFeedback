@@ -5,7 +5,7 @@ function TagsArea() {
    var Tag = Backbone.Model.extend({
       defaults: {         
          Name: "tag",
-         Description: "description",         
+         Description: "description"
       },
       idAttribute: "Name"
    });
@@ -48,7 +48,7 @@ function TagsArea() {
             'autocomplete_url': "Tags/FindMatchingTags",            
             'defaultText': placeholderValue,
             'placeholder': placeholderValue,
-            'interactve': true,
+            'interactve': true
          });
          _.bindAll(this, 'render', 'appendTag', 'onAddTag', 'onRemoveTag','getTags');                      
       },
@@ -88,7 +88,7 @@ function TagsArea() {
       getTags: function (convId) {
          //$('#tagsPool').html('');
          var tg = $('#tags');
-         tg.importTags('')
+         tg.importTags('');
          //$('#tagsPool').hide();
          //$('#tags').hide();
          //$('#tags_tagsinput').hide();
@@ -116,7 +116,7 @@ function TagsArea() {
       },
       render: function () {
          var tg = $('#tags');
-         tg.importTags('')
+         tg.importTags('');
          var self = this;
          tagsRep[this.conversationID].each(function (tag) {
             self.appendTag(tag);
@@ -124,11 +124,7 @@ function TagsArea() {
 
       },
       appendTag: function (tag) {
-         $('#tags').addTag(tag.get("Name"), { callback: false });
-         //var tagView = new TagView({ model: tag });
-         //var item = tagView.render().el;
-         //$(this.el).prepend(item);
-         //$(item).hide().fadeIn('slow');
+         $('#tags').addTag(tag.get("Name"), { callback: false });         
       }           
    });
 
