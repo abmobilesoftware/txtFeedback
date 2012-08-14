@@ -172,13 +172,13 @@
     <value>Data:</value>
   </data>
   <data name="fromDate" xml:space="preserve">
-    <value>de la</value>
+    <value>initiata la</value>
   </data>
   <data name="starredLabel" xml:space="preserve">
     <value>Favorite</value>
   </data>
   <data name="toDate" xml:space="preserve">
-    <value>pana la</value>
+    <value>ultima actualizare</value>
   </data>
   <data name="readLabel" xml:space="preserve">
     <value>Necitite</value>
@@ -335,5 +335,11 @@
   </data>
   <data name="RepTotalNoOfSms" xml:space="preserve">
     <value>Numarul total de sms-uri</value>
+  </data>
+  <data name="filteringAddFilterTag" xml:space="preserve">
+    <value>adauga eticheta de filtrare</value>
+  </data>
+  <data name="messagesAddTagPlaceHolder" xml:space="preserve">
+    <value>adauga eticheta</value>
   </data>
 </root>

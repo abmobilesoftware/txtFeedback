@@ -106,7 +106,16 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to from.
+        ///   Looks up a localized string similar to add filtering tag.
+        /// </summary>
+        public static string filteringAddFilterTag {
+            get {
+                return ResourceManager.GetString("filteringAddFilterTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to initiated.
         /// </summary>
         public static string fromDate {
             get {
@@ -277,11 +286,74 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to add tag.
+        /// </summary>
+        public static string messagesAddTagPlaceHolder {
+            get {
+                return ResourceManager.GetString("messagesAddTagPlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unread.
         /// </summary>
         public static string readLabel {
             get {
                 return ResourceManager.GetString("readLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clients.
+        /// </summary>
+        public static string RepClients {
+            get {
+                return ResourceManager.GetString("RepClients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conversations.
+        /// </summary>
+        public static string RepConversations {
+            get {
+                return ResourceManager.GetString("RepConversations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incoming vs Outgoing.
+        /// </summary>
+        public static string RepIncomingVsOutgoing {
+            get {
+                return ResourceManager.GetString("RepIncomingVsOutgoing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New vs Returning.
+        /// </summary>
+        public static string RepNewVsReturning {
+            get {
+                return ResourceManager.GetString("RepNewVsReturning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overview.
+        /// </summary>
+        public static string RepOverview {
+            get {
+                return ResourceManager.GetString("RepOverview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total no of sms.
+        /// </summary>
+        public static string RepTotalNoOfSms {
+            get {
+                return ResourceManager.GetString("RepTotalNoOfSms", resourceCulture);
             }
         }
         
@@ -363,60 +435,6 @@ namespace Resources {
         public static string sendEmailPrefixSubject {
             get {
                 return ResourceManager.GetString("sendEmailPrefixSubject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Clients.
-        /// </summary>
-        public static string RepClients {
-            get {
-                return ResourceManager.GetString("RepClients", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Conversations.
-        /// </summary>
-        public static string RepConversations {
-            get {
-                return ResourceManager.GetString("RepConversations", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Incoming vs Outgoing.
-        /// </summary>
-        public static string RepIncomingVsOutgoing {
-            get {
-                return ResourceManager.GetString("RepIncomingVsOutgoing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New vs Returning.
-        /// </summary>
-        public static string RepNewVsReturning {
-            get {
-                return ResourceManager.GetString("RepNewVsReturning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Overview.
-        /// </summary>
-        public static string RepOverview {
-            get {
-                return ResourceManager.GetString("RepOverview", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Total no of sms.
-        /// </summary>
-        public static string RepTotalNoOfSms {
-            get {
-                return ResourceManager.GetString("RepTotalNoOfSms", resourceCulture);
             }
         }
         
@@ -601,7 +619,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to to.
+        ///   Looks up a localized string similar to last updated.
         /// </summary>
         public static string toDate {
             get {

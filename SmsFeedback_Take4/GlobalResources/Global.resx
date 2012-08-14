@@ -190,7 +190,7 @@
     <comment>Conversations:Label for date filtering</comment>
   </data>
   <data name="fromDate" xml:space="preserve">
-    <value>from</value>
+    <value>initiated</value>
     <comment>Conversation: from datepicker placeholder</comment>
   </data>
   <data name="starredLabel" xml:space="preserve">
@@ -198,7 +198,7 @@
     <comment>Conversation: filters area, favourites (starred) filter label</comment>
   </data>
   <data name="toDate" xml:space="preserve">
-    <value>to</value>
+    <value>last updated</value>
     <comment>Conversation: filters area, date filtering, to placeholder</comment>
   </data>
   <data name="readLabel" xml:space="preserve">
@@ -293,7 +293,7 @@
   </data>
   <data name="RepIncomingVsOutgoing" xml:space="preserve">
     <value>Incoming vs Outgoing</value>
-   </data>
+  </data>
   <data name="sendEmailHeader" xml:space="preserve">
     <value>Send email</value>
     <comment>Conversation: send email: send email screen header</comment>
@@ -314,7 +314,7 @@
   </data>
   <data name="RepTotalNoOfSms" xml:space="preserve">
     <value>Total no of sms</value>
-   </data>
+  </data>
   <data name="sendEmailTo" xml:space="preserve">
     <value>*To:</value>
     <comment>Conversation: send email/feedback: To label</comment>
@@ -402,5 +402,11 @@
   <data name="tooltipSendPositiveFeedback" xml:space="preserve">
     <value>Send positive feedback</value>
     <comment>Conversation: happy smiley</comment>
+  </data>
+  <data name="filteringAddFilterTag" xml:space="preserve">
+    <value>add filtering tag</value>
+  </data>
+  <data name="messagesAddTagPlaceHolder" xml:space="preserve">
+    <value>add tag</value>
   </data>
 </root>
