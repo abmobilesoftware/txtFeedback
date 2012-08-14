@@ -360,4 +360,16 @@
   <data name="RepTags" xml:space="preserve">
     <value>Etichete</value>
   </data>
+  <data name="RepAvgNoOfIncomingSmsPerConversation" xml:space="preserve">
+    <value>Numarul mediu de sms-uri primite per conversatie</value>
+  </data>
+  <data name="RepAvgNoOfOutgoingSmsPerConversation" xml:space="preserve">
+    <value>Numarul mediu de sms-uri trimise per conversatie</value>
+  </data>
+  <data name="RepAvgNoOfTagsPerConversation" xml:space="preserve">
+    <value>Numarul mediu de etichete pe conversatie</value>
+  </data>
+  <data name="RepMostUsedTag" xml:space="preserve">
+    <value>Cea mai folosita eticheta</value>
+  </data>
 </root>

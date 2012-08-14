@@ -313,7 +313,7 @@
     <comment>Conversation: send email/feedback: Subject label</comment>
   </data>
   <data name="RepTotalNoOfSms" xml:space="preserve">
-    <value>Total no of sms</value>
+    <value>Total no of sms'</value>
   </data>
   <data name="sendEmailTo" xml:space="preserve">
     <value>*To:</value>
@@ -413,18 +413,30 @@
     <value>Week</value>
   </data>
   <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
-    <value>Average no of sms per day</value>
+    <value>Avg no of sms' per day</value>
   </data>
   <data name="RepAvgNoOfSmsPerClient" xml:space="preserve">
-    <value>Average number of sms per client</value>
+    <value>Avg no of sms' per client</value>
   </data>
   <data name="RepAvgResponseTime" xml:space="preserve">
     <value>Average response time</value>
   </data>
   <data name="RepNoOfNewClients" xml:space="preserve">
-    <value>Number of new clients</value>
+    <value>No of new clients</value>
   </data>
   <data name="RepTags" xml:space="preserve">
     <value>Tags</value>
+  </data>
+  <data name="RepAvgNoOfIncomingSmsPerConversation" xml:space="preserve">
+    <value>Avg no of incoming sms' per conversation</value>
+  </data>
+  <data name="RepAvgNoOfOutgoingSmsPerConversation" xml:space="preserve">
+    <value>Avg no of outgoing sms' per conversation</value>
+  </data>
+  <data name="RepAvgNoOfTagsPerConversation" xml:space="preserve">
+    <value>Avg no of tags per conversation</value>
+  </data>
+  <data name="RepMostUsedTag" xml:space="preserve">
+    <value>Most used tag</value>
   </data>
 </root>

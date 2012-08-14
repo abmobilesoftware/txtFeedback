@@ -17,6 +17,7 @@ namespace SmsFeedback_Take4.Utilities
         public const String WEEK_GRANULARITY = "week";
         public const String MONTH_GRANULARITY = "month";
         public const string GLOBAL_SCOPE = "Global";
-        
+        public const string DEFAULT_CHART_STYLE = "area";
+        public const string BARS_CHART_STYLE = "bars";  
     }
 }

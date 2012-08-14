@@ -16,11 +16,7 @@ $(document).ready(function () {
          
     window.app.reportsPage = new ReportsArea();
 
-    // Default setup of the page
-    $("#workingPointSelector").val("Global");
-    $("#workingPointSelector").change(function () {
-        $(document).trigger("workingPointChanged", $(this).val());
-    });
+    
 });
 
 

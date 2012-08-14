@@ -90,7 +90,7 @@
    
     <script type="text/template" id="report-template">
                <div id="titleArea">
-                <span id="reportTitle">{{ title }}</span>
+                <span id="reportTitle">{{ title }}<span id="reportScope"></span></span>
                     <div id="widgetWrapper">
                         <div id="widget">
                             {%

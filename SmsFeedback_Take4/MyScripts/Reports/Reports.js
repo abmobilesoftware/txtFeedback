@@ -4,7 +4,6 @@
     escape: /\{%-([\s\S]+?)%\}/g
 }; // excape HTML: {%- <script> %} prints &lt
 
-
 var ReportModel = Backbone.Model.extend({
     reportId: 1,
     title: "Total sms report",
@@ -73,8 +72,7 @@ var ReportsMenuView = Backbone.View.extend({
             success: function () {
                 self.render();
             }
-        });
-        //this.render();
+        });        
     },
     render: function () {
         self = this;
@@ -93,7 +91,7 @@ var ReportsMenuView = Backbone.View.extend({
                 $(selector, self.el).append(reportsMenuItemView.renderLeaf().el);
             }
         });
-        
+
         // open report functionality
         $(".innerLi").click(function () {
             $(this).parents(".collapsibleList").find(".reportMenuItemSelected").removeClass("reportMenuItemSelected");
@@ -103,7 +101,6 @@ var ReportsMenuView = Backbone.View.extend({
 
         // apply collapsible functionality to list 
         CollapsibleLists.apply();
-
         // mark the first opened report
         $(".liItem2").addClass("reportMenuItemSelected");
         $("ul.item1").css("display", "block");
@@ -121,22 +118,25 @@ var ReportsContentArea = Backbone.View.extend({
         var template = _.template($("#report-template").html(), this.model.toJSON());
         // Load the compiled HTML into the Backbone "el"
         $(this.el).html(template);
-        
-
+        $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
         this.setupEnvironment();
     },
     setupEnvironment: function () {
         // after rendering the template, initialize the scripts that will do the magic.
+        window.app.areas = [];
         for (k = 0; k < this.model.get("sections").length; ++k) {
             if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier == "PrimaryChartArea")) {
-                window.app.firstArea = new FirstArea(this.model.get("sections")[k].resources[0].source, "day");
+                window.app.firstArea = new FirstArea(this.model.get("sections")[k].resources[0].source, "day", this.model.get("sections")[k].resources[0].options);
                 window.app.firstArea.drawArea();
+                window.app.areas.push(window.app.firstArea);
             } else if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier == "SecondaryChartArea")) {
                 window.app.thirdArea = new ThirdArea(this.model.get("sections")[k].resources[0].source);
                 window.app.thirdArea.drawArea();
+                window.app.areas.push(window.app.thirdArea);
             } else if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier == "InfoBox")) {
                 window.app.secondArea = new SecondArea(this.model.get("sections")[k].resources);
                 window.app.secondArea.drawArea();
+                window.app.areas.push(window.app.secondArea);
             }
         }
 
@@ -195,16 +195,17 @@ var ReportsContentArea = Backbone.View.extend({
             
             window.app.firstArea.setGranularity($(this).val());
             window.app.firstArea.drawArea();
-        });
-
-        
+        });       
     },
     updateReport: function () {
+        $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
+        /*for (i = 0; i < window.app.areas.length; ++i) {
+            window.app.areas[i].drawArea();
+        }*/
         window.app.firstArea.drawArea();
         window.app.secondArea.drawArea();
         window.app.thirdArea.drawArea();
     }
-
 });
 
 var ReportsArea = function () {
@@ -246,8 +247,7 @@ var ReportsArea = function () {
         reportsContent = new ReportsContentArea({ model: reportModel, el: $("#rightColumn") });
     }
 
-    this.loadReport = function(reportId) {
-        
+    this.loadReport = function(reportId) {        
         if (localReportsRepository[reportId] == undefined) {
             $.getJSON('Reports/getReportById',
                { reportId: reportId },
@@ -256,8 +256,7 @@ var ReportsArea = function () {
                    localReportsRepository[reportId] = receivedReportModel;
                    self.displayReport(localReportsRepository[reportId]);
                }
-            );            
-                    
+            );                                
         } else {
             // load report from local repository
             self.displayReport(localReportsRepository[reportId]);
@@ -273,6 +272,14 @@ var ReportsArea = function () {
                        workingPointsSelectorContent += "<option value='" + data[i].TelNumber + "'>" + data[i].Name + "</option>";
                    }
                    $("#workingPointSelector").append(workingPointsSelectorContent);
+
+                   // Default setup of the page
+                   $("#workingPointSelector").val("Global");
+                   $("#workingPointSelector").change(function () {
+                       window.app.currentWorkingPointFriendlyName = $("#workingPointSelector").children("option").filter(":selected").text();
+                       $(document).trigger("workingPointChanged", $(this).val());                       
+                   });
+
                }
             );
     }
@@ -282,8 +289,5 @@ var ReportsArea = function () {
     // initial setup of the page
     $("#overlay").hide();
     this.loadWorkingPoints();
-             
-    
-
 }
 

@@ -286,7 +286,25 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average number of sms per client.
+        ///   Looks up a localized string similar to Avg no of incoming sms&apos; per conversation.
+        /// </summary>
+        public static string RepAvgNoOfIncomingSmsPerConversation {
+            get {
+                return ResourceManager.GetString("RepAvgNoOfIncomingSmsPerConversation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avg no of outgoing sms&apos; per conversation.
+        /// </summary>
+        public static string RepAvgNoOfOutgoingSmsPerConversation {
+            get {
+                return ResourceManager.GetString("RepAvgNoOfOutgoingSmsPerConversation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avg no of sms&apos; per client.
         /// </summary>
         public static string RepAvgNoOfSmsPerClient {
             get {
@@ -295,11 +313,20 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average no of sms per day.
+        ///   Looks up a localized string similar to Avg no of sms&apos; per day.
         /// </summary>
         public static string RepAvgNoOfSmsPerDay {
             get {
                 return ResourceManager.GetString("RepAvgNoOfSmsPerDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avg no of tags per conversation.
+        /// </summary>
+        public static string RepAvgNoOfTagsPerConversation {
+            get {
+                return ResourceManager.GetString("RepAvgNoOfTagsPerConversation", resourceCulture);
             }
         }
         
@@ -358,6 +385,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Most used tag.
+        /// </summary>
+        public static string RepMostUsedTag {
+            get {
+                return ResourceManager.GetString("RepMostUsedTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New vs Returning.
         /// </summary>
         public static string RepNewVsReturning {
@@ -367,7 +403,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of new clients.
+        ///   Looks up a localized string similar to No of new clients.
         /// </summary>
         public static string RepNoOfNewClients {
             get {
@@ -394,7 +430,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total no of sms.
+        ///   Looks up a localized string similar to Total no of sms&apos;.
         /// </summary>
         public static string RepTotalNoOfSms {
             get {
