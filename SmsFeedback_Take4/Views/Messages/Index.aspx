@@ -2,7 +2,7 @@
    Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <%@ Import Namespace="SmsFeedback_Take4.Utilities" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-   <%: ViewData["Title"] %>
+   <%: Resources.Global.messagesPageTitle %>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server" ContentType="text/xml">
     <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/conversations_mb.css") %>" />
@@ -212,7 +212,7 @@
    <div id="messagesArea" class="grid_6">
       <div id="scrollablemessagebox" class="messagesboxcontainerclass scrollablebox">
          <div id="messagesbox" class="messagesboxclass">
-            <span><%: Resources.Global.lblNoConversationSelected%></span>
+            <span id="noConversationsLoaded"><%: Resources.Global.lblNoConversationSelected%></span>
          </div>
       </div>
       <div id="messageTagsSeparator"></div>
@@ -237,7 +237,8 @@
          </div>
          <input type="hidden" value="<%: ViewData["currentCulture"] %>" class="currentCulture" />
          <input type="hidden" value="<%: Resources.Global.lblNoConversationSelected %>" id="noConversationSelectedMessage" />
-        
+         <input type="hidden" value="<%: Resources.Global.messagesAddTagPlaceHolder %>" id="messagesAddTagPlaceHolderMessage" />
+         <input type="hidden" value="<%: Resources.Global.filteringAddFilterTag %>" id="filteringAddFilterTagMessage" />
       </div>
    </div>
 </asp:Content>

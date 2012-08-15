@@ -19,7 +19,7 @@
     <title>Index</title>
 </head>
 <body>
-   <script src="../../Scripts/jquery-1.6.2.min.js"></script>
+   <script src="../../Scripts/jquery-1.6.2.min.js" charset="charset="UTF-8"></script>
    <script src="../../Nexmo/nexmoTest.js"></script>
     <div>
        <textarea id="txtBody" ></textarea> 

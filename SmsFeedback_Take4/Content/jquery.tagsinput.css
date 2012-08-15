@@ -31,7 +31,7 @@ div.tagsinput {
       }*/
 
    div.tagsinput input {
-      width: 80px;
+      width: auto !important;
       margin: 0px;
       font-family: helvetica;
       font-size: 13px;

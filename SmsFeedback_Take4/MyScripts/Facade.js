@@ -4,7 +4,6 @@ window.app = window.app || {};
 window.app.calendarCulture = "en-GB";
 
 function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
-   console.log("inside newMessageReceived");
    //the conversations window expects that the toID be a "name" and not a telephone number
    convView.newMessageReceived(fromID, toId, convID, dateReceived, text);
    msgView.messagesView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
@@ -35,12 +34,12 @@ function InitializeGUI() {
 
     //get the initial working points   
    this.wpsView.getWorkingPoints(function () {
-       self.convView.getConversations()
+      self.convView.getConversations();
    });
    
-   app.nrOfUnreadConvs = 0;
+   window.app.nrOfUnreadConvs = 0;
    //get the initial conversations
-   app.requestIndex = 0; //make sure the first time we update from external sources
+   window.app.requestIndex = 0; //make sure the first time we update from external sources
    
 
    ////the xmpp handler for new messages
@@ -52,8 +51,7 @@ function InitializeGUI() {
    //});
 
      
-   $(document).bind('msgReceived', function (ev, data) {
-      console.log("msgReceived triggered");    
+   $(document).bind('msgReceived', function (ev, data) {      
       newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
    });
 
@@ -73,7 +71,7 @@ $(document).ready(function () {
    window.app = window.app || {};
 
    var culture = $(".currentCulture").val().substring(0,2).toLowerCase();
-   if (culture == "en") {
+   if (culture === "en") {
        window.app.calendarCulture = "en-GB";
    } else {
        window.app.calendarCulture = culture;

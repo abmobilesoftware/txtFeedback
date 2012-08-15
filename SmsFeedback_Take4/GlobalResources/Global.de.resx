@@ -130,7 +130,7 @@
     <value>Date:1</value>
   </data>
   <data name="fromDate" xml:space="preserve">
-    <value>from1</value>
+    <value>initiated1</value>
   </data>
   <data name="lblNoConversationSelected" xml:space="preserve">
     <value>No conversation selected, please select one1</value>
@@ -259,7 +259,7 @@
     <value>Tag(s): 1</value>
   </data>
   <data name="toDate" xml:space="preserve">
-    <value>to1</value>
+    <value>last updated1</value>
   </data>
   <data name="tooltipIncludeDateInFilter" xml:space="preserve">
     <value>Turn date filtering on/off1</value>
@@ -317,5 +317,23 @@
   </data>
   <data name="tooltipSendPositiveFeedback" xml:space="preserve">
     <value>Send positive feedback1</value>
+  </data>
+  <data name="filteringAddFilterTag" xml:space="preserve">
+    <value>add filtering tag1</value>
+  </data>
+  <data name="messagesAddTagPlaceHolder" xml:space="preserve">
+    <value>add tag1</value>
+  </data>
+  <data name="helpPageTitle" xml:space="preserve">
+    <value>Help1</value>
+  </data>
+  <data name="messagesPageTitle" xml:space="preserve">
+    <value>Messages1</value>
+  </data>
+  <data name="reportsPageTitle" xml:space="preserve">
+    <value>Reports1</value>
+  </data>
+  <data name="settingsPageTitle" xml:space="preserve">
+    <value>Settings1</value>
   </data>
 </root>

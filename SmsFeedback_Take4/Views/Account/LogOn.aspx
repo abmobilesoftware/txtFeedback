@@ -22,7 +22,7 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Site.css") %>" />
    <% } %>
 
-   <script src="<%: Url.Content("~/Scripts/jquery-1.6.2.min.js") %>" type="text/javascript"></script>
+   <script src="<%: Url.Content("~/Scripts/jquery-1.6.2.min.js") %>" charset="charset="UTF-8" type="text/javascript"></script>
     <title>Log On</title>
 </head>
 
@@ -72,8 +72,7 @@
                 
                 <p>
                     <input id="loginBtn" type="submit" value="<%: Resources.Global.LogOnButtonMessage %>" />
-                </p>
-                 <p><%: Html.ActionLink(Resources.Global.logOnRegister, "Register") %>    </p>
+                </p>                 
                <div id="changeLanguage">                                               
                 
                 <%: Html.ImageLink(Url.Content("~/Content/images/Uk_flag.png"), "en-US",null,null) %>

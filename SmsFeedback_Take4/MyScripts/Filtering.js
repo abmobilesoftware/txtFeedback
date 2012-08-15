@@ -17,6 +17,8 @@ function FilterArea() {
    $.extend(this, app.defaultFilteringOptions);
 
    //#region Tags
+   var placeholderMessage = $('#filteringAddFilterTagMessage').val();
+
    $("#filterTag").tagsInput({
       'height': '22px',
       'width': 'auto',
@@ -39,7 +41,11 @@ function FilterArea() {
          if (self.tagFilteringEnabled) {
             $(document).trigger('refreshConversationList');
          }
-      }
+      },      
+      'defaultText': placeholderMessage,
+      'placeholder': placeholderMessage,
+      'interactve': true,
+      'placeholderColor' : '#666666'   
    });  
 
    $("#includeTagsInFilter").bind('click', function () {

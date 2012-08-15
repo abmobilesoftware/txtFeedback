@@ -164,12 +164,17 @@ div.actionButtons {
    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00a4e4', endColorstr='#009de2',GradientType=0 ); /* IE6-9 */
 }
 
-#messagesbox span {
-   margin-top: auto;
-   margin-left: auto;
-   margin-right: auto;
-   margin-bottom: auto;
+#messagesbox span {   
    line-height: 2 em;
+   
+}
+
+#noConversationsLoaded {
+ width: 100%;   
+ margin-top: 100px;  
+ text-align: center;   
+ display: inline-block;  
+ font-size: 1.5em;
 }
 
 .arrowFrom {

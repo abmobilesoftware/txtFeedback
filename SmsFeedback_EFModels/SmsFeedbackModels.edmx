@@ -36,6 +36,10 @@
             <End Role="Tags" EntitySet="Tags" />
             <End Role="ConversationTags" EntitySet="ConversationTags" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserMessages" Association="smsfeedbackModel.Store.FK_UserMessages">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Messages" EntitySet="Messages" />
+          </AssociationSet>
           <AssociationSet Name="FK_UsersForWorkingPoints_User" Association="smsfeedbackModel.Store.FK_UsersForWorkingPoints_User">
             <End Role="Users" EntitySet="Users" />
             <End Role="UsersForWorkingPoints" EntitySet="UsersForWorkingPoints" />
@@ -148,6 +152,7 @@
           <Property Name="Read" Type="bit" Nullable="false" />
           <Property Name="ConversationId" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="ResponseTime" Type="bigint" />
+          <Property Name="UserUserId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Profiles">
           <Key>
@@ -269,6 +274,18 @@
             <Dependent Role="ConversationTags">
               <PropertyRef Name="Tags_Name" />
               <PropertyRef Name="Tags_CompanyName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserMessages">
+          <End Role="Users" Type="smsfeedbackModel.Store.Users" Multiplicity="0..1" />
+          <End Role="Messages" Type="smsfeedbackModel.Store.Messages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Messages">
+              <PropertyRef Name="UserUserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -448,6 +465,10 @@
             <End Role="WorkingPoint" EntitySet="WorkingPoints" />
             <End Role="Conversation" EntitySet="Conversations" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserMessages" Association="smsfeedbackModel.FK_UserMessages">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Conversation">
           <Key>
@@ -478,6 +499,8 @@
           <NavigationProperty Name="Conversation" Relationship="smsfeedbackModel.ConversationMessage" FromRole="Message" ToRole="Conversation" />
           <Property Type="String" Name="ConversationId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int64" Name="ResponseTime" Nullable="true" />
+          <Property Type="Guid" Name="UserUserId" Nullable="true" />
+          <NavigationProperty Name="User" Relationship="smsfeedbackModel.FK_UserMessages" FromRole="Message" ToRole="User" />
         </EntityType>
         <EntityType Name="WorkingPoint">
           <Key>
@@ -508,6 +531,7 @@
           <NavigationProperty Name="Application" Relationship="smsfeedbackModel.UserApplication" FromRole="User" ToRole="Application" />
           <NavigationProperty Name="Membership" Relationship="smsfeedbackModel.MembershipUser" FromRole="User" ToRole="Membership" />
           <NavigationProperty Name="Profile" Relationship="smsfeedbackModel.UserProfile" FromRole="User" ToRole="Profile" />
+          <NavigationProperty Name="Messages" Relationship="smsfeedbackModel.FK_UserMessages" FromRole="User" ToRole="Message" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -730,6 +754,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserMessages">
+          <End Type="smsfeedbackModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="smsfeedbackModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="UserUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -753,6 +789,7 @@
     <EntitySetMapping Name="Messages">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Message)">
         <MappingFragment StoreEntitySet="Messages">
+                <ScalarProperty Name="UserUserId" ColumnName="UserUserId" />
                 <ScalarProperty Name="ResponseTime" ColumnName="ResponseTime" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="From" ColumnName="From" />

@@ -32,6 +32,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "MembershipUser", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.User), "Membership", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.Membership), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "UserProfile", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.User), "Profile", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.Profile), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_WorkingPointConversation", "WorkingPoint", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.WorkingPoint), "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Conversation), true)]
+[assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_UserMessages", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.User), "Message", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Message), true)]
 
 #endregion
 
@@ -1846,6 +1847,30 @@ namespace SmsFeedback_EFModels
         private Nullable<global::System.Int64> _ResponseTime;
         partial void OnResponseTimeChanging(Nullable<global::System.Int64> value);
         partial void OnResponseTimeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Guid> UserUserId
+        {
+            get
+            {
+                return _UserUserId;
+            }
+            set
+            {
+                OnUserUserIdChanging(value);
+                ReportPropertyChanging("UserUserId");
+                _UserUserId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("UserUserId");
+                OnUserUserIdChanged();
+            }
+        }
+        private Nullable<global::System.Guid> _UserUserId;
+        partial void OnUserUserIdChanging(Nullable<global::System.Guid> value);
+        partial void OnUserUserIdChanged();
 
         #endregion
 
@@ -1886,6 +1911,44 @@ namespace SmsFeedback_EFModels
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Conversation>("smsfeedbackModel.ConversationMessage", "Conversation", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "FK_UserMessages", "User")]
+        public User User
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("smsfeedbackModel.FK_UserMessages", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("smsfeedbackModel.FK_UserMessages", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> UserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("smsfeedbackModel.FK_UserMessages", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("smsfeedbackModel.FK_UserMessages", "User", value);
                 }
             }
         }
@@ -2913,6 +2976,28 @@ namespace SmsFeedback_EFModels
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Profile>("smsfeedbackModel.UserProfile", "Profile", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "FK_UserMessages", "Message")]
+        public EntityCollection<Message> Messages
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Message>("smsfeedbackModel.FK_UserMessages", "Message");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Message>("smsfeedbackModel.FK_UserMessages", "Message", value);
                 }
             }
         }

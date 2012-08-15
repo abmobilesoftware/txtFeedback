@@ -190,7 +190,7 @@
     <comment>Conversations:Label for date filtering</comment>
   </data>
   <data name="fromDate" xml:space="preserve">
-    <value>from</value>
+    <value>initiated</value>
     <comment>Conversation: from datepicker placeholder</comment>
   </data>
   <data name="starredLabel" xml:space="preserve">
@@ -198,7 +198,7 @@
     <comment>Conversation: filters area, favourites (starred) filter label</comment>
   </data>
   <data name="toDate" xml:space="preserve">
-    <value>to</value>
+    <value>last updated</value>
     <comment>Conversation: filters area, date filtering, to placeholder</comment>
   </data>
   <data name="readLabel" xml:space="preserve">
@@ -406,6 +406,12 @@
   <data name="RepDay" xml:space="preserve">
     <value>Day</value>
   </data>
+  <data name="filteringAddFilterTag" xml:space="preserve">
+    <value>add filtering tag</value>
+  </data>
+  <data name="messagesAddTagPlaceHolder" xml:space="preserve">
+    <value>add tag</value>
+  </data>
   <data name="RepMonth" xml:space="preserve">
     <value>Month</value>
   </data>
@@ -439,8 +445,25 @@
   <data name="RepMostUsedTag" xml:space="preserve">
     <value>Most used tags</value>
   </data>
+  <data name="helpPageTitle" xml:space="preserve">
+    <value>Help</value>
+    <comment>The title (browser page description0</comment>
+  </data>
+  <data name="messagesPageTitle" xml:space="preserve">
+    <value>Messages</value>
+    <comment>The title (browser page description0</comment>
+  </data>
+  <data name="reportsPageTitle" xml:space="preserve">
+    <value>Reports</value>
+    <comment>The title (browser page description0</comment>
+  </data>
+  
   <data name="RepNoOfIncomingSms" xml:space="preserve">
     <value>No of incoming sms'</value>
+  </data>
+  <data name="settingsPageTitle" xml:space="preserve">
+    <value>Settings</value>
+    <comment>The title (browser page description0</comment>
   </data>
   <data name="RepNoOfOutgoingSms" xml:space="preserve">
     <value>No of outgoing sms'</value>

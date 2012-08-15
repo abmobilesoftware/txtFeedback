@@ -1,4 +1,7 @@
-﻿_.templateSettings = {
+﻿"use strict";
+window.app = window.app || {};
+
+_.templateSettings = {
     interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
     evaluate: /\{%([\s\S]+?)%\}/g,   // excute code: {% code_to_execute %}
     escape: /\{%-([\s\S]+?)%\}/g
@@ -53,7 +56,7 @@ var ReportsMenuItemView = Backbone.View.extend({
         return this;
     },
     renderLeaf: function () {
-        $(this.el).addClass('innerLi');
+       $(this.el).addClass('innerLi');
         $(this.el).addClass('listItem');
         $(this.el).addClass('liItem' + this.model.get("itemId"));
         $(this.el).attr("reportId", this.model.get("itemId"));
@@ -66,8 +69,9 @@ var ReportsMenuView = Backbone.View.extend({
     el: $("#leftColumn"),
     initialize: function () {
         _.bindAll(this, 'render');
-        self = this;
+        var self = this;
         this.menuItems = new ReportsMenu();
+
         this.menuItems.fetch({
             success: function () {
                 self.render();
@@ -75,7 +79,7 @@ var ReportsMenuView = Backbone.View.extend({
         });        
     },
     render: function () {
-        self = this;
+        var self = this;
         $(this.el).append("<ul class='primaryList collapsibleList'></ul>");
         _(this.menuItems.models).each(function (menuItemModel) {
             var reportsMenuItemView = new ReportsMenuItemView({ model: menuItemModel });
@@ -125,8 +129,8 @@ var ReportsContentArea = Backbone.View.extend({
     setupEnvironment: function () {
         // after rendering the template, initialize the scripts that will do the magic.
         window.app.areas = [];
-        for (k = 0; k < this.model.get("sections").length; ++k) {
-            if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier == "PrimaryChartArea")) {
+        for (var k = 0; k < this.model.get("sections").length; ++k) {
+            if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier === "PrimaryChartArea")) {
                 window.app.firstArea = new FirstArea(this.model.get("sections")[k].resources[0].source, "day", this.model.get("sections")[k].resources[0].options);
                 window.app.firstArea.drawArea();
                 window.app.areas.push(window.app.firstArea);
@@ -134,7 +138,7 @@ var ReportsContentArea = Backbone.View.extend({
                 window.app.thirdArea = new ThirdArea(this.model.get("sections")[k].resources[0].source);
                 window.app.thirdArea.drawArea();
                 window.app.areas.push(window.app.thirdArea);
-            } else if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier == "InfoBox")) {
+            } else if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier === "InfoBox")) {
                 window.app.secondArea = new SecondArea(this.model.get("sections")[k].resources);
                 window.app.secondArea.drawArea();
                 window.app.areas.push(window.app.secondArea);
@@ -210,69 +214,71 @@ var ReportsContentArea = Backbone.View.extend({
 });
 
 var ReportsArea = function () {
-    var self = this;
-    var localReportsRepository = {};
-        
-    // initializing leftColumn
-    var reportsMenu = new ReportsMenuView({ el: $("#leftColumn") });
-    // initializing rightColumn
-    var reportsContent;
-    
+   var self = this;
+   var localReportsRepository = {};
 
-    $(document).bind("workingPointChanged", function (event, newWorkingPoint) {
-        self.changeWorkingPoint(newWorkingPoint);
-    });
+   // initializing leftColumn
+   var reportsMenu = new ReportsMenuView({ el: $("#leftColumn") });
+   // initializing rightColumn
+   var reportsContent;
 
-    $(document).bind("intervalChanged", function (event) {
-        self.changeReportingInterval();
-    });
 
-    $(document).bind("switchReport", function (event, reportId) {
-        self.loadReport(reportId);
-    });
+   $(document).bind("workingPointChanged", function (event, newWorkingPoint) {
+      self.changeWorkingPoint(newWorkingPoint);
+   });
 
-    this.redrawContent = function () {
-        reportsContent.render();
-    }
+   $(document).bind("intervalChanged", function (event) {
+      self.changeReportingInterval();
+   });
 
-    this.changeWorkingPoint = function (newWorkingPoint) {
-        window.app.currentWorkingPoint = newWorkingPoint;
+   $(document).bind("switchReport", function (event, reportId) {
+      self.loadReport(reportId);
+   });
+
+   this.redrawContent = function () {
+      reportsContent.render();
+   };
+
+   this.changeWorkingPoint = function (newWorkingPoint) {
+      window.app.currentWorkingPoint = newWorkingPoint;
         reportsContent.updateReport();
-    }
+   };
 
-    this.changeReportingInterval = function () {
+   this.changeReportingInterval = function () {
         reportsContent.updateReport();
-    }
+   };
 
-    this.displayReport = function (reportModel) {
-        reportsContent = new ReportsContentArea({ model: reportModel, el: $("#rightColumn") });
-    }
+   this.displayReport = function (reportModel) {
+      reportsContent = new ReportsContentArea({ model: reportModel, el: $("#rightColumn") });
+   };
 
     this.loadReport = function(reportId) {        
-        if (localReportsRepository[reportId] == undefined) {
-            $.getJSON('Reports/getReportById',
+
+      if (localReportsRepository[reportId] === undefined) {
+         $.getJSON('Reports/getReportById',
                { reportId: reportId },
                function (data) {
-                   var receivedReportModel = new ReportModel(data);
-                   localReportsRepository[reportId] = receivedReportModel;
-                   self.displayReport(localReportsRepository[reportId]);
+                  var receivedReportModel = new ReportModel(data);
+                  localReportsRepository[reportId] = receivedReportModel;
+                  self.displayReport(localReportsRepository[reportId]);
                }
-            );                                
-        } else {
-            // load report from local repository
-            self.displayReport(localReportsRepository[reportId]);
-        }
-    }
+            );
 
-    this.loadWorkingPoints = function () {
+      } else {
+         // load report from local repository
+         self.displayReport(localReportsRepository[reportId]);
+      }
+   };
+
+   this.loadWorkingPoints = function () {
         $.getJSON(window.app.domainName + '/Messages/WorkingPointsPerUser',
                {},
                function (data) {
-                   var workingPointsSelectorContent = "<option value='Global'>Global</option>";
-                   for (i = 0; i < data.length; ++i) {
+                  var workingPointsSelectorContent = "<option value='Global'>Global</option>";
+                  for (var i = 0; i < data.length; ++i) {
                        workingPointsSelectorContent += "<option value='" + data[i].TelNumber + "'>" + data[i].Name + "</option>";
-                   }
-                   $("#workingPointSelector").append(workingPointsSelectorContent);
+                  }
+                  $("#workingPointSelector").append(workingPointsSelectorContent);
 
                    // Default setup of the page
                    $("#workingPointSelector").val("Global");
@@ -283,12 +289,11 @@ var ReportsArea = function () {
 
                }
             );
-    }
+   };
 
-    this.loadReport(2);
+   this.loadReport(2);
     
-    // initial setup of the page
-    $("#overlay").hide();
-    this.loadWorkingPoints();
-}
-
+   // initial setup of the page
+   $("#overlay").hide();
+   this.loadWorkingPoints();
+};
