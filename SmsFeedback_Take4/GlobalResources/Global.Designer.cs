@@ -385,7 +385,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Most used tag.
+        ///   Looks up a localized string similar to Most used tags.
         /// </summary>
         public static string RepMostUsedTag {
             get {
@@ -403,11 +403,38 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No of incoming sms&apos;.
+        /// </summary>
+        public static string RepNoOfIncomingSms {
+            get {
+                return ResourceManager.GetString("RepNoOfIncomingSms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No of new clients.
         /// </summary>
         public static string RepNoOfNewClients {
             get {
                 return ResourceManager.GetString("RepNoOfNewClients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No of outgoing sms&apos;.
+        /// </summary>
+        public static string RepNoOfOutgoingSms {
+            get {
+                return ResourceManager.GetString("RepNoOfOutgoingSms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No of returning clients.
+        /// </summary>
+        public static string RepNoOfReturningClients {
+            get {
+                return ResourceManager.GetString("RepNoOfReturningClients", resourceCulture);
             }
         }
         

@@ -22,6 +22,8 @@ namespace SmsFeedback_Take4.Controllers
             return View();
         }
 
+        #region First area chart sources
+
         public JsonResult GetSmsTotalDetailed(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
         {
             DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
@@ -203,157 +205,6 @@ namespace SmsFeedback_Take4.Controllers
             return Json(chartSource, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetSmsTotalInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
-        {
-            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-
-            smsfeedbackEntities dbContext = new smsfeedbackEntities();
-            var totalNoOfSms = 0;
-
-            IEnumerable<WorkingPoint> incommingMsgs;
-            if (scope.Equals(Constants.GLOBAL_SCOPE))
-            {
-                var userName = User.Identity.Name;
-                var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
-                incommingMsgs = workingPoints.First();
-            }
-            else
-            {
-                incommingMsgs = from wp in dbContext.WorkingPoints where wp.TelNumber == scope select wp;
-            }
-
-            foreach (var wp in incommingMsgs)
-            {
-                var conversations = from conv in wp.Conversations select conv;
-                foreach (var conv in conversations)
-                {
-                    var msgsTo = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.To == wp.TelNumber) group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
-                    var msgsFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.From == wp.TelNumber) group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
-                    foreach (var entry in msgsTo)
-                    {
-                        totalNoOfSms += entry.count;
-                    }
-                    foreach (var entry in msgsFrom)
-                    {
-                        totalNoOfSms += entry.count;
-                    }
-                }
-
-            }
-            return Json(new RepInfoBox(totalNoOfSms, "sms"), JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetSmsAvgPerDayInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
-        {
-            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-            smsfeedbackEntities dbContext = new smsfeedbackEntities();
-            var totalNoOfSms = 0;
-
-            IEnumerable<WorkingPoint> incommingMsgs;
-            if (scope.Equals(Constants.GLOBAL_SCOPE))
-            {
-                var userName = User.Identity.Name;
-                var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
-                incommingMsgs = workingPoints.First();
-            }
-            else
-            {
-                incommingMsgs = from wp in dbContext.WorkingPoints where wp.TelNumber == scope select wp;
-            }
-
-            foreach (var wp in incommingMsgs)
-            {
-                foreach (var conv in wp.Conversations)
-                {
-                    var msgsToFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
-                    foreach (var entry in msgsToFrom)
-                    {
-                        totalNoOfSms += entry.count;
-                    }
-                }
-
-            }
-
-            
-            TimeSpan noOfDays = intervalEnd - intervalStart;
-
-            return Json(new RepInfoBox((int)((double)totalNoOfSms / noOfDays.Days * 100) / (double)100, "sms"), JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetIncomingSmsAvgPerClientInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
-        {
-            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-            smsfeedbackEntities dbContext = new smsfeedbackEntities();
-            int noOfClients = 0;
-            int noOfIncomingMessages = 0;
-
-            IEnumerable<WorkingPoint> incommingMsgs;
-            if (scope.Equals(Constants.GLOBAL_SCOPE))
-            {
-                var userName = User.Identity.Name;
-                var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
-                incommingMsgs = workingPoints.First();
-            }
-            else
-            {
-                incommingMsgs = from wp in dbContext.WorkingPoints where wp.TelNumber == scope select wp;
-            }
-
-            foreach (var wp in incommingMsgs)
-            {
-                foreach (var conv in wp.Conversations)
-                {
-                    var msgsTo = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.To == wp.TelNumber) select msg).Count();
-                    noOfIncomingMessages += msgsTo;
-                    noOfClients += 1;
-                }
-            }
-            return Json(new RepInfoBox((int)((double)noOfIncomingMessages / noOfClients * 100) / (double)100, "sms/client"), JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetOutgoingSmsAvgPerClientInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
-        {
-            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-            smsfeedbackEntities dbContext = new smsfeedbackEntities();
-            int noOfClients = 0;
-            int noOfOutgoingMessages = 0;
-
-            IEnumerable<WorkingPoint> incommingMsgs;
-            if (scope.Equals(Constants.GLOBAL_SCOPE))
-            {
-                var userName = User.Identity.Name;
-                var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
-                incommingMsgs = workingPoints.First();
-            }
-            else
-            {
-                incommingMsgs = from wp in dbContext.WorkingPoints where wp.TelNumber == scope select wp;
-            }
-
-            foreach (var wp in incommingMsgs)
-            {
-                foreach (var conv in wp.Conversations)
-                {
-                    var msgsFrom = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.From == wp.TelNumber) select msg).Count();
-                    noOfOutgoingMessages += msgsFrom;
-                    noOfClients += 1;
-                }
-            }
-            return Json(new RepInfoBox((int)((double)noOfOutgoingMessages / noOfClients * 100) / (double)100, "sms/client"), JsonRequestBehavior.AllowGet);
-        }
-
         public JsonResult GetNoOfConversationsByTag(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
         {
             DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
@@ -408,16 +259,230 @@ namespace SmsFeedback_Take4.Controllers
 
             rowContent.Add(new RepDataRowCell(tagInterval, tagInterval));
             headerContent.Add(new RepDataColumn(columnCounter.ToString(), "string", "Date"));
-                       
+
             foreach (var tagEntry in tagsHash)
             {
                 ++columnCounter;
                 rowContent.Add(new RepDataRowCell(tagEntry.Value, tagEntry.Value.ToString()));
                 headerContent.Add(new RepDataColumn(columnCounter.ToString(), "number", tagEntry.Key));
             }
-            
-            RepChartData chartSource = new RepChartData(headerContent, new RepDataRow[] {new RepDataRow(rowContent)} );
+
+            RepChartData chartSource = new RepChartData(headerContent, new RepDataRow[] { new RepDataRow(rowContent) });
             return Json(chartSource, JsonRequestBehavior.AllowGet);
+        }
+        
+        #endregion
+
+        #region Second area info box sources
+
+        public JsonResult GetSmsTotalInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
+        {
+            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+
+            smsfeedbackEntities dbContext = new smsfeedbackEntities();
+            var totalNoOfSms = 0;
+
+            IEnumerable<WorkingPoint> incommingMsgs;
+            if (scope.Equals(Constants.GLOBAL_SCOPE))
+            {
+                var userName = User.Identity.Name;
+                var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
+                incommingMsgs = workingPoints.First();
+            }
+            else
+            {
+                incommingMsgs = from wp in dbContext.WorkingPoints where wp.TelNumber == scope select wp;
+            }
+
+            foreach (var wp in incommingMsgs)
+            {
+                var conversations = from conv in wp.Conversations select conv;
+                foreach (var conv in conversations)
+                {
+                    var msgsFromTo = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
+                    totalNoOfSms += msgsFromTo;
+                }
+
+            }
+            return Json(new RepInfoBox(totalNoOfSms, "sms'"), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSmsIncomingInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
+        {
+            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+
+            smsfeedbackEntities dbContext = new smsfeedbackEntities();
+            var incomingNoOfSms = 0;
+
+            IEnumerable<WorkingPoint> incommingMsgs;
+            if (scope.Equals(Constants.GLOBAL_SCOPE))
+            {
+                var userName = User.Identity.Name;
+                var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
+                incommingMsgs = workingPoints.First();
+            }
+            else
+            {
+                incommingMsgs = from wp in dbContext.WorkingPoints where wp.TelNumber == scope select wp;
+            }
+
+            foreach (var wp in incommingMsgs)
+            {
+                foreach (var conv in wp.Conversations)
+                {
+                    var msgsTo = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.To == wp.TelNumber) select msg).Count();
+                    incomingNoOfSms += msgsTo;                    
+                }
+            }
+            return Json(new RepInfoBox(incomingNoOfSms, "sms"), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSmsOutgoingInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
+        {
+            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+
+            smsfeedbackEntities dbContext = new smsfeedbackEntities();
+            var outgoingNoOfSms = 0;
+
+            IEnumerable<WorkingPoint> incommingMsgs;
+            if (scope.Equals(Constants.GLOBAL_SCOPE))
+            {
+                var userName = User.Identity.Name;
+                var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
+                incommingMsgs = workingPoints.First();
+            }
+            else
+            {
+                incommingMsgs = from wp in dbContext.WorkingPoints where wp.TelNumber == scope select wp;
+            }
+
+            foreach (var wp in incommingMsgs)
+            {
+                var conversations = from conv in wp.Conversations select conv;
+                foreach (var conv in conversations)
+                {
+                    var msgsFrom = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.From == wp.TelNumber) select msg).Count();
+                    outgoingNoOfSms += msgsFrom;                    
+                }
+            }
+            return Json(new RepInfoBox(outgoingNoOfSms, "sms"), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSmsAvgPerDayInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
+        {
+            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+            smsfeedbackEntities dbContext = new smsfeedbackEntities();
+            var totalNoOfSms = 0;
+
+            IEnumerable<WorkingPoint> incommingMsgs;
+            if (scope.Equals(Constants.GLOBAL_SCOPE))
+            {
+                var userName = User.Identity.Name;
+                var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
+                incommingMsgs = workingPoints.First();
+            }
+            else
+            {
+                incommingMsgs = from wp in dbContext.WorkingPoints where wp.TelNumber == scope select wp;
+            }
+
+            foreach (var wp in incommingMsgs)
+            {
+                foreach (var conv in wp.Conversations)
+                {
+                    var msgsToFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
+                    foreach (var entry in msgsToFrom)
+                    {
+                        totalNoOfSms += entry.count;
+                    }
+                }
+
+            }
+
+            
+            TimeSpan noOfDays = intervalEnd - intervalStart;
+
+            return Json(new RepInfoBox((int)((double)totalNoOfSms / noOfDays.Days * 100) / (double)100, "sms'/day"), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetIncomingSmsAvgPerClientInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
+        {
+            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+            smsfeedbackEntities dbContext = new smsfeedbackEntities();
+            int noOfClients = 0;
+            int noOfIncomingMessages = 0;
+
+            IEnumerable<WorkingPoint> incommingMsgs;
+            if (scope.Equals(Constants.GLOBAL_SCOPE))
+            {
+                var userName = User.Identity.Name;
+                var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
+                incommingMsgs = workingPoints.First();
+            }
+            else
+            {
+                incommingMsgs = from wp in dbContext.WorkingPoints where wp.TelNumber == scope select wp;
+            }
+
+            foreach (var wp in incommingMsgs)
+            {
+                foreach (var conv in wp.Conversations)
+                {
+                    var msgsTo = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.To == wp.TelNumber) select msg).Count();
+                    noOfIncomingMessages += msgsTo;
+                    noOfClients += 1;
+                }
+            }
+            return Json(new RepInfoBox((int)((double)noOfIncomingMessages / noOfClients * 100) / (double)100, "sms'/client"), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetOutgoingSmsAvgPerClientInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
+        {
+            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+            smsfeedbackEntities dbContext = new smsfeedbackEntities();
+            int noOfClients = 0;
+            int noOfOutgoingMessages = 0;
+
+            IEnumerable<WorkingPoint> incommingMsgs;
+            if (scope.Equals(Constants.GLOBAL_SCOPE))
+            {
+                var userName = User.Identity.Name;
+                var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
+                incommingMsgs = workingPoints.First();
+            }
+            else
+            {
+                incommingMsgs = from wp in dbContext.WorkingPoints where wp.TelNumber == scope select wp;
+            }
+
+            foreach (var wp in incommingMsgs)
+            {
+                foreach (var conv in wp.Conversations)
+                {
+                    var msgsFrom = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.From == wp.TelNumber) select msg).Count();
+                    noOfOutgoingMessages += msgsFrom;
+                    noOfClients += 1;
+                }
+            }
+            return Json(new RepInfoBox((int)((double)noOfOutgoingMessages / noOfClients * 100) / (double)100, "sms'/client"), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetMostUsedTagInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
@@ -522,58 +587,6 @@ namespace SmsFeedback_Take4.Controllers
 
         }
 
-        public JsonResult GetSmsIncomingOutgoingTotal(String iIntervalStart, String iIntervalEnd, String culture, String scope)
-        {
-            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-            smsfeedbackEntities dbContext = new smsfeedbackEntities();
-            var incomingNoOfSms = 0;
-            var outgoingNoOfSms = 0;
-
-            IEnumerable<WorkingPoint> incommingMsgs;
-            if (scope.Equals(Constants.GLOBAL_SCOPE))
-            {
-                var userName = User.Identity.Name;
-                var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
-                incommingMsgs = workingPoints.First();
-            }
-            else
-            {
-                incommingMsgs = from wp in dbContext.WorkingPoints where wp.TelNumber == scope select wp;
-            }
-
-            foreach (var wp in incommingMsgs)
-            {
-                var conversations = from conv in wp.Conversations select conv;
-                foreach (var conv in conversations)
-                {
-                    var msgsTo = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.To == wp.TelNumber) group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
-                    var msgsFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.From == wp.TelNumber) group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
-                    foreach (var entry in msgsTo)
-                    {
-                        incomingNoOfSms += entry.count;
-                    }
-                    foreach (var entry in msgsFrom)
-                    {
-                        outgoingNoOfSms += entry.count;
-                    }
-                }
-            }
-
-            var row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("Incoming", "Incoming"), new RepDataRowCell(incomingNoOfSms, incomingNoOfSms + " sms - from customers") });
-            var row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("Outgoing", "Outgoing"), new RepDataRowCell(outgoingNoOfSms, outgoingNoOfSms + " sms - to customers") });
-
-            List<RepDataRow> content = new List<RepDataRow>();
-            content.Add(row1);
-            content.Add(row2);
-
-            RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Type"), new RepDataColumn("18", "number", "Number") }, content);
-            return Json(chartSource, JsonRequestBehavior.AllowGet);
-
-        }
-
         public JsonResult GetNoOfNewClientsInfo(String iIntervalStart, String iIntervalEnd, String culture, String scope)
         {
             DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
@@ -602,6 +615,36 @@ namespace SmsFeedback_Take4.Controllers
             }
 
             return Json(new RepInfoBox(noOfNewClients, "clients"), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetNoOfReturningClientsInfo(String iIntervalStart, String iIntervalEnd, String culture, String scope)
+        {
+            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+            smsfeedbackEntities dbContext = new smsfeedbackEntities();
+            int noOfReturningClients = 0;
+
+            IEnumerable<WorkingPoint> incommingMsgs;
+            if (scope.Equals(Constants.GLOBAL_SCOPE))
+            {
+                var userName = User.Identity.Name;
+                var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
+                incommingMsgs = workingPoints.First();
+            }
+            else
+            {
+                incommingMsgs = from wp in dbContext.WorkingPoints where wp.TelNumber == scope select wp;
+            }
+
+            foreach (var wp in incommingMsgs)
+            {
+                var returningClients = from conv in wp.Conversations where conv.StartTime < intervalStart select (from msg in conv.Messages where msg.TimeReceived > intervalStart & msg.TimeReceived < intervalEnd group conv by new { msg.TimeReceived.Date } into convGroup select new { date = convGroup.Key, count = convGroup.Count() });
+                noOfReturningClients += returningClients.Count();
+            }
+
+            return Json(new RepInfoBox(noOfReturningClients, "clients"), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetAvgNoOfSmsPerClientInfo(String iIntervalStart, String iIntervalEnd, String culture, String scope)
@@ -635,7 +678,7 @@ namespace SmsFeedback_Take4.Controllers
                     noOfClients += 1;
                 }
             }
-            return Json(new RepInfoBox((int)((double)noOfMessages / noOfClients * 100) / (double)100, "sms/client"), JsonRequestBehavior.AllowGet);
+            return Json(new RepInfoBox((int)((double)noOfMessages / noOfClients * 100) / (double)100, "sms'/client"), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetAvgResponseTimeInfo(String iIntervalStart, String iIntervalEnd, String culture, String scope)
@@ -673,16 +716,77 @@ namespace SmsFeedback_Take4.Controllers
                     }
                 }
             }
-
-            return Json(new RepInfoBox((int)((double)totalResponseTime / counter * 100) / (double)100, "sms/client"), JsonRequestBehavior.AllowGet);
+            
+            TimeSpan avgResponseTime = new TimeSpan((long)(totalResponseTime / counter));
+            if (avgResponseTime.TotalMinutes < 1)
+            {
+                return Json(new RepInfoBox(Math.Round(avgResponseTime.TotalSeconds, 2), "seconds"), JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new RepInfoBox(Math.Round(avgResponseTime.TotalMinutes, 2), "minutes"), JsonRequestBehavior.AllowGet);
+            }
         }
+
+        #endregion
+        
+        #region Third area sources
+
+        public JsonResult GetSmsIncomingOutgoingTotal(String iIntervalStart, String iIntervalEnd, String culture, String scope)
+        {
+            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+            smsfeedbackEntities dbContext = new smsfeedbackEntities();
+            var incomingNoOfSms = 0;
+            var outgoingNoOfSms = 0;
+
+            IEnumerable<WorkingPoint> incommingMsgs;
+            if (scope.Equals(Constants.GLOBAL_SCOPE))
+            {
+                var userName = User.Identity.Name;
+                var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
+                incommingMsgs = workingPoints.First();
+            }
+            else
+            {
+                incommingMsgs = from wp in dbContext.WorkingPoints where wp.TelNumber == scope select wp;
+            }
+
+            foreach (var wp in incommingMsgs)
+            {
+                var conversations = from conv in wp.Conversations select conv;
+                foreach (var conv in conversations)
+                {
+                    var msgsTo = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.To == wp.TelNumber) select msg).Count();
+                    var msgsFrom = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.From == wp.TelNumber) select msg).Count();
+                    incomingNoOfSms += msgsTo;
+                    outgoingNoOfSms += msgsFrom;
+                }
+            }
+
+            var row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("Incoming", "Incoming"), new RepDataRowCell(incomingNoOfSms, incomingNoOfSms + " sms - from customers") });
+            var row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("Outgoing", "Outgoing"), new RepDataRowCell(outgoingNoOfSms, outgoingNoOfSms + " sms - to customers") });
+
+            List<RepDataRow> content = new List<RepDataRow>();
+            content.Add(row1);
+            content.Add(row2);
+
+            RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Type"), new RepDataColumn("18", "number", "Number") }, content);
+            return Json(chartSource, JsonRequestBehavior.AllowGet);
+
+        }
+
+        #endregion
 
         public JsonResult GetReportsMenuItems()
         {
             ReportsMenuItem[] reportsMenuItems = new ReportsMenuItem[] { new ReportsMenuItem(1, Resources.Global.RepConversations, false, 0), new ReportsMenuItem(2, Resources.Global.RepOverview, true, 1), 
                                                                          new ReportsMenuItem(3, Resources.Global.RepIncomingVsOutgoing, true, 1), new ReportsMenuItem(4, Resources.Global.RepTags, true, 1),
-                                                                         new ReportsMenuItem(5, Resources.Global.RepClients, false, 0), new ReportsMenuItem(6, Resources.Global.RepOverview, true, 5), 
-                                                                         new ReportsMenuItem(7, Resources.Global.RepNewVsReturning , true, 5)};
+                                                                         new ReportsMenuItem(5, Resources.Global.RepClients, false, 0), new ReportsMenuItem(6, Resources.Global.RepNewVsReturning, true, 5), 
+                                                                        };
+            // new ReportsMenuItem(7, Resources.Global.RepNewVsReturning , true, 5)
             return Json(reportsMenuItems, JsonRequestBehavior.AllowGet);
         }
 
@@ -709,8 +813,8 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "/Reports/GetSmsIncomingOutgoingDetailed") 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "/Reports/GetSmsTotalInfo"),  
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfSmsPerDay, iSource: "/Reports/GetSmsAvgPerDayInfo"),
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfIncomingSms, iSource: "/Reports/GetSmsIncomingInfo"),  
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfOutgoingSms, iSource: "/Reports/GetSmsOutgoingInfo"),
                                                                                                                                                     new ReportResource(Resources.Global.RepNoOfNewClients, iSource: "/Reports/GetNoOfNewClientsInfo"),
                                                                                                                                                     new ReportResource(Resources.Global.RepAvgNoOfOutgoingSmsPerConversation, iSource: "/Reports/GetOutgoingSmsAvgPerClientInfo"),
                                                                                                                                                     new ReportResource(Resources.Global.RepAvgNoOfIncomingSmsPerConversation, iSource: "/Reports/GetIncomingSmsAvgPerClientInfo")
@@ -733,17 +837,20 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
                                                                                                                                                           }),
                                                                                     });
-            var report6 = new Report(6, Resources.Global.RepOverview, "Global", new ReportSection[] { 
+            var report6 = new Report(6, Resources.Global.RepNewVsReturning, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "/Reports/GetClientsNewVsReturningDetailed") 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "/Reports/GetSmsTotalInfo"),                                                                                                                                                    
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfNewClients, iSource: "/Reports/GetNoOfNewClientsInfo"),
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfReturningClients, iSource: "/Reports/GetNoOfReturningClientsInfo")
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
                                                                                                                                                           }),
                                                                                     });
+
+            /* out
             var report7 = new Report(7, Resources.Global.RepNewVsReturning, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "/Reports/GetSmsIncomingOutgoingDetailed") 
@@ -755,11 +862,12 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
                                                                                                                                                           }),
                                                                                     });
+             */ 
             hashTable.Add(2, report2);
             hashTable.Add(3, report3);
             hashTable.Add(4, report4);
             hashTable.Add(6, report6);
-            hashTable.Add(7, report7);
+            //hashTable.Add(7, report7);
 
             return Json(hashTable[reportId], JsonRequestBehavior.AllowGet);
 

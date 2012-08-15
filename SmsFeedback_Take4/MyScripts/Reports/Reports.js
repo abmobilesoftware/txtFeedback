@@ -120,6 +120,7 @@ var ReportsContentArea = Backbone.View.extend({
         $(this.el).html(template);
         $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
         this.setupEnvironment();
+        $(document).trigger("resize");
     },
     setupEnvironment: function () {
         // after rendering the template, initialize the scripts that will do the magic.
@@ -188,7 +189,7 @@ var ReportsContentArea = Backbone.View.extend({
         $("#to").val(toTranslation);
 
         // Setup grannularity buttons. TODO: rename the radio buttons group more appropriate.
-        $("#granularitySelector").show();
+        //$("#granularitySelector").show();
         $(".radioOption").change(function () {
             $(this).parents("#granularitySelector").find(".active").removeClass("active");
             $(this).parents(".radioBtnWrapper").addClass("active");

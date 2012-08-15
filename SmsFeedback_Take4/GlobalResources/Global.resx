@@ -437,6 +437,15 @@
     <value>Avg no of tags per conversation</value>
   </data>
   <data name="RepMostUsedTag" xml:space="preserve">
-    <value>Most used tag</value>
+    <value>Most used tags</value>
+  </data>
+  <data name="RepNoOfIncomingSms" xml:space="preserve">
+    <value>No of incoming sms'</value>
+  </data>
+  <data name="RepNoOfOutgoingSms" xml:space="preserve">
+    <value>No of outgoing sms'</value>
+  </data>
+  <data name="RepNoOfReturningClients" xml:space="preserve">
+    <value>No of returning clients</value>
   </data>
 </root>

@@ -370,6 +370,15 @@
     <value>Numarul mediu de etichete pe conversatie</value>
   </data>
   <data name="RepMostUsedTag" xml:space="preserve">
-    <value>Cea mai folosita eticheta</value>
+    <value>Cele mai folosite etichete</value>
+  </data>
+  <data name="RepNoOfIncomingSms" xml:space="preserve">
+    <value>Numarul de sms-uri primite</value>
+  </data>
+  <data name="RepNoOfOutgoingSms" xml:space="preserve">
+    <value>Numarul de sms-uri trimise</value>
+  </data>
+  <data name="RepNoOfReturningClients" xml:space="preserve">
+    <value>Numarul de clienti fideli</value>
   </data>
 </root>

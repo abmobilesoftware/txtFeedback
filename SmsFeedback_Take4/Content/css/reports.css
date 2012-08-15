@@ -25,8 +25,8 @@ color: white;
 }
 
 #rightColumn {
-    background: #ffffff;
-    width: 85%;   
+    background: #a0b2bb;
+    width: 85.22%;   
     color: #000000; 
 }
 
@@ -64,16 +64,24 @@ color: white;
 }
 
 #titleArea {
-    padding: 10px;
-    background: #eee;
+    padding: 10px 10px 6px;
+    background: #f5f8fa;
+    margin: 8px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    color: #183540;
 }
 
 .clear {
     clear:both;
 }
 
-#chartArea {
-padding:10px;
+#chartArea, #tableArea {
+    padding:10px;
+    background: #fff;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
 }
 
 #granularitySelector {
@@ -133,28 +141,73 @@ div.radioBtnWrapper.active {
 
 
 #chart_div {
-    width: 95%;
+    width: 93%;
     height: 350px;    
     display:inline;
     float:left;
 }
 
 .boxArea {
-    width: 19.9%;
+    width: 180px;
+    height: 140px;
     display:inline;
     float:left;
-    border-bottom: 1px solid #ccc;
-    border-right: 1px dotted #ccc;
     text-align: center;
-    padding-bottom: 20px;
-    padding-top:20px;
     background: #eee;
+    margin-right: 8px;
+    border-radius: 10px;
+}
+
+#infoBoxArea {
+    margin: 5px 10px 25px;
 }
 
 .infoTitle {
     overflow: auto;
-    padding-bottom:5px; 
+    height: 37%;
+    width: 100%;
+    background: #183540;
+    color: #fff;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden; position: relative;
+}
+
+.infoContent {
+    height: 63%;
+    width: 100%;
+    background: #f5f8fa;
+    border-radius: 10px 10px 0 0;
+    color: #183540;
+    overflow: hidden; position: relative;
+}
+
+.infoTitle[id], .infoContent[id] {display: table; position: static;}
+
+.infoTitleMiddle, .infoContentMiddle {position: absolute; top: 20%; width: 100%;} /* for explorer only*/
+.infoTitleMiddle[id], .infoContentMiddle[id] {display: table-cell; vertical-align: top; width: 100%;}
+
+.infoTitleInner, .infoContentInner {position: relative; top: -35%; padding: 0 5px 0 5px;} /* for explorer only */
+/* optional: #inner[id] {position: static;} */
+
+.boxContent {
+  /*  margin-top: 20px;
+    position:relative;
+    top: 31px; */
+}
+
+.boxValue {
+    font-size: 2em;
     font-weight: bold;
+}
+
+.boxUnit {
+    font-size: 1.6em;
+}
+
+.boxTitle {
+    /* margin-top:10px;
+    position:relative;
+    top: 15px; */
 }
 
 #tableContent {
