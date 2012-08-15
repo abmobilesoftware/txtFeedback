@@ -142,30 +142,43 @@ namespace SmsFeedback_Take4.Utilities
          logger.ErrorFormat("No conversation with id {0} found", convID);
          return null;      
       }
-    
-      public Message AddMessage(String from, String to, String conversationId, String text, Boolean readStatus, DateTime updateTime, smsfeedbackEntities dbContext)
+
+      public Message AddMessage(String userID, String from, String to, String conversationId, String text, Boolean readStatus, DateTime updateTime,String prevConvFrom, DateTime prevConvUpdateTime, smsfeedbackEntities dbContext)
       {
+         //assume userID and convID are valid
          logger.Info("Call made");
-         try
-         {
-            var msg = new Message()
+         var userGuids = from usr in dbContext.Users where usr.UserName == userID select usr.UserId;
+         
+            var userGuid = userGuids.First();
+            //for the responce time -> the lastest details are always in the conversation
+           
+            long? responceTime = null;
+            if (ConversationUtilities.GetDirectionForMessage(prevConvFrom, conversationId) == ConversationUtilities.Direction.from)
             {
-               From = from,
-               To = to,
-               Text = text,
-               TimeReceived = updateTime,
-               ConversationId = conversationId,
-               Read = readStatus
-            };
-            dbContext.Messages.AddObject(msg);
-            dbContext.SaveChanges();
-            return msg;
-         }
-         catch (Exception ex)
-         {
-            logger.Error("Error occurred in AddMessage", ex);
-            return null;
-         }
+               responceTime = updateTime.Subtract(prevConvUpdateTime).Ticks;
+            }
+            try
+            {
+               var msg = new Message()
+               {
+                  ResponseTime = responceTime,
+                  UserUserId = userGuid,
+                  From = from,
+                  To = to,
+                  Text = text,
+                  TimeReceived = updateTime,
+                  ConversationId = conversationId,
+                  Read = readStatus
+               };
+               dbContext.Messages.AddObject(msg);
+               dbContext.SaveChanges();
+               return msg;
+            }
+            catch (Exception ex)
+            {
+               logger.Error("Error occurred in AddMessage", ex);
+               return null;
+            }         
       }
 
       public XmppConn GetXmppConnectionDetailsPerUser(string userName, smsfeedbackEntities dbContext)
@@ -316,5 +329,12 @@ namespace SmsFeedback_Take4.Utilities
                  return "";
               }
       }
+
+      public Conversation GetLatestConversationDetails(string convId, smsfeedbackEntities dbContext)
+      {
+         var conv= (from c in dbContext.Conversations where c.ConvId == convId select c).First();
+         return conv;
+      }
+      
    }
 }

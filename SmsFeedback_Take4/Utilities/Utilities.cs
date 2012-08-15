@@ -27,6 +27,22 @@ namespace SmsFeedback_Take4.Utilities
          Regex rgx = new Regex(pattern);
          return rgx.Replace(number, "");
       }
+      
+      public enum Direction { 
+         from = 0,
+         to = 1
+      }
+
+      public static Direction GetDirectionForMessage(string latestFrom, string convID)
+      {
+         var fromTo = GetFromAndToFromConversationID(convID);
+         var res = Direction.from;
+         if (fromTo[1] == latestFrom)
+         {
+            res = Direction.to;
+         }
+         return res;
+      }
    }
 
 

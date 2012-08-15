@@ -252,48 +252,55 @@ namespace SmsFeedback_Take4.Controllers
          return requestIndex % 5 == 0;
       }
 
-      public JsonResult MessageReceived(String from, String to, String convId, String text, string receivedTime, bool readStatus)
-      {
-         logger.Debug(String.Format("Message received: from: {0}, to: {1}, convId: {2}, text: {3}, receivedTime: {4}, readStatus: {5}", from, to, convId, text, receivedTime.ToString(), readStatus.ToString()));
-         if (HttpContext.Request.IsAjaxRequest())
-         {
-            try
-            {
-               String conversationId = ConversationUtilities.BuildConversationIDFromFromAndTo(from, to);
-               DateTime receivedTimeAsDate = Utilities.Rfc822DateTime.Parse(receivedTime);
-               smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+      //public JsonResult MessageReceived(String from, String to, String convId, String text, string receivedTime, bool readStatus)
+      //{
+      //   logger.Debug(String.Format("Message received: from: {0}, to: {1}, convId: {2}, text: {3}, receivedTime: {4}, readStatus: {5}", from, to, convId, text, receivedTime.ToString(), readStatus.ToString()));
+      //   if (HttpContext.Request.IsAjaxRequest())
+      //   {
+      //      try
+      //      {
+      //         String conversationId = ConversationUtilities.BuildConversationIDFromFromAndTo(from, to);
+      //         DateTime receivedTimeAsDate = Utilities.Rfc822DateTime.Parse(receivedTime);
+      //         smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
 
-               AddMessageAndUpdateConversation(from, to, convId, text, readStatus, receivedTimeAsDate, lContextPerRequest);
-               //I should return the sent time (if successful)              
-               String response = "received successfully"; //TODO should be a class
-               return Json(response, JsonRequestBehavior.AllowGet);
+      //         AddMessageAndUpdateConversation(from, to, convId, text, readStatus, receivedTimeAsDate, lContextPerRequest);
+      //         //I should return the sent time (if successful)              
+      //         String response = "received successfully"; //TODO should be a class
+      //         return Json(response, JsonRequestBehavior.AllowGet);
 
-            }
-            catch (Exception ex)
-            {
-               logger.Error("MessageReceived error", ex);
-            }
-         }
-         return null;
-      }
+      //      }
+      //      catch (Exception ex)
+      //      {
+      //         logger.Error("MessageReceived error", ex);
+      //      }
+      //   }
+      //   return null;
+      //}
 
-      private void AddMessageAndUpdateConversation(String from, String to, String conversationId, String text, Boolean readStatus, DateTime updateTime, smsfeedbackEntities dbContext)
+      private void AddMessageAndUpdateConversation(String userId, String from, String to, String conversationId, String text, Boolean readStatus,
+                                                   DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, smsfeedbackEntities dbContext)
       {         
-         string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, dbContext);         
-         mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime,dbContext);         
+         string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, dbContext);
+         mEFInterface.AddMessage(userId, from, to, conversationId, text, readStatus, updateTime, prevConvFrom, prevConvUpdateTime, dbContext);         
       }
 
       public JsonResult SendMessage(String from, String to, String convId, String text)
       {
          if (HttpContext.Request.IsAjaxRequest())
          {
-            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}]", from, to, text);
+            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}]", from, to, convId, text);
+            var userId = User.Identity.Name;
+
             try
             {
-               smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();             
+               smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+               var previousConv = mEFInterface.GetLatestConversationDetails(convId,lContextPerRequest);
+
+               var prevConvFrom = previousConv.From;
+               var prevConvUpdateTime = previousConv.TimeUpdated;
                SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgDateSent) =>
                {
-                  AddMessageAndUpdateConversation(from, to, convId, text, false, msgDateSent, lContextPerRequest);
+                  AddMessageAndUpdateConversation(userId, from, to, convId, text, false, msgDateSent, prevConvFrom, prevConvUpdateTime, lContextPerRequest);
                });
                //we should wait for the call to finish
                //I should return the sent time (if successful)              
