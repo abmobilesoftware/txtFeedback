@@ -162,7 +162,7 @@ namespace SmsFeedback_Take4.Utilities
                var msg = new Message()
                {
                   ResponseTime = responceTime,
-                  UserUserId = userGuid,
+                  //UserUserId = userGuid,
                   From = from,
                   To = to,
                   Text = text,
@@ -335,6 +335,22 @@ namespace SmsFeedback_Take4.Utilities
          var conv= (from c in dbContext.Conversations where c.ConvId == convId select c).First();
          return conv;
       }
-      
+
+     public IEnumerable<SmsFeedback_EFModels.WorkingPoint> GetWorkingPointsForAUser(String scope, String userName, smsfeedbackEntities dbContext)
+      {
+          IEnumerable<SmsFeedback_EFModels.WorkingPoint> incommingMsgs;
+          if (scope.Equals(Constants.GLOBAL_SCOPE))
+          {
+              var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
+              incommingMsgs = workingPoints.First();
+          }
+          else
+          {
+              incommingMsgs = from wp in dbContext.WorkingPoints where wp.TelNumber == scope select wp;
+          }
+
+          return incommingMsgs;
+      }
+     
    }
 }

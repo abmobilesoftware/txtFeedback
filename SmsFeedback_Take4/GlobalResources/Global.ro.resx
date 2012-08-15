@@ -372,9 +372,6 @@
   <data name="messagesPageTitle" xml:space="preserve">
     <value>Mesaje</value>
   </data>
-  <data name="reportsPageTitle" xml:space="preserve">
-    <value>Rapoarte</value>
-  </data>
   <data name="settingsPageTitle" xml:space="preserve">
     <value>Setari</value>
   </data>
@@ -398,5 +395,8 @@
   </data>
   <data name="RepNoOfReturningClients" xml:space="preserve">
     <value>Numarul de clienti fideli</value>
+  </data>
+  <data name="reportsPageTitle" xml:space="preserve">
+    <value>Rapoarte</value>
   </data>
 </root>

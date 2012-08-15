@@ -433,6 +433,7 @@
   <data name="RepTags" xml:space="preserve">
     <value>Tags</value>
   </data>
+<<<<<<< HEAD
   <data name="RepAvgNoOfIncomingSmsPerConversation" xml:space="preserve">
     <value>Avg no of incoming sms' per conversation</value>
   </data>
@@ -445,6 +446,15 @@
   <data name="RepMostUsedTag" xml:space="preserve">
     <value>Most used tags</value>
   </data>
+  <data name="RepNoOfIncomingSms" xml:space="preserve">
+    <value>No of incoming sms'</value>
+  </data>
+  <data name="RepNoOfOutgoingSms" xml:space="preserve">
+    <value>No of outgoing sms'</value>
+  </data>
+  <data name="RepNoOfReturningClients" xml:space="preserve">
+    <value>No of returning clients</value>
+=======
   <data name="helpPageTitle" xml:space="preserve">
     <value>Help</value>
     <comment>The title (browser page description0</comment>
@@ -453,20 +463,13 @@
     <value>Messages</value>
     <comment>The title (browser page description0</comment>
   </data>
-  <data name="RepNoOfIncomingSms" xml:space="preserve">
-    <value>No of incoming sms'</value>
+  <data name="reportsPageTitle" xml:space="preserve">
+    <value>Reports</value>
+    <comment>The title (browser page description0</comment>
   </data>
   <data name="settingsPageTitle" xml:space="preserve">
     <value>Settings</value>
     <comment>The title (browser page description0</comment>
-  </data>
-  <data name="RepNoOfOutgoingSms" xml:space="preserve">
-    <value>No of outgoing sms'</value>
-  </data>
-  <data name="RepNoOfReturningClients" xml:space="preserve">
-    <value>No of returning clients</value>
-  </data>
-  <data name="reportsPageTitle" xml:space="preserve">
-    <value>Reports</value>
+>>>>>>> ebb725ed783c238dcf2edb3c1cafb94f0bcbd377
   </data>
 </root>
