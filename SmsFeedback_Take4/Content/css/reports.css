@@ -12,36 +12,29 @@
 }
 
 .page {
-background-color: #183540;
 color: white;
 }
 
-#leftColumn {
-    background-color: #183540;
-    min-width: 145px;
-    overflow: auto;
-    width: 14.666%;
+#leftColumn {    
+    overflow: auto;    
     padding-right: 2px;
 }
 
 #rightColumn {
     background: #a0b2bb;
-    width: 85.22%;   
+    /*width: 85.22%;*/   
     color: #000000; 
 }
 
-.grid1, .grid2 {
+.grid2 {
     float:left;
-    display:inline;
-    height:100%;
+    display:inline;    
     min-height: 500px;
     height: 100%;
 }
 
 #menuBar {
-    background-color: #183540;
-    height: 45px;
-    width: 100%;
+    
 }
 
 #reportTitle {

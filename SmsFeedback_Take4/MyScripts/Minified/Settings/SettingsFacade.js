@@ -1,0 +1,1 @@
+function resizeTriggered(){var f=5;var d=10;var e=45;var c=window.innerHeight;var b=$("#messagesArea").height();var a=$("header").height();var g=c-a-(2*f)-e;$(".container_12").height(g)}$(function(){window.addEventListener("resize",resizeTriggered,false);resizeTriggered()});
