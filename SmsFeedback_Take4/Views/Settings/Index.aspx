@@ -9,6 +9,12 @@
         <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/css/settings.css") %>" />
     <% }      else      { %>
       <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/css/settings.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/areaDefinitions.css") %>" />
      <% } %>
-      <span class="bodyText">Work in progress</span>
+   <div class="headerArea">
+   </div>
+   <div class="clear"></div>
+   <div  class="wordwrap tagsPhoneNumbers grid_2 leftSideArea">
+
 </asp:Content>
+ 

@@ -231,6 +231,7 @@
     <Compile Include="Utilities\ViewExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\areaDefinitions.css" />
     <Content Include="Content\contact.css" />
     <Content Include="Content\conversations_mb.css" />
     <Content Include="Content\css\datepicker\datepicker.css" />
