@@ -18,12 +18,13 @@ color: white;
 #leftColumn {    
     overflow: auto;    
     padding-right: 2px;
+    margin-right: 0px;
 }
 
 #rightColumn {
     background: #a0b2bb;
-    /*width: 85.22%;*/   
     color: #000000; 
+    margin-right: 0px;
 }
 
 .grid2 {
