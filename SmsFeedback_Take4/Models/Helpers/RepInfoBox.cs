@@ -7,10 +7,10 @@ namespace SmsFeedback_Take4.Models.Helpers
 {
     public class RepInfoBox
     {
-        public double value;
+        public object value;
         public string unit;
 
-        public RepInfoBox(double iValue, string iUnit)
+        public RepInfoBox(object iValue, string iUnit)
         {
             value = iValue;
             unit = iUnit;

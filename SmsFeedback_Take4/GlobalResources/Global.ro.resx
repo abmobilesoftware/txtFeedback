@@ -372,10 +372,31 @@
   <data name="messagesPageTitle" xml:space="preserve">
     <value>Mesaje</value>
   </data>
-  <data name="reportsPageTitle" xml:space="preserve">
-    <value>Rapoarte</value>
-  </data>
   <data name="settingsPageTitle" xml:space="preserve">
     <value>Setari</value>
+  </data>
+  <data name="RepAvgNoOfIncomingSmsPerConversation" xml:space="preserve">
+    <value>Numarul mediu de sms-uri primite per conversatie</value>
+  </data>
+  <data name="RepAvgNoOfOutgoingSmsPerConversation" xml:space="preserve">
+    <value>Numarul mediu de sms-uri trimise per conversatie</value>
+  </data>
+  <data name="RepAvgNoOfTagsPerConversation" xml:space="preserve">
+    <value>Numarul mediu de etichete pe conversatie</value>
+  </data>
+  <data name="RepMostUsedTag" xml:space="preserve">
+    <value>Cele mai folosite etichete</value>
+  </data>
+  <data name="RepNoOfIncomingSms" xml:space="preserve">
+    <value>Numarul de sms-uri primite</value>
+  </data>
+  <data name="RepNoOfOutgoingSms" xml:space="preserve">
+    <value>Numarul de sms-uri trimise</value>
+  </data>
+  <data name="RepNoOfReturningClients" xml:space="preserve">
+    <value>Numarul de clienti fideli</value>
+  </data>
+  <data name="reportsPageTitle" xml:space="preserve">
+    <value>Rapoarte</value>
   </data>
 </root>

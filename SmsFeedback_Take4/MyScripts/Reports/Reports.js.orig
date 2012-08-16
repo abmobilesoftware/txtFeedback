@@ -128,17 +128,27 @@ var ReportsContentArea = Backbone.View.extend({
     },
     setupEnvironment: function () {
         // after rendering the template, initialize the scripts that will do the magic.
+<<<<<<< HEAD
         window.app.areas = [];
+        for (k = 0; k < this.model.get("sections").length; ++k) {
+            if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier == "PrimaryChartArea")) {
+                window.app.firstArea = new FirstArea(this.model.get("sections")[k].resources[0].source, "day", this.model.get("sections")[k].resources[0].options);
+=======
         for (var k = 0; k < this.model.get("sections").length; ++k) {
             if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier === "PrimaryChartArea")) {
-                window.app.firstArea = new FirstArea(this.model.get("sections")[k].resources[0].source, "day", this.model.get("sections")[k].resources[0].options);
+                window.app.firstArea = new FirstArea(this.model.get("sections")[k].resources[0].source, "day");
+>>>>>>> ebb725ed783c238dcf2edb3c1cafb94f0bcbd377
                 window.app.firstArea.drawArea();
                 window.app.areas.push(window.app.firstArea);
             } else if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier == "SecondaryChartArea")) {
                 window.app.thirdArea = new ThirdArea(this.model.get("sections")[k].resources[0].source);
                 window.app.thirdArea.drawArea();
+<<<<<<< HEAD
                 window.app.areas.push(window.app.thirdArea);
+            } else if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier == "InfoBox")) {
+=======
             } else if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier === "InfoBox")) {
+>>>>>>> ebb725ed783c238dcf2edb3c1cafb94f0bcbd377
                 window.app.secondArea = new SecondArea(this.model.get("sections")[k].resources);
                 window.app.secondArea.drawArea();
                 window.app.areas.push(window.app.secondArea);
@@ -252,17 +262,32 @@ var ReportsArea = function () {
       reportsContent = new ReportsContentArea({ model: reportModel, el: $("#rightColumn") });
    };
 
+<<<<<<< HEAD
     this.loadReport = function(reportId) {        
+        if (localReportsRepository[reportId] == undefined) {
+            $.getJSON('Reports/getReportById',
+=======
+   this.loadReport = function (reportId) {
 
       if (localReportsRepository[reportId] === undefined) {
          $.getJSON('Reports/getReportById',
+>>>>>>> ebb725ed783c238dcf2edb3c1cafb94f0bcbd377
                { reportId: reportId },
                function (data) {
                   var receivedReportModel = new ReportModel(data);
                   localReportsRepository[reportId] = receivedReportModel;
                   self.displayReport(localReportsRepository[reportId]);
                }
+<<<<<<< HEAD
+            );                                
+        } else {
+            // load report from local repository
+            self.displayReport(localReportsRepository[reportId]);
+        }
+    }
+=======
             );
+>>>>>>> ebb725ed783c238dcf2edb3c1cafb94f0bcbd377
 
       } else {
          // load report from local repository
@@ -277,8 +302,9 @@ var ReportsArea = function () {
                   var workingPointsSelectorContent = "<option value='Global'>Global</option>";
                   for (var i = 0; i < data.length; ++i) {
                        workingPointsSelectorContent += "<option value='" + data[i].TelNumber + "'>" + data[i].Name + "</option>";
-                  }
-                  $("#workingPointSelector").append(workingPointsSelectorContent);
+<<<<<<< HEAD
+                   }
+                   $("#workingPointSelector").append(workingPointsSelectorContent);
 
                    // Default setup of the page
                    $("#workingPointSelector").val("Global");
@@ -287,13 +313,27 @@ var ReportsArea = function () {
                        $(document).trigger("workingPointChanged", $(this).val());                       
                    });
 
+=======
+                  }
+                  $("#workingPointSelector").append(workingPointsSelectorContent);
+>>>>>>> ebb725ed783c238dcf2edb3c1cafb94f0bcbd377
                }
             );
    };
 
+<<<<<<< HEAD
+    this.loadReport(2);
+    
+    // initial setup of the page
+    $("#overlay").hide();
+    this.loadWorkingPoints();
+}
+
+=======
    this.loadReport(2);
     
    // initial setup of the page
    $("#overlay").hide();
    this.loadWorkingPoints();
 };
+>>>>>>> ebb725ed783c238dcf2edb3c1cafb94f0bcbd377

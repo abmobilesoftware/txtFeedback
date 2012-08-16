@@ -1,6 +1,6 @@
 ﻿window.app = window.app || {};
 
-function FirstArea(iResource, iGranularity) {
+function FirstArea(iResource, iGranularity, iOptions) {
     var self = this;
     var resource = iResource;
     var granularity = iGranularity;
@@ -23,18 +23,30 @@ function FirstArea(iResource, iGranularity) {
     var spinner = new Spinner(opts);
     var target = document.getElementById('overlay');
     
-    //
+    var chart = null;
     var data = null;
     var options = {
         animation: {
             duration: 1000,
             easing: 'out'
-        },
-        hAxis: { gridlines: { count: 5 } }
+        }
     };
-    var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+    options.seriesType = iOptions.seriesType;
+    
+    if (options.seriesType == "area") {
+        chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+    } else if (options.seriesType == "bars") {
+        chart = new google.visualization.ComboChart(document.getElementById('chart_div'));        
+    }
 
     this.drawArea = function () {
+        if (options.seriesType == "bars") {
+            // usually combo charts don't require a granularitySelector.
+            $("#granularitySelector").hide();
+        } else if (options.seriesType == "area") {
+            $("#granularitySelector").show();
+        }
+
         //spinner.spin(target);
         $("#overlay").show();
         var jsonData = $.ajax({
@@ -49,6 +61,7 @@ function FirstArea(iResource, iGranularity) {
             }
         }).responseText;
 
+        
         //this.drawChart(jsonData);
     }
 

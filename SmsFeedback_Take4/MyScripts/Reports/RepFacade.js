@@ -16,11 +16,7 @@ $(document).ready(function () {
          
     window.app.reportsPage = new ReportsArea();
 
-    // Default setup of the page
-    $("#workingPointSelector").val("Global");
-    $("#workingPointSelector").change(function () {
-        $(document).trigger("workingPointChanged", $(this).val());
-    });
+    $(document).bind("resize", resizeTriggered);
 });
 
 
@@ -31,11 +27,31 @@ function resizeTriggered() {
    var filterStripHeigh = 45;
    var window_height = window.innerHeight;
    var headerHeight = $('header').height();
-   var contentWindowHeight = window_height - headerHeight - (2 * padding) - filterStripHeigh;
+   var contentWindowHeight = window_height - headerHeight - padding - filterStripHeigh;
    
-   $('#leftColumn').height(contentWindowHeight);
-   $('#rightColumn').height(contentWindowHeight);
+   var titleAreaMarginTopBottom = 8;
+   var titleAreaPaddingTop = 10;
+   var titleAreaPaddingBottom = 6;
 
+   var chartAreaMarginTopBottom = 10;
+   var chartAreaPaddingTopBottom = 10;
+
+   var infoBoxAreaMarginTop = 5;
+   var infoBoxAreaMarginBottom = 25;
+
+   var tableAreaMarginTopBottom = 10;
+   var tableAreaPaddingTopBottom = 10;
+   var reportsAreaHeight = 2 * titleAreaMarginTopBottom + titleAreaPaddingTop + titleAreaPaddingBottom + $("#titleArea").height() +
+                            2 * chartAreaMarginTopBottom + 2 * chartAreaPaddingTopBottom + $("#chartArea").height() + infoBoxAreaMarginTop + infoBoxAreaMarginBottom +
+                            $("#infoBoxArea").height() + 2 * tableAreaMarginTopBottom + 2 * tableAreaPaddingTopBottom + $("#tableArea").height();
+   
+   if (contentWindowHeight <= reportsAreaHeight) {
+       $('#leftColumn').height(reportsAreaHeight);
+       $('#rightColumn').height(reportsAreaHeight);
+   } else {
+       $('#leftColumn').height(contentWindowHeight);
+       $('#rightColumn').height(contentWindowHeight);
+   }
    // the charts are redrawn at a more appropriate scale.
    //window.app.reportsPage.redrawContent();
 }

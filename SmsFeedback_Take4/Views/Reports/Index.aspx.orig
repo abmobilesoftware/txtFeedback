@@ -2,8 +2,13 @@
 
 <%@ Import Namespace="SmsFeedback_Take4.Utilities" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
+<<<<<<< HEAD
+    Reports</asp:Content>
+
+=======
    <%: Resources.Global.reportsPageTitle %>
 </asp:Content>
+>>>>>>> ebb725ed783c238dcf2edb3c1cafb94f0bcbd377
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
    <% if (Html.IsReleaseBuild())
       { %>

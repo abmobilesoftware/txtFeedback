@@ -3,6 +3,8 @@
 window.app = window.app || {};
 window.app.calendarCulture = "en-GB";
 window.app.currentWorkingPoint = "Global";
+window.app.currentWorkingPointFriendlyName = "Global";
+window.app.areas = [];
 var startDate = new Date();
 var endDate = new Date();
 startDate.setDate(endDate.getDate() - 31);

@@ -28,6 +28,21 @@ function SecondArea(iData) {
         for (i = 0; i < data.length; ++i) {
             this.buildInfoBox(data[i].name, data[i].source, boxWidth);
         }
+
+        // enable tooltips
+        var infoBoxElement = $(".boxTitle");
+        infoBoxElement.qtip({
+            content: infoBoxElement.attr('tooltiptitle'),
+            position: {
+                corner: {
+                    target: 'topRight',
+                    tooltip: 'bottomLeft'
+                }
+            },
+            style: 'light'
+        });
+
+        $("#infoBoxArea").append("<div class='clear'></div>");
      }
 
     this.buildInfoBox = function (name, resource, width) {
@@ -47,10 +62,11 @@ function SecondArea(iData) {
     }
 
     this.fillInfoBox = function (name, width, data) {
-        var infoBoxString = "<div class='boxArea' style='width:" + width + "%'>" +
-                                "<div class='infoTitle'>" + name + "</div>" +
-                                "<div class='infoContent'>" + data.value + "</div>" +
+        var infoBoxString = "<div class='boxArea'>" +
+                                "<div class='infoContent'><div class='infoContentMiddle'><div class='infoContentInner'><span class='boxContent'><span class='boxValue'>" + data.value + "</span><span class='boxUnit'> " + data.unit + "</span></span></div></div></div>" +
+                                "<div class='infoTitle'><div class='infoTitleMiddle'><div class='infoTitleInner'><span class='boxTitle' title='Tooltip1'>" + name + "</span></div></div></div>" +
                             "</div>";
+
         $("#infoBoxArea").append(infoBoxString);
     }
 
