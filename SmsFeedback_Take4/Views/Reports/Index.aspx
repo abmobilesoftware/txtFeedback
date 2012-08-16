@@ -169,14 +169,14 @@
             <div id="overlay"></div>       
              
    </script>
-   <div id="menuBar">
+   <div id="menuBar"  class="headerArea">
    </div>
-   <div id="leftColumn" class="grid1">
+   <div id="leftColumn" class="wordwrap grid_2 leftSideArea">
       <div class="styled-select">
          <select id="workingPointSelector"></select>
       </div>
    </div>
-   <div id="rightColumn" class="grid2">
+   <div id="rightColumn" class="grid_11">
    </div>
    <script type="text/javascript">
       $(function () {

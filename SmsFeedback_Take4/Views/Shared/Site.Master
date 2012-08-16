@@ -17,6 +17,7 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/nav.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/Site.css") %>" />   
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/contact.css") %>"/> 
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/css/areaDefinitions.css") %>" />
    <% } else { %>
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/reset.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/text.css") %>" />
@@ -25,6 +26,7 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/nav.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Site.css") %>" />        
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/contact.css") %>"/> 
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/css/areaDefinitions.css") %>" />
    <% } %> 
    <script src="<%: Url.Content("~/Scripts/jquery-1.6.2.min.js") %>" charset="UTF-8" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/jquery-ui-1.8.11.min.js") %>" charset="UTF-8" type="text/javascript"></script>
@@ -44,6 +46,7 @@
    <script src="<%: Url.Content("~/Scripts/Strophe/strophe.js") %>" type="application/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/flxhr/flXHR.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/flxhr/strophe.flxhr.js") %>" type="text/javascript"></script>
+
    
     <% if (Html.IsReleaseBuild())      { %>
       <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Utilities.js") %>" type="application/javascript"></script>
