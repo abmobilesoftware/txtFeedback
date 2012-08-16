@@ -55,8 +55,10 @@ namespace SmsFeedback_Take4.Controllers
                 foreach (var entry in daysInterval)
                 {
                     // Incoming
-                    var totalSmsText = entry.Value + " sms - " + entry.Key.ToShortDateString();
-                    content.Add(new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(entry.Key.ToShortDateString(), entry.Key.ToShortDateString()), new RepDataRowCell(entry.Value, totalSmsText) }));
+                    var formattedDateWithoutYear = transformDate(entry.Key, "dd-mm");
+                    var formattedDateWithYear = transformDate(entry.Key, "dd-mm-yyyy");
+                    var totalSmsText = entry.Value + " sms - " + formattedDateWithYear;
+                    content.Add(new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(formattedDateWithoutYear, formattedDateWithoutYear), new RepDataRowCell(entry.Value, totalSmsText) }));
                 }
 
                 RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Total sms") }, content);
@@ -103,9 +105,11 @@ namespace SmsFeedback_Take4.Controllers
                         var hashTable = new Dictionary<DateTime, int>();
                         foreach (var entry in daysIntervalIncoming)
                         {
-                            var totalIncomingText = entry.Value + " sms - " + entry.Key.ToShortDateString();
-                            var totalOutgoingText = daysIntervalOutgoing[entry.Key] + " sms - " + entry.Key.ToShortDateString();
-                            content.Add(new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(entry.Key.ToShortDateString(), entry.Key.ToShortDateString()), new RepDataRowCell(entry.Value, totalIncomingText), new RepDataRowCell(daysIntervalOutgoing[entry.Key], totalOutgoingText) }));
+                            var formattedDateWithoutYear = transformDate(entry.Key, "dd-mm");
+                            var formattedDateWithYear = transformDate(entry.Key, "dd-mm-yyyy");
+                            var totalIncomingText = entry.Value + " sms - " + formattedDateWithYear;
+                            var totalOutgoingText = daysIntervalOutgoing[entry.Key] + " sms - " + formattedDateWithYear;
+                            content.Add(new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(formattedDateWithoutYear, formattedDateWithoutYear), new RepDataRowCell(entry.Value, totalIncomingText), new RepDataRowCell(daysIntervalOutgoing[entry.Key], totalOutgoingText) }));
                         }
 
                         RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Total incoming sms"), new RepDataColumn("18", "number", "Total outgoing sms") }, content);
@@ -135,7 +139,7 @@ namespace SmsFeedback_Take4.Controllers
                 Dictionary<DateTime, int> daysIntervalReturningClients = Enumerable.Range(0, 1 + intervalEnd.Subtract(intervalStart).Days).Select(offset => intervalStart.AddDays(offset)).ToDictionary(d => d.Date, d => 0);
                 foreach (var wp in workingPoints)
                 {
-                    var newClients = from conv in wp.Conversations where conv.StartTime > new DateTime(2012, 8, 1) & conv.StartTime < new DateTime(2012, 8, 15) group conv by conv.StartTime.Date into convGroup select new { date = convGroup.Key, count = convGroup.Count() };
+                    var newClients = from conv in wp.Conversations where conv.StartTime > intervalStart & conv.StartTime < intervalEnd group conv by conv.StartTime.Date into convGroup select new { date = convGroup.Key, count = convGroup.Count() };
                     foreach (var newClient in newClients)
                     {
                         daysIntervalNewClients[newClient.date] += newClient.count;
@@ -157,9 +161,11 @@ namespace SmsFeedback_Take4.Controllers
                 var hashTable = new Dictionary<DateTime, int>();
                 foreach (var entry in daysIntervalNewClients)
                 {
-                    var totalNewClientsText = entry.Value + " clients - " + entry.Key.ToShortDateString();
-                    var totalReturningText = daysIntervalReturningClients[entry.Key] + " sms - " + entry.Key.ToShortDateString();
-                    content.Add(new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(entry.Key.ToShortDateString(), entry.Key.ToShortDateString()), new RepDataRowCell(entry.Value, totalNewClientsText), new RepDataRowCell(daysIntervalReturningClients[entry.Key], totalReturningText) }));
+                    var formattedDateWithoutYear = transformDate(entry.Key, "dd-mm");
+                    var formattedDateWithYear = transformDate(entry.Key, "dd-mm-yyyy");
+                    var totalNewClientsText = entry.Value + " clients - " + formattedDateWithYear;
+                    var totalReturningText = daysIntervalReturningClients[entry.Key] + " sms - " + formattedDateWithYear;
+                    content.Add(new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(formattedDateWithoutYear, formattedDateWithoutYear), new RepDataRowCell(entry.Value, totalNewClientsText), new RepDataRowCell(daysIntervalReturningClients[entry.Key], totalReturningText) }));
                 }
 
                 RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "New clients"), new RepDataColumn("18", "number", "Returning clients") }, content);
@@ -826,6 +832,26 @@ namespace SmsFeedback_Take4.Controllers
                 logger.Error("GetNoOfConversationsByTagsChartSource", e);
             }
             return null;
+        }
+
+        private String transformDate(DateTime iDate, String pattern)
+        {
+            // TODO: Look for a library to convert to different local formats
+            var transformedDate = "";
+            if (pattern.Equals("dd-mm"))
+            {
+                var day = (iDate.Day < 10) ? "0" + iDate.Day.ToString() : iDate.Day.ToString();
+                var month = (iDate.Month < 10) ? "0" + iDate.Month.ToString() : iDate.Month.ToString();
+                transformedDate = day + "-" + month;
+            }
+            else
+            {
+                // transform to "dd-mm-yyyy" pattern
+                var day = (iDate.Day < 10) ? "0" + iDate.Day.ToString() : iDate.Day.ToString();
+                var month = (iDate.Month < 10) ? "0" + iDate.Month.ToString() : iDate.Month.ToString();
+                transformedDate = day + "-" + month + "-" + iDate.Year;
+            }
+            return transformedDate;
         }
         #endregion
     }
