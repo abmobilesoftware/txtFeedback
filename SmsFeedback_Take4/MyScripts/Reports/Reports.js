@@ -182,6 +182,15 @@ var ReportsContentArea = Backbone.View.extend({
                 }
             }
         });
+        var fromDateString = ((window.app.startDate.getDate() < 10) ? "0" + window.app.startDate.getDate() : window.app.startDate.getDate()) + "-" + 
+                                (((window.app.startDate.getMonth() + 1) < 10) ? "0" + (window.app.startDate.getMonth() + 1) : window.app.startDate.getMonth() + 1) + "-" +
+                                window.app.startDate.getFullYear();
+        var endDateString = ((window.app.endDate.getDate() < 10) ? "0" + window.app.endDate.getDate() : window.app.endDate.getDate()) + "-" + 
+                                (((window.app.endDate.getMonth() + 1) < 10) ? "0" + (window.app.endDate.getMonth() + 1) : window.app.endDate.getMonth() + 1) + "-" +
+                                window.app.endDate.getFullYear();
+        
+        $("#to").datepicker("option", "minDate", fromDateString);
+        $("#from").datepicker("option", "maxDate", endDateString);
         // Setup the calendar culture
         var fromTranslation = $("#from").val();
         var toTranslation = $("#to").val();

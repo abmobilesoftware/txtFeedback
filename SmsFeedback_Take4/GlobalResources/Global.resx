@@ -469,4 +469,7 @@
   <data name="reportsPageTitle" xml:space="preserve">
     <value>Reports</value>
   </data>
+  <data name="RepTotalNoOfClients" xml:space="preserve">
+    <value>Number of clients</value>
+  </data>
 </root>

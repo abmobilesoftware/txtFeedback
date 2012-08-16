@@ -8,50 +8,25 @@
    <% if (Html.IsReleaseBuild())
       { %>
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/css/reports.css") %>" />
-   <link rel="stylesheet" href="<%: Url.Content("~/Content/css/datepicker/datepicker.css") %>"
-      type="text/css" />
-   <link rel="stylesheet" media="screen" type="text/css" href="<%: Url.Content("~/Content/css/datepicker/layout.css") %>" />
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="application/javascript"></script>
-            <script type="text/javascript" src='https://www.google.com/jsapi?autoload={"modules":[{"name":"visualization","version":"1","packages":["corechart","table"]}]}'></script>
+   
+    <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="application/javascript"></script>
+   <script type="text/javascript" src='https://www.google.com/jsapi?autoload={"modules":[{"name":"visualization","version":"1","packages":["corechart","table"]}]}'></script>
    <!-- Format date to local specific -->
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-de.js") %>"
-      type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-ro.js") %>"
-      type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-en-GB.js") %>"
-      type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-de.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-ro.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-en-GB.js") %>" type="application/javascript"></script>
    <!-- Helper scripts - used like static methods -->
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/DateHelper.js") %>"
-      type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/DateHelper.js") %>" type="application/javascript"></script>
    <!-- Global variables -->
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/GlobalVariables.js") %>"
-      type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/FirstArea.js") %>"
-      type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/SecondArea.js") %>"
-      type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/ThirdArea.js") %>"
-      type="application/javascript"></script>
-   <script type="text/javascript" src="<%: Url.Content("~/Scripts/datepicker/datepicker.js") %>"></script>
-   <script type="text/javascript" src="<%: Url.Content("~/Scripts/datepicker/eye.js") %>"></script>
-   <script type="text/javascript" src="<%: Url.Content("~/Scripts/datepicker/utils.js") %>"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/FirstArea.js") %>"
-      type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/SecondArea.js") %>"
-      type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/ThirdArea.js") %>"
-      type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/GlobalVariables.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/FirstArea.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/SecondArea.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/ThirdArea.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Reports.js") %>" type="application/javascript"></script>
-           <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/RepFacade.js") %>" type="application/javascript"></script>
-   <!-- Granularity vertical buttons -->
-   <script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery-ui-vertical-buttonset.js") %>" charset="charset="UTF-8"></script>
-   <!-- Left menu, collapsible menu -->
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/RepFacade.js") %>" type="application/javascript"></script>
+    <!-- Left menu, collapsible menu -->
    <script type="text/javascript" src="<%: Url.Content("~/Scripts/CollapsibleLists.js") %>"></script>
-            
-   <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.22/themes/base/jquery-ui.css"
-      type="text/css" media="all" />
-   <link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css"
-      type="text/css" media="all" />
+     
    <% }
       else
       { %>
@@ -69,36 +44,24 @@
    <script type="text/javascript" src="<%: Url.Content("~/Scripts/datepicker/eye.js") %>"></script>
    <script type="text/javascript" src="<%: Url.Content("~/Scripts/datepicker/utils.js") %>"></script>
    <!-- Format date to local specific -->
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-de.js") %>"
-      type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-ro.js") %>"
-      type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-en-GB.js") %>"
-      type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-de.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-ro.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-en-GB.js") %>" type="application/javascript"></script>
    <!-- Helper scripts - used like static methods -->
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/DateHelper.js") %>"
-      type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/DateHelper.js") %>" type="application/javascript"></script>
    <!-- Global variables -->
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/GlobalVariables.js") %>"
-      type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/GlobalVariables.js") %>" type="application/javascript"></script>
    <!-- Reports page specific scripts -->
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/FirstArea.js") %>"
-      type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/SecondArea.js") %>"
-      type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/ThirdArea.js") %>"
-      type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/FirstArea.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/SecondArea.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/ThirdArea.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Reports.js") %>" type="application/javascript"></script>
            <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/RepFacade.js") %>" type="application/javascript"></script>
    <!-- Granularity vertical buttons -->
    <script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery-ui-vertical-buttonset.js") %>"></script>
    <!-- Left menu, collapsible menu -->
    <script type="text/javascript" src="<%: Url.Content("~/Scripts/CollapsibleLists.js") %>"></script>
-   <!-- Early loading of the corechar package, it's used in charts -->
-   <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.22/themes/base/jquery-ui.css"
-      type="text/css" media="all" />
-   <link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css"
-      type="text/css" media="all" />
+      
    <% } %>
    <!--<span class="bodyText">Work in progress</span>-->
    <script type="text/template" id="report-template">
@@ -133,7 +96,7 @@
                                 
                                 <div class="radioBtnWrapper active"><label for="day" class="radioBtn"><input type="radio" id="day" name="radio" checked="checked" class="radioOption" value="day"/><%: Resources.Global.RepDay %></label></div>
 		                        <div class="radioBtnWrapper"><label for="week" class="radioBtn"><input type="radio" id="week" name="radio" class="radioOption" value="week" /><%: Resources.Global.RepWeek %></label></div>
-		                        <div class="radioBtnWrapper"><label for="month" class="radioBtn"><input type="radio" id="month" name="radio" class="radioOption" value="year"/><%: Resources.Global.RepMonth %></label></div>
+		                        <div class="radioBtnWrapper"><label for="month" class="radioBtn"><input type="radio" id="month" name="radio" class="radioOption" value="month"/><%: Resources.Global.RepMonth %></label></div>
                             </div>
                             <div id="chart_div"></div>
             {%
@@ -173,7 +136,7 @@
    </div>
    <div id="leftColumn" class="wordwrap grid_2 leftSideArea">
       <div class="styled-select">
-         <select id="workingPointSelector"></select>
+          <select id="workingPointSelector"></select>
       </div>
    </div>
    <div id="rightColumn" class="grid_11">

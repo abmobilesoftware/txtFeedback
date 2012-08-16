@@ -314,6 +314,18 @@ ul.item1 {
    margin-left:5px;
    background: #000 !important;
 }
+
+ /*
+.styled-select {
+    padding: 10px 2px 0 4px;
+    background: #3E6D8E;    
+}
+
+.info {
+    font-weight:bold;
+    margin-bottom: 5px;
+}
+*/
  
  #overlay {
     position: fixed;
@@ -358,3 +370,4 @@ input.filterDate {
    color: white !important;
    overflow: hidden;
 }
+

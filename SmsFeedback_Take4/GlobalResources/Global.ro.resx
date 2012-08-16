@@ -399,4 +399,7 @@
   <data name="reportsPageTitle" xml:space="preserve">
     <value>Rapoarte</value>
   </data>
+  <data name="RepTotalNoOfClients" xml:space="preserve">
+    <value>Numarul de clienti</value>
+  </data>
 </root>
