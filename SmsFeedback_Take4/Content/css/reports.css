@@ -149,6 +149,7 @@ div.radioBtnWrapper.active {
     text-align: center;
     background: #eee;
     margin-right: 8px;
+    margin-bottom: 8px;
     border-radius: 10px;
 }
 
@@ -205,7 +206,7 @@ div.radioBtnWrapper.active {
 }
 
 #tableContent {
-    width: 70%;
+    width: 69%;
     float:left;
 }
 

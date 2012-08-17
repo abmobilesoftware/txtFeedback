@@ -223,6 +223,7 @@
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\CustomAuthorizeAtribute.cs" />
     <Compile Include="Utilities\EFInteraction.cs" />
+    <Compile Include="Utilities\FirstDayOfWeekUtility.cs" />
     <Compile Include="Utilities\LinkHelper.cs" />
     <Compile Include="Utilities\Rfc822Convertor.cs" />
     <Compile Include="Utilities\SwitchLanguageHelper.cs">
