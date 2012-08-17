@@ -7,8 +7,8 @@
    <title>
       <asp:ContentPlaceHolder ID="TitleContent" runat="server" />
    </title>
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/themes/base/jquery.ui.all.css") %>">
-    
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/css/jq_ui_themes/dot-luv/jquery-ui-1.8.23.custom.css") %>" />
+       
    <% if(Html.IsReleaseBuild()) {%>
     <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/reset.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/text.css") %>" />

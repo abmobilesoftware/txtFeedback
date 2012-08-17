@@ -502,6 +502,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number of clients.
+        /// </summary>
+        public static string RepTotalNoOfClients {
+            get {
+                return ResourceManager.GetString("RepTotalNoOfClients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total no of sms&apos;.
         /// </summary>
         public static string RepTotalNoOfSms {

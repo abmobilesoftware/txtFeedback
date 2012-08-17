@@ -59,10 +59,7 @@ function FirstArea(iResource, iGranularity, iOptions) {
                 //spinner.stop();
                 $("#overlay").hide();
             }
-        }).responseText;
-
-        
-        //this.drawChart(jsonData);
+        }).responseText;        
     }
 
     this.drawChart = function(jsonData) {

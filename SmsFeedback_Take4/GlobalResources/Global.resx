@@ -473,6 +473,9 @@
     <value>Change password</value>
     <comment>Settings:</comment>
   </data>
+  <data name="RepTotalNoOfClients" xml:space="preserve">
+    <value>Number of clients</value>
+  </data>
   <data name="settingsPrivacy" xml:space="preserve">
     <value>Privacy</value>
     <comment>Settings:</comment>
