@@ -11,9 +11,6 @@
    font-family: Arial, Helvetica, sans-serif;
 }
 
-.page {
-color: white;
-}
 
 #leftColumn {    
     overflow: auto;    
@@ -22,7 +19,7 @@ color: white;
 }
 
 #rightColumn {
-    background: #a0b2bb;
+    background: #a0b2bb;    
     color: #000000; 
     margin-right: 0px;
 }
@@ -216,69 +213,6 @@ div.radioBtnWrapper.active {
     border-left: 1px dotted #ccc;
 }
 
-.reportMenuParentItem {
-    font-weight: bold;
-    font-size: 16 em;
-    
-    border-bottom: 1px solid #294957;
-    display: block;
-    font-size: 100%;
-    line-height: 2.4;
-    margin-left:2%;
-    padding:4px;
-    text-decoration: none;
-    white-space: normal;
-    word-wrap: normal;
-}
-
-li.innerLi {    
-    border-bottom: 1px solid #294957;
-    /*border-top: 1px solid #294957;*/
-    display: block;
-    font-size: 100%;
-    line-height: 2.4;
-    margin-left:2% !important;
-    padding:4px;
-    text-decoration: none;
-    white-space: normal;
-    word-wrap: normal;
-}
-
-li.innerLi:hover {
-   background-color: #548bb2;   
-   border-bottom: 1px solid #37607D;
-   border-right: 1px solid #37607D;
-   color: #E0EAF1;
-   text-decoration: none;
-}
-
-.reportMenuLeafItem {
-    margin-left: 15px;
-}
-
-li.listItem {
-    margin-left: 0;
-    cursor: pointer;
-    list-style:none;
-}
-
-.collapsibleList {
-    padding-left: 0;
-    margin-bottom: 0;
-}
-
-ul.item1 {
-    display: block;
-}
-
-.reportMenuItemSelected {
-   background-color: #3E6D8E;   
-   border-bottom: 1px solid #37607D;
-   border-right: 1px solid #37607D;
-   color: #E0EAF1;
-   text-decoration: none;
-}
-
 .tblRow {
     padding: 10px;
 }
@@ -301,8 +235,8 @@ ul.item1 {
       padding: 5px;
       border: solid 1px #e8eef4;
    }
-
- .styled-select select {
+ 
+  .styled-select select {
    width: 95%;
    padding: 5px;
    font-size: 16px;

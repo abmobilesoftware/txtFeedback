@@ -1,4 +1,7 @@
-﻿function resizeTriggered() {
+﻿"use strict";
+window.app = window.app || {};
+
+function resizeTriggered() {
    //pick the highest between window size (- header) and messagesArea
    var padding = 5;
    var msgAreaMarginTop = 10;
@@ -10,7 +13,15 @@
     $('.container_12').height(contentWindowHeight);               
 }
 
-$(function () {
+function InitializeGUI() {
+   var self = this;
    window.addEventListener("resize", resizeTriggered, false);
    resizeTriggered();
+  
+
+   window.app.settingsPage = new window.app.SettingsArea();
+}
+
+$(function () {
+   InitializeGUI();
 })

@@ -365,6 +365,7 @@
     <Content Include="MyScripts\Filtering.js" />
     <Content Include="MyScripts\Messages.js" />
     <Content Include="MyScripts\ConversationTags.js" />
+    <Content Include="MyScripts\Base\BaseLeftSideMenu.js" />
     <Content Include="MyScripts\Minified\contact.js" />
     <Content Include="MyScripts\Minified\Conversations.js" />
     <Content Include="MyScripts\Minified\ConversationTags.js" />
@@ -383,6 +384,7 @@
     <Content Include="MyScripts\Reports\FirstArea.js" />
     <Content Include="MyScripts\Reports\Report.js" />
     <Content Include="MyScripts\Reports\Reports.js" />
+    <Content Include="MyScripts\Settings\settings.js" />
     <Content Include="MyScripts\Settings\SettingsFacade.js" />
     <Content Include="MyScripts\WorkingPoints.js" />
     <Content Include="MyScripts\Utilities.js" />
@@ -484,6 +486,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Minified\Settings\" />
     <Folder Include="Models\ViewModels\" />
+    <Folder Include="MyScripts\Minified\Base\" />
     <Folder Include="MyScripts\Minified\css\" />
   </ItemGroup>
   <ItemGroup>

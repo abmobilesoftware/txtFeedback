@@ -8,7 +8,7 @@ _.templateSettings = {
 }; // excape HTML: {%- <script> %} prints &lt
 
 var ReportModel = Backbone.Model.extend({
-    reportId: 1,
+    menuId: 1,
     title: "Total sms report",
     scope: "Global",
     sections: [
@@ -26,90 +26,6 @@ var ReportModel = Backbone.Model.extend({
                     identifier: "AdditionalChartArea", visibility: false, resources: []
                 }
     ]
-});
-
-var ReportsMenuItemModel = Backbone.Model.extend({
-    defaults: {
-        itemId: 1,
-        itemName: "Conversation",
-        leaf: false,
-        parent: 1
-    }
-});
-
-var ReportsMenu = Backbone.Collection.extend({
-    model: ReportsMenuItemModel,
-    url: function () {
-        return window.app.domainName + "/Reports/getReportsMenuItems";
-    }
-});
-
-var ReportsMenuItemView = Backbone.View.extend({
-    tagName: 'li',
-    initialize: function () {
-        _.bindAll(this, 'render');
-    },
-    renderParent: function () {
-        $(this.el).addClass('outerLi');
-        $(this.el).addClass('listItem');
-        $(this.el).html("<div class='reportMenuParentItem'>" + this.model.get("itemName") + "</div>" + "<ul class='item" + this.model.get("itemId") + "'></ul>");
-        return this;
-    },
-    renderLeaf: function () {
-       $(this.el).addClass('innerLi');
-        $(this.el).addClass('listItem');
-        $(this.el).addClass('liItem' + this.model.get("itemId"));
-        $(this.el).attr("reportId", this.model.get("itemId"));
-        $(this.el).html("<span class='reportMenuLeafItem' reportId='" + this.model.get("itemId") + "'>" + this.model.get("itemName") + "</span>");
-        return this;
-    }
-});
-
-var ReportsMenuView = Backbone.View.extend({
-    el: $("#leftColumn"),
-    initialize: function () {
-        _.bindAll(this, 'render');
-        var self = this;
-        this.menuItems = new ReportsMenu();
-
-        this.menuItems.fetch({
-            success: function () {
-                self.render();
-            }
-        });        
-    },
-    render: function () {
-        var self = this;
-        $(this.el).append("<ul class='primaryList collapsibleList'></ul>");
-        _(this.menuItems.models).each(function (menuItemModel) {
-            var reportsMenuItemView = new ReportsMenuItemView({ model: menuItemModel });
-            if (!menuItemModel.get("leaf")) {
-                if (menuItemModel.get("parent") == 0) {
-                    $("ul.primaryList", self.el).append(reportsMenuItemView.renderParent().el);
-                } else {
-                    var selector = ".item" + menuItemModel.get("parent");
-                    $(selector, self.el).append(reportsMenuItemView.renderParent().el);
-                }
-            } else {
-                var selector = ".item" + menuItemModel.get("parent");
-                $(selector, self.el).append(reportsMenuItemView.renderLeaf().el);
-            }
-        });
-
-        // open report functionality
-        $(".innerLi").click(function () {
-            $(this).parents(".collapsibleList").find(".reportMenuItemSelected").removeClass("reportMenuItemSelected");
-            $(this).addClass("reportMenuItemSelected");
-            $(document).trigger("switchReport", $(this).attr("reportId"));
-        });
-
-        // apply collapsible functionality to list 
-        CollapsibleLists.apply();
-        // mark the first opened report
-        $(".liItem2").addClass("reportMenuItemSelected");
-        $("ul.item1").css("display", "block");
-        
-    }    
 });
 
 var ReportsContentArea = Backbone.View.extend({
@@ -227,7 +143,11 @@ var ReportsArea = function () {
    var localReportsRepository = {};
 
    // initializing leftColumn
-   var reportsMenu = new ReportsMenuView({ el: $("#leftColumn") });
+   var reportsMenu = new window.app.MenuView({
+      el: $("#leftColumn"),
+      eventToTriggerOnSelect: 'switchReport',
+      menuCollection: new window.app.MenuCollection({ url: '/Reports/getReportsMenuItems' })
+   });
    // initializing rightColumn
    var reportsContent;
 
@@ -240,8 +160,8 @@ var ReportsArea = function () {
       self.changeReportingInterval();
    });
 
-   $(document).bind("switchReport", function (event, reportId) {
-      self.loadReport(reportId);
+   $(document).bind("switchReport", function (event, menuId) {
+      self.loadReport(menuId);
    });
 
    this.redrawContent = function () {
@@ -261,21 +181,21 @@ var ReportsArea = function () {
       reportsContent = new ReportsContentArea({ model: reportModel, el: $("#rightColumn") });
    };
 
-    this.loadReport = function(reportId) {        
+    this.loadReport = function(menuId) {        
 
-      if (localReportsRepository[reportId] === undefined) {
+      if (localReportsRepository[menuId] === undefined) {
          $.getJSON('Reports/getReportById',
-               { reportId: reportId },
+               { reportId: menuId },
                function (data) {
                   var receivedReportModel = new ReportModel(data);
-                  localReportsRepository[reportId] = receivedReportModel;
-                  self.displayReport(localReportsRepository[reportId]);
+                  localReportsRepository[menuId] = receivedReportModel;
+                  self.displayReport(localReportsRepository[menuId]);
                }
             );
 
       } else {
          // load report from local repository
-         self.displayReport(localReportsRepository[reportId]);
+         self.displayReport(localReportsRepository[menuId]);
       }
    };
 

@@ -469,7 +469,19 @@
   <data name="reportsPageTitle" xml:space="preserve">
     <value>Reports</value>
   </data>
+  <data name="settingsChangePassword" xml:space="preserve">
+    <value>Change password</value>
+    <comment>Settings:</comment>
+  </data>
   <data name="RepTotalNoOfClients" xml:space="preserve">
     <value>Number of clients</value>
+  </data>
+  <data name="settingsPrivacy" xml:space="preserve">
+    <value>Privacy</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingUserPreferences" xml:space="preserve">
+    <value>User preferences</value>
+    <comment>Settings:</comment>
   </data>
 </root>
