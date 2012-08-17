@@ -41,13 +41,13 @@
       type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/ThirdArea.js") %>"
       type="application/javascript"></script>
+   <script type="text/javascript" src=<%: Url.UpdatedResourceLink("~/MyScripts/Base/BaseLeftSideMenu.js") %>></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Reports.js") %>" type="application/javascript"></script>
            <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/RepFacade.js") %>" type="application/javascript"></script>
    <!-- Granularity vertical buttons -->
    <script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery-ui-vertical-buttonset.js") %>" charset="charset="UTF-8"></script>
    <!-- Left menu, collapsible menu -->
    <script type="text/javascript" src="<%: Url.Content("~/Scripts/CollapsibleLists.js") %>"></script>
-            
    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.22/themes/base/jquery-ui.css"
       type="text/css" media="all" />
    <link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css"
@@ -62,8 +62,7 @@
    <!-- Cool spinner -->
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="application/javascript"></script>
    <!-- Google Ajax library, for loading other packages -->
-            <script type="text/javascript" src='https://www.google.com/jsapi?autoload={"modules":[{"name":"visualization","version":"1","packages":["corechart","table"]}]}'></script>
-
+   <script type="text/javascript" src='https://www.google.com/jsapi?autoload={"modules":[{"name":"visualization","version":"1","packages":["corechart","table"]}]}'></script>
    <!-- Range picker scripts -->
    <script type="text/javascript" src="<%: Url.Content("~/Scripts/datepicker/datepicker.js") %>"></script>
    <script type="text/javascript" src="<%: Url.Content("~/Scripts/datepicker/eye.js") %>"></script>
@@ -88,8 +87,10 @@
       type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/ThirdArea.js") %>"
       type="application/javascript"></script>
+   <script type="text/javascript" src=<%: Url.UpdatedResourceLink("~/MyScripts/Base/BaseLeftSideMenu.js") %>></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Reports.js") %>" type="application/javascript"></script>
-           <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/RepFacade.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/RepFacade.js") %>"
+      type="application/javascript"></script>
    <!-- Granularity vertical buttons -->
    <script type="text/javascript" src="<%: Url.Content("~/Scripts/jquery-ui-vertical-buttonset.js") %>"></script>
    <!-- Left menu, collapsible menu -->
