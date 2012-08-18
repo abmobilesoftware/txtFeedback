@@ -8,7 +8,7 @@ by customizing this MSBuild file. In order to learn more about this please visit
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
+    <LastUsedBuildConfiguration>Debug</LastUsedBuildConfiguration>
     <LastUsedPlatform>Any CPU</LastUsedPlatform>
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA6D2/0eYoOEOspK/DV0RawwAAAAACAAAAAAAQZgAAAAEAACAAAACiEDLb2HgOzGuGVUPpWUtPQ35iMSHYMjpy05s/qHOSQAAAAAAOgAAAAAIAACAAAADWZDiO8eAgbWmFo7HSQNZoA1jwSfX+8lOmE3y8oeiXSiAAAAAbl8w+/8QLFd7fX77ZXZmahZIpQHHwMV2QECFQEnP0/kAAAADk/edxwtDYNHveSBt/uY0axLsVM3TrxqiXM0hOajIXzGBAftbgRSQkUe5PlfRiFwcGC2g8JpUzZyuy1yrYIfq+</EncryptedPassword>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
