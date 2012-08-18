@@ -622,7 +622,10 @@ namespace SmsFeedback_Take4.Controllers
                 int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
                 int noOfMessages = ComputeTotalNoOfSms(intervalStart, intervalEnd, workingPoints);
 
-                return Json(new RepInfoBox(Math.Round((double)noOfMessages / noOfClients, 2), Resources.Global.RepSmsPerClient), JsonRequestBehavior.AllowGet);
+                RepInfoBox result = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
+                    new RepInfoBox(Math.Round((double)noOfMessages / noOfClients, 2), Resources.Global.RepSmsPerClient);
+                return (noOfClients == 0) ? Json(new RepInfoBox(0, Resources.Global.RepSmsPerClient), JsonRequestBehavior.AllowGet):
+                    Json(new RepInfoBox(Math.Round((double)noOfMessages / noOfClients, 2), Resources.Global.RepSmsPerClient), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

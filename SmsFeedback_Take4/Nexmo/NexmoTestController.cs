@@ -16,12 +16,10 @@ namespace SmsFeedback_Take4.Nexmo
             return View();
         }
 
-        public JsonResult SendMessage(string msgText)
+        public JsonResult SendMessage(string from, string to, string msgText)
         {
            if (HttpContext.Request.IsAjaxRequest())
            {
-              var from = "4915706100037"; 
-              var to = "4915706100034";
               SmsFeedback_Take4.Models.NexmoSmsRepository.StaticSendMessage(from, to, msgText, dateSent => {
                  
               });

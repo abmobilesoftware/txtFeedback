@@ -16,13 +16,15 @@
       }
       
    </style>
-    <title>Index</title>
+    <title>New Index</title>
 </head>
 <body>
    <script src="../../Scripts/jquery-1.6.2.min.js" charset="charset="UTF-8"></script>
    <script src="../../Nexmo/nexmoTest.js"></script>
     <div>
-       <textarea id="txtBody" ></textarea> 
+       <textarea id="txtBody" ></textarea> <br />
+        From: <input type="text" id="fromNumber" /><br />
+        To: <input type="text" id="toNumber" /><br />
        <button id="btnSendMsg">Send Message with Nexmo</button>
     </div>
 </body>

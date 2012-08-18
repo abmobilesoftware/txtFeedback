@@ -418,7 +418,8 @@ function ConversationArea(filterArea, workingPointsArea) {
                 //indicate that a new message has been received
                 //show conversation only if not filtering
                 if (!self.convsView.filters.IsFilteringEnabled()) {
-                    var modelToAdd = new app.Conversation({ From: fromID, To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText });
+                    var modelToAdd = new app.Conversation({
+                        From: fromID, To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText, ClientDisplayName: fromID, ClientIsSupportBot: false });
                     self.convsView.convsList.add(modelToAdd);
                     self.convsView.addConversationWithEffect(modelToAdd, true, false);
                 } 
