@@ -118,91 +118,91 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="accountAuthenticate" xml:space="preserve">
-    <value>Anmelden</value>
+    <value>Autentificar</value>
   </data>
   <data name="accountInformation" xml:space="preserve">
-    <value>Konto Informationen</value>
+    <value>Información de la cuenta</value>
   </data>
   <data name="addATagLabel" xml:space="preserve">
-    <value>Marke anhängen</value>
+    <value>añade una etiqueta</value>
   </data>
   <data name="dateLabel" xml:space="preserve">
-    <value>Datum</value>
+    <value>Fecha:</value>
   </data>
   <data name="feedbackSendUsFeedback" xml:space="preserve">
-    <value>Senden Sie uns einen Feedback</value>
+    <value>Envíenos feedback</value>
   </data>
   <data name="filteringAddFilterTag" xml:space="preserve">
-    <value>Filtermarke anhängen</value>
+    <value />
   </data>
   <data name="fromDate" xml:space="preserve">
-    <value>Ab</value>
+    <value>iniciado</value>
   </data>
   <data name="helpPageTitle" xml:space="preserve">
-    <value>Hilfe</value>
+    <value />
   </data>
   <data name="lblNoConversationSelected" xml:space="preserve">
-    <value>Keine Unterhaltung gewählt, bitte wählen Sie eine</value>
+    <value>Ninguna conversación seleccionada, por favor seleccione una</value>
   </data>
   <data name="lblPassword" xml:space="preserve">
-    <value>Passwort</value>
+    <value>contraseña</value>
   </data>
   <data name="lblUserName" xml:space="preserve">
-    <value>Benutzername</value>
+    <value>nombre de usuario</value>
   </data>
   <data name="loadMoreConversations" xml:space="preserve">
-    <value>Weitere Unterhaltungen</value>
+    <value>Cargue más conversaciones</value>
   </data>
   <data name="loginUnsuccessfulDetails" xml:space="preserve">
-    <value>Benutzername oder Passwort ungültig.</value>
+    <value>El nombre de usuario o la contraseña son incorrectos</value>
   </data>
   <data name="loginUnsuccessfulSummary" xml:space="preserve">
-    <value>Anmeldung war nicht erfolgreich. Bitte korrigieren Sie die Fehlern und versuchen Sie es erneut.</value>
+    <value>El inicio de sesión ha fallado. Por favor corrija los errores e inténtelo de nuevo.</value>
   </data>
   <data name="LogOnButtonMessage" xml:space="preserve">
-    <value>Anmelden</value>
+    <value>Iniciar Sesión</value>
   </data>
   <data name="logOnLogOffMsg" xml:space="preserve">
-    <value>Abmelden</value>
+    <value>Cerrar sesión</value>
   </data>
   <data name="logOnLogOnMsg" xml:space="preserve">
-    <value>Anmelden</value>
+    <value>Iniciar sesión</value>
   </data>
   <data name="logOnMessage" xml:space="preserve">
-    <value>Anmelden</value>
+    <value>Iniciar Sesión</value>
   </data>
   <data name="LogOnModel_Password_DisplayName" xml:space="preserve">
-    <value>Passwort</value>
+    <value>Contraseña</value>
   </data>
   <data name="LogOnModel_Password_Required" xml:space="preserve">
-    <value>Das Passwort ist erforderlich</value>
+    <value>El campo Contraseña es requerido</value>
   </data>
   <data name="LogOnModel_RememberMe_DisplayName" xml:space="preserve">
-    <value>Mich merken?</value>
+    <value>Te acuerdas de mí?</value>
   </data>
   <data name="LogOnModel_UserName_DisplayName" xml:space="preserve">
-    <value>Benutzer</value>
+    <value>Usuario</value>
   </data>
   <data name="LogOnModel_UserName_Required" xml:space="preserve">
-    <value>Der Benutzername ist erforderlich</value>
+    <value>El campo Nombre de Usuario es requerido</value>
   </data>
   <data name="logOnRegister" xml:space="preserve">
-    <value>Registrieren</value>
+    <value>Regístrese</value>
   </data>
   <data name="logOnRegisterSuffixMsg" xml:space="preserve">
-    <value>Wenn Sie keinen Konto haben</value>
+    <value>si no tiene una cuenta</value>
   </data>
   <data name="logOnWithUserPassMsg" xml:space="preserve">
-    <value>Bitte geben Sie Ihre Benutzername und Passwort ein</value>
+    <value>Por favor introduzca su nombre de usuario y contraseña</value>
   </data>
   <data name="messagesAddTagPlaceHolder" xml:space="preserve">
-    <value>Marke anhängen</value>
+    <value />
   </data>
   <data name="messagesPageTitle" xml:space="preserve">
-    <value>Nachrichten</value>
+    <value>Mensajes</value>
   </data>
   <data name="readLabel" xml:space="preserve">
-    <value>Ungelesen</value>
+    <value>No leído</value>
   </data>
   <data name="RepAvgNoOfIncomingSmsPerConversation" xml:space="preserve">
     <value />
@@ -217,13 +217,13 @@
     <value />
   </data>
   <data name="RepAvgNoOfSmsPerClient" xml:space="preserve">
-    <value>Durchschnittliche Anzahl der SMS per Kunde</value>
+    <value />
   </data>
   <data name="RepAvgNoOfSmsPerClientTooltip" xml:space="preserve">
     <value />
   </data>
   <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
-    <value>Durchschnittliche Anzahl der SMS per Tag</value>
+    <value />
   </data>
   <data name="RepAvgNoOfSmsPerDayTooltip" xml:space="preserve">
     <value />
@@ -235,34 +235,34 @@
     <value />
   </data>
   <data name="RepAvgResponseTime" xml:space="preserve">
-    <value>Durchschnittliche Antwortzeit</value>
+    <value />
   </data>
   <data name="RepAvgResponseTimeTooltip" xml:space="preserve">
     <value />
   </data>
   <data name="RepClients" xml:space="preserve">
-    <value>Kunden</value>
+    <value />
   </data>
   <data name="RepClientsUnit" xml:space="preserve">
     <value />
   </data>
   <data name="RepConversations" xml:space="preserve">
-    <value>Unterhaltungen</value>
+    <value />
   </data>
   <data name="RepDay" xml:space="preserve">
-    <value>Tag</value>
+    <value />
   </data>
   <data name="RepIncomingSmsChart" xml:space="preserve">
     <value />
   </data>
   <data name="RepIncomingVsOutgoing" xml:space="preserve">
-    <value>Eingehende vs Ausgehende</value>
+    <value />
   </data>
   <data name="RepMinutesUnit" xml:space="preserve">
     <value />
   </data>
   <data name="RepMonth" xml:space="preserve">
-    <value>Monat</value>
+    <value />
   </data>
   <data name="RepMostUsedTag" xml:space="preserve">
     <value />
@@ -274,7 +274,7 @@
     <value />
   </data>
   <data name="RepNewVsReturning" xml:space="preserve">
-    <value>Neu vs Wiederkehrend</value>
+    <value />
   </data>
   <data name="RepNoOfIncomingSms" xml:space="preserve">
     <value />
@@ -283,7 +283,7 @@
     <value />
   </data>
   <data name="RepNoOfNewClients" xml:space="preserve">
-    <value>Zahl der neuen Kunden</value>
+    <value />
   </data>
   <data name="RepNoOfNewClientsTooltip" xml:space="preserve">
     <value />
@@ -301,13 +301,13 @@
     <value />
   </data>
   <data name="reportsPageTitle" xml:space="preserve">
-    <value>Berichte</value>
+    <value />
   </data>
   <data name="RepOutgoingSmsChart" xml:space="preserve">
     <value />
   </data>
   <data name="RepOverview" xml:space="preserve">
-    <value>Überblick</value>
+    <value />
   </data>
   <data name="RepReturningClientsChart" xml:space="preserve">
     <value />
@@ -325,7 +325,7 @@
     <value />
   </data>
   <data name="RepTags" xml:space="preserve">
-    <value>Marken</value>
+    <value />
   </data>
   <data name="RepTagsPerConversationUnit" xml:space="preserve">
     <value />
@@ -337,7 +337,7 @@
     <value />
   </data>
   <data name="RepTotalNoOfSms" xml:space="preserve">
-    <value>Gesamtzahl der SMS</value>
+    <value />
   </data>
   <data name="RepTotalNoOfSmsTooltip" xml:space="preserve">
     <value />
@@ -352,76 +352,76 @@
     <value />
   </data>
   <data name="RepWeek" xml:space="preserve">
-    <value>Woche</value>
+    <value />
   </data>
   <data name="sendButton" xml:space="preserve">
-    <value>Senden</value>
+    <value />
   </data>
   <data name="sendEmailCancel" xml:space="preserve">
-    <value>Abbrechen</value>
+    <value />
   </data>
   <data name="sendEmailConjuctionSubject" xml:space="preserve">
-    <value>] und [</value>
+    <value>] y [</value>
   </data>
   <data name="sendEmailEmailSent" xml:space="preserve">
-    <value>Email gesendet!</value>
+    <value>¡Correo electrónico enviado!</value>
   </data>
   <data name="sendEmailEmailSentSuccessfuly" xml:space="preserve">
-    <value>E-mail erfolgreich gesendet</value>
+    <value>Correo electrónico enviado con éxito</value>
   </data>
   <data name="sendEmailHeader" xml:space="preserve">
-    <value>E-mail senden</value>
+    <value>Enviar correo electrónico</value>
   </data>
   <data name="sendEmailLoadingScreen" xml:space="preserve">
-    <value>Laden...</value>
+    <value>Cargando...</value>
   </data>
   <data name="sendEmailMessage" xml:space="preserve">
-    <value>*Nachricht:</value>
+    <value>*Mensaje:</value>
   </data>
   <data name="sendEmailPrefixSubject" xml:space="preserve">
-    <value>Txt Austausch zwischen [</value>
+    <value>Cambio txt entre [</value>
   </data>
   <data name="sendEmailSend" xml:space="preserve">
-    <value>Senden</value>
+    <value>Enviar</value>
   </data>
   <data name="sendEmailSendingEmail" xml:space="preserve">
-    <value>Sendung...</value>
+    <value>Enviando...</value>
   </data>
   <data name="sendEmailStartingText" xml:space="preserve">
-    <value>Nachricht von TxtFeedback Kunde</value>
+    <value>Mensaje del usuario de TxtFeedback </value>
   </data>
   <data name="sendEmailSubject" xml:space="preserve">
-    <value>*Betreff:</value>
+    <value>*Sujeto:</value>
   </data>
   <data name="sendEmailTo" xml:space="preserve">
-    <value>*An:</value>
+    <value>*Para:</value>
   </data>
   <data name="sendEmailValidationEmailInvalid" xml:space="preserve">
-    <value>E-mail Adresse ungültig.</value>
+    <value>Correo eletrónico es inválido.</value>
   </data>
   <data name="sendEmailValidationEmailRequired" xml:space="preserve">
-    <value>E-mail Adresse erforderlich.</value>
+    <value>Correo electrónico es requerido.</value>
   </data>
   <data name="sendEmailValidationMessageRequired" xml:space="preserve">
-    <value>Nachrichttext erfordelich.</value>
+    <value>Mensaje es requerido.</value>
   </data>
   <data name="sendEmailValidationSubjectRequired" xml:space="preserve">
-    <value>Betreff erfordelich.</value>
+    <value>Sujeto es requerido.</value>
   </data>
   <data name="sendFeedbackFeedbackSentSuccessfully" xml:space="preserve">
-    <value>Ihre feedback wurde verschickt - die TxtFeedback Team dankt Ihnen für Ihre Zeit!</value>
+    <value>¡Su feedback ha sido enviado - el equipo TxtFeedback le agradece por su tiempo!</value>
   </data>
   <data name="sendFeedbackHeader" xml:space="preserve">
-    <value>Feedback senden</value>
+    <value>Enviar feedback</value>
   </data>
   <data name="sendFeedbackNegativeFeedbackSubject" xml:space="preserve">
-    <value>Ich mag nicht, dass ...</value>
+    <value>No me gusta que...</value>
   </data>
   <data name="sendFeedbackPlaceholderMessage" xml:space="preserve">
-    <value>Ersetzen Sie diese mit Ihrer Eingabe</value>
+    <value>Sustituya esto con su entrada</value>
   </data>
   <data name="sendFeedbackPositiveFeedbackSubject" xml:space="preserve">
-    <value>Ich mag, dass...</value>
+    <value>Me gusta que...</value>
   </data>
   <data name="settingsBtnChangePassword" xml:space="preserve">
     <value />
@@ -457,7 +457,7 @@
     <value />
   </data>
   <data name="settingsPageTitle" xml:space="preserve">
-    <value>Einstellungen</value>
+    <value>Ajustes</value>
   </data>
   <data name="settingsPasswordChangedSuccessfully" xml:space="preserve">
     <value />
@@ -469,60 +469,60 @@
     <value />
   </data>
   <data name="starredLabel" xml:space="preserve">
-    <value>Favoriten</value>
+    <value>Favoritos</value>
   </data>
   <data name="tabHelp" xml:space="preserve">
-    <value>Hilfe</value>
+    <value>Ayuda</value>
   </data>
   <data name="tabMessages" xml:space="preserve">
-    <value>Unterhaltungen</value>
+    <value>Conversaciones</value>
   </data>
   <data name="tabReports" xml:space="preserve">
-    <value>Berichte</value>
+    <value>Informes</value>
   </data>
   <data name="tabSettings" xml:space="preserve">
-    <value>Einstellungen</value>
+    <value>Configuración</value>
   </data>
   <data name="tagsLabel" xml:space="preserve">
-    <value>Marke(n):</value>
+    <value>Etiqueta(s):</value>
   </data>
   <data name="toDate" xml:space="preserve">
-    <value>Letzte Aktualisierung</value>
+    <value>última actualización</value>
   </data>
   <data name="tooltipIncludeDateInFilter" xml:space="preserve">
-    <value>Schalte Datumfilterung an/ab</value>
+    <value>Activar/Desactivar filtrado de fecha</value>
   </data>
   <data name="tooltipIncludeStarredInFilter" xml:space="preserve">
-    <value>Schalte Favoritenfilterung an/ab</value>
+    <value>Activar/Desactivar filtrado de favoritos</value>
   </data>
   <data name="tooltipIncludeTagsInFilter" xml:space="preserve">
-    <value>Schalte Markenfilterung an/ab</value>
+    <value>Activar/Desactivar filtrado de etiqueta</value>
   </data>
   <data name="tooltipIncludeUnreadInFilter" xml:space="preserve">
-    <value>Schalte nur ungelesene Unterhaltungen an/ab</value>
+    <value>Activar/Desactivar sólo conversaciones no leídas</value>
   </data>
   <data name="tooltipMarkAsFavouriteImg" xml:space="preserve">
-    <value>Als Favoriten markieren</value>
+    <value>Marcar como favorito</value>
   </data>
   <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
-    <value>Anzahl der Unterhaltungen mit ungelesene Nachrichten</value>
+    <value>Número de conversaciones con mensajes no leídos</value>
   </data>
   <data name="tooltipReplyBtn" xml:space="preserve">
-    <value>Antwort an Kunde senden</value>
+    <value>Enviar respuesta al cliente</value>
   </data>
   <data name="tooltipSendEmailImg" xml:space="preserve">
-    <value>Als E-mail versenden</value>
+    <value>Enviar como correo electrónico</value>
   </data>
   <data name="tooltipSendNegativeFeedback" xml:space="preserve">
-    <value>Negativer Feedback senden</value>
+    <value>Enviar feedback negativo</value>
   </data>
   <data name="tooltipSendPositiveFeedback" xml:space="preserve">
-    <value>Positiver Feedback senden</value>
+    <value>Enviar feedback positivo</value>
   </data>
   <data name="tooltipWpImg" xml:space="preserve">
-    <value>Aktivierung/Deaktivierung der Anzeige der Nachrichten für diesen Arbeitspunkt</value>
+    <value>Habilitar/Deshabilitar visualización de mensajes para este punto de trabajo</value>
   </data>
   <data name="welcomeMessage" xml:space="preserve">
-    <value>Willkommen</value>
+    <value>Bienvenido</value>
   </data>
 </root>

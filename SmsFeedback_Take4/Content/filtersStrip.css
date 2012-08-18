@@ -29,8 +29,8 @@
 }
 
 .filterDate {
-   width: 71px;
-   min-width: 71px ;
+   width: 130px;
+   min-width: 130px ;
    padding: 2px; 
    height: 28px; /*align with tagfilter*/
 }
@@ -64,16 +64,17 @@
 }
 
 #unreadFilterArea {
-   width: 78px;
+   width: 98px;
    float: left;
 }
 #starredFilterArea {
-   width: 85px;
+   width: 98px;
    float: left;
 }
 #dateFilterArea {
    float: left;
-   width: 41%;
+   width: 380px;
+   min-width: 380px;
 }
 
 .grid_4_custom {

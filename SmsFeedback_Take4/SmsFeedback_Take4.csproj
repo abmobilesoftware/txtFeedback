@@ -302,6 +302,7 @@
     <Content Include="Content\images\question-orange.svg" />
     <Content Include="Content\images\Smiley-Happy-32.png" />
     <Content Include="Content\images\Smiley-Sad-32.png" />
+    <Content Include="Content\images\Spain_flag.png" />
     <Content Include="Content\images\star-selected_orange.svg" />
     <Content Include="Content\images\star.svg" />
     <Content Include="Content\images\star-selected.svg" />
@@ -429,6 +430,7 @@
     <Content Include="Scripts\jquery.tagsinput.js" />
     <Content Include="Scripts\jquery.ui.datepicker-de.js" />
     <Content Include="Scripts\jquery.ui.datepicker-en-GB.js" />
+    <Content Include="Scripts\jquery.ui.datepicker-es.js" />
     <Content Include="Scripts\jquery.ui.datepicker-ro.js" />
     <Content Include="Scripts\Minified\CollapsibleLists.js" />
     <Content Include="Scripts\Minified\jquery.cookie.js" />
@@ -512,6 +514,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GlobalResources\Global.es.resx" />
     <EmbeddedResource Include="GlobalResources\Global.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <CustomToolNamespace>Resources</CustomToolNamespace>
