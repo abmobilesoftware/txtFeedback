@@ -112,7 +112,7 @@
                              {%
                              if (ClientIsSupportBot) {             
                             %}
-                                <img class="conversationHeaderImg" src="<%: Url.Content("~/Content/images/help_16x16.png") %>"/>
+                                <img class="conversationHeaderImg" src="<%: Url.Content("~/Content/images/Help-16.png") %>"/>
                             {%
                             }
                             %}

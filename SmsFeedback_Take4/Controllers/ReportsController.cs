@@ -658,7 +658,16 @@ namespace SmsFeedback_Take4.Controllers
                         }
                     }
                 }
-                TimeSpan avgResponseTime = new TimeSpan((long)(totalResponseTime / counter));
+                // Avoid division by 0
+                TimeSpan avgResponseTime;
+                if (counter == 0)
+                {
+                    avgResponseTime = new TimeSpan(0);
+                }
+                else
+                {
+                    avgResponseTime = new TimeSpan((long)(totalResponseTime / counter));
+                }
                 if (avgResponseTime.TotalMinutes < 1)
                 {
                     return Json(new RepInfoBox(Math.Round(avgResponseTime.TotalSeconds, 2), Resources.Global.RepSecondsUnit), JsonRequestBehavior.AllowGet);
