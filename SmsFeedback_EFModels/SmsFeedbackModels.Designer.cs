@@ -21,9 +21,9 @@ using System.Xml.Serialization;
 
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "UsersInRoles", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Role), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.User))]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "UsersForWorkingPoints", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.User), "WorkingPoint", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.WorkingPoint))]
-[assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_UserXmppConnection", "XmppConnection", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.XmppConnection), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.User), true)]
+[assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_UserXmppConnection", "XmppConnection", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.XmppConnection), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.User), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_CompanyTag", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Company), "Tag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Tag), true)]
-[assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_UserCompany", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Company), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.User), true)]
+[assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_UserCompany", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.Company), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.User), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "ConversationTags", "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Conversation), "Tag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Tag))]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "ConversationMessage", "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Conversation), "Message", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Message), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "MembershipApplication", "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Application), "Membership", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Membership), true)]
@@ -2799,9 +2799,7 @@ namespace SmsFeedback_EFModels
         /// <param name="userName">Initial value of the UserName property.</param>
         /// <param name="isAnonymous">Initial value of the IsAnonymous property.</param>
         /// <param name="lastActivityDate">Initial value of the LastActivityDate property.</param>
-        /// <param name="xmppConnection_Id">Initial value of the XmppConnection_Id property.</param>
-        /// <param name="company_Name">Initial value of the Company_Name property.</param>
-        public static User CreateUser(global::System.Guid applicationId, global::System.Guid userId, global::System.String userName, global::System.Boolean isAnonymous, global::System.DateTime lastActivityDate, global::System.Int32 xmppConnection_Id, global::System.String company_Name)
+        public static User CreateUser(global::System.Guid applicationId, global::System.Guid userId, global::System.String userName, global::System.Boolean isAnonymous, global::System.DateTime lastActivityDate)
         {
             User user = new User();
             user.ApplicationId = applicationId;
@@ -2809,8 +2807,6 @@ namespace SmsFeedback_EFModels
             user.UserName = userName;
             user.IsAnonymous = isAnonymous;
             user.LastActivityDate = lastActivityDate;
-            user.XmppConnection_Id = xmppConnection_Id;
-            user.Company_Name = company_Name;
             return user;
         }
 
@@ -2944,9 +2940,9 @@ namespace SmsFeedback_EFModels
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.Int32 XmppConnection_Id
+        public Nullable<global::System.Int32> XmppConnection_Id
         {
             get
             {
@@ -2961,14 +2957,14 @@ namespace SmsFeedback_EFModels
                 OnXmppConnection_IdChanged();
             }
         }
-        private global::System.Int32 _XmppConnection_Id;
-        partial void OnXmppConnection_IdChanging(global::System.Int32 value);
+        private Nullable<global::System.Int32> _XmppConnection_Id;
+        partial void OnXmppConnection_IdChanging(Nullable<global::System.Int32> value);
         partial void OnXmppConnection_IdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
         public global::System.String Company_Name
         {
@@ -2980,7 +2976,7 @@ namespace SmsFeedback_EFModels
             {
                 OnCompany_NameChanging(value);
                 ReportPropertyChanging("Company_Name");
-                _Company_Name = StructuralObject.SetValidValue(value, false);
+                _Company_Name = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("Company_Name");
                 OnCompany_NameChanged();
             }

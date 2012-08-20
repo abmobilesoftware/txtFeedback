@@ -538,9 +538,9 @@
           <Property Type="DateTime" Name="LastActivityDate" Nullable="false" Precision="3" />
           <NavigationProperty Name="Roles" Relationship="smsfeedbackModel.UsersInRoles" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="WorkingPoints" Relationship="smsfeedbackModel.UsersForWorkingPoints" FromRole="User" ToRole="WorkingPoint" />
-          <Property Type="Int32" Name="XmppConnection_Id" Nullable="false" />
+          <Property Type="Int32" Name="XmppConnection_Id" />
           <NavigationProperty Name="XmppConnection" Relationship="smsfeedbackModel.FK_UserXmppConnection" FromRole="User" ToRole="XmppConnection" />
-          <Property Type="String" Name="Company_Name" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Type="String" Name="Company_Name" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Company" Relationship="smsfeedbackModel.FK_UserCompany" FromRole="User" ToRole="Company" />
           <NavigationProperty Name="Application" Relationship="smsfeedbackModel.UserApplication" FromRole="User" ToRole="Application" />
           <NavigationProperty Name="Membership" Relationship="smsfeedbackModel.MembershipUser" FromRole="User" ToRole="Membership" />
@@ -576,7 +576,7 @@
           <NavigationProperty Name="Users" Relationship="smsfeedbackModel.FK_UserXmppConnection" FromRole="XmppConnection" ToRole="User" />
         </EntityType>
         <Association Name="FK_UserXmppConnection">
-          <End Type="smsfeedbackModel.XmppConnection" Multiplicity="1" Role="XmppConnection" />
+          <End Type="smsfeedbackModel.XmppConnection" Multiplicity="0..1" Role="XmppConnection" />
           <End Type="smsfeedbackModel.User" Multiplicity="*" Role="User" />
           <ReferentialConstraint>
             <Principal Role="XmppConnection">
@@ -621,7 +621,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UserCompany">
-          <End Type="smsfeedbackModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="smsfeedbackModel.Company" Role="Company" Multiplicity="0..1" />
           <End Type="smsfeedbackModel.User" Role="User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Company">
