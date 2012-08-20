@@ -3,12 +3,11 @@
 function InitializeGUI() {
    var self = this;
    window.addEventListener("resize", resizeTriggered, false);
-   // window.addEventListener("resize", updateChartsDimensions, false);
-   //$(window).resize(updateChartsDimensions);
-
+   
    $(window).smartresize(function () {
        updateChartsDimensions();
    });
+   resizeTriggered();
 }
 
 $(document).ready(function () {

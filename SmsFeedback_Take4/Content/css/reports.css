@@ -134,7 +134,7 @@ div.radioBtnWrapper.active {
 
 .boxArea {
     width: 180px;
-    height: 140px;
+    height: 150px;
     display:inline;
     float:left;
     text-align: center;
@@ -146,11 +146,12 @@ div.radioBtnWrapper.active {
 
 #infoBoxArea {
     margin: 5px 10px 25px;
+    height:160px;
 }
 
 .infoTitle {
     overflow: auto;
-    height: 37%;
+    height: 45%;
     width: 100%;
     background: #183540;
     color: #fff;
@@ -159,7 +160,7 @@ div.radioBtnWrapper.active {
 }
 
 .infoContent {
-    height: 63%;
+    height: 55%;
     width: 100%;
     background: #f5f8fa;
     border-radius: 10px 10px 0 0;
