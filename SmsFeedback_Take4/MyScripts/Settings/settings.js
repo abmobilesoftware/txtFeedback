@@ -32,14 +32,14 @@ window.app.SettingsArea = function () {
    var settingsMenu = new window.app.MenuView({
       el: $("#leftColumn"),
       eventToTriggerOnSelect: 'switchSetting',
-      menuCollection: new window.app.MenuCollection({ url: '/Settings/GetMenuItems' })
+      menuCollection: new window.app.MenuCollection({ url: '/Settings/GetMenuItems' }),
+      afterInitializeFunction: function () {
+          //by default open ChangePassword scren   
+          $(".liItem21").addClass("menuItemSelected");
+          $("ul.item20").css("display", "block");
+          window.app.showChangePassword();
+      }
    });
-
-   //by default open ChangePassword scren
-   $(".liItem21").addClass("menuItemSelected");
-   $("ul.item20").css("display", "block");
-   window.app.showChangePassword();
-
    $(document).bind("switchSetting", function (event, menuId) {
       switch (menuId) {
          case '21':

@@ -181,11 +181,14 @@ var ReportsArea = function () {
    var reportsMenu = new window.app.MenuView({
       el: $("#leftColumn"),
       eventToTriggerOnSelect: 'switchReport',
-      menuCollection: new window.app.MenuCollection({ url: '/Reports/getReportsMenuItems' })
+      menuCollection: new window.app.MenuCollection({ url: '/Reports/getReportsMenuItems' }),
+      afterInitializeFunction: function () {
+          // mark the first opened report
+          $(".liItem2").addClass("menuItemSelected");
+          $("ul.item1").css("display", "block");
+      }
    });
-   // mark the first opened report
-   $(".liItem2").addClass("menuItemSelected");
-   $("ul.item1").css("display", "block");
+   
 
    // initializing rightColumn
    var reportsContent;
