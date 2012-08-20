@@ -6,6 +6,12 @@ function SecondArea(iData) {
     // enable tooltips
     
     this.drawArea = function () {
+        $("#infoBoxArea").empty();
+        for (i = 0; i < data.length; ++i) {
+            this.buildInfoBox(data[i].name, data[i].source, data[i].tooltip);
+        }
+        $("#infoBoxArea").append("<div class='clear'></div>");
+
         var infoBoxElement = $(".boxArea");
         infoBoxElement.qtip({
             content: infoBoxElement.attr('tooltiptitle'),
@@ -27,15 +33,9 @@ function SecondArea(iData) {
                     color: '#345062'
                 },
                 tip: 'bottomLeft',
-                name: 'light' 
+                name: 'light'
             }
         });
-
-        $("#infoBoxArea").empty();
-        for (i = 0; i < data.length; ++i) {
-            this.buildInfoBox(data[i].name, data[i].source, data[i].tooltip);
-        }
-        $("#infoBoxArea").append("<div class='clear'></div>");
      }
 
     this.buildInfoBox = function (name, resource, tooltip) {           
