@@ -16,13 +16,13 @@
         <AssociationConnector Association="smsfeedbackModel.FK_UserXmppConnection" />
         <EntityTypeShape EntityType="smsfeedbackModel.Company" Width="1.5" PointX="10.625" PointY="6.25" IsExpanded="true" />
         <AssociationConnector Association="smsfeedbackModel.FK_UserCompany" />
-        <EntityTypeShape EntityType="smsfeedbackModel.Tag" Width="1.5" PointX="12.75" PointY="6.25" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Tag" Width="1.5" PointX="15.75" PointY="7.25" />
         <AssociationConnector Association="smsfeedbackModel.FK_CompanyTag" />
         <AssociationConnector Association="smsfeedbackModel.ConversationTags" />
         <AssociationConnector Association="smsfeedbackModel.ConversationMessage" />
         <EntityTypeShape EntityType="smsfeedbackModel.Application" Width="1.5" PointX="4.875" PointY="9.625" />
         <EntityTypeShape EntityType="smsfeedbackModel.Membership" Width="1.5" PointX="7.25" PointY="11.5" />
-        <EntityTypeShape EntityType="smsfeedbackModel.Profile" Width="1.5" PointX="10.625" PointY="8.625" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Profile" Width="1.5" PointX="10.625" PointY="8.875" />
         <AssociationConnector Association="smsfeedbackModel.MembershipApplication" />
         <AssociationConnector Association="smsfeedbackModel.RoleApplication" />
         <AssociationConnector Association="smsfeedbackModel.UserApplication" />
@@ -30,7 +30,7 @@
         <AssociationConnector Association="smsfeedbackModel.UserProfile" />
         <AssociationConnector Association="smsfeedbackModel.FK_WorkingPointConversation" />
         <AssociationConnector Association="smsfeedbackModel.FK_UserMessages" />
-        <EntityTypeShape EntityType="smsfeedbackModel.Client" Width="1.5" PointX="4.75" PointY="1.75" />
+        <AssociationConnector Association="smsfeedbackModel.CompanyConversation" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
