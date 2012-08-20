@@ -4,32 +4,33 @@ function SecondArea(iData) {
     var data = iData;
     var self = this;
     // enable tooltips
-    var infoBoxElement = $(".boxArea");
-    infoBoxElement.qtip({
-        content: infoBoxElement.attr('tooltiptitle'),
-        position: {
-            corner: {
-                target: 'topRight',
-                tooltip: 'bottomLeft'
-            }
-        },
-        style: {
-            width: 200,
-            padding: 5,
-            background: '#345062',
-            color: '#ffffff',
-            textAlign: 'center',
-            border: {
-                width: 5,
-                radius: 5,
-                color: '#345062'
-            },
-            tip: 'bottomLeft',
-            name: 'light' // Inherit the rest of the attributes from the preset dark style
-        }
-    });
-
+    
     this.drawArea = function () {
+        var infoBoxElement = $(".boxArea");
+        infoBoxElement.qtip({
+            content: infoBoxElement.attr('tooltiptitle'),
+            position: {
+                corner: {
+                    target: 'topRight',
+                    tooltip: 'bottomLeft'
+                }
+            },
+            style: {
+                width: 200,
+                padding: 5,
+                background: '#345062',
+                color: '#ffffff',
+                textAlign: 'center',
+                border: {
+                    width: 5,
+                    radius: 5,
+                    color: '#345062'
+                },
+                tip: 'bottomLeft',
+                name: 'light' 
+            }
+        });
+
         $("#infoBoxArea").empty();
         for (i = 0; i < data.length; ++i) {
             this.buildInfoBox(data[i].name, data[i].source, data[i].tooltip);
@@ -50,7 +51,7 @@ function SecondArea(iData) {
     }
 
     this.fillInfoBox = function (name, tooltip, data) {
-        var infoBoxString = "<div class='boxArea' title='" + tooltip +"'>" +
+        var infoBoxString = "<div class='boxArea' title='" + tooltip + "'>" +
                                 "<div class='infoContent'><div class='infoContentMiddle'><div class='infoContentInner'><span class='boxContent'><span class='boxValue'>" + data.value + "</span><span class='boxUnit'> " + data.unit + "</span></span></div></div></div>" +
                                 "<div class='infoTitle'><div class='infoTitleMiddle'><div class='infoTitleInner'><span class='boxTitle'>" + name + "</span></div></div></div>" +
                             "</div>";

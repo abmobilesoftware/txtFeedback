@@ -469,19 +469,7 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Message" EntitySet="Messages" />
           </AssociationSet>
-          <EntitySet Name="Clients" EntityType="smsfeedbackModel.Client" />
-          <AssociationSet Name="ConversationClient" Association="smsfeedbackModel.ConversationClient">
-            <End Role="Conversation" EntitySet="Conversations" />
-            <End Role="Client" EntitySet="Clients" />
-          </AssociationSet>
-          <AssociationSet Name="CompanyClient" Association="smsfeedbackModel.CompanyClient">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="Client" EntitySet="Clients" />
-          </AssociationSet>
-          <AssociationSet Name="CompanyConversation" Association="smsfeedbackModel.CompanyConversation">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="Conversation" EntitySet="Conversations" />
-          </AssociationSet>
+         
         </EntityContainer>
         <EntityType Name="Conversation">
           <Key>
@@ -497,8 +485,7 @@
           <NavigationProperty Name="Messages" Relationship="smsfeedbackModel.ConversationMessage" FromRole="Conversation" ToRole="Message" />
           <Property Type="DateTime" Name="StartTime" Nullable="false" Precision="3" />
           <Property Type="String" Name="WorkingPoint_TelNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="WorkingPoint" Relationship="smsfeedbackModel.FK_WorkingPointConversation" FromRole="Conversation" ToRole="WorkingPoint" />
-          <NavigationProperty Name="Company" Relationship="smsfeedbackModel.CompanyConversation" FromRole="Conversation" ToRole="Company" />
+          <NavigationProperty Name="WorkingPoint" Relationship="smsfeedbackModel.FK_WorkingPointConversation" FromRole="Conversation" ToRole="WorkingPoint" />         
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -779,30 +766,7 @@
               <PropertyRef Name="UserUserId" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Client">
-          <Key>
-            <PropertyRef Name="TelNumber" />
-          </Key>
-          <Property Type="String" Name="TelNumber" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Type="String" Name="DisplayName" Nullable="false" />
-          <Property Type="String" Name="Description" Nullable="false" />
-          <Property Type="String" Name="IsSupportClient" Nullable="false" />
-          <NavigationProperty Name="Conversations" Relationship="smsfeedbackModel.ConversationClient" FromRole="Client" ToRole="Conversation" />
-          <NavigationProperty Name="Companies" Relationship="smsfeedbackModel.CompanyClient" FromRole="Client" ToRole="Company" />
-        </EntityType>
-        <Association Name="ConversationClient">
-          <End Type="smsfeedbackModel.Conversation" Role="Conversation" Multiplicity="*" />
-          <End Type="smsfeedbackModel.Client" Role="Client" Multiplicity="1" />
-        </Association>
-        <Association Name="CompanyClient">
-          <End Type="smsfeedbackModel.Company" Role="Company" Multiplicity="*" />
-          <End Type="smsfeedbackModel.Client" Role="Client" Multiplicity="1" />
-        </Association>
-        <Association Name="CompanyConversation">
-          <End Type="smsfeedbackModel.Company" Role="Company" Multiplicity="0..1" />
-          <End Type="smsfeedbackModel.Conversation" Role="Conversation" Multiplicity="1" />
-        </Association>
+        </Association>       
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
