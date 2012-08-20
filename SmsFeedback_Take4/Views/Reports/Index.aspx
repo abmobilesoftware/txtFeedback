@@ -18,6 +18,7 @@
    <!-- Helper scripts - used like static methods -->
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/DateHelper.js") %>" type="application/javascript"></script>
    <!-- Global variables -->
+    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Helpers/Debounce.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/GlobalVariables.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/FirstArea.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/SecondArea.js") %>" type="application/javascript"></script>
@@ -47,7 +48,9 @@
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-de.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-ro.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-en-GB.js") %>" type="application/javascript"></script>
-   <!-- Helper scripts - used like static methods -->
+
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Helpers/Debounce.js") %>" type="application/javascript"></script>
+    <!-- Helper scripts - used like static methods -->
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/DateHelper.js") %>" type="application/javascript"></script>
    <!-- Global variables -->
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/GlobalVariables.js") %>" type="application/javascript"></script>

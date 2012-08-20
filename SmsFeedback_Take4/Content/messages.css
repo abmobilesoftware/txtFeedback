@@ -53,6 +53,12 @@
 
 span.timeReceived {
    float: right;
+   color: #eee;
+   font-size: 0.9em;
+   font-style: italic;
+   margin-bottom: 3px;
+   margin-right: 3px;
+   margin-top: 10px;
 }
 
 div.textMessage {

@@ -18,6 +18,8 @@ namespace SmsFeedback_Take4.Utilities
         public const String MONTH_GRANULARITY = "month";
         public const string GLOBAL_SCOPE = "Global";
         public const string DEFAULT_CHART_STYLE = "area";
-        public const string BARS_CHART_STYLE = "bars";  
+        public const string BARS_CHART_STYLE = "bars";
+        public const string NUMBER_COLUMN_TYPE = "number";
+        public const string STRING_COLUMN_TYPE = "string";
     }
 }

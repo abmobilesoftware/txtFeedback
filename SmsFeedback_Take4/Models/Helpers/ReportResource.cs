@@ -11,15 +11,21 @@ namespace SmsFeedback_Take4.Models.Helpers
         public string name;
         public string source;
         public ReportResourceOptions options;
+        public string tooltip;
 
-        public ReportResource(string iName, string iSource, ReportResourceOptions iOptions = null) 
+        public ReportResource(string iName, string iSource, ReportResourceOptions iOptions = null, string iTooltip = null) 
         {
             name = iName;
             source = iSource;
             options = iOptions;
+            tooltip = iTooltip;
             if (options == null)
             {
                 options = new ReportResourceOptions("area");
+            }
+            if (tooltip == null)
+            {
+                tooltip = "no tooltip";
             }
         }
     }

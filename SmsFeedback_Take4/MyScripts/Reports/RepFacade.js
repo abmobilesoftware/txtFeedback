@@ -3,7 +3,12 @@
 function InitializeGUI() {
    var self = this;
    window.addEventListener("resize", resizeTriggered, false);
-   resizeTriggered();
+   // window.addEventListener("resize", updateChartsDimensions, false);
+   //$(window).resize(updateChartsDimensions);
+
+   $(window).smartresize(function () {
+       updateChartsDimensions();
+   });
 }
 
 $(document).ready(function () {
@@ -15,10 +20,8 @@ $(document).ready(function () {
     }
          
     window.app.reportsPage = new ReportsArea();
-
     $(document).bind("resize", resizeTriggered);
 });
-
 
 function resizeTriggered() {
     //pick the highest between window size (- header) and messagesArea 
@@ -51,7 +54,10 @@ function resizeTriggered() {
    } else {
        $('#leftColumn').height(contentWindowHeight);
        $('#rightColumn').height(contentWindowHeight);
-   }
-   // the charts are redrawn at a more appropriate scale.
-   //window.app.reportsPage.redrawContent();
+   }  
+}
+
+function updateChartsDimensions() {
+    // the charts are redrawn at a more appropriate scale.
+    window.app.reportsPage.redrawContent();
 }

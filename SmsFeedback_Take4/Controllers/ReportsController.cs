@@ -78,7 +78,7 @@ namespace SmsFeedback_Take4.Controllers
                 }
                 List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
                 content.Add(resultInterval);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Total sms") }, PrepareJson(content));
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepTotalSmsChart) }, PrepareJson(content));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -168,7 +168,7 @@ namespace SmsFeedback_Take4.Controllers
                 List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
                 content.Add(resultIncomingInterval);
                 content.Add(resultOutgoingInterval);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "Total incoming sms"), new RepDataColumn("18", "number", "Total outgoing sms") }, PrepareJson(content));
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepIncomingSmsChart), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepOutgoingSmsChart) }, PrepareJson(content));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -269,7 +269,7 @@ namespace SmsFeedback_Take4.Controllers
                 content.Add(resultNewClientsInterval);
                 content.Add(resultReturningClientsInterval);
 
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Date"), new RepDataColumn("18", "number", "New clients"), new RepDataColumn("18", "number", "Returning clients") }, PrepareJson(content));
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNewClientsChart), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepReturningClientsChart) }, PrepareJson(content));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -333,13 +333,13 @@ namespace SmsFeedback_Take4.Controllers
                 IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
                 var totalNoOfSms = ComputeTotalNoOfSms(intervalStart, intervalEnd, workingPoints);
 
-                return Json(new RepInfoBox(totalNoOfSms, "sms'"), JsonRequestBehavior.AllowGet);
+                return Json(new RepInfoBox(totalNoOfSms, Resources.Global.RepSmsUnit), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
                 logger.Error("GetTotalNoOfSmsInfo", e);
             }
-            return Json(new RepInfoBox("Request failed", "sms'"), JsonRequestBehavior.AllowGet);
+            return Json(new RepInfoBox("Request failed", Resources.Global.RepSmsUnit), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetIncomingSmsInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
@@ -354,13 +354,13 @@ namespace SmsFeedback_Take4.Controllers
                 IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
 
                 var incomingNoOfSms = ComputeNoOfIncomingSms(intervalStart, intervalEnd, workingPoints);
-                return Json(new RepInfoBox(incomingNoOfSms, "sms"), JsonRequestBehavior.AllowGet);
+                return Json(new RepInfoBox(incomingNoOfSms, Resources.Global.RepSmsUnit), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
                 logger.Error("GetIncomingSmsInfo", e);
             }
-            return Json(new RepInfoBox("Request failed", "sms"), JsonRequestBehavior.AllowGet);
+            return Json(new RepInfoBox("Request failed", Resources.Global.RepSmsUnit), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetOutgoingSmsInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
@@ -375,13 +375,13 @@ namespace SmsFeedback_Take4.Controllers
                 IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
 
                 var outgoingNoOfSms = ComputeNoOfOutgoingSms(intervalStart, intervalEnd, workingPoints);
-                return Json(new RepInfoBox(outgoingNoOfSms, "sms"), JsonRequestBehavior.AllowGet);
+                return Json(new RepInfoBox(outgoingNoOfSms, Resources.Global.RepSmsUnit), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
                 logger.Error("GetOutgoingSmsInfo", e);
             }
-            return Json(new RepInfoBox("Request failed", "sms"), JsonRequestBehavior.AllowGet);
+            return Json(new RepInfoBox("Request failed", Resources.Global.RepSmsUnit), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetAvgNoOfSmsPerDayInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
@@ -397,7 +397,7 @@ namespace SmsFeedback_Take4.Controllers
 
                 var totalNoOfSms = ComputeTotalNoOfSms(intervalStart, intervalEnd, workingPoints);
                 TimeSpan interval = intervalEnd - intervalStart;
-                return Json(new RepInfoBox(Math.Round(totalNoOfSms / interval.TotalDays, 2), "sms'/day"), JsonRequestBehavior.AllowGet);
+                return Json(new RepInfoBox(Math.Round(totalNoOfSms / interval.TotalDays, 2), Resources.Global.RepSmsPerDayUnit), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -420,7 +420,7 @@ namespace SmsFeedback_Take4.Controllers
                 int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
                 int noOfIncomingMessages = ComputeNoOfIncomingSms(intervalStart, intervalEnd, workingPoints);
 
-                return Json(new RepInfoBox(Math.Round((double)noOfIncomingMessages / noOfClients, 2), "sms'/client"), JsonRequestBehavior.AllowGet);
+                return Json(new RepInfoBox(Math.Round((double)noOfIncomingMessages / noOfClients, 2), Resources.Global.RepSmsPerClient), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -442,7 +442,7 @@ namespace SmsFeedback_Take4.Controllers
 
                 int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
                 int noOfOutgoingMessages = ComputeNoOfOutgoingSms(intervalStart, intervalEnd, workingPoints);
-                return Json(new RepInfoBox(Math.Round((double)noOfOutgoingMessages / noOfClients, 2), "sms'/client"), JsonRequestBehavior.AllowGet);
+                return Json(new RepInfoBox(Math.Round((double)noOfOutgoingMessages / noOfClients, 2), Resources.Global.RepSmsPerClient), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -517,7 +517,7 @@ namespace SmsFeedback_Take4.Controllers
                         }
                     }
                 }
-                return Json(new RepInfoBox(Math.Round((double)noOfTags / noOfConversations, 2), "tags/conversation"), JsonRequestBehavior.AllowGet);
+                return Json(new RepInfoBox(Math.Round((double)noOfTags / noOfConversations, 2), Resources.Global.RepTagsPerConversationUnit), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -542,7 +542,7 @@ namespace SmsFeedback_Take4.Controllers
                 {
                     noOfNewClients += (from conv in wp.Conversations where conv.StartTime >= intervalStart && conv.StartTime <= intervalEnd select conv).Count();
                 }
-                return Json(new RepInfoBox(noOfNewClients, "clients"), JsonRequestBehavior.AllowGet);
+                return Json(new RepInfoBox(noOfNewClients, Resources.Global.RepClients), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -563,7 +563,7 @@ namespace SmsFeedback_Take4.Controllers
                 IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
 
                 int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
-                return Json(new RepInfoBox(noOfClients, "clients"), JsonRequestBehavior.AllowGet);
+                return Json(new RepInfoBox(noOfClients, Resources.Global.RepClients), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -593,7 +593,7 @@ namespace SmsFeedback_Take4.Controllers
                         if (noOfMessagesInThisPeriod > 0) ++noOfReturningClients;
                     }
                 }
-                return Json(new RepInfoBox(noOfReturningClients, "clients"), JsonRequestBehavior.AllowGet);
+                return Json(new RepInfoBox(noOfReturningClients, Resources.Global.RepClients), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -616,7 +616,7 @@ namespace SmsFeedback_Take4.Controllers
                 int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
                 int noOfMessages = ComputeTotalNoOfSms(intervalStart, intervalEnd, workingPoints);
 
-                return Json(new RepInfoBox(Math.Round((double)noOfMessages / noOfClients, 2), "sms'/client"), JsonRequestBehavior.AllowGet);
+                return Json(new RepInfoBox(Math.Round((double)noOfMessages / noOfClients, 2), Resources.Global.RepSmsPerClient), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -655,11 +655,11 @@ namespace SmsFeedback_Take4.Controllers
                 TimeSpan avgResponseTime = new TimeSpan((long)(totalResponseTime / counter));
                 if (avgResponseTime.TotalMinutes < 1)
                 {
-                    return Json(new RepInfoBox(Math.Round(avgResponseTime.TotalSeconds, 2), "seconds"), JsonRequestBehavior.AllowGet);
+                    return Json(new RepInfoBox(Math.Round(avgResponseTime.TotalSeconds, 2), Resources.Global.RepSecondsUnit), JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    return Json(new RepInfoBox(Math.Round(avgResponseTime.TotalMinutes, 2), "minutes"), JsonRequestBehavior.AllowGet);
+                    return Json(new RepInfoBox(Math.Round(avgResponseTime.TotalMinutes, 2), Resources.Global.RepMinutesUnit), JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception e)
@@ -688,12 +688,12 @@ namespace SmsFeedback_Take4.Controllers
                 var outgoingNoOfSms = ComputeNoOfOutgoingSms(intervalStart, intervalEnd, workingPoints);
 
                 // Prepare Json result
-                var row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("Incoming", "Incoming"), new RepDataRowCell(incomingNoOfSms, incomingNoOfSms + " sms - from customers") });
-                var row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell("Outgoing", "Outgoing"), new RepDataRowCell(outgoingNoOfSms, outgoingNoOfSms + " sms - to customers") });
+                var row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepIncomingSmsChart, Resources.Global.RepIncomingSmsChart), new RepDataRowCell(incomingNoOfSms, incomingNoOfSms + " sms") });
+                var row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepOutgoingSmsChart, Resources.Global.RepOutgoingSmsChart), new RepDataRowCell(outgoingNoOfSms, outgoingNoOfSms + " sms") });
                 List<RepDataRow> content = new List<RepDataRow>();
                 content.Add(row1);
                 content.Add(row2);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", "string", "Type"), new RepDataColumn("18", "number", "Number") }, content);
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, Resources.Global.RepTypeTable), new RepDataColumn("18", Constants.STRING_COLUMN_TYPE, Resources.Global.RepValueTable) }, content);
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -724,11 +724,16 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                             new ReportResource("Total number of sms with granularity", iSource: "/Reports/GetTotalNoOfSmsChartSource") 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "/Reports/GetTotalNoOfSmsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfSmsPerDay, iSource: "/Reports/GetAvgNoOfSmsPerDayInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfSmsPerClient, iSource: "/Reports/GetAvgNoOfSmsPerClientInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgResponseTime, iSource: "/Reports/GetAvgResponseTimeInfo")
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "/Reports/GetTotalNoOfSmsInfo", 
+                                                                                                                                                    iTooltip: Resources.Global.RepTotalNoOfSmsTooltip),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfSmsPerDay, iSource: "/Reports/GetAvgNoOfSmsPerDayInfo",
+                                                                                                                                                    iTooltip: Resources.Global.RepAvgNoOfSmsPerDayTooltip),
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo",
+                                                                                                                                                    iTooltip: Resources.Global.RepTotalNoOfClientsTooltip),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfSmsPerClient, iSource: "/Reports/GetAvgNoOfSmsPerClientInfo", 
+                                                                                                                                                    iTooltip: Resources.Global.RepAvgNoOfSmsPerClientTooltip),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgResponseTime, iSource: "/Reports/GetAvgResponseTimeInfo", 
+                                                                                                                                                    iTooltip: Resources.Global.RepAvgResponseTimeTooltip)
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetIncomingOutgoingThirdArea") 
@@ -739,11 +744,16 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "/Reports/GetIncomingOutgoingSmsChartSource") 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfIncomingSms, iSource: "/Reports/GetIncomingSmsInfo"),  
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfOutgoingSms, iSource: "/Reports/GetOutgoingSmsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfIncomingSmsPerConversation, iSource: "/Reports/GetAvgNoOfIncomingSmsPerClientInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfOutgoingSmsPerConversation, iSource: "/Reports/GetAvgNoOfOutgoingSmsPerClientInfo")
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfIncomingSms, iSource: "/Reports/GetIncomingSmsInfo", 
+                                                                                                                                                    iTooltip: Resources.Global.RepNoOfIncomingSmsTooltip),  
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfOutgoingSms, iSource: "/Reports/GetOutgoingSmsInfo", 
+                                                                                                                                                    iTooltip: Resources.Global.RepNoOfOutgoingSmsTooltip),
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo", 
+                                                                                                                                                    iTooltip: Resources.Global.RepTotalNoOfClientsTooltip),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfIncomingSmsPerConversation, iSource: "/Reports/GetAvgNoOfIncomingSmsPerClientInfo",
+                                                                                                                                                    iTooltip: Resources.Global.RepAvgNoOfIncomingSmsPerConversationToolitp),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfOutgoingSmsPerConversation, iSource: "/Reports/GetAvgNoOfOutgoingSmsPerClientInfo", 
+                                                                                                                                                    iTooltip: Resources.Global.RepAvgNoOfOutgoingSmsPerConversationTooltip)
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", true, new ReportResource[] { 
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetIncomingOutgoingThirdArea") 
@@ -756,8 +766,10 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                              
                                                                                                                                                             }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepMostUsedTag, iSource: "/Reports/GetMostUsedTagsInfo"),     
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfTagsPerConversation, iSource: "/Reports/GetAvgNoOfTagsPerConversationInfo")                                                                                                                                                  
+                                                                                                                                                    new ReportResource(Resources.Global.RepMostUsedTag, iSource: "/Reports/GetMostUsedTagsInfo",
+                                                                                                                                                    iTooltip: Resources.Global.RepMostUsedTagsTooltip),     
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfTagsPerConversation, iSource: "/Reports/GetAvgNoOfTagsPerConversationInfo", 
+                                                                                                                                                    iTooltip: Resources.Global.RepAvgNoOfTagsPerConversationTooltip)
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
@@ -768,9 +780,12 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "/Reports/GetNewVsReturningClientsChartSource") 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfNewClients, iSource: "/Reports/GetNoOfNewClientsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfReturningClients, iSource: "/Reports/GetNoOfReturningClientsInfo")
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo", 
+                                                                                                                                                    iTooltip: Resources.Global.RepTotalNoOfClients),
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfNewClients, iSource: "/Reports/GetNoOfNewClientsInfo", 
+                                                                                                                                                    iTooltip: Resources.Global.RepNoOfNewClients),
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfReturningClients, iSource: "/Reports/GetNoOfReturningClientsInfo",
+                                                                                                                                                    iTooltip: Resources.Global.RepNoOfReturningClientsTooltip)
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 

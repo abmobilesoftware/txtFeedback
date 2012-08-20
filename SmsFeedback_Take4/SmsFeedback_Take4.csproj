@@ -363,6 +363,7 @@
     <Content Include="MyScripts\Conversations.js" />
     <Content Include="MyScripts\Facade.js" />
     <Content Include="MyScripts\Filtering.js" />
+    <Content Include="MyScripts\Helpers\Debounce.js" />
     <Content Include="MyScripts\Messages.js" />
     <Content Include="MyScripts\ConversationTags.js" />
     <Content Include="MyScripts\Base\BaseLeftSideMenu.js" />
@@ -382,7 +383,6 @@
     <Content Include="MyScripts\Reports\ThirdArea.js" />
     <Content Include="MyScripts\Reports\RepFacade.js" />
     <Content Include="MyScripts\Reports\FirstArea.js" />
-    <Content Include="MyScripts\Reports\Report.js" />
     <Content Include="MyScripts\Reports\Reports.js" />
     <Content Include="MyScripts\Settings\settings.js" />
     <Content Include="MyScripts\Settings\SettingsFacade.js" />

@@ -484,4 +484,112 @@
     <value>User preferences</value>
     <comment>Settings:</comment>
   </data>
+  <data name="RepAvgNoOfIncomingSmsPerConversationToolitp" xml:space="preserve">
+    <value>Avg no of incoming sms per conversation</value>
+    <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="RepAvgNoOfOutgoingSmsPerConversationTooltip" xml:space="preserve">
+    <value>Avg no outgoing sms per conversation</value>
+    <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="RepAvgNoOfSmsPerClientTooltip" xml:space="preserve">
+    <value>Average no of sms per client</value>
+    <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="RepAvgNoOfSmsPerDayTooltip" xml:space="preserve">
+    <value>Average no of sms per day</value>
+    <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="RepAvgNoOfTagsPerConversationTooltip" xml:space="preserve">
+    <value>Average no of tags per conversation</value>
+    <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="RepAvgResponseTimeTooltip" xml:space="preserve">
+    <value>Average response time</value>
+    <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="RepClientsUnit" xml:space="preserve">
+    <value>clients</value>
+    <comment>Report page - info box, measurement units</comment>
+  </data>
+  <data name="RepIncomingSmsChart" xml:space="preserve">
+    <value>Incoming sms</value>
+    <comment>Reports page - main chart</comment>
+  </data>
+  <data name="RepMinutesUnit" xml:space="preserve">
+    <value>minutes</value>
+    <comment>Report page - info box, measurement units</comment>
+  </data>
+  <data name="RepMostUsedTagsTooltip" xml:space="preserve">
+    <value>Most used tags</value>
+    <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="RepNewClientsChart" xml:space="preserve">
+    <value>New clients</value>
+    <comment>Reports page - main chart</comment>
+  </data>
+  <data name="RepNoOfIncomingSmsTooltip" xml:space="preserve">
+    <value>No of incoming sms</value>
+    <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="RepNoOfNewClientsTooltip" xml:space="preserve">
+    <value>Number of new clients</value>
+    <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="RepNoOfOutgoingSmsTooltip" xml:space="preserve">
+    <value>No of outgoing sms</value>
+    <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="RepNoOfReturningClientsTooltip" xml:space="preserve">
+    <value>Number of returning clients</value>
+    <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="RepOutgoingSmsChart" xml:space="preserve">
+    <value>Outgoing sms</value>
+    <comment>Reports page - main chart</comment>
+  </data>
+  <data name="RepReturningClientsChart" xml:space="preserve">
+    <value>Returning clients</value>
+    <comment>Reports page - main chart</comment>
+  </data>
+  <data name="RepSecondsUnit" xml:space="preserve">
+    <value>seconds</value>
+    <comment>Report page - info box, measurement units</comment>
+  </data>
+  <data name="RepSmsPerClient" xml:space="preserve">
+    <value>sms'/client</value>
+    <comment>Report page - info box, measurement units</comment>
+  </data>
+  <data name="RepSmsPerDayUnit" xml:space="preserve">
+    <value>sms'/day</value>
+    <comment>Report page - info box, measurement units</comment>
+  </data>
+  <data name="RepSmsUnit" xml:space="preserve">
+    <value>sms'</value>
+    <comment>Report page - info box, measurement units</comment>
+  </data>
+  <data name="RepTagsPerConversationUnit" xml:space="preserve">
+    <value>tags/conversation</value>
+    <comment>Report page - info box, measurement units</comment>
+  </data>
+  <data name="RepTotalNoOfClientsTooltip" xml:space="preserve">
+    <value>Number of clients</value>
+    <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="RepTotalNoOfSmsTooltip" xml:space="preserve">
+    <value>Total no of sms</value>
+    <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="RepTotalSmsChart" xml:space="preserve">
+    <value>All sms'</value>
+    <comment>Reports page - main chart</comment>
+  </data>
+  <data name="RepTypeTable" xml:space="preserve">
+    <value>Type</value>
+    <comment>Reports page - table area</comment>
+  </data>
+  <data name="RepValueTable" xml:space="preserve">
+    <value>Value</value>
+    <comment>Reports page - table area</comment>
+  </data>
 </root>

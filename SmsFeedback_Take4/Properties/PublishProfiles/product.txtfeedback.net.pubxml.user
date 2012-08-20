@@ -10,6 +10,8 @@ by customizing this MSBuild file. In order to learn more about this please visit
   <PropertyGroup>
     <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
     <LastUsedPlatform>Any CPU</LastUsedPlatform>
-    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA6D2/0eYoOEOspK/DV0RawwAAAAACAAAAAAAQZgAAAAEAACAAAAAkzUqM4cy+4UFJYxI9KiVQOsrsrlyZV5WL+gd7ymqCuQAAAAAOgAAAAAIAACAAAADgf1JhfNMpWwINnhuCltY4sTigqcMIVJfoHXLjeew/RCAAAADY9NNstxpXzsEyCNhQYTLTmBZXkisVLQPby6SsUP5TAUAAAADzwCdMvgyLW7gf4domehnruxVWvJN/u9skc28OpgakAwCTkYfVnapHWo71I06WYIC5fdQsGT6QUGAkUxPwfSwj</EncryptedPassword>
+    <EncryptedPassword>
+    </EncryptedPassword>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
   </PropertyGroup>
 </Project>

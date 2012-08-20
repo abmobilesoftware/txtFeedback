@@ -31,7 +31,7 @@ var ReportModel = Backbone.Model.extend({
 var ReportsContentArea = Backbone.View.extend({
     el: $("#rightColumn"),
     initialize: function () {
-        _.bindAll(this, 'render', 'setupEnvironment', 'updateReport');
+        _.bindAll(this, 'render', 'setupEnvironment', 'updateReport');        
         this.render();
     },
     render: function () {
@@ -40,10 +40,13 @@ var ReportsContentArea = Backbone.View.extend({
         $(this.el).html(template);
         $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
         this.setupEnvironment();
+        // resize event is triggered here, because after populating the divs with content the page height will change
         $(document).trigger("resize");
     },
     setupEnvironment: function () {
         // after rendering the template, initialize the scripts that will do the magic.
+        this.transition = new Transition();
+        this.transition.startTransition();
         window.app.areas = [];
         for (var k = 0; k < this.model.get("sections").length; ++k) {
             if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier === "PrimaryChartArea")) {
@@ -60,7 +63,7 @@ var ReportsContentArea = Backbone.View.extend({
                 window.app.areas.push(window.app.secondArea);
             }
         }
-
+        
         // Setup the calendar
         $("#from").datepicker({
             defaultDate: "+1w",
@@ -125,7 +128,8 @@ var ReportsContentArea = Backbone.View.extend({
             
             window.app.firstArea.setGranularity($(this).val());
             window.app.firstArea.drawArea();
-        });       
+        });
+        this.transition.endTransition();
     },
     updateReport: function () {
         $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
@@ -137,6 +141,37 @@ var ReportsContentArea = Backbone.View.extend({
         window.app.thirdArea.drawArea();
     }
 });
+
+var Transition = function() {
+    var opts = {
+        lines: 13, // The number of lines to draw
+        length: 7, // The length of each line
+        width: 4, // The line thickness
+        radius: 10, // The radius of the inner circle
+        rotate: 0, // The rotation offset
+        color: '#fff', // #rgb or #rrggbb
+        speed: 1, // Rounds per second
+        trail: 60, // Afterglow percentage
+        shadow: true, // Whether to render a shadow
+        hwaccel: false, // Whether to use hardware acceleration
+        className: 'spinner', // The CSS class to assign to the spinner
+        zIndex: 2e9, // The z-index (defaults to 2000000000)
+        top: 'auto', // Top position relative to parent in px
+        left: 'auto' // Left position relative to parent in px
+    };
+    var spinner = new Spinner(opts);
+    var target = document.getElementById('chartArea');
+
+    this.startTransition = function () {
+        spinner.spin(target);
+        $("#overlay").show();
+    }
+
+    this.endTransition = function () {
+        spinner.stop();
+        $("#overlay").hide();
+    }    
+}
 
 var ReportsArea = function () {
    var self = this;
@@ -165,7 +200,7 @@ var ReportsArea = function () {
    });
 
    this.redrawContent = function () {
-      reportsContent.render();
+        reportsContent.render();
    };
 
    this.changeWorkingPoint = function (newWorkingPoint) {

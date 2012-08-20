@@ -14,7 +14,7 @@
         <AssociationConnector Association="smsfeedbackModel.UsersForWorkingPoints" />
         <EntityTypeShape EntityType="smsfeedbackModel.XmppConnection" Width="1.5" PointX="1.5" PointY="8" />
         <AssociationConnector Association="smsfeedbackModel.FK_UserXmppConnection" />
-        <EntityTypeShape EntityType="smsfeedbackModel.Company" Width="1.5" PointX="10.625" PointY="6.25" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Company" Width="1.5" PointX="10.625" PointY="6.25" IsExpanded="true" />
         <AssociationConnector Association="smsfeedbackModel.FK_UserCompany" />
         <EntityTypeShape EntityType="smsfeedbackModel.Tag" Width="1.5" PointX="12.75" PointY="6.25" />
         <AssociationConnector Association="smsfeedbackModel.FK_CompanyTag" />
@@ -30,6 +30,7 @@
         <AssociationConnector Association="smsfeedbackModel.UserProfile" />
         <AssociationConnector Association="smsfeedbackModel.FK_WorkingPointConversation" />
         <AssociationConnector Association="smsfeedbackModel.FK_UserMessages" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Client" Width="1.5" PointX="4.75" PointY="1.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

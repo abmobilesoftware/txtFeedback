@@ -162,7 +162,7 @@ namespace SmsFeedback_Take4.Utilities
                var msg = new Message()
                {
                   ResponseTime = responceTime,
-                  //UserUserId = userGuid,
+                  UserUserId = userGuid,
                   From = from,
                   To = to,
                   Text = text,
