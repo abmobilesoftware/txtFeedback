@@ -336,4 +336,34 @@
   <data name="settingsPageTitle" xml:space="preserve">
     <value>Settings1</value>
   </data>
+  <data name="settingsChangePasswordTitle" xml:space="preserve">
+    <value>Change Password1</value>
+  </data>
+  <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
+    <value>Confirm new password1</value>
+  </data>
+  <data name="settingsCurrentPasswordLabel" xml:space="preserve">
+    <value>Current password1</value>
+  </data>
+  <data name="settingsDescriptionPrefix" xml:space="preserve">
+    <value>New passwords are required to be a minimum of {0} characters in length1</value>
+  </data>
+  <data name="settingsErrorNewPasswordsDontMatch" xml:space="preserve">
+    <value>The new password and confirmation password do not match.1</value>
+  </data>
+  <data name="settingsErrorPasswordChangeSummary" xml:space="preserve">
+    <value>Password change was unsuccessful. Please correct the errors and try again.1</value>
+  </data>
+  <data name="settingsErrorPasswordNotLongEnough" xml:space="preserve">
+    <value>The new password must be at least {2} characters long.1</value>
+  </data>
+  <data name="settingsNewPasswordLabel" xml:space="preserve">
+    <value>New password1</value>
+  </data>
+  <data name="settingsPasswordChangedSuccessfully" xml:space="preserve">
+    <value>Your password has been changed successfully.1</value>
+  </data>
+  <data name="settingsErrorPasswordIncorrect" xml:space="preserve">
+    <value>The current password is incorrect or the new password is invalid.1</value>
+  </data>
 </root>

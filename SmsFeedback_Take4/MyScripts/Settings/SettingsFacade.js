@@ -10,7 +10,9 @@ function resizeTriggered() {
    var messagesAreaHeight = $('#messagesArea').height();
    var headerHeight = $('header').height();
    var contentWindowHeight = window_height - headerHeight - (2 * padding) - filterStripHeigh;   
-    $('.container_12').height(contentWindowHeight);               
+   $('.container_12').height(contentWindowHeight);
+   var marginTop = 7;
+   $('#rightColumn').height(contentWindowHeight - marginTop);
 }
 
 function InitializeGUI() {

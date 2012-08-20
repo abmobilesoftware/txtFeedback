@@ -86,8 +86,6 @@ window.app.MenuView = Backbone.View.extend({
       });
       // apply collapsible functionality to list
       CollapsibleLists.apply();
-      // mark the first opened report
-      $(".liItem2").addClass("menuItemSelected");
-      $("ul.item1").css("display", "block");
+     
    }
 });

@@ -488,45 +488,89 @@
     <value>Avg no of incoming sms per conversation</value>
     <comment>Reports page - tooltip</comment>
   </data>
+  <data name="settingsBtnChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+    <comment>Settings:</comment>
+  </data>
   <data name="RepAvgNoOfOutgoingSmsPerConversationTooltip" xml:space="preserve">
     <value>Avg no outgoing sms per conversation</value>
     <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="settingsChangePasswordTitle" xml:space="preserve">
+    <value>Change Password</value>
+    <comment>Settings: </comment>
   </data>
   <data name="RepAvgNoOfSmsPerClientTooltip" xml:space="preserve">
     <value>Average no of sms per client</value>
     <comment>Reports page - tooltip</comment>
   </data>
+  <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
+    <value>Confirm new password</value>
+    <comment>Settings:</comment>
+  </data>
   <data name="RepAvgNoOfSmsPerDayTooltip" xml:space="preserve">
     <value>Average no of sms per day</value>
     <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="settingsCurrentPasswordLabel" xml:space="preserve">
+    <value>Current password</value>
+    <comment>Settings:</comment>
   </data>
   <data name="RepAvgNoOfTagsPerConversationTooltip" xml:space="preserve">
     <value>Average no of tags per conversation</value>
     <comment>Reports page - tooltip</comment>
   </data>
+  <data name="settingsDescriptionPrefix" xml:space="preserve">
+    <value>New passwords are required to be a minimum of {0} characters in length</value>
+    <comment>Settings:</comment>
+  </data>
   <data name="RepAvgResponseTimeTooltip" xml:space="preserve">
     <value>Average response time</value>
     <comment>Reports page - tooltip</comment>
+  </data>
+  <data name="settingsErrorNewPasswordsDontMatch" xml:space="preserve">
+    <value>The new password and confirmation password do not match.</value>
+    <comment>Settings:</comment>
   </data>
   <data name="RepClientsUnit" xml:space="preserve">
     <value>clients</value>
     <comment>Report page - info box, measurement units</comment>
   </data>
+  <data name="settingsErrorPasswordChangeSummary" xml:space="preserve">
+    <value>Password change was unsuccessful. Please correct the errors and try again.</value>
+    <comment>Settings:</comment>
+  </data>
   <data name="RepIncomingSmsChart" xml:space="preserve">
     <value>Incoming sms</value>
     <comment>Reports page - main chart</comment>
+  </data>
+  <data name="settingsErrorPasswordNotLongEnough" xml:space="preserve">
+    <value>The new password must be at least {2} characters long.</value>
+    <comment>Settings:</comment>
   </data>
   <data name="RepMinutesUnit" xml:space="preserve">
     <value>minutes</value>
     <comment>Report page - info box, measurement units</comment>
   </data>
+  <data name="settingsNewPasswordLabel" xml:space="preserve">
+    <value>New password</value>
+    <comment>Settings:</comment>
+  </data>
   <data name="RepMostUsedTagsTooltip" xml:space="preserve">
     <value>Most used tags</value>
     <comment>Reports page - tooltip</comment>
   </data>
+  <data name="settingsPasswordChangedSuccessfully" xml:space="preserve">
+    <value>Your password has been changed successfully.</value>
+    <comment>Settings:</comment>
+  </data>
   <data name="RepNewClientsChart" xml:space="preserve">
     <value>New clients</value>
     <comment>Reports page - main chart</comment>
+   </data>
+  <data name="settingsErrorPasswordIncorrect" xml:space="preserve">
+    <value>The current password is incorrect or the new password is invalid.</value>
+    <comment>Settings:</comment>
   </data>
   <data name="RepNoOfIncomingSmsTooltip" xml:space="preserve">
     <value>No of incoming sms</value>

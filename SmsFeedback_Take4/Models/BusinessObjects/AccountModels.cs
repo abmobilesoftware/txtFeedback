@@ -13,18 +13,18 @@ namespace SmsFeedback_Take4.Models
    {
       [Required]
       [DataType(DataType.Password)]
-      [Display(Name = "Current password")]
+      [LocalizationDisplayName("settingsCurrentPasswordLabel", typeof(Resources.Global))]
       public string OldPassword { get; set; }
 
-      [Required]
-      [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+      [Required]      
+      [LocalizationStringLength(100,6, "settingsErrorPasswordNotLongEnough",typeof(Resources.Global))]
       [DataType(DataType.Password)]
-      [Display(Name = "New password")]
+      [LocalizationDisplayName("settingsNewPasswordLabel", typeof(Resources.Global))]
       public string NewPassword { get; set; }
 
       [DataType(DataType.Password)]
-      [Display(Name = "Confirm new password")]
-      [System.Web.Mvc.Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+      [LocalizationDisplayName("settingsConfirmNewPasswordLabel", typeof(Resources.Global))]
+      [LocalizationCompare("NewPassword", "settingsErrorNewPasswordsDontMatch", typeof(Resources.Global))]
       public string ConfirmPassword { get; set; }
    }
 

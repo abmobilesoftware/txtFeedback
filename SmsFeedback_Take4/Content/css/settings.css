@@ -15,3 +15,72 @@
 /*background-color: #183540;
 color: white;*/
 }
+
+#rightColumn {
+    border-radius: 10px;
+   -moz-border-radius: 10px;
+   -webkit-border-radius: 10px;
+}
+
+#changePasswordContainer .editor-field{
+   width:  220px;
+   min-width: 220px;
+   margin: 0px;
+}
+
+#changePasswordContainer .editor-label {
+   margin: 0;
+   font-size: 15px;
+   line-height: 1.3em;
+}
+
+#changePasswordContainer p {
+   margin-bottom: 0px !important;
+}
+
+#changePasswordContainer {
+   padding: 20px 0px 0px 20px;
+   display: inline-block;
+}
+
+#changePasswordContainer .newPasswordAreaLabel {
+   
+}
+#changePasswordContainer .newPasswordAreaPassw{
+   
+}
+
+#newPasswordAreaLabelStart {
+ margin-top: 44px !important;        
+}
+
+#changePasswordContainer fieldset {
+   padding: 5px 20px 5px 0px;
+}
+
+#changePasswordContainer span {
+   line-height:  1.3em;
+}
+
+#btnChangePassword {
+   width:  220px;
+   min-width: 220px;
+   margin: 7px 0px 0px 0px;
+    border-radius: 3px;
+   -moz-border-radius: 3px;
+   -webkit-border-radius: 3px;
+   line-height: 22px;
+   background-color: #92C841;   
+   border-width: 1px;
+   border-color: #92C841;
+   color: white;
+   font-weight: bold;
+   font-size: 16px;
+   cursor: pointer;
+}
+
+#changePasswordSucceededContainer {
+   margin-top: 44px;
+   margin-left: 22px;
+   font-size: 16px;
+}

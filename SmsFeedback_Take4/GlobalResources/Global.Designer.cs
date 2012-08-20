@@ -979,6 +979,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Password.
+        /// </summary>
+        public static string settingsBtnChangePassword {
+            get {
+                return ResourceManager.GetString("settingsBtnChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change password.
         /// </summary>
         public static string settingsChangePassword {
@@ -988,11 +997,101 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Password.
+        /// </summary>
+        public static string settingsChangePasswordTitle {
+            get {
+                return ResourceManager.GetString("settingsChangePasswordTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm new password.
+        /// </summary>
+        public static string settingsConfirmNewPasswordLabel {
+            get {
+                return ResourceManager.GetString("settingsConfirmNewPasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current password.
+        /// </summary>
+        public static string settingsCurrentPasswordLabel {
+            get {
+                return ResourceManager.GetString("settingsCurrentPasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New passwords are required to be a minimum of {0} characters in length.
+        /// </summary>
+        public static string settingsDescriptionPrefix {
+            get {
+                return ResourceManager.GetString("settingsDescriptionPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The new password and confirmation password do not match..
+        /// </summary>
+        public static string settingsErrorNewPasswordsDontMatch {
+            get {
+                return ResourceManager.GetString("settingsErrorNewPasswordsDontMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password change was unsuccessful. Please correct the errors and try again..
+        /// </summary>
+        public static string settingsErrorPasswordChangeSummary {
+            get {
+                return ResourceManager.GetString("settingsErrorPasswordChangeSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The current password is incorrect or the new password is invalid..
+        /// </summary>
+        public static string settingsErrorPasswordIncorrect {
+            get {
+                return ResourceManager.GetString("settingsErrorPasswordIncorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The new password must be at least {2} characters long..
+        /// </summary>
+        public static string settingsErrorPasswordNotLongEnough {
+            get {
+                return ResourceManager.GetString("settingsErrorPasswordNotLongEnough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New password.
+        /// </summary>
+        public static string settingsNewPasswordLabel {
+            get {
+                return ResourceManager.GetString("settingsNewPasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string settingsPageTitle {
             get {
                 return ResourceManager.GetString("settingsPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your password has been changed successfully..
+        /// </summary>
+        public static string settingsPasswordChangedSuccessfully {
+            get {
+                return ResourceManager.GetString("settingsPasswordChangedSuccessfully", resourceCulture);
             }
         }
         

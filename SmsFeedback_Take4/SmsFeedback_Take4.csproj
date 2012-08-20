@@ -207,7 +207,7 @@
     <Compile Include="Models\Repositories\FacadeSMSRepository.cs" />
     <Compile Include="Models\Interfaces\IExternalSmsRepository.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="Models\LocalizationDisplayNameAttribute.cs" />
+    <Compile Include="Models\LocalizationAttributes.cs" />
     <Compile Include="Models\BusinessObjects\SmsMessage.cs" />
     <Compile Include="Models\Repositories\TwilioSmsRepository.cs" />
     <Compile Include="Global.asax.cs">
@@ -253,6 +253,8 @@
     <Content Include="Content\css\jq_ui_themes\dot-luv\images\ui-icons_9ccdfc_256x240.png" />
     <Content Include="Content\css\jq_ui_themes\dot-luv\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\css\jq_ui_themes\dot-luv\jquery-ui-1.8.23.custom.css" />
+    <Content Include="Content\css\Minified\areaDefinitions.css" />
+    <Content Include="Content\css\Minified\settings.css" />
     <Content Include="Content\css\reports.css" />
     <Content Include="Content\css\settings.css" />
     <Content Include="Content\filtersStrip.css" />
@@ -308,8 +310,6 @@
     <Content Include="Content\messages.css" />
     <Content Include="Content\Minified\contact.css" />
     <Content Include="Content\Minified\conversations.css" />
-    <Content Include="Content\Minified\css\areaDefinitions.css" />
-    <Content Include="Content\Minified\css\settings.css" />
     <Content Include="Content\Minified\filtersStrip.css" />
     <Content Include="Content\Minified\grid.css" />
     <Content Include="Content\Minified\jquery.tagsinput.css" />
@@ -359,6 +359,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="InstallationDummyFile.txt" />
+    <Content Include="MyScripts\Base\Minified\BaseLeftSideMenu.js" />
     <Content Include="MyScripts\contact.js" />
     <Content Include="MyScripts\Conversations.js" />
     <Content Include="MyScripts\Facade.js" />
@@ -384,6 +385,8 @@
     <Content Include="MyScripts\Reports\RepFacade.js" />
     <Content Include="MyScripts\Reports\FirstArea.js" />
     <Content Include="MyScripts\Reports\Reports.js" />
+    <Content Include="MyScripts\Settings\Minified\settings.js" />
+    <Content Include="MyScripts\Settings\Minified\SettingsFacade.js" />
     <Content Include="MyScripts\Settings\settings.js" />
     <Content Include="MyScripts\Settings\SettingsFacade.js" />
     <Content Include="MyScripts\WorkingPoints.js" />
@@ -449,6 +452,8 @@
     <Content Include="Views\Messages\TstView.ascx" />
     <Content Include="Views\NexmoTest\Index.aspx" />
     <Content Include="Views\Reports\Index.aspx" />
+    <Content Include="Views\Settings\ChangePasswordSuccess.aspx" />
+    <Content Include="Views\Settings\GetChangePasswordForm.aspx" />
     <Content Include="Views\Settings\Index.aspx" />
     <Content Include="Views\UserMailer\Welcome.aspx" />
     <Content Include="Web.config">
@@ -484,6 +489,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Minified\css\" />
     <Folder Include="Content\Minified\Settings\" />
     <Folder Include="Models\ViewModels\" />
     <Folder Include="MyScripts\Minified\Base\" />
@@ -500,7 +506,7 @@
       <LastGenOutput>Global.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="GlobalResources\Global.de.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Global.de.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -582,9 +588,9 @@ java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Co
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\filtersStrip.css" -o "$(ProjectDir)Content\Minified\filtersStrip.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\tags.css" -o "$(ProjectDir)Content\Minified\tags.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\contact.css" -o "$(ProjectDir)Content\Minified\contact.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\css\settings.css" -o "$(ProjectDir)Content\Minified\css\settings.css"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\css\settings.css" -o "$(ProjectDir)Content\css\Minified\settings.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\jquery.tagsinput.css" -o "$(ProjectDir)Content\Minified\jquery.tagsinput.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\css\areaDefinitions.css" -o "$(ProjectDir)Content\Minified\css\areaDefinitions.css"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\css\areaDefinitions.css" -o "$(ProjectDir)Content\css\Minified\areaDefinitions.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Conversations.js" -o "$(ProjectDir)MyScripts\Minified\Conversations.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\contact.js" -o "$(ProjectDir)MyScripts\Minified\contact.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\ConversationTags.js" -o "$(ProjectDir)MyScripts\Minified\ConversationTags.js"
@@ -594,11 +600,14 @@ java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)My
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Utilities.js" -o "$(ProjectDir)MyScripts\Minified\Utilities.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\WorkingPoints.js" -o "$(ProjectDir)MyScripts\Minified\WorkingPoints.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\XMPP.js" -o "$(ProjectDir)MyScripts\Minified\XMPP.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Settings\SettingsFacade.js" -o "$(ProjectDir)MyScripts\Minified\Settings\SettingsFacade.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Settings\SettingsFacade.js" -o "$(ProjectDir)MyScripts\Settings\Minified\SettingsFacade.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Base\BaseLeftSideMenu.js" -o "$(ProjectDir)MyScripts\Base\Minified\BaseLeftSideMenu.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Settings\settings.js" -o "$(ProjectDir)MyScripts\Settings\Minified\settings.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\spin.js" -o "$(ProjectDir)Scripts\Minified\spin.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.cookie.js" -o "$(ProjectDir)Scripts\Minified\jquery.cookie.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.simplemodal.js" -o "$(ProjectDir)Scripts\Minified\jquery.simplemodal.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.tagsinput.js" -o "$(ProjectDir)Scripts\Minified\jquery.tagsinput.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.tagsinput.js" -o "$(ProjectDir)Scripts\Minified\CollapsibleLists.js"
 
 )</PostBuildEvent>
   </PropertyGroup>

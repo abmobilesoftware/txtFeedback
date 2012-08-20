@@ -144,7 +144,7 @@
           <select id="workingPointSelector"></select>
       </div>
    </div>
-   <div id="rightColumn" class="grid_11">
+   <div id="rightColumn" class="grid_11 rightColumn">
    </div>
    <script type="text/javascript">
       $(function () {
