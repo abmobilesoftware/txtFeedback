@@ -11,7 +11,8 @@
 body
 {
 	/*font: 13px/1.5 Calibri, Verdana, sans-serif;*/
-   font-family:Calibri, Verdana, sans-serif;
+   /*font-family:Calibri, Verdana, sans-serif;*/
+   font-family: 'Source Sans Pro', sans-serif;
 }
 
 a:focus
