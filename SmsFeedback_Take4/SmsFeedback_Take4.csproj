@@ -626,7 +626,7 @@ java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Sc
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.cookie.js" -o "$(ProjectDir)Scripts\Minified\jquery.cookie.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.simplemodal.js" -o "$(ProjectDir)Scripts\Minified\jquery.simplemodal.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.tagsinput.js" -o "$(ProjectDir)Scripts\Minified\jquery.tagsinput.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.tagsinput.js" -o "$(ProjectDir)Scripts\Minified\CollapsibleLists.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\CollapsibleLists.js" -o "$(ProjectDir)Scripts\Minified\CollapsibleLists.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.ui.datepicker-de.js" -o "$(ProjectDir)Scripts\Minified\jquery.ui.datepicker-de.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.ui.datepicker-ro.js" -o "$(ProjectDir)Scripts\Minified\jquery.ui.datepicker-ro.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.ui.datepicker-en-GB.js" -o "$(ProjectDir)Scripts\Minified\jquery.ui.datepicker-en-GB.js"
