@@ -484,4 +484,48 @@
     <value>User preferences</value>
     <comment>Settings:</comment>
   </data>
+  <data name="settingsBtnChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsChangePasswordTitle" xml:space="preserve">
+    <value>Change Password</value>
+    <comment>Settings: </comment>
+  </data>
+  <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
+    <value>Confirm new password</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsCurrentPasswordLabel" xml:space="preserve">
+    <value>Current password</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsDescriptionPrefix" xml:space="preserve">
+    <value>New passwords are required to be a minimum of {0} characters in length</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsErrorNewPasswordsDontMatch" xml:space="preserve">
+    <value>The new password and confirmation password do not match.</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsErrorPasswordChangeSummary" xml:space="preserve">
+    <value>Password change was unsuccessful. Please correct the errors and try again.</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsErrorPasswordNotLongEnough" xml:space="preserve">
+    <value>The new password must be at least {2} characters long.</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsNewPasswordLabel" xml:space="preserve">
+    <value>New password</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsPasswordChangedSuccessfully" xml:space="preserve">
+    <value>Your password has been changed successfully.</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsErrorPasswordIncorrect" xml:space="preserve">
+    <value>The current password is incorrect or the new password is invalid.</value>
+    <comment>Settings:</comment>
+  </data>
 </root>

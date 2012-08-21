@@ -75,3 +75,9 @@ ul.item1 {
 #leftColumn {
    color: white;
 }
+
+.rightColumn {
+    background: #a0b2bb;    
+    color: #000000;     
+    margin: 7px 0px 0px 0.0%;
+}

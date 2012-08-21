@@ -15,13 +15,7 @@
 #leftColumn {    
     overflow: auto;    
     padding-right: 2px;
-    margin-right: 0px;
-}
-
-#rightColumn {
-    background: #a0b2bb;    
-    color: #000000; 
-    margin-right: 0px;
+    margin-right: 0.5%;
 }
 
 .grid2 {

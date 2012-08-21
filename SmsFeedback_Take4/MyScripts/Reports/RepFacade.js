@@ -27,7 +27,9 @@ function resizeTriggered() {
    var filterStripHeigh = 45;
    var window_height = window.innerHeight;
    var headerHeight = $('header').height();
-   var contentWindowHeight = window_height - headerHeight - padding - filterStripHeigh;
+
+   var marginTop = 7;
+   var contentWindowHeight = window_height - headerHeight - padding - filterStripHeigh - marginTop;
    
    var titleAreaMarginTopBottom = 8;
    var titleAreaPaddingTop = 10;
@@ -41,9 +43,10 @@ function resizeTriggered() {
 
    var tableAreaMarginTopBottom = 10;
    var tableAreaPaddingTopBottom = 10;
+  
    var reportsAreaHeight = 2 * titleAreaMarginTopBottom + titleAreaPaddingTop + titleAreaPaddingBottom + $("#titleArea").height() +
                             2 * chartAreaMarginTopBottom + 2 * chartAreaPaddingTopBottom + $("#chartArea").height() + infoBoxAreaMarginTop + infoBoxAreaMarginBottom +
-                            $("#infoBoxArea").height() + 2 * tableAreaMarginTopBottom + 2 * tableAreaPaddingTopBottom + $("#tableArea").height();
+                            $("#infoBoxArea").height() + 2 * tableAreaMarginTopBottom + 2 * tableAreaPaddingTopBottom + $("#tableArea").height() - marginTop;
    
    if (contentWindowHeight <= reportsAreaHeight) {
        $('#leftColumn').height(reportsAreaHeight);

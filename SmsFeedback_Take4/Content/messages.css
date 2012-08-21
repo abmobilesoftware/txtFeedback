@@ -165,7 +165,8 @@ div.actionButtons {
 }
 
 #messagesbox span {   
-   line-height: 2 em;
+   font-size:  15px;
+   line-height: 1.3em;
    
 }
 
