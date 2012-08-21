@@ -207,7 +207,7 @@
     <Compile Include="Models\Repositories\FacadeSMSRepository.cs" />
     <Compile Include="Models\Interfaces\IExternalSmsRepository.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="Models\LocalizationDisplayNameAttribute.cs" />
+    <Compile Include="Models\LocalizationAttributes.cs" />
     <Compile Include="Models\BusinessObjects\SmsMessage.cs" />
     <Compile Include="Models\Repositories\TwilioSmsRepository.cs" />
     <Compile Include="Global.asax.cs">
