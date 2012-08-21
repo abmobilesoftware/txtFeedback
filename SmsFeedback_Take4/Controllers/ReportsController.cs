@@ -922,6 +922,18 @@ namespace SmsFeedback_Take4.Controllers
                 var month = (iDate.Month < 10) ? "0" + iDate.Month.ToString() : iDate.Month.ToString();
                 transformedDate = day + "-" + month;
             }
+            else if (pattern.Equals("dd/mm/yyyy"))
+            {
+                var day = (iDate.Day < 10) ? "0" + iDate.Day.ToString() : iDate.Day.ToString();
+                var month = (iDate.Month < 10) ? "0" + iDate.Month.ToString() : iDate.Month.ToString();
+                transformedDate = day + "/" + month + "/" + iDate.Year;
+            }
+            else if (pattern.Equals("dd/mm"))
+            {
+                var day = (iDate.Day < 10) ? "0" + iDate.Day.ToString() : iDate.Day.ToString();
+                var month = (iDate.Month < 10) ? "0" + iDate.Month.ToString() : iDate.Month.ToString();
+                transformedDate = day + "/" + month;
+            }
             else
             {
                 // transform to "dd-mm-yyyy" pattern
@@ -997,7 +1009,7 @@ namespace SmsFeedback_Take4.Controllers
 
             if (iGranularity.Equals(Constants.DAY_GRANULARITY))
             {
-                resultInterval = Enumerable.Range(0, 1 + intervalEnd.Subtract(intervalStart).Days).Select(offset => intervalStart.AddDays(offset)).ToDictionary(d => d.Date, d => new ChartValue(0, transformDate(d, "dd-mm")));
+                resultInterval = Enumerable.Range(0, 1 + intervalEnd.Subtract(intervalStart).Days).Select(offset => intervalStart.AddDays(offset)).ToDictionary(d => d.Date, d => new ChartValue(0, transformDate(d, "dd/mm")));
             }
             else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
             {
@@ -1007,7 +1019,7 @@ namespace SmsFeedback_Take4.Controllers
                     var currentDate = (DateTime.Compare(new DateTime(i.Year, i.Month, 1), intervalStart) <= 0) ? intervalStart : new DateTime(i.Year, i.Month, 1);
                     var endOfTheMonth = (DateTime.Compare(new DateTime(currentDate.Year, currentDate.Month, DateTime.DaysInMonth(currentDate.Year, currentDate.Month)), intervalEnd) > 0) ?
                                                                     intervalEnd : new DateTime(currentDate.Year, currentDate.Month, DateTime.DaysInMonth(currentDate.Year, currentDate.Month));
-                    resultInterval.Add(currentDate, new ChartValue(0, transformDate(currentDate, "dd-mm-yyyy") + " - " + transformDate(endOfTheMonth, "dd-mm-yyyy")));
+                    resultInterval.Add(currentDate, new ChartValue(0, transformDate(currentDate, "dd/mm/yyyy") + " » " + transformDate(endOfTheMonth, "dd/mm/yyyy")));
                     i = (DateTime.Compare(i, intervalStart) == 0) ? new DateTime(i.Year, i.Month, 1) : i;
                 }
             }
@@ -1020,7 +1032,7 @@ namespace SmsFeedback_Take4.Controllers
                     var lastDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(i).AddDays(6);
                     var endOfTheWeek = (DateTime.Compare(lastDayOfTheWeek, intervalEnd) > 0) ?
                                                                     intervalEnd : lastDayOfTheWeek;
-                    resultInterval.Add(currentDate, new ChartValue(0, transformDate(currentDate, "dd-mm-yyyy") + " - " + transformDate(endOfTheWeek, "dd-mm-yyyy")));
+                    resultInterval.Add(currentDate, new ChartValue(0, transformDate(currentDate, "dd/mm/yyyy") + " » " + transformDate(endOfTheWeek, "dd/mm/yyyy")));
                     // executed just first time
                     i = (DateTime.Compare(i, intervalStart) == 0) ? FirstDayOfWeekUtility.GetFirstDayOfWeek(i) : i;
                 }

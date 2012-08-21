@@ -1,6 +1,6 @@
 ﻿"use strict";
 window.app = window.app || {};
-window.app.dateFormatForDatePicker = 'dd-mm-yy';
+window.app.dateFormatForDatePicker = 'dd/mm/yy';
 
 window.app.defaultFilteringOptions = {
    tagsForFiltering: [],
@@ -88,10 +88,7 @@ function FilterArea() {
                }
             }
 
-         },
-         onSelect: function (selectedDate) {
-                $("#endDateTimePicker").datepicker("option", "minDate", selectedDate);              
-             }
+         }         
       });
       
       this.previousStartDate = $.datepicker.formatDate(app.dateFormatForDatePicker, startDatePicker.datepicker("getDate"));
@@ -117,17 +114,17 @@ function FilterArea() {
                }
             }
 
-         },
-         onSelect: function (selectedDate) {
-             $("#startDateTimePicker").datepicker("option", "maxDate", selectedDate);             
-         }
+         }         
       });
       
       var fromTranslation = $("#startDateTimePicker").val();
       var toTranslation = $("#endDateTimePicker").val();
-            
-      $("#startDateTimePicker").datepicker("option", $.datepicker.regional[window.app.calendarCulture]);
-      $("#endDateTimePicker").datepicker("option", $.datepicker.regional[window.app.calendarCulture]);
+      
+      // Setup the calendar culture
+      $.datepicker.regional[window.app.calendarCulture].dateFormat = window.app.dateFormatForDatePicker;
+      var culture = $.datepicker.regional[window.app.calendarCulture];
+      $("#startDateTimePicker").datepicker("option", culture);
+      $("#endDateTimePicker").datepicker("option", culture);
 
       $("#startDateTimePicker").val(fromTranslation);
       $("#endDateTimePicker").val(toTranslation);
