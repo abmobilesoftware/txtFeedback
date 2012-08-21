@@ -7,12 +7,12 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
    <% if (Html.IsReleaseBuild())
       { %>
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/css/settings.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/css/Minified/settings.css") %>" />
    
    <script type="text/javascript" src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/CollapsibleLists.js") %>"></script>
    <script type="text/javascript" src=<%: Url.UpdatedResourceLink("~/MyScripts/Base/Minified/BaseLeftSideMenu.js") %>></script>
-   <script type="text/javascript" src=<%: Url.UpdatedResourceLink("~/MyScripts/Settings/settings.js") %>></script>
-   <script type="text/javascript" src=<%: Url.UpdatedResourceLink("~/MyScripts/Settings/SettingsFacade.js") %>></script>   
+   <script type="text/javascript" src=<%: Url.UpdatedResourceLink("~/MyScripts/Settings/Minified/settings.js") %>></script>
+   <script type="text/javascript" src=<%: Url.UpdatedResourceLink("~/MyScripts/Settings/Minified/SettingsFacade.js") %>></script>   
    <% }
       else
       { %>
