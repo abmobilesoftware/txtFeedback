@@ -7,26 +7,29 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
    <% if (Html.IsReleaseBuild())
       { %>
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/css/reports.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/css/Minified/reports.css") %>" />
    
-    <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="application/javascript"></script>
+    <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/spin.js") %>" type="application/javascript" ></script>
    <script type="text/javascript" src='https://www.google.com/jsapi?autoload={"modules":[{"name":"visualization","version":"1","packages":["corechart","table"]}]}'></script>
+   
    <!-- Format date to local specific -->
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-de.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-ro.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-en-GB.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.ui.datepicker-de.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.ui.datepicker-ro.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.ui.datepicker-en-GB.js") %>" type="application/javascript"></script>
+   
    <!-- Helper scripts - used like static methods -->
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/DateHelper.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Minified/DateHelper.js") %>" type="application/javascript"></script>
+   
    <!-- Global variables -->
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/GlobalVariables.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/FirstArea.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/SecondArea.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/ThirdArea.js") %>" type="application/javascript"></script>
-   <script type="text/javascript" src=<%: Url.UpdatedResourceLink("~/MyScripts/Base/BaseLeftSideMenu.js") %>></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Reports.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/RepFacade.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Minified/GlobalVariables.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Minified/FirstArea.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Minified/SecondArea.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Minified/ThirdArea.js") %>" type="application/javascript"></script>
+   <script type="text/javascript" src=<%: Url.UpdatedResourceLink("~/MyScripts/Base/Minified/BaseLeftSideMenu.js") %>></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Minified/Reports.js") %>" type="application/javascript"></script>
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Minified/RepFacade.js") %>" type="application/javascript"></script>
     <!-- Left menu, collapsible menu -->
-   <script type="text/javascript" src="<%: Url.Content("~/Scripts/CollapsibleLists.js") %>"></script>
+   <script type="text/javascript" src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/CollapsibleLists.js") %>"></script>
      
    <% }
       else

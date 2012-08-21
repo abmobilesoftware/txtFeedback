@@ -253,6 +253,7 @@
     <Content Include="Content\css\jq_ui_themes\dot-luv\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\css\jq_ui_themes\dot-luv\jquery-ui-1.8.23.custom.css" />
     <Content Include="Content\css\Minified\areaDefinitions.css" />
+    <Content Include="Content\css\Minified\reports.css" />
     <Content Include="Content\css\Minified\settings.css" />
     <Content Include="Content\css\reports.css" />
     <Content Include="Content\css\settings.css" />
@@ -378,6 +379,13 @@
     <Content Include="MyScripts\Minified\XMPP.js" />
     <Content Include="MyScripts\Reports\DateHelper.js" />
     <Content Include="MyScripts\Reports\GlobalVariables.js" />
+    <Content Include="MyScripts\Reports\Minified\DateHelper.js" />
+    <Content Include="MyScripts\Reports\Minified\FirstArea.js" />
+    <Content Include="MyScripts\Reports\Minified\GlobalVariables.js" />
+    <Content Include="MyScripts\Reports\Minified\RepFacade.js" />
+    <Content Include="MyScripts\Reports\Minified\Reports.js" />
+    <Content Include="MyScripts\Reports\Minified\SecondArea.js" />
+    <Content Include="MyScripts\Reports\Minified\ThirdArea.js" />
     <Content Include="MyScripts\Reports\SecondArea.js" />
     <Content Include="MyScripts\Reports\ThirdArea.js" />
     <Content Include="MyScripts\Reports\RepFacade.js" />
@@ -420,9 +428,13 @@
     <Content Include="Scripts\jquery.ui.datepicker-de.js" />
     <Content Include="Scripts\jquery.ui.datepicker-en-GB.js" />
     <Content Include="Scripts\jquery.ui.datepicker-ro.js" />
+    <Content Include="Scripts\Minified\CollapsibleLists.js" />
     <Content Include="Scripts\Minified\jquery.cookie.js" />
     <Content Include="Scripts\Minified\jquery.simplemodal.js" />
     <Content Include="Scripts\Minified\jquery.tagsinput.js" />
+    <Content Include="Scripts\Minified\jquery.ui.datepicker-de.js" />
+    <Content Include="Scripts\Minified\jquery.ui.datepicker-en-GB.js" />
+    <Content Include="Scripts\Minified\jquery.ui.datepicker-ro.js" />
     <Content Include="Scripts\Minified\spin.js" />
     <Content Include="Scripts\persist-min.js" />
     <Content Include="Scripts\spin.js" />
@@ -590,6 +602,7 @@ java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Co
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\css\settings.css" -o "$(ProjectDir)Content\css\Minified\settings.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\jquery.tagsinput.css" -o "$(ProjectDir)Content\Minified\jquery.tagsinput.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\css\areaDefinitions.css" -o "$(ProjectDir)Content\css\Minified\areaDefinitions.css"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\css\reports.css" -o "$(ProjectDir)Content\css\Minified\reports.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Conversations.js" -o "$(ProjectDir)MyScripts\Minified\Conversations.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\contact.js" -o "$(ProjectDir)MyScripts\Minified\contact.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\ConversationTags.js" -o "$(ProjectDir)MyScripts\Minified\ConversationTags.js"
@@ -600,6 +613,13 @@ java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)My
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\WorkingPoints.js" -o "$(ProjectDir)MyScripts\Minified\WorkingPoints.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\XMPP.js" -o "$(ProjectDir)MyScripts\Minified\XMPP.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Settings\SettingsFacade.js" -o "$(ProjectDir)MyScripts\Settings\Minified\SettingsFacade.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\GlobalVariables.js" -o "$(ProjectDir)MyScripts\Reports\Minified\GlobalVariables.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\FirstArea.js" -o "$(ProjectDir)MyScripts\Reports\Minified\FirstArea.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\SecondArea.js" -o "$(ProjectDir)MyScripts\Reports\Minified\SecondArea.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\ThirdArea.js" -o "$(ProjectDir)MyScripts\Reports\Minified\ThirdArea.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\Reports.js" -o "$(ProjectDir)MyScripts\Reports\Minified\Reports.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\RepFacade.js" -o "$(ProjectDir)MyScripts\Reports\Minified\RepFacade.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\DateHelper.js" -o "$(ProjectDir)MyScripts\Reports\Minified\DateHelper.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Base\BaseLeftSideMenu.js" -o "$(ProjectDir)MyScripts\Base\Minified\BaseLeftSideMenu.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Settings\settings.js" -o "$(ProjectDir)MyScripts\Settings\Minified\settings.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\spin.js" -o "$(ProjectDir)Scripts\Minified\spin.js"
@@ -607,7 +627,9 @@ java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Sc
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.simplemodal.js" -o "$(ProjectDir)Scripts\Minified\jquery.simplemodal.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.tagsinput.js" -o "$(ProjectDir)Scripts\Minified\jquery.tagsinput.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.tagsinput.js" -o "$(ProjectDir)Scripts\Minified\CollapsibleLists.js"
-
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.ui.datepicker-de.js" -o "$(ProjectDir)Scripts\Minified\jquery.ui.datepicker-de.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.ui.datepicker-ro.js" -o "$(ProjectDir)Scripts\Minified\jquery.ui.datepicker-ro.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.ui.datepicker-en-GB.js" -o "$(ProjectDir)Scripts\Minified\jquery.ui.datepicker-en-GB.js"
 )</PostBuildEvent>
   </PropertyGroup>
 </Project>
