@@ -20,6 +20,7 @@ $(function () {
    $.getJSON(window.app.domainName + '/Xmpp/GetConnectionDetailsForLoggedInUser', function (data) {
       if (data !== "") {
          window.app.xmppHandlerInstance.connect(data.XmppUser, data.XmppPassword);
+         //window.app.xmppHandlerInstance.connect("supportUK@txtfeedback.net", "123456");
          window.app.updateNrOfUnreadConversations(true);
       }
    });
@@ -42,7 +43,7 @@ window.app.XMPPhandler = function XMPPhandler() {
    this.connectCallback = function (status) {
       var needReconnect = false;
       if (status === Strophe.Status.CONNECTED) {
-         window.app.logDebugOnServer("XMPP connected");
+         window.app.logDebugOnServer("XMPP connected");         
          window.app.xmppConn.connection = window.app.xmppConn.conn;
          window.app.xmppConn.connection.addHandler(window.app.xmppConn.handle_infoquery, null, "iq", null, "ping1");
          window.app.xmppConn.connection.addHandler(window.app.xmppConn.handle_message, null, "message", null, null);
@@ -51,20 +52,20 @@ window.app.XMPPhandler = function XMPPhandler() {
          window.app.xmppConn.send_initial_presence(domain);
          //self.request_conversations(self.account_number);
       } else if (status === Strophe.Status.CONNECTING) {
-         window.app.logDebugOnServer("XMPP connecting...");
+         window.app.logDebugOnServer("XMPP connecting...");         
       } else if (status === Strophe.Status.AUTHENTICATING) {
-         window.app.logDebugOnServer("XMPP authenticating...");
+         window.app.logDebugOnServer("XMPP authenticating...");         
       } else if (status === Strophe.Status.DISCONNECTED) {
-         window.app.logDebugOnServer("XMPP disconnected");
+         window.app.logDebugOnServer("XMPP disconnected");        
          needReconnect = true;
-      } else if (status === Strophe.Status.CONNFAIL) {
+      } else if (status === Strophe.Status.CONNFAIL) {         
          window.app.logDebugOnServer("XMPP connection fail");
          window.app.xmppConn.conn.disconnect();
       } else if (status === Strophe.Status.AUTHFAIL) {
-         window.app.logDebugOnServer("XMPP authentication failed");
+         window.app.logDebugOnServer("XMPP authentication failed");         
          window.app.xmppConn.conn.disconnect();
       } else if (status === Strophe.Status.ERROR) {
-         window.app.logDebugOnServer("XMPP status error");
+         window.app.logDebugOnServer("XMPP status error");         
          window.app.xmppConn.conn.disconnect();
       }
       if (needReconnect) {
@@ -75,7 +76,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       var self = this;
       //var xmppServerAddress = "http://localhost:3333/app/dsadsa/http-bindours/";
       //var xmppServerAddress = "http://www.cluj-info.com/smsfeedback/nocontroller/http-bindours/";
-      var xmppServerAddress = "http://176.34.122.48:7070/http-bind/";
+      var xmppServerAddress = "http://176.34.122.48:5280/http-bind/";
       self.conn = new Strophe.Connection(xmppServerAddress);
       self.userid = userid;
       self.password = password;

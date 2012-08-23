@@ -874,10 +874,11 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="smsfeedbackModelStoreContainer" CdmEntityContainer="smsfeedbackEntities">
+  <EntityContainerMapping CdmEntityContainer="smsfeedbackEntities" StorageEntityContainer="smsfeedbackModelStoreContainer">
     <EntitySetMapping Name="Conversations">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Conversation)">
         <MappingFragment StoreEntitySet="Conversations">
+            <ScalarProperty Name="Client_TelNumber" ColumnName="Client_TelNumber" />
           <ScalarProperty Name="ConvId" ColumnName="ConvId" />
           <ScalarProperty Name="Text" ColumnName="Text" />
           <ScalarProperty Name="Read" ColumnName="Read" />
@@ -1068,6 +1069,16 @@
         <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
       </EndProperty>
     </AssociationSetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="smsfeedbackModel.Client">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="isSupportClient" ColumnName="isSupportClient" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
