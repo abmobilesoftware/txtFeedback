@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
- <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="9c032a5472b642ed9bdfb92c9ffa1550" Name="Diagram1" ZoomLevel="75">
         <EntityTypeShape EntityType="smsfeedbackModel.Conversation" Width="2.125" PointX="12.75" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="smsfeedbackModel.Message" PointX="15.875" PointY="1.375" Width="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="smsfeedbackModel.WorkingPoint" Width="1.5" PointX="8.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="smsfeedbackModel.WorkingPoint" Width="1.5" PointX="7.875" PointY="1.75" IsExpanded="true" />
         <EntityTypeShape EntityType="smsfeedbackModel.User" Width="1.5" PointX="7.875" PointY="5.625" />
         <EntityTypeShape EntityType="smsfeedbackModel.Role" Width="1.5" PointX="4.75" PointY="6.25" />
         <AssociationConnector Association="smsfeedbackModel.UsersInRoles" />
@@ -31,12 +31,9 @@
         <AssociationConnector Association="smsfeedbackModel.FK_WorkingPointConversation" />
         <AssociationConnector Association="smsfeedbackModel.FK_UserMessages" />
         <AssociationConnector Association="smsfeedbackModel.CompanyConversation" />
-        <EntityTypeShape EntityType="smsfeedbackModel.Client" Width="1.5" PointX="5" PointY="2.5" />
-        <AssociationConnector Association="smsfeedbackModel.ConversationClient" />
-        <AssociationConnector Association="smsfeedbackModel.CompanyConversation" />
-        <AssociationConnector Association="smsfeedbackModel.WorkingPointClient" />
-        <AssociationConnector Association="smsfeedbackModel.SupportWorkingPointConversation" />
-        </Diagram>
+        <EntityTypeShape EntityType="smsfeedbackModel.Client" Width="1.5" PointX="5" PointY="1.75" />
+        <AssociationConnector Association="smsfeedbackModel.FK_ConversationClient" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
