@@ -31,7 +31,7 @@
         <AssociationConnector Association="smsfeedbackModel.FK_WorkingPointConversation" />
         <AssociationConnector Association="smsfeedbackModel.FK_UserMessages" />
         <AssociationConnector Association="smsfeedbackModel.CompanyConversation" />
-        <EntityTypeShape EntityType="smsfeedbackModel.Client" Width="1.5" PointX="5" PointY="1.75" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Client" Width="1.5" PointX="4.75" PointY="2.25" />
         <AssociationConnector Association="smsfeedbackModel.FK_ConversationClient" />
       </Diagram>
     </edmx:Diagrams>
