@@ -17,7 +17,9 @@ window.app.Conversation = Backbone.Model.extend({
         Text: "some data",
         From: "defaultNumber",
         To: "defaultRecipient",
-        Starred: false
+        Starred: false,
+        ClientDisplayName: "defaultClient",
+        ClientIsSupportBot: false
     },
     parse: function (data, xhc) {
         data.TimeUpdated = data.TimeReceived;
@@ -68,8 +70,13 @@ $(function () {
             if (this.model.attributes.Read === true) {
                 readUnread = "readconversation";
             }
+            var convNormalSupport = "normalConversation";
+            if (this.model.attributes.ClientIsSupportBot) {
+                convNormalSupport = "supportConversation";
+            }
             this.$el.addClass("conversation");
             this.$el.addClass(readUnread);
+            this.$el.addClass(convNormalSupport);
             $(this.el).attr("conversationId", this.model.attributes.ConvID);
             var markAsFavImg = $(".conversationStarIcon img", this.$el);
             setTooltipOnElement(markAsFavImg,markAsFavImg.attr('tooltiptitle'), 'dark');            
@@ -224,6 +231,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                 selectedTags = this.filters.tagsForFiltering;
             }
             var showFavorites = this.filters.starredFilteringEnabled;
+            var popUpSupport = this.filters.supportFilteringEnabled;
             var workingPointsNumbers = this.workingPoints.checkedPhoneNumbersArray;
 
             var startDate, endDate;
@@ -244,6 +252,7 @@ function ConversationArea(filterArea, workingPointsArea) {
             filterOptions["skip"] = skip;
             filterOptions["top"] = top;
             filterOptions["requestIndex"] = app.requestIndex;
+            filterOptions["popUpSupport"] = popUpSupport;
             return filterOptions;
         },
         getAdditionalConversations: function () {
@@ -281,7 +290,9 @@ function ConversationArea(filterArea, workingPointsArea) {
                             Text: $(this).attr("Text"),
                             Read: $(this).attr("Read"),
                             To: $(this).attr('To'),
-                            Starred: $(this).attr('Starred')
+                            Starred: $(this).attr('Starred'),
+                            ClientDisplayName: $(this).attr('ClientDisplayName'),
+                            ClientIsSupportBot: $(this).attr('ClientIsSupportBot')
                         });
                         selfConversationsView.convsList.add(conv, { silent: true });
                         selfConversationsView.addConversationBasicEffect(conv, false);
@@ -319,7 +330,12 @@ function ConversationArea(filterArea, workingPointsArea) {
             var timer = 300;
             //if the element that was updated was selected - reflect this on the new element
             if (newElementIsSelected) {
-                $(item).addClass("ui-selected");
+                // make a distinction between the selected status of a normal conv and a support conversation
+                if (conv.ClientIsSupportBot) {
+                    $(item).addClass("ui-selectedSupport");
+                } else {
+                    $(item).addClass("ui-selected");
+                }
                 gSelectedElement = item;
                 resetTimer();
                 startTimer(3000);

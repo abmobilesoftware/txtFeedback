@@ -120,7 +120,16 @@ function MessagesArea(convView, tagsArea) {
        selected: function (event, ui) {           
             //prepare to mark the conversation as read in 3 seconds - once the messages have been loaded
             //for now make sure to other timers are active
-            gSelectedElement = ui.selected;
+           gSelectedElement = ui.selected;
+           // If the selected conversation is the support conversation than add a special class. Else remove the ui-selectedSupport
+           if ($(gSelectedElement).hasClass("supportConversation")) {
+               if (!$(gSelectedElement).hasClass("ui-selectedSupport")) {
+                   $(gSelectedElement).addClass("ui-selectedSupport");
+               }
+           } else {
+               // SEARCH for ui-selectedSupport and remove that class;
+               $(gSelectedElement).parent().children(".ui-selectedSupport").removeClass("ui-selectedSupport");
+           }
             resetTimer();                        
             var convId = ui.selected.getAttribute("conversationid");
             gSelectedConversationID = convId;

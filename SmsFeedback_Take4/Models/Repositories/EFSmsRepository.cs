@@ -57,7 +57,7 @@ namespace SmsFeedback_Take4.Models
                             (latestEndDate.HasValue ? c.TimeUpdated <= latestEndDate.Value : true) &&
                             !tags.Except(c.Tags.Select(tag => tag.Name)).Any()
                             orderby c.TimeUpdated descending
-                            select (new SmsMessage() { From = c.From, To = c.From, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId, Starred = c.Starred }));
+                            select (new SmsMessage() { From = c.From, To = c.From, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId, Starred = c.Starred, ClientDisplayName = c.Client.DisplayName, ClientIsSupportBot = c.Client.isSupportClient }));
          }
          else
          {
@@ -69,7 +69,7 @@ namespace SmsFeedback_Take4.Models
                             (earliestStartDate.HasValue ? c.StartTime >= earliestStartDate.Value : true) &&
                             (latestEndDate.HasValue ? c.TimeUpdated <= latestEndDate.Value : true)
                             orderby c.TimeUpdated descending
-                            select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId, Starred = c.Starred }));
+                            select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId, Starred = c.Starred, ClientDisplayName = c.Client.DisplayName, ClientIsSupportBot = c.Client.isSupportClient }));
          }
          if (convs != null && convs.Count() > 0)
          {
@@ -122,6 +122,46 @@ namespace SmsFeedback_Take4.Models
             logger.Info("No records for numbers returned from db");
             return null;
          }
+      }
+
+      public IEnumerable<SmsMessage> GetSupportConversationsForWorkingPoints(string userName,
+                                                                  string[] workingPointsNumbers,
+                                                                  int skip,
+                                                                  int top,
+                                                                  smsfeedbackEntities dbContext)
+      {
+          // the convention is that if workingPoints number is empty then we retrieve all the conversations
+          List<SmsFeedback_EFModels.WorkingPoint> wps = new List<SmsFeedback_EFModels.WorkingPoint>();
+          if (workingPointsNumbers == null)
+          {
+              // we have to get all the working points
+              var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
+              if (workingPoints.Count() > 0)
+              {
+                  wps = workingPoints.First().ToList();
+              }
+          }
+          else
+          {
+              // get just specific working points
+              foreach (var wpNumber in workingPointsNumbers)
+              {
+                  var currentWorkingPoint = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints where wp.TelNumber == wpNumber select wp);
+                  if (currentWorkingPoint.Count() > 0)
+                  {
+                      wps.Add(currentWorkingPoint.First().First());
+                  }
+              }
+          }
+
+          List<SmsMessage> supportConversations = new List<SmsMessage>();
+          foreach (var wp in wps)
+          {
+              var supportConversation = wp.SupportConversation;
+              var packedSupportConversation = new SmsMessage() { From = supportConversation.From, To = supportConversation.From, Text = supportConversation.Text, TimeReceived = supportConversation.TimeUpdated, Read = supportConversation.Read, ConvID = supportConversation.ConvId, Starred = supportConversation.Starred, ClientDisplayName = supportConversation.Client.DisplayName, ClientIsSupportBot = supportConversation.Client.isSupportClient };
+              supportConversations.Add(packedSupportConversation);
+          }
+          return supportConversations.Skip(skip).Take(top);
       }
 
       public IEnumerable<WorkingPoint> GetWorkingPointsPerUser(string userName, smsfeedbackEntities dbContext)

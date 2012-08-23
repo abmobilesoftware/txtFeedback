@@ -474,7 +474,7 @@
     <comment>Settings:</comment>
   </data>
   <data name="RepTotalNoOfClients" xml:space="preserve">
-    <value>Number of clients</value>
+    <value>Number of customers giving feedback</value>
   </data>
   <data name="settingsPrivacy" xml:space="preserve">
     <value>Privacy</value>
@@ -567,7 +567,7 @@
   <data name="RepNewClientsChart" xml:space="preserve">
     <value>New clients</value>
     <comment>Reports page - main chart</comment>
-   </data>
+  </data>
   <data name="settingsErrorPasswordIncorrect" xml:space="preserve">
     <value>The current password is incorrect or the new password is invalid.</value>
     <comment>Settings:</comment>
@@ -635,5 +635,11 @@
   <data name="RepValueTable" xml:space="preserve">
     <value>Value</value>
     <comment>Reports page - table area</comment>
+  </data>
+  <data name="supportLabel" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="tooltipIncludeSupportFilter" xml:space="preserve">
+    <value>Quick access to support conversations</value>
   </data>
 </root>

@@ -44,14 +44,18 @@ namespace SmsFeedback_Take4.Controllers
 
                         if (iGranularity.Equals(Constants.DAY_GRANULARITY))
                         {
-                            var msgsToFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
+                            var msgsToFrom = from msg in conv.Messages 
+                                                where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) 
+                                                    group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
                             foreach (var entry in msgsToFrom)
                                 resultInterval[entry.date].value += entry.count;
 
                         }
                         else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
                         {
-                            var msgsToFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g select new { date = g.Key, count = g.Count() };
+                            var msgsToFrom = from msg in conv.Messages 
+                                                where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) 
+                                                    group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g select new { date = g.Key, count = g.Count() };
                             foreach (var entry in msgsToFrom)
                             {
                                 var monthDateTime = new DateTime(entry.date.Year, entry.date.Month, 1);
@@ -63,7 +67,9 @@ namespace SmsFeedback_Take4.Controllers
                         }
                         else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
                         {
-                            var msgsToFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g select new { date = g.Key, count = g.Count() };
+                            var msgsToFrom = from msg in conv.Messages 
+                                                where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) 
+                                                    group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g select new { date = g.Key, count = g.Count() };
                             foreach (var entry in msgsToFrom)
                             {
                                 var firstDayOfTheWeek = entry.date.firstDayOfTheWeek;
@@ -78,7 +84,7 @@ namespace SmsFeedback_Take4.Controllers
                 }
                 List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
                 content.Add(resultInterval);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepTotalSmsChart) }, PrepareJson(content));
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepTotalSmsChart) }, PrepareJson(content, Resources.Global.RepSmsUnit));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -168,7 +174,7 @@ namespace SmsFeedback_Take4.Controllers
                 List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
                 content.Add(resultIncomingInterval);
                 content.Add(resultOutgoingInterval);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepIncomingSmsChart), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepOutgoingSmsChart) }, PrepareJson(content));
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepIncomingSmsChart), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepOutgoingSmsChart) }, PrepareJson(content, Resources.Global.RepSmsUnit));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -269,7 +275,7 @@ namespace SmsFeedback_Take4.Controllers
                 content.Add(resultNewClientsInterval);
                 content.Add(resultReturningClientsInterval);
 
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNewClientsChart), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepReturningClientsChart) }, PrepareJson(content));
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNewClientsChart), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepReturningClientsChart) }, PrepareJson(content, Resources.Global.RepClientsUnit));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -304,7 +310,7 @@ namespace SmsFeedback_Take4.Controllers
                 foreach (var tagEntry in tagsHash)
                 {
                     ++columnCounter;
-                    rowContent.Add(new RepDataRowCell(tagEntry.Value, tagEntry.Value.ToString()));
+                    rowContent.Add(new RepDataRowCell(tagEntry.Value, tagEntry.Value.ToString() + " conversations"));
                     headerContent.Add(new RepDataColumn(columnCounter.ToString(), "number", tagEntry.Key));
                 }
 
@@ -1041,7 +1047,7 @@ namespace SmsFeedback_Take4.Controllers
             return resultInterval;
         }
 
-        public List<RepDataRow> PrepareJson(List<Dictionary<DateTime, ChartValue>> source)
+        public List<RepDataRow> PrepareJson(List<Dictionary<DateTime, ChartValue>> source, String unitOfMeasurement)
         {
             List<RepDataRow> content = new List<RepDataRow>();
             var rowsTable = new Dictionary<DateTime, List<RepDataRowCell>>();
@@ -1065,7 +1071,7 @@ namespace SmsFeedback_Take4.Controllers
                 {
                     if (rowsTable.ContainsKey(row.Key))
                     {
-                        rowsTable[row.Key].Add(new RepDataRowCell(row.Value.value, row.Value.value + " :: " + row.Value.description));
+                        rowsTable[row.Key].Add(new RepDataRowCell(row.Value.value, row.Value.value +  " " + unitOfMeasurement + " :: " + row.Value.description));
                     }
                 }
             }

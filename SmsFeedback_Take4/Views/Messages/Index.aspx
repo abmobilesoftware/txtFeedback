@@ -74,7 +74,7 @@
 		</span>
    </script>
    <script type="text/template" id="conversation-template">
-           <div class="leftLiDiv convColumn">
+            <div class="leftLiDiv convColumn">
                 {% if (Read) { %}
                         <embed src="<%: Url.Content("~/Content/images/check-grey.svg") %>" type="image/svg+xml" class="images conversationImageRead" />
                 {% } else {
@@ -90,15 +90,35 @@
             <div class="rightLiDiv convColumn">    
                    
                <div class="spanClassFrom rightSideMembers">
-                    <span>
+                    <span class="conversationHeader">
                         {% 
-                           var fromTo = getFromToFromConversation(ConvID); 
-                           var FromNumber = fromTo[0]; 
-                           countryPrefix = FromNumber.substring(0,2);
-                           localPrefix = FromNumber.substring(2, FromNumber.length);
-                            
+                            var clientDisplayName = "defaultClient";
+                            if (ClientIsSupportBot) {
+                                clientDisplayName = ClientDisplayName;
+                            } else {
+                                // Currently if is not support, a number will be displayed
+                                //var fromTo = getFromToFromConversation(ConvID); 
+                                //var FromNumber = fromTo[0]; 
+                                var FromNumber = ClientDisplayName;
+                                var countryPrefix = FromNumber.substring(0,2);
+                                var localPrefix = FromNumber.substring(2, FromNumber.length);
+                                clientDisplayName = "(" + countryPrefix + ") " + localPrefix;
+                            }                                          
                         %} 
-                        ({{ countryPrefix }}) {{ localPrefix }} <span class='conversationArrows'> >> </span>  {{ window.app.workingPoints[getFromToFromConversation(ConvID)[1]] }} </span>
+                        
+                        <span class="conversationFrom">
+                           
+                            {{ clientDisplayName }} 
+                             {%
+                             if (ClientIsSupportBot) {             
+                            %}
+                                <img class="conversationHeaderImg" src="<%: Url.Content("~/Content/images/help_16x16.png") %>"/>
+                            {%
+                            }
+                            %}
+                       </span> 
+                       <span class='conversationArrows'> >> </span>
+                       <span class="conversationTo">{{ window.app.workingPoints[getFromToFromConversation(ConvID)[1]] }}</span> </span>
                 </div>
                <div class='clear'></div>
                 <div class="spanClassText rightSideMembers">
@@ -156,7 +176,25 @@
    
    <div id="filtersStrip" class="headerArea">
        <div class="grid_4_custom filterStripElement">
-         <div id="dateFilterArea">
+            <div id="supportFilterArea" class="filterLabel">
+                <img id="includeSupportInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeSupportFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
+                <span style="vertical-align: middle">
+                   <%: Resources.Global.supportLabel %></span>
+           </div>
+           <div id="unreadFilterArea" class="filterLabel">
+                <img id="includeUnreadInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeUnreadInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
+                <span style="vertical-align: middle">
+                   <%: Resources.Global.readLabel %></span>
+           </div>
+           <div id="starredFilterArea" class="filterLabel">
+                <img id="includeStarredInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeStarredInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
+                <span style="vertical-align: middle">
+                   <%: Resources.Global.starredLabel %></span>
+           </div>
+           <div id="dateFilterArea">
             <div id="dateLabel" class="filterLabel">
                <img tooltiptitle="<%: Resources.Global.tooltipIncludeDateInFilter %>" id="includeDateInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
@@ -170,18 +208,9 @@
                   value="<%: Resources.Global.toDate %>"> </input>
             </div>
          </div>
-         <div id="starredFilterArea" class="filterLabel">
-            <img id="includeStarredInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeStarredInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
-               src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
-            <span style="vertical-align: middle">
-               <%: Resources.Global.starredLabel %></span>
-         </div>
-         <div id="unreadFilterArea" class="filterLabel">
-            <img id="includeUnreadInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeUnreadInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
-               src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
-            <span style="vertical-align: middle">
-               <%: Resources.Global.readLabel %></span>
-         </div>
+         
+         
+         
       </div>
       <div class="grid_6 filterStripElement tagFilterArea">
          <div id="tagsLabel" class="filterLabel">

@@ -700,7 +700,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of clients.
+        ///   Looks up a localized string similar to Number of customers giving feedback.
         /// </summary>
         public static string RepTotalNoOfClients {
             get {
@@ -1123,6 +1123,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Support.
+        /// </summary>
+        public static string supportLabel {
+            get {
+                return ResourceManager.GetString("supportLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string tabHelp {
@@ -1191,6 +1200,15 @@ namespace Resources {
         public static string tooltipIncludeStarredInFilter {
             get {
                 return ResourceManager.GetString("tooltipIncludeStarredInFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick access to support conversations.
+        /// </summary>
+        public static string tooltipIncludeSupportFilter {
+            get {
+                return ResourceManager.GetString("tooltipIncludeSupportFilter", resourceCulture);
             }
         }
         

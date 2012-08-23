@@ -58,16 +58,22 @@
    display: block;
 }
 
+#supportFilterArea {
+    width: 82px;
+    float: left;
+}
+
 #unreadFilterArea {
-   width: 20%;
+   width: 78px;
+   float: left;
 }
 #starredFilterArea {
-   float: right;
-   width: 19%;
+   width: 85px;
+   float: left;
 }
 #dateFilterArea {
-   float: right;
-   width: 54%;
+   float: left;
+   width: 41%;
 }
 
 .grid_4_custom {

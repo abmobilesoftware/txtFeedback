@@ -92,6 +92,16 @@ namespace SmsFeedback_Take4.Models
          return null;
       }
 
+      public IEnumerable<SmsMessage> GetSupportConversationsForWorkingPoints(
+                                                                  string userName,
+                                                                  string[] workingPointsNumbers,
+                                                                  int skip,
+                                                                  int top,
+                                                                  smsfeedbackEntities dbContext)
+      {
+          return mEFRep.GetSupportConversationsForWorkingPoints(userName, workingPointsNumbers, skip, top, dbContext); 
+      }
+
       public void UpdateConversationsFromExternalSources(string[] workingPointsNumbers, DateTime? lastUpdate, String userName, smsfeedbackEntities dbContext)
       {
          if (workingPointsNumbers == null || workingPointsNumbers.Length == 0 )
