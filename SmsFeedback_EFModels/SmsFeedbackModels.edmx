@@ -7,6 +7,7 @@
     <Schema Namespace="smsfeedbackModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="smsfeedbackModelStoreContainer">
           <EntitySet Name="Applications" EntityType="smsfeedbackModel.Store.Applications" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Clients" EntityType="smsfeedbackModel.Store.Clients" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Companies" EntityType="smsfeedbackModel.Store.Companies" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Conversations" EntityType="smsfeedbackModel.Store.Conversations" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="ConversationTags" EntityType="smsfeedbackModel.Store.ConversationTags" store:Type="Tables" Schema="dbo" />
@@ -23,6 +24,10 @@
           <AssociationSet Name="FK_CompanyTag" Association="smsfeedbackModel.Store.FK_CompanyTag">
             <End Role="Companies" EntitySet="Companies" />
             <End Role="Tags" EntitySet="Tags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConversationClient" Association="smsfeedbackModel.Store.FK_ConversationClient">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Conversations" EntitySet="Conversations" />
           </AssociationSet>
           <AssociationSet Name="FK_ConversationMessage" Association="smsfeedbackModel.Store.FK_ConversationMessage">
             <End Role="Conversations" EntitySet="Conversations" />
@@ -85,6 +90,15 @@
           <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="256" />
         </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="TelNumber" />
+          </Key>
+          <Property Name="TelNumber" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DisplayName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="160" />
+          <Property Name="isSupportClient" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Companies">
           <Key>
             <PropertyRef Name="Name" />
@@ -105,6 +119,7 @@
           <Property Name="Starred" Type="bit" Nullable="false" />
           <Property Name="StartTime" Type="datetime" Nullable="false" />
           <Property Name="WorkingPoint_TelNumber" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Client_TelNumber" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <EntityType Name="ConversationTags">
           <Key>
@@ -236,6 +251,18 @@
             </Principal>
             <Dependent Role="Tags">
               <PropertyRef Name="CompanyName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConversationClient">
+          <End Role="Clients" Type="smsfeedbackModel.Store.Clients" Multiplicity="1" />
+          <End Role="Conversations" Type="smsfeedbackModel.Store.Conversations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="TelNumber" />
+            </Principal>
+            <Dependent Role="Conversations">
+              <PropertyRef Name="Client_TelNumber" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -469,6 +496,11 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Message" EntitySet="Messages" />
           </AssociationSet>
+          <EntitySet Name="Clients" EntityType="smsfeedbackModel.Client" />
+          <AssociationSet Name="FK_ConversationClient" Association="smsfeedbackModel.FK_ConversationClient">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Conversation" EntitySet="Conversations" />
+          </AssociationSet>
          
         </EntityContainer>
         <EntityType Name="Conversation">
@@ -485,7 +517,9 @@
           <NavigationProperty Name="Messages" Relationship="smsfeedbackModel.ConversationMessage" FromRole="Conversation" ToRole="Message" />
           <Property Type="DateTime" Name="StartTime" Nullable="false" Precision="3" />
           <Property Type="String" Name="WorkingPoint_TelNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="WorkingPoint" Relationship="smsfeedbackModel.FK_WorkingPointConversation" FromRole="Conversation" ToRole="WorkingPoint" />         
+          <NavigationProperty Name="WorkingPoint" Relationship="smsfeedbackModel.FK_WorkingPointConversation" FromRole="Conversation" ToRole="WorkingPoint" />
+          <Property Type="String" Name="Client_TelNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Client" Relationship="smsfeedbackModel.FK_ConversationClient" FromRole="Conversation" ToRole="Client" />         
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -766,17 +800,40 @@
               <PropertyRef Name="UserUserId" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="TelNumber" />
+          </Key>
+          <Property Type="String" Name="TelNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DisplayName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="160" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="isSupportClient" Nullable="false" />
+          <NavigationProperty Name="Conversations" Relationship="smsfeedbackModel.FK_ConversationClient" FromRole="Client" ToRole="Conversation" />
+        </EntityType>
+        <Association Name="FK_ConversationClient">
+          <End Type="smsfeedbackModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="smsfeedbackModel.Conversation" Role="Conversation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="TelNumber" />
+            </Principal>
+            <Dependent Role="Conversation">
+              <PropertyRef Name="Client_TelNumber" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>       
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="smsfeedbackModelStoreContainer" CdmEntityContainer="smsfeedbackEntities">
+  <EntityContainerMapping CdmEntityContainer="smsfeedbackEntities" StorageEntityContainer="smsfeedbackModelStoreContainer">
     <EntitySetMapping Name="Conversations">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Conversation)">
         <MappingFragment StoreEntitySet="Conversations">
-            <ScalarProperty Name="WorkingPoint_TelNumber" ColumnName="WorkingPoint_TelNumber" />
+            <ScalarProperty Name="Client_TelNumber" ColumnName="Client_TelNumber" />
+                <ScalarProperty Name="WorkingPoint_TelNumber" ColumnName="WorkingPoint_TelNumber" />
                 <ScalarProperty Name="ConvId" ColumnName="ConvId" />
           <ScalarProperty Name="Text" ColumnName="Text" />
           <ScalarProperty Name="Read" ColumnName="Read" />
@@ -932,6 +989,16 @@
         <ScalarProperty Name="CompanyName" ColumnName="Tags_CompanyName" />
       </EndProperty>
     </AssociationSetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="smsfeedbackModel.Client">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="isSupportClient" ColumnName="isSupportClient" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

@@ -2554,7 +2554,8 @@ Strophe.Connection.prototype = {
             // Fires the XHR request -- may be invoked immediately
             // or on a gradually expanding retry window for reconnects
             var sendFunc = function () {
-                req.date = new Date();
+               req.date = new Date();
+               req.xhr.setRequestHeader('Content-Type', 'text/plain');
                 req.xhr.send(req.data);
                 
             };            
