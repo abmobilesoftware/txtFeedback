@@ -1,5 +1,6 @@
 ﻿"use strict";
 window.app = window.app || {};
+window.app.dateFormatForDatePicker = 'dd/mm/yy';
 
 _.templateSettings = {
     interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
@@ -64,61 +65,55 @@ var ReportsContentArea = Backbone.View.extend({
             }
         }
         
+        var fromDatepicker = $("#from");
         // Setup the calendar
-        $("#from").datepicker({
+        fromDatepicker.datepicker({
             defaultDate: "+1w",
             changeMonth: true,
             numberOfMonths: 3,
             onSelect: function (selectedDate) {
-                $("#to").datepicker("option", "minDate", selectedDate);
-                var day = selectedDate.substring(0, 2);
-                var month = selectedDate.substring(3, 5) - 1;
-                var year = selectedDate.substring(6, selectedDate.length);
-                window.app.newStartDate = new Date(year, month, day);
-
+                window.app.newStartDate = fromDatepicker.datepicker("getDate");                                
                 if (window.app.newStartDate != window.app.startDate) {
                     window.app.startDate = window.app.newStartDate;
                     window.app.endDate = window.app.newEndDate;
+                    var fromDateString = $.datepicker.formatDate(app.dateFormatForDatePicker, window.app.startDate);
+                    toDatepicker.datepicker("option", "minDate", fromDateString);
                     $(document).trigger("intervalChanged");
                 }
             }
         });
-        $("#to").datepicker({
+
+        var toDatepicker = $("#to");
+        toDatepicker.datepicker({
             defaultDate: "+1w",
             changeMonth: true,
             numberOfMonths: 3,
             onSelect: function (selectedDate) {
-                $("#from").datepicker("option", "maxDate", selectedDate);
-                var day = selectedDate.substring(0, 2);
-                var month = selectedDate.substring(3, 5) - 1;
-                var year = selectedDate.substring(6, selectedDate.length);
-                window.app.newEndDate = new Date(year, month, day);
-
+                window.app.newEndDate = toDatepicker.datepicker("getDate");
                 if (window.app.newEndDate != window.app.endDate) {
                     window.app.startDate = window.app.newStartDate;
                     window.app.endDate = window.app.newEndDate;
+                    var endDateString = $.datepicker.formatDate(app.dateFormatForDatePicker, window.app.endDate);
+                    fromDatepicker.datepicker("option", "maxDate", endDateString);
                     $(document).trigger("intervalChanged");
                 }
             }
         });
-        var fromDateString = ((window.app.startDate.getDate() < 10) ? "0" + window.app.startDate.getDate() : window.app.startDate.getDate()) + "-" + 
-                                (((window.app.startDate.getMonth() + 1) < 10) ? "0" + (window.app.startDate.getMonth() + 1) : window.app.startDate.getMonth() + 1) + "-" +
-                                window.app.startDate.getFullYear();
-        var endDateString = ((window.app.endDate.getDate() < 10) ? "0" + window.app.endDate.getDate() : window.app.endDate.getDate()) + "-" + 
-                                (((window.app.endDate.getMonth() + 1) < 10) ? "0" + (window.app.endDate.getMonth() + 1) : window.app.endDate.getMonth() + 1) + "-" +
-                                window.app.endDate.getFullYear();
+                
+        var fromDateString = $.datepicker.formatDate(app.dateFormatForDatePicker, window.app.startDate);
+        var toDateString = $.datepicker.formatDate(app.dateFormatForDatePicker, window.app.endDate);
         
-        $("#to").datepicker("option", "minDate", fromDateString);
-        $("#from").datepicker("option", "maxDate", endDateString);
         // Setup the calendar culture
-        var fromTranslation = $("#from").val();
-        var toTranslation = $("#to").val();
+        $.datepicker.regional[window.app.calendarCulture].dateFormat = window.app.dateFormatForDatePicker;
+        var culture = $.datepicker.regional[window.app.calendarCulture];
+        $("#from").datepicker("option", culture);
+        $("#to").datepicker("option", culture);
 
-        $("#from").datepicker("option", $.datepicker.regional[window.app.calendarCulture]);
-        $("#to").datepicker("option", $.datepicker.regional[window.app.calendarCulture]);
-
-        $("#from").val(fromTranslation);
-        $("#to").val(toTranslation);
+        // Min/max dates and current date values
+        $("#to").datepicker("option", "minDate", fromDateString);
+        $("#from").datepicker("option", "maxDate", toDateString);
+        $("#from").val(fromDateString);
+        $("#to").val(toDateString);
 
         // Setup grannularity buttons. TODO: rename the radio buttons group more appropriate.
         //$("#granularitySelector").show();

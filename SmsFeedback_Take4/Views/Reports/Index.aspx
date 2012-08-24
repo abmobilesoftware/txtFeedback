@@ -5,7 +5,7 @@
    <%: Resources.Global.reportsPageTitle %>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-   <% if (Html.IsReleaseBuild())
+    <% if (Html.IsReleaseBuild())
       { %>
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/css/Minified/reports.css") %>" />   
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/spin.js") %>" type="application/javascript" ></script>
@@ -65,12 +65,12 @@
                                 var startDay = (window.app.startDate.getDate() < 10) ? "0" + window.app.startDate.getDate() : window.app.startDate.getDate();
                                 var startMonth = (window.app.startDate.getMonth() + 1 < 10) ? "0" + (window.app.startDate.getMonth() + 1) : window.app.startDate.getMonth() + 1;
                                 var startYear = window.app.startDate.getFullYear();
-                                var startDateString = startDay + "-" + startMonth + "-" + startYear;
+                                var startDateString = startDay + "/" + startMonth + "/" + startYear;
 
                                 var endDay = (window.app.endDate.getDate() < 10) ? "0" + window.app.endDate.getDate() : window.app.endDate.getDate();
                                 var endMonth = (window.app.endDate.getMonth() + 1 < 10) ? "0" + (window.app.endDate.getMonth() + 1) : window.app.endDate.getMonth() + 1;
                                 var endYear = window.app.endDate.getFullYear();
-                                var endDateString = endDay + "-" + endMonth + "-" + endYear;
+                                var endDateString = endDay + "/" + endMonth + "/" + endYear;
                             %}
                             <input type="text" id="from" name="from" class="filterDate filterInputBox"  value="{{ startDateString }}"/> - 
                             <input type="text" id="to" name="to" class="filterDate filterInputBox"  value="{{ endDateString }}"/>
