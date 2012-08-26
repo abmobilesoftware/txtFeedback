@@ -369,6 +369,8 @@ function MessagesArea(convView, tagsArea) {
             newMsg.set("Text", text);
             //we receive the date as RFC 822 string - we need to convert it to a valid Date
             newMsg.set("TimeReceived", new Date(Date.parse(dateReceived)));
+            newMsg.set("ClientDisplayName", from);
+            newMsg.set("ClientIsSupportBot", false);
             //we add the message only if are in correct conversation
             if (app.globalMessagesRep[convID] !== undefined) {
                 app.globalMessagesRep[convID].add(newMsg);
