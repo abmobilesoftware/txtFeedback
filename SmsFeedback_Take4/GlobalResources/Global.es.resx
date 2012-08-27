@@ -178,7 +178,7 @@
     <value>El campo Contraseña es requerido</value>
   </data>
   <data name="LogOnModel_RememberMe_DisplayName" xml:space="preserve">
-    <value>¿Te acuerdas de mí?</value>
+    <value>Te acuerdas de mí?</value>
   </data>
   <data name="LogOnModel_UserName_DisplayName" xml:space="preserve">
     <value>Usuario</value>
