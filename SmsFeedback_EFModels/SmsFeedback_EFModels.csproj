@@ -67,6 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SmsFeedbackModels.edmx.sql" />
+    <Content Include="SmsFeedbackModels.edmx1.sql" />
+    <Content Include="SmsFeedbackModels.edmx2.sql" />
+    <Content Include="SmsFeedbackModels.edmx4.sql" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />

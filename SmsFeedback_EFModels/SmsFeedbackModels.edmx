@@ -41,6 +41,10 @@
             <End Role="Tags" EntitySet="Tags" />
             <End Role="ConversationTags" EntitySet="ConversationTags" />
           </AssociationSet>
+          <AssociationSet Name="FK_SupportWorkingPointConversation" Association="smsfeedbackModel.Store.FK_SupportWorkingPointConversation">
+            <End Role="Conversations" EntitySet="Conversations" />
+            <End Role="WorkingPoints" EntitySet="WorkingPoints" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserMessages" Association="smsfeedbackModel.Store.FK_UserMessages">
             <End Role="Users" EntitySet="Users" />
             <End Role="Messages" EntitySet="Messages" />
@@ -52,6 +56,10 @@
           <AssociationSet Name="FK_UsersForWorkingPoints_WorkingPoint" Association="smsfeedbackModel.Store.FK_UsersForWorkingPoints_WorkingPoint">
             <End Role="WorkingPoints" EntitySet="WorkingPoints" />
             <End Role="UsersForWorkingPoints" EntitySet="UsersForWorkingPoints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkingPointClient" Association="smsfeedbackModel.Store.FK_WorkingPointClient">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="WorkingPoints" EntitySet="WorkingPoints" />
           </AssociationSet>
           <AssociationSet Name="FK_WorkingPointConversation" Association="smsfeedbackModel.Store.FK_WorkingPointConversation">
             <End Role="WorkingPoints" EntitySet="WorkingPoints" />
@@ -233,6 +241,8 @@
           <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="160" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="40" />
           <Property Name="Provider" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Support_TelNumber" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="SupportConversation_ConvId" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <EntityType Name="XmppConnections">
           <Key>
@@ -304,6 +314,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SupportWorkingPointConversation">
+          <End Role="Conversations" Type="smsfeedbackModel.Store.Conversations" Multiplicity="1" />
+          <End Role="WorkingPoints" Type="smsfeedbackModel.Store.WorkingPoints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversations">
+              <PropertyRef Name="ConvId" />
+            </Principal>
+            <Dependent Role="WorkingPoints">
+              <PropertyRef Name="SupportConversation_ConvId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserMessages">
           <End Role="Users" Type="smsfeedbackModel.Store.Users" Multiplicity="0..1" />
           <End Role="Messages" Type="smsfeedbackModel.Store.Messages" Multiplicity="*" />
@@ -337,6 +359,18 @@
             </Principal>
             <Dependent Role="UsersForWorkingPoints">
               <PropertyRef Name="WorkingPoints_TelNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkingPointClient">
+          <End Role="Clients" Type="smsfeedbackModel.Store.Clients" Multiplicity="1" />
+          <End Role="WorkingPoints" Type="smsfeedbackModel.Store.WorkingPoints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="TelNumber" />
+            </Principal>
+            <Dependent Role="WorkingPoints">
+              <PropertyRef Name="Support_TelNumber" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -497,11 +531,20 @@
             <End Role="Message" EntitySet="Messages" />
           </AssociationSet>
           <EntitySet Name="Clients" EntityType="smsfeedbackModel.Client" />
-          <AssociationSet Name="FK_ConversationClient" Association="smsfeedbackModel.FK_ConversationClient">
+          <AssociationSet Name="ConversationClient" Association="smsfeedbackModel.ConversationClient">
+            <End Role="Conversation" EntitySet="Conversations" />
             <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="WorkingPointClient" Association="smsfeedbackModel.WorkingPointClient">
+            <End Role="WorkingPoint" EntitySet="WorkingPoints" />
+            <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="WorkingPointConversation" Association="smsfeedbackModel.SupportWorkingPointConversation">
+            <End Role="WorkingPoint" EntitySet="WorkingPoints" />
             <End Role="Conversation" EntitySet="Conversations" />
           </AssociationSet>
-         
+
+
         </EntityContainer>
         <EntityType Name="Conversation">
           <Key>
@@ -518,8 +561,8 @@
           <Property Type="DateTime" Name="StartTime" Nullable="false" Precision="3" />
           <Property Type="String" Name="WorkingPoint_TelNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="WorkingPoint" Relationship="smsfeedbackModel.FK_WorkingPointConversation" FromRole="Conversation" ToRole="WorkingPoint" />
-          <Property Type="String" Name="Client_TelNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Client" Relationship="smsfeedbackModel.FK_ConversationClient" FromRole="Conversation" ToRole="Client" />         
+          <NavigationProperty Name="Client" Relationship="smsfeedbackModel.ConversationClient" FromRole="Conversation" ToRole="Client" />
+          <NavigationProperty Name="WorkingPointToSupport" Relationship="smsfeedbackModel.SupportWorkingPointConversation" FromRole="Conversation" ToRole="WorkingPoint" />
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -547,6 +590,8 @@
           <NavigationProperty Name="Users" Relationship="smsfeedbackModel.UsersForWorkingPoints" FromRole="WorkingPoint" ToRole="User" />
           <Property Type="String" Name="Provider" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Conversations" Relationship="smsfeedbackModel.FK_WorkingPointConversation" FromRole="WorkingPoint" ToRole="Conversation" />
+          <NavigationProperty Name="Support" Relationship="smsfeedbackModel.WorkingPointClient" FromRole="WorkingPoint" ToRole="Client" />
+          <NavigationProperty Name="SupportConversation" Relationship="smsfeedbackModel.SupportWorkingPointConversation" FromRole="WorkingPoint" ToRole="Conversation" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -805,166 +850,176 @@
           <Key>
             <PropertyRef Name="TelNumber" />
           </Key>
-          <Property Type="String" Name="TelNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DisplayName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Description" Nullable="false" MaxLength="160" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TelNumber" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="DisplayName" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="160" Unicode="true" FixedLength="false" />
           <Property Type="Boolean" Name="isSupportClient" Nullable="false" />
-          <NavigationProperty Name="Conversations" Relationship="smsfeedbackModel.FK_ConversationClient" FromRole="Client" ToRole="Conversation" />
+          <NavigationProperty Name="Conversations" Relationship="smsfeedbackModel.ConversationClient" FromRole="Client" ToRole="Conversation" />
+          <NavigationProperty Name="WorkingPoints" Relationship="smsfeedbackModel.WorkingPointClient" FromRole="Client" ToRole="WorkingPoint" />
         </EntityType>
-        <Association Name="FK_ConversationClient">
-          <End Type="smsfeedbackModel.Client" Role="Client" Multiplicity="1" />
+        <Association Name="ConversationClient">
           <End Type="smsfeedbackModel.Conversation" Role="Conversation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Client">
-              <PropertyRef Name="TelNumber" />
-            </Principal>
-            <Dependent Role="Conversation">
-              <PropertyRef Name="Client_TelNumber" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>       
+          <End Type="smsfeedbackModel.Client" Role="Client" Multiplicity="1" />
+        </Association>
+        <Association Name="WorkingPointClient">
+          <End Type="smsfeedbackModel.WorkingPoint" Role="WorkingPoint" Multiplicity="*" />
+          <End Type="smsfeedbackModel.Client" Role="Client" Multiplicity="1" />
+        </Association>
+        <Association Name="SupportWorkingPointConversation">
+          <End Type="smsfeedbackModel.WorkingPoint" Role="WorkingPoint" Multiplicity="0..1" />
+          <End Type="smsfeedbackModel.Conversation" Role="Conversation" Multiplicity="1" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-  <EntityContainerMapping CdmEntityContainer="smsfeedbackEntities" StorageEntityContainer="smsfeedbackModelStoreContainer">
-    <EntitySetMapping Name="Conversations">
-      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Conversation)">
-        <MappingFragment StoreEntitySet="Conversations">
-            <ScalarProperty Name="Client_TelNumber" ColumnName="Client_TelNumber" />
-                <ScalarProperty Name="WorkingPoint_TelNumber" ColumnName="WorkingPoint_TelNumber" />
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="smsfeedbackModelStoreContainer" CdmEntityContainer="smsfeedbackEntities">
+          <EntitySetMapping Name="Conversations">
+            <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Conversation)">
+              <MappingFragment StoreEntitySet="Conversations">
                 <ScalarProperty Name="ConvId" ColumnName="ConvId" />
-          <ScalarProperty Name="Text" ColumnName="Text" />
-          <ScalarProperty Name="Read" ColumnName="Read" />
-          <ScalarProperty Name="TimeUpdated" ColumnName="TimeUpdated" />
-          <ScalarProperty Name="From" ColumnName="From" />
-          <ScalarProperty Name="Starred" ColumnName="Starred" />
-          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Messages">
-      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Message)">
-        <MappingFragment StoreEntitySet="Messages">
-                <ScalarProperty Name="UserUserId" ColumnName="UserUserId" />
-                <ScalarProperty Name="ResponseTime" ColumnName="ResponseTime" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Read" ColumnName="Read" />
+                <ScalarProperty Name="TimeUpdated" ColumnName="TimeUpdated" />
+                <ScalarProperty Name="From" ColumnName="From" />
+                <ScalarProperty Name="Starred" ColumnName="Starred" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="WorkingPoint_TelNumber" ColumnName="WorkingPoint_TelNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Message)">
+              <MappingFragment StoreEntitySet="Messages">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="From" ColumnName="From" />
-          <ScalarProperty Name="To" ColumnName="To" />
-          <ScalarProperty Name="Text" ColumnName="Text" />
-          <ScalarProperty Name="TimeReceived" ColumnName="TimeReceived" />
-          <ScalarProperty Name="Read" ColumnName="Read" />
-          <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="WorkingPoints">
-      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.WorkingPoint)">
-        <MappingFragment StoreEntitySet="WorkingPoints">
-                <ScalarProperty Name="Provider" ColumnName="Provider" />
+                <ScalarProperty Name="From" ColumnName="From" />
+                <ScalarProperty Name="To" ColumnName="To" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="TimeReceived" ColumnName="TimeReceived" />
+                <ScalarProperty Name="Read" ColumnName="Read" />
+                <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
+                <ScalarProperty Name="ResponseTime" ColumnName="ResponseTime" />
+                <ScalarProperty Name="UserUserId" ColumnName="UserUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkingPoints">
+            <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.WorkingPoint)">
+              <MappingFragment StoreEntitySet="WorkingPoints">
                 <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Users">
-      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.User)">
-        <MappingFragment StoreEntitySet="Users">
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="IsAnonymous" ColumnName="IsAnonymous" />
-          <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
-          <ScalarProperty Name="XmppConnection_Id" ColumnName="XmppConnection_Id" />
-          <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Roles">
-      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Role)">
-        <MappingFragment StoreEntitySet="Roles">
-          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
-          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="XmppConnections">
-      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.XmppConnection)">
-        <MappingFragment StoreEntitySet="XmppConnections">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="XmppUser" ColumnName="XmppUser" />
-          <ScalarProperty Name="XmppPassword" ColumnName="XmppPassword" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Tags">
-      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Tag)">
-        <MappingFragment StoreEntitySet="Tags">
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Companies">
-      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Company)">
-        <MappingFragment StoreEntitySet="Companies">
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Applications">
-      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Application)">
-        <MappingFragment StoreEntitySet="Applications">
-          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
-          <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Memberships">
-      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Membership)">
-        <MappingFragment StoreEntitySet="Memberships">
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="PasswordFormat" ColumnName="PasswordFormat" />
-          <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
-          <ScalarProperty Name="PasswordAnswer" ColumnName="PasswordAnswer" />
-          <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
-          <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
-          <ScalarProperty Name="LastPasswordChangedDate" ColumnName="LastPasswordChangedDate" />
-          <ScalarProperty Name="LastLockoutDate" ColumnName="LastLockoutDate" />
-          <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
-          <ScalarProperty Name="FailedPasswordAttemptWindowStart" ColumnName="FailedPasswordAttemptWindowStart" />
-          <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
-          <ScalarProperty Name="FailedPasswordAnswerAttemptWindowsStart" ColumnName="FailedPasswordAnswerAttemptWindowsStart" />
-          <ScalarProperty Name="Comment" ColumnName="Comment" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Profiles">
-      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Profile)">
-        <MappingFragment StoreEntitySet="Profiles">
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="PropertyNames" ColumnName="PropertyNames" />
-          <ScalarProperty Name="PropertyValueStrings" ColumnName="PropertyValueStrings" />
-          <ScalarProperty Name="PropertyValueBinary" ColumnName="PropertyValueBinary" />
-          <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <AssociationSetMapping Name="UsersInRoles" TypeName="smsfeedbackModel.UsersInRoles" StoreEntitySet="UsersInRoles">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Provider" ColumnName="Provider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.User)">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="IsAnonymous" ColumnName="IsAnonymous" />
+                <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+                <ScalarProperty Name="XmppConnection_Id" ColumnName="XmppConnection_Id" />
+                <ScalarProperty Name="Company_Name" ColumnName="Company_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Role)">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="XmppConnections">
+            <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.XmppConnection)">
+              <MappingFragment StoreEntitySet="XmppConnections">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="XmppUser" ColumnName="XmppUser" />
+                <ScalarProperty Name="XmppPassword" ColumnName="XmppPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tags">
+            <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Tag)">
+              <MappingFragment StoreEntitySet="Tags">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Company)">
+              <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Applications">
+            <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Application)">
+              <MappingFragment StoreEntitySet="Applications">
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Memberships">
+            <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Membership)">
+              <MappingFragment StoreEntitySet="Memberships">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PasswordFormat" ColumnName="PasswordFormat" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
+                <ScalarProperty Name="PasswordAnswer" ColumnName="PasswordAnswer" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="LastPasswordChangedDate" ColumnName="LastPasswordChangedDate" />
+                <ScalarProperty Name="LastLockoutDate" ColumnName="LastLockoutDate" />
+                <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
+                <ScalarProperty Name="FailedPasswordAttemptWindowStart" ColumnName="FailedPasswordAttemptWindowStart" />
+                <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
+                <ScalarProperty Name="FailedPasswordAnswerAttemptWindowsStart" ColumnName="FailedPasswordAnswerAttemptWindowsStart" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Profiles">
+            <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Profile)">
+              <MappingFragment StoreEntitySet="Profiles">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PropertyNames" ColumnName="PropertyNames" />
+                <ScalarProperty Name="PropertyValueStrings" ColumnName="PropertyValueStrings" />
+                <ScalarProperty Name="PropertyValueBinary" ColumnName="PropertyValueBinary" />
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Client)">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="isSupportClient" ColumnName="isSupportClient" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="UsersInRoles" TypeName="smsfeedbackModel.UsersInRoles" StoreEntitySet="UsersInRoles">
             <EndProperty Name="User">
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
@@ -972,35 +1027,50 @@
               <ScalarProperty Name="RoleId" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
-    <AssociationSetMapping Name="UsersForWorkingPoints" TypeName="smsfeedbackModel.UsersForWorkingPoints" StoreEntitySet="UsersForWorkingPoints">
-      <EndProperty Name="WorkingPoint">
+          <AssociationSetMapping Name="UsersForWorkingPoints" TypeName="smsfeedbackModel.UsersForWorkingPoints" StoreEntitySet="UsersForWorkingPoints">
+            <EndProperty Name="User">
+              <ScalarProperty Name="UserId" ColumnName="Users_UserId" />
+            </EndProperty>
+            <EndProperty Name="WorkingPoint">
               <ScalarProperty Name="TelNumber" ColumnName="WorkingPoints_TelNumber" />
             </EndProperty>
-            <EndProperty Name="User">
-        <ScalarProperty Name="UserId" ColumnName="Users_UserId" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="ConversationTags" TypeName="smsfeedbackModel.ConversationTags" StoreEntitySet="ConversationTags">
-      <EndProperty Name="Conversation">
-        <ScalarProperty Name="ConvId" ColumnName="Conversations_ConvId" />
-      </EndProperty>
-      <EndProperty Name="Tag">
-        <ScalarProperty Name="Name" ColumnName="Tags_Name" />
-        <ScalarProperty Name="CompanyName" ColumnName="Tags_CompanyName" />
-      </EndProperty>
-    </AssociationSetMapping>
-          <EntitySetMapping Name="Clients">
-            <EntityTypeMapping TypeName="smsfeedbackModel.Client">
-              <MappingFragment StoreEntitySet="Clients">
-                <ScalarProperty Name="isSupportClient" ColumnName="isSupportClient" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
-                <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-  </EntityContainerMapping>
-</Mapping></edmx:Mappings>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ConversationTags" TypeName="smsfeedbackModel.ConversationTags" StoreEntitySet="ConversationTags">
+            <EndProperty Name="Conversation">
+              <ScalarProperty Name="ConvId" ColumnName="Conversations_ConvId" />
+            </EndProperty>
+            <EndProperty Name="Tag">
+              <ScalarProperty Name="Name" ColumnName="Tags_Name" />
+              <ScalarProperty Name="CompanyName" ColumnName="Tags_CompanyName" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ConversationClient" TypeName="smsfeedbackModel.ConversationClient" StoreEntitySet="Conversations">
+            <EndProperty Name="Client">
+              <ScalarProperty Name="TelNumber" ColumnName="Client_TelNumber" />
+            </EndProperty>
+            <EndProperty Name="Conversation">
+              <ScalarProperty Name="ConvId" ColumnName="ConvId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="WorkingPointClient" TypeName="smsfeedbackModel.WorkingPointClient" StoreEntitySet="WorkingPoints">
+            <EndProperty Name="Client">
+              <ScalarProperty Name="TelNumber" ColumnName="Support_TelNumber" />
+            </EndProperty>
+            <EndProperty Name="WorkingPoint">
+              <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="WorkingPointConversation" TypeName="smsfeedbackModel.SupportWorkingPointConversation" StoreEntitySet="WorkingPoints">
+            <EndProperty Name="Conversation">
+              <ScalarProperty Name="ConvId" ColumnName="SupportConversation_ConvId" />
+            </EndProperty>
+            <EndProperty Name="WorkingPoint">
+              <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">

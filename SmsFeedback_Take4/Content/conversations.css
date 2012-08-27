@@ -24,6 +24,34 @@
    box-shadow: inset 0px 0px 40px rgba(111, 164, 179,0.8);
 }
 
+/*
+div.supportConversation {
+    background: #183540 !important;
+    color: #abd1df;
+}
+*/
+
+    /* 
+     * important is used because on the same div is also another class 
+     * to mark the selected status of the conversation. This one is for support 
+     * conversations.
+     */
+/*
+div.ui-selectedSupport {
+    color: #fff !important;
+    background: #295160 !important;
+}
+*/
+
+div.supportConversation span.conversationHeader {
+    color: #183540;
+    font-weight: bold;
+}
+
+img.conversationHeaderImg {
+    position:relative;
+    top:3px;
+}
 
 #loadMoreConversations:hover {
    opacity: 1;
@@ -130,7 +158,7 @@ img.images {
    width: 72%;
    overflow: hidden;
    text-overflow: ellipsis;
-   height: 50%;
+   height: 50%;   
 }
 
 spanClassFrom {

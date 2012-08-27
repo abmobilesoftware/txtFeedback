@@ -177,7 +177,8 @@ namespace SmsFeedback_Take4.Controllers
                                             bool? onlyUnread,
                                             int requestIndex,
                                             int skip,
-                                            int top)
+                                            int top,
+                                            bool popUpSupport)
       {
          //in our DB we hold the conversations we updated while online
          //it could be that we received messages while offline - so we require also these conversations
@@ -234,10 +235,17 @@ namespace SmsFeedback_Take4.Controllers
                bool retrieveOnlyUnreadConversations = false;
                if (onlyUnread.HasValue && onlyUnread.Value == true) retrieveOnlyUnreadConversations = true;
                //decide if we want to update from external sources or not
-               var updateFromExternalSources = DecideIfUpdateFromExternalSourcesIsRequired(requestIndex);               
-               var conversations = SMSRepository.GetConversationsForNumbers(onlyFavorites, tags, workingPointsNumbers, startDateAsDate, endDateAsDate, retrieveOnlyUnreadConversations, skip, top, null, userId,updateFromExternalSources, lContextPerRequest);
-               return Json(conversations, JsonRequestBehavior.AllowGet);
-
+               var updateFromExternalSources = DecideIfUpdateFromExternalSourcesIsRequired(requestIndex);
+               if (!popUpSupport)
+               {
+                   var conversations = SMSRepository.GetConversationsForNumbers(onlyFavorites, tags, workingPointsNumbers, startDateAsDate, endDateAsDate, retrieveOnlyUnreadConversations, skip, top, null, userId, updateFromExternalSources, lContextPerRequest);
+                   return Json(conversations, JsonRequestBehavior.AllowGet);
+               }
+               else
+               {
+                   var conversations = SMSRepository.GetSupportConversationsForWorkingPoints(userId, workingPointsNumbers, skip, top, lContextPerRequest);
+                   return Json(conversations, JsonRequestBehavior.AllowGet);
+               }
             }
          }
          catch (Exception ex)

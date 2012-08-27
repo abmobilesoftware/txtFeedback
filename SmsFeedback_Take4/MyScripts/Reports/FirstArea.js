@@ -18,6 +18,7 @@ function FirstArea(iResource, iGranularity, iOptions) {
         chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
     } else if (options.seriesType == "bars") {
         chart = new google.visualization.ComboChart(document.getElementById('chart_div'));        
+        options.series = {2: {type: "line"}};
     }
 
     this.drawArea = function () {

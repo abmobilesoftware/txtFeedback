@@ -278,7 +278,7 @@
     <comment>Login:</comment>
   </data>
   <data name="RepClients" xml:space="preserve">
-    <value>Clients</value>
+    <value>Customers</value>
   </data>
   <data name="lblNoConversationSelected" xml:space="preserve">
     <value>No conversation selected, please select one</value>
@@ -292,7 +292,7 @@
     <comment>Conversation: header area, number of the right of Conversations menu label</comment>
   </data>
   <data name="RepIncomingVsOutgoing" xml:space="preserve">
-    <value>Incoming vs Outgoing</value>
+    <value>Incoming &amp; Outgoing</value>
   </data>
   <data name="sendEmailHeader" xml:space="preserve">
     <value>Send email</value>
@@ -313,7 +313,7 @@
     <comment>Conversation: send email/feedback: Subject label</comment>
   </data>
   <data name="RepTotalNoOfSms" xml:space="preserve">
-    <value>Total no of sms'</value>
+    <value>Total number of SMS</value>
   </data>
   <data name="sendEmailTo" xml:space="preserve">
     <value>*To:</value>
@@ -419,28 +419,28 @@
     <value>Week</value>
   </data>
   <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
-    <value>Avg no of sms' per day</value>
+    <value>Average number of SMS per day</value>
   </data>
   <data name="RepAvgNoOfSmsPerClient" xml:space="preserve">
-    <value>Avg no of sms' per client</value>
+    <value>Average number of SMS per customer</value>
   </data>
   <data name="RepAvgResponseTime" xml:space="preserve">
     <value>Average response time</value>
   </data>
   <data name="RepNoOfNewClients" xml:space="preserve">
-    <value>No of new clients</value>
+    <value>Number of new customers</value>
   </data>
   <data name="RepTags" xml:space="preserve">
     <value>Tags</value>
   </data>
   <data name="RepAvgNoOfIncomingSmsPerConversation" xml:space="preserve">
-    <value>Avg no of incoming sms' per conversation</value>
+    <value>Average number of incoming SMS per conversation</value>
   </data>
   <data name="RepAvgNoOfOutgoingSmsPerConversation" xml:space="preserve">
-    <value>Avg no of outgoing sms' per conversation</value>
+    <value>Average number of outgoing SMS per conversation</value>
   </data>
   <data name="RepAvgNoOfTagsPerConversation" xml:space="preserve">
-    <value>Avg no of tags per conversation</value>
+    <value>Average number of tags per conversation</value>
   </data>
   <data name="RepMostUsedTag" xml:space="preserve">
     <value>Most used tags</value>
@@ -454,17 +454,17 @@
     <comment>The title (browser page description0</comment>
   </data>
   <data name="RepNoOfIncomingSms" xml:space="preserve">
-    <value>No of incoming sms'</value>
+    <value>Number of incoming SMS</value>
   </data>
   <data name="settingsPageTitle" xml:space="preserve">
     <value>Settings</value>
     <comment>The title (browser page description0</comment>
   </data>
   <data name="RepNoOfOutgoingSms" xml:space="preserve">
-    <value>No of outgoing sms'</value>
+    <value>Number of outgoing SMS</value>
   </data>
   <data name="RepNoOfReturningClients" xml:space="preserve">
-    <value>No of returning clients</value>
+    <value>Number of returning clients</value>
   </data>
   <data name="reportsPageTitle" xml:space="preserve">
     <value>Reports</value>
@@ -474,7 +474,7 @@
     <comment>Settings:</comment>
   </data>
   <data name="RepTotalNoOfClients" xml:space="preserve">
-    <value>Number of clients</value>
+    <value>Number of customers giving feedback</value>
   </data>
   <data name="settingsPrivacy" xml:space="preserve">
     <value>Privacy</value>
@@ -485,7 +485,7 @@
     <comment>Settings:</comment>
   </data>
   <data name="RepAvgNoOfIncomingSmsPerConversationToolitp" xml:space="preserve">
-    <value>Avg no of incoming sms per conversation</value>
+    <value>Average number of incoming SMS per conversation</value>
     <comment>Reports page - tooltip</comment>
   </data>
   <data name="settingsBtnChangePassword" xml:space="preserve">
@@ -493,7 +493,7 @@
     <comment>Settings:</comment>
   </data>
   <data name="RepAvgNoOfOutgoingSmsPerConversationTooltip" xml:space="preserve">
-    <value>Avg no outgoing sms per conversation</value>
+    <value>Average number of outgoing SMS per conversation</value>
     <comment>Reports page - tooltip</comment>
   </data>
   <data name="settingsChangePasswordTitle" xml:space="preserve">
@@ -501,7 +501,7 @@
     <comment>Settings: </comment>
   </data>
   <data name="RepAvgNoOfSmsPerClientTooltip" xml:space="preserve">
-    <value>Average no of sms per client</value>
+    <value>Average number of SMS per customer</value>
     <comment>Reports page - tooltip</comment>
   </data>
   <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
@@ -509,7 +509,7 @@
     <comment>Settings:</comment>
   </data>
   <data name="RepAvgNoOfSmsPerDayTooltip" xml:space="preserve">
-    <value>Average no of sms per day</value>
+    <value>Average number of SMS per day</value>
     <comment>Reports page - tooltip</comment>
   </data>
   <data name="settingsCurrentPasswordLabel" xml:space="preserve">
@@ -517,7 +517,7 @@
     <comment>Settings:</comment>
   </data>
   <data name="RepAvgNoOfTagsPerConversationTooltip" xml:space="preserve">
-    <value>Average no of tags per conversation</value>
+    <value>Average number of tags per conversation</value>
     <comment>Reports page - tooltip</comment>
   </data>
   <data name="settingsDescriptionPrefix" xml:space="preserve">
@@ -533,7 +533,7 @@
     <comment>Settings:</comment>
   </data>
   <data name="RepClientsUnit" xml:space="preserve">
-    <value>clients</value>
+    <value>customers</value>
     <comment>Report page - info box, measurement units</comment>
   </data>
   <data name="settingsErrorPasswordChangeSummary" xml:space="preserve">
@@ -541,7 +541,7 @@
     <comment>Settings:</comment>
   </data>
   <data name="RepIncomingSmsChart" xml:space="preserve">
-    <value>Incoming sms</value>
+    <value>Incoming SMS</value>
     <comment>Reports page - main chart</comment>
   </data>
   <data name="settingsErrorPasswordNotLongEnough" xml:space="preserve">
@@ -565,23 +565,23 @@
     <comment>Settings:</comment>
   </data>
   <data name="RepNewClientsChart" xml:space="preserve">
-    <value>New clients</value>
+    <value>New customers</value>
     <comment>Reports page - main chart</comment>
-   </data>
+  </data>
   <data name="settingsErrorPasswordIncorrect" xml:space="preserve">
     <value>The current password is incorrect or the new password is invalid.</value>
     <comment>Settings:</comment>
   </data>
   <data name="RepNoOfIncomingSmsTooltip" xml:space="preserve">
-    <value>No of incoming sms</value>
+    <value>Number of incoming SMS</value>
     <comment>Reports page - tooltip</comment>
   </data>
   <data name="RepNoOfNewClientsTooltip" xml:space="preserve">
-    <value>Number of new clients</value>
+    <value>Number of new customers</value>
     <comment>Reports page - tooltip</comment>
   </data>
   <data name="RepNoOfOutgoingSmsTooltip" xml:space="preserve">
-    <value>No of outgoing sms</value>
+    <value>Number of outgoing SMS</value>
     <comment>Reports page - tooltip</comment>
   </data>
   <data name="RepNoOfReturningClientsTooltip" xml:space="preserve">
@@ -589,11 +589,11 @@
     <comment>Reports page - tooltip</comment>
   </data>
   <data name="RepOutgoingSmsChart" xml:space="preserve">
-    <value>Outgoing sms</value>
+    <value>Outgoing </value>
     <comment>Reports page - main chart</comment>
   </data>
   <data name="RepReturningClientsChart" xml:space="preserve">
-    <value>Returning clients</value>
+    <value>Returning customers</value>
     <comment>Reports page - main chart</comment>
   </data>
   <data name="RepSecondsUnit" xml:space="preserve">
@@ -601,15 +601,15 @@
     <comment>Report page - info box, measurement units</comment>
   </data>
   <data name="RepSmsPerClient" xml:space="preserve">
-    <value>sms'/client</value>
+    <value>SMS/client</value>
     <comment>Report page - info box, measurement units</comment>
   </data>
   <data name="RepSmsPerDayUnit" xml:space="preserve">
-    <value>sms'/day</value>
+    <value>SMS/day</value>
     <comment>Report page - info box, measurement units</comment>
   </data>
   <data name="RepSmsUnit" xml:space="preserve">
-    <value>sms'</value>
+    <value>SMS</value>
     <comment>Report page - info box, measurement units</comment>
   </data>
   <data name="RepTagsPerConversationUnit" xml:space="preserve">
@@ -621,11 +621,11 @@
     <comment>Reports page - tooltip</comment>
   </data>
   <data name="RepTotalNoOfSmsTooltip" xml:space="preserve">
-    <value>Total no of sms</value>
+    <value>Total number of SMS</value>
     <comment>Reports page - tooltip</comment>
   </data>
   <data name="RepTotalSmsChart" xml:space="preserve">
-    <value>All sms'</value>
+    <value>All SMS</value>
     <comment>Reports page - main chart</comment>
   </data>
   <data name="RepTypeTable" xml:space="preserve">
@@ -635,5 +635,11 @@
   <data name="RepValueTable" xml:space="preserve">
     <value>Value</value>
     <comment>Reports page - table area</comment>
+  </data>
+  <data name="supportLabel" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="tooltipIncludeSupportFilter" xml:space="preserve">
+    <value>Quick access to support conversations</value>
   </data>
 </root>

@@ -9,7 +9,8 @@ window.app.defaultFilteringOptions = {
    startDate: "",
    endDate: "",
    starredFilteringEnabled: false,
-   unreadFilteringEnabled: false   
+   unreadFilteringEnabled: false,
+   supportFilteringEnabled: false
 }
 
 function FilterArea() {
@@ -63,7 +64,24 @@ function FilterArea() {
          $(document).trigger('refreshConversationList');
       }
    });
-   //#endregion
+    //#endregion
+
+   $("#includeTagsInFilter").bind('click', function () {
+       //set internal state
+       if (self.tagFilteringEnabled) {
+           self.tagFilteringEnabled = false;
+       }
+       else {
+           self.tagFilteringEnabled = true;
+       }
+       //change checkbox state
+       setCheckboxState($(this), self.tagFilteringEnabled);
+       //trigger filtering if required
+       if (self.tagsForFiltering.length != 0) {
+           $(document).trigger('refreshConversationList');
+       }
+   });
+   
 
    //#region Date
    this.previousStartDate = "";
@@ -175,13 +193,24 @@ function FilterArea() {
    });
    //#endregion
 
+    //#region Support
+   $("#includeSupportInFilter").bind('click', function () {
+       //set internal state
+       self.supportFilteringEnabled = !self.supportFilteringEnabled;
+       //change checkbox state
+       setCheckboxState($(this), self.supportFilteringEnabled);
+       //trigger filtering if required
+       $(document).trigger('refreshConversationList');
+   });
+    //#endregion
+
    //#region IsFilteringEnabled
    this.IsFilteringEnabled = function () {      
       return self.tagFilteringEnabled || self.dateFilteringEnabled || self.starredFilteringEnabled || self.unreadFilteringEnabled;
    }
    //#endregion
 
-   $("#includeDateInFilter,#includeStarredInFilter,#includeUnreadInFilter,#includeTagsInFilter").each(function () {
+   $("#includeDateInFilter, #includeStarredInFilter, #includeUnreadInFilter, #includeTagsInFilter, #includeSupportInFilter").each(function () {
       var elementToShowTooltipOn = $(this);
       setTooltipOnElement(elementToShowTooltipOn, elementToShowTooltipOn.attr('tooltiptitle'), 'light');
    });

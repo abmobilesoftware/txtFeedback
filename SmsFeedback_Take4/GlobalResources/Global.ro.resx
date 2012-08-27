@@ -510,4 +510,10 @@
     <value>Valoare</value>
     <comment>Reports page - table area</comment>
   </data>
+  <data name="supportLabel" xml:space="preserve">
+    <value>Suport</value>
+  </data>
+  <data name="tooltipIncludeSupportFilter" xml:space="preserve">
+    <value>Accesati rapid conversatiile de suport</value>
+  </data>
 </root>

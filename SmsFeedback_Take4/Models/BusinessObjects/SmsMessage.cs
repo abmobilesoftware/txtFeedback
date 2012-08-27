@@ -11,7 +11,7 @@ namespace SmsFeedback_Take4.Models
       {         
       }
 
-      public SmsMessage(int id, string from, string to, string text, DateTime timeReceived, bool readStatus, string convID, int day = 0, int month = 0, int year = 0, int hours = 0, int minutes = 0, int seconds = 0)
+      public SmsMessage(int id, string from, string to, string text, DateTime timeReceived, bool readStatus, string convID, string clientDisplayName, bool clientIsSupportBot, int day = 0, int month = 0, int year = 0, int hours = 0, int minutes = 0, int seconds = 0)
       {
          Id = id;
          From = from;
@@ -26,7 +26,8 @@ namespace SmsFeedback_Take4.Models
          Hours = hours;
          Minutes = minutes;
          Seconds = seconds;
-         
+         ClientDisplayName = clientDisplayName;
+         ClientIsSupportBot = clientIsSupportBot;        
       }
       public int Id { get; set; }
       public string From { get; set; }
@@ -42,5 +43,7 @@ namespace SmsFeedback_Take4.Models
       public int Hours { get; set; }
       public int Minutes { get; set; }
       public int Seconds { get; set; }
+      public string ClientDisplayName { get; set; }
+      public bool ClientIsSupportBot { get; set; }
    }
 }
