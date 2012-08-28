@@ -10,15 +10,16 @@ function FirstArea(iResource, iGranularity, iOptions) {
         animation: {
             duration: 1000,
             easing: 'out'
-        }
+        },
+        vAxis: { gridlines: { count: 4 } }
     };
     options.seriesType = iOptions.seriesType;
     
     if (options.seriesType == "area") {
         chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        options.pointSize = 6;
     } else if (options.seriesType == "bars") {
-        chart = new google.visualization.ComboChart(document.getElementById('chart_div'));        
-        options.series = {2: {type: "line"}};
+        chart = new google.visualization.ComboChart(document.getElementById('chart_div'));                
     }
 
     this.drawArea = function () {

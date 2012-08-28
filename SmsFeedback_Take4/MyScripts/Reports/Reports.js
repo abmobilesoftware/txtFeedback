@@ -102,7 +102,9 @@ var ReportsContentArea = Backbone.View.extend({
                 
         var fromDateString = $.datepicker.formatDate(app.dateFormatForDatePicker, window.app.startDate);
         var toDateString = $.datepicker.formatDate(app.dateFormatForDatePicker, window.app.endDate);
-        
+        var today = new Date();
+        var todayString = $.datepicker.formatDate(app.dateFormatForDatePicker, today);
+
         // Setup the calendar culture
         $.datepicker.regional[window.app.calendarCulture].dateFormat = window.app.dateFormatForDatePicker;
         var culture = $.datepicker.regional[window.app.calendarCulture];
@@ -111,6 +113,7 @@ var ReportsContentArea = Backbone.View.extend({
 
         // Min/max dates and current date values
         $("#to").datepicker("option", "minDate", fromDateString);
+        $("#to").datepicker("option", "maxDate", today);
         $("#from").datepicker("option", "maxDate", toDateString);
         $("#from").val(fromDateString);
         $("#to").val(toDateString);
@@ -128,12 +131,14 @@ var ReportsContentArea = Backbone.View.extend({
     },
     updateReport: function () {
         $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
-        /*for (i = 0; i < window.app.areas.length; ++i) {
+        for (i = 0; i < window.app.areas.length; ++i) {
             window.app.areas[i].drawArea();
-        }*/
+        }
+        /*
         window.app.firstArea.drawArea();
         window.app.secondArea.drawArea();
         window.app.thirdArea.drawArea();
+        */
     }
 });
 
@@ -211,7 +216,9 @@ var ReportsArea = function () {
    };
 
    this.changeReportingInterval = function () {
-        reportsContent.updateReport();
+       $("from").datepicker('hide');
+       $("to").datepicker('hide');
+       reportsContent.updateReport();
    };
 
    this.displayReport = function (reportModel) {

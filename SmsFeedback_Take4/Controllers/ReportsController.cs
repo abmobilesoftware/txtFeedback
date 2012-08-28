@@ -1094,7 +1094,7 @@ namespace SmsFeedback_Take4.Controllers
                 {
                     if (rowsTable.ContainsKey(row.Key))
                     {
-                        rowsTable[row.Key].Add(new RepDataRowCell(row.Value.value, row.Value.value +  " " + unitOfMeasurement + " :: " + row.Value.description));
+                        rowsTable[row.Key].Add(new RepDataRowCell(row.Value.value, row.Value.value +  " " + unitOfMeasurement ));
                     }
                 }
             }
