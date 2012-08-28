@@ -516,4 +516,7 @@
   <data name="tooltipIncludeSupportFilter" xml:space="preserve">
     <value>Accesati rapid conversatiile de suport</value>
   </data>
+  <data name="RepNoneDefaultValue" xml:space="preserve">
+    <value>Nici unul</value>
+  </data>
 </root>

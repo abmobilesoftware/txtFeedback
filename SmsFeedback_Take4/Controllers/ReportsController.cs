@@ -403,7 +403,10 @@ namespace SmsFeedback_Take4.Controllers
 
                 var totalNoOfSms = ComputeTotalNoOfSms(intervalStart, intervalEnd, workingPoints);
                 TimeSpan interval = intervalEnd - intervalStart;
-                return Json(new RepInfoBox(Math.Round(totalNoOfSms / interval.TotalDays, 2), Resources.Global.RepSmsPerDayUnit), JsonRequestBehavior.AllowGet);
+                
+                RepInfoBox result = (interval.TotalDays == 0) ? new RepInfoBox(totalNoOfSms, Resources.Global.RepSmsPerDayUnit) :
+                    new RepInfoBox(Math.Round(totalNoOfSms / interval.TotalDays, 2), Resources.Global.RepSmsPerDayUnit);
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -425,8 +428,10 @@ namespace SmsFeedback_Take4.Controllers
 
                 int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
                 int noOfIncomingMessages = ComputeNoOfIncomingSms(intervalStart, intervalEnd, workingPoints);
-
-                return Json(new RepInfoBox(Math.Round((double)noOfIncomingMessages / noOfClients, 2), Resources.Global.RepSmsPerClient), JsonRequestBehavior.AllowGet);
+                
+                RepInfoBox result = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
+                    new RepInfoBox(Math.Round((double)noOfIncomingMessages / noOfClients, 2), Resources.Global.RepSmsPerClient);
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -448,7 +453,10 @@ namespace SmsFeedback_Take4.Controllers
 
                 int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
                 int noOfOutgoingMessages = ComputeNoOfOutgoingSms(intervalStart, intervalEnd, workingPoints);
-                return Json(new RepInfoBox(Math.Round((double)noOfOutgoingMessages / noOfClients, 2), Resources.Global.RepSmsPerClient), JsonRequestBehavior.AllowGet);
+
+                RepInfoBox result = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
+                    new RepInfoBox(Math.Round((double)noOfOutgoingMessages / noOfClients, 2), Resources.Global.RepSmsPerClient);
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -469,21 +477,28 @@ namespace SmsFeedback_Take4.Controllers
 
                 var mostUsedTags = new List<String>();
                 var mostUsedTagNoOfConversations = -1;
-                foreach (var tagEntry in tagsHash)
+                if (tagsHash.Count > 0)
                 {
-                    if (tagEntry.Value > mostUsedTagNoOfConversations)
+                    foreach (var tagEntry in tagsHash)
                     {
-                        mostUsedTagNoOfConversations = tagEntry.Value;
-                        mostUsedTags = new List<String>();
-                        mostUsedTags.Add(tagEntry.Key);
+                        if (tagEntry.Value > mostUsedTagNoOfConversations)
+                        {
+                            mostUsedTagNoOfConversations = tagEntry.Value;
+                            mostUsedTags = new List<String>();
+                            mostUsedTags.Add(tagEntry.Key);
+                        }
+                        else if (tagEntry.Value >= mostUsedTagNoOfConversations)
+                        {
+                            mostUsedTagNoOfConversations = tagEntry.Value;
+                            mostUsedTags.Add(tagEntry.Key);
+                        }
                     }
-                    else if (tagEntry.Value >= mostUsedTagNoOfConversations)
-                    {
-                        mostUsedTagNoOfConversations = tagEntry.Value;
-                        mostUsedTags.Add(tagEntry.Key);
-                    }
+                    return Json(new RepInfoBox(String.Join(", ", mostUsedTags), ""), JsonRequestBehavior.AllowGet);
                 }
-                return Json(new RepInfoBox(String.Join(", ", mostUsedTags), ""), JsonRequestBehavior.AllowGet);
+                else
+                {
+                    return Json(new RepInfoBox(Resources.Global.RepNoneDefaultValue, ""), JsonRequestBehavior.AllowGet);
+                }
             }
             catch (Exception e)
             {
@@ -523,7 +538,10 @@ namespace SmsFeedback_Take4.Controllers
                         }
                     }
                 }
-                return Json(new RepInfoBox(Math.Round((double)noOfTags / noOfConversations, 2), Resources.Global.RepTagsPerConversationUnit), JsonRequestBehavior.AllowGet);
+                
+                RepInfoBox result = (noOfConversations == 0) ? new RepInfoBox(0, Resources.Global.RepTagsPerConversationUnit) :
+                    result = new RepInfoBox(Math.Round((double)noOfTags / noOfConversations, 2), Resources.Global.RepTagsPerConversationUnit);
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -624,8 +642,7 @@ namespace SmsFeedback_Take4.Controllers
 
                 RepInfoBox result = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
                     new RepInfoBox(Math.Round((double)noOfMessages / noOfClients, 2), Resources.Global.RepSmsPerClient);
-                return (noOfClients == 0) ? Json(new RepInfoBox(0, Resources.Global.RepSmsPerClient), JsonRequestBehavior.AllowGet):
-                    Json(new RepInfoBox(Math.Round((double)noOfMessages / noOfClients, 2), Resources.Global.RepSmsPerClient), JsonRequestBehavior.AllowGet);
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -662,15 +679,9 @@ namespace SmsFeedback_Take4.Controllers
                     }
                 }
                 // Avoid division by 0
-                TimeSpan avgResponseTime;
-                if (counter == 0)
-                {
-                    avgResponseTime = new TimeSpan(0);
-                }
-                else
-                {
+                TimeSpan avgResponseTime = (counter == 0) ? new TimeSpan(0) :
                     avgResponseTime = new TimeSpan((long)(totalResponseTime / counter));
-                }
+                
                 if (avgResponseTime.TotalMinutes < 1)
                 {
                     return Json(new RepInfoBox(Math.Round(avgResponseTime.TotalSeconds, 2), Resources.Global.RepSecondsUnit), JsonRequestBehavior.AllowGet);

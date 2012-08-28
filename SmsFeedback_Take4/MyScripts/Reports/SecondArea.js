@@ -12,6 +12,7 @@ function SecondArea(iData) {
         }
         $("#infoBoxArea").append("<div class='clear'></div>");
 
+        /* For now, tooltips for infoboxes are disabled.
         var infoBoxElement = $(".boxArea");
         infoBoxElement.qtip({
             content: infoBoxElement.attr('tooltiptitle'),
@@ -35,7 +36,7 @@ function SecondArea(iData) {
                 tip: 'bottomLeft',
                 name: 'light'
             }
-        });
+        });*/
      }
 
     this.buildInfoBox = function (name, resource, tooltip) {           

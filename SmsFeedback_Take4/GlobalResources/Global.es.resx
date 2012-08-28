@@ -525,4 +525,7 @@
   <data name="welcomeMessage" xml:space="preserve">
     <value>Bienvenido</value>
   </data>
+  <data name="RepNoneDefaultValue" xml:space="preserve">
+    <value>None2</value>
+  </data>
 </root>
