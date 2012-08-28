@@ -66,24 +66,9 @@ function FilterArea() {
    });
     //#endregion
 
-   $("#includeTagsInFilter").bind('click', function () {
-       //set internal state
-       if (self.tagFilteringEnabled) {
-           self.tagFilteringEnabled = false;
-       }
-       else {
-           self.tagFilteringEnabled = true;
-       }
-       //change checkbox state
-       setCheckboxState($(this), self.tagFilteringEnabled);
-       //trigger filtering if required
-       if (self.tagsForFiltering.length != 0) {
-           $(document).trigger('refreshConversationList');
-       }
-   });
-   
+    //#region Date
 
-   //#region Date
+    /*
    this.previousStartDate = "";
    this.defaultStartDate = this.startDate;
    var startDatePicker = $("#startDateTimePicker");
@@ -150,7 +135,9 @@ function FilterArea() {
       
       this.previousEndDate = $.datepicker.formatDate(app.dateFormatForDatePicker, endDatePicker.datepicker("getDate"))
       this.defaultEndDate = $.datepicker.formatDate(app.dateFormatForDatePicker, endDatePicker.datepicker("getDate"));
-   }      
+   }
+
+   
    $("#includeDateInFilter").bind('click', function () {
       //set internal state
       self.dateFilteringEnabled = !self.dateFilteringEnabled;     
@@ -169,6 +156,8 @@ function FilterArea() {
          $(document).trigger('refreshConversationList');
       }
    });
+   */
+
    //#endregion
 
    //#region Starred

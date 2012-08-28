@@ -196,6 +196,7 @@
                 <span style="vertical-align: middle">
                    <%: Resources.Global.starredLabel %></span>
            </div>
+           <!--
            <div id="dateFilterArea">
             <div id="dateLabel" class="filterLabel">
                <img tooltiptitle="<%: Resources.Global.tooltipIncludeDateInFilter %>" id="includeDateInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
@@ -210,6 +211,7 @@
                   value="<%: Resources.Global.toDate %>"> </input>
             </div>
          </div>
+           -->
          
          
          
