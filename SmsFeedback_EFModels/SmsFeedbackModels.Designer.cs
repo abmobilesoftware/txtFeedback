@@ -24,7 +24,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_UserXmppConnection", "XmppConnection", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.XmppConnection), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.User), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_CompanyTag", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Company), "Tag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Tag), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_UserCompany", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.Company), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.User), true)]
-[assembly: EdmRelationshipAttribute("smsfeedbackModel", "ConversationTags", "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Conversation), "Tag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Tag))]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "ConversationMessage", "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Conversation), "Message", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Message), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "MembershipApplication", "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Application), "Membership", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Membership), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "RoleApplication", "Application", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Application), "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Role), true)]
@@ -36,6 +35,8 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "ConversationClient", "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Conversation), "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Client))]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "WorkingPointClient", "WorkingPoint", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.WorkingPoint), "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Client))]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "SupportWorkingPointConversation", "WorkingPoint", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.WorkingPoint), "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Conversation))]
+[assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_ConversationConversationTags", "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Conversation), "ConversationTag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.ConversationTag), true)]
+[assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_TagConversationTags", "Tag", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Tag), "ConversationTag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.ConversationTag), true)]
 
 #endregion
 
@@ -278,6 +279,22 @@ namespace SmsFeedback_EFModels
             }
         }
         private ObjectSet<Client> _Clients;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ConversationTag> ConversationTags1
+        {
+            get
+            {
+                if ((_ConversationTags1 == null))
+                {
+                    _ConversationTags1 = base.CreateObjectSet<ConversationTag>("ConversationTags1");
+                }
+                return _ConversationTags1;
+            }
+        }
+        private ObjectSet<ConversationTag> _ConversationTags1;
 
         #endregion
 
@@ -377,6 +394,14 @@ namespace SmsFeedback_EFModels
         public void AddToClients(Client client)
         {
             base.AddObject("Clients", client);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ConversationTags1 EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToConversationTags1(ConversationTag conversationTag)
+        {
+            base.AddObject("ConversationTags1", conversationTag);
         }
 
         #endregion
@@ -1149,28 +1174,6 @@ namespace SmsFeedback_EFModels
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "ConversationTags", "Tag")]
-        public EntityCollection<Tag> Tags
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Tag>("smsfeedbackModel.ConversationTags", "Tag");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Tag>("smsfeedbackModel.ConversationTags", "Tag", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "ConversationMessage", "Message")]
         public EntityCollection<Message> Messages
         {
@@ -1297,6 +1300,249 @@ namespace SmsFeedback_EFModels
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<WorkingPoint>("smsfeedbackModel.SupportWorkingPointConversation", "WorkingPoint", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "FK_ConversationConversationTags", "ConversationTag")]
+        public EntityCollection<ConversationTag> ConversationTags
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ConversationTag>("smsfeedbackModel.FK_ConversationConversationTags", "ConversationTag");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ConversationTag>("smsfeedbackModel.FK_ConversationConversationTags", "ConversationTag", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="smsfeedbackModel", Name="ConversationTag")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ConversationTag : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ConversationTag object.
+        /// </summary>
+        /// <param name="dateAdded">Initial value of the DateAdded property.</param>
+        /// <param name="conversationConvId">Initial value of the ConversationConvId property.</param>
+        /// <param name="tagName">Initial value of the TagName property.</param>
+        /// <param name="tagCompanyName">Initial value of the TagCompanyName property.</param>
+        public static ConversationTag CreateConversationTag(global::System.DateTime dateAdded, global::System.String conversationConvId, global::System.String tagName, global::System.String tagCompanyName)
+        {
+            ConversationTag conversationTag = new ConversationTag();
+            conversationTag.DateAdded = dateAdded;
+            conversationTag.ConversationConvId = conversationConvId;
+            conversationTag.TagName = tagName;
+            conversationTag.TagCompanyName = tagCompanyName;
+            return conversationTag;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime DateAdded
+        {
+            get
+            {
+                return _DateAdded;
+            }
+            set
+            {
+                OnDateAddedChanging(value);
+                ReportPropertyChanging("DateAdded");
+                _DateAdded = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DateAdded");
+                OnDateAddedChanged();
+            }
+        }
+        private global::System.DateTime _DateAdded;
+        partial void OnDateAddedChanging(global::System.DateTime value);
+        partial void OnDateAddedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ConversationConvId
+        {
+            get
+            {
+                return _ConversationConvId;
+            }
+            set
+            {
+                if (_ConversationConvId != value)
+                {
+                    OnConversationConvIdChanging(value);
+                    ReportPropertyChanging("ConversationConvId");
+                    _ConversationConvId = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("ConversationConvId");
+                    OnConversationConvIdChanged();
+                }
+            }
+        }
+        private global::System.String _ConversationConvId;
+        partial void OnConversationConvIdChanging(global::System.String value);
+        partial void OnConversationConvIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String TagName
+        {
+            get
+            {
+                return _TagName;
+            }
+            set
+            {
+                if (_TagName != value)
+                {
+                    OnTagNameChanging(value);
+                    ReportPropertyChanging("TagName");
+                    _TagName = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("TagName");
+                    OnTagNameChanged();
+                }
+            }
+        }
+        private global::System.String _TagName;
+        partial void OnTagNameChanging(global::System.String value);
+        partial void OnTagNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String TagCompanyName
+        {
+            get
+            {
+                return _TagCompanyName;
+            }
+            set
+            {
+                if (_TagCompanyName != value)
+                {
+                    OnTagCompanyNameChanging(value);
+                    ReportPropertyChanging("TagCompanyName");
+                    _TagCompanyName = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("TagCompanyName");
+                    OnTagCompanyNameChanged();
+                }
+            }
+        }
+        private global::System.String _TagCompanyName;
+        partial void OnTagCompanyNameChanging(global::System.String value);
+        partial void OnTagCompanyNameChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "FK_ConversationConversationTags", "Conversation")]
+        public Conversation Conversation
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Conversation>("smsfeedbackModel.FK_ConversationConversationTags", "Conversation").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Conversation>("smsfeedbackModel.FK_ConversationConversationTags", "Conversation").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Conversation> ConversationReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Conversation>("smsfeedbackModel.FK_ConversationConversationTags", "Conversation");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Conversation>("smsfeedbackModel.FK_ConversationConversationTags", "Conversation", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "FK_TagConversationTags", "Tag")]
+        public Tag Tag
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Tag>("smsfeedbackModel.FK_TagConversationTags", "Tag").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Tag>("smsfeedbackModel.FK_TagConversationTags", "Tag").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Tag> TagReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Tag>("smsfeedbackModel.FK_TagConversationTags", "Tag");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Tag>("smsfeedbackModel.FK_TagConversationTags", "Tag", value);
                 }
             }
         }
@@ -2799,18 +3045,18 @@ namespace SmsFeedback_EFModels
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "ConversationTags", "Conversation")]
-        public EntityCollection<Conversation> Conversations
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "FK_TagConversationTags", "ConversationTag")]
+        public EntityCollection<ConversationTag> ConversationTags
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Conversation>("smsfeedbackModel.ConversationTags", "Conversation");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ConversationTag>("smsfeedbackModel.FK_TagConversationTags", "ConversationTag");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Conversation>("smsfeedbackModel.ConversationTags", "Conversation", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ConversationTag>("smsfeedbackModel.FK_TagConversationTags", "ConversationTag", value);
                 }
             }
         }

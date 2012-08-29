@@ -55,7 +55,7 @@ namespace SmsFeedback_Take4.Models
                             (onlyUnread? c.Read == false : true) &&
                             (earliestStartDate.HasValue ? c.StartTime >= earliestStartDate.Value : true) &&
                             (latestEndDate.HasValue ? c.TimeUpdated <= latestEndDate.Value : true) &&
-                            !tags.Except(c.Tags.Select(tag => tag.Name)).Any()
+                            !tags.Except(c.ConversationTags.Select(tag => tag.TagName)).Any()
                             orderby c.TimeUpdated descending
                             select (new SmsMessage() { From = c.From, To = c.From, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId, Starred = c.Starred, ClientDisplayName = c.Client.DisplayName, ClientIsSupportBot = c.Client.isSupportClient }));
          }
@@ -209,8 +209,8 @@ namespace SmsFeedback_Take4.Models
          logger.Info("Call made");
          var res = from conv in dbContext.Conversations
                    where conv.ConvId == convID
-                   select (from tag in conv.Tags
-                           select new ConversationTag() { CompanyName = tag.CompanyName, Name = tag.Name, Description = tag.Description });
+                   select (from convTag in conv.ConversationTags
+                           select new ConversationTag() { CompanyName = convTag.Tag.CompanyName, Name = convTag.Tag.Name, Description = convTag.Tag.Description });
          if (res != null && res.Count() > 0)
          {
             return res.First();
