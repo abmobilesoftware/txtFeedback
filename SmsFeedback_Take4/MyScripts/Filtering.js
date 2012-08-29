@@ -13,11 +13,61 @@ window.app.defaultFilteringOptions = {
    supportFilteringEnabled: false
 }
 
+function Filter(iElement, iValue) {
+    var elementName = iElement;
+    var behindVariable = iValue;
+    
+    this.getElementName = function () {
+        return elementName;
+    }
+    this.getBehindVariable = function () {
+        return behindVariable;
+    }
+}
+
 function FilterArea() {
    var self = this;
    $.extend(this, app.defaultFilteringOptions);
+    
+    // List of filters and filter operations
+   var filtersList = [];
+   var tagsFilter = new Filter("#includeTagsInFilter", "self.tagFilteringEnabled");
+   var unreadFilter = new Filter("#includeUnreadInFilter", "self.unreadFilteringEnabled");
+   var starredFilter = new Filter("#includeStarredInFilter", "self.starredFilteringEnabled");
+   var supportFilter = new Filter("#includeSupportInFilter", "self.supportFilteringEnabled");
+   filtersList.push(tagsFilter);
+   filtersList.push(unreadFilter);
+   filtersList.push(starredFilter);
 
-   //#region Tags
+   this.deactivateFilters = function () {
+       for (var i = 0; i < filtersList.length; ++i) {
+           var behindVariableValue = eval(filtersList[i].getBehindVariable());
+           if (behindVariableValue == true) {
+               eval(filtersList[i].getBehindVariable() + "=false");
+           }
+           setCheckboxState($(filtersList[i].getElementName()), eval(filtersList[i].getBehindVariable()));
+       }
+   }
+    
+   this.deactivateFilter = function (filter) {
+       var behindVariableValue = eval(filter.getBehindVariable());
+       if (behindVariableValue == true) {
+           eval(filter.getBehindVariable() + "=false");
+       }
+       setCheckboxState($(filter.getElementName()), eval(filter.getBehindVariable()));
+   }
+
+   this.toggleFilter = function (filter) {
+       var behindVariableValue = eval(filter.getBehindVariable());
+       if (behindVariableValue == true) {
+           eval(filter.getBehindVariable() + "=false");
+       } else if (behindVariableValue == false) {
+           eval(filter.getBehindVariable() + "=true");
+       }
+       setCheckboxState($(filter.getElementName()), eval(filter.getBehindVariable()));
+   }
+
+    //#region Tags
    var placeholderMessage = $('#filteringAddFilterTagMessage').val();
 
    $("#filterTag").tagsInput({
@@ -50,15 +100,8 @@ function FilterArea() {
    });  
 
    $("#includeTagsInFilter").bind('click', function () {
-      //set internal state
-      if (self.tagFilteringEnabled) {
-         self.tagFilteringEnabled = false;       
-      }
-      else {
-         self.tagFilteringEnabled = true;        
-      }
-      //change checkbox state
-      setCheckboxState($(this), self.tagFilteringEnabled);
+       if (!self.tagFilteringEnabled) self.deactivateFilter(supportFilter);
+       self.toggleFilter(tagsFilter);
       //trigger filtering if required
       if (self.tagsForFiltering.length != 0) {
          $(document).trigger('refreshConversationList');
@@ -162,33 +205,24 @@ function FilterArea() {
 
    //#region Starred
    $("#includeStarredInFilter").bind('click', function () {
-      //set internal state
-      self.starredFilteringEnabled = !self.starredFilteringEnabled;      
-      //change checkbox state
-      setCheckboxState($(this), self.starredFilteringEnabled);      
-      //trigger filtering if required
-      $(document).trigger('refreshConversationList');     
+       if (!self.starredFilteringEnabled) self.deactivateFilter(supportFilter);
+       self.toggleFilter(starredFilter);
+       $(document).trigger('refreshConversationList');     
    });
    //#endregion
 
    //#region Unread
    $("#includeUnreadInFilter").bind('click', function () {
-      //set internal state
-      self.unreadFilteringEnabled = !self.unreadFilteringEnabled;      
-      //change checkbox state
-      setCheckboxState($(this), self.unreadFilteringEnabled);
-      //trigger filtering if required
-      $(document).trigger('refreshConversationList');
+       if (!self.unreadFilteringEnabled) self.deactivateFilter(supportFilter);
+       self.toggleFilter(unreadFilter);
+       $(document).trigger('refreshConversationList');
    });
    //#endregion
 
     //#region Support
    $("#includeSupportInFilter").bind('click', function () {
-       //set internal state
-       self.supportFilteringEnabled = !self.supportFilteringEnabled;
-       //change checkbox state
-       setCheckboxState($(this), self.supportFilteringEnabled);
-       //trigger filtering if required
+       if (!self.supportFilteringEnabled) self.deactivateFilters();
+       self.toggleFilter(supportFilter);
        $(document).trigger('refreshConversationList');
    });
     //#endregion
