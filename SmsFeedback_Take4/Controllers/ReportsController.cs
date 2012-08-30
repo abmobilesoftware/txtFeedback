@@ -534,7 +534,7 @@ namespace SmsFeedback_Take4.Controllers
                         if (messagesInPeriod.Count() > 0)
                         {
                             ++noOfConversations;
-                            noOfTags = conv.ConversationTags.Count();
+                            noOfTags += conv.ConversationTags.Count();
                         }
                     }
                 }
