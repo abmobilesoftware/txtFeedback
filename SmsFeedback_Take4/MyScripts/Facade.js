@@ -82,27 +82,29 @@ $(document).ready(function () {
 
 function resizeTriggered() {
    //pick the highest between window size (- header) and messagesArea
-   var padding = 5;
+   var paddingTop = 5;
+   var paddingBottom = 4;
    var msgAreaMarginTop = 10;
    var filterStripHeigh = 45;
    var window_height = window.innerHeight;
    var messagesAreaHeight = $('#messagesArea').height();
-   var headerHeight = $('header').height();
-   var contentWindowHeight = window_height - headerHeight - (2 * padding) - filterStripHeigh;
-   var msgAreaCalculatedHeight = messagesAreaHeight + msgAreaMarginTop;
+   var headerPaddingTop = 5;
+   var headerHeight = $('header').height() + headerPaddingTop;
+   var contentWindowHeight = window_height - headerHeight - (paddingTop + paddingBottom) - filterStripHeigh;
+   var msgAreaCalculatedHeight = messagesAreaHeight + msgAreaMarginTop ;
    //TODO determine this factor
    var factor = 140;
    var minHeight = 400; //px
    if (contentWindowHeight <= msgAreaCalculatedHeight) {
       $('.container_12').height(msgAreaCalculatedHeight);
       $('#scrollablemessagebox').height(minHeight);
-      $('#scrollableconversations').height(minHeight + factor - 12);
+      $('#scrollableconversations').height($('#messagesArea').height() +8);
       //$('#conversationsArea').height(msgAreaCalculatedHeight - msgAreaMarginTop);
    }
    else {
       $('.container_12').height(contentWindowHeight);
       $('#scrollablemessagebox').height(contentWindowHeight - factor);
-      $('#scrollableconversations').height(contentWindowHeight - 12);
+      $('#scrollableconversations').height($('#messagesArea').height() + 8);
       //$('#conversationsArea').height(contentWindowHeight - msgAreaMarginTop);
       //$('#scrollableconversations').height(contentWindowHeight - msgAreaMarginTop);
       //$('#conversations').height(contentWindowHeight - msgAreaMarginTop);
