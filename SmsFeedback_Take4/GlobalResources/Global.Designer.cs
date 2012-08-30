@@ -529,7 +529,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New vs Returning.
+        ///   Looks up a localized string similar to New &amp; Returning.
         /// </summary>
         public static string RepNewVsReturning {
             get {
@@ -642,6 +642,24 @@ namespace Resources {
         public static string RepOverview {
             get {
                 return ResourceManager.GetString("RepOverview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positive &amp; Negative.
+        /// </summary>
+        public static string RepPositiveAndNegative {
+            get {
+                return ResourceManager.GetString("RepPositiveAndNegative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positive &amp; Negative feedback.
+        /// </summary>
+        public static string RepPositiveAndNegativeTitle {
+            get {
+                return ResourceManager.GetString("RepPositiveAndNegativeTitle", resourceCulture);
             }
         }
         

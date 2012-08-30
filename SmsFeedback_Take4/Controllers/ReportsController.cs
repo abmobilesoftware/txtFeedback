@@ -738,8 +738,8 @@ namespace SmsFeedback_Take4.Controllers
         public JsonResult GetReportsMenuItems()
         {
             ReportsMenuItem[] reportsMenuItems = new ReportsMenuItem[] { new ReportsMenuItem(1, Resources.Global.RepConversations, false, 0), new ReportsMenuItem(2, Resources.Global.RepOverview, true, 1), 
-                                                                         new ReportsMenuItem(3, Resources.Global.RepIncomingVsOutgoing, true, 1), new ReportsMenuItem(4, Resources.Global.RepTags, true, 1),
-                                                                         new ReportsMenuItem(5, Resources.Global.RepClients, false, 0), new ReportsMenuItem(6, Resources.Global.RepNewVsReturning, true, 5), 
+                                                                         new ReportsMenuItem(3, Resources.Global.RepIncomingVsOutgoing, true, 1), /*new ReportsMenuItem(4, Resources.Global.RepPositiveAndNegative, true, 1),*/
+                                                                         new ReportsMenuItem(5, Resources.Global.RepTags, true, 1), new ReportsMenuItem(6, Resources.Global.RepClients, false, 0), new ReportsMenuItem(7, Resources.Global.RepNewVsReturning, true, 6), 
                                                                         };
             // new ReportsMenuItem(7, Resources.Global.RepNewVsReturning , true, 5)
             return Json(reportsMenuItems, JsonRequestBehavior.AllowGet);
@@ -788,7 +788,7 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetIncomingOutgoingThirdArea") 
                                                                                                                                                           }),
                                                                                     });
-            var report4 = new Report(4, Resources.Global.RepTags, "Global", new ReportSection[] { 
+            var report4 = new Report(4, Resources.Global.RepPositiveAndNegativeTitle, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
                                                                                                                                                             new ReportResource("No of conversations by tags", iSource: "/Reports/GetNoOfConversationsByTagsChartSource", iOptions: new ReportResourceOptions(Constants.BARS_CHART_STYLE)) 
                                                                                                                                                             
@@ -804,7 +804,23 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
                                                                                                                                                           }),
                                                                                     });
-            var report6 = new Report(6, Resources.Global.RepNewVsReturning, "Global", new ReportSection[] { 
+            var report5 = new Report(5, Resources.Global.RepTags, "Global", new ReportSection[] { 
+                                                                                        new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
+                                                                                                                                                            new ReportResource("No of conversations by tags", iSource: "/Reports/GetNoOfConversationsByTagsChartSource", iOptions: new ReportResourceOptions(Constants.BARS_CHART_STYLE)) 
+                                                                                                                                                            
+                                                                                                                                                             
+                                                                                                                                                            }),
+                                                                                        new ReportSection("InfoBox", true, new ReportResource[] { 
+                                                                                                                                                    new ReportResource(Resources.Global.RepMostUsedTag, iSource: "/Reports/GetMostUsedTagsInfo",
+                                                                                                                                                    iTooltip: Resources.Global.RepMostUsedTagsTooltip),     
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfTagsPerConversation, iSource: "/Reports/GetAvgNoOfTagsPerConversationInfo", 
+                                                                                                                                                    iTooltip: Resources.Global.RepAvgNoOfTagsPerConversationTooltip)
+                                                                                                                                                }),
+                                                                                        new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
+                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
+                                                                                                                                                          }),
+                                                                                    });
+            var report7 = new Report(7, Resources.Global.RepNewVsReturning, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "/Reports/GetNewVsReturningClientsChartSource") 
                                                                                                                                                           }),
@@ -837,7 +853,8 @@ namespace SmsFeedback_Take4.Controllers
             hashTable.Add(2, report2);
             hashTable.Add(3, report3);
             hashTable.Add(4, report4);
-            hashTable.Add(6, report6);
+            hashTable.Add(5, report5);
+            hashTable.Add(7, report7);
             //hashTable.Add(7, report7);
 
             return Json(hashTable[reportId], JsonRequestBehavior.AllowGet);

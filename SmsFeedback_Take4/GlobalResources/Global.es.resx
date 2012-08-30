@@ -528,4 +528,10 @@
   <data name="RepNoneDefaultValue" xml:space="preserve">
     <value>None2</value>
   </data>
+  <data name="RepPositiveAndNegative" xml:space="preserve">
+    <value>Positive &amp; Negative</value>
+  </data>
+  <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
+    <value>Positive &amp; Negative feedback ES</value>
+  </data>
 </root>

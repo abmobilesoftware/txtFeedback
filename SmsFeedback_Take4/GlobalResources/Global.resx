@@ -299,7 +299,7 @@
     <comment>Conversation: send email: send email screen header</comment>
   </data>
   <data name="RepNewVsReturning" xml:space="preserve">
-    <value>New vs Returning</value>
+    <value>New &amp; Returning</value>
   </data>
   <data name="sendEmailMessage" xml:space="preserve">
     <value>*Message:</value>
@@ -644,5 +644,11 @@
   </data>
   <data name="RepNoneDefaultValue" xml:space="preserve">
     <value>None</value>
+  </data>
+  <data name="RepPositiveAndNegative" xml:space="preserve">
+    <value>Positive &amp; Negative</value>
+  </data>
+  <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
+    <value>Positive &amp; Negative feedback</value>
   </data>
 </root>
