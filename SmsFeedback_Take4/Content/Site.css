@@ -311,21 +311,22 @@ div#title {
 }
 
 #logindisplay {
-   font-size: 1.1em;
+   font-size: 15px;
    display: block;
    text-align: right;
    /*margin: 10px;*/
-   color: #511df9;
+   color: #183540;
 }
 
    #logindisplay a:link {
       color: #511df9;
       text-decoration: underline;
+      opacity:  0.5;
    }
 
    #logindisplay a:visited {
-      color: #511df9;
-      text-decoration: underline;
+      color: #183540;
+      text-decoration: underline;      
    }
 
    #logindisplay a:hover {
@@ -487,18 +488,22 @@ div.statusbarclose {
    margin-top: 20px;
 }
 
-   #changeLanguage img, #logindisplay img {
-      width: 16px;
-      height: 16px;
-      background: transparent;
-   }
+#changeLanguage img, #logindisplay img {
+   width: 16px;
+   height: 16px;
+   background: transparent;
+}
 
-      #changeLanguage img:hover, #logindisplay img:hover {
-         background: grey;
-      }
+#changeLanguage img:hover, #logindisplay img:hover {
+   background: grey;
+}
 
+#changeLanguage a {
+ opacity:  0.5;        
+}
 .selectedLanguage {
    border-bottom: 1px solid black;
+   opacity: 1 !important;
 }
 
 #msgTabcount {
@@ -511,6 +516,7 @@ div.statusbarclose {
    right: 5px;
    padding-top: 15px;
    z-index: 5;
+   font-size: 15px;
 }
 
    #feedbackArea img {
