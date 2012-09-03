@@ -184,17 +184,18 @@
                 <span style="vertical-align: middle">
                    <%: Resources.Global.supportLabel %></span>
            </div>
-           <div id="unreadFilterArea" class="filterLabel">
-                <img id="includeUnreadInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeUnreadInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
-                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
-                <span style="vertical-align: middle">
-                   <%: Resources.Global.readLabel %></span>
-           </div>
+         
            <div id="starredFilterArea" class="filterLabel">
                 <img id="includeStarredInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeStarredInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                    src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
                 <span style="vertical-align: middle">
                    <%: Resources.Global.starredLabel %></span>
+           </div>
+            <div id="unreadFilterArea" class="filterLabel">
+                <img id="includeUnreadInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeUnreadInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
+                <span style="vertical-align: middle">
+                   <%: Resources.Global.readLabel %></span>
            </div>
            <!--
            <div id="dateFilterArea">

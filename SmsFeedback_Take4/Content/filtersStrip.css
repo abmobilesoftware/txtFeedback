@@ -65,11 +65,11 @@
 
 #unreadFilterArea {
    width: 98px;
-   float: left;
+   float: right;
 }
 #starredFilterArea {
    width: 98px;
-   float: left;
+   float: right;
 }
 #dateFilterArea {
    float: left;
