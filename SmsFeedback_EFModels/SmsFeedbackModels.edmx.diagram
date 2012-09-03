@@ -5,9 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="9c032a5472b642ed9bdfb92c9ffa1550" Name="Diagram1" ZoomLevel="75">
-        <EntityTypeShape EntityType="smsfeedbackModel.Conversation" Width="2.125" PointX="12.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Conversation" Width="2.125" PointX="12.625" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="smsfeedbackModel.Message" PointX="15.875" PointY="1.375" Width="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="smsfeedbackModel.WorkingPoint" Width="1.5" PointX="8.5" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="smsfeedbackModel.WorkingPoint" Width="2.375" PointX="8.125" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="smsfeedbackModel.User" Width="1.5" PointX="7.875" PointY="5.625" />
         <EntityTypeShape EntityType="smsfeedbackModel.Role" Width="1.5" PointX="4" PointY="5.625" />
         <AssociationConnector Association="smsfeedbackModel.UsersForWorkingPoints" />
@@ -31,7 +31,6 @@
         <AssociationConnector Association="smsfeedbackModel.CompanyConversation" />
         <EntityTypeShape EntityType="smsfeedbackModel.Client" Width="1.5" PointX="19.25" PointY="3.5" IsExpanded="true" />
         <AssociationConnector Association="smsfeedbackModel.FK_ConversationClient" />
-        <AssociationConnector Association="smsfeedbackModel.SupportWorkingPointConversation" />
         <EntityTypeShape EntityType="smsfeedbackModel.ConversationTag" Width="1.5" PointX="16.25" PointY="9" />
         <AssociationConnector Association="smsfeedbackModel.FK_ConversationConversationTags" />
         <AssociationConnector Association="smsfeedbackModel.FK_TagConversationTags" />
@@ -40,6 +39,7 @@
         <AssociationConnector Association="smsfeedbackModel.WorkingPointActivityLogWorkingPoint" />
         <EntityTypeShape EntityType="smsfeedbackModel.Subscriptions" Width="3" PointX="11" PointY="12.625" />
         <AssociationConnector Association="smsfeedbackModel.CompanySubscriptions" />
+        <AssociationConnector Association="smsfeedbackModel.FK_SupportConversationForWorkingPoint1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

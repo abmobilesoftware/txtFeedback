@@ -158,7 +158,7 @@ namespace SmsFeedback_Take4.Models
           List<SmsMessage> supportConversations = new List<SmsMessage>();
           foreach (var wp in wps)
           {
-              var supportConversation = wp.SupportConversation;
+              var supportConversation = wp.ConversationForSupport;
               var packedSupportConversation = new SmsMessage() { From = supportConversation.From, To = supportConversation.From, Text = supportConversation.Text, TimeReceived = supportConversation.TimeUpdated, Read = supportConversation.Read, ConvID = supportConversation.ConvId, Starred = supportConversation.Starred, ClientDisplayName = supportConversation.Client.DisplayName, ClientIsSupportBot = supportConversation.Client.isSupportClient };
               supportConversations.Add(packedSupportConversation);
           }
