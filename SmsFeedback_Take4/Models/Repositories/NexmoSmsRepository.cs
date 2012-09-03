@@ -8,6 +8,7 @@ using Nexmo_CSharp_lib.Model.Request;
 
 namespace SmsFeedback_Take4.Models
 {
+   [Serializable]
    public class NexmoSmsRepository : IExternalSmsRepository
    {      
       public System.Collections.Generic.IEnumerable<SmsMessage> GetConversationsForNumber(string workingPointsNumber,

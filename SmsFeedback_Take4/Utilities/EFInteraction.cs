@@ -233,7 +233,9 @@ namespace SmsFeedback_Take4.Utilities
              var convs = from c in dbContext.Conversations where c.ConvId == convID select c;
              if (convs.Count() > 0)
              {
-                convs.First().Tags.Add(tag);
+                var conv = convs.First();
+                var convTag = new SmsFeedback_EFModels.ConversationTag() { ConversationConvId = convID, TagCompanyName = tag.CompanyName, TagName = tag.Name, DateAdded = DateTime.UtcNow };
+                conv.ConversationTags.Add(convTag);                
                 dbContext.SaveChanges();
              }
           }
@@ -251,12 +253,19 @@ namespace SmsFeedback_Take4.Utilities
              var convs = from c in dbContext.Conversations where c.ConvId == convID select c;
              if (convs.Count() > 0)
              {
-                var tags = from t in dbContext.Tags where t.Name == tagName select t;
-                if (tags.Count() > 0)
+                var conv = convs.First();
+                var tags = from t in conv.ConversationTags where t.TagName == tagName select t;
+                if (tags.Count() == 1)
                 {
-                   convs.First().Tags.Remove(tags.First());
+                   conv.ConversationTags.Remove(tags.First());
                    dbContext.SaveChanges();
                 }
+                //var tags = from t in dbContext.Tags where t.Name == tagName select t;
+                //if (tags.Count() > 0)
+                //{
+                //   convs.First().Tags.Remove(tags.First());
+                //   dbContext.SaveChanges();
+                //}
              }
           }
           catch (Exception ex)

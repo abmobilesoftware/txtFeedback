@@ -33,6 +33,8 @@ namespace SmsFeedback_Take4.Models
          return obj.DateSent.GetHashCode();
       }
    }
+
+   [Serializable]
    public class TwilioSmsRepository : SmsFeedback_Take4.Models.IExternalSmsRepository 
     {
       private static  readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

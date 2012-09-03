@@ -147,6 +147,7 @@ div.radioBtnWrapper.active {
 #infoBoxArea {
     margin: 5px 10px 25px;
     height:160px;
+    display: inline-table;
 }
 
 .infoTitle {

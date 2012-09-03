@@ -525,7 +525,7 @@ namespace SmsFeedback_Take4.Controllers
                 {
                     var conversationsStartedInPeriod = from conv in wp.Conversations where conv.StartTime >= intervalStart && conv.StartTime <= intervalEnd select conv;
                     noOfConversations += conversationsStartedInPeriod.Count();
-                    foreach (var conv in conversationsStartedInPeriod) noOfTags += conv.Tags.Count;
+                    foreach (var conv in conversationsStartedInPeriod) noOfTags += conv.ConversationTags.Count;
 
                     var conversationStartedBefore = from conv in wp.Conversations where conv.StartTime < intervalStart select conv;
                     foreach (var conv in conversationStartedBefore)
@@ -534,7 +534,7 @@ namespace SmsFeedback_Take4.Controllers
                         if (messagesInPeriod.Count() > 0)
                         {
                             ++noOfConversations;
-                            noOfTags += conv.Tags.Count();
+                            noOfTags += conv.ConversationTags.Count();
                         }
                     }
                 }
@@ -933,16 +933,16 @@ namespace SmsFeedback_Take4.Controllers
                         var noOfMessagesInThisConversation = (from msg in conv.Messages where (msg.TimeReceived >= iIntervalStart & msg.TimeReceived <= iIntervalEnd) select msg).Count();
                         if (noOfMessagesInThisConversation > 0)
                         {
-                            foreach (var tag in conv.Tags)
+                            foreach (var convTag in conv.ConversationTags)
                             {
 
-                                if (tagsHash.ContainsKey(tag.Name))
+                                if (tagsHash.ContainsKey(convTag.Tag.Name))
                                 {
-                                    tagsHash[tag.Name] += 1;
+                                    tagsHash[convTag.Tag.Name] += 1;
                                 }
                                 else
                                 {
-                                    tagsHash.Add(tag.Name, 1);
+                                    tagsHash.Add(convTag.Tag.Name, 1);
                                 }
                             }
                         }

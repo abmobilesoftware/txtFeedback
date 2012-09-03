@@ -5,6 +5,7 @@ using System.Web;
 
 namespace SmsFeedback_Take4.Models
 {
+   [Serializable]
    public class WorkingPoint
    {
       public WorkingPoint()

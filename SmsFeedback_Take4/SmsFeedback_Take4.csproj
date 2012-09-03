@@ -536,6 +536,8 @@
     <None Include="Properties\PublishProfiles\cluj.info.pubxml" />
     <Content Include="Views\UserMailer\_Layout.Master" />
     <Content Include="Scripts\jquery.cookie.js" />
+    <None Include="Properties\PublishProfiles\demo.txtfeedback.net.pubxml" />
+    <None Include="Properties\PublishProfiles\dev.txtfeedback.net.pubxml" />
     <None Include="Properties\PublishProfiles\product.txtfeedback.net.pubxml" />
     <None Include="Properties\PublishProfiles\ToClujInfo.pubxml" />
   </ItemGroup>

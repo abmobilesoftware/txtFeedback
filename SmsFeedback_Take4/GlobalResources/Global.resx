@@ -450,7 +450,7 @@
     <comment>The title (browser page description0</comment>
   </data>
   <data name="messagesPageTitle" xml:space="preserve">
-    <value>Messages</value>
+    <value>Conversations</value>
     <comment>The title (browser page description0</comment>
   </data>
   <data name="RepNoOfIncomingSms" xml:space="preserve">
