@@ -534,34 +534,37 @@
     <comment>Conversation: filters area, favourites (starred) filter label</comment>
   </data>
   <data name="tabHelp" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="tabMessages" xml:space="preserve">
     <value>Conversations</value>
     <comment>help navigation menu</comment>
   </data>
-  <data name="tabMessages" xml:space="preserve">
+  <data name="tabReports" xml:space="preserve">
     <value>Reports</value>
     <comment>conversations navigation menu</comment>
   </data>
-  <data name="tabReports" xml:space="preserve">
+  <data name="tabSettings" xml:space="preserve">
     <value>Settings</value>
     <comment>reports navigation menu</comment>
   </data>
-  <data name="tabSettings" xml:space="preserve">
+  <data name="tagsLabel" xml:space="preserve">
     <value>Tag(s): </value>
     <comment>settings navigation menu </comment>
   </data>
-  <data name="tagsLabel" xml:space="preserve">
+  <data name="toDate" xml:space="preserve">
     <value>last updated</value>
     <comment>Conversation: filters area, tags filtering label</comment>
   </data>
-  <data name="toDate" xml:space="preserve">
+  <data name="tooltipIncludeDateInFilter" xml:space="preserve">
     <value>Turn date filtering on/off</value>
     <comment>Conversation: filters area, date filtering, to placeholder</comment>
   </data>
-  <data name="tooltipIncludeDateInFilter" xml:space="preserve">
+  <data name="tooltipIncludeStarredInFilter" xml:space="preserve">
     <value>Turn favorites filtering on/off</value>
     <comment>Conversation: filters area, enable/disable date filtering checkbox tooltip</comment>
   </data>
-  <data name="tooltipIncludeStarredInFilter" xml:space="preserve">
+  <data name="tooltipIncludeSupportFilter" xml:space="preserve">
     <value>Quick access to support conversations</value>
     <comment>Conversation: filters area, favorites messages only checkbox tooltip</comment>
   </data>
@@ -604,5 +607,8 @@
   <data name="welcomeMessage" xml:space="preserve">
     <value>Welcome</value>
     <comment>Conversation: header, top right message</comment>
+  </data>
+  <data name="supportLabel" xml:space="preserve">
+    <value>Support</value>
   </data>
 </root>

@@ -481,27 +481,30 @@
     <value>Favoriten</value>
   </data>
   <data name="tabHelp" xml:space="preserve">
-    <value>Unterhaltungen</value>
+    <value>Hilfe</value>
   </data>
   <data name="tabMessages" xml:space="preserve">
-    <value>Berichte</value>
+    <value>Unterhaltungen</value>
   </data>
   <data name="tabReports" xml:space="preserve">
-    <value>Einstellungen</value>
+    <value>Berichte</value>
   </data>
   <data name="tabSettings" xml:space="preserve">
-    <value>Schlagwörter(n):</value>
+    <value>Einstellungen</value>
   </data>
   <data name="tagsLabel" xml:space="preserve">
-    <value>Letzte Aktualisierung</value>
+    <value>Schlagwörter(n):</value>
   </data>
   <data name="toDate" xml:space="preserve">
-    <value>Datenfilterung an/abschalten</value>
+    <value>Letzte Aktualisierung</value>
   </data>
   <data name="tooltipIncludeDateInFilter" xml:space="preserve">
-    <value>Favoritenfilterung an/abschalten</value>
+    <value>Datenfilterung an/abschalten</value>
   </data>
   <data name="tooltipIncludeStarredInFilter" xml:space="preserve">
+    <value>Favoritenfilterung an/abschalten</value>
+  </data>
+  <data name="tooltipIncludeSupportFilter" xml:space="preserve">
     <value>Schnelle zugriff zum Unterstützungsunterhaltungen</value>
   </data>
   <data name="tooltipIncludeTagsInFilter" xml:space="preserve">

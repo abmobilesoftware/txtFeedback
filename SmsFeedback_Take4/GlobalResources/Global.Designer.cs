@@ -1150,7 +1150,16 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Conversations.
+        ///   Looks up a localized string similar to Support.
+        /// </summary>
+        public static string supportLabel {
+            get {
+                return ResourceManager.GetString("supportLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string tabHelp {
             get {
@@ -1159,7 +1168,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reports.
+        ///   Looks up a localized string similar to Conversations.
         /// </summary>
         public static string tabMessages {
             get {
@@ -1168,7 +1177,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Settings.
+        ///   Looks up a localized string similar to Reports.
         /// </summary>
         public static string tabReports {
             get {
@@ -1177,7 +1186,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tag(s): .
+        ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string tabSettings {
             get {
@@ -1186,7 +1195,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to last updated.
+        ///   Looks up a localized string similar to Tag(s): .
         /// </summary>
         public static string tagsLabel {
             get {
@@ -1195,7 +1204,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Turn date filtering on/off.
+        ///   Looks up a localized string similar to last updated.
         /// </summary>
         public static string toDate {
             get {
@@ -1204,7 +1213,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Turn favorites filtering on/off.
+        ///   Looks up a localized string similar to Turn date filtering on/off.
         /// </summary>
         public static string tooltipIncludeDateInFilter {
             get {
@@ -1213,11 +1222,20 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quick access to support conversations.
+        ///   Looks up a localized string similar to Turn favorites filtering on/off.
         /// </summary>
         public static string tooltipIncludeStarredInFilter {
             get {
                 return ResourceManager.GetString("tooltipIncludeStarredInFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick access to support conversations.
+        /// </summary>
+        public static string tooltipIncludeSupportFilter {
+            get {
+                return ResourceManager.GetString("tooltipIncludeSupportFilter", resourceCulture);
             }
         }
         
