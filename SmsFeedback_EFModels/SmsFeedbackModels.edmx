@@ -75,10 +75,6 @@
             <End Role="WorkingPoints" EntitySet="WorkingPoints" />
             <End Role="ActivityLogWorkingPoints" EntitySet="ActivityLogWorkingPoints" />
           </AssociationSet>
-          <AssociationSet Name="FK_WorkingPointClient" Association="smsfeedbackModel.Store.FK_WorkingPointClient">
-            <End Role="Clients" EntitySet="Clients" />
-            <End Role="WorkingPoints" EntitySet="WorkingPoints" />
-          </AssociationSet>
           <AssociationSet Name="FK_WorkingPointConversation" Association="smsfeedbackModel.Store.FK_WorkingPointConversation">
             <End Role="WorkingPoints" EntitySet="WorkingPoints" />
             <End Role="Conversations" EntitySet="Conversations" />
@@ -286,7 +282,6 @@
           <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="160" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="40" />
           <Property Name="Provider" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="Support_TelNumber" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="SentSms" Type="int" Nullable="false" />
           <Property Name="MaxNrOfSmsToSend" Type="int" Nullable="false" />
           <Property Name="SupportConversation" Type="nvarchar" MaxLength="50" />
@@ -457,18 +452,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_WorkingPointClient">
-          <End Role="Clients" Type="smsfeedbackModel.Store.Clients" Multiplicity="1" />
-          <End Role="WorkingPoints" Type="smsfeedbackModel.Store.WorkingPoints" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Clients">
-              <PropertyRef Name="TelNumber" />
-            </Principal>
-            <Dependent Role="WorkingPoints">
-              <PropertyRef Name="Support_TelNumber" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_WorkingPointConversation">
           <End Role="WorkingPoints" Type="smsfeedbackModel.Store.WorkingPoints" Multiplicity="1" />
           <End Role="Conversations" Type="smsfeedbackModel.Store.Conversations" Multiplicity="*" />
@@ -633,11 +616,7 @@
           <AssociationSet Name="ConversationClient" Association="smsfeedbackModel.ConversationClient">
             <End Role="Conversation" EntitySet="Conversations" />
             <End Role="Client" EntitySet="Clients" />
-          </AssociationSet>
-          <AssociationSet Name="WorkingPointClient" Association="smsfeedbackModel.WorkingPointClient">
-            <End Role="WorkingPoint" EntitySet="WorkingPoints" />
-            <End Role="Client" EntitySet="Clients" />
-          </AssociationSet>
+          </AssociationSet>         
           <EntitySet Name="ConversationTags" EntityType="smsfeedbackModel.ConversationTag" />
           <AssociationSet Name="FK_ConversationConversationTags" Association="smsfeedbackModel.FK_ConversationConversationTags">
             <End Role="Conversation" EntitySet="Conversations" />
@@ -710,7 +689,6 @@
           <NavigationProperty Name="Users" Relationship="smsfeedbackModel.UsersForWorkingPoints" FromRole="WorkingPoint" ToRole="User" />
           <Property Type="String" Name="Provider" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Conversations" Relationship="smsfeedbackModel.FK_WorkingPointConversation" FromRole="WorkingPoint" ToRole="Conversation" />
-          <NavigationProperty Name="Support" Relationship="smsfeedbackModel.WorkingPointClient" FromRole="WorkingPoint" ToRole="Client" />
           <Property Type="Int32" Name="SentSms" Nullable="false" />
           <Property Type="Int32" Name="MaxNrOfSmsToSend" Nullable="false" />
           <NavigationProperty Name="ActivityLogWorkingPoints" Relationship="smsfeedbackModel.WorkingPointActivityLogWorkingPoint" FromRole="WorkingPoint" ToRole="ActivityLogWorkingPoint" />
@@ -973,16 +951,11 @@
           <Property Type="String" Name="Description" Nullable="false" MaxLength="160" Unicode="true" FixedLength="false" />
           <Property Type="Boolean" Name="isSupportClient" Nullable="false" />
           <NavigationProperty Name="Conversations" Relationship="smsfeedbackModel.ConversationClient" FromRole="Client" ToRole="Conversation" />
-          <NavigationProperty Name="WorkingPoints" Relationship="smsfeedbackModel.WorkingPointClient" FromRole="Client" ToRole="WorkingPoint" />
         </EntityType>
         <Association Name="ConversationClient">
           <End Type="smsfeedbackModel.Conversation" Role="Conversation" Multiplicity="*" />
           <End Type="smsfeedbackModel.Client" Role="Client" Multiplicity="1" />
-        </Association>
-        <Association Name="WorkingPointClient">
-          <End Type="smsfeedbackModel.WorkingPoint" Role="WorkingPoint" Multiplicity="*" />
-          <End Type="smsfeedbackModel.Client" Role="Client" Multiplicity="1" />
-        </Association>
+        </Association>        
         <EntityType Name="ConversationTag">
           <Key>
             <PropertyRef Name="ConversationConvId" />
@@ -1268,14 +1241,7 @@
         <ScalarProperty Name="ConvId" ColumnName="ConvId" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="WorkingPointClient" TypeName="smsfeedbackModel.WorkingPointClient" StoreEntitySet="WorkingPoints">
-      <EndProperty Name="Client">
-        <ScalarProperty Name="TelNumber" ColumnName="Support_TelNumber" />
-      </EndProperty>
-      <EndProperty Name="WorkingPoint">
-        <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
-      </EndProperty>
-    </AssociationSetMapping>
+    
     <AssociationSetMapping Name="UsersInRoles" TypeName="smsfeedbackModel.UsersInRoles" StoreEntitySet="UsersInRoles">
             <EndProperty Name="User">
               <ScalarProperty Name="UserId" ColumnName="UserId" />
