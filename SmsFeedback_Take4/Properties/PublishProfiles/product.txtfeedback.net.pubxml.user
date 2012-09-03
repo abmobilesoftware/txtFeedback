@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
 
 This file is used by the publish/package process of your Web project. You can customize the behavior of this process
@@ -8,7 +8,7 @@ by customizing this MSBuild file. In order to learn more about this please visit
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LastUsedBuildConfiguration>Debug</LastUsedBuildConfiguration>
+    <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
     <LastUsedPlatform>Any CPU</LastUsedPlatform>
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA6D2/0eYoOEOspK/DV0RawwAAAAACAAAAAAAQZgAAAAEAACAAAADf+7U5B3RKrv7ETXGgE7oGaq+tWsdd11XxrZYSF3qatgAAAAAOgAAAAAIAACAAAACQXBkHBMFc9vMi3c7eZW+bAQ3YQQxVaIZyuEvDSs2//SAAAAB0Arq3P/PL3KUW7iJc2AmZjjSYrLhm+MqxAik1eankIEAAAADCxUmU6QAu1W1d2toyZ1FZl/CCyuzfjV6VMFJbdLeGg4bT+lTSBHmcY1gbtMrQuiaPTEAEkoOZs0HhcjFb5fCf</EncryptedPassword>
     <TimeStampOfAssociatedLegacyPublishXmlFile />

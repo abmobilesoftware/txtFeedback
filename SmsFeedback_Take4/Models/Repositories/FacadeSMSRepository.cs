@@ -11,7 +11,7 @@ using SmsFeedback_EFModels;
 
 namespace SmsFeedback_Take4.Models
 {
-
+   [Serializable]
    public class AggregateSmsRepository 
    {      
       public const string TWILIO_PROVIDER = "twilio";

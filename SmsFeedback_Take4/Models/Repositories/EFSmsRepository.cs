@@ -7,6 +7,7 @@ using SmsFeedback_Take4.Utilities;
 
 namespace SmsFeedback_Take4.Models
 {
+   [Serializable]
    public class EFSmsRepository : SmsFeedback_Take4.Models.IInternalSMSRepository
    {
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
