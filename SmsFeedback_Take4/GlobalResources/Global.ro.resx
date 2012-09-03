@@ -519,4 +519,7 @@
   <data name="RepNoneDefaultValue" xml:space="preserve">
     <value>Nici unul</value>
   </data>
+  <data name="RepNoneDefaultValue1" xml:space="preserve">
+    <value>None</value>
+  </data>
 </root>

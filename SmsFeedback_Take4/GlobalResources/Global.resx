@@ -117,8 +117,87 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="accountAuthenticate" xml:space="preserve">
+    <value>Authenticate</value>
+    <comment>Login:</comment>
+  </data>
+  <data name="accountInformation" xml:space="preserve">
+    <value>Account Information</value>
+    <comment>Login:</comment>
+  </data>
+  <data name="addATagLabel" xml:space="preserve">
+    <value>add a tag</value>
+    <comment>Conversations: Should be the placeholder text for adding a column</comment>
+  </data>
+  <data name="dateLabel" xml:space="preserve">
+    <value>Date:</value>
+    <comment>Conversations:Label for date filtering</comment>
+  </data>
+  <data name="feedbackSendUsFeedback" xml:space="preserve">
+    <value>Send us feedback</value>
+    <comment>Conversations: send us feedback label</comment>
+  </data>
+  <data name="filteringAddFilterTag" xml:space="preserve">
+    <value>add filtering tag</value>
+  </data>
+  <data name="fromDate" xml:space="preserve">
+    <value>initiated</value>
+    <comment>Conversation: from datepicker placeholder</comment>
+  </data>
+  <data name="helpPageTitle" xml:space="preserve">
+    <value>Help</value>
+    <comment>The title (browser page description0</comment>
+  </data>
+  <data name="lblNoConversationSelected" xml:space="preserve">
+    <value>No conversation selected, please select one</value>
+    <comment>Conversation: messages area, default placeholder</comment>
+  </data>
+  <data name="lblPassword" xml:space="preserve">
+    <value>password</value>
+    <comment>Login:</comment>
+  </data>
+  <data name="lblUserName" xml:space="preserve">
+    <value>username</value>
+    <comment>Login:</comment>
+  </data>
+  <data name="loadMoreConversations" xml:space="preserve">
+    <value>Load more conversations</value>
+    <comment>Conversation:</comment>
+  </data>
+  <data name="loginUnsuccessfulDetails" xml:space="preserve">
+    <value>The user name or password provided is incorrect.</value>
+    <comment>Login:</comment>
+  </data>
+  <data name="loginUnsuccessfulSummary" xml:space="preserve">
+    <value>Login was unsuccessful. Please correct the errors and try again.</value>
+    <comment>Login:</comment>
+  </data>
+  <data name="LogOnButtonMessage" xml:space="preserve">
+    <value>Log On</value>
+    <comment>Login:</comment>
+  </data>
+  <data name="logOnLogOffMsg" xml:space="preserve">
+    <value>Log off</value>
+    <comment>Login:</comment>
+  </data>
+  <data name="logOnLogOnMsg" xml:space="preserve">
+    <value>Log on</value>
+    <comment>Login:</comment>
+  </data>
   <data name="logOnMessage" xml:space="preserve">
     <value>Log On</value>
+    <comment>Login:</comment>
+  </data>
+  <data name="LogOnModel_Password_DisplayName" xml:space="preserve">
+    <value>Password</value>
+    <comment>Login:</comment>
+  </data>
+  <data name="LogOnModel_Password_Required" xml:space="preserve">
+    <value>The Password field is required</value>
+    <comment>Login:</comment>
+  </data>
+  <data name="LogOnModel_RememberMe_DisplayName" xml:space="preserve">
+    <value>Remember me?</value>
     <comment>Login:</comment>
   </data>
   <data name="LogOnModel_UserName_DisplayName" xml:space="preserve">
@@ -141,100 +220,349 @@
     <value>Please enter your user name and password.</value>
     <comment>Login:</comment>
   </data>
-  <data name="tabMessages" xml:space="preserve">
+  <data name="messagesAddTagPlaceHolder" xml:space="preserve">
+    <value>add tag</value>
+  </data>
+  <data name="messagesPageTitle" xml:space="preserve">
     <value>Conversations</value>
-    <comment>conversations navigation menu</comment>
-  </data>
-  <data name="welcomeMessage" xml:space="preserve">
-    <value>Welcome</value>
-    <comment>Conversation: header, top right message</comment>
-  </data>
-  <data name="accountInformation" xml:space="preserve">
-    <value>Account Information</value>
-    <comment>Login:</comment>
-  </data>
-  <data name="LogOnButtonMessage" xml:space="preserve">
-    <value>Log On</value>
-    <comment>Login:</comment>
-  </data>
-  <data name="LogOnModel_Password_DisplayName" xml:space="preserve">
-    <value>Password</value>
-    <comment>Login:</comment>
-  </data>
-  <data name="LogOnModel_Password_Required" xml:space="preserve">
-    <value>The Password field is required</value>
-    <comment>Login:</comment>
-  </data>
-  <data name="LogOnModel_RememberMe_DisplayName" xml:space="preserve">
-    <value>Remember me?</value>
-    <comment>Login:</comment>
-  </data>
-  <data name="tabHelp" xml:space="preserve">
-    <value>Help</value>
-    <comment>help navigation menu</comment>
-  </data>
-  <data name="tabReports" xml:space="preserve">
-    <value>Reports</value>
-    <comment>reports navigation menu</comment>
-  </data>
-  <data name="tabSettings" xml:space="preserve">
-    <value>Settings</value>
-    <comment>settings navigation menu </comment>
-  </data>
-  <data name="tagsLabel" xml:space="preserve">
-    <value>Tag(s): </value>
-    <comment>Conversation: filters area, tags filtering label</comment>
-  </data>
-  <data name="dateLabel" xml:space="preserve">
-    <value>Date:</value>
-    <comment>Conversations:Label for date filtering</comment>
-  </data>
-  <data name="fromDate" xml:space="preserve">
-    <value>initiated</value>
-    <comment>Conversation: from datepicker placeholder</comment>
-  </data>
-  <data name="starredLabel" xml:space="preserve">
-    <value>Favorites</value>
-    <comment>Conversation: filters area, favourites (starred) filter label</comment>
-  </data>
-  <data name="toDate" xml:space="preserve">
-    <value>last updated</value>
-    <comment>Conversation: filters area, date filtering, to placeholder</comment>
+    <comment>The title (browser page description0</comment>
   </data>
   <data name="readLabel" xml:space="preserve">
     <value>Unread</value>
     <comment>Conversation:</comment>
   </data>
+  <data name="RepAvgNoOfIncomingSmsPerConversation" xml:space="preserve">
+    <value>Average number of incoming SMS per customer</value>
+  </data>
+  <data name="RepAvgNoOfIncomingSmsPerConversationToolitp" xml:space="preserve">
+    <value>Average number of incoming SMS per customer</value>
+  </data>
+  <data name="RepAvgNoOfOutgoingSmsPerConversation" xml:space="preserve">
+    <value>Average number of outgoing SMS per customer</value>
+  </data>
+  <data name="RepAvgNoOfOutgoingSmsPerConversationTooltip" xml:space="preserve">
+    <value>Average number of outgoing SMS per customer</value>
+  </data>
+  <data name="RepAvgNoOfSmsPerClient" xml:space="preserve">
+    <value>Average number of SMS per customer</value>
+  </data>
+  <data name="RepAvgNoOfSmsPerClientTooltip" xml:space="preserve">
+    <value>Average number of SMS per customer</value>
+  </data>
+  <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
+    <value>Average number of SMS per day</value>
+  </data>
+  <data name="RepAvgNoOfSmsPerDayTooltip" xml:space="preserve">
+    <value>Average number of SMS per day</value>
+  </data>
+  <data name="RepAvgNoOfTagsPerConversation" xml:space="preserve">
+    <value>Average number of tags per conversation</value>
+  </data>
+  <data name="RepAvgNoOfTagsPerConversationTooltip" xml:space="preserve">
+    <value>Average number of tags per conversation</value>
+  </data>
+  <data name="RepAvgResponseTime" xml:space="preserve">
+    <value>Average response time</value>
+  </data>
+  <data name="RepAvgResponseTimeTooltip" xml:space="preserve">
+    <value>Average response time</value>
+  </data>
+  <data name="RepClients" xml:space="preserve">
+    <value>Customers</value>
+  </data>
+  <data name="RepClientsUnit" xml:space="preserve">
+    <value>customers</value>
+  </data>
+  <data name="RepConversations" xml:space="preserve">
+    <value>Conversations</value>
+  </data>
+  <data name="RepDay" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="RepIncomingSmsChart" xml:space="preserve">
+    <value>Incoming SMS</value>
+  </data>
+  <data name="RepIncomingVsOutgoing" xml:space="preserve">
+    <value>Incoming &amp; Outgoing</value>
+  </data>
+  <data name="RepMinutesUnit" xml:space="preserve">
+    <value>minutes</value>
+  </data>
+  <data name="RepMonth" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="RepMostUsedTag" xml:space="preserve">
+    <value>Most used tags</value>
+  </data>
+  <data name="RepMostUsedTagsTooltip" xml:space="preserve">
+    <value>Most used tags</value>
+  </data>
+  <data name="RepNewClientsChart" xml:space="preserve">
+    <value>New customers</value>
+  </data>
+  <data name="RepNewVsReturning" xml:space="preserve">
+    <value>New vs Returning</value>
+  </data>
+  <data name="RepNoneDefaultValue" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="RepNoOfIncomingSms" xml:space="preserve">
+    <value>Number of incoming SMS</value>
+  </data>
+  <data name="RepNoOfIncomingSmsTooltip" xml:space="preserve">
+    <value>Number of incoming SMS</value>
+  </data>
+  <data name="RepNoOfNewClients" xml:space="preserve">
+    <value>Number of new customers</value>
+  </data>
+  <data name="RepNoOfNewClientsTooltip" xml:space="preserve">
+    <value>Number of new customers</value>
+  </data>
+  <data name="RepNoOfOutgoingSms" xml:space="preserve">
+    <value>Number of outgoing SMS</value>
+  </data>
+  <data name="RepNoOfOutgoingSmsTooltip" xml:space="preserve">
+    <value>Number of outgoing SMS</value>
+  </data>
+  <data name="RepNoOfReturningClients" xml:space="preserve">
+    <value>Number of returning customers</value>
+  </data>
+  <data name="RepNoOfReturningClientsTooltip" xml:space="preserve">
+    <value>Number of returning customers</value>
+  </data>
+  <data name="reportsPageTitle" xml:space="preserve">
+    <value>Reports</value>
+    <comment>The title (browser page description0</comment>
+  </data>
+  <data name="RepOutgoingSmsChart" xml:space="preserve">
+    <value>Outgoing </value>
+  </data>
+  <data name="RepOverview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="RepPositiveAndNegative" xml:space="preserve">
+    <value>Positive &amp; Negative feedback</value>
+  </data>
+  <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
+    <value>Positive &amp; Negative feedback</value>
+  </data>
+  <data name="RepReturningClientsChart" xml:space="preserve">
+    <value>Returning customers</value>
+  </data>
+  <data name="RepSecondsUnit" xml:space="preserve">
+    <value>seconds</value>
+  </data>
+  <data name="RepSmsPerClient" xml:space="preserve">
+    <value>SMS/customer</value>
+  </data>
+  <data name="RepSmsPerDayUnit" xml:space="preserve">
+    <value>SMS/day</value>
+  </data>
+  <data name="RepSmsUnit" xml:space="preserve">
+    <value>SMS</value>
+  </data>
+  <data name="RepTags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="RepTagsPerConversationUnit" xml:space="preserve">
+    <value>tags/conversation</value>
+  </data>
+  <data name="RepTotalNoOfClients" xml:space="preserve">
+    <value>Number of customers giving feedback</value>
+  </data>
+  <data name="RepTotalNoOfClientsTooltip" xml:space="preserve">
+    <value>Number of clients</value>
+  </data>
+  <data name="RepTotalNoOfSms" xml:space="preserve">
+    <value>Total number of SMS</value>
+  </data>
+  <data name="RepTotalNoOfSmsTooltip" xml:space="preserve">
+    <value>Total number of SMS</value>
+  </data>
+  <data name="RepTotalSmsChart" xml:space="preserve">
+    <value>All SMS</value>
+  </data>
+  <data name="RepTypeTable" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="RepValueTable" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="RepWeek" xml:space="preserve">
+    <value>Week</value>
+  </data>
   <data name="sendButton" xml:space="preserve">
     <value>Send</value>
+  </data>
+  <data name="sendEmailCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="sendEmailConjuctionSubject" xml:space="preserve">
+    <value>] and [</value>
     <comment>Conversation:</comment>
   </data>
-  <data name="accountAuthenticate" xml:space="preserve">
-    <value>Authenticate</value>
-    <comment>Login:</comment>
+  <data name="sendEmailEmailSent" xml:space="preserve">
+    <value>Email sent!</value>
+    <comment>Conversation: send email: Cancel button</comment>
   </data>
-  <data name="lblPassword" xml:space="preserve">
-    <value>password</value>
-    <comment>Login:</comment>
+  <data name="sendEmailEmailSentSuccessfuly" xml:space="preserve">
+    <value>Email sent successfuly</value>
+    <comment>Conversation: send email: connecting word inside subject</comment>
   </data>
-  <data name="lblUserName" xml:space="preserve">
-    <value>username</value>
-    <comment>Login:</comment>
+  <data name="sendEmailHeader" xml:space="preserve">
+    <value>Send email</value>
+    <comment>Conversation: send email: after send header</comment>
   </data>
-  <data name="logOnLogOffMsg" xml:space="preserve">
-    <value>Log off</value>
-    <comment>Login:</comment>
+  <data name="sendEmailLoadingScreen" xml:space="preserve">
+    <value>Loading...</value>
+    <comment>Conversation: send email: after send OK message</comment>
   </data>
-  <data name="logOnLogOnMsg" xml:space="preserve">
-    <value>Log on</value>
-    <comment>Login:</comment>
+  <data name="sendEmailMessage" xml:space="preserve">
+    <value>*Message:</value>
+    <comment>Conversation: send email: send email screen header</comment>
+  </data>
+  <data name="sendEmailPrefixSubject" xml:space="preserve">
+    <value>Txt exchange between [</value>
+    <comment>Conversation: send email: appears before loading the send email screen</comment>
+  </data>
+  <data name="sendEmailSend" xml:space="preserve">
+    <value>Send</value>
+    <comment>Conversation: send email: Body label</comment>
+  </data>
+  <data name="sendEmailSendingEmail" xml:space="preserve">
+    <value>Sending...</value>
+    <comment>Conversation: send email: Subject prefix</comment>
+  </data>
+  <data name="sendEmailStartingText" xml:space="preserve">
+    <value>Message from TxtFeedback user</value>
+    <comment>Conversation: send email: Send button</comment>
+  </data>
+  <data name="sendEmailSubject" xml:space="preserve">
+    <value>*Subject:</value>
+    <comment>Conversation: send email: appears when sending an email</comment>
+  </data>
+  <data name="sendEmailTo" xml:space="preserve">
+    <value>*To:</value>
+    <comment>Conversation: send email: inside the email header</comment>
+  </data>
+  <data name="sendEmailValidationEmailInvalid" xml:space="preserve">
+    <value>Email is invalid. </value>
+    <comment>Conversation: send email/feedback: Subject label</comment>
+  </data>
+  <data name="sendEmailValidationEmailRequired" xml:space="preserve">
+    <value>Email is required. </value>
+    <comment>Conversation: send email/feedback: To label</comment>
+  </data>
+  <data name="sendEmailValidationMessageRequired" xml:space="preserve">
+    <value>Message is required. </value>
+    <comment>Conversation: send email/feedback: when the email address is invalid</comment>
+  </data>
+  <data name="sendEmailValidationSubjectRequired" xml:space="preserve">
+    <value>Subject is required. </value>
+    <comment>Conversation: send email/feedback: when trying to send an email without To</comment>
+  </data>
+  <data name="sendFeedbackFeedbackSentSuccessfully" xml:space="preserve">
+    <value>Your feedback has been sent - the TxtFeedback team thanks you for your time!</value>
+    <comment>Conversation: send email/feedback: when trying to send an email without body</comment>
+  </data>
+  <data name="sendFeedbackHeader" xml:space="preserve">
+    <value>Send feedback</value>
+    <comment>Conversation: send email/feedback: when trying to send an email without subject</comment>
+  </data>
+  <data name="sendFeedbackNegativeFeedbackSubject" xml:space="preserve">
+    <value>I don't like the fact that...</value>
+    <comment>send feedback after you send the email message</comment>
+  </data>
+  <data name="sendFeedbackPlaceholderMessage" xml:space="preserve">
+    <value>Replace this with your input</value>
+    <comment>send feedback window header</comment>
+  </data>
+  <data name="sendFeedbackPositiveFeedbackSubject" xml:space="preserve">
+    <value>I like the fact that...</value>
+    <comment>send negative feedback Subject</comment>
+  </data>
+  <data name="settingsBtnChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+    <comment>send positive/negative feedback default email body</comment>
+  </data>
+  <data name="settingsChangePassword" xml:space="preserve">
+    <value>Change password</value>
+    <comment>send positive feedback Subject</comment>
+  </data>
+  <data name="settingsChangePasswordTitle" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
+    <value>Confirm new password</value>
+  </data>
+  <data name="settingsCurrentPasswordLabel" xml:space="preserve">
+    <value>Current password</value>
+  </data>
+  <data name="settingsDescriptionPrefix" xml:space="preserve">
+    <value>New passwords are required to be a minimum of {0} characters in length</value>
+  </data>
+  <data name="settingsErrorNewPasswordsDontMatch" xml:space="preserve">
+    <value>The new password and confirmation password do not match.</value>
+  </data>
+  <data name="settingsErrorPasswordChangeSummary" xml:space="preserve">
+    <value>Password change was unsuccessful. Please correct the errors and try again.</value>
+  </data>
+  <data name="settingsErrorPasswordIncorrect" xml:space="preserve">
+    <value>The current password is incorrect or the new password is invalid.</value>
+  </data>
+  <data name="settingsErrorPasswordNotLongEnough" xml:space="preserve">
+    <value>The new password must be at least {2} characters long.</value>
+  </data>
+  <data name="settingsNewPasswordLabel" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="settingsPageTitle" xml:space="preserve">
+    <value>Settings</value>
+    <comment>The title (browser page description0</comment>
+  </data>
+  <data name="settingsPasswordChangedSuccessfully" xml:space="preserve">
+    <value>Your password has been changed successfully.</value>
+  </data>
+  <data name="settingsPrivacy" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="settingUserPreferences" xml:space="preserve">
+    <value>User preferences</value>
+  </data>
+  <data name="starredLabel" xml:space="preserve">
+    <value>Favorites</value>
+    <comment>Conversation: filters area, favourites (starred) filter label</comment>
+  </data>
+  <data name="tabHelp" xml:space="preserve">
+    <value>Conversations</value>
+    <comment>help navigation menu</comment>
+  </data>
+  <data name="tabMessages" xml:space="preserve">
+    <value>Reports</value>
+    <comment>conversations navigation menu</comment>
+  </data>
+  <data name="tabReports" xml:space="preserve">
+    <value>Settings</value>
+    <comment>reports navigation menu</comment>
+  </data>
+  <data name="tabSettings" xml:space="preserve">
+    <value>Tag(s): </value>
+    <comment>settings navigation menu </comment>
+  </data>
+  <data name="tagsLabel" xml:space="preserve">
+    <value>last updated</value>
+    <comment>Conversation: filters area, tags filtering label</comment>
+  </data>
+  <data name="toDate" xml:space="preserve">
+    <value>Turn date filtering on/off</value>
+    <comment>Conversation: filters area, date filtering, to placeholder</comment>
   </data>
   <data name="tooltipIncludeDateInFilter" xml:space="preserve">
-    <value>Turn date filtering on/off</value>
+    <value>Turn favorites filtering on/off</value>
     <comment>Conversation: filters area, enable/disable date filtering checkbox tooltip</comment>
   </data>
   <data name="tooltipIncludeStarredInFilter" xml:space="preserve">
-    <value>Turn favorites filtering on/off</value>
+    <value>Quick access to support conversations</value>
     <comment>Conversation: filters area, favorites messages only checkbox tooltip</comment>
   </data>
   <data name="tooltipIncludeTagsInFilter" xml:space="preserve">
@@ -249,6 +577,10 @@
     <value>Mark as favorite</value>
     <comment>Conversation: conversations area, star icon tooltip</comment>
   </data>
+  <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
+    <value>Number of conversations with unread messages</value>
+    <comment>Conversation: header area, number of the right of Conversations menu label</comment>
+  </data>
   <data name="tooltipReplyBtn" xml:space="preserve">
     <value>Send reply to customer</value>
     <comment>Conversation: messages area, reply button</comment>
@@ -256,144 +588,6 @@
   <data name="tooltipSendEmailImg" xml:space="preserve">
     <value>Send as email</value>
     <comment>Conversation: messages area, messages hover menu tooltip</comment>
-  </data>
-  <data name="tooltipWpImg" xml:space="preserve">
-    <value>Enable/disable displaying of messages for this working point</value>
-    <comment>Conversation: working points area, enable/disable checkbox</comment>
-  </data>
-  <data name="addATagLabel" xml:space="preserve">
-    <value>add a tag</value>
-    <comment>Conversations: Should be the placeholder text for adding a column</comment>
-  </data>
-  <data name="loadMoreConversations" xml:space="preserve">
-    <value>Load more conversations</value>
-    <comment>Conversation:</comment>
-  </data>
-  <data name="loginUnsuccessfulDetails" xml:space="preserve">
-    <value>The user name or password provided is incorrect.</value>
-    <comment>Login:</comment>
-  </data>
-  <data name="loginUnsuccessfulSummary" xml:space="preserve">
-    <value>Login was unsuccessful. Please correct the errors and try again.</value>
-    <comment>Login:</comment>
-  </data>
-  <data name="RepClients" xml:space="preserve">
-    <value>Customers</value>
-  </data>
-  <data name="lblNoConversationSelected" xml:space="preserve">
-    <value>No conversation selected, please select one</value>
-    <comment>Conversation: messages area, default placeholder</comment>
-  </data>
-  <data name="RepConversations" xml:space="preserve">
-    <value>Conversations</value>
-  </data>
-  <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
-    <value>Number of conversations with unread messages</value>
-    <comment>Conversation: header area, number of the right of Conversations menu label</comment>
-  </data>
-  <data name="RepIncomingVsOutgoing" xml:space="preserve">
-    <value>Incoming &amp; Outgoing</value>
-  </data>
-  <data name="sendEmailHeader" xml:space="preserve">
-    <value>Send email</value>
-    <comment>Conversation: send email: send email screen header</comment>
-  </data>
-  <data name="RepNewVsReturning" xml:space="preserve">
-    <value>New vs Returning</value>
-  </data>
-  <data name="sendEmailMessage" xml:space="preserve">
-    <value>*Message:</value>
-    <comment>Conversation: send email: Body label</comment>
-  </data>
-  <data name="RepOverview" xml:space="preserve">
-    <value>Overview</value>
-  </data>
-  <data name="sendEmailSubject" xml:space="preserve">
-    <value>*Subject:</value>
-    <comment>Conversation: send email/feedback: Subject label</comment>
-  </data>
-  <data name="RepTotalNoOfSms" xml:space="preserve">
-    <value>Total number of SMS</value>
-  </data>
-  <data name="sendEmailTo" xml:space="preserve">
-    <value>*To:</value>
-    <comment>Conversation: send email/feedback: To label</comment>
-  </data>
-  <data name="sendEmailCancel" xml:space="preserve">
-    <value>Cancel</value>
-    <comment>Conversation: send email: Cancel button</comment>
-  </data>
-  <data name="sendEmailConjuctionSubject" xml:space="preserve">
-    <value>] and [</value>
-    <comment>Conversation: send email: connecting word inside subject</comment>
-  </data>
-  <data name="sendEmailEmailSent" xml:space="preserve">
-    <value>Email sent!</value>
-    <comment>Conversation: send email: after send header</comment>
-  </data>
-  <data name="sendEmailEmailSentSuccessfuly" xml:space="preserve">
-    <value>Email sent successfuly</value>
-    <comment>Conversation: send email: after send OK message</comment>
-  </data>
-  <data name="sendEmailLoadingScreen" xml:space="preserve">
-    <value>Loading...</value>
-    <comment>Conversation: send email: appears before loading the send email screen</comment>
-  </data>
-  <data name="sendEmailPrefixSubject" xml:space="preserve">
-    <value>Txt exchange between [</value>
-    <comment>Conversation: send email: Subject prefix</comment>
-  </data>
-  <data name="sendEmailSend" xml:space="preserve">
-    <value>Send</value>
-    <comment>Conversation: send email: Send button</comment>
-  </data>
-  <data name="sendEmailSendingEmail" xml:space="preserve">
-    <value>Sending...</value>
-    <comment>Conversation: send email: appears when sending an email</comment>
-  </data>
-  <data name="sendEmailValidationEmailInvalid" xml:space="preserve">
-    <value>Email is invalid. </value>
-    <comment>Conversation: send email/feedback: when the email address is invalid</comment>
-  </data>
-  <data name="sendEmailValidationEmailRequired" xml:space="preserve">
-    <value>Email is required. </value>
-    <comment>Conversation: send email/feedback: when trying to send an email without To</comment>
-  </data>
-  <data name="sendEmailValidationMessageRequired" xml:space="preserve">
-    <value>Message is required. </value>
-    <comment>Conversation: send email/feedback: when trying to send an email without body</comment>
-  </data>
-  <data name="sendEmailValidationSubjectRequired" xml:space="preserve">
-    <value>Subject is required. </value>
-    <comment>Conversation: send email/feedback: when trying to send an email without subject</comment>
-  </data>
-  <data name="feedbackSendUsFeedback" xml:space="preserve">
-    <value>Send us feedback</value>
-    <comment>Conversations: send us feedback label</comment>
-  </data>
-  <data name="sendEmailStartingText" xml:space="preserve">
-    <value>Message from TxtFeedback user</value>
-    <comment>Conversation: send email: inside the email header</comment>
-  </data>
-  <data name="sendFeedbackFeedbackSentSuccessfully" xml:space="preserve">
-    <value>Your feedback has been sent - the TxtFeedback team thanks you for your time!</value>
-    <comment>send feedback after you send the email message</comment>
-  </data>
-  <data name="sendFeedbackHeader" xml:space="preserve">
-    <value>Send feedback</value>
-    <comment>send feedback window header</comment>
-  </data>
-  <data name="sendFeedbackNegativeFeedbackSubject" xml:space="preserve">
-    <value>I don't like the fact that...</value>
-    <comment>send negative feedback Subject</comment>
-  </data>
-  <data name="sendFeedbackPlaceholderMessage" xml:space="preserve">
-    <value>Replace this with your input</value>
-    <comment>send positive/negative feedback default email body</comment>
-  </data>
-  <data name="sendFeedbackPositiveFeedbackSubject" xml:space="preserve">
-    <value>I like the fact that...</value>
-    <comment>send positive feedback Subject</comment>
   </data>
   <data name="tooltipSendNegativeFeedback" xml:space="preserve">
     <value>Send negative feedback</value>
@@ -403,246 +597,12 @@
     <value>Send positive feedback</value>
     <comment>Conversation: happy smiley</comment>
   </data>
-  <data name="RepDay" xml:space="preserve">
-    <value>Day</value>
-  </data>
-  <data name="filteringAddFilterTag" xml:space="preserve">
-    <value>add filtering tag</value>
-  </data>
-  <data name="messagesAddTagPlaceHolder" xml:space="preserve">
-    <value>add tag</value>
-  </data>
-  <data name="RepMonth" xml:space="preserve">
-    <value>Month</value>
-  </data>
-  <data name="RepWeek" xml:space="preserve">
-    <value>Week</value>
-  </data>
-  <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
-    <value>Average number of SMS per day</value>
-  </data>
-  <data name="RepAvgNoOfSmsPerClient" xml:space="preserve">
-    <value>Average number of SMS per customer</value>
-  </data>
-  <data name="RepAvgResponseTime" xml:space="preserve">
-    <value>Average response time</value>
-  </data>
-  <data name="RepNoOfNewClients" xml:space="preserve">
-    <value>Number of new customers</value>
-  </data>
-  <data name="RepTags" xml:space="preserve">
-    <value>Tags</value>
-  </data>
-  <data name="RepAvgNoOfIncomingSmsPerConversation" xml:space="preserve">
-    <value>Average number of incoming SMS per customer</value>
-  </data>
-  <data name="RepAvgNoOfOutgoingSmsPerConversation" xml:space="preserve">
-    <value>Average number of outgoing SMS per customer</value>
-  </data>
-  <data name="RepAvgNoOfTagsPerConversation" xml:space="preserve">
-    <value>Average number of tags per conversation</value>
-  </data>
-  <data name="RepMostUsedTag" xml:space="preserve">
-    <value>Most used tags</value>
-  </data>
-  <data name="helpPageTitle" xml:space="preserve">
-    <value>Help</value>
-    <comment>The title (browser page description0</comment>
-  </data>
-  <data name="messagesPageTitle" xml:space="preserve">
-    <value>Conversations</value>
-    <comment>The title (browser page description0</comment>
-  </data>
-  <data name="RepNoOfIncomingSms" xml:space="preserve">
-    <value>Number of incoming SMS</value>
-  </data>
-  <data name="settingsPageTitle" xml:space="preserve">
-    <value>Settings</value>
-    <comment>The title (browser page description0</comment>
-  </data>
-  <data name="RepNoOfOutgoingSms" xml:space="preserve">
-    <value>Number of outgoing SMS</value>
-  </data>
-  <data name="RepNoOfReturningClients" xml:space="preserve">
-    <value>Number of returning customers</value>
-  </data>
-  <data name="reportsPageTitle" xml:space="preserve">
-    <value>Reports</value>
-  </data>
-  <data name="settingsChangePassword" xml:space="preserve">
-    <value>Change password</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="RepTotalNoOfClients" xml:space="preserve">
-    <value>Number of customers giving feedback</value>
-  </data>
-  <data name="settingsPrivacy" xml:space="preserve">
-    <value>Privacy</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="settingUserPreferences" xml:space="preserve">
-    <value>User preferences</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="RepAvgNoOfIncomingSmsPerConversationToolitp" xml:space="preserve">
-    <value>Average number of incoming SMS per customer</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="settingsBtnChangePassword" xml:space="preserve">
-    <value>Change Password</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="RepAvgNoOfOutgoingSmsPerConversationTooltip" xml:space="preserve">
-    <value>Average number of outgoing SMS per customer</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="settingsChangePasswordTitle" xml:space="preserve">
-    <value>Change Password</value>
-    <comment>Settings: </comment>
-  </data>
-  <data name="RepAvgNoOfSmsPerClientTooltip" xml:space="preserve">
-    <value>Average number of SMS per customer</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
-    <value>Confirm new password</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="RepAvgNoOfSmsPerDayTooltip" xml:space="preserve">
-    <value>Average number of SMS per day</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="settingsCurrentPasswordLabel" xml:space="preserve">
-    <value>Current password</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="RepAvgNoOfTagsPerConversationTooltip" xml:space="preserve">
-    <value>Average number of tags per conversation</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="settingsDescriptionPrefix" xml:space="preserve">
-    <value>New passwords are required to be a minimum of {0} characters in length</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="RepAvgResponseTimeTooltip" xml:space="preserve">
-    <value>Average response time</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="settingsErrorNewPasswordsDontMatch" xml:space="preserve">
-    <value>The new password and confirmation password do not match.</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="RepClientsUnit" xml:space="preserve">
-    <value>customers</value>
-    <comment>Report page - info box, measurement units</comment>
-  </data>
-  <data name="settingsErrorPasswordChangeSummary" xml:space="preserve">
-    <value>Password change was unsuccessful. Please correct the errors and try again.</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="RepIncomingSmsChart" xml:space="preserve">
-    <value>Incoming SMS</value>
-    <comment>Reports page - main chart</comment>
-  </data>
-  <data name="settingsErrorPasswordNotLongEnough" xml:space="preserve">
-    <value>The new password must be at least {2} characters long.</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="RepMinutesUnit" xml:space="preserve">
-    <value>minutes</value>
-    <comment>Report page - info box, measurement units</comment>
-  </data>
-  <data name="settingsNewPasswordLabel" xml:space="preserve">
-    <value>New password</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="RepMostUsedTagsTooltip" xml:space="preserve">
-    <value>Most used tags</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="settingsPasswordChangedSuccessfully" xml:space="preserve">
-    <value>Your password has been changed successfully.</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="RepNewClientsChart" xml:space="preserve">
-    <value>New customers</value>
-    <comment>Reports page - main chart</comment>
-  </data>
-  <data name="settingsErrorPasswordIncorrect" xml:space="preserve">
-    <value>The current password is incorrect or the new password is invalid.</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="RepNoOfIncomingSmsTooltip" xml:space="preserve">
-    <value>Number of incoming SMS</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="RepNoOfNewClientsTooltip" xml:space="preserve">
-    <value>Number of new customers</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="RepNoOfOutgoingSmsTooltip" xml:space="preserve">
-    <value>Number of outgoing SMS</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="RepNoOfReturningClientsTooltip" xml:space="preserve">
-    <value>Number of returning customers</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="RepOutgoingSmsChart" xml:space="preserve">
-    <value>Outgoing </value>
-    <comment>Reports page - main chart</comment>
-  </data>
-  <data name="RepReturningClientsChart" xml:space="preserve">
-    <value>Returning customers</value>
-    <comment>Reports page - main chart</comment>
-  </data>
-  <data name="RepSecondsUnit" xml:space="preserve">
-    <value>seconds</value>
-    <comment>Report page - info box, measurement units</comment>
-  </data>
-  <data name="RepSmsPerClient" xml:space="preserve">
-    <value>SMS/customer</value>
-    <comment>Report page - info box, measurement units</comment>
-  </data>
-  <data name="RepSmsPerDayUnit" xml:space="preserve">
-    <value>SMS/day</value>
-    <comment>Report page - info box, measurement units</comment>
-  </data>
-  <data name="RepSmsUnit" xml:space="preserve">
-    <value>SMS</value>
-    <comment>Report page - info box, measurement units</comment>
-  </data>
-  <data name="RepTagsPerConversationUnit" xml:space="preserve">
-    <value>tags/conversation</value>
-    <comment>Report page - info box, measurement units</comment>
-  </data>
-  <data name="RepTotalNoOfClientsTooltip" xml:space="preserve">
-    <value>Number of clients</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="RepTotalNoOfSmsTooltip" xml:space="preserve">
-    <value>Total number of SMS</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="RepTotalSmsChart" xml:space="preserve">
-    <value>All SMS</value>
-    <comment>Reports page - main chart</comment>
-  </data>
-  <data name="RepTypeTable" xml:space="preserve">
-    <value>Type</value>
-    <comment>Reports page - table area</comment>
-  </data>
-  <data name="RepValueTable" xml:space="preserve">
-    <value>Value</value>
-    <comment>Reports page - table area</comment>
-  </data>
-  <data name="supportLabel" xml:space="preserve">
-    <value>Support</value>
-  </data>
-  <data name="tooltipIncludeSupportFilter" xml:space="preserve">
-    <value>Quick access to support conversations</value>
-  </data>
-  <data name="RepNoneDefaultValue" xml:space="preserve">
-    <value>None</value>
+  <data name="tooltipWpImg" xml:space="preserve">
+    <value>Enable/disable displaying of messages for this working point</value>
+    <comment>Conversation: working points area, enable/disable checkbox</comment>
+  </data>
+  <data name="welcomeMessage" xml:space="preserve">
+    <value>Welcome</value>
+    <comment>Conversation: header, top right message</comment>
   </data>
 </root>

@@ -276,209 +276,209 @@
   <data name="RepNewVsReturning" xml:space="preserve">
     <value>Neu vs Wiederkehrend</value>
   </data>
-  <data name="RepNoOfIncomingSms" xml:space="preserve">
+  <data name="RepNoneDefaultValue" xml:space="preserve">
     <value>Keins</value>
+  </data>
+  <data name="RepNoOfIncomingSms" xml:space="preserve">
+    <value>Anzahl der eingehenden SMS</value>
   </data>
   <data name="RepNoOfIncomingSmsTooltip" xml:space="preserve">
     <value>Anzahl der eingehenden SMS</value>
   </data>
   <data name="RepNoOfNewClients" xml:space="preserve">
-    <value>Anzahl der eingehenden SMS</value>
+    <value>Anzahl der neuen Kunden</value>
   </data>
   <data name="RepNoOfNewClientsTooltip" xml:space="preserve">
     <value>Anzahl der neuen Kunden</value>
   </data>
   <data name="RepNoOfOutgoingSms" xml:space="preserve">
-    <value>Anzahl der neuen Kunden</value>
+    <value>Anzahl der ausgehenden SMS</value>
   </data>
   <data name="RepNoOfOutgoingSmsTooltip" xml:space="preserve">
     <value>Anzahl der ausgehenden SMS</value>
   </data>
   <data name="RepNoOfReturningClients" xml:space="preserve">
-    <value>Anzahl der ausgehenden SMS</value>
+    <value>Anzahl der wiederkehrenden Kunden</value>
   </data>
   <data name="RepNoOfReturningClientsTooltip" xml:space="preserve">
     <value>Anzahl der wiederkehrenden Kunden</value>
   </data>
   <data name="reportsPageTitle" xml:space="preserve">
-    <value>Anzahl der wiederkehrenden Kunden</value>
-  </data>
-  <data name="RepOutgoingSmsChart" xml:space="preserve">
     <value>Berichte</value>
   </data>
-  <data name="RepOverview" xml:space="preserve">
+  <data name="RepOutgoingSmsChart" xml:space="preserve">
     <value>Ausgehend</value>
   </data>
+  <data name="RepOverview" xml:space="preserve">
+    <value />
+  </data>
   <data name="RepPositiveAndNegative" xml:space="preserve">
-    <value>Überblick</value>
+    <value />
   </data>
   <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
-    <value>Wiederkehrende Kunden</value>
+    <value />
   </data>
   <data name="RepReturningClientsChart" xml:space="preserve">
-    <value>Sekunden</value>
+    <value>Wiederkehrende Kunden</value>
   </data>
   <data name="RepSecondsUnit" xml:space="preserve">
-    <value>SMS/Kunde</value>
+    <value>Sekunden</value>
   </data>
   <data name="RepSmsPerClient" xml:space="preserve">
-    <value>SMS/Tag</value>
+    <value>SMS/Kunde</value>
   </data>
   <data name="RepSmsPerDayUnit" xml:space="preserve">
-    <value>SMS</value>
+    <value>SMS/Tag</value>
   </data>
   <data name="RepSmsUnit" xml:space="preserve">
-    <value>Tag</value>
+    <value>SMS</value>
   </data>
   <data name="RepTags" xml:space="preserve">
-    <value>Schlagwörter/Unterhaltung</value>
+    <value>Tag</value>
   </data>
   <data name="RepTagsPerConversationUnit" xml:space="preserve">
-    <value>Anzahl der Kunden </value>
+    <value>Schlagwörter/Unterhaltung</value>
   </data>
   <data name="RepTotalNoOfClients" xml:space="preserve">
-    <value>Gesamtzahl der SMS</value>
+    <value>Anzahl der Kunden, die Feedback gegeben haben</value>
   </data>
   <data name="RepTotalNoOfClientsTooltip" xml:space="preserve">
-    <value>Gesamtzahl der SMS</value>
+    <value>Anzahl der Kunden </value>
   </data>
   <data name="RepTotalNoOfSms" xml:space="preserve">
-    <value>Alle SMS</value>
+    <value>Gesamtzahl der SMS</value>
   </data>
   <data name="RepTotalNoOfSmsTooltip" xml:space="preserve">
-    <value>Typ</value>
+    <value>Gesamtzahl der SMS</value>
   </data>
   <data name="RepTotalSmsChart" xml:space="preserve">
-    <value>Wert</value>
+    <value>Alle SMS</value>
   </data>
   <data name="RepTypeTable" xml:space="preserve">
-    <value>Woche</value>
+    <value>Typ</value>
   </data>
   <data name="RepValueTable" xml:space="preserve">
-    <value>Senden</value>
+    <value>Wert</value>
   </data>
   <data name="RepWeek" xml:space="preserve">
-    <value>Abbrechen</value>
+    <value>Woche</value>
   </data>
   <data name="sendButton" xml:space="preserve">
-    <value>] und [</value>
-  </data>
-  <data name="sendEmailCancel" xml:space="preserve">
-    <value>Email gesendet!</value>
-  </data>
-  <data name="sendEmailConjuctionSubject" xml:space="preserve">
-    <value>E-mail erfolgreich gesendet</value>
-  </data>
-  <data name="sendEmailEmailSent" xml:space="preserve">
-    <value>E-mail senden</value>
-  </data>
-  <data name="sendEmailEmailSentSuccessfuly" xml:space="preserve">
-    <value>Laden...</value>
-  </data>
-  <data name="sendEmailHeader" xml:space="preserve">
-    <value>*Nachricht:</value>
-  </data>
-  <data name="sendEmailLoadingScreen" xml:space="preserve">
-    <value>Txt Austausch zwischen [</value>
-  </data>
-  <data name="sendEmailMessage" xml:space="preserve">
     <value>Senden</value>
   </data>
+  <data name="sendEmailCancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="sendEmailConjuctionSubject" xml:space="preserve">
+    <value>] und [</value>
+  </data>
+  <data name="sendEmailEmailSent" xml:space="preserve">
+    <value>Email gesendet!</value>
+  </data>
+  <data name="sendEmailEmailSentSuccessfuly" xml:space="preserve">
+    <value>E-mail erfolgreich gesendet</value>
+  </data>
+  <data name="sendEmailHeader" xml:space="preserve">
+    <value>E-mail senden</value>
+  </data>
+  <data name="sendEmailLoadingScreen" xml:space="preserve">
+    <value>Laden...</value>
+  </data>
+  <data name="sendEmailMessage" xml:space="preserve">
+    <value>*Nachricht:</value>
+  </data>
   <data name="sendEmailPrefixSubject" xml:space="preserve">
-    <value>Sendung...</value>
+    <value>Txt Austausch zwischen [</value>
   </data>
   <data name="sendEmailSend" xml:space="preserve">
-    <value>Nachricht von TxtFeedback Kunde</value>
+    <value>Senden</value>
   </data>
   <data name="sendEmailSendingEmail" xml:space="preserve">
-    <value>*Betreff:</value>
+    <value>Sendung...</value>
   </data>
   <data name="sendEmailStartingText" xml:space="preserve">
-    <value>*An:</value>
+    <value>Nachricht von TxtFeedback Kunde</value>
   </data>
   <data name="sendEmailSubject" xml:space="preserve">
-    <value>E-mail Adresse ungültig.</value>
+    <value>*Betreff:</value>
   </data>
   <data name="sendEmailTo" xml:space="preserve">
-    <value>E-mail Adresse erforderlich.</value>
+    <value>*An:</value>
   </data>
   <data name="sendEmailValidationEmailInvalid" xml:space="preserve">
-    <value>Nachrichttext erfordelich.</value>
+    <value>E-mail Adresse ungültig.</value>
   </data>
   <data name="sendEmailValidationEmailRequired" xml:space="preserve">
-    <value>Betreff erfordelich.</value>
+    <value>E-mail Adresse erforderlich.</value>
   </data>
   <data name="sendEmailValidationMessageRequired" xml:space="preserve">
-    <value>Ihr Feedback wurde verschickt - das TxtFeedback Team dankt Ihnen für Ihre Zeit!</value>
+    <value>Nachrichttext erfordelich.</value>
   </data>
   <data name="sendEmailValidationSubjectRequired" xml:space="preserve">
-    <value>Feedback senden</value>
+    <value>Betreff erfordelich.</value>
   </data>
   <data name="sendFeedbackFeedbackSentSuccessfully" xml:space="preserve">
-    <value>Ich mag nicht, dass ...</value>
+    <value>Ihr Feedback wurde verschickt - das TxtFeedback Team dankt Ihnen für Ihre Zeit!</value>
   </data>
   <data name="sendFeedbackHeader" xml:space="preserve">
-    <value>Ersetzen Sie diese mit Ihrer Eingabe</value>
+    <value>Feedback senden</value>
   </data>
   <data name="sendFeedbackNegativeFeedbackSubject" xml:space="preserve">
-    <value>Ich mag, dass...</value>
+    <value>Ich mag nicht, dass ...</value>
   </data>
   <data name="sendFeedbackPlaceholderMessage" xml:space="preserve">
-    <value>Passwort verändern</value>
+    <value>Ersetzen Sie diese mit Ihrer Eingabe</value>
   </data>
   <data name="sendFeedbackPositiveFeedbackSubject" xml:space="preserve">
-    <value>Passwort verändern</value>
+    <value>Ich mag, dass...</value>
   </data>
   <data name="settingsBtnChangePassword" xml:space="preserve">
     <value>Passwort verändern</value>
   </data>
   <data name="settingsChangePassword" xml:space="preserve">
-    <value>Bestätigung der neuen Passwort</value>
+    <value>Passwort verändern</value>
   </data>
   <data name="settingsChangePasswordTitle" xml:space="preserve">
-    <value> Aktuelles Passwort</value>
+    <value>Passwort verändern</value>
   </data>
   <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
-    <value>Neue Passwörter müssen minimal {0} Charaktere haben</value>
+    <value>Bestätigung der neuen Passwort</value>
   </data>
   <data name="settingsCurrentPasswordLabel" xml:space="preserve">
-    <value>Das neue Passwort und das Bestätigungspasswort sind nicht derselbe.</value>
+    <value> Aktuelles Passwort</value>
   </data>
   <data name="settingsDescriptionPrefix" xml:space="preserve">
-    <value>Passwortveränderung war nicht erfolgreich. Korrigieren Sie bitte die Fehlern und versuchen Sie es nochmals.</value>
+    <value>Neue Passwörter müssen minimal {0} Charaktere haben</value>
   </data>
   <data name="settingsErrorNewPasswordsDontMatch" xml:space="preserve">
-    <value>Das aktuelle Passwort ist nicht richtig oder das neue Passwort ist invalid.</value>
+    <value>Das neue Passwort und das Bestätigungspasswort sind nicht derselbe.</value>
   </data>
   <data name="settingsErrorPasswordChangeSummary" xml:space="preserve">
-    <value>Das neue Passwort muss wenigstens {2} Charaktere haben.</value>
+    <value>Passwortveränderung war nicht erfolgreich. Korrigieren Sie bitte die Fehlern und versuchen Sie es nochmals.</value>
   </data>
   <data name="settingsErrorPasswordIncorrect" xml:space="preserve">
-    <value>Neues Passwort</value>
+    <value>Das aktuelle Passwort ist nicht richtig oder das neue Passwort ist invalid.</value>
   </data>
   <data name="settingsErrorPasswordNotLongEnough" xml:space="preserve">
-    <value>Einstellungen</value>
+    <value>Das neue Passwort muss wenigstens {2} Charaktere haben.</value>
   </data>
   <data name="settingsNewPasswordLabel" xml:space="preserve">
-    <value>Ihr Passwort wurde erfolgreich verändert</value>
+    <value>Neues Passwort</value>
   </data>
   <data name="settingsPageTitle" xml:space="preserve">
-    <value>Datenschutz</value>
+    <value>Einstellungen</value>
   </data>
   <data name="settingsPasswordChangedSuccessfully" xml:space="preserve">
-    <value>Benutzereinstellungen</value>
+    <value>Ihr Passwort wurde erfolgreich verändert</value>
   </data>
   <data name="settingsPrivacy" xml:space="preserve">
-    <value>Favoriten</value>
+    <value>Datenschutz</value>
   </data>
   <data name="settingUserPreferences" xml:space="preserve">
-    <value>unterstützung</value>
+    <value>Benutzereinstellungen</value>
   </data>
   <data name="starredLabel" xml:space="preserve">
-    <value>Hilfe</value>
-  </data>
-  <data name="String" xml:space="preserve">
-    <value>Anzahl der Kunden, die Feedback gegeben haben</value>
+    <value>Favoriten</value>
   </data>
   <data name="tabHelp" xml:space="preserve">
     <value>Unterhaltungen</value>
