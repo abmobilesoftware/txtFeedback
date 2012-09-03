@@ -285,11 +285,12 @@ namespace SmsFeedback_Take4.Controllers
       //   return null;
       //}
 
-      private void AddMessageAndUpdateConversation(String userId, String from, String to, String conversationId, String text, Boolean readStatus,
+      private void UpdateDbAfterMessageWasSent(String userId, String from, String to, String conversationId, String text, Boolean readStatus,
                                                    DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, smsfeedbackEntities dbContext)
       {         
          string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, dbContext);
-         mEFInterface.AddMessage(userId, from, to, conversationId, text, readStatus, updateTime, prevConvFrom, prevConvUpdateTime, dbContext);         
+         mEFInterface.AddMessage(userId, from, to, conversationId, text, readStatus, updateTime, prevConvFrom, prevConvUpdateTime, dbContext);
+         mEFInterface.IncrementNumberOfSentSms(from, dbContext);
       }
 
       public JsonResult SendMessage(String from, String to, String convId, String text)
@@ -308,8 +309,8 @@ namespace SmsFeedback_Take4.Controllers
                var prevConvUpdateTime = previousConv.TimeUpdated;
                SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgDateSent) =>
                {
-                  AddMessageAndUpdateConversation(userId, from, to, convId, text, false, msgDateSent, prevConvFrom, prevConvUpdateTime, lContextPerRequest);
-               });
+                  UpdateDbAfterMessageWasSent(userId, from, to, convId, text, false, msgDateSent, prevConvFrom, prevConvUpdateTime, lContextPerRequest);
+               });               
                //we should wait for the call to finish
                //I should return the sent time (if successful)              
                String response = "sent successfully"; //TODO should be a class
