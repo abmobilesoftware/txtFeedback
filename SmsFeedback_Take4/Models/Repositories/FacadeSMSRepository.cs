@@ -151,7 +151,7 @@ namespace SmsFeedback_Take4.Models
          //return mTwilioRep.GetMessagesForConversation(convID,isConvFavourite);
       }
 
-      public IEnumerable<ConversationTag> GetTagsForConversation(string convID, smsfeedbackEntities dbContext)
+      public IEnumerable<ConvTag> GetTagsForConversation(string convID, smsfeedbackEntities dbContext)
       {
          return mEFRep.GetTagsForConversation(convID,dbContext);
       }
@@ -192,6 +192,12 @@ namespace SmsFeedback_Take4.Models
       public int NrOfUnreadConversations(string userName, smsfeedbackEntities dbContext)
       {
          return mEFRep.NrOfUnreadConversations(userName, dbContext);
+      }
+
+
+      internal System.Collections.Generic.IEnumerable<ConvTag> GetSpecialTags(string userId, smsfeedbackEntities dbContext)
+      {
+         return mEFRep.GetSpecialTags(userId,dbContext);
       }
    }
 }
