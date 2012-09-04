@@ -13,11 +13,12 @@ namespace SmsFeedback_Take4.Utilities
    public static class ViewExtensionMethods
    {
 
-      public static MvcHtmlString ImageLink(this UrlHelper helper, string imageUrl, string altText, string actionName, string controllerName, object routeValues, string imgID = null)
+      public static MvcHtmlString ImageLink(this UrlHelper helper, string imageUrl, string altText, string actionName, string controllerName, string title, object routeValues, string imgID = null)
       {
          var imgTag = new TagBuilder("img");
          imgTag.MergeAttribute("src", imageUrl);
          imgTag.MergeAttribute("alt", altText);
+         imgTag.MergeAttribute("title", title);
          if (!String.IsNullOrEmpty(imgID))
          {
             imgTag.GenerateId(imgID);
