@@ -18,6 +18,8 @@
           <EntitySet Name="Roles" EntityType="smsfeedbackModel.Store.Roles" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Subscriptions" EntityType="smsfeedbackModel.Store.Subscriptions" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Tags" EntityType="smsfeedbackModel.Store.Tags" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TagTagTypes" EntityType="smsfeedbackModel.Store.TagTagTypes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TagTypes" EntityType="smsfeedbackModel.Store.TagTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Users" EntityType="smsfeedbackModel.Store.Users" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UsersForWorkingPoints" EntityType="smsfeedbackModel.Store.UsersForWorkingPoints" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UsersInRoles" EntityType="smsfeedbackModel.Store.UsersInRoles" store:Type="Tables" Schema="dbo" />
@@ -50,6 +52,14 @@
           <AssociationSet Name="FK_TagConversationTags" Association="smsfeedbackModel.Store.FK_TagConversationTags">
             <End Role="Tags" EntitySet="Tags" />
             <End Role="ConversationTags" EntitySet="ConversationTags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TagTagTagType" Association="smsfeedbackModel.Store.FK_TagTagTagType">
+            <End Role="Tags" EntitySet="Tags" />
+            <End Role="TagTagTypes" EntitySet="TagTagTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TagTypeTagTagType" Association="smsfeedbackModel.Store.FK_TagTypeTagTagType">
+            <End Role="TagTypes" EntitySet="TagTypes" />
+            <End Role="TagTagTypes" EntitySet="TagTagTypes" />
           </AssociationSet>
           <AssociationSet Name="FK_UserCompany" Association="smsfeedbackModel.Store.FK_UserCompany">
             <End Role="Companies" EntitySet="Companies" />
@@ -242,6 +252,23 @@
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CompanyName" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
+        <EntityType Name="TagTagTypes">
+          <Key>
+            <PropertyRef Name="TagName" />
+            <PropertyRef Name="TagCompanyName" />
+            <PropertyRef Name="TagTypeType" />
+          </Key>
+          <Property Name="IsDefault" Type="bit" Nullable="false" />
+          <Property Name="TagName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="TagCompanyName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="TagTypeType" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TagTypes">
+          <Key>
+            <PropertyRef Name="Type" />
+          </Key>
+          <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="UserId" />
@@ -373,6 +400,32 @@
             <Dependent Role="ConversationTags">
               <PropertyRef Name="TagName" />
               <PropertyRef Name="TagCompanyName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TagTagTagType">
+          <End Role="Tags" Type="smsfeedbackModel.Store.Tags" Multiplicity="1" />
+          <End Role="TagTagTypes" Type="smsfeedbackModel.Store.TagTagTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tags">
+              <PropertyRef Name="Name" />
+              <PropertyRef Name="CompanyName" />
+            </Principal>
+            <Dependent Role="TagTagTypes">
+              <PropertyRef Name="TagName" />
+              <PropertyRef Name="TagCompanyName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TagTypeTagTagType">
+          <End Role="TagTypes" Type="smsfeedbackModel.Store.TagTypes" Multiplicity="1" />
+          <End Role="TagTagTypes" Type="smsfeedbackModel.Store.TagTagTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TagTypes">
+              <PropertyRef Name="Type" />
+            </Principal>
+            <Dependent Role="TagTagTypes">
+              <PropertyRef Name="TagTypeType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -600,7 +653,7 @@
           <AssociationSet Name="ConversationClient" Association="smsfeedbackModel.ConversationClient">
             <End Role="Conversation" EntitySet="Conversations" />
             <End Role="Client" EntitySet="Clients" />
-          </AssociationSet>
+          </AssociationSet>         
           <EntitySet Name="ConversationTags" EntityType="smsfeedbackModel.ConversationTag" />
           <AssociationSet Name="FK_ConversationConversationTags" Association="smsfeedbackModel.FK_ConversationConversationTags">
             <End Role="Conversation" EntitySet="Conversations" />
@@ -627,6 +680,16 @@
           <AssociationSet Name="FK_SupportConversationForWorkingPoint1" Association="smsfeedbackModel.FK_SupportConversationForWorkingPoint1">
             <End Role="Conversation" EntitySet="Conversations" />
             <End Role="WorkingPoint" EntitySet="WorkingPoints" />
+          </AssociationSet>
+          <EntitySet Name="TagTypes" EntityType="smsfeedbackModel.TagType" />
+          <EntitySet Name="TagTagTypes" EntityType="smsfeedbackModel.TagTagType" />
+          <AssociationSet Name="FK_TagTagTagType" Association="smsfeedbackModel.FK_TagTagTagType">
+            <End Role="Tag" EntitySet="Tags" />
+            <End Role="TagTagType" EntitySet="TagTagTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TagTypeTagTagType" Association="smsfeedbackModel.FK_TagTypeTagTagType">
+            <End Role="TagType" EntitySet="TagTypes" />
+            <End Role="TagTagType" EntitySet="TagTagTypes" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Conversation">
@@ -745,6 +808,7 @@
           <Property Type="String" Name="CompanyName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Company" Relationship="smsfeedbackModel.FK_CompanyTag" FromRole="Tag" ToRole="Company" />
           <NavigationProperty Name="ConversationTags" Relationship="smsfeedbackModel.FK_TagConversationTags" FromRole="Tag" ToRole="ConversationTag" />
+          <NavigationProperty Name="TagTagTypes" Relationship="smsfeedbackModel.FK_TagTagTagType" FromRole="Tag" ToRole="TagTagType" />
         </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -939,7 +1003,7 @@
         <Association Name="ConversationClient">
           <End Type="smsfeedbackModel.Conversation" Role="Conversation" Multiplicity="*" />
           <End Type="smsfeedbackModel.Client" Role="Client" Multiplicity="1" />
-        </Association>
+        </Association>        
         <EntityType Name="ConversationTag">
           <Key>
             <PropertyRef Name="ConversationConvId" />
@@ -1021,6 +1085,52 @@
             </Principal>
             <Dependent Role="WorkingPoint">
               <PropertyRef Name="SupportConversation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TagType">
+          <Key>
+            <PropertyRef Name="Type" />
+          </Key>
+          <Property Type="String" Name="Type" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="TagTagTypes" Relationship="smsfeedbackModel.FK_TagTypeTagTagType" FromRole="TagType" ToRole="TagTagType" />
+        </EntityType>
+        <EntityType Name="TagTagType">
+          <Key>
+            <PropertyRef Name="TagName" />
+            <PropertyRef Name="TagCompanyName" />
+            <PropertyRef Name="TagTypeType" />
+          </Key>
+          <Property Type="Boolean" Name="IsDefault" Nullable="false" />
+          <Property Type="String" Name="TagName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TagCompanyName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TagTypeType" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tag" Relationship="smsfeedbackModel.FK_TagTagTagType" FromRole="TagTagType" ToRole="Tag" />
+          <NavigationProperty Name="TagType" Relationship="smsfeedbackModel.FK_TagTypeTagTagType" FromRole="TagTagType" ToRole="TagType" />
+        </EntityType>
+        <Association Name="FK_TagTagTagType">
+          <End Type="smsfeedbackModel.Tag" Role="Tag" Multiplicity="1" />
+          <End Type="smsfeedbackModel.TagTagType" Role="TagTagType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="Name" />
+              <PropertyRef Name="CompanyName" />
+            </Principal>
+            <Dependent Role="TagTagType">
+              <PropertyRef Name="TagName" />
+              <PropertyRef Name="TagCompanyName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TagTypeTagTagType">
+          <End Type="smsfeedbackModel.TagType" Role="TagType" Multiplicity="1" />
+          <End Type="smsfeedbackModel.TagTagType" Role="TagTagType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TagType">
+              <PropertyRef Name="Type" />
+            </Principal>
+            <Dependent Role="TagTagType">
+              <PropertyRef Name="TagTypeType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1209,6 +1319,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="TagTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.TagType)">
+        <MappingFragment StoreEntitySet="TagTypes">
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="UsersForWorkingPoints" TypeName="smsfeedbackModel.UsersForWorkingPoints" StoreEntitySet="UsersForWorkingPoints">
       <EndProperty Name="User">
         <ScalarProperty Name="UserId" ColumnName="Users_UserId" />
@@ -1249,6 +1366,16 @@
         <ScalarProperty Name="Name" ColumnName="Name" />
       </EndProperty>
     </AssociationSetMapping>
+          <EntitySetMapping Name="TagTagTypes">
+            <EntityTypeMapping TypeName="smsfeedbackModel.TagTagType">
+              <MappingFragment StoreEntitySet="TagTagTypes">
+                <ScalarProperty Name="TagTypeType" ColumnName="TagTypeType" />
+                <ScalarProperty Name="TagCompanyName" ColumnName="TagCompanyName" />
+                <ScalarProperty Name="TagName" ColumnName="TagName" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

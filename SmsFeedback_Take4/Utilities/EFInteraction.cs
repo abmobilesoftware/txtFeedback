@@ -147,8 +147,7 @@ namespace SmsFeedback_Take4.Utilities
       {
          //assume userID and convID are valid
          logger.Info("Call made");
-         var userGuids = from usr in dbContext.Users where usr.UserName == userID select usr.UserId;
-         
+         var userGuids = from usr in dbContext.Users where usr.UserName == userID select usr.UserId;         
             var userGuid = userGuids.First();
             //for the responce time -> the lastest details are always in the conversation
            
@@ -179,6 +178,17 @@ namespace SmsFeedback_Take4.Utilities
                logger.Error("Error occurred in AddMessage", ex);
                return null;
             }         
+      }
+      
+      public void IncrementNumberOfSentSms(String wpID, smsfeedbackEntities dbContext)
+      {
+         var wps = from wp in dbContext.WorkingPoints where wp.TelNumber == wpID select wp;
+         if (wps.Count() == 1)
+         {
+            var wp = wps.First();
+            wp.SentSms += 1;
+            dbContext.SaveChanges();
+         }
       }
 
       public XmppConn GetXmppConnectionDetailsPerUser(string userName, smsfeedbackEntities dbContext)
@@ -360,6 +370,7 @@ namespace SmsFeedback_Take4.Utilities
 
           return incommingMsgs;
       }
-     
+
+    
    }
 }

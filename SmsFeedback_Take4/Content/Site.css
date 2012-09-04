@@ -476,9 +476,13 @@ div.statusbarclose {
 #logoContainerOnLogin {
    height: 0px;
    position: relative;
-   right: 400px;
-   top: 40px;
+   right: 450px;  
+   top: 40px;   
 }
+   #logoContainerOnLogin img {
+      width: 400px;
+      max-width: 400px;
+   }
 
 #RememberMe {
    margin: 3px 3px 0px 3px;

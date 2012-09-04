@@ -38,6 +38,8 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "WorkingPointActivityLogWorkingPoint", "WorkingPoint", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.WorkingPoint), "ActivityLogWorkingPoint", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.ActivityLogWorkingPoint))]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "CompanySubscriptions", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Company), "Subscriptions", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Subscriptions))]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_SupportConversationForWorkingPoint1", "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.Conversation), "WorkingPoint", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.WorkingPoint), true)]
+[assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_TagTagTagType", "Tag", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Tag), "TagTagType", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.TagTagType), true)]
+[assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_TagTypeTagTagType", "TagType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.TagType), "TagTagType", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.TagTagType), true)]
 
 #endregion
 
@@ -328,6 +330,38 @@ namespace SmsFeedback_EFModels
             }
         }
         private ObjectSet<Subscriptions> _Subscriptions;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<TagType> TagTypes
+        {
+            get
+            {
+                if ((_TagTypes == null))
+                {
+                    _TagTypes = base.CreateObjectSet<TagType>("TagTypes");
+                }
+                return _TagTypes;
+            }
+        }
+        private ObjectSet<TagType> _TagTypes;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<TagTagType> TagTagTypes
+        {
+            get
+            {
+                if ((_TagTagTypes == null))
+                {
+                    _TagTagTypes = base.CreateObjectSet<TagTagType>("TagTagTypes");
+                }
+                return _TagTagTypes;
+            }
+        }
+        private ObjectSet<TagTagType> _TagTagTypes;
 
         #endregion
 
@@ -451,6 +485,22 @@ namespace SmsFeedback_EFModels
         public void AddToSubscriptions(Subscriptions subscriptions)
         {
             base.AddObject("Subscriptions", subscriptions);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the TagTypes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTagTypes(TagType tagType)
+        {
+            base.AddObject("TagTypes", tagType);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the TagTagTypes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTagTagTypes(TagTagType tagTagType)
+        {
+            base.AddObject("TagTagTypes", tagTagType);
         }
 
         #endregion
@@ -3496,6 +3546,332 @@ namespace SmsFeedback_EFModels
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ConversationTag>("smsfeedbackModel.FK_TagConversationTags", "ConversationTag", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "FK_TagTagTagType", "TagTagType")]
+        public EntityCollection<TagTagType> TagTagTypes
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TagTagType>("smsfeedbackModel.FK_TagTagTagType", "TagTagType");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TagTagType>("smsfeedbackModel.FK_TagTagTagType", "TagTagType", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="smsfeedbackModel", Name="TagTagType")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class TagTagType : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new TagTagType object.
+        /// </summary>
+        /// <param name="isDefault">Initial value of the IsDefault property.</param>
+        /// <param name="tagName">Initial value of the TagName property.</param>
+        /// <param name="tagCompanyName">Initial value of the TagCompanyName property.</param>
+        /// <param name="tagTypeType">Initial value of the TagTypeType property.</param>
+        public static TagTagType CreateTagTagType(global::System.Boolean isDefault, global::System.String tagName, global::System.String tagCompanyName, global::System.String tagTypeType)
+        {
+            TagTagType tagTagType = new TagTagType();
+            tagTagType.IsDefault = isDefault;
+            tagTagType.TagName = tagName;
+            tagTagType.TagCompanyName = tagCompanyName;
+            tagTagType.TagTypeType = tagTypeType;
+            return tagTagType;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsDefault
+        {
+            get
+            {
+                return _IsDefault;
+            }
+            set
+            {
+                OnIsDefaultChanging(value);
+                ReportPropertyChanging("IsDefault");
+                _IsDefault = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsDefault");
+                OnIsDefaultChanged();
+            }
+        }
+        private global::System.Boolean _IsDefault;
+        partial void OnIsDefaultChanging(global::System.Boolean value);
+        partial void OnIsDefaultChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String TagName
+        {
+            get
+            {
+                return _TagName;
+            }
+            set
+            {
+                if (_TagName != value)
+                {
+                    OnTagNameChanging(value);
+                    ReportPropertyChanging("TagName");
+                    _TagName = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("TagName");
+                    OnTagNameChanged();
+                }
+            }
+        }
+        private global::System.String _TagName;
+        partial void OnTagNameChanging(global::System.String value);
+        partial void OnTagNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String TagCompanyName
+        {
+            get
+            {
+                return _TagCompanyName;
+            }
+            set
+            {
+                if (_TagCompanyName != value)
+                {
+                    OnTagCompanyNameChanging(value);
+                    ReportPropertyChanging("TagCompanyName");
+                    _TagCompanyName = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("TagCompanyName");
+                    OnTagCompanyNameChanged();
+                }
+            }
+        }
+        private global::System.String _TagCompanyName;
+        partial void OnTagCompanyNameChanging(global::System.String value);
+        partial void OnTagCompanyNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String TagTypeType
+        {
+            get
+            {
+                return _TagTypeType;
+            }
+            set
+            {
+                if (_TagTypeType != value)
+                {
+                    OnTagTypeTypeChanging(value);
+                    ReportPropertyChanging("TagTypeType");
+                    _TagTypeType = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("TagTypeType");
+                    OnTagTypeTypeChanged();
+                }
+            }
+        }
+        private global::System.String _TagTypeType;
+        partial void OnTagTypeTypeChanging(global::System.String value);
+        partial void OnTagTypeTypeChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "FK_TagTagTagType", "Tag")]
+        public Tag Tag
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Tag>("smsfeedbackModel.FK_TagTagTagType", "Tag").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Tag>("smsfeedbackModel.FK_TagTagTagType", "Tag").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Tag> TagReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Tag>("smsfeedbackModel.FK_TagTagTagType", "Tag");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Tag>("smsfeedbackModel.FK_TagTagTagType", "Tag", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "FK_TagTypeTagTagType", "TagType")]
+        public TagType TagType
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TagType>("smsfeedbackModel.FK_TagTypeTagTagType", "TagType").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TagType>("smsfeedbackModel.FK_TagTypeTagTagType", "TagType").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<TagType> TagTypeReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<TagType>("smsfeedbackModel.FK_TagTypeTagTagType", "TagType");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<TagType>("smsfeedbackModel.FK_TagTypeTagTagType", "TagType", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="smsfeedbackModel", Name="TagType")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class TagType : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new TagType object.
+        /// </summary>
+        /// <param name="type">Initial value of the Type property.</param>
+        public static TagType CreateTagType(global::System.String type)
+        {
+            TagType tagType = new TagType();
+            tagType.Type = type;
+            return tagType;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Type
+        {
+            get
+            {
+                return _Type;
+            }
+            set
+            {
+                if (_Type != value)
+                {
+                    OnTypeChanging(value);
+                    ReportPropertyChanging("Type");
+                    _Type = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("Type");
+                    OnTypeChanged();
+                }
+            }
+        }
+        private global::System.String _Type;
+        partial void OnTypeChanging(global::System.String value);
+        partial void OnTypeChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "FK_TagTypeTagTagType", "TagTagType")]
+        public EntityCollection<TagTagType> TagTagTypes
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TagTagType>("smsfeedbackModel.FK_TagTypeTagTagType", "TagTagType");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TagTagType>("smsfeedbackModel.FK_TagTypeTagTagType", "TagTagType", value);
                 }
             }
         }

@@ -239,4 +239,19 @@ $(function () {
          }
       });
    });
+   module("TagsController");
+   asyncTest("Tags/GetSpecialTags_validUser_atLeastTooSpecialTagsAreReturned", 1, function () {
+      var validUrlForGetTags= "/ro-RO/Tags/GetSpecialTags";      
+      $.ajax({
+         url: validUrlForGetTags,
+         success: function (data) {
+            ok(data.length >= 2, "At least positiveFeedback and negativeFeedback should be returned");            
+            start();
+         },
+         error: function (xhr, ajaxOptions, thrownError) {
+            ok(false, xhr.responseText);
+            start();
+         }
+      });
+   });
 });

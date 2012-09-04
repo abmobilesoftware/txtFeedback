@@ -60,6 +60,20 @@ namespace SmsFeedback_Take4.Controllers
             return null;
          }
       }
+      public JsonResult GetSpecialTags()
+      {
+         try
+         {
+            smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+            var userId = User.Identity.Name;
+            return Json(SMSRepository.GetSpecialTags(userId, lContextPerRequest), JsonRequestBehavior.AllowGet);
+         }
+         catch (Exception ex)
+         {
+            logger.Error("Error occurred in GetSpecialTags", ex);
+            return null;
+         }         
+      }
 
       public JsonResult AddTagToConversations(string tagName, string convID)
       {

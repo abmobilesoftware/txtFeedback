@@ -189,7 +189,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reports.resx</DependentUpon>
     </Compile>
-    <Compile Include="Models\BusinessObjects\ConversationTag.cs" />
+    <Compile Include="Models\BusinessObjects\ConvTag.cs" />
     <Compile Include="Models\Helpers\ChartValue.cs" />
     <Compile Include="Models\Helpers\RepDataColumn.cs" />
     <Compile Include="Models\Helpers\RepChartData.cs" />

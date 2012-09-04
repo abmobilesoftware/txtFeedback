@@ -205,13 +205,13 @@ namespace SmsFeedback_Take4.Models
          return res;
       }
 
-      public System.Collections.Generic.IEnumerable<ConversationTag> GetTagsForConversation(string convID, smsfeedbackEntities dbContext)
+      public System.Collections.Generic.IEnumerable<ConvTag> GetTagsForConversation(string convID, smsfeedbackEntities dbContext)
       {
          logger.Info("Call made");
          var res = from conv in dbContext.Conversations
                    where conv.ConvId == convID
                    select (from convTag in conv.ConversationTags
-                           select new ConversationTag() { CompanyName = convTag.Tag.CompanyName, Name = convTag.Tag.Name, Description = convTag.Tag.Description });
+                           select new ConvTag() { CompanyName = convTag.Tag.CompanyName, Name = convTag.Tag.Name, Description = convTag.Tag.Description });
          if (res != null && res.Count() > 0)
          {
             return res.First();
@@ -222,5 +222,23 @@ namespace SmsFeedback_Take4.Models
          }
       }
 
+      internal System.Collections.Generic.IEnumerable<ConvTag> GetSpecialTags(String userId,smsfeedbackEntities dbContext)
+      {
+         logger.Info("Call made");
+
+        logger.Info("Call made");
+        var companies = from user in dbContext.Users where user.UserName == userId select user.Company;
+        if (companies.Count() == 1)
+        {
+           SmsFeedback_EFModels.Company company = companies.First();
+           var tagsList = from tag in company.Tags select (from tagType in tag.TagTagTypes select new ConvTag() { CompanyName = company.Name, Name = tag.Name, Description = tag.Description, TagType = tagType.TagType.Type, IsDefault = tagType.IsDefault });
+           IEnumerable<ConvTag> result = tagsList.SelectMany(l => l);          
+           return result;
+        }
+        else
+        {
+           return null;
+        }
+      }
    }
 }

@@ -63,7 +63,7 @@ namespace SmsFeedback_Take4.Models
                                                                DateTime? lastUpdate,
                                                                String userName,
                                                                smsfeedbackEntities dbContext);
-      System.Collections.Generic.IEnumerable<ConversationTag> GetTagsForConversation(string convID,  smsfeedbackEntities dbContext);
+      System.Collections.Generic.IEnumerable<ConvTag> GetTagsForConversation(string convID,  smsfeedbackEntities dbContext);
       System.Collections.Generic.IEnumerable<WorkingPoint> GetWorkingPointsPerUser(String userName, smsfeedbackEntities dbContext);
       Dictionary<string, SmsMessage> GetLatestConversationForNumbers(string[] workingPointNumbers,string userName, smsfeedbackEntities dbContext);
    }

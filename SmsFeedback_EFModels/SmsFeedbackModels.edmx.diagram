@@ -42,6 +42,10 @@
         <AssociationConnector Association="smsfeedbackModel.FK_SupportConversationForWorkingPoint1" />
         <AssociationConnector Association="smsfeedbackModel.FK_WorkingPointClient" />
         <AssociationConnector Association="smsfeedbackModel.FK_SupportWorkingPointConversation" />
+        <EntityTypeShape EntityType="smsfeedbackModel.TagType" Width="1.5" PointX="26" PointY="8.625" />
+        <EntityTypeShape EntityType="smsfeedbackModel.TagTagType" Width="1.5" PointX="22.875" PointY="8.75" />
+        <AssociationConnector Association="smsfeedbackModel.FK_TagTagTagType" />
+        <AssociationConnector Association="smsfeedbackModel.FK_TagTypeTagTagType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
