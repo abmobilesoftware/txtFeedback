@@ -40,6 +40,10 @@
         <EntityTypeShape EntityType="smsfeedbackModel.Subscriptions" Width="3" PointX="11" PointY="12.625" />
         <AssociationConnector Association="smsfeedbackModel.CompanySubscriptions" />
         <AssociationConnector Association="smsfeedbackModel.FK_SupportConversationForWorkingPoint1" />
+        <EntityTypeShape EntityType="smsfeedbackModel.TagType" Width="1.5" PointX="26" PointY="8.625" />
+        <EntityTypeShape EntityType="smsfeedbackModel.TagTagType" Width="1.5" PointX="22.875" PointY="8.75" />
+        <AssociationConnector Association="smsfeedbackModel.FK_TagTagTagType" />
+        <AssociationConnector Association="smsfeedbackModel.FK_TagTypeTagTagType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
