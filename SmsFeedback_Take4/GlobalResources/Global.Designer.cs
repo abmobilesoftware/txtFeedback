@@ -663,24 +663,7 @@ namespace Resources {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Positive &amp; Negative feedback.
-        /// </summary>
-        public static string RepPositiveAndNegative {
-            get {
-                return ResourceManager.GetString("RepPositiveAndNegative", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Positive &amp; Negative feedback.
-        /// </summary>
-        public static string RepPositiveAndNegativeTitle {
-            get {
-                return ResourceManager.GetString("RepPositiveAndNegativeTitle", resourceCulture);
-            }
-        }
-        
+         
         /// <summary>
         ///   Looks up a localized string similar to Returning customers.
         /// </summary>
