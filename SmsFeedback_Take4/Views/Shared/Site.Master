@@ -72,7 +72,7 @@
    <div class="page">
       <header>
          <div id="title">
-            <%: Url.ImageLink(Url.Content("~/Content/images/06-web-2.png"),"home","Index","Messages",null,"logo") %>
+            <%: Url.ImageLink(Url.Content("~/Content/images/06-web-2.png"),"home","Index","Messages", "engaging your customers in conversations",null,"logo") %>
          </div>
          <div id="logindisplay">
             <% Html.RenderPartial("LogOnUserControl"); %>
