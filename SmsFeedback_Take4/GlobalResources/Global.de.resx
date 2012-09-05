@@ -124,7 +124,7 @@
     <value>Kontoinformationen</value>
   </data>
   <data name="addATagLabel" xml:space="preserve">
-    <value>Schlagwort anhängen</value>
+    <value>Schlagwort hinzufügen</value>
   </data>
   <data name="dateLabel" xml:space="preserve">
     <value>Datum</value>
@@ -133,7 +133,7 @@
     <value>Senden Sie uns Ihr Feedback</value>
   </data>
   <data name="filteringAddFilterTag" xml:space="preserve">
-    <value>Filtermarke hinzufügen</value>
+    <value>Schlagwort-Filter hinzufügen</value>
   </data>
   <data name="fromDate" xml:space="preserve">
     <value>Ab</value>
@@ -196,7 +196,7 @@
     <value>Bitte geben Sie Ihren Benutzername und Ihr Passwort ein</value>
   </data>
   <data name="messagesAddTagPlaceHolder" xml:space="preserve">
-    <value>Marke anhängen</value>
+    <value>Schlagwort hinzufügen</value>
   </data>
   <data name="messagesPageTitle" xml:space="preserve">
     <value>Unterhaltungen</value>
@@ -310,13 +310,13 @@
     <value>Ausgehend</value>
   </data>
   <data name="RepOverview" xml:space="preserve">
-    <value />
+    <value>Übersicht</value>
   </data>
   <data name="RepPositiveAndNegative" xml:space="preserve">
-    <value />
+    <value>Positives/Negatives Feedback</value>
   </data>
   <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
-    <value />
+    <value>Positives/Negatives Feedback</value>
   </data>
   <data name="RepReturningClientsChart" xml:space="preserve">
     <value>Wiederkehrende Kunden</value>
@@ -433,13 +433,13 @@
     <value>Ich mag, dass...</value>
   </data>
   <data name="settingsBtnChangePassword" xml:space="preserve">
-    <value>Passwort verändern</value>
+    <value>Passwort ändern</value>
   </data>
   <data name="settingsChangePassword" xml:space="preserve">
-    <value>Passwort verändern</value>
+    <value>Passwort ändern</value>
   </data>
   <data name="settingsChangePasswordTitle" xml:space="preserve">
-    <value>Passwort verändern</value>
+    <value>Passwort ändern</value>
   </data>
   <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
     <value>Bestätigung der neuen Passwort</value>
@@ -479,6 +479,9 @@
   </data>
   <data name="starredLabel" xml:space="preserve">
     <value>Favoriten</value>
+  </data>
+  <data name="supportLabel" xml:space="preserve">
+    <value>Betreuung</value>
   </data>
   <data name="tabHelp" xml:space="preserve">
     <value>Hilfe</value>
@@ -536,11 +539,5 @@
   </data>
   <data name="welcomeMessage" xml:space="preserve">
     <value>Willkommen</value>
-  </data>
-  <data name="RepPositiveAndNegative" xml:space="preserve">
-    <value>Positive &amp; Negative</value>
-  </data>
-  <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
-    <value>Positive &amp; Negative feedback DE</value>
   </data>
 </root>
