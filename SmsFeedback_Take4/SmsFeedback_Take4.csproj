@@ -410,6 +410,7 @@
     <Content Include="QUnit\FilteringTest.js" />
     <Content Include="QUnit\MessagesTests.js" />
     <Content Include="QUnit\QUnitTests.html" />
+    <Content Include="QUnit\TagsTests.js" />
     <Content Include="QUnit\UtilitiesTests.js" />
     <Content Include="QUnit\WorkingPointsTests.js" />
     <Content Include="Scripts\backbone.js" />
