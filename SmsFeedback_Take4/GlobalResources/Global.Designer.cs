@@ -115,6 +115,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove filter tag.
+        /// </summary>
+        public static string filteringRemoveFilterTag {
+            get {
+                return ResourceManager.GetString("filteringRemoveFilterTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to initiated.
         /// </summary>
         public static string fromDate {
@@ -309,6 +318,15 @@ namespace Resources {
         public static string messagesPageTitle {
             get {
                 return ResourceManager.GetString("messagesPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove tag.
+        /// </summary>
+        public static string messagesRemoveTagPlaceHolder {
+            get {
+                return ResourceManager.GetString("messagesRemoveTagPlaceHolder", resourceCulture);
             }
         }
         
@@ -663,7 +681,6 @@ namespace Resources {
             }
         }
         
-         
         /// <summary>
         ///   Looks up a localized string similar to Returning customers.
         /// </summary>
