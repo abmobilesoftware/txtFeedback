@@ -69,6 +69,8 @@ function FilterArea() {
 
     //#region Tags
    var placeholderMessage = $('#filteringAddFilterTagMessage').val();
+   var removeTagValue = $('#messagesRemoveTagPlaceHolderMessage').val();
+   app.removeTagTitle = removeTagValue;
 
    $("#filterTag").tagsInput({
       'height': '22px',

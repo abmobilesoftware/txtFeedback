@@ -1,22 +1,39 @@
 ﻿"use strict";
-
+window.app = window.app || {};
 var tagsRep = {}; //I need this to be "global" because otherwise I can't see it from the callbacks "onAddTag" and "onRemoveTag"
-function TagsArea() {
-   var Tag = Backbone.Model.extend({
-      defaults: {         
-         Name: "tag",
-         Description: "description"
-      },
-      idAttribute: "Name"
-   });
-   //We use the collection for caching purposes
-   var TagsPool = Backbone.Collection.extend({
-      model: Tag,
-      url: function () {
-         return "Tags/GetTagsForConversation";
-      }
-   });    
 
+//#region Tag model
+window.app.Tag = Backbone.Model.extend({
+   defaults: {
+      Name: "tag",
+      Description: "description",
+      TagType: "none",
+      IsDefault: false
+   },
+   idAttribute: "Name"
+});
+//#endregion
+
+//#region TagsPool model
+window.app.TagsPool = Backbone.Collection.extend({
+   model: window.app.Tag,
+   url: function () {
+      return "Tags/GetTagsForConversation";
+   }
+});    
+//#endregion
+
+//#region SpecialTagsTool model
+window.app.SpecialTagsPool = Backbone.Collection.extend({
+   model: window.app.Tag,
+   url: function () {
+      return "Tags/GetSpecialTags";
+   }
+});
+//$endregion
+
+function TagsArea() { 
+   //We use the collection for caching purposes
    var opts = {
       lines: 9, // The number of lines to draw
       length: 5, // The length of each line
@@ -36,10 +53,12 @@ function TagsArea() {
    var spinner = new Spinner(opts);
    
    var placeholderValue = $('#messagesAddTagPlaceHolderMessage').val();
+   var removeTagValue = $('#messagesRemoveTagPlaceHolderMessage').val();
    var TagsPoolView = Backbone.View.extend({
       el: $("#tagsPool"),      
       initialize: function () {        
          this.conversationID = '';
+         app.removeTagTitle = removeTagValue;
          $("#tags").tagsInput({
             'height': '22px',
             'width': 'auto',
@@ -55,7 +74,7 @@ function TagsArea() {
       onAddTag: function (tagValue) {
          //add the tag to the cache
          //TODO maybe we should cache this only on success
-         var newTag = new Tag({ Name: tagValue });
+         var newTag = new app.Tag({ Name: tagValue });
          tagsRep[gSelectedConversationID].add(newTag);
 
          $.getJSON('Tags/AddTagToConversations',
@@ -100,7 +119,7 @@ function TagsArea() {
             this.render();
          }
          else {
-            var tagCollection = new TagsPool();
+            var tagCollection = new app.TagsPool();
             tagCollection.bind("reset", this.render); 
             tagCollection.fetch({
                data: { "conversationID": convId },
