@@ -3,26 +3,31 @@ jQuery(function ($) {
         message: null,
         init: function () {
             // $('div.sendEmailButton').unbind("click");
-            $('div.sendEmailButton').live("click", function (e) {
-                e.preventDefault();
-                var textToDisplay = gSelectedMessage;
-                var conversationId = gSelectedConversationID;
-                // load the contact form using ajax
-                $.get("EmailSend/GetEmailMessageForm", { 'emailText': textToDisplay, 'convID': conversationId }, function (data) {
+           $('div.sendEmailButton').live("click", function (e) {
+              e.preventDefault();
+              var textToDisplay = gSelectedMessage;
+              var conversationId = gSelectedConversationID;
+              // load the contact form using ajax
+              $.ajax({
+                 url: "EmailSend/GetEmailMessageForm",
+                 data: { 'emailText': textToDisplay, 'convID': conversationId },
+                 cache: true,
+                 success: function (data) {
                     // create a modal dialog with the data
                     $(data).modal({
-                        appendTo: 'form',
-                        closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
-                        minWidth: 600,
-                        position: ["15%","30%" ],
-                        overlayId: 'contact-overlay',
-                        containerId: 'contact-container',
-                        onOpen: contact.open,
-                        onShow: contact.show,
-                        onClose: contact.close                        
+                       appendTo: 'form',
+                       closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
+                       minWidth: 600,
+                       position: ["15%", "30%"],
+                       overlayId: 'contact-overlay',
+                       containerId: 'contact-container',
+                       onOpen: contact.open,
+                       onShow: contact.show,
+                       onClose: contact.close
                     });
-                });
-             });
+                 }
+              });
+           });
            //#region Feedback buttons
             var sendPosFeedbackButton = $("#sendPositiveFeedback");
             sendPosFeedbackButton.qtip({
@@ -50,36 +55,46 @@ jQuery(function ($) {
 
             $('#sendPositiveFeedback').live("click", function (e) {
                e.preventDefault();
-               $.get("EmailSend/GetFeedbackForm", { 'positiveFeedback': true, 'url': document.URL }, function (data) {
-                  // create a modal dialog with the data
-                  $(data).modal({
-                     appendTo: 'body',
-                     closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
-                     minWidth: 600,
-                     position: ["15%", "30%"],
-                     overlayId: 'contact-overlay',
-                     containerId: 'contact-container',
-                     onOpen: contact.open,
-                     onShow: contact.show,
-                     onClose: contact.close
-                  });
+               $.ajax({
+                  url:"EmailSend/GetFeedbackForm",
+                  data: { 'positiveFeedback': true, 'url': document.URL },
+                  cache: true,
+                  success: function (data) {
+                     // create a modal dialog with the data
+                     $(data).modal({
+                        appendTo: 'body',
+                        closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
+                        minWidth: 600,
+                        position: ["15%", "30%"],
+                        overlayId: 'contact-overlay',
+                        containerId: 'contact-container',
+                        onOpen: contact.open,
+                        onShow: contact.show,
+                        onClose: contact.close
+                     });
+                  }
                });
             });
             $('#sendNegativeFeedback').live("click", function (e) {
                e.preventDefault();
-               $.get("EmailSend/GetFeedbackForm", { 'positiveFeedback': false, 'url': document.URL }, function (data) {
-                  // create a modal dialog with the data
-                  $(data).modal({
-                     appendTo: 'body',
-                     closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
-                     minWidth: 600,
-                     position: ["15%", "30%"],
-                     overlayId: 'contact-overlay',
-                     containerId: 'contact-container',
-                     onOpen: contact.open,
-                     onShow: contact.show,
-                     onClose: contact.close
-                  });
+               $.ajax({
+                  url: "EmailSend/GetFeedbackForm",
+                  data: { 'positiveFeedback': false, 'url': document.URL },
+                  cache: true,
+                  success: function (data) {
+                     // create a modal dialog with the data
+                     $(data).modal({
+                        appendTo: 'body',
+                        closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
+                        minWidth: 600,
+                        position: ["15%", "30%"],
+                        overlayId: 'contact-overlay',
+                        containerId: 'contact-container',
+                        onOpen: contact.open,
+                        onShow: contact.show,
+                        onClose: contact.close
+                     });
+                  }
                });
             });
         },

@@ -2,27 +2,30 @@
 window.app = window.app || {};
 
 window.app.showChangePassword = function () {
-   $.get("Settings/GetChangePasswordForm", {}, function (data) {
-      // create a modal dialog with the data
-      $('#rightColumn').html(data);
-      $('#btnChangePassword').live('click', function (e) {
-         e.preventDefault();
-         $.ajax({
-            url: 'Settings/GetChangePasswordForm',
-            data: $('#rightColumn form').serialize(),
-            type: 'post',
-            cache: false,
-            dataType: 'html',
-            success: function (data) {
-               var x = data;
-               $('#rightColumn').html(data);
-            },
-            error: function (data) {
-               var y = data;
-               $('#rightColumn').html(data);
-            }
+   $.ajax({
+      url: "Settings/GetChangePasswordForm",
+      success: function (data) {
+         // create a modal dialog with the data
+         $('#rightColumn').html(data);
+         $('#btnChangePassword').live('click', function (e) {
+            e.preventDefault();
+            $.ajax({
+               url: 'Settings/GetChangePasswordForm',
+               data: $('#rightColumn form').serialize(),
+               type: 'post',
+               cache: true,
+               dataType: 'html',
+               success: function (data) {
+                  var x = data;
+                  $('#rightColumn').html(data);
+               },
+               error: function (data) {
+                  var y = data;
+                  $('#rightColumn').html(data);
+               }
+            });
          });
-      });
+      }
    });
 }
 

@@ -87,9 +87,14 @@ $(function () {
          $("#msgTabcount").text(val);
       }
    });
-   //#endregion
-});
 
+});
+//#endregion
+//#region make sure Jquery AJAX requests are not cached
+$(function () {
+   $.ajaxSetup({ cache: false });
+})
+//#endregion
 //#region handle "authentication expired"
 $(function () {
    $(document).ready(function () {
