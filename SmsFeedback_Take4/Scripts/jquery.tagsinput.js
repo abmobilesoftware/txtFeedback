@@ -54,7 +54,7 @@ window.app = window.app || {};
             position: 'absolute',
             top: -9999,
             left: -9999,
-            width: 'auto',
+            width: '100%',
             fontSize: input.css('fontSize'),
             fontFamily: input.css('fontFamily'),
             fontWeight: input.css('fontWeight'),

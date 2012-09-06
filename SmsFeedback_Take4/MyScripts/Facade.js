@@ -15,8 +15,8 @@ function refreshConversationList(convView, msgView) {
 }
 
 function InitializeGUI() {
-   var self = this;
-   if (window.Prototype) {
+    var self = this;
+    if (window.Prototype) {
       delete Object.prototype.toJSON;
       delete Array.prototype.toJSON;
       delete String.prototype.toJSON;
@@ -36,7 +36,9 @@ function InitializeGUI() {
    this.wpsView.getWorkingPoints(function () {
       self.convView.getConversations();
    });
+    
    
+
    window.app.nrOfUnreadConvs = 0;
    //get the initial conversations
    window.app.requestIndex = 0; //make sure the first time we update from external sources
@@ -79,6 +81,7 @@ $(document).ready(function () {
 
 
 });
+
 
 function resizeTriggered() {
    //pick the highest between window size (- header) and messagesArea

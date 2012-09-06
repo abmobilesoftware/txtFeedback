@@ -252,6 +252,11 @@
       <div id="tagsContainer" class="tagArea invisible">
          <div id="tagsPool" class="tagsPhoneNumbers"></div>
          <input name="tags" id="tags" />
+         <div id="specialTags">
+             <!--<img class='specialTag' src="<%: Url.Content("~/Content/images/thumbs_up_hover_20x20.png") %>" alt="Thumbs up" /> <img class='specialTag' src="<%: Url.Content("~/Content/images/thumbs_down_20x20.png") %>" alt="Thumbs down"/>-->
+             <a href="#" id='thumbsUp' class='specialTag' tagType="positiveFeedback"></a>
+             <a href="#" id='thumbsDown' class='specialTag' tagType="negativeFeedback"></a>
+         </div>
       </div>
       <div id="textareaContainer" class="invisible">
          <div id="replyFormArea">

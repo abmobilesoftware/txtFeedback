@@ -101,7 +101,43 @@
    text-decoration: initial;
 }
 
-   .tag a:hover {
+.tag a:hover {
    color: white;
    text-decoration: initial;
-   }
+}
+   
+/* SPECIAL TAGS */
+#specialTags {
+    width:7%;
+    float:left;
+    position: relative;
+    top: 4px;
+}
+
+.specialTag {
+    margin-left:5px;
+    cursor:pointer;
+    width: 20px;
+}
+
+#thumbsUp, #thumbsDown {
+    display: block;
+    width: 20px;
+    height: 20px;
+    text-indent: -9999px;   
+    float: left; 
+}
+
+#thumbsUp:hover, #thumbsDown:hover {
+    background-position: 20px 0;        
+}
+
+#thumbsUp {
+    background-image:url('images/thumbs_up_hover_20x20.png');    
+}
+#thumbsDown {
+    background-image:url('images/thumbs_down_hover_20x20.png');    
+}
+ 
+
+

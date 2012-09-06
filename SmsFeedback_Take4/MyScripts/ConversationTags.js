@@ -57,7 +57,8 @@ function TagsArea() {
    var TagsPoolView = Backbone.View.extend({
       el: $("#tagsPool"),      
       initialize: function () {        
-         this.conversationID = '';
+          self = this;
+          this.conversationID = '';
          app.removeTagTitle = removeTagValue;
          $("#tags").tagsInput({
             'height': '22px',
@@ -69,7 +70,23 @@ function TagsArea() {
             'placeholder': placeholderValue,
             'interactve': true
          });
-         _.bindAll(this, 'render', 'appendTag', 'onAddTag', 'onRemoveTag','getTags');                      
+         this.thumbsUp = $("#thumbsUp");
+         this.thumbsDown = $("#thumbsDown");
+         this.specialTagsPool = new window.app.SpecialTagsPool();
+         this.getSpecialTags();
+         _.bindAll(this, 'render', 'appendTag', 'onAddTag', 'onRemoveTag', 'getTags', 'getSpecialTags');
+         $(".specialTag").click(function () {
+             var tagType = $(this).attr("tagType");
+             var tag = self.specialTagsPool.where({ TagType: tagType, IsDefault: true })[0];
+             var tagName = tag.get("Name");
+             if (!$("#tags").tagExist(tagName)) {
+                 $("#tags").addTag(tagName);
+                 self.toggleHands(tagType);
+             } else {
+                 $("#tags").removeTag(tagName);
+                 self.turnHandsOff();
+             }
+         });
       },
       onAddTag: function (tagValue) {
          //add the tag to the cache
@@ -85,6 +102,8 @@ function TagsArea() {
                    //tag added to conversation (or not? )                   
                 }
         );
+         var tagType = self.specialTagsPool.where({ Name: tagValue, IsDefault: true })[0].get("TagType");
+         self.toggleHands(tagType);
       },
       onRemoveTag: function (tagValue) {
          //remove tag from cache
@@ -103,6 +122,8 @@ function TagsArea() {
                    //tag removed from conversation (or not? )
                 }
         );
+         var tagType = self.specialTagsPool.where({ Name: tagValue, IsDefault: true })[0].get("TagType");
+         self.turnHandOff(tagType);
       },
       getTags: function (convId) {
          //$('#tagsPool').html('');
@@ -130,8 +151,10 @@ function TagsArea() {
                }
             });
             tagsRep[convId] = tagCollection;
-         }
-         
+         }        
+      },
+      getSpecialTags: function() {
+          this.specialTagsPool.fetch();
       },
       render: function () {
          var tg = $('#tags');
@@ -141,12 +164,65 @@ function TagsArea() {
             self.appendTag(tag);
          });
 
+          // initialize 
+         this.turnHandsOff();
+         this.turnTheHandOn("positiveFeedback", $("#thumbsUp"));
+         this.turnTheHandOn("negativeFeedback", $("#thumbsDown"));
       },
       appendTag: function (tag) {
          $('#tags').addTag(tag.get("Name"), { callback: false });         
-      }           
+      },
+      turnTheHandOn: function (tagType, element) {
+          var tagName = this.specialTagsPool.where({ TagType: tagType, IsDefault: true })[0].get("Name");
+          if ($("#tags").tagExist(tagName)) {
+              $(element).css("background-position", "20px 0");
+          }
+      },
+      toggleHands: function (tagType) {
+          if (tagType == "positiveFeedback") {
+              self.thumbsUp.css("background-position", "20px 0");
+              // remove negative feedback 
+              var oppositeTagType = "negativeFeedback";
+              var oppositeTagName = self.specialTagsPool.where({ TagType: oppositeTagType, IsDefault: true })[0].get("Name");
+              if ($("#tags").tagExist(oppositeTagName)) {
+                  // Transition negative to positive
+                  $.getJSON('Messages/AddAnEventInConversationHistory',
+                        { conversationId: gSelectedConversationID, eventType: "negToPos" },
+                        function (data) {
+                            //conversation starred status changed                            
+                        });
+                  $("#tags").removeTag(oppositeTagName);
+              }
+          } else if (tagType == "negativeFeedback") {
+              self.thumbsDown.css("background-position", "20px 0");
+              var oppositeTagType = "positiveFeedback";
+              var oppositeTagName = self.specialTagsPool.where({ TagType: oppositeTagType, IsDefault: true })[0].get("Name");
+              if ($("#tags").tagExist(oppositeTagName)) {
+                  // transition positive to negative
+                  $.getJSON('Messages/AddAnEventInConversationHistory',
+                        { conversationId: gSelectedConversationID, eventType: "posToNeg"},
+                        function (data) {
+                            //conversation starred status changed                            
+                        });
+                  $("#tags").removeTag(oppositeTagName);
+              }
+          }
+      },
+      turnHandsOff: function () {
+          self.thumbsUp.css("background-position", "0 0");
+          self.thumbsDown.css("background-position", "0 0");
+      },
+      turnHandOff: function (tagType) {
+          if (tagType == "positiveFeedback") {
+              self.thumbsUp.css("background-position", "0 0");
+          } else {
+              self.thumbsDown.css("background-position", "0 0");
+          }
+      }
+      
    });
 
    var tagsView = new TagsPoolView();
    return tagsView;
-}  
+}
+
