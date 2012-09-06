@@ -71,7 +71,10 @@
     <Content Include="SmsFeedbackModels.edmx1.sql" />
     <Content Include="SmsFeedbackModels.edmx2.sql" />
     <Content Include="SmsFeedbackModels.edmx4.sql" />
+    <Content Include="SmsFeedbackModels.edmx_new.sql" />
+    <Content Include="SmsFeedbackModels.edmx_old.sql" />
     <Content Include="SmsFeedbackModels13.edmx.sql" />
+    <Content Include="SmsFeedbackModels_old.edmx.sql" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />

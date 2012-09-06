@@ -40,6 +40,8 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_SupportConversationForWorkingPoint1", "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.Conversation), "WorkingPoint", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.WorkingPoint), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_TagTagTagType", "Tag", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Tag), "TagTagType", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.TagTagType), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_TagTypeTagTagType", "TagType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.TagType), "TagTagType", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.TagTagType), true)]
+[assembly: EdmRelationshipAttribute("smsfeedbackModel", "ConversationHistoryEventType", "ConversationHistory", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.ConversationHistory), "EventType", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.EventType), true)]
+[assembly: EdmRelationshipAttribute("smsfeedbackModel", "ConversationToConversationHistory", "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Conversation), "ConversationHistory", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.ConversationHistory), true)]
 
 #endregion
 
@@ -362,6 +364,38 @@ namespace SmsFeedback_EFModels
             }
         }
         private ObjectSet<TagTagType> _TagTagTypes;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<EventType> EventTypes
+        {
+            get
+            {
+                if ((_EventTypes == null))
+                {
+                    _EventTypes = base.CreateObjectSet<EventType>("EventTypes");
+                }
+                return _EventTypes;
+            }
+        }
+        private ObjectSet<EventType> _EventTypes;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ConversationHistory> ConversationHistories
+        {
+            get
+            {
+                if ((_ConversationHistories == null))
+                {
+                    _ConversationHistories = base.CreateObjectSet<ConversationHistory>("ConversationHistories");
+                }
+                return _ConversationHistories;
+            }
+        }
+        private ObjectSet<ConversationHistory> _ConversationHistories;
 
         #endregion
 
@@ -501,6 +535,22 @@ namespace SmsFeedback_EFModels
         public void AddToTagTagTypes(TagTagType tagTagType)
         {
             base.AddObject("TagTagTypes", tagTagType);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the EventTypes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToEventTypes(EventType eventType)
+        {
+            base.AddObject("EventTypes", eventType);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ConversationHistories EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToConversationHistories(ConversationHistory conversationHistory)
+        {
+            base.AddObject("ConversationHistories", conversationHistory);
         }
 
         #endregion
@@ -1268,7 +1318,8 @@ namespace SmsFeedback_EFModels
         /// <param name="starred">Initial value of the Starred property.</param>
         /// <param name="startTime">Initial value of the StartTime property.</param>
         /// <param name="workingPoint_TelNumber">Initial value of the WorkingPoint_TelNumber property.</param>
-        public static Conversation CreateConversation(global::System.String convId, global::System.String text, global::System.Boolean read, global::System.DateTime timeUpdated, global::System.String from, global::System.Boolean starred, global::System.DateTime startTime, global::System.String workingPoint_TelNumber)
+        /// <param name="lastSequence">Initial value of the LastSequence property.</param>
+        public static Conversation CreateConversation(global::System.String convId, global::System.String text, global::System.Boolean read, global::System.DateTime timeUpdated, global::System.String from, global::System.Boolean starred, global::System.DateTime startTime, global::System.String workingPoint_TelNumber, global::System.Int32 lastSequence)
         {
             Conversation conversation = new Conversation();
             conversation.ConvId = convId;
@@ -1279,6 +1330,7 @@ namespace SmsFeedback_EFModels
             conversation.Starred = starred;
             conversation.StartTime = startTime;
             conversation.WorkingPoint_TelNumber = workingPoint_TelNumber;
+            conversation.LastSequence = lastSequence;
             return conversation;
         }
 
@@ -1480,6 +1532,30 @@ namespace SmsFeedback_EFModels
         private global::System.String _WorkingPoint_TelNumber;
         partial void OnWorkingPoint_TelNumberChanging(global::System.String value);
         partial void OnWorkingPoint_TelNumberChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 LastSequence
+        {
+            get
+            {
+                return _LastSequence;
+            }
+            set
+            {
+                OnLastSequenceChanging(value);
+                ReportPropertyChanging("LastSequence");
+                _LastSequence = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("LastSequence");
+                OnLastSequenceChanged();
+            }
+        }
+        private global::System.Int32 _LastSequence;
+        partial void OnLastSequenceChanging(global::System.Int32 value);
+        partial void OnLastSequenceChanged();
 
         #endregion
 
@@ -1624,6 +1700,267 @@ namespace SmsFeedback_EFModels
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<WorkingPoint>("smsfeedbackModel.FK_SupportConversationForWorkingPoint1", "WorkingPoint", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "ConversationToConversationHistory", "ConversationHistory")]
+        public EntityCollection<ConversationHistory> ConversationEvents
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ConversationHistory>("smsfeedbackModel.ConversationToConversationHistory", "ConversationHistory");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ConversationHistory>("smsfeedbackModel.ConversationToConversationHistory", "ConversationHistory", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="smsfeedbackModel", Name="ConversationHistory")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ConversationHistory : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ConversationHistory object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="sequence">Initial value of the Sequence property.</param>
+        /// <param name="date">Initial value of the Date property.</param>
+        /// <param name="conversationConvId">Initial value of the ConversationConvId property.</param>
+        public static ConversationHistory CreateConversationHistory(global::System.Int32 id, global::System.Int32 sequence, global::System.DateTime date, global::System.String conversationConvId)
+        {
+            ConversationHistory conversationHistory = new ConversationHistory();
+            conversationHistory.Id = id;
+            conversationHistory.Sequence = sequence;
+            conversationHistory.Date = date;
+            conversationHistory.ConversationConvId = conversationConvId;
+            return conversationHistory;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Sequence
+        {
+            get
+            {
+                return _Sequence;
+            }
+            set
+            {
+                OnSequenceChanging(value);
+                ReportPropertyChanging("Sequence");
+                _Sequence = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Sequence");
+                OnSequenceChanged();
+            }
+        }
+        private global::System.Int32 _Sequence;
+        partial void OnSequenceChanging(global::System.Int32 value);
+        partial void OnSequenceChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime Date
+        {
+            get
+            {
+                return _Date;
+            }
+            set
+            {
+                OnDateChanging(value);
+                ReportPropertyChanging("Date");
+                _Date = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Date");
+                OnDateChanged();
+            }
+        }
+        private global::System.DateTime _Date;
+        partial void OnDateChanging(global::System.DateTime value);
+        partial void OnDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String EventTypeName
+        {
+            get
+            {
+                return _EventTypeName;
+            }
+            set
+            {
+                OnEventTypeNameChanging(value);
+                ReportPropertyChanging("EventTypeName");
+                _EventTypeName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("EventTypeName");
+                OnEventTypeNameChanged();
+            }
+        }
+        private global::System.String _EventTypeName;
+        partial void OnEventTypeNameChanging(global::System.String value);
+        partial void OnEventTypeNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ConversationConvId
+        {
+            get
+            {
+                return _ConversationConvId;
+            }
+            set
+            {
+                OnConversationConvIdChanging(value);
+                ReportPropertyChanging("ConversationConvId");
+                _ConversationConvId = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ConversationConvId");
+                OnConversationConvIdChanged();
+            }
+        }
+        private global::System.String _ConversationConvId;
+        partial void OnConversationConvIdChanging(global::System.String value);
+        partial void OnConversationConvIdChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "ConversationHistoryEventType", "EventType")]
+        public EventType EventType
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<EventType>("smsfeedbackModel.ConversationHistoryEventType", "EventType").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<EventType>("smsfeedbackModel.ConversationHistoryEventType", "EventType").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<EventType> EventTypeReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<EventType>("smsfeedbackModel.ConversationHistoryEventType", "EventType");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<EventType>("smsfeedbackModel.ConversationHistoryEventType", "EventType", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "ConversationToConversationHistory", "Conversation")]
+        public Conversation Conversation
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Conversation>("smsfeedbackModel.ConversationToConversationHistory", "Conversation").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Conversation>("smsfeedbackModel.ConversationToConversationHistory", "Conversation").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Conversation> ConversationReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Conversation>("smsfeedbackModel.ConversationToConversationHistory", "Conversation");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Conversation>("smsfeedbackModel.ConversationToConversationHistory", "Conversation", value);
                 }
             }
         }
@@ -1845,6 +2182,115 @@ namespace SmsFeedback_EFModels
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Tag>("smsfeedbackModel.FK_TagConversationTags", "Tag", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="smsfeedbackModel", Name="EventType")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class EventType : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new EventType object.
+        /// </summary>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="description">Initial value of the Description property.</param>
+        public static EventType CreateEventType(global::System.String name, global::System.String description)
+        {
+            EventType eventType = new EventType();
+            eventType.Name = name;
+            eventType.Description = description;
+            return eventType;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                if (_Name != value)
+                {
+                    OnNameChanging(value);
+                    ReportPropertyChanging("Name");
+                    _Name = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("Name");
+                    OnNameChanged();
+                }
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Description
+        {
+            get
+            {
+                return _Description;
+            }
+            set
+            {
+                OnDescriptionChanging(value);
+                ReportPropertyChanging("Description");
+                _Description = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Description");
+                OnDescriptionChanged();
+            }
+        }
+        private global::System.String _Description;
+        partial void OnDescriptionChanging(global::System.String value);
+        partial void OnDescriptionChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "ConversationHistoryEventType", "ConversationHistory")]
+        public EntityCollection<ConversationHistory> ConversationHistoryEvents
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ConversationHistory>("smsfeedbackModel.ConversationHistoryEventType", "ConversationHistory");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ConversationHistory>("smsfeedbackModel.ConversationHistoryEventType", "ConversationHistory", value);
                 }
             }
         }
