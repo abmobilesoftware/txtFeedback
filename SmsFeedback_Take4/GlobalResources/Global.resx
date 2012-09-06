@@ -341,7 +341,7 @@
     <value>Overview</value>
   </data>
   <data name="RepPositiveAndNegative" xml:space="preserve">
-    <value>Positive &amp; Negative feedback</value>
+    <value>Positive &amp; Negative</value>
   </data>
   <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
     <value>Positive &amp; Negative feedback</value>
@@ -608,13 +608,15 @@
     <value>Welcome</value>
     <comment>Conversation: header, top right message</comment>
   </data>
-  <data name="RepPositiveAndNegative" xml:space="preserve">
-    <value>Positive &amp; Negative</value>
-  </data>
-  <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
-    <value>Positive &amp; Negative feedback</value>
-  </data>
   <data name="supportLabel" xml:space="preserve">
     <value>Support</value>
+  </data>
+  <data name="filteringRemoveFilterTag" xml:space="preserve">
+    <value>Remove filter tag</value>
+    <comment>Conversations: the X on the filter tag</comment>
+  </data>
+  <data name="messagesRemoveTagPlaceHolder" xml:space="preserve">
+    <value>Remove tag</value>
+    <comment>Conversations: the X on the tag (remove tag)</comment>
   </data>
 </root>

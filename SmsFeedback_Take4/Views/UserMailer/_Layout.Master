@@ -20,10 +20,9 @@
        <asp:ContentPlaceHolder ID="MainContent" runat="server">
         </asp:ContentPlaceHolder>
     </div>
-    <div id="mail-footer">
-        <br />
-        ____________________________________________ <br />
-       <img style="height: 90px; max-height: 90px" src="<%: Url.Abs(Url.Content("~/Content/images/logo1.png")) %>"/>
+    <br />
+    <div style="max-width: 400px; border-top: 1px solid black" id="mail-footer">        
+       <img style="margin-top: 4px; height: 90px; max-height: 90px" src="<%: Url.Abs(Url.Content("~/Content/images/logo1.png")) %>"/>
        
        <br />       
     </div>

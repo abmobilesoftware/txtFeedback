@@ -13,7 +13,7 @@
 	ben@xoxco.com
 
 */
-
+window.app = window.app || {};
 (function($) {
 
 	var delimiter = new Array();
@@ -100,7 +100,7 @@
                         $('<span>').text(value).append('&nbsp;&nbsp;'),
                         $('<a>', {
                             href  : '#',
-                            title : 'Removing tag',
+                            title : window.app.removeTagTitle,
                             text  : 'x'
                         }).click(function () {
                             return $('#' + id).removeTag(escape(value));
