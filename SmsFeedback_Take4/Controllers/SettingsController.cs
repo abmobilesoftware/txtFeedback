@@ -96,14 +96,16 @@ namespace SmsFeedback_Take4.Controllers
        #region Define working points
       [CustomAuthorizeAtribute(Roles = cRoleForConfigurators)]
         public ActionResult GetDefineWorkingPointsForm()
-        {         
-           var user = User.Identity.Name;          
-           
-           smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-           //var model = new WorkingPointConfModel();
-           //model.WorkingPoints = new List<SmsFeedback_Take4.Models.WorkingPoint>();
-           return View(SMSRepository.GetWorkingPointsPerUser(user, lContextPerRequest));
+        {
+           return GetDefineWorkingPointsFormInternal();      
         }
+
+      private ActionResult GetDefineWorkingPointsFormInternal()
+      {
+         var user = User.Identity.Name;          
+         smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();         
+         return View(SMSRepository.GetWorkingPointsPerUser(user, lContextPerRequest));
+      }
 
       [CustomAuthorizeAtribute(Roles = cRoleForConfigurators)]
       [HttpPost]      
@@ -111,8 +113,10 @@ namespace SmsFeedback_Take4.Controllers
       {
             var user = User.Identity.Name;
             smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-            mEFInterface.SaveWpsForUser(wps, lContextPerRequest);
-            return RedirectToAction("GetDefineWorkingPointsForm");
+            mEFInterface.SaveWpsForUser(user,wps, lContextPerRequest);
+            //ModelState.AddModelError("", Resources.Global.loginUnsuccessfulDetails);
+            ViewData["saveMessage"] = Resources.Global.settingWpConfigSavedSuccessfuly ;
+            return GetDefineWorkingPointsFormInternal();
       }
        #endregion
     }

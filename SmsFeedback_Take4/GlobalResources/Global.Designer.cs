@@ -1132,6 +1132,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max outbound SMS.
+        /// </summary>
+        public static string settingsMaxOutboundSmsHeader {
+            get {
+                return ResourceManager.GetString("settingsMaxOutboundSmsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New password.
         /// </summary>
         public static string settingsNewPasswordLabel {
@@ -1168,11 +1177,65 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Telephone no.
+        /// </summary>
+        public static string settingsTelNoHeader {
+            get {
+                return ResourceManager.GetString("settingsTelNoHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Errors encountered while saving the new configuration.
+        /// </summary>
+        public static string settingsWpConfigErrors {
+            get {
+                return ResourceManager.GetString("settingsWpConfigErrors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working Points.
+        /// </summary>
+        public static string settingsWpConfigLegend {
+            get {
+                return ResourceManager.GetString("settingsWpConfigLegend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string settingsWpDescriptionHeader {
+            get {
+                return ResourceManager.GetString("settingsWpDescriptionHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string settingsWpNameHeader {
+            get {
+                return ResourceManager.GetString("settingsWpNameHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User preferences.
         /// </summary>
         public static string settingUserPreferences {
             get {
                 return ResourceManager.GetString("settingUserPreferences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working points configuration changed successfuly.
+        /// </summary>
+        public static string settingWpConfigSavedSuccessfuly {
+            get {
+                return ResourceManager.GetString("settingWpConfigSavedSuccessfuly", resourceCulture);
             }
         }
         

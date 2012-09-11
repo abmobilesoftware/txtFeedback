@@ -2,20 +2,19 @@
 
 <%@ Import Namespace="SmsFeedback_Take4.Models" %>
 <!DOCTYPE html>
-<div>
    <script src="<%: Url.Content("~/Scripts/jquery.validate.min.js") %>" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js") %>" type="text/javascript"></script>
    <script src="../../Scripts/jquery.json-2.3.min.js" type="text/javascript" />
-   <legend id="wpConfigLegend">Working Points</legend>
+   <legend id="wpConfigLegend"><%= Resources.Global.settingsWpConfigLegend %></legend>
    <% using (Html.BeginForm())
       { %>
    <fieldset id="wpConfig">
       <table id="workingPointsConfig" cellspacing="10" cellpadding="10">
          <tr>
-            <th align="left">TelNumber</th>
-            <th align="left">Max outbound SMS</th>
-            <th align="left">Name</th>
-            <th align="left">Description</th>
+            <th align="left"><%= Resources.Global.settingsTelNoHeader %></th>
+            <th align="left"><%= Resources.Global.settingsMaxOutboundSmsHeader %></th>
+            <th align="left"><%= Resources.Global.settingsWpNameHeader %></th>
+            <th align="left"><%= Resources.Global.settingsWpDescriptionHeader %></th>
          </tr>
          <% foreach (SmsFeedback_Take4.Models.WorkingPoint wp in Model)
             { %>
@@ -33,6 +32,11 @@
       </table>
       <button id="btnSaveWorkingPoints" class="btnSaveChanges">Save</button>
    </fieldset>
+   <%: Html.ValidationSummary(true, Resources.Global.settingsWpConfigErrors, new {id= "wpConfigErrors", })%>
+   <% if ( ViewData["saveMessage"]!=null ){ %>
+		<div id="wpSaveResult">
+         <span><%= ViewData["saveMessage"] %></span>
+		</div>
+   <% } %>
    <%} %>
-</div>
 </body> </html> 

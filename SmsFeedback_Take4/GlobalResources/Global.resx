@@ -627,4 +627,32 @@
     <value>Name</value>
     <comment>Settings:</comment>
   </data>
+  <data name="settingsMaxOutboundSmsHeader" xml:space="preserve">
+    <value>Max outbound SMS</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsTelNoHeader" xml:space="preserve">
+    <value>Telephone no</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpConfigErrors" xml:space="preserve">
+    <value>Errors encountered while saving the new configuration</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpConfigLegend" xml:space="preserve">
+    <value>Working Points</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpDescriptionHeader" xml:space="preserve">
+    <value>Description</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpNameHeader" xml:space="preserve">
+    <value>Name</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingWpConfigSavedSuccessfuly" xml:space="preserve">
+    <value>Working points configuration changed successfuly</value>
+    <comment>Settings:</comment>
+  </data>
 </root>

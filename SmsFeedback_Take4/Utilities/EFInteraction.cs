@@ -371,18 +371,25 @@ namespace SmsFeedback_Take4.Utilities
           return incommingMsgs;
       }
 
-     public void SaveWpsForUser(List<Models.WorkingPoint> wps, smsfeedbackEntities dbContext)
+     public void SaveWpsForUser(string user, List<Models.WorkingPoint> wps, smsfeedbackEntities dbContext)
      {
-        foreach (Models.WorkingPoint wp in wps)
+        //to avoid security issues - work only on the working points accessible to this user
+        var users = from us in dbContext.Users where us.UserName == user select us;
+        if (users.Count() == 1)
         {
-           var newWp = from w in dbContext.WorkingPoints where w.TelNumber == wp.TelNumber select w;
-           if(newWp.Count() == 1)
+           var usr = users.First();
+           foreach (Models.WorkingPoint wp in wps)
            {
-              newWp.First().Name = wp.Name;
-              newWp.First().Description = wp.Description;
-           }           
+              var newWp = from w in usr.WorkingPoints where w.TelNumber == wp.TelNumber select w;
+              if (newWp.Count() == 1)
+              {
+                 newWp.First().Name = wp.Name;
+                 newWp.First().Description = wp.Description;
+              }
+           }
+           dbContext.SaveChanges();
         }
-        dbContext.SaveChanges();
+
      }
    }
 }

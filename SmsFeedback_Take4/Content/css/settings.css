@@ -106,3 +106,21 @@ color: white;*/
    width: auto !important;
    margin: 40px 0px 10px 40px;
 }
+
+#wpConfigErrors {   
+   width: 500px !important;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+#wpSaveResult {
+   width: 500px !important;
+   margin-left: auto;
+   margin-right: auto;
+   background-color: whiteSmoke;
+   line-height: 33px;
+   border-radius: 5px;   
+   text-align: center;
+}
+
+ 
