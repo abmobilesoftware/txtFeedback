@@ -34,8 +34,8 @@ window.app.getDataForWorkingPoints = function () {
    var data = new Array();   
    $('#rightColumn table').find('tr[name="dataRow"]').each(function () {
       var row = { TelNumber: $('span[name="TelNumber"]',this).text(),         
-         Name: $('input[name="Name"]', this).val(),
-         Description: $('input[name="Description"]', this).val(),
+         Name: trim($('input[name="Name"]', this).val()),
+         Description: trim($('input[name="Description"]', this).val()),
          NrOfSentSmsThisMonth: 15,
          MaxNrOfSmsToSendPerMonth: $('span[name="MaxNrOfSmsToSendPerMonth"]', this).text()
          }      

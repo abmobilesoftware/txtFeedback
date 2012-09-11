@@ -17,6 +17,13 @@ function getFromToFromConversation(convID) {
     return fromToArray;
 }
 
+function trim(s) {
+   s = s.replace(/(^\s*)|(\s*$)/gi, "");
+   s = s.replace(/[ ]{2,}/gi, " ");
+   s = s.replace(/\n /, "\n");
+   return s;
+}
+
 //#region Utilities for processing phone numbers
 var cConversationIdNumbersSeparator = '-';
 function buildConversationID(from, to) {
