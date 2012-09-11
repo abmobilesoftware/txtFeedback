@@ -41,7 +41,7 @@
                 </div>
                 
                 <p>
-                    <button id="btnChangePassword"><%: Resources.Global.settingsBtnChangePassword %></button> 
+                    <button id="btnChangePassword" class="btnSaveChanges"><%: Resources.Global.settingsBtnChangePassword %></button> 
                 </p>
             </fieldset>
         </div>

@@ -64,7 +64,7 @@ color: white;*/
    line-height:  1.3em;
 }
 
-#btnChangePassword {
+.btnSaveChanges {
    width:  220px;
    min-width: 220px;
    margin: 7px 0px 0px 0px;
@@ -85,4 +85,24 @@ color: white;*/
    margin-top: 44px;
    margin-left: 22px;
    font-size: 16px;
+}
+
+#workingPointsConfig {
+   border-width: 1px !important;
+   border-spacing: 5px !important;
+   border-collapse: separate;
+   padding: 5px;   
+}
+
+#workingPointsConfig td{
+   padding-right: 10px;
+}
+
+#btnSaveWorkingPoints {
+   float: right;
+}
+
+#wpConfigLegend {
+   width: auto !important;
+   margin: 40px 0px 10px 40px;
 }

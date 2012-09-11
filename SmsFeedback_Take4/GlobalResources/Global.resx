@@ -619,4 +619,12 @@
     <value>Remove tag</value>
     <comment>Conversations: the X on the tag (remove tag)</comment>
   </data>
+  <data name="settingsConfigureWpDescription" xml:space="preserve">
+    <value>Description</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsConfigureWpName" xml:space="preserve">
+    <value>Name</value>
+    <comment>Settings:</comment>
+  </data>
 </root>

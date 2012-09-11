@@ -1051,6 +1051,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string settingsConfigureWpDescription {
+            get {
+                return ResourceManager.GetString("settingsConfigureWpDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string settingsConfigureWpName {
+            get {
+                return ResourceManager.GetString("settingsConfigureWpName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm new password.
         /// </summary>
         public static string settingsConfirmNewPasswordLabel {

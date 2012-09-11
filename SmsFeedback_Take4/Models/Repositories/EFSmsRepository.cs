@@ -169,7 +169,7 @@ namespace SmsFeedback_Take4.Models
       {
          //get logged in user
          //var userID = new Guid("fca4bd52-b855-440d-9611-312708b14c2f");
-         var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select new WorkingPoint() { TelNumber = wp.TelNumber, Name = wp.Name, Description = wp.Description });
+         var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select new WorkingPoint() { TelNumber = wp.TelNumber, Name = wp.Name, Description = wp.Description, NrOfSentSmsThisMonth = wp.SentSms, MaxNrOfSmsToSendPerMonth =wp.MaxNrOfSmsToSend });
          if (workingPoints.Count() >= 0)
             return workingPoints.First();
          else return null;
