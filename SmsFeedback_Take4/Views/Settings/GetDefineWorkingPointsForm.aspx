@@ -32,7 +32,7 @@
       </table>
       <button id="btnSaveWorkingPoints" class="btnSaveChanges">Save</button>
    </fieldset>
-   <%: Html.ValidationSummary(true, Resources.Global.settingsWpConfigErrors, new {id= "wpConfigErrors", })%>
+   <%: Html.ValidationSummary(false, Resources.Global.settingsWpConfigErrors, new {id= "wpConfigErrors", })%>
    <% if ( ViewData["saveMessage"]!=null ){ %>
 		<div id="wpSaveResult">
          <span><%= ViewData["saveMessage"] %></span>

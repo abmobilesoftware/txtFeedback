@@ -111,12 +111,15 @@ namespace SmsFeedback_Take4.Controllers
       [HttpPost]      
       public ActionResult GetDefineWorkingPointsForm(List<SmsFeedback_Take4.Models.WorkingPoint> wps)
       {
+         if (ModelState.IsValid)
+         {
             var user = User.Identity.Name;
             smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-            mEFInterface.SaveWpsForUser(user,wps, lContextPerRequest);
+            mEFInterface.SaveWpsForUser(user, wps, lContextPerRequest);
             //ModelState.AddModelError("", Resources.Global.loginUnsuccessfulDetails);
-            ViewData["saveMessage"] = Resources.Global.settingWpConfigSavedSuccessfuly ;
-            return GetDefineWorkingPointsFormInternal();
+            ViewData["saveMessage"] = Resources.Global.settingWpConfigSavedSuccessfuly;           
+         }
+         return GetDefineWorkingPointsFormInternal();
       }
        #endregion
     }

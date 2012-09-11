@@ -20,18 +20,20 @@ namespace SmsFeedback_Take4.Models
          Name = name;
          Description = descr;
       }
-      
+      [Required(ErrorMessageResourceName = "settingsConfigureWpTelNumberError",
+                ErrorMessageResourceType = typeof(Resources.Global))]
       public string TelNumber { get; set; }
       
-      [Required(ErrorMessageResourceName = "settingsConfigureWpName",
+      [Required(ErrorMessageResourceName = "settingsConfigureWpNameError",
                 ErrorMessageResourceType = typeof(Resources.Global))]
       public string Name { get; set; }
       
-      [Required(ErrorMessageResourceName = "settingsConfigureWpDescription",
+      [Required(ErrorMessageResourceName = "settingsConfigureWpDescriptionError",
                 ErrorMessageResourceType = typeof(Resources.Global))]
       public string Description { get; set; }
 
       public int NrOfSentSmsThisMonth { get; set; }
       public int MaxNrOfSmsToSendPerMonth { get; set; }
+      
    }
 }

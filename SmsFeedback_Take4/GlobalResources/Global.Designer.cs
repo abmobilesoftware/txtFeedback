@@ -1060,11 +1060,38 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Working point description cannot be empty.
+        /// </summary>
+        public static string settingsConfigureWpDescriptionError {
+            get {
+                return ResourceManager.GetString("settingsConfigureWpDescriptionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string settingsConfigureWpName {
             get {
                 return ResourceManager.GetString("settingsConfigureWpName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working point name cannot be empty.
+        /// </summary>
+        public static string settingsConfigureWpNameError {
+            get {
+                return ResourceManager.GetString("settingsConfigureWpNameError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Telephone number cannot be empty.
+        /// </summary>
+        public static string settingsConfigureWpTelNumberError {
+            get {
+                return ResourceManager.GetString("settingsConfigureWpTelNumberError", resourceCulture);
             }
         }
         

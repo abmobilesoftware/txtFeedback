@@ -627,6 +627,18 @@
     <value>Name</value>
     <comment>Settings:</comment>
   </data>
+  <data name="settingsConfigureWpDescriptionError" xml:space="preserve">
+    <value>Working point description cannot be empty</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsConfigureWpNameError" xml:space="preserve">
+    <value>Working point name cannot be empty</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsConfigureWpTelNumberError" xml:space="preserve">
+    <value>Telephone number cannot be empty</value>
+    <comment>Settings:</comment>
+  </data>
   <data name="settingsMaxOutboundSmsHeader" xml:space="preserve">
     <value>Max outbound SMS</value>
     <comment>Settings:</comment>
