@@ -47,6 +47,10 @@
             <End Role="EventTypes" EntitySet="EventTypes" />
             <End Role="ConversationHistories" EntitySet="ConversationHistories" />
           </AssociationSet>
+          <AssociationSet Name="FK_ConversationHistoryMessage" Association="smsfeedbackModel.Store.FK_ConversationHistoryMessage">
+            <End Role="Messages" EntitySet="Messages" />
+            <End Role="ConversationHistories" EntitySet="ConversationHistories" />
+          </AssociationSet>
           <AssociationSet Name="FK_ConversationMessage" Association="smsfeedbackModel.Store.FK_ConversationMessage">
             <End Role="Conversations" EntitySet="Conversations" />
             <End Role="Messages" EntitySet="Messages" />
@@ -174,6 +178,7 @@
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="EventTypeName" Type="nvarchar" MaxLength="50" />
           <Property Name="ConversationConvId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="MessageId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Conversations">
           <Key>
@@ -207,6 +212,7 @@
           </Key>
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="FriendlyName" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <EntityType Name="Memberships">
           <Key>
@@ -406,6 +412,18 @@
             </Principal>
             <Dependent Role="ConversationHistories">
               <PropertyRef Name="EventTypeName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConversationHistoryMessage">
+          <End Role="Messages" Type="smsfeedbackModel.Store.Messages" Multiplicity="1" />
+          <End Role="ConversationHistories" Type="smsfeedbackModel.Store.ConversationHistories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Messages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ConversationHistories">
+              <PropertyRef Name="MessageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -769,6 +787,10 @@
             <End Role="Conversation" EntitySet="Conversations" />
             <End Role="ConversationHistory" EntitySet="ConversationHistories" />
           </AssociationSet>
+          <AssociationSet Name="ConversationHistoryMessage" Association="smsfeedbackModel.ConversationHistoryMessage">
+            <End Role="ConversationHistory" EntitySet="ConversationHistories" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Conversation">
           <Key>
@@ -805,6 +827,7 @@
           <Property Type="Int64" Name="ResponseTime" Nullable="true" />
           <Property Type="Guid" Name="UserUserId" Nullable="true" />
           <NavigationProperty Name="User" Relationship="smsfeedbackModel.FK_UserMessages" FromRole="Message" ToRole="User" />
+          <NavigationProperty Name="ConversationHistories" Relationship="smsfeedbackModel.ConversationHistoryMessage" FromRole="Message" ToRole="ConversationHistory" />
         </EntityType>
         <EntityType Name="WorkingPoint">
           <Key>
@@ -1221,6 +1244,7 @@
           <Property Type="String" Name="Name" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="ConversationHistoryEvents" Relationship="smsfeedbackModel.ConversationHistoryEventType" FromRole="EventType" ToRole="ConversationHistory" />
+          <Property Type="String" Name="FriendlyName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ConversationHistory">
           <Key>
@@ -1233,6 +1257,8 @@
           <Property Type="String" Name="EventTypeName" Nullable="true" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Conversation" Relationship="smsfeedbackModel.ConversationToConversationHistory" FromRole="ConversationHistory" ToRole="Conversation" />
           <Property Type="String" Name="ConversationConvId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Message" Relationship="smsfeedbackModel.ConversationHistoryMessage" FromRole="ConversationHistory" ToRole="Message" />
+          <Property Type="Int32" Name="MessageId" Nullable="false" />
         </EntityType>
         <Association Name="ConversationHistoryEventType">
           <End Type="smsfeedbackModel.ConversationHistory" Role="ConversationHistory" Multiplicity="*" />
@@ -1255,6 +1281,18 @@
             </Principal>
             <Dependent Role="ConversationHistory">
               <PropertyRef Name="ConversationConvId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConversationHistoryMessage">
+          <End Type="smsfeedbackModel.ConversationHistory" Role="ConversationHistory" Multiplicity="*" />
+          <End Type="smsfeedbackModel.Message" Role="Message" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ConversationHistory">
+              <PropertyRef Name="MessageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1464,7 +1502,8 @@
     <EntitySetMapping Name="EventTypes">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.EventType)">
         <MappingFragment StoreEntitySet="EventTypes">
-          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -1472,11 +1511,12 @@
     <EntitySetMapping Name="ConversationHistories">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.ConversationHistory)">
         <MappingFragment StoreEntitySet="ConversationHistories">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Sequence" ColumnName="Sequence" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="EventTypeName" ColumnName="EventTypeName" />
           <ScalarProperty Name="ConversationConvId" ColumnName="ConversationConvId" />
+          <ScalarProperty Name="MessageId" ColumnName="MessageId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

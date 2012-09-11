@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 08/30/2012 13:37:13
--- Generated from EDMX file: D:\Work\smsFeedback\SmsFeedback_EFModels\SmsFeedbackModels.edmx
+-- Date Created: 09/10/2012 11:51:12
+-- Generated from EDMX file: D:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_EFModels\SmsFeedbackModels.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -17,30 +17,6 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_CompanyTag]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Tags] DROP CONSTRAINT [FK_CompanyTag];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ConversationClient]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Conversations] DROP CONSTRAINT [FK_ConversationClient];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ConversationConversationTags]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ConversationTags] DROP CONSTRAINT [FK_ConversationConversationTags];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ConversationMessage]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Messages] DROP CONSTRAINT [FK_ConversationMessage];
-GO
-IF OBJECT_ID(N'[dbo].[FK_SupportWorkingPointConversation]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WorkingPoints] DROP CONSTRAINT [FK_SupportWorkingPointConversation];
-GO
-IF OBJECT_ID(N'[dbo].[FK_TagConversationTags]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ConversationTags] DROP CONSTRAINT [FK_TagConversationTags];
-GO
-IF OBJECT_ID(N'[dbo].[FK_UserCompany]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Users] DROP CONSTRAINT [FK_UserCompany];
-GO
-IF OBJECT_ID(N'[dbo].[FK_UserMessages]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Messages] DROP CONSTRAINT [FK_UserMessages];
-GO
 IF OBJECT_ID(N'[dbo].[FK_UsersForWorkingPoints_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[UsersForWorkingPoints] DROP CONSTRAINT [FK_UsersForWorkingPoints_User];
 GO
@@ -50,20 +26,17 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_UserXmppConnection]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users] DROP CONSTRAINT [FK_UserXmppConnection];
 GO
-IF OBJECT_ID(N'[dbo].[FK_WorkingPointActivityLogWorkingPoint]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ActivityLogWorkingPoints] DROP CONSTRAINT [FK_WorkingPointActivityLogWorkingPoint];
+IF OBJECT_ID(N'[dbo].[FK_CompanyTag]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Tags] DROP CONSTRAINT [FK_CompanyTag];
 GO
-IF OBJECT_ID(N'[dbo].[FK_WorkingPointClient]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[WorkingPoints] DROP CONSTRAINT [FK_WorkingPointClient];
+IF OBJECT_ID(N'[dbo].[FK_UserCompany]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Users] DROP CONSTRAINT [FK_UserCompany];
 GO
-IF OBJECT_ID(N'[dbo].[FK_WorkingPointConversation]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Conversations] DROP CONSTRAINT [FK_WorkingPointConversation];
+IF OBJECT_ID(N'[dbo].[FK_ConversationMessage]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Messages] DROP CONSTRAINT [FK_ConversationMessage];
 GO
 IF OBJECT_ID(N'[dbo].[FK_MembershipApplication]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Memberships] DROP CONSTRAINT [FK_MembershipApplication];
-GO
-IF OBJECT_ID(N'[dbo].[FK_MembershipUser]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Memberships] DROP CONSTRAINT [FK_MembershipUser];
 GO
 IF OBJECT_ID(N'[dbo].[FK_RoleApplication]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Roles] DROP CONSTRAINT [FK_RoleApplication];
@@ -71,67 +44,121 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_UserApplication]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users] DROP CONSTRAINT [FK_UserApplication];
 GO
+IF OBJECT_ID(N'[dbo].[FK_MembershipUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Memberships] DROP CONSTRAINT [FK_MembershipUser];
+GO
 IF OBJECT_ID(N'[dbo].[FK_UserProfile]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Profiles] DROP CONSTRAINT [FK_UserProfile];
 GO
-IF OBJECT_ID(N'[dbo].[FK_UsersInRoleRole]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[UsersInRoles] DROP CONSTRAINT [FK_UsersInRoleRole];
+IF OBJECT_ID(N'[dbo].[FK_WorkingPointConversation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Conversations] DROP CONSTRAINT [FK_WorkingPointConversation];
 GO
-IF OBJECT_ID(N'[dbo].[FK_UsersInRoleUser]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[UsersInRoles] DROP CONSTRAINT [FK_UsersInRoleUser];
+IF OBJECT_ID(N'[dbo].[FK_UserMessages]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Messages] DROP CONSTRAINT [FK_UserMessages];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ConversationClient]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Conversations] DROP CONSTRAINT [FK_ConversationClient];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ConversationConversationTags]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ConversationTags] DROP CONSTRAINT [FK_ConversationConversationTags];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TagConversationTags]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ConversationTags] DROP CONSTRAINT [FK_TagConversationTags];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UsersInRoles_Role]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UsersInRoles] DROP CONSTRAINT [FK_UsersInRoles_Role];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UsersInRoles_User]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UsersInRoles] DROP CONSTRAINT [FK_UsersInRoles_User];
+GO
+IF OBJECT_ID(N'[dbo].[FK_WorkingPointActivityLogWorkingPoint]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ActivityLogWorkingPoints] DROP CONSTRAINT [FK_WorkingPointActivityLogWorkingPoint];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CompanySubscriptions]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Companies] DROP CONSTRAINT [FK_CompanySubscriptions];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SupportConversationForWorkingPoint1]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[WorkingPoints] DROP CONSTRAINT [FK_SupportConversationForWorkingPoint1];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TagTagTagType]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TagTagTypes] DROP CONSTRAINT [FK_TagTagTagType];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TagTypeTagTagType]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TagTagTypes] DROP CONSTRAINT [FK_TagTypeTagTagType];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ConversationHistoryEventType]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ConversationHistories] DROP CONSTRAINT [FK_ConversationHistoryEventType];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ConversationToConversationHistory]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ConversationHistories] DROP CONSTRAINT [FK_ConversationToConversationHistory];
 GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[ActivityLogWorkingPoints]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ActivityLogWorkingPoints];
-GO
-IF OBJECT_ID(N'[dbo].[Applications]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Applications];
-GO
-IF OBJECT_ID(N'[dbo].[Clients]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Clients];
-GO
-IF OBJECT_ID(N'[dbo].[Companies]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Companies];
-GO
 IF OBJECT_ID(N'[dbo].[Conversations]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Conversations];
-GO
-IF OBJECT_ID(N'[dbo].[ConversationTags]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ConversationTags];
-GO
-IF OBJECT_ID(N'[dbo].[Memberships]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Memberships];
 GO
 IF OBJECT_ID(N'[dbo].[Messages]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Messages];
 GO
-IF OBJECT_ID(N'[dbo].[Profiles]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Profiles];
+IF OBJECT_ID(N'[dbo].[WorkingPoints]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[WorkingPoints];
+GO
+IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Users];
 GO
 IF OBJECT_ID(N'[dbo].[Roles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Roles];
 GO
+IF OBJECT_ID(N'[dbo].[XmppConnections]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[XmppConnections];
+GO
 IF OBJECT_ID(N'[dbo].[Tags]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Tags];
 GO
-IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Users];
+IF OBJECT_ID(N'[dbo].[Companies]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Companies];
+GO
+IF OBJECT_ID(N'[dbo].[Applications]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Applications];
+GO
+IF OBJECT_ID(N'[dbo].[Memberships]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Memberships];
+GO
+IF OBJECT_ID(N'[dbo].[Profiles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Profiles];
+GO
+IF OBJECT_ID(N'[dbo].[Clients]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Clients];
+GO
+IF OBJECT_ID(N'[dbo].[ConversationTags]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ConversationTags];
+GO
+IF OBJECT_ID(N'[dbo].[ActivityLogWorkingPoints]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ActivityLogWorkingPoints];
+GO
+IF OBJECT_ID(N'[dbo].[Subscriptions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Subscriptions];
+GO
+IF OBJECT_ID(N'[dbo].[TagTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TagTypes];
+GO
+IF OBJECT_ID(N'[dbo].[TagTagTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TagTagTypes];
+GO
+IF OBJECT_ID(N'[dbo].[EventTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[EventTypes];
+GO
+IF OBJECT_ID(N'[dbo].[ConversationHistories]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ConversationHistories];
 GO
 IF OBJECT_ID(N'[dbo].[UsersForWorkingPoints]', 'U') IS NOT NULL
     DROP TABLE [dbo].[UsersForWorkingPoints];
 GO
 IF OBJECT_ID(N'[dbo].[UsersInRoles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[UsersInRoles];
-GO
-IF OBJECT_ID(N'[dbo].[WorkingPoints]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[WorkingPoints];
-GO
-IF OBJECT_ID(N'[dbo].[XmppConnections]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[XmppConnections];
 GO
 
 -- --------------------------------------------------
@@ -148,6 +175,7 @@ CREATE TABLE [dbo].[Conversations] (
     [Starred] bit  NOT NULL,
     [StartTime] datetime  NOT NULL,
     [WorkingPoint_TelNumber] nvarchar(50)  NOT NULL,
+    [LastSequence] int  NOT NULL,
     [Client_TelNumber] nvarchar(50)  NOT NULL
 );
 GO
@@ -174,8 +202,7 @@ CREATE TABLE [dbo].[WorkingPoints] (
     [Provider] nvarchar(50)  NOT NULL,
     [SentSms] int  NOT NULL,
     [MaxNrOfSmsToSend] int  NOT NULL,
-    [Support_TelNumber] nvarchar(50)  NOT NULL,
-    [SupportConversation_ConvId] nvarchar(50)  NOT NULL
+    [SupportConversation] nvarchar(50)  NULL
 );
 GO
 
@@ -306,6 +333,39 @@ CREATE TABLE [dbo].[Subscriptions] (
 );
 GO
 
+-- Creating table 'TagTypes'
+CREATE TABLE [dbo].[TagTypes] (
+    [Type] nvarchar(50)  NOT NULL
+);
+GO
+
+-- Creating table 'TagTagTypes'
+CREATE TABLE [dbo].[TagTagTypes] (
+    [IsDefault] bit  NOT NULL,
+    [TagName] nvarchar(50)  NOT NULL,
+    [TagCompanyName] nvarchar(50)  NOT NULL,
+    [TagTypeType] nvarchar(50)  NOT NULL
+);
+GO
+
+-- Creating table 'EventTypes'
+CREATE TABLE [dbo].[EventTypes] (
+    [Name] nvarchar(50)  NOT NULL,
+    [Description] nvarchar(200)  NOT NULL
+);
+GO
+
+-- Creating table 'ConversationHistories'
+CREATE TABLE [dbo].[ConversationHistories] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Sequence] int  NOT NULL,
+    [Date] datetime  NOT NULL,
+    [EventTypeName] nvarchar(50)  NULL,
+    [ConversationConvId] nvarchar(50)  NOT NULL,
+    [MessageId] int  NOT NULL
+);
+GO
+
 -- Creating table 'UsersForWorkingPoints'
 CREATE TABLE [dbo].[UsersForWorkingPoints] (
     [Users_UserId] uniqueidentifier  NOT NULL,
@@ -412,6 +472,30 @@ GO
 ALTER TABLE [dbo].[Subscriptions]
 ADD CONSTRAINT [PK_Subscriptions]
     PRIMARY KEY CLUSTERED ([Type] ASC);
+GO
+
+-- Creating primary key on [Type] in table 'TagTypes'
+ALTER TABLE [dbo].[TagTypes]
+ADD CONSTRAINT [PK_TagTypes]
+    PRIMARY KEY CLUSTERED ([Type] ASC);
+GO
+
+-- Creating primary key on [TagName], [TagCompanyName], [TagTypeType] in table 'TagTagTypes'
+ALTER TABLE [dbo].[TagTagTypes]
+ADD CONSTRAINT [PK_TagTagTypes]
+    PRIMARY KEY CLUSTERED ([TagName], [TagCompanyName], [TagTypeType] ASC);
+GO
+
+-- Creating primary key on [Name] in table 'EventTypes'
+ALTER TABLE [dbo].[EventTypes]
+ADD CONSTRAINT [PK_EventTypes]
+    PRIMARY KEY CLUSTERED ([Name] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'ConversationHistories'
+ALTER TABLE [dbo].[ConversationHistories]
+ADD CONSTRAINT [PK_ConversationHistories]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [Users_UserId], [WorkingPoints_TelNumber] in table 'UsersForWorkingPoints'
@@ -611,34 +695,6 @@ ON [dbo].[Conversations]
     ([Client_TelNumber]);
 GO
 
--- Creating foreign key on [Support_TelNumber] in table 'WorkingPoints'
-ALTER TABLE [dbo].[WorkingPoints]
-ADD CONSTRAINT [FK_WorkingPointClient]
-    FOREIGN KEY ([Support_TelNumber])
-    REFERENCES [dbo].[Clients]
-        ([TelNumber])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_WorkingPointClient'
-CREATE INDEX [IX_FK_WorkingPointClient]
-ON [dbo].[WorkingPoints]
-    ([Support_TelNumber]);
-GO
-
--- Creating foreign key on [SupportConversation_ConvId] in table 'WorkingPoints'
-ALTER TABLE [dbo].[WorkingPoints]
-ADD CONSTRAINT [FK_SupportWorkingPointConversation]
-    FOREIGN KEY ([SupportConversation_ConvId])
-    REFERENCES [dbo].[Conversations]
-        ([ConvId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_SupportWorkingPointConversation'
-CREATE INDEX [IX_FK_SupportWorkingPointConversation]
-ON [dbo].[WorkingPoints]
-    ([SupportConversation_ConvId]);
-GO
-
 -- Creating foreign key on [ConversationConvId] in table 'ConversationTags'
 ALTER TABLE [dbo].[ConversationTags]
 ADD CONSTRAINT [FK_ConversationConversationTags]
@@ -711,6 +767,85 @@ ADD CONSTRAINT [FK_CompanySubscriptions]
 CREATE INDEX [IX_FK_CompanySubscriptions]
 ON [dbo].[Companies]
     ([Subscription_Type]);
+GO
+
+-- Creating foreign key on [SupportConversation] in table 'WorkingPoints'
+ALTER TABLE [dbo].[WorkingPoints]
+ADD CONSTRAINT [FK_SupportConversationForWorkingPoint1]
+    FOREIGN KEY ([SupportConversation])
+    REFERENCES [dbo].[Conversations]
+        ([ConvId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SupportConversationForWorkingPoint1'
+CREATE INDEX [IX_FK_SupportConversationForWorkingPoint1]
+ON [dbo].[WorkingPoints]
+    ([SupportConversation]);
+GO
+
+-- Creating foreign key on [TagName], [TagCompanyName] in table 'TagTagTypes'
+ALTER TABLE [dbo].[TagTagTypes]
+ADD CONSTRAINT [FK_TagTagTagType]
+    FOREIGN KEY ([TagName], [TagCompanyName])
+    REFERENCES [dbo].[Tags]
+        ([Name], [CompanyName])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [TagTypeType] in table 'TagTagTypes'
+ALTER TABLE [dbo].[TagTagTypes]
+ADD CONSTRAINT [FK_TagTypeTagTagType]
+    FOREIGN KEY ([TagTypeType])
+    REFERENCES [dbo].[TagTypes]
+        ([Type])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TagTypeTagTagType'
+CREATE INDEX [IX_FK_TagTypeTagTagType]
+ON [dbo].[TagTagTypes]
+    ([TagTypeType]);
+GO
+
+-- Creating foreign key on [EventTypeName] in table 'ConversationHistories'
+ALTER TABLE [dbo].[ConversationHistories]
+ADD CONSTRAINT [FK_ConversationHistoryEventType]
+    FOREIGN KEY ([EventTypeName])
+    REFERENCES [dbo].[EventTypes]
+        ([Name])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ConversationHistoryEventType'
+CREATE INDEX [IX_FK_ConversationHistoryEventType]
+ON [dbo].[ConversationHistories]
+    ([EventTypeName]);
+GO
+
+-- Creating foreign key on [ConversationConvId] in table 'ConversationHistories'
+ALTER TABLE [dbo].[ConversationHistories]
+ADD CONSTRAINT [FK_ConversationToConversationHistory]
+    FOREIGN KEY ([ConversationConvId])
+    REFERENCES [dbo].[Conversations]
+        ([ConvId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ConversationToConversationHistory'
+CREATE INDEX [IX_FK_ConversationToConversationHistory]
+ON [dbo].[ConversationHistories]
+    ([ConversationConvId]);
+GO
+
+-- Creating foreign key on [MessageId] in table 'ConversationHistories'
+ALTER TABLE [dbo].[ConversationHistories]
+ADD CONSTRAINT [FK_ConversationHistoryMessage]
+    FOREIGN KEY ([MessageId])
+    REFERENCES [dbo].[Messages]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ConversationHistoryMessage'
+CREATE INDEX [IX_FK_ConversationHistoryMessage]
+ON [dbo].[ConversationHistories]
+    ([MessageId]);
 GO
 
 -- --------------------------------------------------

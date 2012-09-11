@@ -47,9 +47,10 @@
         <AssociationConnector Association="smsfeedbackModel.FK_TagTagTagType" />
         <AssociationConnector Association="smsfeedbackModel.FK_TagTypeTagTagType" />
         <EntityTypeShape EntityType="smsfeedbackModel.EventType" Width="1.5" PointX="1.875" PointY="0.625" />
-        <EntityTypeShape EntityType="smsfeedbackModel.ConversationHistory" Width="2.5" PointX="1.125" PointY="3.5" />
+        <EntityTypeShape EntityType="smsfeedbackModel.ConversationHistory" Width="2.5" PointX="1.25" PointY="3" />
         <AssociationConnector Association="smsfeedbackModel.ConversationHistoryEventType" />
         <AssociationConnector Association="smsfeedbackModel.ConversationToConversationHistory" />
+        <AssociationConnector Association="smsfeedbackModel.ConversationHistoryMessage" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
