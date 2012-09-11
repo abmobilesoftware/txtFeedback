@@ -619,4 +619,13 @@
     <value>Remove tag</value>
     <comment>Conversations: the X on the tag (remove tag)</comment>
   </data>
+  <data name="thumbsDownTooltip" xml:space="preserve">
+    <value>Mark this conversation as negative feedback</value>
+  </data>
+  <data name="thumbsUpTooltip" xml:space="preserve">
+    <value>Mark this conversation as positive feedback</value>
+  </data>
+  <data name="RepConversationsUnit" xml:space="preserve">
+    <value>Conversations</value>
+  </data>
 </root>

@@ -61,15 +61,15 @@
     clear:both;
 }
 
-#chartArea, #tableArea {
+.chartArea, #tableArea {
     padding:10px;
     background: #fff;
     border-radius: 10px;
     margin: 10px;
-    padding: 10px;
+    padding: 10px;  
 }
 
-#granularitySelector {
+.granularitySelector {
     width: 5%;
     display:inline;
     float:left;
@@ -80,7 +80,7 @@
     display:none;
 }
 
-#granularitySelector div {
+.granularitySelector div {
     font-size:19px;
     padding:5px 0 5px 9px;
     margin-bottom:7px;
@@ -88,14 +88,14 @@
     width: 97px;
 }
 
-#granularitySelector div:hover {
+.granularitySelector div:hover {
     font-size:19px;
     padding:5px 0 5px 9px;
     margin-bottom:7px;
     border-left: 3px #183540 solid;
 }
 
-#granularitySelector div.active {
+.granularitySelector div.active {
     font-size:19px;
     padding:5px 0 5px 9px;
     margin-bottom:7px;
@@ -125,7 +125,7 @@ div.radioBtnWrapper.active {
 }
 
 
-#chart_div {
+.chart_div {
     width: 93%;
     height: 350px;    
     display:inline;
@@ -302,3 +302,23 @@ input.filterDate {
    overflow: hidden;
 }
 
+.chartAreaTitle {
+    font-size: 16px;
+    color: #6B9BB3;
+    margin-bottom:5px;
+}
+
+.sectionVisibility {
+    position: relative;
+    top: 7px; 
+    margin-right:10px;
+}
+
+.invisible {
+    display: none;
+}
+
+.sectionDescription {
+    margin-top: 10px;
+    font-style: italic;
+}

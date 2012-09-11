@@ -1,5 +1,6 @@
 ﻿"use strict";
 window.app = window.app || {};
+window.app.silentRemove = false;
 var tagsRep = {}; //I need this to be "global" because otherwise I can't see it from the callbacks "onAddTag" and "onRemoveTag"
 
 //#region Tag model
@@ -51,6 +52,26 @@ function TagsArea() {
       left: 'auto' // Left position relative to parent in px
    };
    var spinner = new Spinner(opts);
+   $("#thumbsUp").qtip({
+       content: $("#thumbsUp").attr('tooltiptitle'),
+       position: {
+           corner: {
+               target: 'leftMiddle',
+               tooltip: 'rightMiddle'
+           }
+       },
+       style: 'dark'
+   });
+   $("#thumbsDown").qtip({
+       content: $("#thumbsDown").attr('tooltiptitle'),
+       position: {
+           corner: {
+               target: 'leftMiddle',
+               tooltip: 'rightMiddle'
+           }
+       },
+       style: 'dark'
+   });
    
    var placeholderValue = $('#messagesAddTagPlaceHolderMessage').val();
    var removeTagValue = $('#messagesRemoveTagPlaceHolderMessage').val();
@@ -76,15 +97,14 @@ function TagsArea() {
          this.getSpecialTags();
          _.bindAll(this, 'render', 'appendTag', 'onAddTag', 'onRemoveTag', 'getTags', 'getSpecialTags');
          $(".specialTag").click(function () {
+             window.app.silentRemove = false;
              var tagType = $(this).attr("tagType");
              var tag = self.specialTagsPool.where({ TagType: tagType, IsDefault: true })[0];
              var tagName = tag.get("Name");
              if (!$("#tags").tagExist(tagName)) {
-                 $("#tags").addTag(tagName);
-                 self.toggleHands(tagType);
+                 $("#tags").addTag(tagName);                 
              } else {
-                 $("#tags").removeTag(tagName);
-                 self.turnHandsOff();
+                 $("#tags").removeTag(tagName);                  
              }
          });
       },
@@ -175,36 +195,34 @@ function TagsArea() {
       turnTheHandOn: function (tagType, element) {
           var tagName = this.specialTagsPool.where({ TagType: tagType, IsDefault: true })[0].get("Name");
           if ($("#tags").tagExist(tagName)) {
-              $(element).css("background-position", "20px 0");
+              $(element).css("background-position", "24px 0");
           }
       },
       toggleHands: function (tagType) {
           if (tagType == "positiveFeedback") {
-              self.thumbsUp.css("background-position", "20px 0");
+              self.thumbsUp.css("background-position", "24px 0");
               // remove negative feedback 
               var oppositeTagType = "negativeFeedback";
               var oppositeTagName = self.specialTagsPool.where({ TagType: oppositeTagType, IsDefault: true })[0].get("Name");
               if ($("#tags").tagExist(oppositeTagName)) {
                   // Transition negative to positive
-                  $.getJSON('Messages/AddAnEventInConversationHistory',
-                        { conversationId: gSelectedConversationID, eventType: "negToPos" },
-                        function (data) {
-                            //conversation starred status changed                            
-                        });
+                  self.sendEventToServer("negToPos");
+                  window.app.silentRemove = true;
                   $("#tags").removeTag(oppositeTagName);
+              } else {
+                  self.sendEventToServer("posAdd");
               }
           } else if (tagType == "negativeFeedback") {
-              self.thumbsDown.css("background-position", "20px 0");
+              self.thumbsDown.css("background-position", "24px 0");
               var oppositeTagType = "positiveFeedback";
               var oppositeTagName = self.specialTagsPool.where({ TagType: oppositeTagType, IsDefault: true })[0].get("Name");
               if ($("#tags").tagExist(oppositeTagName)) {
                   // transition positive to negative
-                  $.getJSON('Messages/AddAnEventInConversationHistory',
-                        { conversationId: gSelectedConversationID, eventType: "posToNeg"},
-                        function (data) {
-                            //conversation starred status changed                            
-                        });
-                  $("#tags").removeTag(oppositeTagName);
+                  self.sendEventToServer("posToNeg");
+                  window.app.silentRemove = true;
+                  $("#tags").removeTag(oppositeTagName, true);
+              } else {
+                  self.sendEventToServer("negAdd");
               }
           }
       },
@@ -213,11 +231,28 @@ function TagsArea() {
           self.thumbsDown.css("background-position", "0 0");
       },
       turnHandOff: function (tagType) {
-          if (tagType == "positiveFeedback") {
-              self.thumbsUp.css("background-position", "0 0");
+          if (!window.app.silentRemove) {
+              if (tagType == "positiveFeedback") {
+                  self.thumbsUp.css("background-position", "0 0");
+                  self.sendEventToServer("posRemove");
+              } else {
+                  self.thumbsDown.css("background-position", "0 0");
+                  self.sendEventToServer("negRemove");
+              }
           } else {
-              self.thumbsDown.css("background-position", "0 0");
+              if (tagType == "positiveFeedback") {
+                  self.thumbsUp.css("background-position", "0 0");                  
+              } else {
+                  self.thumbsDown.css("background-position", "0 0");                  
+              }
           }
+      },
+      sendEventToServer: function (eventType) {
+          $.getJSON('Messages/AddAnEventInConversationHistory',
+                        { conversationId: gSelectedConversationID, eventType: eventType },
+                        function (data) {
+                            //conversation starred status changed                            
+                        });
       }
       
    });

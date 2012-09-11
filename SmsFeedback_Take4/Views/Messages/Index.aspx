@@ -249,15 +249,19 @@
          </div>
       </div>
       <div id="messageTagsSeparator"></div>
-      <div id="tagsContainer" class="tagArea invisible">
-         <div id="tagsPool" class="tagsPhoneNumbers"></div>
-         <input name="tags" id="tags" />
-         <div id="specialTags">
-             <!--<img class='specialTag' src="<%: Url.Content("~/Content/images/thumbs_up_hover_20x20.png") %>" alt="Thumbs up" /> <img class='specialTag' src="<%: Url.Content("~/Content/images/thumbs_down_20x20.png") %>" alt="Thumbs down"/>-->
-             <a href="#" id='thumbsUp' class='specialTag' tagType="positiveFeedback"></a>
-             <a href="#" id='thumbsDown' class='specialTag' tagType="negativeFeedback"></a>
+      <div id="tagsContainer" class="invisible">
+         <div id="tagsPoolWrapper" class="tagArea">
+            <div id="tagsPool" class="tagsPhoneNumbers"></div>
+            <input name="tags" id="tags" />         
          </div>
+         <div id="specialTagsWrapper" class="triangle-isosceles left">
+             <div id="specialTags">
+             <a href="#" id='thumbsUp' title="<%: Resources.Global.thumbsUpTooltip %>" class='specialTag' tagType="positiveFeedback"></a>
+             <a href="#" id='thumbsDown' title="<%: Resources.Global.thumbsDownTooltip %>" class='specialTag' tagType="negativeFeedback"></a>
+            </div>
+       </div>
       </div>
+      
       <div id="textareaContainer" class="invisible">
          <div id="replyFormArea">
             <form id="replyToMessageForm">

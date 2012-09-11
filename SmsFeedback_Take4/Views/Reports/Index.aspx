@@ -82,51 +82,45 @@
                     </div>
                 <div class="clear"></div>
             </div>
-
-            {% for (i=0; i< sections.length; ++i) {
-                    if ((sections[i].identifier == "PrimaryChartArea") && sections[i].visibility) {
-            %}
-                        <div id="chartArea">
-                            <div id="granularitySelector">
-                                
-                                <div class="radioBtnWrapper active"><label for="day" class="radioBtn"><input type="radio" id="day" name="radio" checked="checked" class="radioOption" value="day"/><%: Resources.Global.RepDay %></label></div>
-		                        <div class="radioBtnWrapper"><label for="week" class="radioBtn"><input type="radio" id="week" name="radio" class="radioOption" value="week" /><%: Resources.Global.RepWeek %></label></div>
-		                        <div class="radioBtnWrapper"><label for="month" class="radioBtn"><input type="radio" id="month" name="radio" class="radioOption" value="month"/><%: Resources.Global.RepMonth %></label></div>
-                            </div>
-                            <div id="chart_div"></div>
-            {%
-                            
-            %}
-                            <div class="clear"></div>
-                         </div>
-            {%
-                    } else if ((sections[i].identifier == "InfoBox") && sections[i].visibility) {
-            %}
-                            <div id="infoBoxArea">
-            
-            
-                            <div class="clear"></div>
-                            </div>
-            {%
-                   } else if ((sections[i].identifier == "SecondaryChartArea") && sections[i].visibility) {
-            %}
-                            <div id="tableArea">
-                                 <div id="tableContent">
-                                     
-                                 </div>
-                                 <div id="tableChart">
-                                    <div id="chart_div1"></div> 
-                                 </div>
-                                <div class="clear"></div>
-                             </div>
-
-            {%
-                    }
-                }                
-             %}
-            <div id="overlay"></div>       
-             
+            <div id="reportContent"></div>
+                   
+            <div id="overlay"></div>                
    </script>
+    <script type="text/template" id="PrimaryChartArea">
+        <div class="chartArea">
+            <div id="titleWrapper">
+                <a href="#" class="chartAreaTitle" sectionId="{{ identifier }}"><img class="sectionVisibility" src="<%: Url.UpdatedResourceLink("~/Content/images/minus_22x22.jpg") %>" alt="Expand section" />{{ name }}</a>
+                <p id="description{{identifier}}" class="sectionDescription invisible">Displays two dimensional data set</p>    
+        </div>
+            <div id="chartAreaContent{{identifier}}">
+                <form action="">    
+                <div id="granularitySelector{{ identifier }}" class="granularitySelector">
+                    <div class="radioBtnWrapper active"><label for="day" class="radioBtn"><input type="radio" id="day{{identifier}}" name="radio{{identifier}}" checked="checked" selectorId="{{identifier}}" class="radioOption{{identifier}}" value="day"/><%: Resources.Global.RepDay %></label></div>
+		            <div class="radioBtnWrapper"><label for="week" class="radioBtn"><input type="radio" id="week{{identifier}}" name="radio{{identifier}}" selectorId="{{identifier}}" class="radioOption{{identifier}}" value="week" /><%: Resources.Global.RepWeek %></label></div>
+		            <div class="radioBtnWrapper"><label for="month" class="radioBtn"><input type="radio" id="month{{identifier}}" name="radio{{identifier}}" selectorId="{{identifier}}" class="radioOption{{identifier}}" value="month"/><%: Resources.Global.RepMonth %></label></div>
+                </div>
+                </form>
+                <div id="chart_div{{identifier}}" class="chart_div"></div>
+                <div class="clear"></div>
+            </div>
+         </div>     
+    </script>
+    <script type="text/template" id="InfoBox">
+        <div id="infoBoxArea">
+            <div class="clear"></div>
+        </div>
+    </script>
+    <script type="text/template" id="SecondaryChartArea">
+        <div id="tableArea">
+            <div id="tableContent">
+            </div>
+            <div id="tableChart">
+                <div id="comboChart_div"></div> 
+            </div>
+            <div class="clear"></div>
+        </div>
+    </script>
+
    <div id="menuBar"  class="headerArea">
    </div>
    <div id="leftColumn" class="wordwrap grid_2 leftSideArea">

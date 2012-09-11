@@ -1,14 +1,22 @@
 ﻿.tagArea {
-    margin-left: 20px;
-    margin-right: 20px;
     border-radius: 5px;
    -moz-border-radius: 5px;
    -webkit-border-radius: 5px;
     min-height:  28px !important;
+    float:left;
+    width:97%;
+    margin-bottom: 9px;
+    padding: 3px 0;
 }
-#tagsContainer {    
+#tagsPoolWrapper {    
    background-color: #DFE7EA;  
 }
+
+#tagsContainer {
+    padding-left:20px; 
+    padding-right: 108px;
+}
+
 #tagFiltering {
 
 }
@@ -107,11 +115,18 @@
 }
    
 /* SPECIAL TAGS */
-#specialTags {
-    width:7%;
+#specialTagsWrapper {
     float:left;
     position: relative;
-    top: 4px;
+    margin-right:-168px;
+    padding-left:10px;
+}
+
+#specialTags {
+    border-radius: 5px;
+    width: 75px;
+    position: relative;
+    top: 7px;
 }
 
 .specialTag {
@@ -122,22 +137,76 @@
 
 #thumbsUp, #thumbsDown {
     display: block;
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     text-indent: -9999px;   
     float: left; 
 }
 
 #thumbsUp:hover, #thumbsDown:hover {
-    background-position: 20px 0;        
+    background-position: 24px 0;        
 }
 
 #thumbsUp {
-    background-image:url('images/thumbs_up_hover_20x20.png');    
+    background-image:url('images/thumbs_up_hover_yellow_24x24.png');    
 }
 #thumbsDown {
-    background-image:url('images/thumbs_down_hover_20x20.png');    
+    background-image:url('images/thumbs_down_hover_red_24x24.png');    
 }
- 
 
+
+/* ============================================================================================================================
+== BUBBLE WITH AN ISOCELES TRIANGLE
+** ============================================================================================================================ */
+
+/* THE SPEECH BUBBLE
+------------------------------------------------------------------------------------------------------------------------------- */
+
+.triangle-isosceles {
+	position:relative;
+	margin:1em 0 3em;
+	color:#000;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+}
+
+
+/* Variant : for left/right positioned triangle
+------------------------------------------ */
+
+.triangle-isosceles.left {
+	left: 11px;
+    padding-bottom: 14px;
+	background:#DFE7EA;
+    top: -16px;
+}
+
+/* THE TRIANGLE
+------------------------------------------------------------------------------------------------------------------------------- */
+
+/* creates triangle */
+.triangle-isosceles:after {
+	content:"";
+	position:absolute;
+	bottom: 14px; /* value = - border-top-width - border-bottom-width */
+	left: 49px; /* controls horizontal position */
+	border-width: 15px 15px 0; /* vary these values to change the angle of the vertex */
+	border-style:solid;
+	border-color:#f3961c transparent;
+    /* reduce the damage in FF3.0 */
+    display:block; 
+    width:0;
+}
+
+/* Variant : left
+------------------------------------------ */
+
+.triangle-isosceles.left:after {
+	top: 14px; /* controls vertical position */
+	left:-13px; /* value = - border-left-width - border-right-width */
+	bottom: auto;
+	border-width:6px 13px 6px 0;
+	border-color:transparent #DFE7EA;
+}
 

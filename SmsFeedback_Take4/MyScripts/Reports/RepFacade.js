@@ -46,10 +46,11 @@ function resizeTriggered() {
    var tableAreaMarginTopBottom = 10;
    var tableAreaPaddingTopBottom = 10;
   
-   var reportsAreaHeight = 2 * titleAreaMarginTopBottom + titleAreaPaddingTop + titleAreaPaddingBottom + $("#titleArea").height() +
+   /*var reportsAreaHeight = 2 * titleAreaMarginTopBottom + titleAreaPaddingTop + titleAreaPaddingBottom + $("#titleArea").height() +
                             2 * chartAreaMarginTopBottom + 2 * chartAreaPaddingTopBottom + $("#chartArea").height() + infoBoxAreaMarginTop + infoBoxAreaMarginBottom +
                             $("#infoBoxArea").height() + 2 * tableAreaMarginTopBottom + 2 * tableAreaPaddingTopBottom + $("#tableArea").height() - marginTop;
-   
+   */
+   var reportsAreaHeight = $("#reportContent").height() + $("#titleArea").height() + filterStripHeigh;
    if (contentWindowHeight <= reportsAreaHeight) {
        $('#leftColumn').height(reportsAreaHeight);
        $('#rightColumn').height(reportsAreaHeight);

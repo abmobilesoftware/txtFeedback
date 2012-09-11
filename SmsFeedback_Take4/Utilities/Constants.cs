@@ -21,5 +21,11 @@ namespace SmsFeedback_Take4.Utilities
         public const string BARS_CHART_STYLE = "bars";
         public const string NUMBER_COLUMN_TYPE = "number";
         public const string STRING_COLUMN_TYPE = "string";
+        public const string POS_ADD_EVENT = "posAdd";
+        public const string NEG_ADD_EVENT = "negAdd";
+        public const string POS_TO_NEG_EVENT = "posToNeg";
+        public const string NEG_TO_POS_EVENT = "negToPos";
+        public const string POS_REMOVE_EVENT = "posRemove";
+        public const string NEG_REMOVE_EVENT = "negRemove";
     }
 }

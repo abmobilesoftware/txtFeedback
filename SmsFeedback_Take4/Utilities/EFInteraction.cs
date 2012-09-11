@@ -39,23 +39,35 @@ namespace SmsFeedback_Take4.Utilities
         public ConversationHistory AddAnEventInConversationHistory(string conversationId, string eventType, smsfeedbackEntities dbContext)
         {
             var conversation = (from conv in dbContext.Conversations where conv.ConvId == conversationId select conv).First();
-            try
-            {
-                var conversationEvent = new ConversationHistory()
+            var message = (from msg in conversation.Messages where (msg.From != conversation.WorkingPoint_TelNumber) select msg).OrderByDescending(m => m.TimeReceived);
+           
+                try
                 {
-                    ConversationConvId = conversationId,
-                    Sequence = conversation.LastSequence,
-                    EventTypeName = eventType,
-                    Date = DateTime.Now.ToUniversalTime()                    
-                };
-                dbContext.ConversationHistories.AddObject(conversationEvent);
-                dbContext.SaveChanges();
-                return conversationEvent;
-            } catch (Exception ex)
-            {
-                logger.Error("Error occurred in AddAnEventInConversationHistory", ex);
-                return null;
-            }
+                    if (message.Count() > 0)
+                    {
+                        var conversationEvent = new ConversationHistory()
+                        {
+                            ConversationConvId = conversationId,
+                            Sequence = conversation.LastSequence,
+                            EventTypeName = eventType,
+                            Date = DateTime.Now.ToUniversalTime(),
+                            MessageId = message.First().Id
+                        };
+                        dbContext.ConversationHistories.AddObject(conversationEvent);
+                        dbContext.SaveChanges();
+                        return conversationEvent;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.Error("Error occurred in AddAnEventInConversationHistory", ex);
+                    return null;
+                }
+            
         }
 
         /// <summary>

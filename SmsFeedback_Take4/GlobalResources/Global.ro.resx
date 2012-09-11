@@ -521,11 +521,17 @@
   </data>
   <data name="RepPositiveAndNegative" xml:space="preserve">
     <value>Pozitiv &amp; Negativ</value>
-   </data>
+  </data>
   <data name="RepNoneDefaultValue1" xml:space="preserve">
     <value>None</value>
   </data>
   <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
     <value>Feedback pozitiv &amp; negativ</value>
+  </data>
+  <data name="thumbsDownTooltip" xml:space="preserve">
+    <value>Mark conversation as negative RO</value>
+  </data>
+  <data name="thumbsUpTooltip" xml:space="preserve">
+    <value>Mark conversation as positive RO</value>
   </data>
 </root>

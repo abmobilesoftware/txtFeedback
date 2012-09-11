@@ -244,7 +244,7 @@
     <value>Clientes</value>
   </data>
   <data name="RepClientsUnit" xml:space="preserve">
-    <value />
+    <value>Clientes</value>
   </data>
   <data name="RepConversations" xml:space="preserve">
     <value>Conversaciones</value>
@@ -313,10 +313,10 @@
     <value />
   </data>
   <data name="RepPositiveAndNegative" xml:space="preserve">
-    <value />
+    <value>Positive &amp; Negative</value>
   </data>
   <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
-    <value />
+    <value>Positive &amp; Negative feedback ES</value>
   </data>
   <data name="RepReturningClientsChart" xml:space="preserve">
     <value>Clientes recurrentes</value>
@@ -535,10 +535,13 @@
   <data name="welcomeMessage" xml:space="preserve">
     <value>Bienvenido</value>
   </data>
-  <data name="RepPositiveAndNegative" xml:space="preserve">
-    <value>Positive &amp; Negative</value>
+  <data name="thumbsDownTooltip" xml:space="preserve">
+    <value>Mark conversation as negative ES</value>
   </data>
-  <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
-    <value>Positive &amp; Negative feedback ES</value>
+  <data name="thumbsUpTooltip" xml:space="preserve">
+    <value>Mark conversation as positive ES</value>
+  </data>
+  <data name="RepConversationsUnit" xml:space="preserve">
+    <value>Conversaciones</value>
   </data>
 </root>

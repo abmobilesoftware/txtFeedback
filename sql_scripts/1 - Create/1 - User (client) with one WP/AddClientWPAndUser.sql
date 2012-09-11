@@ -67,9 +67,9 @@ INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
 		@WP_Read, @WP_TimeReceived, @WP_Support_TelNumber, @WP_Starred, @WP_TimeReceived, 
 		@Client_TelNumber, @WP_Support_TelNumber);
 		
-INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId)
+INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId, UserUserId)
 		VALUES (@WP_Support_TelNumber, @Client_TelNumber, @WP_WelcomeMessage,
-		@WP_TimeReceived, @WP_Read, @WP_ConvIdSupportToWP);
+		@WP_TimeReceived, @WP_Read, @WP_ConvIdSupportToWP, NULL);
 
 UPDATE WorkingPoints SET SupportConversation = @WP_ConvIdSupportToWP WHERE TelNumber = @Client_TelNumber;
 
@@ -80,9 +80,9 @@ INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
 		@WP_Read, @WP_TimeReceived, @WP_Support_TelNumber, @WP_Starred, @WP_TimeReceived, 
 		@WP_Support_TelNumber, @Client_TelNumber);
 		
-INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId)
+INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId, UserUserId)
 		VALUES (@WP_Support_TelNumber, @Client_TelNumber, @WP_WelcomeMessage,
-		@WP_TimeReceived, @WP_Read, @WP_ConvIdWPToSupport);
+		@WP_TimeReceived, @WP_Read, @WP_ConvIdWPToSupport, NULL);
 
 -- Add user
 IF (SELECT COUNT(*) FROM dbo.XmppConnections) > 0

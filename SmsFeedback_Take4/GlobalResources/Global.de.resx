@@ -540,4 +540,13 @@
   <data name="welcomeMessage" xml:space="preserve">
     <value>Willkommen</value>
   </data>
+  <data name="thumbsDownTooltip" xml:space="preserve">
+    <value>Mark conversation as negative DE</value>
+  </data>
+  <data name="thumbsUpTooltip" xml:space="preserve">
+    <value>Mark conversation as positive DE</value>
+  </data>
+  <data name="RepConversationsUnit" xml:space="preserve">
+    <value>Unterhaltungen</value>
+  </data>
 </root>

@@ -3,7 +3,7 @@
     var resource = iResource;    
     var data = null;
     var options = {};
-    var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
+    var chart = new google.visualization.PieChart(document.getElementById('comboChart_div'));
 
     this.drawArea = function () {
         var jsonData = $.ajax({

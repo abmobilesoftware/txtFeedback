@@ -32,39 +32,65 @@ var ReportModel = Backbone.Model.extend({
 var ReportsContentArea = Backbone.View.extend({
     el: $("#rightColumn"),
     initialize: function () {
-        _.bindAll(this, 'render', 'setupEnvironment', 'updateReport');        
+        _.bindAll(this, 'render', 'setupEnvironment', 'updateReport', 'renderSection');
+        this.reportContentElement = $("#reportContent");
+        window.app.areas = [];
         this.render();
     },
     render: function () {
+        this.transition = new Transition();
+        this.transition.startTransition();
+
         var template = _.template($("#report-template").html(), this.model.toJSON());
         // Load the compiled HTML into the Backbone "el"
         $(this.el).html(template);
         $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
+        for (var k = 0; k < this.model.get("sections").length; ++k) 
+            if (this.model.get("sections")[k].visibility) this.renderSection("#" + this.model.get("sections")[k].identifier, k, this.model.get("sections")[k].resources);
         this.setupEnvironment();
+
+        this.transition.endTransition();
         // resize event is triggered here, because after populating the divs with content the page height will change
         $(document).trigger("resize");
     },
-    setupEnvironment: function () {
-        // after rendering the template, initialize the scripts that will do the magic.
-        this.transition = new Transition();
-        this.transition.startTransition();
-        window.app.areas = [];
-        for (var k = 0; k < this.model.get("sections").length; ++k) {
-            if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier === "PrimaryChartArea")) {
-                window.app.firstArea = new FirstArea(this.model.get("sections")[k].resources[0].source, "day", this.model.get("sections")[k].resources[0].options);
-                window.app.firstArea.drawArea();
-                window.app.areas.push(window.app.firstArea);
-            } else if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier == "SecondaryChartArea")) {
-                window.app.thirdArea = new ThirdArea(this.model.get("sections")[k].resources[0].source);
-                window.app.thirdArea.drawArea();
-                window.app.areas.push(window.app.thirdArea);
-            } else if (this.model.get("sections")[k].visibility && (this.model.get("sections")[k].identifier === "InfoBox")) {
-                window.app.secondArea = new SecondArea(this.model.get("sections")[k].resources);
-                window.app.secondArea.drawArea();
-                window.app.areas.push(window.app.secondArea);
-            }
+    renderSection: function(section, id, resources) {
+        var parameters = resources[0];
+        parameters.identifier = id;
+        var template = _.template($(section).html(), parameters);
+        $("#reportContent").append(template);
+        if (section == "#PrimaryChartArea") {
+            // --------------------------------------
+            /*var areaName = "area" + id;
+            var instructions = 'var ' + areaName + ' = new FirstArea(resources[0].source, "day", resources[0].options, id);' +
+            areaName + '.drawArea();' +
+            'window.app.areas.push(' +  areaName + ');';
+            eval(instructions);
+            */
+            // -----------------------------------
+            var area = new FirstArea(resources[0].source, "day", resources[0].options, id);
+            area.drawArea();
+            window.app.areas[id] = area;
+        } else if (section == "#SecondaryChartArea") {
+            window.app.thirdArea = new ThirdArea(resources[0].source);
+            window.app.thirdArea.drawArea();
+            window.app.areas.push(window.app.thirdArea);
+        } else if (section == "#InfoBox") {
+            window.app.secondArea = new SecondArea(resources);
+            window.app.secondArea.drawArea();
+            window.app.areas.push(window.app.secondArea);
         }
-        
+    },
+    setupEnvironment: function () {
+        //$("#granularitySelector").show();
+        $(".chartAreaTitle").click(function (event) {
+            event.preventDefault();
+            var sectionId = $(this).attr("sectionId");
+            var elementName = "#chartAreaContent" + sectionId;
+            var descriptionElement = "#description" + sectionId;
+            if ($(elementName).is(":visible")) { $(elementName).hide(); $(this).children(".sectionVisibility").attr("src", "/Content/images/plus_22x22.jpg"); $(descriptionElement).show(); $(document).trigger("resize"); }
+            else { $(elementName).show(); $(this).children(".sectionVisibility").attr("src", "/Content/images/minus_22x22.jpg"); $(descriptionElement).hide(); $(document).trigger("resize"); }           
+        });
+
         var fromDatepicker = $("#from");
         // Setup the calendar
         fromDatepicker.datepicker({
@@ -116,18 +142,7 @@ var ReportsContentArea = Backbone.View.extend({
         $("#to").datepicker("option", "maxDate", today);
         $("#from").datepicker("option", "maxDate", toDateString);
         $("#from").val(fromDateString);
-        $("#to").val(toDateString);
-
-        // Setup grannularity buttons. TODO: rename the radio buttons group more appropriate.
-        //$("#granularitySelector").show();
-        $(".radioOption").change(function () {
-            $(this).parents("#granularitySelector").find(".active").removeClass("active");
-            $(this).parents(".radioBtnWrapper").addClass("active");
-            
-            window.app.firstArea.setGranularity($(this).val());
-            window.app.firstArea.drawArea();
-        });
-        this.transition.endTransition();
+        $("#to").val(toDateString);       
     },
     updateReport: function () {
         $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
