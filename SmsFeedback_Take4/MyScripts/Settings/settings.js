@@ -8,6 +8,7 @@ window.app.showChangePassword = function () {
       success: function (data) {
          // create a modal dialog with the data
          $('#rightColumn').html(data);
+         
          $('#btnChangePassword').live('click', function (e) {
             e.preventDefault();
             $.ajax({
@@ -16,9 +17,9 @@ window.app.showChangePassword = function () {
                type: 'post',
                cache: true,
                dataType: 'html',
-               success: function (data) {
-                  var x = data;
+               success: function (data) {                  
                   $('#rightColumn').html(data);
+                  //$('th').each(function () { setTooltipOnElement(this, this.attr('tooltiptitle'), 'light'); });
                },
                error: function (jqXHR, textStatus, errorThrown) {                  
                   $('#rightColumn').html(jqXHR);
@@ -30,21 +31,32 @@ window.app.showChangePassword = function () {
 }
 
 window.app.getDataForWorkingPoints = function () {
-   var data = new Array();
-   var i=0
+   var data = new Array();   
    $('#rightColumn table').find('tr[name="dataRow"]').each(function () {
       var row = { TelNumber: $('span[name="TelNumber"]',this).text(),         
          Name: $('input[name="Name"]', this).val(),
          Description: $('input[name="Description"]', this).val(),
          NrOfSentSmsThisMonth: 15,
          MaxNrOfSmsToSendPerMonth: $('span[name="MaxNrOfSmsToSendPerMonth"]', this).text()
-         }
-      //$(this).find('input,span').each(function () {
-      //   row[$(this).attr('name')] = $(this).val();
-      //});
+         }      
       data.push(row);
    });
    return data;
+}
+window.app.localForSetting = {};
+window.app.localForSetting.setTooltipsOnHeaders = function () {
+   $('th').each(function () {
+      $(this).qtip({
+         content: $(this).attr('tooltiptitle'),
+         position: {
+            corner: {
+               target: 'topLeft',
+               tooltip: 'bottomLeft'
+            }
+         },
+         style: 'dark'
+      });
+   });
 }
 window.app.configureWorkingPoints = function () {
    $.ajax({
@@ -52,17 +64,13 @@ window.app.configureWorkingPoints = function () {
       cache: false,
       success: function (data) {
          $('#rightColumn').html(data);
-         //var settngs = $.data($('form')[0], 'validator').settings;
-         //settngs.onkeyup = true;
-         //settngs.onfocusout = true;
-
+         app.localForSetting.setTooltipsOnHeaders();
+         
          $('#btnSaveWorkingPoints').live('click', function (e) {
-            e.preventDefault();
-            //$('#workingPointsConfig').validate();
+            e.preventDefault();            
             var wps = app.getDataForWorkingPoints() 
             $.ajax({
-               url: 'Settings/GetDefineWorkingPointsForm',
-               //data: $('#rightColumn form').serializeArray(),
+               url: 'Settings/GetDefineWorkingPointsForm',               
                data: $.toJSON(wps),
                type: 'post',               
                cache: false,               
@@ -70,6 +78,7 @@ window.app.configureWorkingPoints = function () {
                contentType: 'application/json; charset=utf-8',
                success: function (data) {                  
                   $('#rightColumn').html(data);
+                  app.localForSetting.setTooltipsOnHeaders();
                },
                error: function (jqXHR, textStatus, errorThrown) {
                   $('#rightColumn').html(jqXHR);

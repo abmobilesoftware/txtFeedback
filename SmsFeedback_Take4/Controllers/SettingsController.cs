@@ -40,8 +40,8 @@ namespace SmsFeedback_Take4.Controllers
         {
            List<ReportsMenuItem> reportsMenuItems = new List<ReportsMenuItem> {
                new ReportsMenuItem(1, Resources.Global.settingUserPreferences, false, 0),
-              new ReportsMenuItem(20, Resources.Global.settingsPrivacy, false, 0),
-              new ReportsMenuItem(21, Resources.Global.settingsChangePassword, true, 20),
+               new ReportsMenuItem(20, Resources.Global.settingsPrivacy, false, 0),
+               new ReportsMenuItem(21, Resources.Global.settingsChangePassword, true, 20),
            };
            if (HttpContext.User.IsInRole(cRoleForConfigurators))
            {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using SmsFeedback_Take4.MvcLocalization.Models;
 
 namespace SmsFeedback_Take4.Models
 {
@@ -22,14 +23,17 @@ namespace SmsFeedback_Take4.Models
       }
       [Required(ErrorMessageResourceName = "settingsConfigureWpTelNumberError",
                 ErrorMessageResourceType = typeof(Resources.Global))]
+      [LocalizationStringLength(50, 8, "settingsErrorWpTelNumberLength", typeof(Resources.Global))]
       public string TelNumber { get; set; }
       
       [Required(ErrorMessageResourceName = "settingsConfigureWpNameError",
                 ErrorMessageResourceType = typeof(Resources.Global))]
+      [LocalizationStringLength(40, 6, "settingsErrorWpNameLength", typeof(Resources.Global))]
       public string Name { get; set; }
       
       [Required(ErrorMessageResourceName = "settingsConfigureWpDescriptionError",
                 ErrorMessageResourceType = typeof(Resources.Global))]
+      [LocalizationStringLength(160, 0, "settingsErrorWpDescriptionLength", typeof(Resources.Global))]
       public string Description { get; set; }
 
       public int NrOfSentSmsThisMonth { get; set; }

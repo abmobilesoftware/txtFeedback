@@ -1,9 +1,6 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<IEnumerable<SmsFeedback_Take4.Models.WorkingPoint>>" %>
-
 <%@ Import Namespace="SmsFeedback_Take4.Models" %>
-<!DOCTYPE html>
-   <script src="<%: Url.Content("~/Scripts/jquery.validate.min.js") %>" type="text/javascript"></script>
-   <script src="<%: Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js") %>" type="text/javascript"></script>
+<!DOCTYPE html>   
    <script src="../../Scripts/jquery.json-2.3.min.js" type="text/javascript" />
    <legend id="wpConfigLegend"><%= Resources.Global.settingsWpConfigLegend %></legend>
    <% using (Html.BeginForm())
@@ -11,10 +8,10 @@
    <fieldset id="wpConfig">
       <table id="workingPointsConfig" cellspacing="10" cellpadding="10">
          <tr>
-            <th align="left"><%= Resources.Global.settingsTelNoHeader %></th>
-            <th align="left"><%= Resources.Global.settingsMaxOutboundSmsHeader %></th>
-            <th align="left"><%= Resources.Global.settingsWpNameHeader %></th>
-            <th align="left"><%= Resources.Global.settingsWpDescriptionHeader %></th>
+            <th align="left" tooltiptitle="<%: Resources.Global.settingsWpTelNoHeaderTooltip %>"><%= Resources.Global.settingsTelNoHeader %></th>
+            <th align="left" tooltiptitle="<%: Resources.Global.settingsWpMaxOutboundSmsHeaderTooltip %>"><%= Resources.Global.settingsMaxOutboundSmsHeader %></th>
+            <th align="left" tooltiptitle="<%: Resources.Global.settingsWpNameHeaderTooltip %>"><%= Resources.Global.settingsWpNameHeader %></th>
+            <th align="left" tooltiptitle="<%: Resources.Global.settingsWpDescriptionHeaderTooltip %>"><%= Resources.Global.settingsWpDescriptionHeader %></th>
          </tr>
          <% foreach (SmsFeedback_Take4.Models.WorkingPoint wp in Model)
             { %>
@@ -30,7 +27,7 @@
          </tr>
          <% }; %>
       </table>
-      <button id="btnSaveWorkingPoints" class="btnSaveChanges">Save</button>
+      <button id="btnSaveWorkingPoints" class="btnSaveChanges"><%: Resources.Global.saveBtnCaption %></button>
    </fieldset>
    <%: Html.ValidationSummary(false, Resources.Global.settingsWpConfigErrors, new {id= "wpConfigErrors", })%>
    <% if ( ViewData["saveMessage"]!=null ){ %>
