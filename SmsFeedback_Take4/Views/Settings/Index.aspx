@@ -23,6 +23,7 @@
    <script type="text/javascript" src=<%: Url.UpdatedResourceLink("~/MyScripts/Settings/settings.js") %>></script>
    <script type="text/javascript" src=<%: Url.UpdatedResourceLink("~/MyScripts/Settings/SettingsFacade.js") %>></script>   
    <% } %>
+ 
    <div id="settingsMenuBar" class="headerArea">
    </div>
    <div class="clear"></div>

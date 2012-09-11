@@ -1,7 +1,8 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<IEnumerable<SmsFeedback_Take4.Models.WorkingPoint>>" %>
 <%@ Import Namespace="SmsFeedback_Take4.Models" %>
+<%@ Import Namespace="SmsFeedback_Take4.Utilities" %>
 <!DOCTYPE html>   
-   <script src="../../Scripts/jquery.json-2.3.min.js" type="text/javascript" />
+  <script type="text/javascript"  src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.json-2.3.min.js")%>"></script>   
    <legend id="wpConfigLegend"><%= Resources.Global.settingsWpConfigLegend %></legend>
    <% using (Html.BeginForm())
       { %>

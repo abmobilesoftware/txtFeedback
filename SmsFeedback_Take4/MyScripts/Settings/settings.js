@@ -58,33 +58,33 @@ window.app.localForSetting.setTooltipsOnHeaders = function () {
       });
    });
 }
+window.app.saveWorkingPoints = function (e) {
+   e.preventDefault();            
+   var wps = app.getDataForWorkingPoints() 
+   $.ajax({
+      url: 'Settings/GetDefineWorkingPointsForm',               
+      data: $.toJSON(wps),
+      type: 'post',               
+      cache: false,               
+      dataType: 'html',
+      contentType: 'application/json; charset=utf-8',
+      success: function (data) {                  
+         $('#rightColumn').html(data);
+         app.localForSetting.setTooltipsOnHeaders();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+         $('#rightColumn').html(jqXHR);
+      }
+   });
+}
 window.app.configureWorkingPoints = function () {
    $.ajax({
       url: "Settings/GetDefineWorkingPointsForm",
       cache: false,
       success: function (data) {
          $('#rightColumn').html(data);
+         $('#btnSaveWorkingPoints').live('click', app.saveWorkingPoints);
          app.localForSetting.setTooltipsOnHeaders();
-         
-         $('#btnSaveWorkingPoints').live('click', function (e) {
-            e.preventDefault();            
-            var wps = app.getDataForWorkingPoints() 
-            $.ajax({
-               url: 'Settings/GetDefineWorkingPointsForm',               
-               data: $.toJSON(wps),
-               type: 'post',               
-               cache: false,               
-               dataType: 'html',
-               contentType: 'application/json; charset=utf-8',
-               success: function (data) {                  
-                  $('#rightColumn').html(data);
-                  app.localForSetting.setTooltipsOnHeaders();
-               },
-               error: function (jqXHR, textStatus, errorThrown) {
-                  $('#rightColumn').html(jqXHR);
-               }
-            });
-         });
       },
       error: function (jqXHR, textStatus, errorThrown) {
          $('#rightColumn').html(jqXHR);
