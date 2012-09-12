@@ -95,9 +95,9 @@
             <div id="chartAreaContent{{identifier}}">
                 <form action="">    
                 <div id="granularitySelector{{ identifier }}" class="granularitySelector">
-                    <div class="radioBtnWrapper active"><label for="day" class="radioBtn"><input type="radio" id="day{{identifier}}" name="radio{{identifier}}" checked="checked" selectorId="{{identifier}}" class="radioOption{{identifier}}" value="day"/><%: Resources.Global.RepDay %></label></div>
-		            <div class="radioBtnWrapper"><label for="week" class="radioBtn"><input type="radio" id="week{{identifier}}" name="radio{{identifier}}" selectorId="{{identifier}}" class="radioOption{{identifier}}" value="week" /><%: Resources.Global.RepWeek %></label></div>
-		            <div class="radioBtnWrapper"><label for="month" class="radioBtn"><input type="radio" id="month{{identifier}}" name="radio{{identifier}}" selectorId="{{identifier}}" class="radioOption{{identifier}}" value="month"/><%: Resources.Global.RepMonth %></label></div>
+                    <div class="radioBtnWrapper active"><label for="day{{identifier}}" class="radioBtn"><input type="radio" id="day{{identifier}}" name="radio{{identifier}}" checked="checked" selectorId="{{identifier}}" class="radioOption{{identifier}} radioOption" value="day"/><%: Resources.Global.RepDay %></label></div>
+		            <div class="radioBtnWrapper"><label for="week{{identifier}}" class="radioBtn"><input type="radio" id="week{{identifier}}" name="radio{{identifier}}" selectorId="{{identifier}}" class="radioOption{{identifier}} radioOption" value="week" /><%: Resources.Global.RepWeek %></label></div>
+		            <div class="radioBtnWrapper"><label for="month{{identifier}}" class="radioBtn"><input type="radio" id="month{{identifier}}" name="radio{{identifier}}" selectorId="{{identifier}}" class="radioOption{{identifier}} radioOption" value="month"/><%: Resources.Global.RepMonth %></label></div>
                 </div>
                 </form>
                 <div id="chart_div{{identifier}}" class="chart_div"></div>

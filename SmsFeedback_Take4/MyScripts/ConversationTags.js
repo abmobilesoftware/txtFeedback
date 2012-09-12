@@ -75,6 +75,7 @@ function TagsArea() {
    
    var placeholderValue = $('#messagesAddTagPlaceHolderMessage').val();
    var removeTagValue = $('#messagesRemoveTagPlaceHolderMessage').val();
+   var self;
    var TagsPoolView = Backbone.View.extend({
       el: $("#tagsPool"),      
       initialize: function () {        

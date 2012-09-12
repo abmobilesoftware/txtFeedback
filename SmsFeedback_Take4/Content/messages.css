@@ -5,6 +5,7 @@
    background: -webkit-radial-gradient( 50% 0%, 100% 100%, rgba(184,186,187,1) 0%, rgba(184,186,187,0.00) 70% ); /*for chrome*/
    filter: progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr=#B8BABB, endColorstr=#B8BABB); /* for IE */
    background: -moz-radial-gradient( 50% 0%,cover, #B8BABB, #FFF); /*for Firefox*/
+   background-image: -o-linear-gradient(rgba(184,186,187,1) 0%, rgba(184,186,187,0.00) 70%);
    margin-left: 20px;
    margin-right: 20px;
    display: block;
@@ -273,6 +274,7 @@ div.actionButtons {
    border-radius: 10px;
    -moz-border-radius: 10px;
    -webkit-border-radius: 10px;
+   height: 65px;
 }
 
 #replyToMessageForm span {

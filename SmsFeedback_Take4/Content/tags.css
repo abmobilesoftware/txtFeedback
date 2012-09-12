@@ -120,6 +120,7 @@
     position: relative;
     margin-right:-168px;
     padding-left:10px;
+    top: -1px;
 }
 
 #specialTags {
@@ -164,7 +165,6 @@
 
 .triangle-isosceles {
 	position:relative;
-	margin:1em 0 3em;
 	color:#000;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
@@ -177,9 +177,10 @@
 
 .triangle-isosceles.left {
 	left: 11px;
-    padding-bottom: 14px;
+    /*padding-bottom: 14px;*/
 	background:#DFE7EA;
     top: -16px;
+    height: 40px;
 }
 
 /* THE TRIANGLE
