@@ -628,4 +628,83 @@
   <data name="RepConversationsUnit" xml:space="preserve">
     <value>Conversations</value>
   </data>
+  <data name="settingsConfigureWpDescription" xml:space="preserve">
+    <value>Description</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsConfigureWpName" xml:space="preserve">
+    <value>Name</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsConfigureWpDescriptionError" xml:space="preserve">
+    <value>Working point description cannot be empty</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsConfigureWpNameError" xml:space="preserve">
+    <value>Working point name cannot be empty</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsConfigureWpTelNumberError" xml:space="preserve">
+    <value>Telephone number cannot be empty</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsMaxOutboundSmsHeader" xml:space="preserve">
+    <value>Max outbound SMS</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsTelNoHeader" xml:space="preserve">
+    <value>Telephone no</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpConfigErrors" xml:space="preserve">
+    <value>Errors encountered while saving the new configuration</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpConfigLegend" xml:space="preserve">
+    <value>Working Points</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpDescriptionHeader" xml:space="preserve">
+    <value>Description</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpNameHeader" xml:space="preserve">
+    <value>Working point name</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingWpConfigSavedSuccessfuly" xml:space="preserve">
+    <value>Working points configuration changed successfuly</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="saveBtnCaption" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="settingsErrorWpDescriptionLength" xml:space="preserve">
+    <value>Working point description should be maximum 160 characters long</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsErrorWpNameLength" xml:space="preserve">
+    <value>Working point name should be between 6 and 40 characters long</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsErrorWpTelNumberLength" xml:space="preserve">
+    <value>Working point telephone number should be between 8 and 50 characters long</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpDescriptionHeaderTooltip" xml:space="preserve">
+    <value>The working point's description</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpMaxOutboundSmsHeaderTooltip" xml:space="preserve">
+    <value>The maximum no of SMS messages that can be sent from this working point</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpNameHeaderTooltip" xml:space="preserve">
+    <value>Short name used throughout the application</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpTelNoHeaderTooltip" xml:space="preserve">
+    <value>The telephone number associated with this working point</value>
+    <comment>Settings:</comment>
+  </data>
 </root>

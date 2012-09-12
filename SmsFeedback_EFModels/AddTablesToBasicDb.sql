@@ -141,6 +141,27 @@ CREATE TABLE [dbo].[Log] (
 );
 GO
 
+-- Creating table 'TagTypes'
+CREATE TABLE [dbo].[TagTypes] (
+    [Type] nvarchar(50)  NOT NULL
+);
+GO
+
+-- Creating table 'TagTagType'
+CREATE TABLE [dbo].[TagTagType] (
+    [Tags_Name] nvarchar(50)  NOT NULL,
+    [Tags_CompanyName] nvarchar(50)  NOT NULL,
+    [TagTypes_Type] nvarchar(50)  NOT NULL
+);
+GO
+
+CREATE TABLE [dbo].[TagTagTypes] (
+    [IsDefault] bit  NOT NULL,
+    [TagName] nvarchar(50)  NOT NULL,
+    [TagCompanyName] nvarchar(50)  NOT NULL,
+    [TagTypeType] nvarchar(50)  NOT NULL
+);
+GO
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -211,7 +232,16 @@ ADD CONSTRAINT [PK_UsersForWorkingPoints]
     PRIMARY KEY NONCLUSTERED ([Users_UserId], [WorkingPoints_TelNumber] ASC);
 GO
 
+-- Creating primary key on [Type] in table 'TagTypes'
+ALTER TABLE [dbo].[TagTypes]
+ADD CONSTRAINT [PK_TagTypes]
+    PRIMARY KEY CLUSTERED ([Type] ASC);
+GO
 
+ALTER TABLE [dbo].[TagTagTypes]
+ADD CONSTRAINT [PK_TagTagTypes]
+    PRIMARY KEY CLUSTERED ([TagName], [TagCompanyName], [TagTypeType] ASC);
+GO
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
@@ -408,6 +438,24 @@ CREATE INDEX [IX_FK_CompanySubscriptions]
 ON [dbo].[Companies]
     ([Subscription_Type]);
 GO
+
+ALTER TABLE [dbo].[TagTagTypes]
+ADD CONSTRAINT [FK_TagTagTagType]
+    FOREIGN KEY ([TagName], [TagCompanyName])
+    REFERENCES [dbo].[Tags]
+        ([Name], [CompanyName])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+	
+	ALTER TABLE [dbo].[TagTagTypes]
+ADD CONSTRAINT [FK_TagTypeTagTagType]
+    FOREIGN KEY ([TagTypeType])
+    REFERENCES [dbo].[TagTypes]
+        ([Type])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+CREATE INDEX [IX_FK_TagTypeTagTagType]
+ON [dbo].[TagTagTypes]
+    ([TagTypeType]);	
 
 -- --------------------------------------------------
 -- Script has ended

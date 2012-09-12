@@ -190,6 +190,7 @@
       <DependentUpon>Reports.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\BusinessObjects\ConvTag.cs" />
+    <Compile Include="Models\BusinessObjects\WorkingPointConfModel.cs" />
     <Compile Include="Models\Helpers\ChartValue.cs" />
     <Compile Include="Models\Helpers\RepDataColumn.cs" />
     <Compile Include="Models\Helpers\RepChartData.cs" />
@@ -428,6 +429,7 @@
     <Content Include="Scripts\flxhr\strophe.flxhr.js" />
     <Content Include="Scripts\flxhr\swfobject.js" />
     <Content Include="Scripts\flxhr\updateplayer.swf" />
+    <Content Include="Scripts\jquery.json-2.3.min.js" />
     <Content Include="Scripts\jquery.qtip-1.0.0-rc3.min.js" />
     <Content Include="Scripts\jquery.simplemodal.js" />
     <Content Include="Scripts\jquery.tagsinput.js" />
@@ -472,7 +474,9 @@
     <Content Include="Views\Reports\Index.aspx" />
     <Content Include="Views\Settings\ChangePasswordSuccess.aspx" />
     <Content Include="Views\Settings\GetChangePasswordForm.aspx" />
+    <Content Include="Views\Settings\GetDefineWorkingPointsForm.aspx" />
     <Content Include="Views\Settings\Index.aspx" />
+    <Content Include="Views\Shared\Unauthorized.aspx" />
     <Content Include="Views\UserMailer\Welcome.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -512,6 +516,7 @@
     <Folder Include="Models\ViewModels\" />
     <Folder Include="MyScripts\Minified\Base\" />
     <Folder Include="MyScripts\Minified\css\" />
+    <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

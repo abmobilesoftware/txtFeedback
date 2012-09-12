@@ -17,6 +17,13 @@ function getFromToFromConversation(convID) {
     return fromToArray;
 }
 
+function trim(s) {
+   s = s.replace(/(^\s*)|(\s*$)/gi, "");
+   s = s.replace(/[ ]{2,}/gi, " ");
+   s = s.replace(/\n /, "\n");
+   return s;
+}
+
 //#region Utilities for processing phone numbers
 var cConversationIdNumbersSeparator = '-';
 function buildConversationID(from, to) {
@@ -87,9 +94,14 @@ $(function () {
          $("#msgTabcount").text(val);
       }
    });
-   //#endregion
-});
 
+});
+//#endregion
+//#region make sure Jquery AJAX requests are not cached
+$(function () {
+   $.ajaxSetup({ cache: false });
+})
+//#endregion
 //#region handle "authentication expired"
 $(function () {
    $(document).ready(function () {

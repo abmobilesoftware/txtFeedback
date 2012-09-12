@@ -133,13 +133,16 @@
     <value>Envíenos comentarios</value>
   </data>
   <data name="filteringAddFilterTag" xml:space="preserve">
-    <value />
+    <value>add filtering tag</value>
+  </data>
+  <data name="filteringRemoveFilterTag" xml:space="preserve">
+    <value>Remove filter tag</value>
   </data>
   <data name="fromDate" xml:space="preserve">
     <value>iniciado</value>
   </data>
   <data name="helpPageTitle" xml:space="preserve">
-    <value />
+    <value>Help</value>
   </data>
   <data name="lblNoConversationSelected" xml:space="preserve">
     <value>Ninguna conversación seleccionada, por favor seleccione una</value>
@@ -196,10 +199,13 @@
     <value>Por favor introduzca su nombre de usuario y contraseña</value>
   </data>
   <data name="messagesAddTagPlaceHolder" xml:space="preserve">
-    <value />
+    <value>add tag</value>
   </data>
   <data name="messagesPageTitle" xml:space="preserve">
     <value>Conversaciones</value>
+  </data>
+  <data name="messagesRemoveTagPlaceHolder" xml:space="preserve">
+    <value>Remove tag</value>
   </data>
   <data name="readLabel" xml:space="preserve">
     <value>No leído</value>
@@ -214,31 +220,31 @@
     <value>Número medio de SMS saliente por cliente</value>
   </data>
   <data name="RepAvgNoOfOutgoingSmsPerConversationTooltip" xml:space="preserve">
-    <value />
+    <value>Número medio de SMS saliente por cliente</value>
   </data>
   <data name="RepAvgNoOfSmsPerClient" xml:space="preserve">
     <value>Número medio de SMS por cliente</value>
   </data>
   <data name="RepAvgNoOfSmsPerClientTooltip" xml:space="preserve">
-    <value />
+    <value>Número medio de SMS por cliente</value>
   </data>
   <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
     <value>Número medio de SMS por día </value>
   </data>
   <data name="RepAvgNoOfSmsPerDayTooltip" xml:space="preserve">
-    <value />
+    <value>Número medio de SMS por día </value>
   </data>
   <data name="RepAvgNoOfTagsPerConversation" xml:space="preserve">
     <value>Número medio de etiquetas por conversación</value>
   </data>
   <data name="RepAvgNoOfTagsPerConversationTooltip" xml:space="preserve">
-    <value />
+    <value>Número medio de etiquetas por conversación</value>
   </data>
   <data name="RepAvgResponseTime" xml:space="preserve">
     <value>Tiempo medio de respuesta</value>
   </data>
   <data name="RepAvgResponseTimeTooltip" xml:space="preserve">
-    <value />
+    <value>Tiempo medio de respuesta</value>
   </data>
   <data name="RepClients" xml:space="preserve">
     <value>Clientes</value>
@@ -268,7 +274,7 @@
     <value>Etiquetas más utilizadas</value>
   </data>
   <data name="RepMostUsedTagsTooltip" xml:space="preserve">
-    <value />
+    <value>Etiquetas más utilizadas</value>
   </data>
   <data name="RepNewClientsChart" xml:space="preserve">
     <value>Clientes nuevos</value>
@@ -310,7 +316,7 @@
     <value>Saliente</value>
   </data>
   <data name="RepOverview" xml:space="preserve">
-    <value />
+    <value>Overview</value>
   </data>
   <data name="RepPositiveAndNegative" xml:space="preserve">
     <value>Positive &amp; Negative</value>
@@ -350,7 +356,7 @@
     <value>Número total de SMS</value>
   </data>
   <data name="RepTotalNoOfSmsTooltip" xml:space="preserve">
-    <value />
+    <value>Número total de SMS</value>
   </data>
   <data name="RepTotalSmsChart" xml:space="preserve">
     <value>Todos los SMS</value>
@@ -437,10 +443,10 @@
     <value>Cambiar contraseña</value>
   </data>
   <data name="settingsChangePassword" xml:space="preserve">
-    <value />
+    <value>Cambiar contraseña</value>
   </data>
   <data name="settingsChangePasswordTitle" xml:space="preserve">
-    <value />
+    <value>Cambiar contraseña</value>
   </data>
   <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
     <value>Confirmar nueva contraseña</value>
@@ -481,28 +487,40 @@
   <data name="starredLabel" xml:space="preserve">
     <value>Favoritos</value>
   </data>
+  <data name="supportLabel" xml:space="preserve">
+    <value>Support</value>
+  </data>
   <data name="tabHelp" xml:space="preserve">
-    <value>Conversaciones</value>
+    <value>Help</value>
   </data>
   <data name="tabMessages" xml:space="preserve">
-    <value>Informes</value>
+    <value>Conversaciones</value>
   </data>
   <data name="tabReports" xml:space="preserve">
-    <value>Configuración</value>
+    <value>Informes</value>
   </data>
   <data name="tabSettings" xml:space="preserve">
-    <value>Etiqueta(s):</value>
+    <value>Configuración</value>
   </data>
   <data name="tagsLabel" xml:space="preserve">
-    <value>última actualización</value>
+    <value>Etiqueta(s):</value>
+  </data>
+  <data name="thumbsDownTooltip" xml:space="preserve">
+    <value>Mark this conversation as negative feedback</value>
+  </data>
+  <data name="thumbsUpTooltip" xml:space="preserve">
+    <value>Mark this conversation as  positive feedback</value>
   </data>
   <data name="toDate" xml:space="preserve">
-    <value>Activar/Desactivar filtrado de fecha</value>
+    <value>última actualización</value>
   </data>
   <data name="tooltipIncludeDateInFilter" xml:space="preserve">
-    <value>Activar/Desactivar filtrado de favoritos</value>
+    <value>Activar/Desactivar filtrado de fecha</value>
   </data>
   <data name="tooltipIncludeStarredInFilter" xml:space="preserve">
+    <value>Activar/Desactivar filtrado de favoritos</value>
+  </data>
+  <data name="tooltipIncludeSupportFilter" xml:space="preserve">
     <value>Acceso rápido a conversaciones de soporte</value>
   </data>
   <data name="tooltipIncludeTagsInFilter" xml:space="preserve">
@@ -538,10 +556,15 @@
   <data name="thumbsDownTooltip" xml:space="preserve">
     <value>Mark conversation as negative ES</value>
   </data>
+  <data name="RepPositiveAndNegative" xml:space="preserve">
+    <value>Positive &amp; Negative</value>
+  </data>
+  <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
+    <value>Positive &amp; Negative feedback ES</value>
+  </data>
   <data name="thumbsUpTooltip" xml:space="preserve">
     <value>Mark conversation as positive ES</value>
   </data>
   <data name="RepConversationsUnit" xml:space="preserve">
     <value>Conversaciones</value>
-  </data>
 </root>

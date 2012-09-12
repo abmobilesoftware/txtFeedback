@@ -826,6 +826,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string saveBtnCaption {
+            get {
+                return ResourceManager.GetString("saveBtnCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send.
         /// </summary>
         public static string sendButton {
@@ -1060,6 +1069,51 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string settingsConfigureWpDescription {
+            get {
+                return ResourceManager.GetString("settingsConfigureWpDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working point description cannot be empty.
+        /// </summary>
+        public static string settingsConfigureWpDescriptionError {
+            get {
+                return ResourceManager.GetString("settingsConfigureWpDescriptionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string settingsConfigureWpName {
+            get {
+                return ResourceManager.GetString("settingsConfigureWpName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working point name cannot be empty.
+        /// </summary>
+        public static string settingsConfigureWpNameError {
+            get {
+                return ResourceManager.GetString("settingsConfigureWpNameError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Telephone number cannot be empty.
+        /// </summary>
+        public static string settingsConfigureWpTelNumberError {
+            get {
+                return ResourceManager.GetString("settingsConfigureWpTelNumberError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm new password.
         /// </summary>
         public static string settingsConfirmNewPasswordLabel {
@@ -1123,6 +1177,42 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Working point description should be maximum 160 characters long.
+        /// </summary>
+        public static string settingsErrorWpDescriptionLength {
+            get {
+                return ResourceManager.GetString("settingsErrorWpDescriptionLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working point name should be between 6 and 40 characters long.
+        /// </summary>
+        public static string settingsErrorWpNameLength {
+            get {
+                return ResourceManager.GetString("settingsErrorWpNameLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working point telephone number should be between 8 and 50 characters long.
+        /// </summary>
+        public static string settingsErrorWpTelNumberLength {
+            get {
+                return ResourceManager.GetString("settingsErrorWpTelNumberLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max outbound SMS.
+        /// </summary>
+        public static string settingsMaxOutboundSmsHeader {
+            get {
+                return ResourceManager.GetString("settingsMaxOutboundSmsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New password.
         /// </summary>
         public static string settingsNewPasswordLabel {
@@ -1159,11 +1249,101 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Telephone no.
+        /// </summary>
+        public static string settingsTelNoHeader {
+            get {
+                return ResourceManager.GetString("settingsTelNoHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Errors encountered while saving the new configuration.
+        /// </summary>
+        public static string settingsWpConfigErrors {
+            get {
+                return ResourceManager.GetString("settingsWpConfigErrors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working Points.
+        /// </summary>
+        public static string settingsWpConfigLegend {
+            get {
+                return ResourceManager.GetString("settingsWpConfigLegend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string settingsWpDescriptionHeader {
+            get {
+                return ResourceManager.GetString("settingsWpDescriptionHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The working point&apos;s description.
+        /// </summary>
+        public static string settingsWpDescriptionHeaderTooltip {
+            get {
+                return ResourceManager.GetString("settingsWpDescriptionHeaderTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The maximum no of SMS messages that can be sent from this working point.
+        /// </summary>
+        public static string settingsWpMaxOutboundSmsHeaderTooltip {
+            get {
+                return ResourceManager.GetString("settingsWpMaxOutboundSmsHeaderTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working point name.
+        /// </summary>
+        public static string settingsWpNameHeader {
+            get {
+                return ResourceManager.GetString("settingsWpNameHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Short name used throughout the application.
+        /// </summary>
+        public static string settingsWpNameHeaderTooltip {
+            get {
+                return ResourceManager.GetString("settingsWpNameHeaderTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The telephone number associated with this working point.
+        /// </summary>
+        public static string settingsWpTelNoHeaderTooltip {
+            get {
+                return ResourceManager.GetString("settingsWpTelNoHeaderTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User preferences.
         /// </summary>
         public static string settingUserPreferences {
             get {
                 return ResourceManager.GetString("settingUserPreferences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working points configuration changed successfuly.
+        /// </summary>
+        public static string settingWpConfigSavedSuccessfuly {
+            get {
+                return ResourceManager.GetString("settingWpConfigSavedSuccessfuly", resourceCulture);
             }
         }
         
