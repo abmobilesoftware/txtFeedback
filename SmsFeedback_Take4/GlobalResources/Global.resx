@@ -707,4 +707,7 @@
     <value>The telephone number associated with this working point</value>
     <comment>Settings:</comment>
   </data>
+  <data name="RepNoneDefaultValue1" xml:space="preserve">
+    <value>None</value>
+  </data>
 </root>
