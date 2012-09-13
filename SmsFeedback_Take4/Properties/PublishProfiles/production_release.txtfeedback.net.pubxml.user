@@ -8,9 +8,9 @@ by customizing this MSBuild file. In order to learn more about this please visit
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
+    <LastUsedBuildConfiguration>Release_production</LastUsedBuildConfiguration>
     <LastUsedPlatform>Any CPU</LastUsedPlatform>
-    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA6D2/0eYoOEOspK/DV0RawwAAAAACAAAAAAAQZgAAAAEAACAAAADf+7U5B3RKrv7ETXGgE7oGaq+tWsdd11XxrZYSF3qatgAAAAAOgAAAAAIAACAAAACQXBkHBMFc9vMi3c7eZW+bAQ3YQQxVaIZyuEvDSs2//SAAAAB0Arq3P/PL3KUW7iJc2AmZjjSYrLhm+MqxAik1eankIEAAAADCxUmU6QAu1W1d2toyZ1FZl/CCyuzfjV6VMFJbdLeGg4bT+lTSBHmcY1gbtMrQuiaPTEAEkoOZs0HhcjFb5fCf</EncryptedPassword>
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAxW6f83DdZk6G679N7CirBQAAAAACAAAAAAAQZgAAAAEAACAAAAAUe6fyAWmdhG4ieFLtd13gvi8S3aQ3RtdZwHJOqNYZrAAAAAAOgAAAAAIAACAAAAA6FVJNE311+UEOIkMnVNjLO3I7MsEUSNHUHFXJ0MIJoiAAAABYZqOrXAg10qNOvy5bDaaikk2/ZQI19vc/metame/d0kAAAADATsegAk/aFBb0TnzqXzU2w8XvlMCPWvBIwy1rXr5Sb2Lw7hZTXKkHOrgISkv2IiYl+xFd3bqvhLfwEvp9IBxu</EncryptedPassword>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
   </PropertyGroup>
 </Project>

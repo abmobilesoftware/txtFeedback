@@ -592,6 +592,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string RepNoneDefaultValue1 {
+            get {
+                return ResourceManager.GetString("RepNoneDefaultValue1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of incoming SMS.
         /// </summary>
         public static string RepNoOfIncomingSms {
