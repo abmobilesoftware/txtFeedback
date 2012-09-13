@@ -23,6 +23,10 @@ html, body {
    font-size: 16px;
 }
 
+a {
+    outline: none;
+}
+
 a:link {
    color: #034af3;
    text-decoration: underline;
@@ -30,6 +34,7 @@ a:link {
 
 a:visited {
    color: #505abc;
+   outline: none;
 }
 
 a:hover {
@@ -39,6 +44,12 @@ a:hover {
 
 a:active {
    color: #12eb87;
+   outline: none;
+}
+
+a:focus {
+    -moz-outline-style: none;
+    outline: none;
 }
 
 p, ul {

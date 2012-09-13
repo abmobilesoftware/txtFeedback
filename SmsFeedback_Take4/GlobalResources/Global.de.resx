@@ -549,4 +549,16 @@
   <data name="RepConversationsUnit" xml:space="preserve">
     <value>Unterhaltungen</value>
   </data>
+  <data name="RepNegativeFeedback" xml:space="preserve">
+    <value>Negatives feedback</value>
+  </data>
+  <data name="RepNegToPosFeedback" xml:space="preserve">
+    <value>Negative to positive feedback</value>
+  </data>
+  <data name="RepPositiveFeedback" xml:space="preserve">
+    <value>Positives feedback </value>
+  </data>
+  <data name="RepPosToNegFeedback" xml:space="preserve">
+    <value>Positive to negative feedback</value>
+  </data>
 </root>

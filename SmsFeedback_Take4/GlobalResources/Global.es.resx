@@ -506,10 +506,10 @@
     <value>Etiqueta(s):</value>
   </data>
   <data name="thumbsDownTooltip" xml:space="preserve">
-    <value>Mark this conversation as negative feedback</value>
+    <value>Mark conversation as negative ES</value>
   </data>
   <data name="thumbsUpTooltip" xml:space="preserve">
-    <value>Mark this conversation as  positive feedback</value>
+    <value>Mark conversation as positive ES</value>
   </data>
   <data name="toDate" xml:space="preserve">
     <value>última actualización</value>
@@ -553,19 +553,19 @@
   <data name="welcomeMessage" xml:space="preserve">
     <value>Bienvenido</value>
   </data>
-  <data name="thumbsDownTooltip" xml:space="preserve">
-    <value>Mark conversation as negative ES</value>
-  </data>
-  <data name="RepPositiveAndNegative" xml:space="preserve">
-    <value>Positive &amp; Negative</value>
-  </data>
-  <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
-    <value>Positive &amp; Negative feedback ES</value>
-  </data>
-  <data name="thumbsUpTooltip" xml:space="preserve">
-    <value>Mark conversation as positive ES</value>
-  </data>
   <data name="RepConversationsUnit" xml:space="preserve">
     <value>Conversaciones</value>
+  </data>
+  <data name="RepNegativeFeedback" xml:space="preserve">
+    <value>Negative feedback ES</value>
+  </data>
+  <data name="RepNegToPosFeedback" xml:space="preserve">
+    <value>Negative to positive feedback ES</value>
+  </data>
+  <data name="RepPositiveFeedback" xml:space="preserve">
+    <value>Positive feedback ES</value>
+  </data>
+  <data name="RepPosToNegFeedback" xml:space="preserve">
+    <value>Positive to negative feedback ES</value>
   </data>
 </root>

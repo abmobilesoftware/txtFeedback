@@ -707,4 +707,16 @@
     <value>The telephone number associated with this working point</value>
     <comment>Settings:</comment>
   </data>
+  <data name="RepNegativeFeedback" xml:space="preserve">
+    <value>Negative feedback</value>
+  </data>
+  <data name="RepNegToPosFeedback" xml:space="preserve">
+    <value>Negative to positive feedback</value>
+  </data>
+  <data name="RepPositiveFeedback" xml:space="preserve">
+    <value>Positive feedback</value>
+  </data>
+  <data name="RepPosToNegFeedback" xml:space="preserve">
+    <value>Positive to negative feedback</value>
+  </data>
 </root>
