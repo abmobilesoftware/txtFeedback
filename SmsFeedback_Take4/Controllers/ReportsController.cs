@@ -343,95 +343,98 @@ namespace SmsFeedback_Take4.Controllers
                 {
                     foreach (var conv in wp.Conversations)
                     {
-                        if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+                        if (conv.Client.isSupportClient)
                         {
-                            // Test if conversation had activity in that period.
-                            var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
-                            if (allMsg > 0)
+                            if (iGranularity.Equals(Constants.DAY_GRANULARITY))
                             {
-                                var convEvents = from convEvent in conv.ConversationEvents
-                                                 where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT)) &&
-                                                 (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
-                                                 group convEvent by new { occurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName }
-                                                     into g
-                                                     select new { key = g.Key, count = g.Count() };
-                                foreach (var convEvent in convEvents)
+                                // Test if conversation had activity in that period.
+                                var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
+                                if (allMsg > 0)
                                 {
-                                    if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                                    var convEvents = from convEvent in conv.ConversationEvents
+                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT)) &&
+                                                     (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
+                                                     group convEvent by new { occurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName }
+                                                         into g
+                                                         select new { key = g.Key, count = g.Count() };
+                                    foreach (var convEvent in convEvents)
                                     {
-                                        resultPositiveTagsInterval[convEvent.key.occurDate].value += convEvent.count;
+                                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                                        {
+                                            resultPositiveTagsInterval[convEvent.key.occurDate].value += convEvent.count;
+                                        }
+                                        else
+                                        {
+                                            resultNegativeTagsInterval[convEvent.key.occurDate].value += convEvent.count;
+                                        }
                                     }
-                                    else
-                                    {
-                                        resultNegativeTagsInterval[convEvent.key.occurDate].value += convEvent.count;
-                                    }
-                                }
 
+                                }
                             }
-                        }
-                        else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
-                        {
-                            // Test if conversation had activity in that period.
-                            var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
-                            if (allMsg > 0)
+                            else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
                             {
-                                var convEvents = from convEvent in conv.ConversationEvents
-                                                 where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT)) &&
-                                                 (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
-                                                 group convEvent by new { Month = convEvent.Date.Month, Year = convEvent.Date.Year, eventType = convEvent.EventTypeName }
-                                                     into g
-                                                     select new { key = g.Key, count = g.Count() };
-                                foreach (var convEvent in convEvents)
+                                // Test if conversation had activity in that period.
+                                var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
+                                if (allMsg > 0)
                                 {
-                                    var monthDateTime = new DateTime(convEvent.key.Year, convEvent.key.Month, 1);
-                                    if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                                    var convEvents = from convEvent in conv.ConversationEvents
+                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT)) &&
+                                                     (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
+                                                     group convEvent by new { Month = convEvent.Date.Month, Year = convEvent.Date.Year, eventType = convEvent.EventTypeName }
+                                                         into g
+                                                         select new { key = g.Key, count = g.Count() };
+                                    foreach (var convEvent in convEvents)
                                     {
-                                        if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                            resultPositiveTagsInterval[intervalStart].value += convEvent.count;
+                                        var monthDateTime = new DateTime(convEvent.key.Year, convEvent.key.Month, 1);
+                                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                                        {
+                                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                                resultPositiveTagsInterval[intervalStart].value += convEvent.count;
+                                            else
+                                                resultPositiveTagsInterval[monthDateTime].value += convEvent.count;
+                                        }
                                         else
-                                            resultPositiveTagsInterval[monthDateTime].value += convEvent.count;
-                                    }
-                                    else
-                                    {
-                                        if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                            resultNegativeTagsInterval[intervalStart].value += convEvent.count;
-                                        else
-                                            resultNegativeTagsInterval[monthDateTime].value += convEvent.count;
+                                        {
+                                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                                resultNegativeTagsInterval[intervalStart].value += convEvent.count;
+                                            else
+                                                resultNegativeTagsInterval[monthDateTime].value += convEvent.count;
+                                        }
                                     }
                                 }
                             }
-                        }
-                        else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-                        {
-                            // Test if conversation had activity in that period.
-                            var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
-                            if (allMsg > 0)
+                            else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
                             {
-                                var convEvents = from convEvent in conv.ConversationEvents
-                                                 where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT)) &&
-                                                 (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
-                                                 group convEvent by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Date), eventType = convEvent.EventTypeName }
-                                                     into g
-                                                     select new { key = g.Key, count = g.Count() };
-                                foreach (var convEvent in convEvents)
+                                // Test if conversation had activity in that period.
+                                var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
+                                if (allMsg > 0)
                                 {
-                                    var weekDateTime = convEvent.key.firstDayOfTheWeek;
-                                    if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                                    var convEvents = from convEvent in conv.ConversationEvents
+                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT)) &&
+                                                     (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
+                                                     group convEvent by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Date), eventType = convEvent.EventTypeName }
+                                                         into g
+                                                         select new { key = g.Key, count = g.Count() };
+                                    foreach (var convEvent in convEvents)
                                     {
-                                        if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                            resultPositiveTagsInterval[intervalStart].value += convEvent.count;
+                                        var weekDateTime = convEvent.key.firstDayOfTheWeek;
+                                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                                        {
+                                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                                                resultPositiveTagsInterval[intervalStart].value += convEvent.count;
+                                            else
+                                                resultPositiveTagsInterval[weekDateTime].value += convEvent.count;
+                                        }
                                         else
-                                            resultPositiveTagsInterval[weekDateTime].value += convEvent.count;
-                                    }
-                                    else
-                                    {
-                                        if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                            resultNegativeTagsInterval[intervalStart].value += convEvent.count;
-                                        else
-                                            resultNegativeTagsInterval[weekDateTime].value += convEvent.count;
+                                        {
+                                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                                                resultNegativeTagsInterval[intervalStart].value += convEvent.count;
+                                            else
+                                                resultNegativeTagsInterval[weekDateTime].value += convEvent.count;
+                                        }
                                     }
                                 }
                             }
@@ -471,27 +474,32 @@ namespace SmsFeedback_Take4.Controllers
                 {
                     foreach (var conv in wp.Conversations)
                     {
-                        // Test if conversation had activity in that period.
-                        var pastConvEvents = from convEvent in conv.ConversationEvents
-                                             where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                             convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
-                                             convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
-                                             convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
-                                             convEvent.Equals(Constants.NEG_TO_POS_EVENT) ||
-                                             convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT)) &&
-                                             convEvent.Date < intervalStart)
-                                             group convEvent by new { eventType = convEvent.EventTypeName } into g
-                                             select new { key = g.Key, count = g.Count() };
-
-                        foreach (var pastEvent in pastConvEvents)
+                        if (!conv.Client.isSupportClient)
                         {
-                            if (pastEvent.key.eventType.Equals(Constants.POS_ADD_EVENT)) posFeedback += pastEvent.count;
-                            else if (pastEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT)) negFeedback += pastEvent.count;
-                            else if (pastEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT)) { negFeedback += pastEvent.count; posFeedback -= pastEvent.count; }
-                            else if (pastEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT)) { posFeedback += pastEvent.count; negFeedback -= pastEvent.count; }
-                            else if (pastEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT)) { posFeedback -= pastEvent.count; }
-                            else if (pastEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT)) { negFeedback -= pastEvent.count; }
+                            // Test if conversation had activity in that period.
+                            var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
+                            if (allMsg > 0)
+                            {
+                                var pastEvents = (from convEvent in conv.ConversationEvents
+                                                  where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
+                                                  convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
+                                                  convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT) ||
+                                                  convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT)) &&
+                                                  convEvent.Date < intervalStart)
+                                                  group convEvent by new { eventDate = convEvent.Date, eventType = convEvent.EventTypeName } into g
+                                                  select new { key = g.Key, count = g.Count() }).OrderByDescending(c => c.key.eventDate);
+
+                                if (pastEvents.Count() > 0)
+                                {
+                                    var pastEvent = pastEvents.First();
+                                    if (pastEvent.key.eventType.Equals(Constants.POS_ADD_EVENT)) posFeedback += pastEvent.count;
+                                    else if (pastEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT)) negFeedback += pastEvent.count;
+                                    else if (pastEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT)) { negFeedback += pastEvent.count; }
+                                    else if (pastEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT)) { posFeedback += pastEvent.count; }
+                                }
+                            }
                         }
+
                     }
                 }
                 posFeedbackEvolution = posFeedback;
@@ -502,60 +510,54 @@ namespace SmsFeedback_Take4.Controllers
                 {
                     foreach (var conv in wp.Conversations)
                     {
-                        if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+                        if (!conv.Client.isSupportClient)
                         {
                             var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
                             if (allMsg > 0)
                             {
-                                var convEvents = (from convEvent in conv.ConversationEvents
-                                                  where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                  convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
-                                                  convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
-                                                  convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
-                                                  convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT) ||
-                                                  convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT)) &&
-                                                  convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd)
-                                                  group convEvent by new { occurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName } into g
-                                                  select new EventCounter(new Event(g.Key.occurDate, g.Key.eventType), g.Count()));
+                                if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+                                {
 
-                                if (convEvents.Count() > 0) allEvents.AddRange(convEvents.ToList<EventCounter>());
-
-                            }
-                        }
-                        else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
-                        {
-                            var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
-                            if (allMsg > 0)
-                            {
-                                var convEvents = from convEvent in conv.ConversationEvents
-                                                 where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT)) &&
-                                                 convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd)
-                                                 group convEvent by new { Month = convEvent.Date.Month, Year = convEvent.Date.Year, eventType = convEvent.EventTypeName } into g
-                                                 select new EventCounter(new Event((new DateTime(g.Key.Year, g.Key.Month, 1).CompareTo(intervalStart) < 0 ? intervalStart : new DateTime(g.Key.Year, g.Key.Month, 1)), g.Key.eventType), g.Count());
-                                if (convEvents.Count() > 0) allEvents.AddRange(convEvents.ToList<EventCounter>());
-                            }
-                        }
-                        else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-                        {
-                            var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
-                            if (allMsg > 0)
-                            {
-                                var convEvents = from convEvent in conv.ConversationEvents
-                                                 where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT)) &&
-                                                 convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd)
-                                                 group convEvent by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Date), eventType = convEvent.EventTypeName } into g
-                                                 select new EventCounter(new Event((g.Key.firstDayOfTheWeek.CompareTo(intervalStart) < 0 ? intervalStart : g.Key.firstDayOfTheWeek), g.Key.eventType), g.Count());
-                                if (convEvents.Count() > 0) allEvents.AddRange(convEvents.ToList<EventCounter>());
+                                    var convEvents = (from convEvent in conv.ConversationEvents
+                                                      where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
+                                                      convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
+                                                      convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
+                                                      convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
+                                                      convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT) ||
+                                                      convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT)) &&
+                                                      convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd)
+                                                      group convEvent by new { occurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName } into g
+                                                      select new EventCounter(new Event(g.Key.occurDate, g.Key.eventType), g.Count()));
+                                    if (convEvents.Count() > 0) allEvents.AddRange(convEvents.ToList<EventCounter>());
+                                }
+                                else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
+                                {
+                                    var convEvents = from convEvent in conv.ConversationEvents
+                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT)) &&
+                                                     convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd)
+                                                     group convEvent by new { Month = convEvent.Date.Month, Year = convEvent.Date.Year, eventType = convEvent.EventTypeName } into g
+                                                     select new EventCounter(new Event((new DateTime(g.Key.Year, g.Key.Month, 1).CompareTo(intervalStart) < 0 ? intervalStart : new DateTime(g.Key.Year, g.Key.Month, 1)), g.Key.eventType), g.Count());
+                                    if (convEvents.Count() > 0) allEvents.AddRange(convEvents.ToList<EventCounter>());
+                                }
+                                else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
+                                {
+                                    var convEvents = from convEvent in conv.ConversationEvents
+                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT)) &&
+                                                     convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd)
+                                                     group convEvent by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Date), eventType = convEvent.EventTypeName } into g
+                                                     select new EventCounter(new Event((g.Key.firstDayOfTheWeek.CompareTo(intervalStart) < 0 ? intervalStart : g.Key.firstDayOfTheWeek), g.Key.eventType), g.Count());
+                                    if (convEvents.Count() > 0) allEvents.AddRange(convEvents.ToList<EventCounter>());
+                                }
                             }
                         }
                     }
@@ -599,8 +601,8 @@ namespace SmsFeedback_Take4.Controllers
                         }
                         else
                         {
-                            if (!resultPositiveTagsInterval[i].changed) resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[i.AddMonths(-1)].value;                                
-                            if (!resultNegativeTagsInterval[i].changed) resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[i.AddMonths(-1)].value;                            
+                            if (!resultPositiveTagsInterval[i].changed) resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[i.AddMonths(-1)].value;
+                            if (!resultNegativeTagsInterval[i].changed) resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[i.AddMonths(-1)].value;
                         }
                     }
                 }
@@ -617,8 +619,8 @@ namespace SmsFeedback_Take4.Controllers
                         }
                         else
                         {
-                            if (!resultPositiveTagsInterval[i].changed) resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[calendar.AddWeeks(i, -1)].value;                                
-                            if (!resultNegativeTagsInterval[i].changed) resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[calendar.AddWeeks(i, -1)].value; 
+                            if (!resultPositiveTagsInterval[i].changed) resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[calendar.AddWeeks(i, -1)].value;
+                            if (!resultNegativeTagsInterval[i].changed) resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[calendar.AddWeeks(i, -1)].value;
                         }
                     }
                 }
@@ -652,97 +654,100 @@ namespace SmsFeedback_Take4.Controllers
                 {
                     foreach (var conv in wp.Conversations)
                     {
-                        if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+                        if (!conv.Client.isSupportClient)
                         {
-                            // Test if conversation had activity in that period.
-                            var allMsg = (from msg in conv.Messages
-                                          where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd)
-                                          select msg).Count();
-                            if (allMsg > 0)
+                            if (iGranularity.Equals(Constants.DAY_GRANULARITY))
                             {
-                                var convEvents = from convEvent in conv.ConversationEvents
-                                                 where ((convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
-                                                 (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
-                                                 group convEvent by new { occurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName }
-                                                     into g
-                                                     select new { key = g.Key, count = g.Count() };
-                                foreach (var convEvent in convEvents)
+                                // Test if conversation had activity in that period.
+                                var allMsg = (from msg in conv.Messages
+                                              where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd)
+                                              select msg).Count();
+                                if (allMsg > 0)
                                 {
-                                    if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                                    var convEvents = from convEvent in conv.ConversationEvents
+                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
+                                                     (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
+                                                     group convEvent by new { occurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName }
+                                                         into g
+                                                         select new { key = g.Key, count = g.Count() };
+                                    foreach (var convEvent in convEvents)
                                     {
-                                        resultPosToNegTransitionsInterval[convEvent.key.occurDate].value += convEvent.count;
+                                        if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                                        {
+                                            resultPosToNegTransitionsInterval[convEvent.key.occurDate].value += convEvent.count;
+                                        }
+                                        else
+                                        {
+                                            resultNegToPosTransitionsInterval[convEvent.key.occurDate].value += convEvent.count;
+                                        }
                                     }
-                                    else
-                                    {
-                                        resultNegToPosTransitionsInterval[convEvent.key.occurDate].value += convEvent.count;
-                                    }
-                                }
 
+                                }
                             }
-                        }
-                        else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
-                        {
-                            // Test if conversation had activity in that period.
-                            var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
-                            if (allMsg > 0)
+                            else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
                             {
-                                var convEvents = from convEvent in conv.ConversationEvents
-                                                 where ((convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
-                                                 (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
-                                                 group convEvent by new { Month = convEvent.Date.Month, Year = convEvent.Date.Year, eventType = convEvent.EventTypeName }
-                                                     into g
-                                                     select new { key = g.Key, count = g.Count() };
-                                foreach (var convEvent in convEvents)
+                                // Test if conversation had activity in that period.
+                                var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
+                                if (allMsg > 0)
                                 {
-                                    var monthDateTime = new DateTime(convEvent.key.Year, convEvent.key.Month, 1);
-                                    if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                                    var convEvents = from convEvent in conv.ConversationEvents
+                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
+                                                     (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
+                                                     group convEvent by new { Month = convEvent.Date.Month, Year = convEvent.Date.Year, eventType = convEvent.EventTypeName }
+                                                         into g
+                                                         select new { key = g.Key, count = g.Count() };
+                                    foreach (var convEvent in convEvents)
                                     {
-                                        if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                            resultPosToNegTransitionsInterval[intervalStart].value += convEvent.count;
+                                        var monthDateTime = new DateTime(convEvent.key.Year, convEvent.key.Month, 1);
+                                        if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                                        {
+                                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                                resultPosToNegTransitionsInterval[intervalStart].value += convEvent.count;
+                                            else
+                                                resultPosToNegTransitionsInterval[monthDateTime].value += convEvent.count;
+                                        }
                                         else
-                                            resultPosToNegTransitionsInterval[monthDateTime].value += convEvent.count;
-                                    }
-                                    else
-                                    {
-                                        if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                            resultNegToPosTransitionsInterval[intervalStart].value += convEvent.count;
-                                        else
-                                            resultNegToPosTransitionsInterval[monthDateTime].value += convEvent.count;
+                                        {
+                                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                                resultNegToPosTransitionsInterval[intervalStart].value += convEvent.count;
+                                            else
+                                                resultNegToPosTransitionsInterval[monthDateTime].value += convEvent.count;
+                                        }
                                     }
                                 }
                             }
-                        }
-                        else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-                        {
-                            // Test if conversation had activity in that period.
-                            var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
-                            if (allMsg > 0)
+                            else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
                             {
-                                var convEvents = from convEvent in conv.ConversationEvents
-                                                 where ((convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
-                                                 convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
-                                                 (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
-                                                 group convEvent by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Date), eventType = convEvent.EventTypeName }
-                                                     into g
-                                                     select new { key = g.Key, count = g.Count() };
-                                foreach (var convEvent in convEvents)
+                                // Test if conversation had activity in that period.
+                                var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
+                                if (allMsg > 0)
                                 {
-                                    var weekDateTime = convEvent.key.firstDayOfTheWeek;
-                                    if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                                    var convEvents = from convEvent in conv.ConversationEvents
+                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
+                                                     (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
+                                                     group convEvent by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Date), eventType = convEvent.EventTypeName }
+                                                         into g
+                                                         select new { key = g.Key, count = g.Count() };
+                                    foreach (var convEvent in convEvents)
                                     {
-                                        if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                            resultPosToNegTransitionsInterval[intervalStart].value += convEvent.count;
+                                        var weekDateTime = convEvent.key.firstDayOfTheWeek;
+                                        if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                                        {
+                                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                                                resultPosToNegTransitionsInterval[intervalStart].value += convEvent.count;
+                                            else
+                                                resultPosToNegTransitionsInterval[weekDateTime].value += convEvent.count;
+                                        }
                                         else
-                                            resultPosToNegTransitionsInterval[weekDateTime].value += convEvent.count;
-                                    }
-                                    else
-                                    {
-                                        if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                            resultNegToPosTransitionsInterval[intervalStart].value += convEvent.count;
-                                        else
-                                            resultNegToPosTransitionsInterval[weekDateTime].value += convEvent.count;
+                                        {
+                                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                                                resultNegToPosTransitionsInterval[intervalStart].value += convEvent.count;
+                                            else
+                                                resultNegToPosTransitionsInterval[weekDateTime].value += convEvent.count;
+                                        }
                                     }
                                 }
                             }
