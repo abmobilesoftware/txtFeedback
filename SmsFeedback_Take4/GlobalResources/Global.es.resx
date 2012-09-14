@@ -568,4 +568,37 @@
   <data name="RepPosToNegFeedback" xml:space="preserve">
     <value>Positive to negative feedback ES</value>
   </data>
+  <data name="RepNegFeedbackAdded" xml:space="preserve">
+    <value>Negative feedback added ES</value>
+  </data>
+  <data name="RepNegFeedbackRemoved" xml:space="preserve">
+    <value>Negative feedback removed ES</value>
+  </data>
+  <data name="RepPosFeedbackAdded" xml:space="preserve">
+    <value>Positive feedback added ES</value>
+  </data>
+  <data name="RepPosFeedbackRemoved" xml:space="preserve">
+    <value>Positive feedback removed ES</value>
+  </data>
+  <data name="RepIncomingOutgoingChartTitle" xml:space="preserve">
+    <value>Incoming and outgoing SMS ES</value>
+  </data>
+  <data name="RepNewReturningClientsChartTitle" xml:space="preserve">
+    <value>New and returning clients ES</value>
+  </data>
+  <data name="RepNoOfConversationsByTagsChartTitle" xml:space="preserve">
+    <value>Number of conversations by tags ES</value>
+  </data>
+  <data name="RepOverviewChartTitle" xml:space="preserve">
+    <value>Total number of SMS ES</value>
+  </data>
+  <data name="RepPositiveNegativeActivityChartTitle" xml:space="preserve">
+    <value>Positive and negative tags activity ES</value>
+  </data>
+  <data name="RepPositiveNegativeEvolutionChartTitle" xml:space="preserve">
+    <value>Positive and negative feedback evolution ES</value>
+  </data>
+  <data name="RepPositiveNegativeTransitionsChartTitle" xml:space="preserve">
+    <value>Positive and negative transitions ES</value>
+  </data>
 </root>

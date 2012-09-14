@@ -14,6 +14,7 @@ function FirstArea(iResource, iGranularity, iOptions, iId) {
         vAxis: { gridlines: { count: 4 } }
     };
     options.seriesType = iOptions.seriesType;
+    options.colors = iOptions.colors;
 
     var identifier = iId;
     

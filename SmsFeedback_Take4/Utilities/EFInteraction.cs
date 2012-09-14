@@ -36,14 +36,70 @@ namespace SmsFeedback_Take4.Utilities
         /// <param name="conversationId">Id of the conversation</param>
         /// <param name="eventType">The type of the event</param>
         /// <returns>The conversation history event</returns>
-        public ConversationHistory AddAnEventInConversationHistory(string conversationId, string eventType, smsfeedbackEntities dbContext)
+        public void AddAnEventInConversationHistory(string conversationId, string eventType, smsfeedbackEntities dbContext)
         {
             var conversation = (from conv in dbContext.Conversations where conv.ConvId == conversationId select conv).First();
             var message = (from msg in conversation.Messages where (msg.From != conversation.WorkingPoint_TelNumber) select msg).OrderByDescending(m => m.TimeReceived);
-           
-                try
+
+            try
+            {
+                // in normal conditions this condition should be always true
+                if (message.Count() > 0)
                 {
-                    if (message.Count() > 0)
+                    var convEvents = (from convEvent in conversation.ConversationEvents select convEvent).OrderByDescending(c => c.Date);
+                    if (convEvents.Count() > 1)
+                    {
+                        // since last event at least one new message arrived
+                        if (convEvents.First().Message.Id < message.First().Id)
+                        {
+                            var conversationEvent = new ConversationHistory()
+                            {
+                                ConversationConvId = conversationId,
+                                Sequence = conversation.LastSequence,
+                                EventTypeName = eventType,
+                                Date = DateTime.Now.ToUniversalTime(),
+                                MessageId = message.First().Id
+                            };
+                            dbContext.ConversationHistories.AddObject(conversationEvent);
+                            dbContext.SaveChanges();
+                        }                        
+                        else if (convEvents.First().Message.Id == message.First().Id)
+                        {
+                            if (eventType.Equals(Constants.NEG_TO_POS_EVENT) ||
+                                eventType.Equals(Constants.POS_TO_NEG_EVENT) ||
+                                eventType.Equals(Constants.POS_ADD_EVENT) ||
+                                eventType.Equals(Constants.NEG_ADD_EVENT) || 
+                                eventType.Equals(Constants.POS_REMOVE_EVENT) ||
+                                eventType.Equals(Constants.NEG_REMOVE_EVENT)) 
+                            {
+                                dbContext.ConversationHistories.DeleteObject(convEvents.First());
+                                dbContext.SaveChanges();
+                            }
+                        }
+                    }
+                    else if (convEvents.Count() == 1)
+                    {
+                        if (convEvents.First().Message.Id == message.First().Id)
+                        {
+                            ConversationHistory convEvent = convEvents.First();
+                            convEvent.EventTypeName = eventType;
+                            dbContext.SaveChanges();
+                        }
+                        else if (convEvents.First().Message.Id < message.First().Id)
+                        {
+                            var conversationEvent = new ConversationHistory()
+                            {
+                                ConversationConvId = conversationId,
+                                Sequence = conversation.LastSequence,
+                                EventTypeName = eventType,
+                                Date = DateTime.Now.ToUniversalTime(),
+                                MessageId = message.First().Id
+                            };
+                            dbContext.ConversationHistories.AddObject(conversationEvent);
+                            dbContext.SaveChanges();
+                        }
+                    }
+                    else
                     {
                         var conversationEvent = new ConversationHistory()
                         {
@@ -55,19 +111,14 @@ namespace SmsFeedback_Take4.Utilities
                         };
                         dbContext.ConversationHistories.AddObject(conversationEvent);
                         dbContext.SaveChanges();
-                        return conversationEvent;
-                    }
-                    else
-                    {
-                        return null;
                     }
                 }
-                catch (Exception ex)
-                {
-                    logger.Error("Error occurred in AddAnEventInConversationHistory", ex);
-                    return null;
-                }
-            
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error occurred in AddAnEventInConversationHistory", ex);
+            }
+
         }
 
         /// <summary>
@@ -414,25 +465,25 @@ namespace SmsFeedback_Take4.Utilities
             return incommingMsgs;
         }
 
-     public void SaveWpsForUser(string user, List<Models.WorkingPoint> wps, smsfeedbackEntities dbContext)
-     {
-        //to avoid security issues - work only on the working points accessible to this user
-        var users = from us in dbContext.Users where us.UserName == user select us;
-        if (users.Count() == 1)
+        public void SaveWpsForUser(string user, List<Models.WorkingPoint> wps, smsfeedbackEntities dbContext)
         {
-           var usr = users.First();
-           foreach (Models.WorkingPoint wp in wps)
-           {
-              var newWp = from w in usr.WorkingPoints where w.TelNumber == wp.TelNumber select w;
-              if (newWp.Count() == 1)
-              {
-                 newWp.First().Name = wp.Name;
-                 newWp.First().Description = wp.Description;
-              }
-           }
-           dbContext.SaveChanges();
-        }
+            //to avoid security issues - work only on the working points accessible to this user
+            var users = from us in dbContext.Users where us.UserName == user select us;
+            if (users.Count() == 1)
+            {
+                var usr = users.First();
+                foreach (Models.WorkingPoint wp in wps)
+                {
+                    var newWp = from w in usr.WorkingPoints where w.TelNumber == wp.TelNumber select w;
+                    if (newWp.Count() == 1)
+                    {
+                        newWp.First().Name = wp.Name;
+                        newWp.First().Description = wp.Description;
+                    }
+                }
+                dbContext.SaveChanges();
+            }
 
-     }
+        }
     }
 }
