@@ -210,6 +210,7 @@ function TagsArea() {
                   self.sendEventToServer("negToPos");
                   window.app.silentRemove = true;
                   $("#tags").removeTag(oppositeTagName);
+                  window.app.silentRemove = false;
               } else {
                   self.sendEventToServer("posAdd");
               }
@@ -222,6 +223,7 @@ function TagsArea() {
                   self.sendEventToServer("posToNeg");
                   window.app.silentRemove = true;
                   $("#tags").removeTag(oppositeTagName, true);
+                  window.app.silentRemove = false;
               } else {
                   self.sendEventToServer("negAdd");
               }
