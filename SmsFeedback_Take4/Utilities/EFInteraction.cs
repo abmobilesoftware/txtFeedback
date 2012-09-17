@@ -350,9 +350,9 @@ namespace SmsFeedback_Take4.Utilities
             //if the conversation is marked as "favourite" then all the messages will be "favourite"
             var isConvFavourite = IsConversationFavourite(convID, dbContext);
             var msgs = from conv in dbContext.Conversations
-                       where conv.ConvId == convID
+                       where conv.ConvId == convID 
                        select
-                          (from msg in conv.Messages
+                          (from msg in conv.Messages 
                            select new SmsMessage()
                            {
                                From = msg.From,
@@ -372,7 +372,7 @@ namespace SmsFeedback_Take4.Utilities
                            });
             if (msgs.Count() > 0)
             {
-                return msgs.First();
+                return msgs.First().OrderBy(x=>x.TimeReceived);
             }
             else
             {
