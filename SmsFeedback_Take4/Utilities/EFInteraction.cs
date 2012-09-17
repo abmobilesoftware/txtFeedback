@@ -38,6 +38,30 @@ namespace SmsFeedback_Take4.Utilities
         /// <returns>The conversation history event</returns>
         public void AddAnEventInConversationHistory(string conversationId, string eventType, smsfeedbackEntities dbContext)
         {
+            Dictionary<string, string> eventTable = new Dictionary<string, string>();
+            eventTable.Add("pos-pos", Constants.NOE);
+            eventTable.Add("pos-neuter", Constants.POS_REMOVE_EVENT);
+            eventTable.Add("pos-neg", Constants.POS_TO_NEG_EVENT);
+            eventTable.Add("neg-pos", Constants.NEG_TO_POS_EVENT);
+            eventTable.Add("neg-neuter", Constants.NEG_REMOVE_EVENT);
+            eventTable.Add("neg-neg", Constants.NOE);
+            eventTable.Add("neuter-pos", Constants.POS_ADD_EVENT);
+            eventTable.Add("neuter-neuter", Constants.NOE);
+            eventTable.Add("neuter-neg", Constants.NEG_ADD_EVENT);
+
+            Dictionary<string, string> eventStateValue = new Dictionary<string, string>();
+            eventStateValue.Add(Constants.POS_ADD_EVENT, Constants.POSITIVE);
+            eventStateValue.Add(Constants.NEG_ADD_EVENT, Constants.NEGATIVE);
+            eventStateValue.Add(Constants.NEG_TO_POS_EVENT, Constants.POSITIVE);
+            eventStateValue.Add(Constants.POS_TO_NEG_EVENT, Constants.NEGATIVE);
+            eventStateValue.Add(Constants.POS_REMOVE_EVENT, Constants.NEUTER);
+            eventStateValue.Add(Constants.NEG_REMOVE_EVENT, Constants.NEUTER);
+
+            Dictionary<string, string> stateToEvent = new Dictionary<string, string>();
+            stateToEvent.Add(Constants.POSITIVE, Constants.POS_ADD_EVENT);
+            stateToEvent.Add(Constants.NEGATIVE, Constants.NEG_ADD_EVENT);
+            stateToEvent.Add(Constants.NEUTER, Constants.NOE);
+
             var conversation = (from conv in dbContext.Conversations where conv.ConvId == conversationId select conv).First();
             // get the last message of the conversation
             var message = (from msg in conversation.Messages where (msg.From != conversation.WorkingPoint_TelNumber) select msg).OrderByDescending(m => m.TimeReceived);
@@ -53,9 +77,16 @@ namespace SmsFeedback_Take4.Utilities
                         // test if at least one new message had arrived since the last event was added
                         if (convEvents.First().Message.Id < message.First().Id)
                         {
+                            if (convEvents.First().EventTypeName.Equals(Constants.NOE))
+                            {
+                                var eventName = convEvents.First().EventTypeName;
+                                convEvents.First().EventTypeName = convEvents.ElementAt(1).EventTypeName;
+                                convEvents.ElementAt(1).EventTypeName = eventName;
+                                dbContext.SaveChanges();
+                            }
                             addEventInConversationHistory(conversationId,
                                 conversation.LastSequence,
-                                eventType,
+                                eventTable[eventStateValue[convEvents.First().EventTypeName] + "-" + eventType],
                                 DateTime.Now.ToUniversalTime(),
                                 message.First().Id,
                                 dbContext);
@@ -63,75 +94,58 @@ namespace SmsFeedback_Take4.Utilities
                         // no new message arrived
                         else if (convEvents.First().Message.Id == message.First().Id)
                         {
-                            if (eventType.Equals(Constants.NEG_TO_POS_EVENT) ||
-                                eventType.Equals(Constants.POS_TO_NEG_EVENT) ||
-                                eventType.Equals(Constants.POS_ADD_EVENT) ||
-                                eventType.Equals(Constants.NEG_ADD_EVENT) ||
-                                eventType.Equals(Constants.POS_REMOVE_EVENT) ||
-                                eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                            {
-                                dbContext.ConversationHistories.DeleteObject(convEvents.First());
-                                dbContext.SaveChanges();
-                            }
+                            ConversationHistory convEvent = convEvents.First();
+                            convEvent.EventTypeName = eventTable[eventStateValue[convEvents.ElementAt(1).EventTypeName] + "-" + eventType];
+                            dbContext.SaveChanges();
                         }
                     }
-                    // it's the first event
                     else if (convEvents.Count() == 1)
                     {
-                        // no new message arrived, the first event should be updated or deleted
-                        if (convEvents.First().Message.Id == message.First().Id)
-                        {
-                            string newTypeOfTheEvent = Constants.NEG_ADD_EVENT;
-                            string operation = "update";
-                            if (eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                            {
-                                newTypeOfTheEvent = Constants.NEG_ADD_EVENT;
-                            }
-                            else if (eventType.Equals(Constants.NEG_TO_POS_EVENT))
-                            {
-                                newTypeOfTheEvent = Constants.POS_ADD_EVENT;
-                            }
-                            else if (eventType.Equals(Constants.POS_ADD_EVENT) || eventType.Equals(Constants.NEG_ADD_EVENT))
-                            {
-                                newTypeOfTheEvent = eventType;
-                            }
-                            else if (eventType.Equals(Constants.POS_REMOVE_EVENT) || eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                            {
-                                operation = "delete";
-                            }
-                            if (operation.Equals("update"))
-                            {
-                                ConversationHistory convEvent = convEvents.First();
-                                convEvent.EventTypeName = newTypeOfTheEvent;
-                                dbContext.SaveChanges();
-                            }
-                            else if (operation.Equals("delete"))
-                            {
-                                dbContext.ConversationHistories.DeleteObject(convEvents.First());
-                                dbContext.SaveChanges();
-                            }
-
-                        }
-                        // new message arrived, add new event
-                        else if (convEvents.First().Message.Id < message.First().Id)
+                        // test if at least one new message had arrived since the last event was added
+                        if (convEvents.First().Message.Id < message.First().Id)
                         {
                             addEventInConversationHistory(conversationId,
                                 conversation.LastSequence,
-                                eventType,
+                                eventTable[eventStateValue[convEvents.First().EventTypeName] + "-" + eventType],
                                 DateTime.Now.ToUniversalTime(),
                                 message.First().Id,
                                 dbContext);
                         }
+                        // no new message arrived
+                        else if (convEvents.First().Message.Id == message.First().Id)
+                        {
+                            var currentEvent = eventTable[eventStateValue[convEvents.First().EventTypeName] + "-" + eventType];
+                            if (!(currentEvent.Equals(Constants.POS_REMOVE_EVENT) || currentEvent.Equals(Constants.NEG_REMOVE_EVENT)))
+                            {
+                                var eventTransformed = Constants.POS_ADD_EVENT;
+                                if (currentEvent.Equals(Constants.POS_TO_NEG_EVENT)) {
+                                    eventTransformed = Constants.NEG_ADD_EVENT;
+                                } else if (currentEvent.Equals(Constants.NEG_TO_POS_EVENT)) {
+                                    eventTransformed = Constants.POS_ADD_EVENT;
+                                } else {
+                                    eventTransformed = currentEvent;
+                                }
+                                ConversationHistory convEvent = convEvents.First();
+                                convEvent.EventTypeName = eventTransformed;
+                                dbContext.SaveChanges();
+                            }
+                            else
+                            {
+                                dbContext.ConversationHistories.DeleteObject(convEvents.First());
+                                dbContext.SaveChanges();
+                            }
+                        }
+
                     }
                     // there's no event for this conversation, add the first event
                     else
                     {
                         addEventInConversationHistory(conversationId,
-                            conversation.LastSequence,
-                            eventType,
-                            DateTime.Now.ToUniversalTime(),
-                            message.First().Id,
-                            dbContext);
+                                conversation.LastSequence,
+                                stateToEvent[eventType],
+                                DateTime.Now.ToUniversalTime(),
+                                message.First().Id,
+                                dbContext);
                     }
                 }
             }

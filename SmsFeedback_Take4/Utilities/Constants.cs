@@ -27,5 +27,9 @@ namespace SmsFeedback_Take4.Utilities
         public const string NEG_TO_POS_EVENT = "negToPos";
         public const string POS_REMOVE_EVENT = "posRemove";
         public const string NEG_REMOVE_EVENT = "negRemove";
+        public const string NOE = "noEvent";
+        public const string POSITIVE = "pos";
+        public const string NEGATIVE = "neg";
+        public const string NEUTER = "neuter";
     }
 }
