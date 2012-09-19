@@ -397,6 +397,22 @@ namespace SmsFeedback_EFModels
             }
         }
         private ObjectSet<ConversationHistory> _ConversationHistories;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Log> Logs
+        {
+            get
+            {
+                if ((_Logs == null))
+                {
+                    _Logs = base.CreateObjectSet<Log>("Logs");
+                }
+                return _Logs;
+            }
+        }
+        private ObjectSet<Log> _Logs;
 
         #endregion
 
@@ -552,6 +568,14 @@ namespace SmsFeedback_EFModels
         public void AddToConversationHistories(ConversationHistory conversationHistory)
         {
             base.AddObject("ConversationHistories", conversationHistory);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Logs EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToLogs(Log log)
+        {
+            base.AddObject("Logs", log);
         }
 
         #endregion
@@ -2388,6 +2412,232 @@ namespace SmsFeedback_EFModels
 
         #endregion
 
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="smsfeedbackModel", Name="Log")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Log : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Log object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="date">Initial value of the Date property.</param>
+        /// <param name="thread">Initial value of the Thread property.</param>
+        /// <param name="level">Initial value of the Level property.</param>
+        /// <param name="logger">Initial value of the Logger property.</param>
+        /// <param name="message">Initial value of the Message property.</param>
+        public static Log CreateLog(global::System.Int32 id, global::System.DateTime date, global::System.String thread, global::System.String level, global::System.String logger, global::System.String message)
+        {
+            Log log = new Log();
+            log.Id = id;
+            log.Date = date;
+            log.Thread = thread;
+            log.Level = level;
+            log.Logger = logger;
+            log.Message = message;
+            return log;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime Date
+        {
+            get
+            {
+                return _Date;
+            }
+            set
+            {
+                if (_Date != value)
+                {
+                    OnDateChanging(value);
+                    ReportPropertyChanging("Date");
+                    _Date = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Date");
+                    OnDateChanged();
+                }
+            }
+        }
+        private global::System.DateTime _Date;
+        partial void OnDateChanging(global::System.DateTime value);
+        partial void OnDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Thread
+        {
+            get
+            {
+                return _Thread;
+            }
+            set
+            {
+                if (_Thread != value)
+                {
+                    OnThreadChanging(value);
+                    ReportPropertyChanging("Thread");
+                    _Thread = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("Thread");
+                    OnThreadChanged();
+                }
+            }
+        }
+        private global::System.String _Thread;
+        partial void OnThreadChanging(global::System.String value);
+        partial void OnThreadChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Level
+        {
+            get
+            {
+                return _Level;
+            }
+            set
+            {
+                if (_Level != value)
+                {
+                    OnLevelChanging(value);
+                    ReportPropertyChanging("Level");
+                    _Level = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("Level");
+                    OnLevelChanged();
+                }
+            }
+        }
+        private global::System.String _Level;
+        partial void OnLevelChanging(global::System.String value);
+        partial void OnLevelChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Logger
+        {
+            get
+            {
+                return _Logger;
+            }
+            set
+            {
+                if (_Logger != value)
+                {
+                    OnLoggerChanging(value);
+                    ReportPropertyChanging("Logger");
+                    _Logger = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("Logger");
+                    OnLoggerChanged();
+                }
+            }
+        }
+        private global::System.String _Logger;
+        partial void OnLoggerChanging(global::System.String value);
+        partial void OnLoggerChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Message
+        {
+            get
+            {
+                return _Message;
+            }
+            set
+            {
+                if (_Message != value)
+                {
+                    OnMessageChanging(value);
+                    ReportPropertyChanging("Message");
+                    _Message = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("Message");
+                    OnMessageChanged();
+                }
+            }
+        }
+        private global::System.String _Message;
+        partial void OnMessageChanging(global::System.String value);
+        partial void OnMessageChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Exception
+        {
+            get
+            {
+                return _Exception;
+            }
+            set
+            {
+                OnExceptionChanging(value);
+                ReportPropertyChanging("Exception");
+                _Exception = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Exception");
+                OnExceptionChanged();
+            }
+        }
+        private global::System.String _Exception;
+        partial void OnExceptionChanging(global::System.String value);
+        partial void OnExceptionChanged();
+
+        #endregion
+
+    
     }
     
     /// <summary>
