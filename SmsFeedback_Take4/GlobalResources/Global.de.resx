@@ -553,13 +553,13 @@
     <value>Negatives feedback</value>
   </data>
   <data name="RepNegToPosFeedback" xml:space="preserve">
-    <value>Negative to positive feedback</value>
+    <value>Negative to positive feedback DE</value>
   </data>
   <data name="RepPositiveFeedback" xml:space="preserve">
     <value>Positives feedback </value>
   </data>
   <data name="RepPosToNegFeedback" xml:space="preserve">
-    <value>Positive to negative feedback</value>
+    <value>Positive to negative feedback DE</value>
   </data>
   <data name="RepNegFeedbackAdded" xml:space="preserve">
     <value>Negative feedback added DE</value>

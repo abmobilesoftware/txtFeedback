@@ -490,7 +490,7 @@ namespace SmsFeedback_Take4.Controllers
                 content.Add(resultPositiveTagsInterval);
                 content.Add(resultNegativeTagsInterval);
                 content.Add(resultRemovePositiveTagsInterval);
-                content.Add(resultRemovePositiveTagsInterval);
+                content.Add(resultRemoveNegativeTagsInterval);
                 RepChartData chartSource = new RepChartData(new RepDataColumn[] { 
                     new RepDataColumn("16", Constants.STRING_COLUMN_TYPE, "Date"), 
                     new RepDataColumn("17", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosFeedbackAdded), 
