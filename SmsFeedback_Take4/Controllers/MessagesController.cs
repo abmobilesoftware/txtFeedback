@@ -345,7 +345,7 @@ namespace SmsFeedback_Take4.Controllers
             try
             {
                 smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-                var previousConv = mEFInterface.AddAnEventInConversationHistory(conversationId, eventType, lContextPerRequest);
+                mEFInterface.AddAnEventInConversationHistory(conversationId, eventType, lContextPerRequest);
                 return Json("Successfully added", JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

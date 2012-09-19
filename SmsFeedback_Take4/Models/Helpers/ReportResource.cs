@@ -21,7 +21,7 @@ namespace SmsFeedback_Take4.Models.Helpers
             tooltip = iTooltip;
             if (options == null)
             {
-                options = new ReportResourceOptions("area");
+                options = new ReportResourceOptions(iSeriesType : "area");
             }
             if (tooltip == null)
             {

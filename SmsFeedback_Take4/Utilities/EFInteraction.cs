@@ -36,38 +36,138 @@ namespace SmsFeedback_Take4.Utilities
         /// <param name="conversationId">Id of the conversation</param>
         /// <param name="eventType">The type of the event</param>
         /// <returns>The conversation history event</returns>
-        public ConversationHistory AddAnEventInConversationHistory(string conversationId, string eventType, smsfeedbackEntities dbContext)
+        public void AddAnEventInConversationHistory(string conversationId, string eventType, smsfeedbackEntities dbContext)
         {
+            Dictionary<string, string> eventTable = new Dictionary<string, string>();
+            eventTable.Add("pos-pos", Constants.NOE);
+            eventTable.Add("pos-neuter", Constants.POS_REMOVE_EVENT);
+            eventTable.Add("pos-neg", Constants.POS_TO_NEG_EVENT);
+            eventTable.Add("neg-pos", Constants.NEG_TO_POS_EVENT);
+            eventTable.Add("neg-neuter", Constants.NEG_REMOVE_EVENT);
+            eventTable.Add("neg-neg", Constants.NOE);
+            eventTable.Add("neuter-pos", Constants.POS_ADD_EVENT);
+            eventTable.Add("neuter-neuter", Constants.NOE);
+            eventTable.Add("neuter-neg", Constants.NEG_ADD_EVENT);
+
+            Dictionary<string, string> eventStateValue = new Dictionary<string, string>();
+            eventStateValue.Add(Constants.POS_ADD_EVENT, Constants.POSITIVE);
+            eventStateValue.Add(Constants.NEG_ADD_EVENT, Constants.NEGATIVE);
+            eventStateValue.Add(Constants.NEG_TO_POS_EVENT, Constants.POSITIVE);
+            eventStateValue.Add(Constants.POS_TO_NEG_EVENT, Constants.NEGATIVE);
+            eventStateValue.Add(Constants.POS_REMOVE_EVENT, Constants.NEUTER);
+            eventStateValue.Add(Constants.NEG_REMOVE_EVENT, Constants.NEUTER);
+
+            Dictionary<string, string> stateToEvent = new Dictionary<string, string>();
+            stateToEvent.Add(Constants.POSITIVE, Constants.POS_ADD_EVENT);
+            stateToEvent.Add(Constants.NEGATIVE, Constants.NEG_ADD_EVENT);
+            stateToEvent.Add(Constants.NEUTER, Constants.NOE);
+
             var conversation = (from conv in dbContext.Conversations where conv.ConvId == conversationId select conv).First();
+            // get the last message of the conversation
             var message = (from msg in conversation.Messages where (msg.From != conversation.WorkingPoint_TelNumber) select msg).OrderByDescending(m => m.TimeReceived);
-           
-                try
+            try
+            {
+                // in normal conditions this condition should be always true
+                if (message.Count() > 0)
                 {
-                    if (message.Count() > 0)
+                    var convEvents = (from convEvent in conversation.ConversationEvents select convEvent).OrderByDescending(c => c.Date);
+                    // more than one event were added 
+                    if (convEvents.Count() > 1)
                     {
-                        var conversationEvent = new ConversationHistory()
+                        // test if at least one new message had arrived since the last event was added
+                        if (convEvents.First().Message.Id < message.First().Id)
                         {
-                            ConversationConvId = conversationId,
-                            Sequence = conversation.LastSequence,
-                            EventTypeName = eventType,
-                            Date = DateTime.Now.ToUniversalTime(),
-                            MessageId = message.First().Id
-                        };
-                        dbContext.ConversationHistories.AddObject(conversationEvent);
-                        dbContext.SaveChanges();
-                        return conversationEvent;
+                            if (convEvents.First().EventTypeName.Equals(Constants.NOE))
+                            {
+                                var eventName = convEvents.First().EventTypeName;
+                                convEvents.First().EventTypeName = convEvents.ElementAt(1).EventTypeName;
+                                convEvents.ElementAt(1).EventTypeName = eventName;
+                                dbContext.SaveChanges();
+                            }
+                            addEventInConversationHistory(conversationId,
+                                conversation.LastSequence,
+                                eventTable[eventStateValue[convEvents.First().EventTypeName] + "-" + eventType],
+                                DateTime.Now.ToUniversalTime(),
+                                message.First().Id,
+                                dbContext);
+                        }
+                        // no new message arrived
+                        else if (convEvents.First().Message.Id == message.First().Id)
+                        {
+                            ConversationHistory convEvent = convEvents.First();
+                            convEvent.EventTypeName = eventTable[eventStateValue[convEvents.ElementAt(1).EventTypeName] + "-" + eventType];
+                            dbContext.SaveChanges();
+                        }
                     }
+                    else if (convEvents.Count() == 1)
+                    {
+                        // test if at least one new message had arrived since the last event was added
+                        if (convEvents.First().Message.Id < message.First().Id)
+                        {
+                            addEventInConversationHistory(conversationId,
+                                conversation.LastSequence,
+                                eventTable[eventStateValue[convEvents.First().EventTypeName] + "-" + eventType],
+                                DateTime.Now.ToUniversalTime(),
+                                message.First().Id,
+                                dbContext);
+                        }
+                        // no new message arrived
+                        else if (convEvents.First().Message.Id == message.First().Id)
+                        {
+                            var currentEvent = eventTable[eventStateValue[convEvents.First().EventTypeName] + "-" + eventType];
+                            if (!(currentEvent.Equals(Constants.POS_REMOVE_EVENT) || currentEvent.Equals(Constants.NEG_REMOVE_EVENT)))
+                            {
+                                var eventTransformed = Constants.POS_ADD_EVENT;
+                                if (currentEvent.Equals(Constants.POS_TO_NEG_EVENT)) {
+                                    eventTransformed = Constants.NEG_ADD_EVENT;
+                                } else if (currentEvent.Equals(Constants.NEG_TO_POS_EVENT)) {
+                                    eventTransformed = Constants.POS_ADD_EVENT;
+                                } else {
+                                    eventTransformed = currentEvent;
+                                }
+                                ConversationHistory convEvent = convEvents.First();
+                                convEvent.EventTypeName = eventTransformed;
+                                dbContext.SaveChanges();
+                            }
+                            else
+                            {
+                                dbContext.ConversationHistories.DeleteObject(convEvents.First());
+                                dbContext.SaveChanges();
+                            }
+                        }
+
+                    }
+                    // there's no event for this conversation, add the first event
                     else
                     {
-                        return null;
+                        addEventInConversationHistory(conversationId,
+                                conversation.LastSequence,
+                                stateToEvent[eventType],
+                                DateTime.Now.ToUniversalTime(),
+                                message.First().Id,
+                                dbContext);
                     }
                 }
-                catch (Exception ex)
-                {
-                    logger.Error("Error occurred in AddAnEventInConversationHistory", ex);
-                    return null;
-                }
-            
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Error occurred in AddAnEventInConversationHistory", ex);
+            }
+
+        }
+
+        private void addEventInConversationHistory(string iConversationId, int iSequence, string iEventTypeName, DateTime iEventDate, int iMessageId, smsfeedbackEntities dbContext)
+        {
+            var conversationEvent = new ConversationHistory()
+            {
+                ConversationConvId = iConversationId,
+                Sequence = iSequence,
+                EventTypeName = iEventTypeName,
+                Date = iEventDate,
+                MessageId = iMessageId
+            };
+            dbContext.ConversationHistories.AddObject(conversationEvent);
+            dbContext.SaveChanges();
         }
 
         /// <summary>
@@ -414,25 +514,25 @@ namespace SmsFeedback_Take4.Utilities
             return incommingMsgs;
         }
 
-     public void SaveWpsForUser(string user, List<Models.WorkingPoint> wps, smsfeedbackEntities dbContext)
-     {
-        //to avoid security issues - work only on the working points accessible to this user
-        var users = from us in dbContext.Users where us.UserName == user select us;
-        if (users.Count() == 1)
+        public void SaveWpsForUser(string user, List<Models.WorkingPoint> wps, smsfeedbackEntities dbContext)
         {
-           var usr = users.First();
-           foreach (Models.WorkingPoint wp in wps)
-           {
-              var newWp = from w in usr.WorkingPoints where w.TelNumber == wp.TelNumber select w;
-              if (newWp.Count() == 1)
-              {
-                 newWp.First().Name = wp.Name;
-                 newWp.First().Description = wp.Description;
-              }
-           }
-           dbContext.SaveChanges();
-        }
+            //to avoid security issues - work only on the working points accessible to this user
+            var users = from us in dbContext.Users where us.UserName == user select us;
+            if (users.Count() == 1)
+            {
+                var usr = users.First();
+                foreach (Models.WorkingPoint wp in wps)
+                {
+                    var newWp = from w in usr.WorkingPoints where w.TelNumber == wp.TelNumber select w;
+                    if (newWp.Count() == 1)
+                    {
+                        newWp.First().Name = wp.Name;
+                        newWp.First().Description = wp.Description;
+                    }
+                }
+                dbContext.SaveChanges();
+            }
 
-     }
+        }
     }
 }

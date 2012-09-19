@@ -207,11 +207,12 @@ function TagsArea() {
               var oppositeTagName = self.specialTagsPool.where({ TagType: oppositeTagType, IsDefault: true })[0].get("Name");
               if ($("#tags").tagExist(oppositeTagName)) {
                   // Transition negative to positive
-                  self.sendEventToServer("negToPos");
+                  self.sendEventToServer("pos");
                   window.app.silentRemove = true;
                   $("#tags").removeTag(oppositeTagName);
+                  window.app.silentRemove = false;
               } else {
-                  self.sendEventToServer("posAdd");
+                  self.sendEventToServer("pos");
               }
           } else if (tagType == "negativeFeedback") {
               self.thumbsDown.css("background-position", "24px 0");
@@ -219,11 +220,12 @@ function TagsArea() {
               var oppositeTagName = self.specialTagsPool.where({ TagType: oppositeTagType, IsDefault: true })[0].get("Name");
               if ($("#tags").tagExist(oppositeTagName)) {
                   // transition positive to negative
-                  self.sendEventToServer("posToNeg");
+                  self.sendEventToServer("neg");
                   window.app.silentRemove = true;
                   $("#tags").removeTag(oppositeTagName, true);
+                  window.app.silentRemove = false;
               } else {
-                  self.sendEventToServer("negAdd");
+                  self.sendEventToServer("neg");
               }
           }
       },
@@ -235,10 +237,10 @@ function TagsArea() {
           if (!window.app.silentRemove) {
               if (tagType == "positiveFeedback") {
                   self.thumbsUp.css("background-position", "0 0");
-                  self.sendEventToServer("posRemove");
+                  self.sendEventToServer("neuter");
               } else {
                   self.thumbsDown.css("background-position", "0 0");
-                  self.sendEventToServer("negRemove");
+                  self.sendEventToServer("neuter");
               }
           } else {
               if (tagType == "positiveFeedback") {

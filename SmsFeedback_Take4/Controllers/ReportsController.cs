@@ -339,11 +339,13 @@ namespace SmsFeedback_Take4.Controllers
                 IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
                 Dictionary<DateTime, ChartValue> resultPositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultRemovePositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultRemoveNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 foreach (var wp in workingPoints)
                 {
                     foreach (var conv in wp.Conversations)
                     {
-                        if (conv.Client.isSupportClient)
+                        if (!conv.Client.isSupportClient)
                         {
                             if (iGranularity.Equals(Constants.DAY_GRANULARITY))
                             {
@@ -353,7 +355,9 @@ namespace SmsFeedback_Take4.Controllers
                                 {
                                     var convEvents = from convEvent in conv.ConversationEvents
                                                      where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT)) &&
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT)) &&
                                                      (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
                                                      group convEvent by new { occurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName }
                                                          into g
@@ -364,9 +368,17 @@ namespace SmsFeedback_Take4.Controllers
                                         {
                                             resultPositiveTagsInterval[convEvent.key.occurDate].value += convEvent.count;
                                         }
-                                        else
+                                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
                                         {
                                             resultNegativeTagsInterval[convEvent.key.occurDate].value += convEvent.count;
+                                        }
+                                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                                        {
+                                            resultRemovePositiveTagsInterval[convEvent.key.occurDate].value -= convEvent.count;
+                                        }
+                                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                                        {
+                                            resultRemoveNegativeTagsInterval[convEvent.key.occurDate].value -= convEvent.count;
                                         }
                                     }
 
@@ -380,7 +392,9 @@ namespace SmsFeedback_Take4.Controllers
                                 {
                                     var convEvents = from convEvent in conv.ConversationEvents
                                                      where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT)) &&
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT)) &&
                                                      (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
                                                      group convEvent by new { Month = convEvent.Date.Month, Year = convEvent.Date.Year, eventType = convEvent.EventTypeName }
                                                          into g
@@ -395,12 +409,26 @@ namespace SmsFeedback_Take4.Controllers
                                             else
                                                 resultPositiveTagsInterval[monthDateTime].value += convEvent.count;
                                         }
-                                        else
+                                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT)) 
                                         {
                                             if (DateTime.Compare(monthDateTime, intervalStart) < 0)
                                                 resultNegativeTagsInterval[intervalStart].value += convEvent.count;
                                             else
                                                 resultNegativeTagsInterval[monthDateTime].value += convEvent.count;
+                                        }
+                                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                                        {
+                                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                                resultRemovePositiveTagsInterval[intervalStart].value -= convEvent.count;
+                                            else
+                                                resultRemovePositiveTagsInterval[monthDateTime].value -= convEvent.count;
+                                        }
+                                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                                        {
+                                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                                resultRemoveNegativeTagsInterval[intervalStart].value -= convEvent.count;
+                                            else
+                                                resultRemoveNegativeTagsInterval[monthDateTime].value -= convEvent.count;                                            
                                         }
                                     }
                                 }
@@ -413,7 +441,9 @@ namespace SmsFeedback_Take4.Controllers
                                 {
                                     var convEvents = from convEvent in conv.ConversationEvents
                                                      where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT)) &&
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
+                                                     convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT)) &&
                                                      (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
                                                      group convEvent by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Date), eventType = convEvent.EventTypeName }
                                                          into g
@@ -428,12 +458,26 @@ namespace SmsFeedback_Take4.Controllers
                                             else
                                                 resultPositiveTagsInterval[weekDateTime].value += convEvent.count;
                                         }
-                                        else
+                                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT)) 
                                         {
                                             if (DateTime.Compare(weekDateTime, intervalStart) < 0)
                                                 resultNegativeTagsInterval[intervalStart].value += convEvent.count;
                                             else
                                                 resultNegativeTagsInterval[weekDateTime].value += convEvent.count;
+                                        }
+                                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                                        {
+                                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                                                resultRemovePositiveTagsInterval[intervalStart].value -= convEvent.count;
+                                            else
+                                                resultRemovePositiveTagsInterval[weekDateTime].value -= convEvent.count;
+                                        }
+                                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                                        {
+                                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                                                resultRemoveNegativeTagsInterval[intervalStart].value -= convEvent.count;
+                                            else
+                                                resultRemoveNegativeTagsInterval[weekDateTime].value -= convEvent.count;
                                         }
                                     }
                                 }
@@ -445,7 +489,15 @@ namespace SmsFeedback_Take4.Controllers
                 List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
                 content.Add(resultPositiveTagsInterval);
                 content.Add(resultNegativeTagsInterval);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, "Positive feedback"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, "Negative feedback") }, PrepareJson(content, Resources.Global.RepConversationsUnit));
+                content.Add(resultRemovePositiveTagsInterval);
+                content.Add(resultRemoveNegativeTagsInterval);
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { 
+                    new RepDataColumn("16", Constants.STRING_COLUMN_TYPE, "Date"), 
+                    new RepDataColumn("17", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosFeedbackAdded), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegFeedbackAdded),
+                    new RepDataColumn("19", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosFeedbackRemoved), 
+                    new RepDataColumn("20", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegFeedbackRemoved) },
+                    PrepareJson(content, Resources.Global.RepConversationsUnit));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -568,8 +620,16 @@ namespace SmsFeedback_Take4.Controllers
                 {
                     if (convEvent.eventItem.eventType.Equals(Constants.POS_ADD_EVENT)) posFeedbackEvolution += convEvent.counter;
                     else if (convEvent.eventItem.eventType.Equals(Constants.NEG_ADD_EVENT)) negFeedbackEvolution += convEvent.counter;
-                    else if (convEvent.eventItem.eventType.Equals(Constants.POS_TO_NEG_EVENT)) { negFeedbackEvolution += convEvent.counter; posFeedbackEvolution -= convEvent.counter; }
-                    else if (convEvent.eventItem.eventType.Equals(Constants.NEG_TO_POS_EVENT)) { posFeedbackEvolution += convEvent.counter; negFeedbackEvolution -= convEvent.counter; }
+                    else if (convEvent.eventItem.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                    {
+                        negFeedbackEvolution += convEvent.counter;
+                        posFeedbackEvolution -= convEvent.counter;
+                    }
+                    else if (convEvent.eventItem.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                    {
+                        posFeedbackEvolution += convEvent.counter;
+                        negFeedbackEvolution -= convEvent.counter;
+                    }
                     else if (convEvent.eventItem.eventType.Equals(Constants.POS_REMOVE_EVENT)) { posFeedbackEvolution -= convEvent.counter; }
                     else if (convEvent.eventItem.eventType.Equals(Constants.NEG_REMOVE_EVENT)) { negFeedbackEvolution -= convEvent.counter; }
                     resultNegativeTagsInterval[convEvent.eventItem.occurDate].value = negFeedbackEvolution;
@@ -578,14 +638,18 @@ namespace SmsFeedback_Take4.Controllers
                     resultPositiveTagsInterval[convEvent.eventItem.occurDate].changed = true;
                 }
 
-                if (!resultPositiveTagsInterval[intervalStart].changed) { resultPositiveTagsInterval[intervalStart].value = posFeedback; }
-                if (!resultNegativeTagsInterval[intervalStart].changed) { resultNegativeTagsInterval[intervalStart].value = negFeedback; }
+                if (!resultPositiveTagsInterval[intervalStart].changed)
+                    resultPositiveTagsInterval[intervalStart].value = posFeedback;
+                if (!resultNegativeTagsInterval[intervalStart].changed)
+                    resultNegativeTagsInterval[intervalStart].value = negFeedback;
                 if (iGranularity.Equals(Constants.DAY_GRANULARITY))
                 {
                     for (var i = intervalStart.AddDays(1); i < intervalEnd; i = i.AddDays(1))
                     {
-                        if (!resultPositiveTagsInterval[i].changed) resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[i.AddDays(-1)].value;
-                        if (!resultNegativeTagsInterval[i].changed) resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[i.AddDays(-1)].value;
+                        if (!resultPositiveTagsInterval[i].changed)
+                            resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[i.AddDays(-1)].value;
+                        if (!resultNegativeTagsInterval[i].changed)
+                            resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[i.AddDays(-1)].value;
 
                     }
                 }
@@ -596,13 +660,17 @@ namespace SmsFeedback_Take4.Controllers
                     {
                         if (i.Equals(firstDayOfTheMonth.AddMonths(1)))
                         {
-                            if (!resultPositiveTagsInterval[i].changed) resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[intervalStart].value;
-                            if (!resultNegativeTagsInterval[i].changed) resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[intervalStart].value;
+                            if (!resultPositiveTagsInterval[i].changed)
+                                resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[intervalStart].value;
+                            if (!resultNegativeTagsInterval[i].changed)
+                                resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[intervalStart].value;
                         }
                         else
                         {
-                            if (!resultPositiveTagsInterval[i].changed) resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[i.AddMonths(-1)].value;
-                            if (!resultNegativeTagsInterval[i].changed) resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[i.AddMonths(-1)].value;
+                            if (!resultPositiveTagsInterval[i].changed)
+                                resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[i.AddMonths(-1)].value;
+                            if (!resultNegativeTagsInterval[i].changed)
+                                resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[i.AddMonths(-1)].value;
                         }
                     }
                 }
@@ -614,13 +682,17 @@ namespace SmsFeedback_Take4.Controllers
                     {
                         if (i.Equals(calendar.AddWeeks(FirstDayOfWeekUtility.GetFirstDayOfWeek(intervalStart), 1)))
                         {
-                            if (!resultPositiveTagsInterval[i].changed) resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[intervalStart].value;
-                            if (!resultNegativeTagsInterval[i].changed) resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[intervalStart].value;
+                            if (!resultPositiveTagsInterval[i].changed)
+                                resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[intervalStart].value;
+                            if (!resultNegativeTagsInterval[i].changed)
+                                resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[intervalStart].value;
                         }
                         else
                         {
-                            if (!resultPositiveTagsInterval[i].changed) resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[calendar.AddWeeks(i, -1)].value;
-                            if (!resultNegativeTagsInterval[i].changed) resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[calendar.AddWeeks(i, -1)].value;
+                            if (!resultPositiveTagsInterval[i].changed)
+                                resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[calendar.AddWeeks(i, -1)].value;
+                            if (!resultNegativeTagsInterval[i].changed)
+                                resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[calendar.AddWeeks(i, -1)].value;
                         }
                     }
                 }
@@ -628,7 +700,11 @@ namespace SmsFeedback_Take4.Controllers
                 List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
                 content.Add(resultPositiveTagsInterval);
                 content.Add(resultNegativeTagsInterval);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, "Positive feedback"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, "Negative feedback") }, PrepareJson(content, Resources.Global.RepConversationsUnit));
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { 
+                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPositiveFeedback), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegativeFeedback) }, 
+                    PrepareJson(content, Resources.Global.RepConversationsUnit));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -758,7 +834,11 @@ namespace SmsFeedback_Take4.Controllers
                 List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
                 content.Add(resultNegToPosTransitionsInterval);
                 content.Add(resultPosToNegTransitionsInterval);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegToPosFeedback), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosToNegFeedback) }, PrepareJson(content, Resources.Global.RepConversationsUnit));
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { 
+                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegToPosFeedback), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosToNegFeedback) }, 
+                    PrepareJson(content, Resources.Global.RepConversationsUnit));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -1195,7 +1275,7 @@ namespace SmsFeedback_Take4.Controllers
             var hashTable = new Dictionary<int, Report>();
             var report2 = new Report(2, Resources.Global.RepOverview, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Total number of sms with granularity", iSource: "/Reports/GetTotalNoOfSmsChartSource") 
+                                                                                                                                                            new ReportResource(Resources.Global.RepOverviewChartTitle, iSource: "/Reports/GetTotalNoOfSmsChartSource") 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
                                                                                                                                                     new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "/Reports/GetTotalNoOfSmsInfo", 
@@ -1215,7 +1295,7 @@ namespace SmsFeedback_Take4.Controllers
                                                                                     });
             var report3 = new Report(3, Resources.Global.RepIncomingVsOutgoing, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "/Reports/GetIncomingOutgoingSmsChartSource") 
+                                                                                                                                                            new ReportResource(Resources.Global.RepIncomingOutgoingChartTitle, iSource: "/Reports/GetIncomingOutgoingSmsChartSource") 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
                                                                                                                                                     new ReportResource(Resources.Global.RepNoOfIncomingSms, iSource: "/Reports/GetIncomingSmsInfo", 
@@ -1236,13 +1316,13 @@ namespace SmsFeedback_Take4.Controllers
             var report4 = new Report(4, Resources.Global.RepPositiveAndNegativeTitle, "Global", new ReportSection[] { 
                                                                                         
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Positive and negative feedback evolution", iSource: "/Reports/GetPosAndNegTagEvolution")                                                                                                                                                                                                                                                     
+                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeEvolutionChartTitle, iSource: "/Reports/GetPosAndNegTagEvolution")                                                                                                                                                                                                                                                     
                                                                                                                                                             }),
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Positive | Negative transitions", iSource: "/Reports/GetPosNegTransitions") 
+                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeTransitionsChartTitle, iSource: "/Reports/GetPosNegTransitions") 
                                                                                                                                                             }),                                                                                        
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Positive and negative tags activity", iSource: "/Reports/GetPosAndNegTagActivity") 
+                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeActivityChartTitle, iSource: "/Reports/GetPosAndNegTagActivity", iOptions: new ReportResourceOptions(iColors: new List<String>{"#3366cc", "#dc3912", "#667189", "#b48479"})) 
                                                                                                                                                                                                                                                                                                                         
                                                                                                                                                             }),
                                                                                         new ReportSection("InfoBox", false, new ReportResource[] { 
@@ -1257,7 +1337,7 @@ namespace SmsFeedback_Take4.Controllers
                                                                                     });
             var report5 = new Report(5, Resources.Global.RepTags, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("No of conversations by tags", iSource: "/Reports/GetNoOfConversationsByTagsChartSource", iOptions: new ReportResourceOptions(Constants.BARS_CHART_STYLE)) 
+                                                                                                                                                            new ReportResource(Resources.Global.RepNoOfConversationsByTagsChartTitle, iSource: "/Reports/GetNoOfConversationsByTagsChartSource", iOptions: new ReportResourceOptions(iSeriesType : Constants.BARS_CHART_STYLE)) 
                                                                                                                                                             
                                                                                                                                                              
                                                                                                                                                             }),
@@ -1273,7 +1353,7 @@ namespace SmsFeedback_Take4.Controllers
                                                                                     });
             var report7 = new Report(7, Resources.Global.RepNewVsReturning, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "/Reports/GetNewVsReturningClientsChartSource") 
+                                                                                                                                                            new ReportResource(Resources.Global.RepNewReturningClientsChartTitle, iSource: "/Reports/GetNewVsReturningClientsChartSource") 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
                                                                                                                                                     new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo", 

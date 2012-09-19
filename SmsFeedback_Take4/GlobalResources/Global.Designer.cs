@@ -493,6 +493,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incoming and outgoing SMS.
+        /// </summary>
+        public static string RepIncomingOutgoingChartTitle {
+            get {
+                return ResourceManager.GetString("RepIncomingOutgoingChartTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incoming SMS.
         /// </summary>
         public static string RepIncomingSmsChart {
@@ -556,6 +565,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Negative feedback added.
+        /// </summary>
+        public static string RepNegFeedbackAdded {
+            get {
+                return ResourceManager.GetString("RepNegFeedbackAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Negative feedback removed.
+        /// </summary>
+        public static string RepNegFeedbackRemoved {
+            get {
+                return ResourceManager.GetString("RepNegFeedbackRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Negative to positive feedback.
         /// </summary>
         public static string RepNegToPosFeedback {
@@ -570,6 +597,15 @@ namespace Resources {
         public static string RepNewClientsChart {
             get {
                 return ResourceManager.GetString("RepNewClientsChart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New and returning clients.
+        /// </summary>
+        public static string RepNewReturningClientsChartTitle {
+            get {
+                return ResourceManager.GetString("RepNewReturningClientsChartTitle", resourceCulture);
             }
         }
         
@@ -592,11 +628,11 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to None.
+        ///   Looks up a localized string similar to Number of conversations by tags.
         /// </summary>
-        public static string RepNoneDefaultValue1 {
+        public static string RepNoOfConversationsByTagsChartTitle {
             get {
-                return ResourceManager.GetString("RepNoneDefaultValue1", resourceCulture);
+                return ResourceManager.GetString("RepNoOfConversationsByTagsChartTitle", resourceCulture);
             }
         }
         
@@ -700,6 +736,33 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total number of SMS.
+        /// </summary>
+        public static string RepOverviewChartTitle {
+            get {
+                return ResourceManager.GetString("RepOverviewChartTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positive feedback added.
+        /// </summary>
+        public static string RepPosFeedbackAdded {
+            get {
+                return ResourceManager.GetString("RepPosFeedbackAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positive feedback removed.
+        /// </summary>
+        public static string RepPosFeedbackRemoved {
+            get {
+                return ResourceManager.GetString("RepPosFeedbackRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Positive &amp; Negative.
         /// </summary>
         public static string RepPositiveAndNegative {
@@ -723,6 +786,33 @@ namespace Resources {
         public static string RepPositiveFeedback {
             get {
                 return ResourceManager.GetString("RepPositiveFeedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positive and negative tags activity.
+        /// </summary>
+        public static string RepPositiveNegativeActivityChartTitle {
+            get {
+                return ResourceManager.GetString("RepPositiveNegativeActivityChartTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positive and negative feedback evolution.
+        /// </summary>
+        public static string RepPositiveNegativeEvolutionChartTitle {
+            get {
+                return ResourceManager.GetString("RepPositiveNegativeEvolutionChartTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positive and negative transitions.
+        /// </summary>
+        public static string RepPositiveNegativeTransitionsChartTitle {
+            get {
+                return ResourceManager.GetString("RepPositiveNegativeTransitionsChartTitle", resourceCulture);
             }
         }
         
