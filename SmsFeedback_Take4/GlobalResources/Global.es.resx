@@ -250,13 +250,19 @@
     <value>Clientes</value>
   </data>
   <data name="RepClientsUnit" xml:space="preserve">
-    <value>Clientes</value>
+    <value>customers</value>
   </data>
   <data name="RepConversations" xml:space="preserve">
     <value>Conversaciones</value>
   </data>
+  <data name="RepConversationsUnit" xml:space="preserve">
+    <value />
+  </data>
   <data name="RepDay" xml:space="preserve">
     <value>Día</value>
+  </data>
+  <data name="RepIncomingOutgoingChartTitle" xml:space="preserve">
+    <value />
   </data>
   <data name="RepIncomingSmsChart" xml:space="preserve">
     <value>SMS Entrante</value>
@@ -276,14 +282,32 @@
   <data name="RepMostUsedTagsTooltip" xml:space="preserve">
     <value>Etiquetas más utilizadas</value>
   </data>
+  <data name="RepNegativeFeedback" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RepNegFeedbackAdded" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RepNegFeedbackRemoved" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RepNegToPosFeedback" xml:space="preserve">
+    <value />
+  </data>
   <data name="RepNewClientsChart" xml:space="preserve">
     <value>Clientes nuevos</value>
+  </data>
+  <data name="RepNewReturningClientsChartTitle" xml:space="preserve">
+    <value />
   </data>
   <data name="RepNewVsReturning" xml:space="preserve">
     <value>Nuevos vs Recurrentes</value>
   </data>
   <data name="RepNoneDefaultValue" xml:space="preserve">
-    <value>Ninguno</value>
+    <value />
+  </data>
+  <data name="RepNoOfConversationsByTagsChartTitle" xml:space="preserve">
+    <value />
   </data>
   <data name="RepNoOfIncomingSms" xml:space="preserve">
     <value>Número de SMS entrante</value>
@@ -318,11 +342,35 @@
   <data name="RepOverview" xml:space="preserve">
     <value>Overview</value>
   </data>
+  <data name="RepOverviewChartTitle" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RepPosFeedbackAdded" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RepPosFeedbackRemoved" xml:space="preserve">
+    <value />
+  </data>
   <data name="RepPositiveAndNegative" xml:space="preserve">
-    <value>Positive &amp; Negative</value>
+    <value>Positive &amp; Negative feedback</value>
   </data>
   <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
-    <value>Positive &amp; Negative feedback ES</value>
+    <value>Positive &amp; Negative feedback</value>
+  </data>
+  <data name="RepPositiveFeedback" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RepPositiveNegativeActivityChartTitle" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RepPositiveNegativeEvolutionChartTitle" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RepPositiveNegativeTransitionsChartTitle" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RepPosToNegFeedback" xml:space="preserve">
+    <value />
   </data>
   <data name="RepReturningClientsChart" xml:space="preserve">
     <value>Clientes recurrentes</value>
@@ -369,6 +417,9 @@
   </data>
   <data name="RepWeek" xml:space="preserve">
     <value>Semana</value>
+  </data>
+  <data name="saveBtnCaption" xml:space="preserve">
+    <value />
   </data>
   <data name="sendButton" xml:space="preserve">
     <value>Enviar</value>
@@ -448,6 +499,21 @@
   <data name="settingsChangePasswordTitle" xml:space="preserve">
     <value>Cambiar contraseña</value>
   </data>
+  <data name="settingsConfigureWpDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsConfigureWpDescriptionError" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsConfigureWpName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsConfigureWpNameError" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsConfigureWpTelNumberError" xml:space="preserve">
+    <value />
+  </data>
   <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
     <value>Confirmar nueva contraseña</value>
   </data>
@@ -469,6 +535,18 @@
   <data name="settingsErrorPasswordNotLongEnough" xml:space="preserve">
     <value>La nueva contraseña debe tener al menos {2} caracteres en longitud.</value>
   </data>
+  <data name="settingsErrorWpDescriptionLength" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsErrorWpNameLength" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsErrorWpTelNumberLength" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsMaxOutboundSmsHeader" xml:space="preserve">
+    <value />
+  </data>
   <data name="settingsNewPasswordLabel" xml:space="preserve">
     <value>Nueva contraseña</value>
   </data>
@@ -481,14 +559,44 @@
   <data name="settingsPrivacy" xml:space="preserve">
     <value>Privacidad</value>
   </data>
+  <data name="settingsTelNoHeader" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsWpConfigErrors" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsWpConfigLegend" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsWpDescriptionHeader" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsWpDescriptionHeaderTooltip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsWpMaxOutboundSmsHeaderTooltip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsWpNameHeader" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsWpNameHeaderTooltip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsWpTelNoHeaderTooltip" xml:space="preserve">
+    <value />
+  </data>
   <data name="settingUserPreferences" xml:space="preserve">
     <value>Preferencias del usuario</value>
   </data>
+  <data name="settingWpConfigSavedSuccessfuly" xml:space="preserve">
+    <value />
+  </data>
   <data name="starredLabel" xml:space="preserve">
-    <value>Favoritos</value>
+    <value>Support</value>
   </data>
   <data name="supportLabel" xml:space="preserve">
-    <value>Support</value>
+    <value>Favoritos</value>
   </data>
   <data name="tabHelp" xml:space="preserve">
     <value>Help</value>
@@ -506,10 +614,10 @@
     <value>Etiqueta(s):</value>
   </data>
   <data name="thumbsDownTooltip" xml:space="preserve">
-    <value>Mark conversation as negative ES</value>
+    <value>Mark this conversation as  positive feedback</value>
   </data>
   <data name="thumbsUpTooltip" xml:space="preserve">
-    <value>Mark conversation as positive ES</value>
+    <value>Mark this conversation as negative feedback</value>
   </data>
   <data name="toDate" xml:space="preserve">
     <value>última actualización</value>
@@ -552,53 +660,5 @@
   </data>
   <data name="welcomeMessage" xml:space="preserve">
     <value>Bienvenido</value>
-  </data>
-  <data name="RepConversationsUnit" xml:space="preserve">
-    <value>Conversaciones</value>
-  </data>
-  <data name="RepNegativeFeedback" xml:space="preserve">
-    <value>Negative feedback ES</value>
-  </data>
-  <data name="RepNegToPosFeedback" xml:space="preserve">
-    <value>Negative to positive feedback ES</value>
-  </data>
-  <data name="RepPositiveFeedback" xml:space="preserve">
-    <value>Positive feedback ES</value>
-  </data>
-  <data name="RepPosToNegFeedback" xml:space="preserve">
-    <value>Positive to negative feedback ES</value>
-  </data>
-  <data name="RepNegFeedbackAdded" xml:space="preserve">
-    <value>Negative feedback added ES</value>
-  </data>
-  <data name="RepNegFeedbackRemoved" xml:space="preserve">
-    <value>Negative feedback removed ES</value>
-  </data>
-  <data name="RepPosFeedbackAdded" xml:space="preserve">
-    <value>Positive feedback added ES</value>
-  </data>
-  <data name="RepPosFeedbackRemoved" xml:space="preserve">
-    <value>Positive feedback removed ES</value>
-  </data>
-  <data name="RepIncomingOutgoingChartTitle" xml:space="preserve">
-    <value>Incoming and outgoing SMS ES</value>
-  </data>
-  <data name="RepNewReturningClientsChartTitle" xml:space="preserve">
-    <value>New and returning clients ES</value>
-  </data>
-  <data name="RepNoOfConversationsByTagsChartTitle" xml:space="preserve">
-    <value>Number of conversations by tags ES</value>
-  </data>
-  <data name="RepOverviewChartTitle" xml:space="preserve">
-    <value>Total number of SMS ES</value>
-  </data>
-  <data name="RepPositiveNegativeActivityChartTitle" xml:space="preserve">
-    <value>Positive and negative tags activity ES</value>
-  </data>
-  <data name="RepPositiveNegativeEvolutionChartTitle" xml:space="preserve">
-    <value>Positive and negative feedback evolution ES</value>
-  </data>
-  <data name="RepPositiveNegativeTransitionsChartTitle" xml:space="preserve">
-    <value>Positive and negative transitions ES</value>
   </data>
 </root>
