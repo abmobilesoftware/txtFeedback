@@ -1,17 +1,21 @@
 ﻿window.app = window.app || {};
 
-function FirstArea(iResource, iGranularity, iOptions, iId) {
+function FirstArea(iResource, iGranularity, iOptions, iId, iTooltip) {
     var self = this;
     var resource = iResource;
     var granularity = iGranularity;
     var chart = null;
     var data = null;
+    var tooltip = iTooltip;
+
     var options = {
         animation: {
             duration: 1000,
             easing: 'out'
         },
-        vAxis: { gridlines: { count: 4 } }
+        vAxis: {
+            gridlines: { count: 4 }
+        }
     };
     options.seriesType = iOptions.seriesType;
     options.colors = iOptions.colors;

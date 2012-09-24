@@ -619,6 +619,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No data to display.
+        /// </summary>
+        public static string RepNoDataToDisplay {
+            get {
+                return ResourceManager.GetString("RepNoDataToDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to None.
         /// </summary>
         public static string RepNoneDefaultValue {
@@ -1591,7 +1600,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quick access to support conversations.
+        ///   Looks up a localized string similar to Quick access to support from TxtFeedback.
         /// </summary>
         public static string tooltipIncludeSupportFilter {
             get {

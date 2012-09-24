@@ -310,11 +310,19 @@ namespace SmsFeedback_Take4.Controllers
                 rowContent.Add(new RepDataRowCell(tagInterval, tagInterval));
                 headerContent.Add(new RepDataColumn(columnCounter.ToString(), "string", "Date"));
 
-                foreach (var tagEntry in tagsHash)
+                if (tagsHash.Count > 0)
                 {
-                    ++columnCounter;
-                    rowContent.Add(new RepDataRowCell(tagEntry.Value, tagEntry.Value.ToString() + " conversations"));
-                    headerContent.Add(new RepDataColumn(columnCounter.ToString(), "number", tagEntry.Key));
+                    foreach (var tagEntry in tagsHash)
+                    {
+                        ++columnCounter;
+                        rowContent.Add(new RepDataRowCell(tagEntry.Value, tagEntry.Value.ToString() + " conversations"));
+                        headerContent.Add(new RepDataColumn(columnCounter.ToString(), "number", tagEntry.Key));
+                    }
+                }
+                else
+                {
+                    rowContent.Add(new RepDataRowCell(0, "No data for this period"));
+                    headerContent.Add(new RepDataColumn("15", "number", Resources.Global.RepNoDataToDisplay));
                 }
 
                 RepChartData chartSource = new RepChartData(headerContent, new RepDataRow[] { new RepDataRow(rowContent) });
@@ -1258,6 +1266,49 @@ namespace SmsFeedback_Take4.Controllers
 
         }
 
+        public JsonResult GetPosNegTransitionsThirdArea(String iIntervalStart, String iIntervalEnd, String culture, String scope)
+        {
+            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+            KeyAndCount posToNegTransitions = new KeyAndCount(Constants.POS_TO_NEG_EVENT, 0);
+            KeyAndCount negToPosTransitions = new KeyAndCount(Constants.NEG_TO_POS_EVENT, 0);
+            smsfeedbackEntities dbContext = new smsfeedbackEntities();
+            IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+            foreach (var wp in workingPoints)
+            {
+                foreach (var conv in wp.Conversations)
+                {
+                    if (!conv.Client.isSupportClient)
+                    {
+                        IEnumerable<KeyAndCount> convEvents = from convEvent in conv.ConversationEvents
+                                         where ((convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
+                                         convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
+                                         (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
+                                         group convEvent by new { eventType = convEvent.EventTypeName }
+                                             into g
+                                             select new KeyAndCount(g.Key.eventType, g.Count());
+                        foreach (var eventType in convEvents)
+                        {
+                            if (eventType.key.Equals(Constants.POS_TO_NEG_EVENT))
+                                posToNegTransitions.count += eventType.count;
+                            else if (eventType.key.Equals(Constants.NEG_TO_POS_EVENT))
+                                negToPosTransitions.count += eventType.count;
+                        }
+                    }
+                }
+            }
+
+            List<RepDataRow> content = new List<RepDataRow>();
+            RepDataRow row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepPosToNegFeedback, Resources.Global.RepPosToNegFeedback), new RepDataRowCell(posToNegTransitions.count, posToNegTransitions.count + " " + Resources.Global.RepPosToNegFeedback) });
+            RepDataRow row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepNegToPosFeedback, Resources.Global.RepNegToPosFeedback), new RepDataRowCell(negToPosTransitions.count, negToPosTransitions.count + " " + Resources.Global.RepNegToPosFeedback) });
+            content.Add(row1);
+            content.Add(row2);
+            RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, Resources.Global.RepTypeTable), new RepDataColumn("18", Constants.STRING_COLUMN_TYPE, Resources.Global.RepValueTable) }, content);
+            return Json(chartSource, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         public JsonResult GetReportsMenuItems()
@@ -1278,16 +1329,11 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                             new ReportResource(Resources.Global.RepOverviewChartTitle, iSource: "/Reports/GetTotalNoOfSmsChartSource") 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "/Reports/GetTotalNoOfSmsInfo", 
-                                                                                                                                                    iTooltip: Resources.Global.RepTotalNoOfSmsTooltip),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfSmsPerDay, iSource: "/Reports/GetAvgNoOfSmsPerDayInfo",
-                                                                                                                                                    iTooltip: Resources.Global.RepAvgNoOfSmsPerDayTooltip),
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo",
-                                                                                                                                                    iTooltip: Resources.Global.RepTotalNoOfClientsTooltip),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfSmsPerClient, iSource: "/Reports/GetAvgNoOfSmsPerClientInfo", 
-                                                                                                                                                    iTooltip: Resources.Global.RepAvgNoOfSmsPerClientTooltip),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgResponseTime, iSource: "/Reports/GetAvgResponseTimeInfo", 
-                                                                                                                                                    iTooltip: Resources.Global.RepAvgResponseTimeTooltip)
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "/Reports/GetTotalNoOfSmsInfo"),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfSmsPerDay, iSource: "/Reports/GetAvgNoOfSmsPerDayInfo"),
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo"),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfSmsPerClient, iSource: "/Reports/GetAvgNoOfSmsPerClientInfo"),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgResponseTime, iSource: "/Reports/GetAvgResponseTimeInfo")
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetIncomingOutgoingThirdArea") 
@@ -1298,16 +1344,11 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                             new ReportResource(Resources.Global.RepIncomingOutgoingChartTitle, iSource: "/Reports/GetIncomingOutgoingSmsChartSource") 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfIncomingSms, iSource: "/Reports/GetIncomingSmsInfo", 
-                                                                                                                                                    iTooltip: Resources.Global.RepNoOfIncomingSmsTooltip),  
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfOutgoingSms, iSource: "/Reports/GetOutgoingSmsInfo", 
-                                                                                                                                                    iTooltip: Resources.Global.RepNoOfOutgoingSmsTooltip),
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo", 
-                                                                                                                                                    iTooltip: Resources.Global.RepTotalNoOfClientsTooltip),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfIncomingSmsPerConversation, iSource: "/Reports/GetAvgNoOfIncomingSmsPerClientInfo",
-                                                                                                                                                    iTooltip: Resources.Global.RepAvgNoOfIncomingSmsPerConversationToolitp),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfOutgoingSmsPerConversation, iSource: "/Reports/GetAvgNoOfOutgoingSmsPerClientInfo", 
-                                                                                                                                                    iTooltip: Resources.Global.RepAvgNoOfOutgoingSmsPerConversationTooltip)
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfIncomingSms, iSource: "/Reports/GetIncomingSmsInfo"),  
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfOutgoingSms, iSource: "/Reports/GetOutgoingSmsInfo"),
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo"),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfIncomingSmsPerConversation, iSource: "/Reports/GetAvgNoOfIncomingSmsPerClientInfo"),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfOutgoingSmsPerConversation, iSource: "/Reports/GetAvgNoOfOutgoingSmsPerClientInfo")
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", true, new ReportResource[] { 
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetIncomingOutgoingThirdArea") 
@@ -1315,21 +1356,22 @@ namespace SmsFeedback_Take4.Controllers
                                                                                     });
             var report4 = new Report(4, Resources.Global.RepPositiveAndNegativeTitle, "Global", new ReportSection[] { 
                                                                                         
-                                                                                        new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeEvolutionChartTitle, iSource: "/Reports/GetPosAndNegTagEvolution")                                                                                                                                                                                                                                                     
+                                                                                        new ReportSection("PrimaryChartArea", true, iUniqueId:1, iResources: new ReportResource[] { 
+                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeEvolutionChartTitle, iTooltip: "Positive and negative feedback evolution", iSource: "/Reports/GetPosAndNegTagEvolution")                                                                                                                                                                                                                                                     
                                                                                                                                                             }),
-                                                                                        new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeTransitionsChartTitle, iSource: "/Reports/GetPosNegTransitions") 
-                                                                                                                                                            }),                                                                                        
-                                                                                        new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeActivityChartTitle, iSource: "/Reports/GetPosAndNegTagActivity", iOptions: new ReportResourceOptions(iColors: new List<String>{"#3366cc", "#dc3912", "#667189", "#b48479"})) 
+                                                                                        new ReportSection("PrimaryChartArea", true, iUniqueId: 2, iResources: new ReportResource[] { 
+                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeTransitionsChartTitle, iTooltip: "Positive and negative feedback transitions", iSource: "/Reports/GetPosNegTransitions") 
+                                                                                                                                                            }),
+                                                                                        new ReportSection("SecondaryChartArea", true, iUniqueId: 2, iResources: new ReportResource[] { 
+                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeTransitionsChartTitle, iSource: "/Reports/GetPosNegTransitionsThirdArea") 
+                                                                                                                                                          }),
+                                                                                        new ReportSection("PrimaryChartArea", true, iUniqueId: 3, iResources: new ReportResource[] { 
+                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeActivityChartTitle, iTooltip: "Positive and negative feedback activity", iSource: "/Reports/GetPosAndNegTagActivity", iOptions: new ReportResourceOptions(iColors: new List<String>{"#3366cc", "#dc3912", "#667189", "#b48479"})) 
                                                                                                                                                                                                                                                                                                                         
                                                                                                                                                             }),
                                                                                         new ReportSection("InfoBox", false, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepMostUsedTag, iSource: "/Reports/GetMostUsedTagsInfo",
-                                                                                                                                                    iTooltip: Resources.Global.RepMostUsedTagsTooltip),     
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfTagsPerConversation, iSource: "/Reports/GetAvgNoOfTagsPerConversationInfo", 
-                                                                                                                                                    iTooltip: Resources.Global.RepAvgNoOfTagsPerConversationTooltip)
+                                                                                                                                                    new ReportResource(Resources.Global.RepMostUsedTag, iSource: "/Reports/GetMostUsedTagsInfo"),     
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfTagsPerConversation, iSource: "/Reports/GetAvgNoOfTagsPerConversationInfo")
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
@@ -1342,10 +1384,8 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                              
                                                                                                                                                             }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepMostUsedTag, iSource: "/Reports/GetMostUsedTagsInfo",
-                                                                                                                                                    iTooltip: Resources.Global.RepMostUsedTagsTooltip),     
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfTagsPerConversation, iSource: "/Reports/GetAvgNoOfTagsPerConversationInfo", 
-                                                                                                                                                    iTooltip: Resources.Global.RepAvgNoOfTagsPerConversationTooltip)
+                                                                                                                                                    new ReportResource(Resources.Global.RepMostUsedTag, iSource: "/Reports/GetMostUsedTagsInfo"),     
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfTagsPerConversation, iSource: "/Reports/GetAvgNoOfTagsPerConversationInfo")
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
@@ -1356,12 +1396,9 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                             new ReportResource(Resources.Global.RepNewReturningClientsChartTitle, iSource: "/Reports/GetNewVsReturningClientsChartSource") 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo", 
-                                                                                                                                                    iTooltip: Resources.Global.RepTotalNoOfClients),
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfNewClients, iSource: "/Reports/GetNoOfNewClientsInfo", 
-                                                                                                                                                    iTooltip: Resources.Global.RepNoOfNewClients),
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfReturningClients, iSource: "/Reports/GetNoOfReturningClientsInfo",
-                                                                                                                                                    iTooltip: Resources.Global.RepNoOfReturningClientsTooltip)
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo"),
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfNewClients, iSource: "/Reports/GetNoOfNewClientsInfo"),
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfReturningClients, iSource: "/Reports/GetNoOfReturningClientsInfo")
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
@@ -1466,14 +1503,26 @@ namespace SmsFeedback_Take4.Controllers
                         {
                             foreach (var convTag in conv.ConversationTags)
                             {
-
-                                if (tagsHash.ContainsKey(convTag.Tag.Name))
+                                bool tagNotPosOrNeg = true;
+                                TagTagType tagTagType = (convTag.Tag.TagTagTypes.Count > 0 ? convTag.Tag.TagTagTypes.First() : null);
+                                TagType tagType = null;
+                                if (tagTagType != null)
+                                    tagType = tagTagType.TagType;
+                                
+                                if (tagType != null)
+                                    if (tagType.Type == Constants.POSITIVE_FEEDBACK || tagType.Type == Constants.NEGATIVE_FEEDBACK)
+                                        tagNotPosOrNeg = false;
+                                
+                                if (tagNotPosOrNeg)
                                 {
-                                    tagsHash[convTag.Tag.Name] += 1;
-                                }
-                                else
-                                {
-                                    tagsHash.Add(convTag.Tag.Name, 1);
+                                    if (tagsHash.ContainsKey(convTag.Tag.Name))
+                                    {
+                                        tagsHash[convTag.Tag.Name] += 1;
+                                    }
+                                    else
+                                    {
+                                        tagsHash.Add(convTag.Tag.Name, 1);
+                                    }
                                 }
                             }
                         }
@@ -1684,6 +1733,18 @@ namespace SmsFeedback_Take4.Controllers
         {
             occurDate = iOccurDate;
             eventType = iEventType;
+        }
+    }
+
+    class KeyAndCount
+    {
+        public string key { get; set; }
+        public int count { get; set; }
+
+        public KeyAndCount(string iKey, int iCount)
+        {
+            key = iKey;
+            count = iCount;
         }
     }
 }

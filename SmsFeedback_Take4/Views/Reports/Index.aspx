@@ -89,10 +89,10 @@
     <script type="text/template" id="PrimaryChartArea">
         <div class="chartArea">
             <div id="titleWrapper">
-                <a href="#" class="chartAreaTitle" sectionId="{{ identifier }}"><img class="sectionVisibility" src="<%: Url.UpdatedResourceLink("~/Content/images/minus_22x22.jpg") %>" alt="Expand section" />{{ name }}</a>
+                <a href="#" class="chartAreaTitle" {% if (tooltip != "no tooltip") { %} title="{{ tooltip }}" {% } %} sectionId="{{ identifier }}"><img class="sectionVisibility" src="<%: Url.UpdatedResourceLink("~/Content/images/minimize_square.png") %>" alt="Expand section" />{{ name }}</a>
                 <p id="description{{identifier}}" class="sectionDescription invisible">Displays two dimensional data set</p>    
         </div>
-            <div id="chartAreaContent{{identifier}}">
+            <div class="chartAreaContent{{identifier}}">
                 <form action="">    
                 <div id="granularitySelector{{ identifier }}" class="granularitySelector">
                     <div class="radioBtnWrapper active"><label for="day{{identifier}}" class="radioBtn"><input type="radio" id="day{{identifier}}" name="radio{{identifier}}" checked="checked" selectorId="{{identifier}}" class="radioOption{{identifier}} radioOption" value="day"/><%: Resources.Global.RepDay %></label></div>
@@ -111,7 +111,7 @@
         </div>
     </script>
     <script type="text/template" id="SecondaryChartArea">
-        <div id="tableArea">
+        <div id="tableArea" class="chartAreaContent{{identifier}}">
             <div id="tableContent">
             </div>
             <div id="tableChart">

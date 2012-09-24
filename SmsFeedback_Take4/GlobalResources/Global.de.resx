@@ -594,4 +594,7 @@
   <data name="RepPositiveNegativeTransitionsChartTitle" xml:space="preserve">
     <value>Positive and negative transitions DE</value>
   </data>
+  <data name="RepNoDataToDisplay" xml:space="preserve">
+    <value>NoDataToDisplayDE</value>
+  </data>
 </root>
