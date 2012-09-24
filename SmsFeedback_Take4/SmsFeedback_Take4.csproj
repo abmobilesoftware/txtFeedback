@@ -299,6 +299,10 @@
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\mail.png" />
+    <Content Include="Content\images\minus.png" />
+    <Content Include="Content\images\minus_22x22.jpg" />
+    <Content Include="Content\images\plus.jpg" />
+    <Content Include="Content\images\plus_22x22.jpg" />
     <Content Include="Content\images\question-blue.svg" />
     <Content Include="Content\images\Ro_flag.png" />
     <Content Include="Content\images\question-green.svg" />
@@ -309,6 +313,18 @@
     <Content Include="Content\images\star-selected_orange.svg" />
     <Content Include="Content\images\star.svg" />
     <Content Include="Content\images\star-selected.svg" />
+    <Content Include="Content\images\thumbs_down_20x20.png" />
+    <Content Include="Content\images\thumbs_down_hover_20x20.png" />
+    <Content Include="Content\images\thumbs_down_hover_red_20x20.png" />
+    <Content Include="Content\images\thumbs_down_hover_red_24x24.png" />
+    <Content Include="Content\images\thumbs_up.jpg" />
+    <Content Include="Content\images\thumbs_up.png" />
+    <Content Include="Content\images\thumbs_up_20x20.png" />
+    <Content Include="Content\images\thumbs_up_28x28.png" />
+    <Content Include="Content\images\thumbs_up_hover.png" />
+    <Content Include="Content\images\thumbs_up_hover_20x20.png" />
+    <Content Include="Content\images\thumbs_up_hover_yellow_20x20.png" />
+    <Content Include="Content\images\thumbs_up_hover_yellow_24x24.png" />
     <Content Include="Content\images\transparent.gif" />
     <Content Include="Content\images\Uk_flag.png" />
     <Content Include="Content\jquery.tagsinput.css" />
@@ -318,6 +334,8 @@
     <Content Include="Content\Minified\conversations.css" />
     <Content Include="Content\Minified\filtersStrip.css" />
     <Content Include="Content\Minified\grid.css" />
+    <Content Include="Content\Minified\images\thumbs_down_hover_red_24x24.png" />
+    <Content Include="Content\Minified\images\thumbs_up_hover_yellow_24x24.png" />
     <Content Include="Content\Minified\jquery.tagsinput.css" />
     <Content Include="Content\Minified\layout.css" />
     <Content Include="Content\Minified\messages.css" />
@@ -657,7 +675,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Release (
+    <PostBuildEvent>if NOT $(ConfigurationName) == Debug (
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\reset.css" -o "$(ProjectDir)Content\Minified\reset.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\text.css" -o "$(ProjectDir)Content\Minified\text.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\grid.css" -o "$(ProjectDir)Content\Minified\grid.css"
@@ -702,6 +720,8 @@ java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Sc
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.ui.datepicker-de.js" -o "$(ProjectDir)Scripts\Minified\jquery.ui.datepicker-de.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.ui.datepicker-ro.js" -o "$(ProjectDir)Scripts\Minified\jquery.ui.datepicker-ro.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.ui.datepicker-en-GB.js" -o "$(ProjectDir)Scripts\Minified\jquery.ui.datepicker-en-GB.js"
+echo f | xcopy /f /y "$(ProjectDir)Content\images\thumbs_up_hover_yellow_24x24.png" "$(ProjectDir)Content\Minified\images\thumbs_up_hover_yellow_24x24.png"
+echo f | xcopy /f /y "$(ProjectDir)Content\images\thumbs_down_hover_red_24x24.png" "$(ProjectDir)Content\Minified\images\thumbs_down_hover_red_24x24.png"
 )</PostBuildEvent>
   </PropertyGroup>
 </Project>
