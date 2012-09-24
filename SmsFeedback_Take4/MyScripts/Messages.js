@@ -215,27 +215,20 @@ function MessagesArea(convView, tagsArea) {
         },
         render: function () {
             this.$el.html(this.messageTemplate(this.model.toJSON()));
-            var direction = "messagefrom";
-            var arrowClass = "arrowFrom";
-            var arrowInnerClass = "arrowInnerFrom";
+            var direction = "messagefrom";         
             var arrowInnerMenuLeft = "arrowInnerLeft";
             var extraMenuWrapperSide = "extraMenuWrapperLeft";
             //var arrowExtraMenu="arrowExtraMenuFrom";
             //var arrowInnerExtraMenu = "arrowInnerExtraMenuFrom";
             if (this.model.attributes["Direction"] === "to") {
-               direction = "messageto";
-               arrowClass= "arrowTo";
-               arrowInnerClass = "arrowInnerTo";
-               //arrowExtraMenu = "arrowExtraMenuTo";
+               direction = "messageto";                              
                arrowInnerMenuLeft = "arrowInnerRight";
                extraMenuWrapperSide = "extraMenuWrapperRight";
                //arrowInnerExtraMenu = "arrowInnerExtraMenuTo";
             }            
             this.$el.addClass("message");
             this.$el.addClass(direction);
-         
-            $(".arrow", this.$el).addClass(arrowClass);
-            $(".arrowInner", this.$el).addClass(arrowInnerClass);
+                   
             $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
             $(".extraMenuWrapper", this.$el).addClass(extraMenuWrapperSide);
 
