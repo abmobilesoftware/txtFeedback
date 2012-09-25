@@ -311,9 +311,10 @@ namespace SmsFeedback_Take4.Controllers
 
                     var prevConvFrom = previousConv.From;
                     var prevConvUpdateTime = previousConv.TimeUpdated;
-                    SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgDateSent) =>
+                    SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgResponse) =>
                     {
-                        UpdateDbAfterMessageWasSent(userId, from, to, convId, text, false, msgDateSent, prevConvFrom, prevConvUpdateTime, lContextPerRequest);
+                       //TODO add check if message was sent successfully 
+                       UpdateDbAfterMessageWasSent(userId, from, to, convId, text, false, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, lContextPerRequest);
                     });
                     //we should wait for the call to finish
                     //I should return the sent time (if successful)              

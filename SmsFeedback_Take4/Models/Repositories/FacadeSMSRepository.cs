@@ -156,7 +156,7 @@ namespace SmsFeedback_Take4.Models
          return mEFRep.GetTagsForConversation(convID,dbContext);
       }
 
-      public void SendMessage(string fromWp, string to, string message, smsfeedbackEntities dbContext, Action<DateTime> callback)
+      public void SendMessage(string fromWp, string to, string message, smsfeedbackEntities dbContext, Action<MessageStatus> callback)
       {
          //get the provider and send the message using the correct network
          var providers = from wp in dbContext.WorkingPoints where wp.TelNumber == fromWp select wp.Provider;

@@ -4,10 +4,19 @@ using System.Linq;
 using System.Web;
 using Nexmo_CSharp_lib;
 using Nexmo_CSharp_lib.Model.Request;
+using Nexmo_CSharp_lib.Model.Response;
 
 
 namespace SmsFeedback_Take4.Models
 {
+   [Serializable]
+   public class MessageStatus
+   {
+      public bool MessageSent { get; set; }
+      public string Status { get; set; }
+      public DateTime DateSent { get; set; }
+   }
+
    [Serializable]
    public class NexmoSmsRepository : IExternalSmsRepository
    {      
@@ -23,11 +32,12 @@ namespace SmsFeedback_Take4.Models
          throw new NotImplementedException();
       }
 
-      public void SendMessage(string from, string to, string message, Action<DateTime> callback)
+      public void SendMessage(string from, string to, string message, Action<MessageStatus> callback)
       {
          StaticSendMessage(from, to, message, callback);
       }
-      public static void StaticSendMessage(string from, string to, string message, Action<DateTime> callback)
+
+      public static void StaticSendMessage(string from, string to, string message, Action<MessageStatus> callback)
       {
          var textModel = new TextRequestModel { Text = message };
          var username = "5546d7a3";
@@ -37,9 +47,14 @@ namespace SmsFeedback_Take4.Models
 
          var requestModel = RequestModelBuilder.Create(username, password, from, to, textModel);
          var nexmo = new Nexmo_CSharp_lib.Nexmo();
-         var responseModel = nexmo.Send(requestModel, ResponseObjectType.Json);
+         JsonResponseModel responseModel = nexmo.Send(requestModel, ResponseObjectType.Json) as JsonResponseModel;
+         var msg = responseModel.MessageModels.First();
+         var status = msg.Status;
+         var sent = msg.Status.Equals("Success", StringComparison.InvariantCultureIgnoreCase) ? true : false;
+         var sentDate = DateTime.Now.ToUniversalTime();
+         var response = new MessageStatus() { MessageSent = sent, DateSent = sentDate, Status = status };
          //dragos: atm, when sending the message via nexmo we don't receive the sent date (or created date) so we use the current datestamp of the server (UTC format)        
-         callback(DateTime.Now.ToUniversalTime());
+         callback(response);
       }
    }
 }

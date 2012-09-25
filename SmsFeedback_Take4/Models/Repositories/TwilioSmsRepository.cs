@@ -38,8 +38,8 @@ namespace SmsFeedback_Take4.Models
    public class TwilioSmsRepository : SmsFeedback_Take4.Models.IExternalSmsRepository 
     {
       private static  readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-      
-      public void SendMessage(string from, string to, string message, Action<DateTime> callback )
+
+      public void SendMessage(string from, string to, string message, Action<MessageStatus> callback)
       {
          logger.Info("Call made");
             var accoundSID = "ACf79c0f33a5f74621ac527c0d2ab30981";
@@ -49,7 +49,8 @@ namespace SmsFeedback_Take4.Models
               var sentMessage = msg as SMSMessage;
               //message was successfully sent
               logger.DebugFormat("Sent message with id: {0}", msg.Sid );
-              callback(sentMessage.DateCreated);
+              var responce = new MessageStatus() {DateSent= sentMessage.DateCreated, MessageSent= true, Status=sentMessage.Status };
+              callback(responce);
            });           
       }
 
