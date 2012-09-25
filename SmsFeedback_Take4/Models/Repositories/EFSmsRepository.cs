@@ -232,7 +232,15 @@ namespace SmsFeedback_Take4.Models
         if (companies.Count() == 1)
         {
            SmsFeedback_EFModels.Company company = companies.First();
-           var tagsList = from tag in company.Tags select (from tagType in tag.TagTagTypes select new ConvTag() { CompanyName = company.Name, Name = tag.Name, Description = tag.Description, TagType = tagType.TagType.Type, IsDefault = tagType.IsDefault });
+           var tagsList = from tag in company.Tags select 
+                              (from tagType in tag.TagTagTypes select 
+                                   new ConvTag() {
+                                       CompanyName = company.Name, 
+                                       Name = tag.Name, 
+                                       Description = tag.Description,
+                                       TagType = tagType.TagType.Type, 
+                                       IsDefault = tagType.IsDefault 
+                                   });
            IEnumerable<ConvTag> result = tagsList.SelectMany(l => l);          
            return result;
         }

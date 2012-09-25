@@ -565,7 +565,7 @@
     <comment>Conversation: filters area, enable/disable date filtering checkbox tooltip</comment>
   </data>
   <data name="tooltipIncludeSupportFilter" xml:space="preserve">
-    <value>Quick access to support conversations</value>
+    <value>Quick access to support from TxtFeedback</value>
     <comment>Conversation: filters area, favorites messages only checkbox tooltip</comment>
   </data>
   <data name="tooltipIncludeTagsInFilter" xml:space="preserve">
@@ -751,6 +751,9 @@
   </data>
   <data name="RepPositiveNegativeTransitionsChartTitle" xml:space="preserve">
     <value>Positive and negative transitions</value>
+  </data>
+  <data name="RepNoDataToDisplay" xml:space="preserve">
+    <value>No data to display</value>
   </data>
   <data name="settingsWpDefineWpsMenu" xml:space="preserve">
     <value>Define you working points</value>

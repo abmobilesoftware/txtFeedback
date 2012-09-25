@@ -45,9 +45,14 @@ var ReportsContentArea = Backbone.View.extend({
         // Load the compiled HTML into the Backbone "el"
         $(this.el).html(template);
         $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
-        for (var k = 0; k < this.model.get("sections").length; ++k) 
-            if (this.model.get("sections")[k].visibility) this.renderSection("#" + this.model.get("sections")[k].identifier, k, this.model.get("sections")[k].resources);
-        this.setupEnvironment();
+        var displayTooltip = false;
+        for (var k = 0; k < this.model.get("sections").length; ++k)
+            if (this.model.get("sections")[k].visibility) {
+                this.renderSection("#" + this.model.get("sections")[k].identifier, this.model.get("sections")[k].uniqueId, this.model.get("sections")[k].resources);
+                if (this.model.get("sections")[k].resources[0].tooltip != "no tooltip") displayTooltip = true;
+            }
+        
+        this.setupEnvironment(displayTooltip);
 
         this.transition.endTransition();
         // resize event is triggered here, because after populating the divs with content the page height will change
@@ -67,9 +72,10 @@ var ReportsContentArea = Backbone.View.extend({
             eval(instructions);
             */
             // -----------------------------------
-            var area = new FirstArea(resources[0].source, "day", resources[0].options, id);
+            var area = new FirstArea(resources[0].source, "day", resources[0].options, id, resources[0].tooltip);
             area.drawArea();
-            window.app.areas[id] = area;
+            //window.app.areas[id] = area;
+            window.app.areas.push(area);
         } else if (section == "#SecondaryChartArea") {
             window.app.thirdArea = new ThirdArea(resources[0].source);
             window.app.thirdArea.drawArea();
@@ -80,15 +86,28 @@ var ReportsContentArea = Backbone.View.extend({
             window.app.areas.push(window.app.secondArea);
         }
     },
-    setupEnvironment: function () {
+    setupEnvironment: function (displayTooltip) {
         //$("#granularitySelector").show();
+        if (displayTooltip) {
+            var infoBoxElement = $(".chartAreaTitle");
+            infoBoxElement.qtip({
+                content: infoBoxElement.attr('tooltiptitle'),
+                position: {
+                    corner: {
+                        target: 'bottomMiddle',
+                        tooltip: 'topMiddle'
+                    }
+                },
+                style: 'dark'
+            });
+        }
         $(".chartAreaTitle").click(function (event) {
             event.preventDefault();
             var sectionId = $(this).attr("sectionId");
-            var elementName = "#chartAreaContent" + sectionId;
+            var elementName = ".chartAreaContent" + sectionId;
             var descriptionElement = "#description" + sectionId;
-            if ($(elementName).is(":visible")) { $(elementName).hide(); $(this).children(".sectionVisibility").attr("src", "/Content/images/plus_22x22.jpg"); $(descriptionElement).show(); $(document).trigger("resize"); }
-            else { $(elementName).show(); $(this).children(".sectionVisibility").attr("src", "/Content/images/minus_22x22.jpg"); $(descriptionElement).hide(); $(document).trigger("resize"); }           
+            if ($(elementName).is(":visible")) { $(elementName).hide(); $(this).children(".sectionVisibility").attr("src", "/Content/images/maximize_square.png"); $(descriptionElement).show(); $(document).trigger("resize"); }
+            else { $(elementName).show(); $(this).children(".sectionVisibility").attr("src", "/Content/images/minimize_square.png"); $(descriptionElement).hide(); $(document).trigger("resize"); }           
         });
 
         var fromDatepicker = $("#from");

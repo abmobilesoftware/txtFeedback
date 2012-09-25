@@ -669,4 +669,7 @@
   <data name="welcomeMessage" xml:space="preserve">
     <value>Willkommen</value>
   </data>
+  <data name="RepNoDataToDisplay" xml:space="preserve">
+    <value>NoDataToDisplayDE</value>
+  </data>
 </root>

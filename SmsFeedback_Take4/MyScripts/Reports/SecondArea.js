@@ -52,7 +52,7 @@ function SecondArea(iData) {
     }
 
     this.fillInfoBox = function (name, tooltip, data) {
-        var infoBoxString = "<div class='boxArea' title='" + tooltip + "'>" +
+        var infoBoxString = "<div class='boxArea' tooltiptitle='" + tooltip + "'>" +
                                 "<div class='infoContent'><div class='infoContentMiddle'><div class='infoContentInner'><span class='boxContent'><span class='boxValue'>" + data.value + "</span><span class='boxUnit'> " + data.unit + "</span></span></div></div></div>" +
                                 "<div class='infoTitle'><div class='infoTitleMiddle'><div class='infoTitleInner'><span class='boxTitle'>" + name + "</span></div></div></div>" +
                             "</div>";
