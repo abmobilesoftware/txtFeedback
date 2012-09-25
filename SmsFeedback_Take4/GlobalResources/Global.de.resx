@@ -570,6 +570,9 @@
   <data name="settingsWpConfigLegend" xml:space="preserve">
     <value>Filialen</value>
   </data>
+  <data name="settingsWpDefineWpsMenu" xml:space="preserve">
+    <value>Ihre Filialen definiren</value>
+  </data>
   <data name="settingsWpDescriptionHeader" xml:space="preserve">
     <value>Beschreibung</value>
   </data>
@@ -578,6 +581,9 @@
   </data>
   <data name="settingsWpMaxOutboundSmsHeaderTooltip" xml:space="preserve">
     <value>Die maximale SMS-Zahl, die von dieser Filiale gesendet werden kann</value>
+  </data>
+  <data name="settingsWpMenuName" xml:space="preserve">
+    <value>Filialen</value>
   </data>
   <data name="settingsWpNameHeader" xml:space="preserve">
     <value>Filialenname</value>
