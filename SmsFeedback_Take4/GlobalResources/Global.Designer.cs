@@ -1420,6 +1420,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Define you working points.
+        /// </summary>
+        public static string settingsWpDefineWpsMenu {
+            get {
+                return ResourceManager.GetString("settingsWpDefineWpsMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string settingsWpDescriptionHeader {
@@ -1443,6 +1452,15 @@ namespace Resources {
         public static string settingsWpMaxOutboundSmsHeaderTooltip {
             get {
                 return ResourceManager.GetString("settingsWpMaxOutboundSmsHeaderTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working points.
+        /// </summary>
+        public static string settingsWpMenuName {
+            get {
+                return ResourceManager.GetString("settingsWpMenuName", resourceCulture);
             }
         }
         

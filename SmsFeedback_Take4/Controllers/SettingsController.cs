@@ -45,8 +45,8 @@ namespace SmsFeedback_Take4.Controllers
            };
            if (HttpContext.User.IsInRole(cRoleForConfigurators))
            {
-              reportsMenuItems.Add(new ReportsMenuItem(30, "Working points", false, 0));
-              reportsMenuItems.Add(new ReportsMenuItem(31, "Define your working points", true, 30));              
+              reportsMenuItems.Add(new ReportsMenuItem(30, Resources.Global.settingsWpMenuName, false, 0));
+              reportsMenuItems.Add(new ReportsMenuItem(31, Resources.Global.settingsWpDefineWpsMenu, true, 30));              
            };
            return Json(reportsMenuItems, JsonRequestBehavior.AllowGet);           
         }

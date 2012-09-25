@@ -178,7 +178,7 @@
     <value>Passwort</value>
   </data>
   <data name="LogOnModel_Password_Required" xml:space="preserve">
-    <value>Das Passwort ist erforderlich</value>
+    <value>Das Passwort ist erforderlich.</value>
   </data>
   <data name="LogOnModel_RememberMe_DisplayName" xml:space="preserve">
     <value>Login speichern</value>
@@ -187,7 +187,7 @@
     <value>Benutzer</value>
   </data>
   <data name="LogOnModel_UserName_Required" xml:space="preserve">
-    <value>Der Benutzername ist erforderlich</value>
+    <value>Der Benutzername ist erforderlich.</value>
   </data>
   <data name="logOnRegister" xml:space="preserve">
     <value>Registrieren</value>
@@ -196,7 +196,7 @@
     <value>Wenn Sie kein Konto haben</value>
   </data>
   <data name="logOnWithUserPassMsg" xml:space="preserve">
-    <value>Bitte geben Sie Ihren Benutzername und Ihr Passwort ein</value>
+    <value>Bitte geben Sie Ihren Benutzername und Ihr Passwort ein.</value>
   </data>
   <data name="messagesAddTagPlaceHolder" xml:space="preserve">
     <value>Schlagwort hinzufügen</value>
@@ -262,7 +262,7 @@
     <value>Tag</value>
   </data>
   <data name="RepIncomingOutgoingChartTitle" xml:space="preserve">
-    <value />
+    <value>Eingehende und Ausgehende SMS</value>
   </data>
   <data name="RepIncomingSmsChart" xml:space="preserve">
     <value>Eingehende SMS</value>
@@ -303,11 +303,14 @@
   <data name="RepNewVsReturning" xml:space="preserve">
     <value>Neu vs Wiederkehrend</value>
   </data>
+  <data name="RepNoDataToDisplay" xml:space="preserve">
+    <value>Keine Daten anzeigen</value>
+  </data>
   <data name="RepNoneDefaultValue" xml:space="preserve">
-    <value>None</value>
+    <value>Keine</value>
   </data>
   <data name="RepNoOfConversationsByTagsChartTitle" xml:space="preserve">
-    <value>Anzahl der Unterhaltungen bei Schlagworte</value>
+    <value>Anzahl der Unterhaltungen bei Schlagwörter</value>
   </data>
   <data name="RepNoOfIncomingSms" xml:space="preserve">
     <value>Anzahl der eingehenden SMS</value>
@@ -361,7 +364,7 @@
     <value>Positives Feedback</value>
   </data>
   <data name="RepPositiveNegativeActivityChartTitle" xml:space="preserve">
-    <value>Aktivität der positiven und negativen Schlagworte</value>
+    <value>Aktivität der positiven und negativen Schlagwörter</value>
   </data>
   <data name="RepPositiveNegativeEvolutionChartTitle" xml:space="preserve">
     <value>Entwicklung des positiven und negativen Feedbacks</value>
@@ -388,7 +391,7 @@
     <value>SMS</value>
   </data>
   <data name="RepTags" xml:space="preserve">
-    <value>Tag</value>
+    <value>Schlagwörter</value>
   </data>
   <data name="RepTagsPerConversationUnit" xml:space="preserve">
     <value>Schlagwörter/Unterhaltung</value>
@@ -451,7 +454,7 @@
     <value>Senden</value>
   </data>
   <data name="sendEmailSendingEmail" xml:space="preserve">
-    <value>Sendung...</value>
+    <value>Wird gesendet</value>
   </data>
   <data name="sendEmailStartingText" xml:space="preserve">
     <value>Nachricht von TxtFeedback Kunde</value>
@@ -481,13 +484,13 @@
     <value>Feedback senden</value>
   </data>
   <data name="sendFeedbackNegativeFeedbackSubject" xml:space="preserve">
-    <value>Ich mag nicht, dass ...</value>
+    <value>Das gefällt mir ...</value>
   </data>
   <data name="sendFeedbackPlaceholderMessage" xml:space="preserve">
     <value>Ersetzen Sie diese mit Ihrer Eingabe</value>
   </data>
   <data name="sendFeedbackPositiveFeedbackSubject" xml:space="preserve">
-    <value>Ich mag, dass...</value>
+    <value>Das gefällt mir nicht ...</value>
   </data>
   <data name="settingsBtnChangePassword" xml:space="preserve">
     <value>Passwort ändern</value>
@@ -502,16 +505,16 @@
     <value>Beschreibung </value>
   </data>
   <data name="settingsConfigureWpDescriptionError" xml:space="preserve">
-    <value>Beschreibung des Arbeitspunkts darf nicht leer sein</value>
+    <value>Beschreibung des Arbeitspunkts darf nicht leer sein.</value>
   </data>
   <data name="settingsConfigureWpName" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="settingsConfigureWpNameError" xml:space="preserve">
-    <value>Name des Arbeitspunkts darf nicht leer sein</value>
+    <value>Name des Arbeitspunkts darf nicht leer sein.</value>
   </data>
   <data name="settingsConfigureWpTelNumberError" xml:space="preserve">
-    <value>Telefonnummer darf nicht leer sein</value>
+    <value>Telefonnummer darf nicht leer sein.</value>
   </data>
   <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
     <value>Bestätigung der neuen Passwort</value>
@@ -520,7 +523,7 @@
     <value> Aktuelles Passwort</value>
   </data>
   <data name="settingsDescriptionPrefix" xml:space="preserve">
-    <value>Neue Passwörter müssen minimal {0} Charaktere haben</value>
+    <value>Neue Passwörter müssen minimal {0} Charaktere haben.</value>
   </data>
   <data name="settingsErrorNewPasswordsDontMatch" xml:space="preserve">
     <value>Das neue Passwort und das Bestätigungspasswort sind nicht derselbe.</value>
@@ -535,16 +538,16 @@
     <value>Das neue Passwort muss wenigstens {2} Charaktere haben.</value>
   </data>
   <data name="settingsErrorWpDescriptionLength" xml:space="preserve">
-    <value>Beschreibung des Arbeitspunkts soll maximal 160 Zeichen lang sein </value>
+    <value>Beschreibung des Arbeitspunkts soll maximal 160 Zeichen lang sein.</value>
   </data>
   <data name="settingsErrorWpNameLength" xml:space="preserve">
-    <value>Name des Arbeitspunkts soll von 6 bis 40 Zeichen lang sein </value>
+    <value>Name des Arbeitspunkts soll von 6 bis 40 Zeichen lang sein.</value>
   </data>
   <data name="settingsErrorWpTelNumberLength" xml:space="preserve">
-    <value>Telefonnummer des Arbeitspunkts soll von 8 bis 50 Zeichen lang sein </value>
+    <value>Telefonnummer des Arbeitspunkts soll von 8 bis 50 Zeichen lang sein.</value>
   </data>
   <data name="settingsMaxOutboundSmsHeader" xml:space="preserve">
-    <value />
+    <value>Maximale ausgehende SMS</value>
   </data>
   <data name="settingsNewPasswordLabel" xml:space="preserve">
     <value>Neues Passwort</value>
@@ -553,43 +556,43 @@
     <value>Einstellungen</value>
   </data>
   <data name="settingsPasswordChangedSuccessfully" xml:space="preserve">
-    <value>Ihr Passwort wurde erfolgreich verändert</value>
+    <value>Ihr Passwort wurde erfolgreich verändert.</value>
   </data>
   <data name="settingsPrivacy" xml:space="preserve">
     <value>Datenschutz</value>
   </data>
   <data name="settingsTelNoHeader" xml:space="preserve">
-    <value />
+    <value>Telefonnummer</value>
   </data>
   <data name="settingsWpConfigErrors" xml:space="preserve">
-    <value />
+    <value>Aufgetretene Fehler während des Speicherns des neuen Konfigurationsdatei</value>
   </data>
   <data name="settingsWpConfigLegend" xml:space="preserve">
-    <value />
+    <value>Filialen</value>
   </data>
   <data name="settingsWpDescriptionHeader" xml:space="preserve">
-    <value />
+    <value>Beschreibung</value>
   </data>
   <data name="settingsWpDescriptionHeaderTooltip" xml:space="preserve">
-    <value />
+    <value>Beschreibung der Filiale</value>
   </data>
   <data name="settingsWpMaxOutboundSmsHeaderTooltip" xml:space="preserve">
-    <value />
+    <value>Die maximale SMS-Zahl, die von dieser Filiale gesendet werden kann</value>
   </data>
   <data name="settingsWpNameHeader" xml:space="preserve">
-    <value />
+    <value>Filialenname</value>
   </data>
   <data name="settingsWpNameHeaderTooltip" xml:space="preserve">
-    <value />
+    <value>Kurzname für die Application</value>
   </data>
   <data name="settingsWpTelNoHeaderTooltip" xml:space="preserve">
-    <value />
+    <value>Rufnummer für diese Filiale</value>
   </data>
   <data name="settingUserPreferences" xml:space="preserve">
     <value>Benutzereinstellungen</value>
   </data>
   <data name="settingWpConfigSavedSuccessfuly" xml:space="preserve">
-    <value />
+    <value>Die Konfiguration der Filiale wurde erfolgreicht gewchselt</value>
   </data>
   <data name="starredLabel" xml:space="preserve">
     <value>Favoriten</value>
@@ -610,7 +613,7 @@
     <value>Einstellungen</value>
   </data>
   <data name="tagsLabel" xml:space="preserve">
-    <value>Schlagwörter(n):</value>
+    <value>Schlagwort(e):</value>
   </data>
   <data name="thumbsDownTooltip" xml:space="preserve">
     <value>Die Unterhaltung als positiven Feedback markieren</value>
