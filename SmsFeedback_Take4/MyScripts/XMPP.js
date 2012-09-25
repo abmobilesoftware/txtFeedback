@@ -2,6 +2,9 @@
 window.app = window.app || {};
 window.app.xmppConn = {};
 window.app.receivedMsgID = 12345;
+window.app.getFeaturesIQID = "info14";
+window.app.addressOfPhpScripts = "dragos@txtfeedback.net";
+window.app.selfXmppAddress = "";
 
 function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, text, readStatus) {   
    window.app.updateNrOfUnreadConversations(false);
@@ -19,7 +22,8 @@ $(function () {
    window.app.xmppHandlerInstance = new window.app.XMPPhandler();
    $.getJSON(window.app.domainName + '/Xmpp/GetConnectionDetailsForLoggedInUser', function (data) {
       if (data !== "") {
-         window.app.xmppHandlerInstance.connect(data.XmppUser, data.XmppPassword);
+         window.app.selfXmppAddress = data.XmppUser;
+         window.app.xmppHandlerInstance.connect(window.app.selfXmppAddress, data.XmppPassword);
          //window.app.xmppHandlerInstance.connect("supportUK@txtfeedback.net", "123456");
          window.app.updateNrOfUnreadConversations(true);
       }
@@ -32,6 +36,47 @@ $(function () {
    });
 });
 
+window.app.handleIncommingMessage = function (msgContent, isIncomming) {
+   var xmlDoc;
+   if (window.DOMParser) {
+      var parser = new DOMParser();
+      xmlDoc = parser.parseFromString(msgContent, "text/xml");
+   }
+   else {
+      xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+      xmlDoc.async = false;
+      xmlDoc.loadXML(msgContent);
+   }
+   var xmlMsgToBeDecoded = xmlDoc.getElementsByTagName("msg")[0];
+   var fromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
+   fromID = cleanupPhoneNumber(fromID);
+   var toID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
+   toID = cleanupPhoneNumber(toID);
+   var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
+   var convID;
+   if (isIncomming) {
+      convID = buildConversationID(fromID, toID);
+   }
+   else {
+      convID = buildConversationID(toID, fromID);
+   }
+   
+   var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
+   
+   var readStatus = false;
+
+   window.app.receivedMsgID++;
+   $(document).trigger('msgReceived', {
+      fromID: fromID,
+      toID: toID,
+      convID: convID,
+      msgID: window.app.receivedMsgID,
+      dateReceived: dateReceived,
+      text: newText,
+      readStatus: readStatus
+   });
+   
+};
 
 window.app.XMPPhandler = function XMPPhandler() {
    this.userid = null;
@@ -45,11 +90,13 @@ window.app.XMPPhandler = function XMPPhandler() {
       if (status === Strophe.Status.CONNECTED) {
          window.app.logDebugOnServer("XMPP connected");         
          window.app.xmppConn.connection = window.app.xmppConn.conn;
-         window.app.xmppConn.connection.addHandler(window.app.xmppConn.handle_infoquery, null, "iq", null, "ping1");
+         window.app.xmppConn.connection.addHandler(window.app.xmppConn.handle_infoquery, null, "iq", null,null);
          window.app.xmppConn.connection.addHandler(window.app.xmppConn.handle_message, null, "message", null, null);
          var domain = Strophe.getDomainFromJid(window.app.xmppConn.connection.jid);
-         window.app.xmppConn.send_ping(domain);
+         //window.app.xmppConn.send_ping(domain);
          window.app.xmppConn.send_initial_presence(domain);
+         window.app.xmppConn.getInfo(domain);
+       
          //self.request_conversations(self.account_number);
       } else if (status === Strophe.Status.CONNECTING) {
          window.app.logDebugOnServer("XMPP connecting...");         
@@ -102,34 +149,51 @@ window.app.XMPPhandler = function XMPPhandler() {
       var presence = $pres().c("status").t("Ready or not");
       this.connection.send(presence);
    };
-
-   this.send_reply = function (from, to, message) {
-      var message_body = Strophe.xmlescape("<sms>" +
-                                        " <sms_from>" + from + "</sms_from>" +
-                                        " <sms_to>" + to + "</sms_to>" +
-                                        " <sms_body>" + message + "</sms_body>" +
-                                    " </sms>");
+   this.enableCarbons = function (to) {
+      var enCarbons = $iq({         
+         type: "set",
+         id: "enableCarbons"         
+      }).c("enable", { xmlns: "urn:xmpp:carbons:1" });     
+      this.connection.send(enCarbons);
+   };
+   this.getInfo = function (to) {
+      var reqInfo = $iq({
+         to: to,
+         type: "get",
+         id: window.app.getFeaturesIQID
+      }).c("query", { xmlns: "http://jabber.org/protocol/disco#info" });
+      this.connection.send(reqInfo);
+   };
+   this.send_reply = function (from, to, dateSent, message, xmppTo) {
+      var message_body = "<msg>" +
+                                        " <from>" + from + "</from>" +
+                                        " <to>" + to + "</to>" +
+                                        " <datesent>" + dateSent +"</datesent>" +
+                                        " <body>" + message + "</body>" +
+                                    " </msg>";
       var replymsg = $msg({
-         to: "logic.smsfeedback.com",
-         from: "smsapp@smsfeedback.com",
-         "type": "sendSmsRequest"
+         from: window.app.selfXmppAddress,
+         to: xmppTo,
+         "type": "chat"
       }).c("body").t(message_body);
       this.connection.send(replymsg);
    };
    this.handle_infoquery = function (iq) {
       var elapsed = (new Date()).getTime() - this.start_time;
-      var pong = $iq({
-         to: $(iq).attr("from"),
-         from: $(iq).attr("to"),
-         type: "result",
-         id: $(iq).attr("id")
-      });
-
-      if ($(iq).children("ping") != null) {
-         window.app.xmppConn.connection.send(pong);
+      var currentIq = $(iq);
+      if (currentIq.attr("id") === window.app.getFeaturesIQID)
+      {
+         window.app.xmppConn.enableCarbons(currentIq.attr("from"));
       }
-      //Hello.connection.disconnect();
-      return false;
+      if (currentIq.attr("type") === "result")
+      {         
+         //TODO establish if relevant
+      }
+      if (currentIq.attr("type") === "error")
+      {
+        //TODO what now?
+      }     
+      return true;
    };
    this.handle_message = function (message) {
       if ($(message).attr("type") === "getConversationsResponse") {
@@ -145,38 +209,24 @@ window.app.XMPPhandler = function XMPPhandler() {
       } else if ($(message).attr("type") === "getMessagesForConversationResponse") {
          var messages = $(message).children("body").text();
          this.displayMessagesForConversation(messages);
-      } else {
-
-         var msgContent = (Strophe.getText(message.getElementsByTagName('body')[0]));
-         var xmlDoc;
-         if (window.DOMParser) {
-            var parser = new DOMParser();
-            xmlDoc = parser.parseFromString(msgContent, "text/xml");
+      } else if ($(message).attr("type") === "result") {
+         var x = $(message).children("body").text();
+      } else if ($(message).attr("type") === "chat") {
+         //if we are dealing with a forwarded message then the body tag will be non zero
+         if ($(message).children("sent").attr("xmlns") === "urn:xmpp:carbons:1") {
+            if (message.getElementsByTagName("body") != undefined && message.getElementsByTagName("body").length !== 0) {
+               var carbonMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
+               window.app.handleIncommingMessage(carbonMsg,false);
+            }
          }
          else {
-            xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
-            xmlDoc.async = false;
-            xmlDoc.loadXML(msgContent);
+            //incommingMSG
+            var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
+            window.app.handleIncommingMessage(incommingMsg,true);
          }
-         var xmlMsgToBeDecoded = xmlDoc.getElementsByTagName("msg")[0];
-         var fromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
-         fromID = cleanupPhoneNumber(fromID);
-         var toID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
-         toID = cleanupPhoneNumber(toID);
-         var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
-         var convID = buildConversationID(fromID, toID);
-         var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
-
-         $(document).trigger('msgReceived', {
-            fromID: fromID,
-            toID: toID,
-            convID: convID,
-            msgID: window.app.receivedMsgID,
-            dateReceived: dateReceived,
-            text: newText,
-            readStatus: false
-         });
-         window.app.receivedMsgID++;
+      } else {
+         //TODO what other messsages might there be?
+         //TODO log as error
       }
       return true;
    };

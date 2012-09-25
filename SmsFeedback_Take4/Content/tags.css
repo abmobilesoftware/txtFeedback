@@ -76,9 +76,11 @@
    display:  block;
    overflow: hidden;
 }
+
 .removeTagIcon {
    vertical-align: middle;   
 }
+
 .tag:hover {
    background-color: #a4b7c3;
    background-image: linear-gradient(bottom, rgb(106,120,128) 47%, rgb(96,106,112) 14%);
