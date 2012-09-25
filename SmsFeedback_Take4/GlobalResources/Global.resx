@@ -752,4 +752,12 @@
   <data name="RepPositiveNegativeTransitionsChartTitle" xml:space="preserve">
     <value>Positive and negative transitions</value>
   </data>
+  <data name="settingsWpDefineWpsMenu" xml:space="preserve">
+    <value>Define you working points</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpMenuName" xml:space="preserve">
+    <value>Working points</value>
+    <comment>Settings:</comment>
+  </data>
 </root>
