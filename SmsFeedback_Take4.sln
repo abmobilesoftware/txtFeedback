@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{01EEDA
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mobile.TxtFeedback_take1", "mobile.TxtFeedback_take1\mobile.TxtFeedback_take1.csproj", "{43CF5834-D311-46E1-9D9F-56C96EDB086C}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SmsFeedback_Take4.vsmdi
@@ -67,6 +69,16 @@ Global
 		{F4FC6BAC-DCC0-4E25-9749-745E2D33D29A}.Release_production|Any CPU.ActiveCfg = Release|Any CPU
 		{F4FC6BAC-DCC0-4E25-9749-745E2D33D29A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4FC6BAC-DCC0-4E25-9749-745E2D33D29A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43CF5834-D311-46E1-9D9F-56C96EDB086C}.Debug_demo|Any CPU.ActiveCfg = Debug|Any CPU
+		{43CF5834-D311-46E1-9D9F-56C96EDB086C}.Debug_demo|Any CPU.Build.0 = Debug|Any CPU
+		{43CF5834-D311-46E1-9D9F-56C96EDB086C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43CF5834-D311-46E1-9D9F-56C96EDB086C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43CF5834-D311-46E1-9D9F-56C96EDB086C}.Release_demo|Any CPU.ActiveCfg = Release|Any CPU
+		{43CF5834-D311-46E1-9D9F-56C96EDB086C}.Release_demo|Any CPU.Build.0 = Release|Any CPU
+		{43CF5834-D311-46E1-9D9F-56C96EDB086C}.Release_production|Any CPU.ActiveCfg = Release|Any CPU
+		{43CF5834-D311-46E1-9D9F-56C96EDB086C}.Release_production|Any CPU.Build.0 = Release|Any CPU
+		{43CF5834-D311-46E1-9D9F-56C96EDB086C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43CF5834-D311-46E1-9D9F-56C96EDB086C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
