@@ -4,6 +4,8 @@ window.app.xmppConn = {};
 window.app.receivedMsgID = 12345;
 window.app.getFeaturesIQID = "infomobile";
 window.app.addressOfPhpScripts = "dragos@txtfeedback.net";
+window.app.xmppUserToConnectAs = "testDA_temp";
+window.app.xmppPasswordForUser = "123456";
 window.app.selfXmppAddress = "";
 
 function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, text, readStatus) {   
@@ -21,7 +23,8 @@ $(function () {
    //the xmpp handler for new messages
    window.app.xmppHandlerInstance = new window.app.XMPPhandler();   
    window.app.selfXmppAddress = "testDA@txtfeedback.net";
-   window.app.xmppHandlerInstance.connect(window.app.selfXmppAddress,"123456");           
+   //window.app.xmppHandlerInstance.connect(window.app.xmppUserToConnectAs + "@txtfeedback.net", window.app.xmppPasswordForUser);
+   window.app.xmppHandlerInstance.register();
 });
 
 window.app.handleIncommingMessage = function (msgContent, isIncomming) {      
@@ -34,8 +37,7 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
       dateReceived: new Date,
       text: msgContent,
       readStatus: false
-   });
-   
+   });   
 };
 
 window.app.XMPPhandler = function XMPPhandler() {
@@ -45,7 +47,7 @@ window.app.XMPPhandler = function XMPPhandler() {
 
    this.connection = null;
    this.start_time = null;
-   this.connectCallback = function (status) {
+   this.connectCallback = function (status, condition) {
       var needReconnect = false;
       if (status === Strophe.Status.CONNECTED) {
          window.app.logDebugOnServer("XMPP connected");         
@@ -58,6 +60,21 @@ window.app.XMPPhandler = function XMPPhandler() {
          window.app.xmppConn.getInfo(domain);
        
          //self.request_conversations(self.account_number);
+      } else if (status === Strophe.Status.REGIFAIL) {
+         window.app.logErrorOnServer("XMPP registration failed");
+      } else if (status === Strophe.Status.REGISTER) {
+         window.app.xmppConn.conn.register.fields.username = window.app.xmppUserToConnectAs;
+         window.app.xmppConn.conn.register.fields.password = window.app.xmppPasswordForUser;
+         window.app.xmppConn.conn.register.submit();
+      } else if (status === Strophe.Status.REGISTERED) {
+         console.log("registered!");
+         window.app.xmppConn.conn.xmppConn.authenticate();
+      } else if (status === Strophe.Status.SBMTFAIL) {
+         //registration failed -check the reason
+         if (condition === "conflict") {
+            //the user already exists
+            window.app.xmppHandlerInstance.connect(window.app.xmppUserToConnectAs + "@txtfeedback.net", window.app.xmppPasswordForUser)
+         }
       } else if (status === Strophe.Status.CONNECTING) {
          window.app.logDebugOnServer("XMPP connecting...");         
       } else if (status === Strophe.Status.AUTHENTICATING) {
@@ -82,15 +99,22 @@ window.app.XMPPhandler = function XMPPhandler() {
    this.connect = function (userid, password) {
       var self = this;
       //var xmppServerAddress = "http://localhost:3333/app/dsadsa/http-bindours/";
-      //var xmppServerAddress = "http://www.cluj-info.com/smsfeedback/nocontroller/http-bindours/";
-      var xmppServerAddress = "http://176.34.122.48:5280/http-bind/";
+      //var xmppServerAddress = "http://www.cluj-info.com/smsfeedback/nocontroller/http-bindours/";      
+      var xmppServerAddress = "http://176.34.122.48:5280/http-bind/"
       self.conn = new Strophe.Connection(xmppServerAddress);
       self.userid = userid;
       self.password = password;
       window.app.xmppConn = this;
-
       self.conn.connect(userid, password, self.connectCallback);
    };
+   this.register = function () {
+      var self = this;
+      var xmppServerAddress = "http://176.34.122.48:5280/http-bind/";
+      self.conn = new Strophe.Connection(xmppServerAddress);
+      window.app.xmppConn = this;
+      self.conn.register.connect("txtfeedback.net", self.connectCallback);
+   };
+
    this.disconnect = function () {
       var self = this;
       self.conn.disconnect();
@@ -101,7 +125,6 @@ window.app.XMPPhandler = function XMPPhandler() {
          type: "get",
          id: "ping1"
       }).c("ping", { xmlns: "urn:xmpp:ping" });
-
       this.start_time = (new Date()).getTime();
       this.connection.send(ping);
    };

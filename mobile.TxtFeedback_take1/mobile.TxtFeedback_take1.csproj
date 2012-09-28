@@ -226,6 +226,7 @@
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MyScripts\Home.js" />
     <Content Include="MyScripts\strophe.js" />
+    <Content Include="MyScripts\strophe.register.js" />
     <Content Include="MyScripts\Utilities.js" />
     <Content Include="MyScripts\XMPP.js" />
     <Content Include="Scripts\backbone-min.js" />

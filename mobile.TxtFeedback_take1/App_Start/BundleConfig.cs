@@ -12,6 +12,7 @@ namespace mobile.TxtFeedback_take1
                      "~/MyScripts/Utilities.js",
                      "~/MyScripts/XMPP.js",
                      "~/MyScripts/strophe.js",
+                     "~/MyScripts/strophe.register.js",
                      "~/MyScripts/Home.js"));
 
          bundles.Add(new ScriptBundle("~/bundles/datepicker").Include(

@@ -24,10 +24,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="bin/mobile.TxtFeedback_take1.dll">
-      <publishTime>09/28/2012 14:38:12</publishTime>
+      <publishTime>09/28/2012 16:22:08</publishTime>
     </File>
     <File Include="bin/mobile.TxtFeedback_take1.pdb">
-      <publishTime>09/28/2012 14:38:12</publishTime>
+      <publishTime>09/28/2012 16:22:08</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>06/27/2012 18:16:31</publishTime>
@@ -335,11 +335,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="MyScripts/strophe.js">
       <publishTime>09/26/2012 17:36:15</publishTime>
     </File>
+    <File Include="MyScripts/strophe.register.js">
+      <publishTime>09/28/2012 17:41:30</publishTime>
+    </File>
     <File Include="MyScripts/Utilities.js">
       <publishTime>09/28/2012 13:20:32</publishTime>
     </File>
     <File Include="MyScripts/XMPP.js">
-      <publishTime>09/28/2012 14:58:37</publishTime>
+      <publishTime>09/28/2012 18:07:56</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>09/28/2012 13:20:08</publishTime>
@@ -456,7 +459,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>09/28/2012 14:58:46</publishTime>
+      <publishTime>09/28/2012 18:08:49</publishTime>
     </File>
   </ItemGroup>
 </Project>
