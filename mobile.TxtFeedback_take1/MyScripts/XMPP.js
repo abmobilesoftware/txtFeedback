@@ -69,8 +69,8 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
 
    if (isIncomming) {
       $(document).trigger('msgReceived', {
-         fromID: window.app.defaultTo,
-         toID: window.app.defaultFrom,
+         fromID: toID,
+         toID: fromID,
          convID: convID,
          msgID: window.app.receivedMsgID,
          dateReceived: new Date(),
