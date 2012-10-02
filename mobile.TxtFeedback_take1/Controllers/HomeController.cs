@@ -42,7 +42,7 @@ namespace mobile.TxtFeedback_take1.Controllers
          string convID= ConversationUtilities.BuildConversationIDFromFromAndTo(clientTempPhoneNumber,location);         
          string newPassword = "123456";
          return Json(new UserDetails() {
-            Name = guid, 
+            Name = clientTempPhoneNumber, 
             Password = newPassword,
             ConversationID = convID}, JsonRequestBehavior.AllowGet);
       }      

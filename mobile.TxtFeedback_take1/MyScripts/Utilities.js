@@ -28,9 +28,11 @@ function comparePhoneNumbers(phoneNumber1, phoneNumber2)
    return cleanupPhoneNumber(phoneNumber1) === cleanupPhoneNumber(phoneNumber2);
 }
 function cleanupPhoneNumber(data) {
-   var prefixes = new Array("00", "\\+");   
-   var prefix = new RegExp('^(' + prefixes.join('|') + ')', "g");   
-   data = data.replace(prefix, "");   
+   var prefixes = new Array("00", "\\+");
+   //remove 00 and + from the beginning of the number
+   //remove all domain qualifiers - everything after @
+   var reg = new RegExp('^(' + prefixes.join('|') + ')|@.+$', "g");
+   data = data.replace(reg, "");   
    return data;
 }
 function getFromToFromConversation(convID) {

@@ -5,6 +5,9 @@
 /*global $pres */
 /*global $iq */
 /*global $msg */
+/*global Persist */
+/*global DOMParser */
+/*global ActiveXObject */
 window.app = window.app || {};
 window.app.receivedMsgID = 12345;
 
@@ -49,27 +52,26 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
       xmlDoc.async = false;
       xmlDoc.loadXML(msgContent);
    }
-   var xmlMsgToBeDecoded = xmlDoc.getElementsByTagName("msg")[0];
-   //TODO right now from/to cannot be uses
-   //var fromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
-   //fromID = cleanupPhoneNumber(fromID);
-   //var toID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
-   //toID = cleanupPhoneNumber(toID);
+   var xmlMsgToBeDecoded = xmlDoc.getElementsByTagName("msg")[0];   
+   var fromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
+   fromID = cleanupPhoneNumber(fromID);
+   var toID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
+   toID = cleanupPhoneNumber(toID);
    //var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datereceived')[0].textContent;
-   //var convID;
-   //if (isIncomming) {
-   //   convID = buildConversationID(fromID, toID);
-   //}
-   //else {
-   //   convID = buildConversationID(toID, fromID);
-   //}
+   var convID;
+   if (isIncomming) {
+      convID = buildConversationID(fromID, toID);
+   }
+   else {
+      convID = buildConversationID(toID, fromID);
+   }
    var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
 
    if (isIncomming) {
       $(document).trigger('msgReceived', {
          fromID: window.app.defaultTo,
          toID: window.app.defaultFrom,
-         convID: window.app.defaultConversationID,
+         convID: convID,
          msgID: window.app.receivedMsgID,
          dateReceived: new Date(),
          text: newText,
@@ -274,21 +276,7 @@ window.app.saveLoginDetails = function () {
 };
 
 window.app.loadLoginDetails = function () {
-   console.log("load login details");   
-   //$.getJSON(
-   //'Home/GetUser',
-   //{ location: "0751569435" },
-   //function (data) {
-   //   window.app.xmppUserToConnectAs = "03321bc1-1a7d-44c1-9e7d-7c24665e89ea";//data.Name;
-   //   window.app.xmppPasswordForUser = data.Password;
-   //   var convID = '03321bc11a7d44c19e7d7c24665e89ea-0751569435';//data.ConversationID;
-   //   window.app.defaultConversationID = convID;
-   //   var fromTo = getFromToFromConversation(convID);
-   //   window.app.defaultFrom = fromTo[0];
-   //   window.app.defaultTo = fromTo[1];
-   //   window.app.logOnXmppNetwork(true);
-   //}
-   //   );   
+   console.log("load login details");     
    var store = new Persist.Store('TxtFeedback');   
    var user = store.get('xmppUser');   
    if (user !== undefined && user)
@@ -303,7 +291,7 @@ window.app.loadLoginDetails = function () {
          if (password) { window.app.xmppPasswordForUser = password; }      
          var defaultConversationID = store.get('conversationID');
          if (defaultConversationID) {
-            window.app.defaultConversationID = defaultConversationID
+            window.app.defaultConversationID = defaultConversationID;
             var fromTo = getFromToFromConversation(defaultConversationID);
             window.app.defaultFrom = fromTo[0];
             window.app.defaultTo = fromTo[1];
@@ -315,7 +303,7 @@ window.app.loadLoginDetails = function () {
          //no previous user found, create a new one
          $.getJSON(            
             'Home/GetUser',
-            { location: "0751569435"},
+            { location: "dragos" },
             function (data) {
                console.log("create new user");
                window.app.xmppUserToConnectAs = data.Name;
