@@ -1,4 +1,7 @@
-﻿window.app = window.app || {};
+﻿/*global window */
+/*global navigator */
+/*global console */
+window.app = window.app || {};
 window.app.domainName = '';
 window.app.lastAjaxCall = { settings: null, jqXHR: null };
 window.app.loginSummaryUrl = "/Account/LogOnSummary";
@@ -39,11 +42,12 @@ function getFromToFromConversation(convID) {
 //#region make sure Jquery AJAX requests are not cached
 $(function () {
    $.ajaxSetup({ cache: false });
-})
+});
 //#endregion
 
 //#region Client side JavaScript errors
 window.app.logErrorOnServer = function logError(message) {
+   console.log("error: " + message);
    $.ajax({
       type: 'POST',
       url: 'ErrorLog/LogError',
@@ -53,6 +57,7 @@ window.app.logErrorOnServer = function logError(message) {
 };
 
 window.app.logDebugOnServer = function logError(message) {
+   console.log("message: " + message);
    $.ajax({
       type: 'POST',
       url: 'ErrorLog/LogDebug',

@@ -1,4 +1,8 @@
-﻿"use strict";
+﻿
+/*global window */
+/*global Backbone */
+/*global document */
+/*global console */
 window.app = window.app || {};
 window.app.selectedConversation = {};
 window.app.globalMessagesRep = {};
@@ -10,7 +14,10 @@ window.app.defaultTo = "0751569435";
 window.app.defaultMessage = "Welcome";
 window.app.calendarCulture = "en-GB";
 
-
+function newMessageReceivedGUI(msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
+   //the conversations window expects that the toID be a "name" and not a telephone number   
+   msgView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
+}
 //#region Message model
 window.app.Message = Backbone.Model.extend({
    defaults: {
@@ -25,8 +32,7 @@ window.app.Message = Backbone.Model.extend({
    },
    parse: function (data, xhc) {
       //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
-      //in the TimeReceived property we have the same info coded as ticks, so we replace the TimeReceived value with a value build from the ticks value
-      var dateInTicks = data.TimeReceived.substring(6, 19);
+      //in the TimeReceived property we have the same info coded as ticks, so we replace the TimeReceived value with a value build from the ticks value      
       data.TimeReceived = (new Date(Date.UTC(data.Year, data.Month - 1, data.Day, data.Hours, data.Minutes, data.Seconds)));
       //we have to determine the direction
       var dir = cleanupPhoneNumber(data.From) + "-" + cleanupPhoneNumber(data.To);
@@ -45,7 +51,7 @@ window.app.Message = Backbone.Model.extend({
 
 //#region MessagesPool
 window.app.MessagesList = Backbone.Collection.extend({
-   model: app.Message,
+   model: window.app.Message,
    identifier: null,
    url: function () {
       return "Messages/MessagesList";
@@ -61,9 +67,10 @@ window.app.defaultMessagesOptions = {
 //#endregion
 
 function MessagesArea() {
+   "use strict";
    var self = this;
 
-   $.extend(this, app.defaultMessagesOptions);  
+   $.extend(this, window.app.defaultMessagesOptions);  
   
    $("#reply").click(function () {
       sendMessageToClient();
@@ -79,8 +86,7 @@ function MessagesArea() {
 
       var fromTo = getFromToFromConversation(self.currentConversationId);
       var from = fromTo[0];
-      var to = fromTo[1];
-      
+      var to = fromTo[1];      
       //TODO should be RFC822 format
       var timeSent = new Date();
       $(document).trigger('msgReceived', {
@@ -107,7 +113,7 @@ function MessagesArea() {
    }; // excape HTML: {%- <script> %} prints &lt
 
    var MessageView = Backbone.View.extend({
-      model: app.Message,
+      model: window.app.Message,
       tagName: "div",
       messageTemplate: _.template($('#message-template').html()),
       initialize: function () {
@@ -122,7 +128,7 @@ function MessagesArea() {
          var extraMenuWrapperSide = "extraMenuWrapperLeft";
          //var arrowExtraMenu="arrowExtraMenuFrom";
          //var arrowInnerExtraMenu = "arrowInnerExtraMenuFrom";
-         if (this.model.attributes["Direction"] === "to") {
+         if (this.model.attributes.Direction === "to") {
             direction = "messageto";
             arrowInnerMenuLeft = "arrowInnerRight";
             extraMenuWrapperSide = "extraMenuWrapperRight";
@@ -154,7 +160,7 @@ function MessagesArea() {
             "appendMessageToDiv",
             "resetViewToDefault",
             "newMessageReceived");// to solve the this issue
-         this.messages = new app.MessagesList();
+         this.messages = new window.app.MessagesList();
          this.messages.bind("reset", this.render);
       },
       resetViewToDefault: function () {
@@ -165,17 +171,18 @@ function MessagesArea() {
          self.currentConversationId = '';
       },
       getMessages: function (conversationId) {
+         console.log("get messages");
          $("#messagesbox").html('');         
-         var messages = new app.MessagesList();
+         var messages = new window.app.MessagesList();
          messages.identifier = conversationId;
          messages.bind("reset", this.render);
          messages.bind('add', this.appendMessage);
          performFadeIn = true;
          
          self.currentConversationId = conversationId;
-         app.globalMessagesRep[self.currentConversationId] = messages;
+         window.app.globalMessagesRep[self.currentConversationId] = messages;
 
-         var msgWelcome = new app.Message({            
+         var msgWelcome = new window.app.Message({
             From: window.app.defaultTo,
             To: window.app.defaultFrom,
             Text: $("#welcomeMessage").text(),
@@ -184,7 +191,7 @@ function MessagesArea() {
             Direction: "from",
             Read: false,
             Starred: false
-         })
+         });
          messages.add(msgWelcome);
          //var msgTo = new app.Message({ Text: "Do you still have Zuzu milk?", Direction : "to" });
          //messages.add(msgTo);
@@ -194,10 +201,9 @@ function MessagesArea() {
       render: function () {
          $("#messagesbox").html('');
          var selfMessageView = this;
-         app.globalMessagesRep[self.currentConversationId].each(function (msg) {            
+         window.app.globalMessagesRep[self.currentConversationId].each(function (msg) {            
             selfMessageView.appendMessageToDiv(msg, performFadeIn, false);
-         });
-         spinner.stop();
+         });         
          return this;
       },
       appendMessage: function (msg) {
@@ -208,7 +214,7 @@ function MessagesArea() {
          }
       },
       newMessageReceived: function (fromID, convID, msgID, dateReceived, text) {
-         var newMsg = new app.Message({ Id: msgID });
+         var newMsg = new window.app.Message({ Id: msgID });
          //decide if this is a from or to message
          var fromTo = getFromToFromConversation(convID);
          var selfTelNo = fromTo[0];
@@ -225,8 +231,8 @@ function MessagesArea() {
          newMsg.set("ClientDisplayName", selfTelNo);
          newMsg.set("ClientIsSupportBot", false);
          //we add the message only if are in correct conversation
-         if (app.globalMessagesRep[convID] !== undefined) {
-            app.globalMessagesRep[convID].add(newMsg);
+         if (window.app.globalMessagesRep[convID] !== undefined) {
+            window.app.globalMessagesRep[convID].add(newMsg);
          }
       },
       appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
@@ -248,17 +254,15 @@ function MessagesArea() {
 }
 
 $(function () {
-   window.app.msgView = new MessagesArea(self.convView, self.tagsArea);
-   
+   window.app.msgView = new MessagesArea();
+
    $("[data-role=header]").fixedtoolbar({ tapToggle: true });
+   $("[data-role=footer]").fixedtoolbar({ tapToggle: false });
 
    $(document).bind('msgReceived', function (ev, data) {
       newMessageReceivedGUI(window.app.msgView.messagesView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
    });
-})
+});
 
-function newMessageReceivedGUI( msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
-   //the conversations window expects that the toID be a "name" and not a telephone number   
-   msgView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
-}
+
 

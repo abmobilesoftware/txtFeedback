@@ -1,4 +1,9 @@
-﻿/*
+﻿/*global Strophe */
+/*global $iq */
+/*global $msg */
+/*global Base64 */
+/*global $build */
+/*
 This library is free software; you can redistribute it and/or modify it
  under the terms of the GNU Lesser General Public License as published
  by the Free Software Foundation; either version 2.1 of the License, or
@@ -22,9 +27,41 @@ Strophe.addConnectionPlugin('register', {
 
    //The plugin must have the init function.
    init: function (conn) {
+      Object.keys = Object.keys || (function () {
+         var hasOwnProperty = Object.prototype.hasOwnProperty,
+             hasDontEnumBug = !{ toString: null }.propertyIsEnumerable("toString"),
+             DontEnums = [
+                 'toString', 'toLocaleString', 'valueOf', 'hasOwnProperty',
+                 'isPrototypeOf', 'propertyIsEnumerable', 'constructor'
+             ],
+             DontEnumsLength = DontEnums.length;
+
+         return function (o) {
+            if (typeof o != "object" && typeof o != "function" || o === null)
+            { throw new TypeError("Object.keys called on a non-object"); }
+
+            var result = [];
+            for (var name in o) {
+               if (hasOwnProperty.call(o, name)) {
+                  result.push(name);
+               }
+            }
+
+            if (hasDontEnumBug) {
+               for (var i = 0; i < DontEnumsLength; i++) {
+                  if (hasOwnProperty.call(o, DontEnums[i])) {
+                     result.push(DontEnums[i]);
+                  }
+               }
+            }
+
+            return result;
+         };
+      })();
+
       this._connection = conn;
 
-      // compute free emun index number
+      // compute free enun index number
       var i = 0;
       Object.keys(Strophe.Status).forEach(function (key) {
          i = Math.max(i, Strophe.Status[key]);
@@ -43,7 +80,7 @@ Strophe.addConnectionPlugin('register', {
       Strophe.Status.REGISTERED = i + 6;
 
       if (conn.disco)
-         conn.disco.addFeature(Strophe.NS.REGISTER);
+      { conn.disco.addFeature(Strophe.NS.REGISTER); }
 
       // hooking strophe's connection.reset
       var self = this, reset = conn.reset;
@@ -152,12 +189,12 @@ Strophe.addConnectionPlugin('register', {
 
       var typ = bodyWrap.getAttribute("type");
       var cond, conflict;
-      if (typ !== null && typ == "terminate") {
+      if (typ !== null && typ === "terminate") {
          // an error occurred
          cond = bodyWrap.getAttribute("condition");
          conflict = bodyWrap.getElementsByTagName("conflict");
          if (cond !== null) {
-            if (cond == "remote-stream-error" && conflict.length > 0) {
+            if (cond === "remote-stream-error" && conflict.length > 0) {
                cond = "conflict";
             }
             that._changeConnectStatus(Strophe.Status.CONNFAIL, cond);
@@ -203,11 +240,11 @@ Strophe.addConnectionPlugin('register', {
       var i, mech;
       for (i = 0; i < mechanisms.length; i++) {
          mech = Strophe.getText(mechanisms[i]);
-         if (mech == 'DIGEST-MD5') {
+         if (mech === 'DIGEST-MD5') {
             this.authentication.sasl_digest_md5 = true;
-         } else if (mech == 'PLAIN') {
+         } else if (mech === 'PLAIN') {
             this.authentication.sasl_plain = true;
-         } else if (mech == 'ANONYMOUS') {
+         } else if (mech === 'ANONYMOUS') {
             this.authentication.sasl_anonymous = true;
          }
       }
@@ -323,11 +360,13 @@ Strophe.addConnectionPlugin('register', {
          }
          // this is either 'conflict' or 'not-acceptable'
          error = error[0].firstChild.tagName.toLowerCase();
-         if (error === 'conflict')
+         if (error === 'conflict') {
             // already registered
             this.registered = true;
-      } else
+         }
+      } else {
          this.registered = true;
+      }
 
       if (this.registered) {
          that.jid = this.fields.username + "@" + that.domain;
@@ -425,5 +464,5 @@ Strophe.addConnectionPlugin('register', {
             xmlns: Strophe.NS.AUTH
          }).c("username", {}).t(Strophe.getNodeFromJid(that.jid)).tree());
       }
-   },
+   }
 });
