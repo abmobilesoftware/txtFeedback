@@ -1,43 +1,48 @@
 ﻿"use strict";
 window.app = window.app || {};
-window.app.xmppConn = {};
 window.app.receivedMsgID = 12345;
+
+//#region Xmpp connection variables
+window.app.xmppConn = {};
 window.app.getFeaturesIQID = "infomobile";
 window.app.addressOfPhpScripts = "dragos@txtfeedback.net";
-window.app.xmppUserToConnectAs = "testDA_temp";
+window.app.xmppUserToConnectAs = "testDA_temp2";
 window.app.xmppPasswordForUser = "123456";
-window.app.selfXmppAddress = "";
-
-function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, text, readStatus) {   
-   window.app.updateNrOfUnreadConversations(false);
-}
-
-window.app.setNrOfUnreadConversationOnTab = function (unreadConvs) {
-   window.app.nrOfUnreadConvs = unreadConvs;
-   var toShow = "(" + unreadConvs + ")";
-   $("#msgTabcount").text(toShow);
-};
-
+window.app.selfXmppAddress = window.app.xmppUserToConnectAs + "@txtfeedback.net";
 window.app.xmppHandlerInstance = {};
+//#endregion
+
 $(function () {
-   //the xmpp handler for new messages
-   window.app.xmppHandlerInstance = new window.app.XMPPhandler();   
-   window.app.selfXmppAddress = "testDA@txtfeedback.net";
-   //window.app.xmppHandlerInstance.connect(window.app.xmppUserToConnectAs + "@txtfeedback.net", window.app.xmppPasswordForUser);
-   window.app.xmppHandlerInstance.register();
+   $(window).unload(function () {
+      window.app.saveLoginDetails();
+   });
+   window.app.loadLoginDetails();   
 });
+
+window.app.logOnXmppNetwork = function (register) {
+   window.app.xmppHandlerInstance = new window.app.XMPPhandler();
+   window.app.msgView.messagesView.getMessages(window.app.defaultConversationID);
+   if (register) {
+      window.app.xmppHandlerInstance.register();
+   } else {
+      window.app.xmppHandlerInstance.connect(window.app.xmppUserToConnectAs + "@txtfeedback.net", window.app.xmppPasswordForUser);
+   }
+}
 
 window.app.handleIncommingMessage = function (msgContent, isIncomming) {      
    window.app.receivedMsgID++;
-   $(document).trigger('msgReceived', {
-      fromID: "0752345678",
-      toID: "0751569435",
-      convID: window.app.defaultConversationID,
-      msgID: window.app.receivedMsgID,
-      dateReceived: new Date,
-      text: msgContent,
-      readStatus: false
-   });   
+   //if the message comes from the multiplexer then we will have an encoded message, otherwise it will be a plain message
+   if (isIncomming) {
+      $(document).trigger('msgReceived', {
+         fromID: window.app.defaultTo,
+         toID: window.app.defaultFrom,
+         convID: window.app.defaultConversationID,
+         msgID: window.app.receivedMsgID,
+         dateReceived: new Date,
+         text: msgContent,
+         readStatus: false
+      });
+   }   
 };
 
 window.app.XMPPhandler = function XMPPhandler() {
@@ -57,28 +62,30 @@ window.app.XMPPhandler = function XMPPhandler() {
          var domain = Strophe.getDomainFromJid(window.app.xmppConn.connection.jid);
          //window.app.xmppConn.send_ping(domain);
          window.app.xmppConn.send_initial_presence(domain);
-         window.app.xmppConn.getInfo(domain);
-       
+         window.app.xmppConn.getInfo(domain);       
          //self.request_conversations(self.account_number);
       } else if (status === Strophe.Status.REGIFAIL) {
          window.app.logErrorOnServer("XMPP registration failed");
       } else if (status === Strophe.Status.REGISTER) {
+         window.app.logDebugOnServer("XMPP registering with user [" + window.app.xmppUserToConnectAs + "]");
          window.app.xmppConn.conn.register.fields.username = window.app.xmppUserToConnectAs;
          window.app.xmppConn.conn.register.fields.password = window.app.xmppPasswordForUser;
          window.app.xmppConn.conn.register.submit();
       } else if (status === Strophe.Status.REGISTERED) {
-         console.log("registered!");
-         window.app.xmppConn.conn.xmppConn.authenticate();
+         window.app.logDebugOnServer("XMPP Register successful");
+         window.app.xmppConn.conn.register.authenticate();
       } else if (status === Strophe.Status.SBMTFAIL) {
-         //registration failed -check the reason
+         window.app.logDebugOnServer("XMPP registration failed, condition [" +condition + "]");
+         //registration failed - check the reason
          if (condition === "conflict") {
             //the user already exists
+            window.app.logDebugOnServer("XMPP registration failed: user already exists");
             window.app.xmppHandlerInstance.connect(window.app.xmppUserToConnectAs + "@txtfeedback.net", window.app.xmppPasswordForUser)
          }
       } else if (status === Strophe.Status.CONNECTING) {
-         window.app.logDebugOnServer("XMPP connecting...");         
+         
       } else if (status === Strophe.Status.AUTHENTICATING) {
-         window.app.logDebugOnServer("XMPP authenticating...");         
+         
       } else if (status === Strophe.Status.DISCONNECTED) {
          window.app.logDebugOnServer("XMPP disconnected");        
          needReconnect = true;
@@ -97,9 +104,8 @@ window.app.XMPPhandler = function XMPPhandler() {
       }
    };
    this.connect = function (userid, password) {
+      window.app.logDebugOnServer("XMPP connecting with user [" +userid + "]");
       var self = this;
-      //var xmppServerAddress = "http://localhost:3333/app/dsadsa/http-bindours/";
-      //var xmppServerAddress = "http://www.cluj-info.com/smsfeedback/nocontroller/http-bindours/";      
       var xmppServerAddress = "http://176.34.122.48:5280/http-bind/"
       self.conn = new Strophe.Connection(xmppServerAddress);
       self.userid = userid;
@@ -120,24 +126,27 @@ window.app.XMPPhandler = function XMPPhandler() {
       self.conn.disconnect();
    };
    this.send_ping = function (to) {
+      var self = this;
       var ping = $iq({
          to: to,
          type: "get",
          id: "ping1"
       }).c("ping", { xmlns: "urn:xmpp:ping" });
-      this.start_time = (new Date()).getTime();
-      this.connection.send(ping);
+      self.start_time = (new Date()).getTime();
+      self.conn.send(ping);
    };
    this.send_initial_presence = function (to) {
-      var presence = $pres().c("status").t("From mobile");
-      this.connection.send(presence);
+      var self = this;
+      var presence = $pres().c("status").t("MobileClient");
+      self.conn.send(presence);
    };
    this.enableCarbons = function (to) {
+      var self = this;
       var enCarbons = $iq({         
          type: "set",
          id: "enableCarbons"         
       }).c("enable", { xmlns: "urn:xmpp:carbons:1" });     
-      this.connection.send(enCarbons);
+      self.conn.send(enCarbons);
    };
    this.getInfo = function (to) {
       var reqInfo = $iq({
@@ -148,13 +157,14 @@ window.app.XMPPhandler = function XMPPhandler() {
       this.connection.send(reqInfo);
    };
    this.send_reply = function (from, to, dateSent, message, xmppTo) {
+      var self = this;
       var message_body = message;
       var replymsg = $msg({
          from: window.app.selfXmppAddress,
          to: xmppTo,
          "type": "chat"
       }).c("body").t(message_body);
-      this.connection.send(replymsg);
+      self.conn.send(replymsg);
    };
    this.handle_infoquery = function (iq) {
       var elapsed = (new Date()).getTime() - this.start_time;
@@ -211,3 +221,50 @@ window.app.XMPPhandler = function XMPPhandler() {
       return true;
    };
 };
+
+//#region Store/retrieve login details
+window.app.saveLoginDetails = function () {
+   var store = new Persist.Store('TxtFeedback');
+   store.set('xmppUser', window.app.xmppUserToConnectAs);
+   store.set('xmppPassw', window.app.xmppPasswordForUser);
+   store.set('conversationID', window.app.defaultConversationID);
+}
+window.app.loadLoginDetails = function () {
+   var store = new Persist.Store('TxtFeedback');
+   store.get('xmppUser', function (ok, val) {
+      if (ok && val) {
+      //if (false) {
+         //we found a previous logged in user, so we reuse that on
+         //$('h1')[0].textContent = val;
+         window.app.xmppUserToConnectAs = val;
+         var password = store.get('xmppPassw');
+         if (password) { window.app.xmppPasswordForUser = password; }      
+         var defaultConversationID = store.get('conversationID');
+         if (defaultConversationID) {
+            window.app.defaultConversationID = defaultConversationID
+            var fromTo = getFromToFromConversation(defaultConversationID);
+            window.app.defaultFrom = fromTo[0];
+            window.app.defaultTo = fromTo[1];
+         }
+         window.app.logOnXmppNetwork(false);
+      }
+      else {
+         //no previous user found, create a new one
+         $.getJSON(            
+            'Home/GetUser',
+            { location: "0751569435"},
+            function (data) {
+               window.app.xmppUserToConnectAs = data.Name;
+               window.app.xmppPasswordForUser = data.Password;
+               var convID = data.ConversationID;
+               window.app.defaultConversationID = convID;
+               var fromTo = getFromToFromConversation(convID);
+               window.app.defaultFrom = fromTo[0];
+               window.app.defaultTo = fromTo[1];               
+               window.app.logOnXmppNetwork(true);
+            }
+         );
+      }
+   });
+}
+//#endregion

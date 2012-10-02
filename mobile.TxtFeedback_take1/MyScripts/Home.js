@@ -1,59 +1,22 @@
 ﻿"use strict";
 window.app = window.app || {};
-var gSelectedMessage = null;
-var gSelectedConversationID = null;
-var gSelectedElement = null;
 window.app.selectedConversation = {};
 window.app.globalMessagesRep = {};
 window.app.msgView = {};
+
 window.app.defaultConversationID = "0752345678-0751569435";
-window.app.calendarCulture = "ro";
+window.app.defaultFrom = "0752345678";
+window.app.defaultTo = "0751569435";
+window.app.defaultMessage = "Welcome";
+window.app.calendarCulture = "en-GB";
 
-var timer; //this will be responsible for triggering the "mark conversation as read event"
-var timer_is_on = 0;
-
-//#region Mark Conversation as Read function
-function markConversationAsRead() {
-   $(gSelectedElement).removeClass("unreadconversation");
-   $(gSelectedElement).addClass("readconversation");
-   app.selectedConversation.set({ "Read": true });
-   //call the server to mark the conversation as read
-   $.getJSON('Messages/MarkConversationAsRead',
-               { conversationId: gSelectedConversationID },
-               function (data) {
-                  //conversation marked as read
-                  app.updateNrOfUnreadConversations(false);
-               }
-       );
-}
-//#endregion
-
-//#region Timer for marking a conversation as being read
-function resetTimer() {
-   if (timer_is_on) {
-      clearTimeout(timer);
-      timer_is_on = false;
-   }
-}
-
-function startTimer(intervalToWait) {
-   if (!timer_is_on) {
-      //establish if any action is still required - maybe the conversation is already read
-      if (!$(gSelectedElement).hasClass("readconversation")) {
-         timer = setTimeout(markConversationAsRead, intervalToWait);
-         timer_is_on = true;
-      }
-   }
-}
-//#endregion
 
 //#region Message model
 window.app.Message = Backbone.Model.extend({
    defaults: {
-      From: "0752345678",
-      To: "0751569435",
-      Text: "defaulttext",
-      //DateTimeInTicks: (new Date()).valueOf(),
+      From: window.app.defaultFrom,
+      To: window.app.defaultTo,
+      Text: window.app.defaultMessage,      
       TimeReceived: new Date(),
       ConvID: window.app.defaultConversationID,
       Direction: "from",
@@ -121,8 +84,8 @@ function MessagesArea() {
       //TODO should be RFC822 format
       var timeSent = new Date();
       $(document).trigger('msgReceived', {
-         fromID: to,
-         toID: from,
+         fromID: from,
+         toID: to,
          convID: self.currentConversationId,
          msgID: id,
          dateReceived: timeSent,
@@ -168,10 +131,10 @@ function MessagesArea() {
          this.$el.addClass("message");
          this.$el.addClass(direction);
 
-         $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
-         $(".extraMenuWrapper", this.$el).addClass(extraMenuWrapperSide);
+         //$(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
+         //$(".extraMenuWrapper", this.$el).addClass(extraMenuWrapperSide);
 
-         var sendEmail = $("div.sendEmailButton img", this.$el);
+         //var sendEmail = $("div.sendEmailButton img", this.$el);
          return this;
       },
       updateView: function () {
@@ -212,8 +175,17 @@ function MessagesArea() {
          self.currentConversationId = conversationId;
          app.globalMessagesRep[self.currentConversationId] = messages;
 
-         var msgFrom = new app.Message({Text: "Welcome to Lidl Republicii. How can we be of service?"})
-         messages.add(msgFrom);
+         var msgWelcome = new app.Message({            
+            From: window.app.defaultTo,
+            To: window.app.defaultFrom,
+            Text: $("#welcomeMessage").text(),
+            TimeReceived: new Date(),
+            ConvID: conversationId,
+            Direction: "from",
+            Read: false,
+            Starred: false
+         })
+         messages.add(msgWelcome);
          //var msgTo = new app.Message({ Text: "Do you still have Zuzu milk?", Direction : "to" });
          //messages.add(msgTo);
          //var msgFromReply = new app.Message({ Text: "Yes, we will bring more to the aile in 5 minutes" });
@@ -239,10 +211,10 @@ function MessagesArea() {
          var newMsg = new app.Message({ Id: msgID });
          //decide if this is a from or to message
          var fromTo = getFromToFromConversation(convID);
-         var from = fromTo[0];
-         var direction = "from";
-         if (!comparePhoneNumbers(fromID, from)) {
-            direction = "to";
+         var selfTelNo = fromTo[0];
+         var direction = "to";
+         if (!comparePhoneNumbers(fromID, selfTelNo)) {
+            direction = "from";
          }
          newMsg.set("Direction", direction);
          newMsg.set("From", fromID);
@@ -250,7 +222,7 @@ function MessagesArea() {
          newMsg.set("Text", text);
          //we receive the date as RFC 822 string - we need to convert it to a valid Date
          newMsg.set("TimeReceived", new Date(Date.parse(dateReceived)));
-         newMsg.set("ClientDisplayName", from);
+         newMsg.set("ClientDisplayName", selfTelNo);
          newMsg.set("ClientIsSupportBot", false);
          //we add the message only if are in correct conversation
          if (app.globalMessagesRep[convID] !== undefined) {
@@ -260,21 +232,7 @@ function MessagesArea() {
       appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
          var msgView = new MessageView({ model: msg });
          var item = msgView.render().el;
-         $(this.el).append(item);
-         $(item).hover(function () {
-            var helperDiv = $(this).find("div.extramenu")[0];
-            //make sure to bind the buttons
-            // $(helperDiv).css("visibility", "visible");
-            gSelectedMessage = $($(this).find("div span")[0]).html();
-            //$(helperDiv).fadeIn(400);
-            $(helperDiv).show();
-            //ContactWindow.init();
-         }, function () {
-            var helperDiv = $(this).find("div.extramenu")[0];
-            //$(helperDiv).fadeOut("fast");
-            $(helperDiv).hide();
-         });
-
+         $(this.el).append(item);         
          if (performFadeIn) {
             $(item).hide().fadeIn("2000");
          }
@@ -291,7 +249,7 @@ function MessagesArea() {
 
 $(function () {
    window.app.msgView = new MessagesArea(self.convView, self.tagsArea);
-   window.app.msgView.messagesView.getMessages(window.app.defaultConversationID);
+   
    $("[data-role=header]").fixedtoolbar({ tapToggle: true });
 
    $(document).bind('msgReceived', function (ev, data) {

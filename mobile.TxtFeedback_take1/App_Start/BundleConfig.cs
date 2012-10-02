@@ -8,27 +8,26 @@ namespace mobile.TxtFeedback_take1
       // For more information on Bundling, visit http://go.microsoft.com/fwlink/?LinkId=254725
       public static void RegisterBundles(BundleCollection bundles)
       {
-         bundles.Add(new ScriptBundle("~/bundles/myscripts").Include(                     
-                     "~/MyScripts/Utilities.js",
-                     "~/MyScripts/XMPP.js",
-                     "~/MyScripts/strophe.js",
-                     "~/MyScripts/strophe.register.js",
-                     "~/MyScripts/Home.js"));
+         BundleTable.EnableOptimizations = true;
+         bundles.Add(new ScriptBundle("~/bundles/myscripts").Include(                                        
+                     "~/MyScripts/Utilities.js",                    
+                     "~/MyScripts/Home.js",
+                     "~/MyScripts/XMPP.js"));
+                     
 
-         bundles.Add(new ScriptBundle("~/bundles/datepicker").Include(
+         bundles.Add(new ScriptBundle("~/bundles/lessLikelyToChange").Include(
+                     "~/Scripts/underscore*",
+                     "~/Scripts/backbone*",
+                     "~/MyScripts/strophe.js",
+                     "~/Scripts/persist-min.js",
+                     "~/MyScripts/strophe.register.js",
                      "~/Scripts/jQuery.ui.datepicker.js", 
                      "~/Scripts/jquery.ui.datepicker.mobile.js",
                      "~/Scripts/jquery.ui.datepicker-de.js",
                      "~/Scripts/jquery.ui.datepicker-en-GB.js",
                      "~/Scripts/jquery.ui.datepicker-ro.js",
                      "~/Scripts/jquery.ui.datepicker-es.js"));
-
-         bundles.Add(new StyleBundle("~/bundles/mycss").Include(
-                     "~/Content/messages.css"));
-        
-         bundles.Add(new ScriptBundle("~/bundles/backbone").Include(
-                     "~/Scripts/underscore*",
-                     "~/Scripts/backbone*"));
+                          
          bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                      "~/Scripts/jquery-1.*"));
 
@@ -44,13 +43,12 @@ namespace mobile.TxtFeedback_take1
 
          bundles.Add(new ScriptBundle("~/bundles/jquerymobile").Include("~/Scripts/jquery.mobile*"));
 
-         bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+         bundles.Add(new StyleBundle("~/Content/css").Include(
+                  "~/Content/site.css",
+                  "~/Content/messages.css",
+                  "~/Content/jquery.ui.datepicker.mobile.css"));         
 
-         bundles.Add(new StyleBundle("~/Content/mycss").Include("~/Content/messages.css"));        
-
-         bundles.Add(new StyleBundle("~/Content/mobilecss").Include("~/Content/jquery.mobile*"));
-         
-         bundles.Add(new StyleBundle("~/Content/datepickercss").Include("~/Content/jquery.ui.datepicker.mobile.css"));
+         bundles.Add(new StyleBundle("~/Content/mobilecss").Include("~/Content/jquery.mobile*"));                  
 
          bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                      "~/Content/themes/try1.css",

@@ -1,21 +1,11 @@
 ﻿window.app = window.app || {};
-function showStatus(message, timeout, additive, isError) {
-  
-}
-//the domain name should come from the server! - when publishing on cluj-info.com/smsfeedback
 window.app.domainName = '';
-//window.app.domainName = '/smsfeedback';
 window.app.lastAjaxCall = { settings: null, jqXHR: null };
 window.app.loginSummaryUrl = "/Account/LogOnSummary";
 window.app.loginUrl = "/Account/LogOn";
 
 window.app.firstCall = true;
 window.app.requestIndex = 0;
-
-function getFromToFromConversation(convID) {
-   var fromToArray = convID.split(cConversationIdNumbersSeparator);
-    return fromToArray;
-}
 
 function trim(s) {
    s = s.replace(/(^\s*)|(\s*$)/gi, "");
@@ -40,42 +30,11 @@ function cleanupPhoneNumber(data) {
    data = data.replace(prefix, "");   
    return data;
 }
+function getFromToFromConversation(convID) {
+   var fromToArray = convID.split(cConversationIdNumbersSeparator);
+   return fromToArray;
+}
 //#endregion
-
-//uses qtip
-function setTooltipOnElement(elem, tooltip, style) {
-   elem.qtip({
-      content: { text: tooltip },
-      style: style
-   });
-}
-
-//checkbox is the button img
-function setCheckboxState(checkbox, state)
-{
-   if (state === true) {
-      checkbox.attr('src', app.domainName + "/Content/images/check-white.svg");
-      checkbox.removeClass('deletePhoneNumberIconUnselected');
-      checkbox.addClass('deletePhoneNumberIconSelected');
-   }
-   else {
-      //we actually need only the img placeholder (for the border and background)
-      //so we set the image to a transparent 1 pixel gif
-      checkbox.attr('src', app.domainName + "/Content/images/transparent.gif");
-      checkbox.removeClass('deletePhoneNumberIconSelected');
-      checkbox.addClass('deletePhoneNumberIconUnselected');
-   }
-}
-
-window.app.updateNrOfUnreadConversations = function (performUpdateBefore) {
-   $.getJSON(window.app.domainName + '/Messages/NrOfUnreadConversations',
-   { performUpdateBefore: performUpdateBefore },
-   function (data) {
-      if (data !== null) {
-         app.setNrOfUnreadConversationOnTab(data.Value);
-      }
-   });
-};
 
 //#region make sure Jquery AJAX requests are not cached
 $(function () {
@@ -83,7 +42,7 @@ $(function () {
 })
 //#endregion
 
-//#region Client side javascript erros
+//#region Client side JavaScript errors
 window.app.logErrorOnServer = function logError(message) {
    $.ajax({
       type: 'POST',
