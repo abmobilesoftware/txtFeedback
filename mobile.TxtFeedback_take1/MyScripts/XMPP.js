@@ -1,4 +1,5 @@
-﻿/*global window */
+﻿//#region Defines to stop jshint from complaining about "undefined objects"
+/*global window */
 /*global Strophe */
 /*global document */
 /*global console */
@@ -8,25 +9,48 @@
 /*global Persist */
 /*global DOMParser */
 /*global ActiveXObject */
+//#endregion
+
 window.app = window.app || {};
 window.app.receivedMsgID = 12345;
 
-//#region Xmpp connection variables
+//#region XMPP connection variables
 window.app.xmppConn = {};
+//#region XMPP constants
 window.app.getFeaturesIQID = "infomobile";
-window.app.addressOfPhpScripts = "dragos@moderator.txtfeedback.net";
-window.app.xmppUserToConnectAs = "testDA_temp2";
-window.app.xmppPasswordForUser = "123456";
-window.app.selfXmppAddress = window.app.xmppUserToConnectAs + "@txtfeedback.net";
+window.app.xmppServerExtension = "@txtfeedback.net";
+window.app.xmppComponentExtension = "@moderator.txtfeedback.net";
+//#endregion
+
+window.app.messageModeratorAddress = '';
+window.app.suffixedMessageModeratorAddress = '';
+window.app.xmppUserToConnectAs = '';
+window.app.xmppPasswordForUser = '';
+window.app.xmppSuffixedUserToConnectAs = '';
+
 window.app.xmppHandlerInstance = {};
 //#endregion
 
-$(function () {
-   $(window).unload(function () {
-      window.app.saveLoginDetails();
-   });
-   window.app.loadLoginDetails();   
-});
+window.app.defaultConversationID = '';
+window.app.defaultFrom = '';
+window.app.defaultTo = '';
+window.app.defaultMessage = '';
+
+window.app.initializeBasedOnLocation = function () {
+   //based on the address we should have received from the server some configuration data, so now we initialize those variables based on that data
+   window.app.messageModeratorAddress = $("#componentLocation").text();
+   window.app.suffixedMessageModeratorAddress = window.app.messageModeratorAddress + window.app.xmppComponentExtension;
+   window.app.welcomeMessage = $("#welcomeMessage").text();
+};
+window.app.initializeBasedOnConnectionDetails = function (user, password, convID) {
+   window.app.xmppUserToConnectAs = user;
+   window.app.xmppPasswordForUser = password;
+   window.app.xmppSuffixedUserToConnectAs = window.app.xmppUserToConnectAs + window.app.xmppServerExtension;
+   window.app.defaultConversationID = convID;
+   var fromTo = getFromToFromConversation(convID);
+   window.app.defaultFrom = fromTo[0];
+   window.app.defaultTo = fromTo[1];
+};
 
 window.app.logOnXmppNetwork = function (register) {
    console.log("log on xmpp");
@@ -35,7 +59,7 @@ window.app.logOnXmppNetwork = function (register) {
    if (register) {
       window.app.xmppHandlerInstance.register();
    } else {
-      window.app.xmppHandlerInstance.connect(window.app.xmppUserToConnectAs + "@txtfeedback.net", window.app.xmppPasswordForUser);
+      window.app.xmppHandlerInstance.connect(window.app.xmppSuffixedUserToConnectAs, window.app.xmppPasswordForUser);
    }
 };
 
@@ -114,7 +138,7 @@ window.app.XMPPhandler = function XMPPhandler() {
          if (condition === "conflict") {
             //the user already exists
             window.app.logDebugOnServer("XMPP registration failed: user already exists");
-            window.app.xmppHandlerInstance.connect(window.app.xmppUserToConnectAs + "@txtfeedback.net", window.app.xmppPasswordForUser);
+            window.app.xmppHandlerInstance.connect(window.app.xmppSuffixedUserToConnectAs, window.app.xmppPasswordForUser);
          }
       } else if (status === Strophe.Status.CONNECTING) {
          
@@ -138,7 +162,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       }
    };
    this.connect = function (userid, password) {
-      window.app.logDebugOnServer("XMPP connecting with user [" +userid + "]");
+      window.app.logDebugOnServer("XMPP connecting with user [" + userid + "]");
       var self = this;
       var xmppServerAddress = "http://176.34.122.48:5280/http-bind/";
       self.conn = new Strophe.Connection(xmppServerAddress);
@@ -191,19 +215,18 @@ window.app.XMPPhandler = function XMPPhandler() {
       }).c("query", { xmlns: "http://jabber.org/protocol/disco#info" });
       this.connection.send(reqInfo);
    };
-   this.send_reply = function (from, to, dateSent, message, xmppTo) {
-      //var self = this;
-      var message_body = message;
+   this.send_reply = function (from, to, dateSent, convID, message, xmppTo) {     
       var message_body = "<msg>" +
-                                     " <from>" + window.app.selfXmppAddress + "</from>" +
-                                     " <to>" + window.app.addressOfPhpScripts + "</to>" +
+                                     " <from>" + window.app.xmppSuffixedUserToConnectAs + "</from>" +
+                                     " <to>" + window.app.suffixedMessageModeratorAddress + "</to>" +
                                      " <datesent>" + dateSent + "</datesent>" +
+                                      "<convID>" + convID +"</convID>" +
                                      " <body>" + message + "</body>" +
                                      " <staff>true</staff>" +
                                      " <sms>false</sms>" +
                                  " </msg>";
       var replymsg = $msg({
-         from: window.app.selfXmppAddress,
+         from: window.app.xmppSuffixedUserToConnectAs,
          to: xmppTo,         
          "type": "chat"
       }).c("body").t(message_body);
@@ -259,7 +282,13 @@ window.app.XMPPhandler = function XMPPhandler() {
             var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
             window.app.handleIncommingMessage(incommingMsg, true);
          }
-      } else {
+      } else if ($(message).attr("type") === "error") {
+         var error = message.getElementsByTagName("error")[0];
+         if (error !== undefined) {
+            var type = $(error).attr("type");
+            window.app.logDebugOnServer("XMPP error, type [" + type+ "]");
+         }
+         
          //TODO what other messages might there be?
          //TODO log as error
       }
@@ -279,23 +308,13 @@ window.app.loadLoginDetails = function () {
    console.log("load login details");     
    var store = new Persist.Store('TxtFeedback');   
    var user = store.get('xmppUser');   
-   if (user !== undefined && user)
-   {
-      //if (false) {
-         console.log("reuse existing user");
-         //we found a previous logged in user, so we reuse that on
-         //$('h1')[0].textContent = val;
-         window.app.xmppUserToConnectAs = user;
-         window.app.selfXmppAddress = window.app.xmppUserToConnectAs + "@txtfeedback.net";
-         var password = store.get('xmppPassw');
-         if (password) { window.app.xmppPasswordForUser = password; }      
+   if (user !== undefined && user) {
+      //  if (false) {
+      //we found a previous logged in user, so we reuse that on         
+         console.log("reuse existing user");         
+         var password = store.get('xmppPassw');          
          var defaultConversationID = store.get('conversationID');
-         if (defaultConversationID) {
-            window.app.defaultConversationID = defaultConversationID;
-            var fromTo = getFromToFromConversation(defaultConversationID);
-            window.app.defaultFrom = fromTo[0];
-            window.app.defaultTo = fromTo[1];
-         }
+         window.app.initializeBasedOnConnectionDetails(user, password, defaultConversationID);                        
          window.app.logOnXmppNetwork(false);
       }
       else {
@@ -303,17 +322,10 @@ window.app.loadLoginDetails = function () {
          //no previous user found, create a new one
          $.getJSON(            
             'Home/GetUser',
-            { location: "dragos" },
+            { location: window.app.messageModeratorAddress },
             function (data) {
-               console.log("create new user");
-               window.app.xmppUserToConnectAs = data.Name;
-               window.app.selfXmppAddress = window.app.xmppUserToConnectAs + "@txtfeedback.net";
-               window.app.xmppPasswordForUser = data.Password;
-               var convID = data.ConversationID;
-               window.app.defaultConversationID = convID;
-               var fromTo = getFromToFromConversation(convID);
-               window.app.defaultFrom = fromTo[0];
-               window.app.defaultTo = fromTo[1];               
+               console.log("create new user");                              
+               window.app.initializeBasedOnConnectionDetails(data.Name, data.Password, data.ConversationID);               
                window.app.logOnXmppNetwork(true);
             }
          );

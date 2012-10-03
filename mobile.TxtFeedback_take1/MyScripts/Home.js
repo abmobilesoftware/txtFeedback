@@ -4,14 +4,8 @@
 /*global document */
 /*global console */
 window.app = window.app || {};
-window.app.selectedConversation = {};
 window.app.globalMessagesRep = {};
 window.app.msgView = {};
-
-window.app.defaultConversationID = "0752345678-0751569435";
-window.app.defaultFrom = "0752345678";
-window.app.defaultTo = "0751569435";
-window.app.defaultMessage = "Welcome";
 window.app.calendarCulture = "en-GB";
 
 function newMessageReceivedGUI(msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
@@ -103,7 +97,7 @@ function MessagesArea() {
       inputBox.val('');
 
       //signal all the other "listeners/agents"
-      window.app.xmppHandlerInstance.send_reply(to, from, timeSent, msgContent, window.app.addressOfPhpScripts);
+      window.app.xmppHandlerInstance.send_reply(to, from, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress);
    };
 
       _.templateSettings = {
@@ -254,14 +248,20 @@ function MessagesArea() {
 }
 
 $(function () {
-   window.app.msgView = new MessagesArea();
+   window.app.initializeBasedOnLocation();
 
+   window.app.msgView = new MessagesArea();
    $("[data-role=header]").fixedtoolbar({ tapToggle: true });
    $("[data-role=footer]").fixedtoolbar({ tapToggle: false });
 
    $(document).bind('msgReceived', function (ev, data) {
       newMessageReceivedGUI(window.app.msgView.messagesView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
    });
+
+   $(window).unload(function () {
+      window.app.saveLoginDetails();
+   });
+   window.app.loadLoginDetails();
 });
 
 
