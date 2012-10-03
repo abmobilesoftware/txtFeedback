@@ -152,17 +152,17 @@ function MessagesArea(convView, tagsArea) {
         var from = fromTo[0];
         var to = fromTo[1];        
        //send it to the server
-        $.getJSON('Messages/SendMessage',
-                {
-                   from: to,
-                   to: from,
-                   convId: self.currentConversationId,
-                   text: msgContent
-                },
-                function (data) {
-                   //delivered successfully? if yes - indicate this
-                }
-       );
+       // $.getJSON('Messages/SendMessage',
+       //         {
+       //            from: to,
+       //            to: from,
+       //            convId: self.currentConversationId,
+       //            text: msgContent
+       //         },
+       //         function (data) {
+       //            //delivered successfully? if yes - indicate this
+       //         }
+       //);
 
         //TODO should be RFC822 format
         var timeSent = new Date();
@@ -180,7 +180,8 @@ function MessagesArea(convView, tagsArea) {
         $("#replyToMessageForm")[0].reset();
 
        //signal all the other "listeners/agents"
-        window.app.xmppHandlerInstance.send_reply(to, from, timeSent, msgContent, window.app.addressOfPhpScripts);
+        //window.app.xmppHandlerInstance.send_reply(to, from, timeSent, msgContent, window.app.addressOfPhpScripts);
+        window.app.xmppHandlerInstance.send_reply(from, to, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress);
     };
 
     $("#replyBtn").click(function () {

@@ -5,7 +5,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
+    <LastUsedBuildConfiguration>Debug</LastUsedBuildConfiguration>
     <LastUsedPlatform>Any CPU</LastUsedPlatform>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAxW6f83DdZk6G679N7CirBQAAAAACAAAAAAAQZgAAAAEAACAAAACJdzSnvyZG+qxYVofD/1MMvdMQeciM6PdentRUDIWGyQAAAAAOgAAAAAIAACAAAACpR3aJe+7tUs62kz0MOFbXsuiF5D+zvxyFrruY6UDIKCAAAAAZAdQpzyIF7JdxaKyWMvJgLMb6x5xKLAnB4ayb64D8DkAAAADU8EFBFgVNN2iWITKbwcUGyjRQ9q3Oq5ywlChMmANmwut7RxCQrufUlR6oYrySD0Whmg9svtgSEFNq5C1ywjf8</EncryptedPassword>
@@ -24,10 +24,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="bin/mobile.TxtFeedback_take1.dll">
-      <publishTime>10/01/2012 18:54:07</publishTime>
+      <publishTime>10/03/2012 12:24:29</publishTime>
     </File>
     <File Include="bin/mobile.TxtFeedback_take1.pdb">
-      <publishTime>10/01/2012 16:33:38</publishTime>
+      <publishTime>10/03/2012 12:24:29</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>06/27/2012 18:16:31</publishTime>
@@ -327,7 +327,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="MyScripts/Home.js">
-      <publishTime>10/01/2012 16:50:42</publishTime>
+      <publishTime>10/03/2012 14:07:54</publishTime>
     </File>
     <File Include="MyScripts/Messages.js">
       <publishTime>09/28/2012 11:12:44</publishTime>
@@ -336,13 +336,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2012 17:36:15</publishTime>
     </File>
     <File Include="MyScripts/strophe.register.js">
-      <publishTime>09/28/2012 17:41:30</publishTime>
+      <publishTime>10/02/2012 12:16:03</publishTime>
     </File>
     <File Include="MyScripts/Utilities.js">
-      <publishTime>10/01/2012 11:07:59</publishTime>
+      <publishTime>10/02/2012 22:06:23</publishTime>
     </File>
     <File Include="MyScripts/XMPP.js">
-      <publishTime>10/01/2012 18:55:34</publishTime>
+      <publishTime>10/03/2012 14:07:42</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>09/28/2012 13:20:08</publishTime>
@@ -414,7 +414,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Scripts/persist-min.js">
-      <publishTime>10/01/2012 11:01:38</publishTime>
+      <publishTime>10/02/2012 16:18:24</publishTime>
     </File>
     <File Include="Scripts/underscore.js">
       <publishTime>09/26/2012 12:05:36</publishTime>
@@ -444,7 +444,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>10/01/2012 16:23:20</publishTime>
+      <publishTime>10/03/2012 12:22:42</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>09/25/2012 18:49:21</publishTime>
@@ -462,7 +462,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/01/2012 18:55:40</publishTime>
+      <publishTime>10/03/2012 15:54:40</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@ window.app.xmppConn = {};
 window.app.receivedMsgID = 12345;
 window.app.getFeaturesIQID = "info14";
 window.app.addressOfPhpScripts = "dragos@txtfeedback.net";
+window.app.suffixedMessageModeratorAddress = "dragos@moderator.txtfeedback.net";
 window.app.selfXmppAddress = "";
 
 function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, text, readStatus) {   
@@ -37,6 +38,7 @@ $(function () {
 });
 
 window.app.handleIncommingMessage = function (msgContent, isIncomming) {
+   window.app.receivedMsgID++;
    var xmlDoc;
    if (window.DOMParser) {
       var parser = new DOMParser();
@@ -53,12 +55,14 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
    var toID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
    toID = cleanupPhoneNumber(toID);
    var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
-   var convID;
+   var convID = buildConversationID(fromID, toID);   
    if (isIncomming) {
-      convID = buildConversationID(fromID, toID);
+
    }
    else {
-      convID = buildConversationID(toID, fromID);
+      var swapTmp = fromID;
+      fromID = toID;
+      toID = swapTmp;
    }
    
    var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
@@ -120,6 +124,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       }
    };
    this.connect = function (userid, password) {
+      window.app.logDebugOnServer("XMPP connecting with user [" + userid + "]");
       var self = this;
       //var xmppServerAddress = "http://localhost:3333/app/dsadsa/http-bindours/";
       //var xmppServerAddress = "http://www.cluj-info.com/smsfeedback/nocontroller/http-bindours/";
@@ -164,19 +169,24 @@ window.app.XMPPhandler = function XMPPhandler() {
       }).c("query", { xmlns: "http://jabber.org/protocol/disco#info" });
       this.connection.send(reqInfo);
    };
-   this.send_reply = function (from, to, dateSent, message, xmppTo) {
+   this.send_reply = function (from, to, dateSent, convID, message, xmppTo) {
       var message_body = "<msg>" +
-                                        " <from>" + from + "</from>" +
-                                        " <to>" + to + "</to>" +
-                                        " <datesent>" + dateSent +"</datesent>" +
-                                        " <body>" + message + "</body>" +
-                                    " </msg>";
+                                    " <from>" + from +"@txtfeedback.net" + "</from>" +
+                                    " <to>" + to + "@moderator.txtfeedback.net" + "</to>" +
+                                    " <datesent>" + dateSent + "</datesent>" +
+                                     "<convID>" + convID + "</convID>" +
+                                    " <body>" + message + "</body>" +
+                                    " <staff>false</staff>" +
+                                    " <sms>false</sms>" +
+                                " </msg>";
       var replymsg = $msg({
          from: window.app.selfXmppAddress,
          to: xmppTo,
          "type": "chat"
       }).c("body").t(message_body);
-      this.connection.send(replymsg);
+      replymsg.up();
+      replymsg.c("subject").t("internal_packet");
+      window.app.xmppConn.conn.send(replymsg);
    };
    this.handle_infoquery = function (iq) {
       var elapsed = (new Date()).getTime() - this.start_time;
@@ -224,9 +234,12 @@ window.app.XMPPhandler = function XMPPhandler() {
             var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
             window.app.handleIncommingMessage(incommingMsg,true);
          }
-      } else {
-         //TODO what other messsages might there be?
-         //TODO log as error
+      } else if ($(message).attr("type") === "error") {
+         var error = message.getElementsByTagName("error")[0];
+         if (error !== undefined) {
+            var type = $(error).attr("type");
+            window.app.logDebugOnServer("XMPP error, type [" + type + "]");
+         }
       }
       return true;
    };

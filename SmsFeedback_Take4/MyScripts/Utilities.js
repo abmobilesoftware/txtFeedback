@@ -1,4 +1,5 @@
-﻿window.app = window.app || {};
+﻿/*global window */
+window.app = window.app || {};
 function showStatus(message, timeout, additive, isError) {
   
 }
@@ -35,9 +36,11 @@ function comparePhoneNumbers(phoneNumber1, phoneNumber2)
    return cleanupPhoneNumber(phoneNumber1) === cleanupPhoneNumber(phoneNumber2);
 }
 function cleanupPhoneNumber(data) {
-   var prefixes = new Array("00", "\\+");   
-   var prefix = new RegExp('^(' + prefixes.join('|') + ')', "g");   
-   data = data.replace(prefix, "");   
+   var prefixes = new Array("00", "\\+");
+   //remove 00 and + from the beginning of the number
+   //remove all domain qualifiers - everything after @
+   var reg = new RegExp('^(' + prefixes.join('|') + ')|@.+$', "g");
+   data = data.replace(reg, "");
    return data;
 }
 //#endregion
@@ -100,7 +103,7 @@ $(function () {
 //#region make sure Jquery AJAX requests are not cached
 $(function () {
    $.ajaxSetup({ cache: false });
-})
+});
 //#endregion
 //#region handle "authentication expired"
 $(function () {
