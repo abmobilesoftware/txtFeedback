@@ -13,7 +13,8 @@ namespace mobile.TxtFeedback_take1.Controllers
    {
       public ActionResult Index()
       {
-         ViewBag.Message = "Welcome to Lidl Republicii. How can we be of service?";         
+         ViewBag.Message = "Welcome to Lidl Republicii. How can we be of service?";
+         ViewBag.ComponentLocation = "dragos";
          return View();
       }
 
