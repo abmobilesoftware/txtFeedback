@@ -1,4 +1,20 @@
-﻿"use strict";
+﻿//#region Defines to stop jshint from complaining about "undefined objects"
+/*global window */
+/*global Strophe */
+/*global document */
+/*global console */
+/*global $pres */
+/*global $iq */
+/*global $msg */
+/*global Persist */
+/*global DOMParser */
+/*global ActiveXObject */
+/*global Backbone */
+/*global _ */
+/*global Spinner */
+/*global setTooltipOnElement */
+/*global setCheckboxState */
+//#endregion
 window.app = window.app || {};
 window.app.dateFormatForDatePicker = 'dd/mm/yy';
 
@@ -11,23 +27,24 @@ window.app.defaultFilteringOptions = {
    starredFilteringEnabled: false,
    unreadFilteringEnabled: false,
    supportFilteringEnabled: false
-}
+};
 
 function Filter(iElement, iValue) {
     var elementName = iElement;
     var behindVariable = iValue;
     
     this.getElementName = function () {
-        return elementName;
-    }
+       return elementName;
+    };
     this.getBehindVariable = function () {
-        return behindVariable;
-    }
+       return behindVariable;
+    };
 }
 
 function FilterArea() {
+   "use strict";
    var self = this;
-   $.extend(this, app.defaultFilteringOptions);
+   $.extend(this, window.app.defaultFilteringOptions);
     
     // List of filters and filter operations
    var filtersList = [];
@@ -40,37 +57,37 @@ function FilterArea() {
    filtersList.push(starredFilter);
 
    this.deactivateFilters = function () {
-       for (var i = 0; i < filtersList.length; ++i) {
-           var behindVariableValue = eval(filtersList[i].getBehindVariable());
-           if (behindVariableValue == true) {
-               eval(filtersList[i].getBehindVariable() + "=false");
-           }
-           setCheckboxState($(filtersList[i].getElementName()), eval(filtersList[i].getBehindVariable()));
-       }
-   }
+      for (var i = 0; i < filtersList.length; ++i) {
+         var behindVariableValue = eval(filtersList[i].getBehindVariable());
+         if (behindVariableValue === true) {
+            eval(filtersList[i].getBehindVariable() + "=false");
+         }
+         setCheckboxState($(filtersList[i].getElementName()), eval(filtersList[i].getBehindVariable()));
+      }
+   };
     
    this.deactivateFilter = function (filter) {
-       var behindVariableValue = eval(filter.getBehindVariable());
-       if (behindVariableValue == true) {
-           eval(filter.getBehindVariable() + "=false");
-       }
-       setCheckboxState($(filter.getElementName()), eval(filter.getBehindVariable()));
-   }
+      var behindVariableValue = eval(filter.getBehindVariable());
+      if (behindVariableValue === true) {
+         eval(filter.getBehindVariable() + "=false");
+      }
+      setCheckboxState($(filter.getElementName()), eval(filter.getBehindVariable()));
+   };
 
    this.toggleFilter = function (filter) {
-       var behindVariableValue = eval(filter.getBehindVariable());
-       if (behindVariableValue == true) {
-           eval(filter.getBehindVariable() + "=false");
-       } else if (behindVariableValue == false) {
-           eval(filter.getBehindVariable() + "=true");
-       }
-       setCheckboxState($(filter.getElementName()), eval(filter.getBehindVariable()));
-   }
+      var behindVariableValue = eval(filter.getBehindVariable());
+      if (behindVariableValue === true) {
+         eval(filter.getBehindVariable() + "=false");
+      } else if (behindVariableValue === false) {
+         eval(filter.getBehindVariable() + "=true");
+      }
+      setCheckboxState($(filter.getElementName()), eval(filter.getBehindVariable()));
+   };
 
     //#region Tags
    var placeholderMessage = $('#filteringAddFilterTagMessage').val();
    var removeTagValue = $('#messagesRemoveTagPlaceHolderMessage').val();
-   app.removeTagTitle = removeTagValue;
+   window.app.removeTagTitle = removeTagValue;
 
    $("#filterTag").tagsInput({
       'height': '22px',
@@ -102,10 +119,10 @@ function FilterArea() {
    });  
 
    $("#includeTagsInFilter").bind('click', function () {
-       if (!self.tagFilteringEnabled) self.deactivateFilter(supportFilter);
+      if (!self.tagFilteringEnabled) { self.deactivateFilter(supportFilter); }
        self.toggleFilter(tagsFilter);
       //trigger filtering if required
-      if (self.tagsForFiltering.length != 0) {
+      if (self.tagsForFiltering.length !== 0) {
          $(document).trigger('refreshConversationList');
       }
    });
@@ -207,7 +224,7 @@ function FilterArea() {
 
    //#region Starred
    $("#includeStarredInFilter").bind('click', function () {
-       if (!self.starredFilteringEnabled) self.deactivateFilter(supportFilter);
+      if (!self.starredFilteringEnabled) { self.deactivateFilter(supportFilter); }
        self.toggleFilter(starredFilter);
        $(document).trigger('refreshConversationList');     
    });
@@ -215,7 +232,7 @@ function FilterArea() {
 
    //#region Unread
    $("#includeUnreadInFilter").bind('click', function () {
-       if (!self.unreadFilteringEnabled) self.deactivateFilter(supportFilter);
+      if (!self.unreadFilteringEnabled) { self.deactivateFilter(supportFilter); }
        self.toggleFilter(unreadFilter);
        $(document).trigger('refreshConversationList');
    });
@@ -223,16 +240,16 @@ function FilterArea() {
 
     //#region Support
    $("#includeSupportInFilter").bind('click', function () {
-       if (!self.supportFilteringEnabled) self.deactivateFilters();
+      if (!self.supportFilteringEnabled) { self.deactivateFilters(); }
        self.toggleFilter(supportFilter);
        $(document).trigger('refreshConversationList');
    });
     //#endregion
 
    //#region IsFilteringEnabled
-   this.IsFilteringEnabled = function () {      
+   this.IsFilteringEnabled = function () {
       return self.tagFilteringEnabled || self.dateFilteringEnabled || self.starredFilteringEnabled || self.unreadFilteringEnabled;
-   }
+   };
    //#endregion
 
    $("#includeDateInFilter, #includeStarredInFilter, #includeUnreadInFilter, #includeTagsInFilter, #includeSupportInFilter").each(function () {

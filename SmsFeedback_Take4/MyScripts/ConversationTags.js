@@ -1,4 +1,18 @@
-﻿"use strict";
+﻿//#region Defines to stop jshint from complaining about "undefined objects"
+/*global window */
+/*global Strophe */
+/*global document */
+/*global console */
+/*global $pres */
+/*global $iq */
+/*global $msg */
+/*global Persist */
+/*global DOMParser */
+/*global ActiveXObject */
+/*global Backbone */
+/*global _ */
+/*global Spinner */
+//#endregion
 window.app = window.app || {};
 window.app.silentRemove = false;
 var tagsRep = {}; //I need this to be "global" because otherwise I can't see it from the callbacks "onAddTag" and "onRemoveTag"
@@ -33,7 +47,8 @@ window.app.SpecialTagsPool = Backbone.Collection.extend({
 });
 //$endregion
 
-function TagsArea() { 
+function TagsArea() {
+   "use strict";
    //We use the collection for caching purposes
    var opts = {
       lines: 9, // The number of lines to draw
@@ -81,7 +96,7 @@ function TagsArea() {
       initialize: function () {        
           self = this;
           this.conversationID = '';
-         app.removeTagTitle = removeTagValue;
+         window.app.removeTagTitle = removeTagValue;
          $("#tags").tagsInput({
             'height': '22px',
             'width': 'auto',
@@ -112,7 +127,7 @@ function TagsArea() {
       onAddTag: function (tagValue) {
          //add the tag to the cache
          //TODO maybe we should cache this only on success
-         var newTag = new app.Tag({ Name: tagValue });
+         var newTag = new window.app.Tag({ Name: tagValue });
          tagsRep[gSelectedConversationID].add(newTag);
 
          $.getJSON('Tags/AddTagToConversations',
@@ -150,18 +165,13 @@ function TagsArea() {
          //$('#tagsPool').html('');
          var tg = $('#tags');
          tg.importTags('');
-         //$('#tagsPool').hide();
-         //$('#tags').hide();
-         //$('#tags_tagsinput').hide();
-         var target = document.getElementById('tagsContainer');
-         //spinner.spin(target);
          this.conversationID = convId;
          if( convId in tagsRep) {
             spinner.stop();
             this.render();
          }
          else {
-            var tagCollection = new app.TagsPool();
+            var tagCollection = new window.app.TagsPool();
             tagCollection.bind("reset", this.render); 
             tagCollection.fetch({
                data: { "conversationID": convId },
@@ -200,29 +210,29 @@ function TagsArea() {
           }
       },
       toggleHands: function (tagType) {
-          if (tagType == "positiveFeedback") {
+          if (tagType === "positiveFeedback") {
               self.thumbsUp.css("background-position", "24px 0");
               // remove negative feedback 
-              var oppositeTagType = "negativeFeedback";
-              var oppositeTagName = self.specialTagsPool.where({ TagType: oppositeTagType, IsDefault: true })[0].get("Name");
-              if ($("#tags").tagExist(oppositeTagName)) {
+              var oppositeTagType_posBranch = "negativeFeedback";
+              var oppositeTagName_posBranch = self.specialTagsPool.where({ TagType: oppositeTagType_posBranch, IsDefault: true })[0].get("Name");
+              if ($("#tags").tagExist(oppositeTagName_posBranch)) {
                   // Transition negative to positive
                   self.sendEventToServer("pos");
                   window.app.silentRemove = true;
-                  $("#tags").removeTag(oppositeTagName);
+                  $("#tags").removeTag(oppositeTagName_posBranch);
                   window.app.silentRemove = false;
               } else {
                   self.sendEventToServer("pos");
               }
-          } else if (tagType == "negativeFeedback") {
+          } else if (tagType === "negativeFeedback") {
               self.thumbsDown.css("background-position", "24px 0");
-              var oppositeTagType = "positiveFeedback";
-              var oppositeTagName = self.specialTagsPool.where({ TagType: oppositeTagType, IsDefault: true })[0].get("Name");
-              if ($("#tags").tagExist(oppositeTagName)) {
+              var oppositeTagType_negBranch = "positiveFeedback";
+              var oppositeTagName_negBranch = self.specialTagsPool.where({ TagType: oppositeTagType_negBranch, IsDefault: true })[0].get("Name");
+              if ($("#tags").tagExist(oppositeTagName_negBranch)) {
                   // transition positive to negative
                   self.sendEventToServer("neg");
                   window.app.silentRemove = true;
-                  $("#tags").removeTag(oppositeTagName, true);
+                  $("#tags").removeTag(oppositeTagName_negBranch, true);
                   window.app.silentRemove = false;
               } else {
                   self.sendEventToServer("neg");
@@ -235,7 +245,7 @@ function TagsArea() {
       },
       turnHandOff: function (tagType) {
           if (!window.app.silentRemove) {
-              if (tagType == "positiveFeedback") {
+              if (tagType === "positiveFeedback") {
                   self.thumbsUp.css("background-position", "0 0");
                   self.sendEventToServer("neuter");
               } else {
@@ -243,7 +253,7 @@ function TagsArea() {
                   self.sendEventToServer("neuter");
               }
           } else {
-              if (tagType == "positiveFeedback") {
+              if (tagType === "positiveFeedback") {
                   self.thumbsUp.css("background-position", "0 0");                  
               } else {
                   self.thumbsDown.css("background-position", "0 0");                  

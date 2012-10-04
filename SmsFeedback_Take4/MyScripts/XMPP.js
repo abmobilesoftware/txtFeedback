@@ -1,4 +1,20 @@
-﻿"use strict";
+﻿//#region Defines to stop jshint from complaining about "undefined objects"
+/*global window */
+/*global Strophe */
+/*global document */
+/*global console */
+/*global $pres */
+/*global $iq */
+/*global $msg */
+/*global Persist */
+/*global DOMParser */
+/*global ActiveXObject */
+/*global Backbone */
+/*global _ */
+/*global Spinner */
+/*global buildConversationID */
+/*global cleanupPhoneNumber */
+//#endregion
 window.app = window.app || {};
 window.app.xmppConn = {};
 window.app.receivedMsgID = 12345;
@@ -7,11 +23,13 @@ window.app.addressOfPhpScripts = "dragos@txtfeedback.net";
 window.app.suffixedMessageModeratorAddress = "dragos@moderator.txtfeedback.net";
 window.app.selfXmppAddress = "";
 
-function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, text, readStatus) {   
+function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, text, readStatus) {
+   "use strict";
    window.app.updateNrOfUnreadConversations(false);
 }
 
 window.app.setNrOfUnreadConversationOnTab = function (unreadConvs) {
+   "use strict";
    window.app.nrOfUnreadConvs = unreadConvs;
    var toShow = "(" + unreadConvs + ")";
    $("#msgTabcount").text(toShow);
@@ -57,7 +75,7 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
    var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
    var convID = buildConversationID(fromID, toID);   
    if (isIncomming) {
-
+      //nothing to do atm
    }
    else {
       var swapTmp = fromID;
@@ -188,8 +206,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       replymsg.c("subject").t("internal_packet");
       window.app.xmppConn.conn.send(replymsg);
    };
-   this.handle_infoquery = function (iq) {
-      var elapsed = (new Date()).getTime() - this.start_time;
+   this.handle_infoquery = function (iq) {      
       var currentIq = $(iq);
       if (currentIq.attr("id") === window.app.getFeaturesIQID)
       {
@@ -201,7 +218,8 @@ window.app.XMPPhandler = function XMPPhandler() {
       }
       if (currentIq.attr("type") === "error")
       {
-        //TODO what now?
+         //TODO what now?
+         window.app.logDebugOnServer("XMPP info query error, ");
       }     
       return true;
    };
@@ -220,11 +238,11 @@ window.app.XMPPhandler = function XMPPhandler() {
          var messages = $(message).children("body").text();
          this.displayMessagesForConversation(messages);
       } else if ($(message).attr("type") === "result") {
-         var x = $(message).children("body").text();
+         //TODO result relevant to us?
       } else if ($(message).attr("type") === "chat") {
          //if we are dealing with a forwarded message then the body tag will be non zero
          if ($(message).children("sent").attr("xmlns") === "urn:xmpp:carbons:1") {
-            if (message.getElementsByTagName("body") != undefined && message.getElementsByTagName("body").length !== 0) {
+            if (message.getElementsByTagName("body") !== undefined && message.getElementsByTagName("body").length !== 0) {
                var carbonMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
                window.app.handleIncommingMessage(carbonMsg,false);
             }

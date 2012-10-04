@@ -1,4 +1,20 @@
-﻿"use strict";
+﻿//#region Defines to stop jshint from complaining about "undefined objects"
+/*global window */
+/*global Strophe */
+/*global document */
+/*global console */
+/*global $pres */
+/*global $iq */
+/*global $msg */
+/*global Persist */
+/*global DOMParser */
+/*global ActiveXObject */
+/*global Backbone */
+/*global _ */
+/*global Spinner */
+/*global setTooltipOnElement */
+/*global setCheckboxState */
+//#endregion
 window.app = window.app || {}; //window.app = window.app || { } will set window.app to an empty object if there is no window.app and will leave window.app alone if it has already been set; doing it like this makes the JavaScript files more self-contained and less subject to loading order
 window.app.workingPoints = {};
 
@@ -95,7 +111,8 @@ window.app.workingPoints = {};
    });
 //#endregion
 
-function WorkingPointsArea() {
+   function WorkingPointsArea() {
+      "use strict";
     var self = this;   
     self.checkedPhoneNumbersArray = [];
 
