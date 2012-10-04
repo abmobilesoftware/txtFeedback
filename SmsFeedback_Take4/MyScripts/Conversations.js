@@ -1,4 +1,19 @@
-﻿"use strict";
+﻿//#region Defines to stop jshint from complaining about "undefined objects"
+/*global window */
+/*global Strophe */
+/*global document */
+/*global console */
+/*global $pres */
+/*global $iq */
+/*global $msg */
+/*global Persist */
+/*global DOMParser */
+/*global ActiveXObject */
+/*global Backbone */
+/*global _ */
+/*global Spinner */
+/*global setTooltipOnElement */
+//#endregion
 window.app = window.app || {};
 window.app.selectedConversation = {};
 window.app.globalMessagesRep = {};
@@ -19,7 +34,8 @@ window.app.Conversation = Backbone.Model.extend({
         To: "defaultRecipient",
         Starred: false,
         ClientDisplayName: "defaultClient",
-        ClientIsSupportBot: false
+        ClientIsSupportBot: false,
+        IsSmsBased: false
     },
     parse: function (data, xhc) {
         data.TimeUpdated = data.TimeReceived;
@@ -31,7 +47,7 @@ window.app.Conversation = Backbone.Model.extend({
 
 //#region ConversationsList
 window.app.ConversationsList = Backbone.Collection.extend({
-    model: app.Conversation,
+    model: window.app.Conversation,
     convID: null,
     url: function () {
         return "Messages/ConversationsList";
@@ -53,7 +69,7 @@ $(function () {
     }; // excape HTML: {%- <script> %} prints &lt
 
     window.app.ConversationView = Backbone.View.extend({
-        model: app.Conversation,
+        model: window.app.Conversation,
         tagName: "div",
         conversationTemplate: _.template($('#conversation-template').html()),
         self: this,
@@ -86,12 +102,11 @@ $(function () {
                 e.preventDefault();
                 var id = $(this).parents(".conversation").attr("conversationId");
                 var newStarredStatus = false;
-                if (app.globalMessagesRep[id] !== undefined) {
-                    app.globalMessagesRep[id].each(function (msg) {
+                if (window.app.globalMessagesRep[id] !== undefined) {
+                    window.app.globalMessagesRep[id].each(function (msg) {
                         //var newStarredValue = ;
-                        msg.set("Starred", !msg.attributes["Starred"]);
-                        
-                        newStarredStatus = msg.attributes["Starred"];
+                        msg.set("Starred", !msg.attributes.Starred);                        
+                        newStarredStatus = msg.attributes.Starred;
                     });
                 }
                 var starredStatus = selfConvView.model.get("Starred");
@@ -123,6 +138,7 @@ $(function () {
 //#endregion
 
 function ConversationArea(filterArea, workingPointsArea) {
+   "use strict";
     var self = this;
 
     var opts = {
@@ -176,7 +192,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                "updateConversation",
                "newMessageReceived",
                "gatherFilterOptions");
-            this.convsList = new app.ConversationsList();
+            this.convsList = new window.app.ConversationsList();
             this.convsList.bind("reset", this.render);            
             // create an array of views to keep track of children
             this._convViews = [];
@@ -191,7 +207,7 @@ function ConversationArea(filterArea, workingPointsArea) {
 
             var selfConvArea = this;
             //reset the cummulative skip because we start with a "fresh" view
-            app.cummulativeSkip = app.defaultNrOfConversationsToSkip;
+            window.app.cummulativeSkip = window.app.defaultNrOfConversationsToSkip;
             //#endregion
 
             this.refreshsInProgress++;
@@ -216,11 +232,11 @@ function ConversationArea(filterArea, workingPointsArea) {
                     if (selfConvArea.refreshsInProgress <= 1) {
                         spinner.stop();
                     }
-                    if (app.firstCall) {
-                        app.updateNrOfUnreadConversations(false);
-                        app.firstCall = false;
+                    if (window.app.firstCall) {
+                        window.app.updateNrOfUnreadConversations(false);
+                        window.app.firstCall = false;
                     }
-                    app.requestIndex++;
+                    window.app.requestIndex++;
                 }
             });
         },
@@ -240,19 +256,19 @@ function ConversationArea(filterArea, workingPointsArea) {
                 endDate = this.filters.endDate;
             }
             var onlyUnreadConvs = this.filters.unreadFilteringEnabled;
-            var top = app.defaultNrOfConversationsToDisplay;
-            var skip = app.cummulativeSkip;
+            var top = window.app.defaultNrOfConversationsToDisplay;
+            var skip = window.app.cummulativeSkip;
 
-            filterOptions["onlyFavorites"] = showFavorites;
-            filterOptions["tags"] = selectedTags;
-            filterOptions["workingPointsNumbers"] = workingPointsNumbers;
-            filterOptions["startDate"] = startDate;
-            filterOptions["endDate"] = endDate;
-            filterOptions["onlyUnread"] = onlyUnreadConvs;
-            filterOptions["skip"] = skip;
-            filterOptions["top"] = top;
-            filterOptions["requestIndex"] = app.requestIndex;
-            filterOptions["popUpSupport"] = popUpSupport;
+            filterOptions.onlyFavorites = showFavorites;
+            filterOptions.tags = selectedTags;
+            filterOptions.workingPointsNumbers = workingPointsNumbers;
+            filterOptions.startDate = startDate;
+            filterOptions.endDate = endDate;
+            filterOptions.onlyUnread = onlyUnreadConvs;
+            filterOptions.skip = skip;
+            filterOptions.top = top;
+            filterOptions.requestIndex = window.app.requestIndex;
+            filterOptions.popUpSupport = popUpSupport;
             return filterOptions;
         },
         getAdditionalConversations: function () {
@@ -265,7 +281,7 @@ function ConversationArea(filterArea, workingPointsArea) {
             //#endregion
 
             //update the cumulativeSkip (supporting the use case where we use LoadMoreConversations multiple times)
-            app.cummulativeSkip = this.convsList.length;
+            window.app.cummulativeSkip = this.convsList.length;
 
             //#region Prepare parameters
             var options = this.gatherFilterOptions();
@@ -283,7 +299,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                     $(target).addClass("readable");
 
                     $.each(data, function () {
-                        var conv = new app.Conversation({
+                        var conv = new window.app.Conversation({
                             From: $(this).attr("From"),
                             ConvID: $(this).attr("ConvID"),
                             TimeReceived: $(this).attr("TimeReceived"),
@@ -298,7 +314,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                         selfConversationsView.addConversationBasicEffect(conv, false);
 
                     });
-                    if (data.length === 0 || data.length < app.defaultNrOfConversationsToDisplay) {
+                    if (data.length === 0 || data.length < window.app.defaultNrOfConversationsToDisplay) {
                         $(target).hide('slow');
                     }
                 }
@@ -351,7 +367,7 @@ function ConversationArea(filterArea, workingPointsArea) {
         },
         addConversationNoEffect: function (conv, addConversationAsNewElement) {
 
-            var convView = new app.ConversationView({ model: conv });
+            var convView = new window.app.ConversationView({ model: conv });
             this._convViews.push(convView);
             var item = convView.render().el;
             if (addConversationAsNewElement) {
@@ -373,7 +389,7 @@ function ConversationArea(filterArea, workingPointsArea) {
 
             });
             //if we are displaying more then 10 conversations then prepare to
-            if (this.convsList.models.length >= app.defaultNrOfConversationsToDisplay) {
+            if (this.convsList.models.length >= window.app.defaultNrOfConversationsToDisplay) {
                 $("#loadMoreConversations").show('slow');
             }
             return item;
@@ -402,7 +418,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                 }
             }
         },
-        newMessageReceived: function (fromID, toID, convID, dateReceived, newText) {
+        newMessageReceived: function (fromID, toID, convID, dateReceived, newText, isSmsBased) {
             //if the given conversation exists we update it, otherwise we create a new conversation
             var newReadStatus = false;
             var modelToUpdate = self.convsView.convsList.get(convID);
@@ -418,8 +434,8 @@ function ConversationArea(filterArea, workingPointsArea) {
                 //indicate that a new message has been received
                 //show conversation only if not filtering
                 if (!self.convsView.filters.IsFilteringEnabled()) {
-                    var modelToAdd = new app.Conversation({
-                        From: fromID, To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText, ClientDisplayName: fromID, ClientIsSupportBot: false });
+                    var modelToAdd = new window.app.Conversation({
+                        From: fromID, To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText, ClientDisplayName: fromID, ClientIsSupportBot: false, IsSmsBased: isSmsBased });
                     self.convsView.convsList.add(modelToAdd);
                     self.convsView.addConversationWithEffect(modelToAdd, true, false);
                 } 

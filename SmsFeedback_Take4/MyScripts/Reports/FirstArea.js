@@ -1,4 +1,20 @@
-﻿window.app = window.app || {};
+﻿//#region Defines to stop jshint from complaining about "undefined objects"
+/*global window */
+/*global Strophe */
+/*global document */
+/*global console */
+/*global $pres */
+/*global $iq */
+/*global $msg */
+/*global Persist */
+/*global DOMParser */
+/*global ActiveXObject */
+/*global Backbone */
+/*global _ */
+/*global Spinner */
+/*global google */
+//#endregion
+window.app = window.app || {};
 
 function FirstArea(iResource, iGranularity, iOptions, iId, iTooltip) {
     var self = this;
@@ -23,32 +39,30 @@ function FirstArea(iResource, iGranularity, iOptions, iId, iTooltip) {
     var identifier = iId;
     
     // create div in chart_div
-    if (options.seriesType == "area") {
+    if (options.seriesType === "area") {
         chart = new google.visualization.AreaChart(document.getElementById("chart_div" + iId));
         options.pointSize = 6;
-    } else if (options.seriesType == "bars") {
+    } else if (options.seriesType === "bars") {
         chart = new google.visualization.ComboChart(document.getElementById("chart_div" + iId));
     }
-    var self = this;
-
     this.drawArea = function () {
-        if (options.seriesType == "bars") {
-            // usually combo charts don't require a granularitySelector.
-            $(".granularitySelector").hide();
-        } else if (options.seriesType == "area") {
-            $(".granularitySelector").show();
-        }
+       if (options.seriesType === "bars") {
+          // usually combo charts don't require a granularitySelector.
+          $(".granularitySelector").hide();
+       } else if (options.seriesType === "area") {
+          $(".granularitySelector").show();
+       }
 
-        var jsonData = $.ajax({
-            data: { iIntervalStart: window.app.dateHelper.transformDate(window.app.startDate), iIntervalEnd: window.app.dateHelper.transformDate(window.app.endDate), iGranularity: granularity, culture: window.app.calendarCulture, scope: window.app.currentWorkingPoint },
-            url: app.domainName + resource,
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                self.drawChart(data);                
-            }
-        }).responseText;        
-    }
+       var jsonData = $.ajax({
+          data: { iIntervalStart: window.app.dateHelper.transformDate(window.app.startDate), iIntervalEnd: window.app.dateHelper.transformDate(window.app.endDate), iGranularity: granularity, culture: window.app.calendarCulture, scope: window.app.currentWorkingPoint },
+          url: window.app.domainName + resource,
+          dataType: "json",
+          async: false,
+          success: function (data) {
+             self.drawChart(data);
+          }
+       }).responseText;
+    };
 
     $(".radioOption" + identifier).change(function (event) {
         var selectorId = $(this).attr("selectorId");
@@ -59,15 +73,13 @@ function FirstArea(iResource, iGranularity, iOptions, iId, iTooltip) {
         window.app.areas[selectorId].drawArea();
     });
 
-    this.drawChart = function(jsonData) {
-        // Create our data table out of JSON data loaded from server.
-        data = new google.visualization.DataTable(jsonData);
-        chart.draw(data, options);
-    }
+    this.drawChart = function (jsonData) {
+       // Create our data table out of JSON data loaded from server.
+       data = new google.visualization.DataTable(jsonData);
+       chart.draw(data, options);
+    };
 
     this.setGranularity = function (iGranularity) {
-        granularity = iGranularity;
-    }
-   
-
+       granularity = iGranularity;
+    };
 }

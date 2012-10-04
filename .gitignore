@@ -9,3 +9,8 @@ SmsFeedback_Take4.v11.suo
 Local.testsettings
 *.suo
 SmsFeedback_Take4.v11.suo
+mobile.TxtFeedback_take1/bin/*.*
+mobile.TxtFeedback_take1/obj/*
+mobile.TxtFeedback_take1/mylogfile.txt
+mobile.TxtFeedback_take1/mylogfile.txt
+mobile.TxtFeedback_take1/mylogfile.*

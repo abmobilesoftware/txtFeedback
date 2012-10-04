@@ -1,4 +1,8 @@
-﻿window.app = window.app || {};
+﻿/*global window */
+/*global Persist */
+/*global document */
+/*global navigator */
+window.app = window.app || {};
 function showStatus(message, timeout, additive, isError) {
   
 }
@@ -12,11 +16,6 @@ window.app.loginUrl = "/Account/LogOn";
 window.app.firstCall = true;
 window.app.requestIndex = 0;
 
-function getFromToFromConversation(convID) {
-   var fromToArray = convID.split(cConversationIdNumbersSeparator);
-    return fromToArray;
-}
-
 function trim(s) {
    s = s.replace(/(^\s*)|(\s*$)/gi, "");
    s = s.replace(/[ ]{2,}/gi, " ");
@@ -26,6 +25,18 @@ function trim(s) {
 
 //#region Utilities for processing phone numbers
 var cConversationIdNumbersSeparator = '-';
+function getFromToFromConversation(convID) {
+   var fromToArray = convID.split(cConversationIdNumbersSeparator);
+   return fromToArray;
+}
+function cleanupPhoneNumber(data) {
+   var prefixes = new Array("00", "\\+");
+   //remove 00 and + from the beginning of the number
+   //remove all domain qualifiers - everything after @
+   var reg = new RegExp('^(' + prefixes.join('|') + ')|@.+$', "g");
+   data = data.replace(reg, "");
+   return data;
+}
 function buildConversationID(from, to) {
    return cleanupPhoneNumber(from) + cConversationIdNumbersSeparator + cleanupPhoneNumber(to);
 }
@@ -33,12 +44,6 @@ function comparePhoneNumbers(phoneNumber1, phoneNumber2)
 {
    //take into account that they could start with + or 00 - so we strip away any leading + or 00
    return cleanupPhoneNumber(phoneNumber1) === cleanupPhoneNumber(phoneNumber2);
-}
-function cleanupPhoneNumber(data) {
-   var prefixes = new Array("00", "\\+");   
-   var prefix = new RegExp('^(' + prefixes.join('|') + ')', "g");   
-   data = data.replace(prefix, "");   
-   return data;
 }
 //#endregion
 
@@ -54,14 +59,14 @@ function setTooltipOnElement(elem, tooltip, style) {
 function setCheckboxState(checkbox, state)
 {
    if (state === true) {
-      checkbox.attr('src', app.domainName + "/Content/images/check-white.svg");
+      checkbox.attr('src', window.app.domainName + "/Content/images/check-white.svg");
       checkbox.removeClass('deletePhoneNumberIconUnselected');
       checkbox.addClass('deletePhoneNumberIconSelected');
    }
    else {
       //we actually need only the img placeholder (for the border and background)
       //so we set the image to a transparent 1 pixel gif
-      checkbox.attr('src', app.domainName + "/Content/images/transparent.gif");
+      checkbox.attr('src', window.app.domainName + "/Content/images/transparent.gif");
       checkbox.removeClass('deletePhoneNumberIconSelected');
       checkbox.addClass('deletePhoneNumberIconUnselected');
    }
@@ -72,7 +77,7 @@ window.app.updateNrOfUnreadConversations = function (performUpdateBefore) {
    { performUpdateBefore: performUpdateBefore },
    function (data) {
       if (data !== null) {
-         app.setNrOfUnreadConversationOnTab(data.Value);
+         window.app.setNrOfUnreadConversationOnTab(data.Value);
       }
    });
 };
@@ -100,7 +105,7 @@ $(function () {
 //#region make sure Jquery AJAX requests are not cached
 $(function () {
    $.ajaxSetup({ cache: false });
-})
+});
 //#endregion
 //#region handle "authentication expired"
 $(function () {

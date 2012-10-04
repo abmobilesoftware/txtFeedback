@@ -1,5 +1,5 @@
-﻿"use strict";
-
+﻿/*global window */
+/*global DateHelper */
 window.app = window.app || {};
 window.app.calendarCulture = "en-GB";
 window.app.currentWorkingPoint = "Global";

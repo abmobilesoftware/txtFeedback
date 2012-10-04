@@ -1581,6 +1581,33 @@ namespace SmsFeedback_EFModels
         private global::System.Int32 _LastSequence;
         partial void OnLastSequenceChanging(global::System.Int32 value);
         partial void OnLastSequenceChanged();
+    
+        /// <summary>
+        /// Sms Convesations are treated differently
+        /// </summary>
+        /// <LongDescription>
+        /// Dragos: right now we have sms and xmpp based conversations - I chose to implement this as a true/false flag and not as an enum due to speed and the fact that I don&apos;t see this changing in the forsesable future
+        /// </LongDescription>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsSmsBased
+        {
+            get
+            {
+                return _IsSmsBased;
+            }
+            set
+            {
+                OnIsSmsBasedChanging(value);
+                ReportPropertyChanging("IsSmsBased");
+                _IsSmsBased = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsSmsBased");
+                OnIsSmsBasedChanged();
+            }
+        }
+        private global::System.Boolean _IsSmsBased = false;
+        partial void OnIsSmsBasedChanging(global::System.Boolean value);
+        partial void OnIsSmsBasedChanged();
 
         #endregion
 
@@ -3492,6 +3519,33 @@ namespace SmsFeedback_EFModels
         private Nullable<global::System.Guid> _UserUserId;
         partial void OnUserUserIdChanging(Nullable<global::System.Guid> value);
         partial void OnUserUserIdChanged();
+    
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <LongDescription>
+        /// Messages can arrive via SMS of via XMPP
+        /// </LongDescription>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsSmsBased
+        {
+            get
+            {
+                return _IsSmsBased;
+            }
+            set
+            {
+                OnIsSmsBasedChanging(value);
+                ReportPropertyChanging("IsSmsBased");
+                _IsSmsBased = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsSmsBased");
+                OnIsSmsBasedChanged();
+            }
+        }
+        private global::System.Boolean _IsSmsBased = false;
+        partial void OnIsSmsBasedChanging(global::System.Boolean value);
+        partial void OnIsSmsBasedChanged();
 
         #endregion
 

@@ -175,9 +175,9 @@
 					tblCal.find('thead tr:first th:eq(1) span').text(dow);
 					dow = date.getFullYear()-6;
 					data = {
-						data: [],
-						className: 'datepickerYears'
-					}
+					   data: [],
+					   className: 'datepickerYears'
+					};
 					for ( var j = 0; j < 12; j++) {
 						data.data.push(dow + j);
 					}
@@ -185,7 +185,7 @@
 					date.setDate(1);
 					data = {weeks:[], test: 10};
 					month = date.getMonth();
-					var dow = (date.getDay() - options.starts) % 7;
+					dow = (date.getDay() - options.starts) % 7;
 					date.addDays(-(dow + (dow < 0 ? 7 : 0)));
 					week = -1;
 					cnt = 0;

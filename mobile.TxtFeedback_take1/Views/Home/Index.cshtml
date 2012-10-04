@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Lidl Republicii";
+}
+ <script type="text/template" id="message-template">
+      <div class="textMessage">
+         <span>{{ Text }} </span> 
+          <div class="clear"></div>
+    {% var dateComponents = TimeReceived.toString().split(" ");      
+       var displayPattern = "DD, MM d";
+       var time = dateComponents[4];     
+       var timeReceivedLocal = $.datepicker.formatDate(displayPattern, TimeReceived,
+                                                      {dayNamesShort: $.datepicker.regional[window.app.calendarCulture].dayNamesShort, dayNames: $.datepicker.regional[window.app.calendarCulture].dayNames,
+                                                        monthNamesShort: $.datepicker.regional[window.app.calendarCulture].monthNamesShort, monthNames: $.datepicker.regional[window.app.calendarCulture].monthNames}); 
+     var timeReceivedLocal = timeReceivedLocal + " " + time;
+    %}
+       <span class="timeReceived">{{ timeReceivedLocal }} </span>
+      </div>      
+      <div class="clear"></div>      
+   </script>
+   <div id="messagesbox"></div>   
+<span style="display: none" id="welcomeMessage">@ViewBag.Message</span>
+<span style="display: none" id="componentLocation">@ViewBag.ComponentLocation</span>

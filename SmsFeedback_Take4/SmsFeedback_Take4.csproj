@@ -26,6 +26,7 @@
     <UpgradeBackupLocation />
     <TargetFrameworkProfile />
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <JSLintSkip>\MyScripts\Minified\contact.js|\MyScripts\Minified\Conversations.js|\MyScripts\Minified\ConversationTags.js|\MyScripts\Minified\Facade.js|\MyScripts\Minified\Filtering.js|\MyScripts\Minified\Messages.js|\MyScripts\Minified\Utilities.js|\MyScripts\Minified\WorkingPoints.js|\MyScripts\Minified\XMPP.js|\MyScripts\Minified\Settings\SettingsFacade.js|\Scripts\jquery-1.6.2-vsdoc.js|\Scripts\jquery-1.6.2.js|\Scripts\jquery-1.6.2.min.js|\Scripts\jquery-ui-1.8.11.js|\Scripts\jquery-ui-1.8.11.min.js|\Scripts\jquery-ui-vertical-buttonset.js|\Scripts\jquery.cookie.js|\Scripts\jquery.json-2.3.min.js|\Scripts\jquery.qtip-1.0.0-rc3.min.js|\Scripts\jquery.simplemodal.js|\Scripts\jquery.tagsinput.js|\Scripts\jquery.ui.datepicker-de.js|\Scripts\jquery.ui.datepicker-en-GB.js|\Scripts\jquery.ui.datepicker-es.js|\Scripts\jquery.ui.datepicker-ro.js|\Scripts\jquery.unobtrusive-ajax.js|\Scripts\jquery.unobtrusive-ajax.min.js|\Scripts\jquery.validate-vsdoc.js|\Scripts\jquery.validate.js|\Scripts\jquery.validate.min.js|\Scripts\jquery.validate.unobtrusive.js|\Scripts\jquery.validate.unobtrusive.min.js|\Scripts\MicrosoftAjax.debug.js|\Scripts\MicrosoftAjax.js|\Scripts\MicrosoftMvcAjax.debug.js|\Scripts\MicrosoftMvcAjax.js|\Scripts\MicrosoftMvcValidation.debug.js|\Scripts\MicrosoftMvcValidation.js|\Scripts\modernizr-2.0.6-development-only.js|\Scripts\persist-min.js|\Scripts\spin.js|\Scripts\splitter.js|\Scripts\underscore.js|\Scripts\backbone.js|\Scripts\Minified\CollapsibleLists.js|\Scripts\Minified\jquery.cookie.js|\Scripts\Minified\jquery.simplemodal.js|\Scripts\Minified\jquery.tagsinput.js|\Scripts\Minified\jquery.ui.datepicker-de.js|\Scripts\Minified\jquery.ui.datepicker-en-GB.js|\Scripts\Minified\jquery.ui.datepicker-ro.js|\Scripts\Minified\spin.js|\MyScripts\Base\Minified\BaseLeftSideMenu.js|\MyScripts\Reports\Minified\DateHelper.js|\MyScripts\Reports\Minified\FirstArea.js|\MyScripts\Reports\Minified\GlobalVariables.js|\MyScripts\Reports\Minified\RepFacade.js|\MyScripts\Reports\Minified\Reports.js|\MyScripts\Reports\Minified\SecondArea.js|\MyScripts\Reports\Minified\ThirdArea.js|\QUnit\ControllerTest.js|\QUnit\ConversationsTest.js|\QUnit\FilteringTest.js|\QUnit\MessagesTests.js|\QUnit\UtilitiesTests.js|\QUnit\TagsTests.js|\QUnit\WorkingPointsTests.js|\Nexmo\nexmoTest.js|\Scripts\CollapsibleLists.js|\MyScripts\Settings\Minified\settings.js|\MyScripts\Settings\Minified\SettingsFacade.js|\Scripts\strophe\strophe.js|\Content\Minified\contact.css|\Content\Minified\conversations.css|\Content\Minified\filtersStrip.css|\Content\Minified\grid.css|\Content\Minified\jquery.tagsinput.css|\Content\Minified\layout.css|\Content\Minified\messages.css|\Content\Minified\nav.css|\Content\Minified\phonenumbers.css|\Content\Minified\reset.css|\Content\Minified\Site.css|\Content\Minified\tags.css|\Content\Minified\text.css|\Content\css\Minified\areaDefinitions.css|\Content\css\Minified\reports.css|\Content\css\Minified\settings.css</JSLintSkip>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -437,18 +438,6 @@
     <Content Include="QUnit\WorkingPointsTests.js" />
     <Content Include="Scripts\backbone.js" />
     <Content Include="Scripts\CollapsibleLists.js" />
-    <Content Include="Scripts\datepicker\datepicker.js" />
-    <Content Include="Scripts\datepicker\eye.js" />
-    <Content Include="Scripts\datepicker\jquery.js" />
-    <Content Include="Scripts\datepicker\layout.js" />
-    <Content Include="Scripts\datepicker\utils.js" />
-    <Content Include="Scripts\flxhr\checkplayer.js" />
-    <Content Include="Scripts\flxhr\flensed.js" />
-    <Content Include="Scripts\flxhr\flXHR.js" />
-    <Content Include="Scripts\flxhr\flXHR.swf" />
-    <Content Include="Scripts\flxhr\flXHR.vbs" />
-    <Content Include="Scripts\flxhr\strophe.flxhr.js" />
-    <Content Include="Scripts\flxhr\swfobject.js" />
     <Content Include="Scripts\flxhr\updateplayer.swf" />
     <Content Include="Scripts\jquery.json-2.3.min.js" />
     <Content Include="Scripts\jquery.qtip-1.0.0-rc3.min.js" />
@@ -473,7 +462,6 @@
     <Content Include="Scripts\strophe\strophe.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Templates\PhoneTemplates.txt" />
-    <Content Include="Scripts\execute.js" />
     <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.2.js" />
     <Content Include="Scripts\jquery-1.6.2.min.js" />
@@ -537,6 +525,7 @@
     <Folder Include="Models\ViewModels\" />
     <Folder Include="MyScripts\Minified\Base\" />
     <Folder Include="MyScripts\Minified\css\" />
+    <Folder Include="Scripts\datepicker\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>

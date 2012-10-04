@@ -1,12 +1,31 @@
-﻿"use strict";
+﻿//#region Defines to stop jshint from complaining about "undefined objects"
+/*global window */
+/*global Strophe */
+/*global document */
+/*global console */
+/*global $pres */
+/*global $iq */
+/*global $msg */
+/*global Persist */
+/*global DOMParser */
+/*global ActiveXObject */
+/*global Backbone */
+/*global _ */
+/*global Spinner */
+/*global FilterArea */
+/*global WorkingPointsArea */
+/*global ConversationArea */
+/*global TagsArea */
+/*global MessagesArea */
+//#endregion
 
 window.app = window.app || {};
 window.app.calendarCulture = "en-GB";
 
-function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
+function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus, isSmsBased) {
    //the conversations window expects that the toID be a "name" and not a telephone number
-   convView.newMessageReceived(fromID, toId, convID, dateReceived, text);
-   msgView.messagesView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
+   convView.newMessageReceived(fromID, toId, convID, dateReceived, text, isSmsBased);
+   msgView.messagesView.newMessageReceived(fromID, convID, msgID, dateReceived, text, isSmsBased);
 }
 
 function refreshConversationList(convView, msgView) {
@@ -14,7 +33,35 @@ function refreshConversationList(convView, msgView) {
       msgView.messagesView.resetViewToDefault();
 }
 
+function resizeTriggered() {
+   //pick the highest between window size (- header) and messagesArea
+   var paddingTop = 5;
+   var paddingBottom = 4;
+   var msgAreaMarginTop = 10;
+   var filterStripHeigh = 45;
+   var window_height = window.innerHeight;
+   var messagesAreaHeight = $('#messagesArea').height();
+   var headerPaddingTop = 5;
+   var headerHeight = $('header').height() + headerPaddingTop;
+   var contentWindowHeight = window_height - headerHeight - (paddingTop + paddingBottom) - filterStripHeigh;
+   var msgAreaCalculatedHeight = messagesAreaHeight + msgAreaMarginTop;
+   //TODO determine this factor
+   var factor = 140;
+   var minHeight = 400; //px
+   if (contentWindowHeight <= msgAreaCalculatedHeight) {
+      $('.container_12').height(msgAreaCalculatedHeight);
+      $('#scrollablemessagebox').height(minHeight);
+      $('#scrollableconversations').height($('#messagesArea').height() + 8);
+      //$('#conversationsArea').height(msgAreaCalculatedHeight - msgAreaMarginTop);
+   }
+   else {
+      $('.container_12').height(contentWindowHeight);
+      $('#scrollablemessagebox').height(contentWindowHeight - factor);
+      $('#scrollableconversations').height($('#messagesArea').height() + 8);      
+   }
+}
 function InitializeGUI() {
+   "use strict";
     var self = this;
     if (window.Prototype) {
       delete Object.prototype.toJSON;
@@ -37,14 +84,12 @@ function InitializeGUI() {
       self.convView.getConversations();
    });
     
-   
-
    window.app.nrOfUnreadConvs = 0;
    //get the initial conversations
    window.app.requestIndex = 0; //make sure the first time we update from external sources
    
    $(document).bind('msgReceived', function (ev, data) {      
-      newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
+      newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false, data.isSmsBased);
    });
 
    $(document).bind('refreshConversationList', function (ev, data) {
@@ -73,33 +118,3 @@ $(document).ready(function () {
 });
 
 
-function resizeTriggered() {
-   //pick the highest between window size (- header) and messagesArea
-   var paddingTop = 5;
-   var paddingBottom = 4;
-   var msgAreaMarginTop = 10;
-   var filterStripHeigh = 45;
-   var window_height = window.innerHeight;
-   var messagesAreaHeight = $('#messagesArea').height();
-   var headerPaddingTop = 5;
-   var headerHeight = $('header').height() + headerPaddingTop;
-   var contentWindowHeight = window_height - headerHeight - (paddingTop + paddingBottom) - filterStripHeigh;
-   var msgAreaCalculatedHeight = messagesAreaHeight + msgAreaMarginTop ;
-   //TODO determine this factor
-   var factor = 140;
-   var minHeight = 400; //px
-   if (contentWindowHeight <= msgAreaCalculatedHeight) {
-      $('.container_12').height(msgAreaCalculatedHeight);
-      $('#scrollablemessagebox').height(minHeight);
-      $('#scrollableconversations').height($('#messagesArea').height() +8);
-      //$('#conversationsArea').height(msgAreaCalculatedHeight - msgAreaMarginTop);
-   }
-   else {
-      $('.container_12').height(contentWindowHeight);
-      $('#scrollablemessagebox').height(contentWindowHeight - factor);
-      $('#scrollableconversations').height($('#messagesArea').height() + 8);
-      //$('#conversationsArea').height(contentWindowHeight - msgAreaMarginTop);
-      //$('#scrollableconversations').height(contentWindowHeight - msgAreaMarginTop);
-      //$('#conversations').height(contentWindowHeight - msgAreaMarginTop);
-   }
-}

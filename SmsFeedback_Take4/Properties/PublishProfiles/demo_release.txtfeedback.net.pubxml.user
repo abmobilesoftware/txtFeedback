@@ -15,13 +15,21 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/30/2012 09:36:16</publishTime>
     </File>
     <File Include="bin/de/SmsFeedback_Take4.resources.dll">
+<<<<<<< HEAD
       <publishTime>10/03/2012 12:31:59</publishTime>
+=======
+      <publishTime>09/25/2012 14:47:47</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
     <File Include="bin/es/SmsFeedback_Take4.resources.dll">
+<<<<<<< HEAD
       <publishTime>10/03/2012 12:31:58</publishTime>
+=======
+      <publishTime>09/25/2012 14:47:47</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="bin/ICSharpCode.SharpZipLib.dll">
       <publishTime>07/30/2012 09:36:16</publishTime>
@@ -42,7 +50,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/17/2012 09:44:05</publishTime>
     </File>
     <File Include="bin/Nexmo-CSharp-lib.dll">
+<<<<<<< HEAD
       <publishTime>09/25/2012 14:40:49</publishTime>
+=======
+      <publishTime>09/17/2012 18:42:11</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="bin/NuGet.Core.dll">
       <publishTime>12/20/2010 12:37:28</publishTime>
@@ -51,6 +63,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/17/2012 09:44:05</publishTime>
     </File>
     <File Include="bin/ro/SmsFeedback_Take4.resources.dll">
+<<<<<<< HEAD
       <publishTime>10/03/2012 12:31:59</publishTime>
     </File>
     <File Include="bin/SmsFeedback_EFModels.dll">
@@ -64,6 +77,21 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/SmsFeedback_Take4.pdb">
       <publishTime>10/03/2012 12:31:58</publishTime>
+=======
+      <publishTime>09/25/2012 14:47:47</publishTime>
+    </File>
+    <File Include="bin/SmsFeedback_EFModels.dll">
+      <publishTime>09/24/2012 11:35:45</publishTime>
+    </File>
+    <File Include="bin/SmsFeedback_EFModels.pdb">
+      <publishTime>09/24/2012 11:35:45</publishTime>
+    </File>
+    <File Include="bin/SmsFeedback_Take4.dll">
+      <publishTime>09/25/2012 14:47:47</publishTime>
+    </File>
+    <File Include="bin/SmsFeedback_Take4.pdb">
+      <publishTime>09/25/2012 14:47:47</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="bin/System.Net.Http.dll">
       <publishTime>07/10/2012 21:52:12</publishTime>
@@ -132,7 +160,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/26/2012 14:16:07</publishTime>
     </File>
     <File Include="Content/css/areaDefinitions.css">
+<<<<<<< HEAD
       <publishTime>09/11/2012 11:57:06</publishTime>
+=======
+      <publishTime>09/17/2012 11:29:37</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="Content/css/datepicker/datepicker.css">
       <publishTime>07/31/2012 13:45:28</publishTime>
@@ -183,6 +215,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/20/2012 16:07:38</publishTime>
     </File>
     <File Include="Content/css/Minified/areaDefinitions.css">
+<<<<<<< HEAD
       <publishTime>10/03/2012 12:36:20</publishTime>
     </File>
     <File Include="Content/css/Minified/reports.css">
@@ -193,6 +226,18 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/css/reports.css">
       <publishTime>09/24/2012 17:24:06</publishTime>
+=======
+      <publishTime>09/25/2012 14:47:51</publishTime>
+    </File>
+    <File Include="Content/css/Minified/reports.css">
+      <publishTime>09/25/2012 14:47:51</publishTime>
+    </File>
+    <File Include="Content/css/Minified/settings.css">
+      <publishTime>09/25/2012 14:47:51</publishTime>
+    </File>
+    <File Include="Content/css/reports.css">
+      <publishTime>09/25/2012 14:43:57</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="Content/css/settings.css">
       <publishTime>09/12/2012 15:27:20</publishTime>
@@ -326,6 +371,18 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/images/plus_22x22.jpg">
       <publishTime>09/11/2012 10:51:16</publishTime>
     </File>
+    <File Include="Content/images/maximize_square.png">
+      <publishTime>09/25/2012 14:43:57</publishTime>
+    </File>
+    <File Include="Content/images/minimize_square.png">
+      <publishTime>09/25/2012 14:43:57</publishTime>
+    </File>
+    <File Include="Content/images/minus_22x22.jpg">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
+    <File Include="Content/images/plus_22x22.jpg">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
     <File Include="Content/images/question-blue.svg">
       <publishTime>07/24/2012 11:00:33</publishTime>
     </File>
@@ -386,6 +443,36 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/images/thumbs_up_hover_yellow_24x24.png">
       <publishTime>09/07/2012 12:59:45</publishTime>
     </File>
+    <File Include="Content/images/thumbs_down_hover_red_20x20.png">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
+    <File Include="Content/images/thumbs_down_hover_red_24x24.png">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
+    <File Include="Content/images/thumbs_up.jpg">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
+    <File Include="Content/images/thumbs_up.png">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
+    <File Include="Content/images/thumbs_up_20x20.png">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
+    <File Include="Content/images/thumbs_up_28x28.png">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
+    <File Include="Content/images/thumbs_up_hover.png">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
+    <File Include="Content/images/thumbs_up_hover_20x20.png">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
+    <File Include="Content/images/thumbs_up_hover_yellow_20x20.png">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
+    <File Include="Content/images/thumbs_up_hover_yellow_24x24.png">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
     <File Include="Content/images/transparent.gif">
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
@@ -399,6 +486,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/03/2012 16:26:21</publishTime>
     </File>
     <File Include="Content/messages.css">
+<<<<<<< HEAD
       <publishTime>09/25/2012 14:40:49</publishTime>
     </File>
     <File Include="Content/Minified/contact.css">
@@ -445,21 +533,80 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/Minified/text.css">
       <publishTime>10/03/2012 12:36:18</publishTime>
+=======
+      <publishTime>09/24/2012 18:53:19</publishTime>
+    </File>
+    <File Include="Content/Minified/contact.css">
+      <publishTime>09/25/2012 14:47:50</publishTime>
+    </File>
+    <File Include="Content/Minified/conversations.css">
+      <publishTime>09/25/2012 14:47:50</publishTime>
+    </File>
+    <File Include="Content/Minified/filtersStrip.css">
+      <publishTime>09/25/2012 14:47:50</publishTime>
+    </File>
+    <File Include="Content/Minified/grid.css">
+      <publishTime>09/25/2012 14:47:48</publishTime>
+    </File>
+    <File Include="Content/Minified/images/thumbs_down_hover_red_24x24.png">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
+    <File Include="Content/Minified/images/thumbs_up_hover_yellow_24x24.png">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
+    <File Include="Content/Minified/jquery.tagsinput.css">
+      <publishTime>09/25/2012 14:47:51</publishTime>
+    </File>
+    <File Include="Content/Minified/layout.css">
+      <publishTime>09/25/2012 14:47:48</publishTime>
+    </File>
+    <File Include="Content/Minified/messages.css">
+      <publishTime>09/25/2012 14:47:49</publishTime>
+    </File>
+    <File Include="Content/Minified/nav.css">
+      <publishTime>09/25/2012 14:47:49</publishTime>
+    </File>
+    <File Include="Content/Minified/phonenumbers.css">
+      <publishTime>09/25/2012 14:47:49</publishTime>
+    </File>
+    <File Include="Content/Minified/reset.css">
+      <publishTime>09/25/2012 14:47:48</publishTime>
+    </File>
+    <File Include="Content/Minified/Site.css">
+      <publishTime>09/25/2012 14:47:49</publishTime>
+    </File>
+    <File Include="Content/Minified/tags.css">
+      <publishTime>09/25/2012 14:47:50</publishTime>
+    </File>
+    <File Include="Content/Minified/text.css">
+      <publishTime>09/25/2012 14:47:48</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="Content/nav.css">
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
     <File Include="Content/phonenumbers.css">
+<<<<<<< HEAD
       <publishTime>09/25/2012 14:40:49</publishTime>
+=======
+      <publishTime>09/24/2012 19:03:48</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="Content/reset.css">
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
     <File Include="Content/Site.css">
+<<<<<<< HEAD
       <publishTime>09/13/2012 17:47:08</publishTime>
     </File>
     <File Include="Content/tags.css">
       <publishTime>09/25/2012 14:40:49</publishTime>
+=======
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
+    <File Include="Content/tags.css">
+      <publishTime>09/24/2012 12:11:22</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="Content/TestLayout.css">
       <publishTime>07/17/2012 09:44:04</publishTime>
@@ -561,10 +708,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
     <File Include="MyScripts/Base/BaseLeftSideMenu.js">
+<<<<<<< HEAD
       <publishTime>08/20/2012 16:07:38</publishTime>
     </File>
     <File Include="MyScripts/Base/Minified/BaseLeftSideMenu.js">
       <publishTime>10/03/2012 12:36:30</publishTime>
+=======
+      <publishTime>09/21/2012 15:26:30</publishTime>
+    </File>
+    <File Include="MyScripts/Base/Minified/BaseLeftSideMenu.js">
+      <publishTime>09/25/2012 14:47:59</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="MyScripts/contact.js">
       <publishTime>09/12/2012 15:27:20</publishTime>
@@ -573,10 +727,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/04/2012 10:06:31</publishTime>
     </File>
     <File Include="MyScripts/ConversationTags.js">
+<<<<<<< HEAD
       <publishTime>09/17/2012 16:45:10</publishTime>
     </File>
     <File Include="MyScripts/Facade.js">
       <publishTime>09/25/2012 14:40:49</publishTime>
+=======
+      <publishTime>09/19/2012 17:54:34</publishTime>
+    </File>
+    <File Include="MyScripts/Facade.js">
+      <publishTime>09/21/2012 15:26:30</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="MyScripts/Filtering.js">
       <publishTime>09/05/2012 14:28:00</publishTime>
@@ -585,6 +746,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/20/2012 10:59:27</publishTime>
     </File>
     <File Include="MyScripts/Messages.js">
+<<<<<<< HEAD
       <publishTime>09/25/2012 14:40:49</publishTime>
     </File>
     <File Include="MyScripts/Minified/contact.js">
@@ -604,11 +766,33 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="MyScripts/Minified/Messages.js">
       <publishTime>10/03/2012 12:36:24</publishTime>
+=======
+      <publishTime>09/24/2012 16:19:45</publishTime>
+    </File>
+    <File Include="MyScripts/Minified/contact.js">
+      <publishTime>09/25/2012 14:47:52</publishTime>
+    </File>
+    <File Include="MyScripts/Minified/Conversations.js">
+      <publishTime>09/25/2012 14:47:52</publishTime>
+    </File>
+    <File Include="MyScripts/Minified/ConversationTags.js">
+      <publishTime>09/25/2012 14:47:53</publishTime>
+    </File>
+    <File Include="MyScripts/Minified/Facade.js">
+      <publishTime>09/25/2012 14:47:53</publishTime>
+    </File>
+    <File Include="MyScripts/Minified/Filtering.js">
+      <publishTime>09/25/2012 14:47:53</publishTime>
+    </File>
+    <File Include="MyScripts/Minified/Messages.js">
+      <publishTime>09/25/2012 14:47:54</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="MyScripts/Minified/Settings/SettingsFacade.js">
       <publishTime>08/20/2012 10:59:27</publishTime>
     </File>
     <File Include="MyScripts/Minified/Utilities.js">
+<<<<<<< HEAD
       <publishTime>10/03/2012 12:36:24</publishTime>
     </File>
     <File Include="MyScripts/Minified/WorkingPoints.js">
@@ -616,17 +800,31 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="MyScripts/Minified/XMPP.js">
       <publishTime>10/03/2012 12:36:25</publishTime>
+=======
+      <publishTime>09/25/2012 14:47:54</publishTime>
+    </File>
+    <File Include="MyScripts/Minified/WorkingPoints.js">
+      <publishTime>09/25/2012 14:47:55</publishTime>
+    </File>
+    <File Include="MyScripts/Minified/XMPP.js">
+      <publishTime>09/25/2012 14:47:55</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="MyScripts/Reports/DateHelper.js">
       <publishTime>08/08/2012 11:14:28</publishTime>
     </File>
     <File Include="MyScripts/Reports/FirstArea.js">
+<<<<<<< HEAD
       <publishTime>09/24/2012 17:35:53</publishTime>
+=======
+      <publishTime>09/25/2012 14:43:57</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="MyScripts/Reports/GlobalVariables.js">
       <publishTime>08/14/2012 15:13:07</publishTime>
     </File>
     <File Include="MyScripts/Reports/Minified/DateHelper.js">
+<<<<<<< HEAD
       <publishTime>10/03/2012 12:36:30</publishTime>
     </File>
     <File Include="MyScripts/Reports/Minified/FirstArea.js">
@@ -664,6 +862,45 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="MyScripts/Settings/Minified/SettingsFacade.js">
       <publishTime>10/03/2012 12:36:26</publishTime>
+=======
+      <publishTime>09/25/2012 14:47:59</publishTime>
+    </File>
+    <File Include="MyScripts/Reports/Minified/FirstArea.js">
+      <publishTime>09/25/2012 14:47:57</publishTime>
+    </File>
+    <File Include="MyScripts/Reports/Minified/GlobalVariables.js">
+      <publishTime>09/25/2012 14:47:56</publishTime>
+    </File>
+    <File Include="MyScripts/Reports/Minified/RepFacade.js">
+      <publishTime>09/25/2012 14:47:58</publishTime>
+    </File>
+    <File Include="MyScripts/Reports/Minified/Reports.js">
+      <publishTime>09/25/2012 14:47:58</publishTime>
+    </File>
+    <File Include="MyScripts/Reports/Minified/SecondArea.js">
+      <publishTime>09/25/2012 14:47:57</publishTime>
+    </File>
+    <File Include="MyScripts/Reports/Minified/ThirdArea.js">
+      <publishTime>09/25/2012 14:47:57</publishTime>
+    </File>
+    <File Include="MyScripts/Reports/RepFacade.js">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
+    <File Include="MyScripts/Reports/Reports.js">
+      <publishTime>09/25/2012 14:43:57</publishTime>
+    </File>
+    <File Include="MyScripts/Reports/SecondArea.js">
+      <publishTime>09/25/2012 14:43:58</publishTime>
+    </File>
+    <File Include="MyScripts/Reports/ThirdArea.js">
+      <publishTime>09/17/2012 11:29:37</publishTime>
+    </File>
+    <File Include="MyScripts/Settings/Minified/settings.js">
+      <publishTime>09/25/2012 14:48:00</publishTime>
+    </File>
+    <File Include="MyScripts/Settings/Minified/SettingsFacade.js">
+      <publishTime>09/25/2012 14:47:56</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="MyScripts/Settings/settings.js">
       <publishTime>09/12/2012 15:27:20</publishTime>
@@ -678,7 +915,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/15/2012 19:07:04</publishTime>
     </File>
     <File Include="MyScripts/XMPP.js">
+<<<<<<< HEAD
       <publishTime>09/25/2012 14:40:49</publishTime>
+=======
+      <publishTime>09/19/2012 17:40:58</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="Nexmo/nexmoTest.js">
       <publishTime>08/18/2012 12:22:50</publishTime>
@@ -789,7 +1030,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
     <File Include="Scripts/jquery.tagsinput.js">
+<<<<<<< HEAD
       <publishTime>09/05/2012 15:26:13</publishTime>
+=======
+      <publishTime>09/17/2012 11:29:37</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="Scripts/jquery.ui.datepicker-de.js">
       <publishTime>07/30/2012 09:36:16</publishTime>
@@ -843,6 +1088,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
     <File Include="Scripts/Minified/CollapsibleLists.js">
+<<<<<<< HEAD
       <publishTime>10/03/2012 12:36:33</publishTime>
     </File>
     <File Include="Scripts/Minified/jquery.cookie.js">
@@ -865,6 +1111,30 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/Minified/spin.js">
       <publishTime>10/03/2012 12:36:31</publishTime>
+=======
+      <publishTime>09/25/2012 14:48:02</publishTime>
+    </File>
+    <File Include="Scripts/Minified/jquery.cookie.js">
+      <publishTime>09/25/2012 14:48:01</publishTime>
+    </File>
+    <File Include="Scripts/Minified/jquery.simplemodal.js">
+      <publishTime>09/25/2012 14:48:01</publishTime>
+    </File>
+    <File Include="Scripts/Minified/jquery.tagsinput.js">
+      <publishTime>09/25/2012 14:48:01</publishTime>
+    </File>
+    <File Include="Scripts/Minified/jquery.ui.datepicker-de.js">
+      <publishTime>09/25/2012 14:48:02</publishTime>
+    </File>
+    <File Include="Scripts/Minified/jquery.ui.datepicker-en-GB.js">
+      <publishTime>09/25/2012 14:48:03</publishTime>
+    </File>
+    <File Include="Scripts/Minified/jquery.ui.datepicker-ro.js">
+      <publishTime>09/25/2012 14:48:03</publishTime>
+    </File>
+    <File Include="Scripts/Minified/spin.js">
+      <publishTime>09/25/2012 14:48:00</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="Scripts/modernizr-2.0.6-development-only.js">
       <publishTime>07/17/2012 09:44:04</publishTime>
@@ -879,7 +1149,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
     <File Include="Scripts/strophe/strophe.js">
+<<<<<<< HEAD
       <publishTime>09/25/2012 14:40:49</publishTime>
+=======
+      <publishTime>09/19/2012 17:16:20</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="Scripts/underscore.js">
       <publishTime>08/06/2012 14:40:15</publishTime>
@@ -921,7 +1195,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
     <File Include="Views/Messages/Index.aspx">
+<<<<<<< HEAD
       <publishTime>09/25/2012 14:40:49</publishTime>
+=======
+      <publishTime>09/24/2012 19:08:40</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="Views/Messages/MyMessages.ascx">
       <publishTime>07/17/2012 09:44:04</publishTime>
@@ -930,10 +1208,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
     <File Include="Views/NexmoTest/Index.aspx">
+<<<<<<< HEAD
       <publishTime>09/25/2012 14:40:49</publishTime>
     </File>
     <File Include="Views/Reports/Index.aspx">
       <publishTime>09/25/2012 12:13:53</publishTime>
+=======
+      <publishTime>09/25/2012 12:18:03</publishTime>
+    </File>
+    <File Include="Views/Reports/Index.aspx">
+      <publishTime>09/25/2012 14:43:58</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="Views/Settings/ChangePasswordSuccess.aspx">
       <publishTime>08/20/2012 16:07:38</publishTime>
@@ -954,7 +1239,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/24/2012 11:00:33</publishTime>
     </File>
     <File Include="Views/Shared/Site.Master">
+<<<<<<< HEAD
       <publishTime>09/25/2012 14:40:49</publishTime>
+=======
+      <publishTime>09/24/2012 17:39:16</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
     <File Include="Views/Shared/Unauthorized.aspx">
       <publishTime>09/12/2012 15:27:20</publishTime>
@@ -969,7 +1258,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
     <File Include="Web.config">
+<<<<<<< HEAD
       <publishTime>10/03/2012 12:36:49</publishTime>
+=======
+      <publishTime>09/25/2012 14:48:06</publishTime>
+>>>>>>> 67abd9465c09166d9aa87d9d5918a2e5ad1436d5
     </File>
   </ItemGroup>
 </Project>

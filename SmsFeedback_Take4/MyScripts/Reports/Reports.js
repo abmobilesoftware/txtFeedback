@@ -1,4 +1,21 @@
-﻿"use strict";
+﻿//#region Defines to stop jshint from complaining about "undefined objects"
+/*global window */
+/*global Strophe */
+/*global document */
+/*global console */
+/*global $pres */
+/*global $iq */
+/*global $msg */
+/*global Persist */
+/*global DOMParser */
+/*global ActiveXObject */
+/*global Backbone */
+/*global _ */
+/*global Spinner */
+/*global FirstArea */
+/*global ThirdArea */
+/*global SecondArea */
+//#endregion
 window.app = window.app || {};
 window.app.dateFormatForDatePicker = 'dd/mm/yy';
 
@@ -33,6 +50,38 @@ var ReportModel = Backbone.Model.extend({
     ]
 });
 
+var Transition = function () {
+   "use strict";
+   var opts = {
+      lines: 13, // The number of lines to draw
+      length: 7, // The length of each line
+      width: 4, // The line thickness
+      radius: 10, // The radius of the inner circle
+      rotate: 0, // The rotation offset
+      color: '#fff', // #rgb or #rrggbb
+      speed: 1, // Rounds per second
+      trail: 60, // Afterglow percentage
+      shadow: true, // Whether to render a shadow
+      hwaccel: false, // Whether to use hardware acceleration
+      className: 'spinner', // The CSS class to assign to the spinner
+      zIndex: 2e9, // The z-index (defaults to 2000000000)
+      top: 'auto', // Top position relative to parent in px
+      left: 'auto' // Left position relative to parent in px
+   };
+   var spinner = new Spinner(opts);
+   var target = document.getElementById('chartArea');
+
+   this.startTransition = function () {
+      spinner.spin(target);
+      $("#overlay").show();
+   };
+
+   this.endTransition = function () {
+      spinner.stop();
+      $("#overlay").hide();
+   };
+};
+
 var ReportsContentArea = Backbone.View.extend({
     el: $("#rightColumn"),
     initialize: function () {
@@ -50,11 +99,12 @@ var ReportsContentArea = Backbone.View.extend({
         $(this.el).html(template);
         $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
         var displayTooltip = false;
-        for (var k = 0; k < this.model.get("sections").length; ++k)
-            if (this.model.get("sections")[k].visibility) {
+        for (var k = 0; k < this.model.get("sections").length; ++k) {
+           if (this.model.get("sections")[k].visibility) {
                 this.renderSection("#" + this.model.get("sections")[k].identifier, this.model.get("sections")[k].uniqueId, this.model.get("sections")[k].sectionId, this.model.get("sections")[k].resources);
-                if (this.model.get("sections")[k].resources[0].tooltip != "no tooltip") displayTooltip = true;
-            }
+              if (this.model.get("sections")[k].resources[0].tooltip !== "no tooltip") { displayTooltip = true; }
+           }
+        }
         
         this.setupEnvironment(displayTooltip);
 
@@ -68,17 +118,16 @@ var ReportsContentArea = Backbone.View.extend({
         parameters.sectionId = sectionId;
         var template = _.template($(section).html(), parameters);
         $("#reportContent").append(template);
-        if (section == "#PrimaryChartArea") {
+        if (section === "#PrimaryChartArea") {
             var area = new FirstArea(resources[0].source, "day", resources[0].options, uniqueId, resources[0].tooltip);
             area.drawArea();
             window.app.areas[uniqueId] = area;
             //window.app.areas.push(area);
-        } else if (section == "#SecondaryChartArea") {
+        } else if (section === "#SecondaryChartArea") {
             window.app.thirdArea = new ThirdArea(resources[0].source);
             window.app.thirdArea.drawArea();
             //window.app.areas.push(window.app.thirdArea);
             window.app.areas[uniqueId] = window.app.thirdArea;
-        } else if (section == "#InfoBox") {
             window.app.secondArea = new SecondArea(resources);
             window.app.secondArea.drawArea();
             //window.app.areas.push(window.app.secondArea);
@@ -117,10 +166,10 @@ var ReportsContentArea = Backbone.View.extend({
             numberOfMonths: 3,
             onSelect: function (selectedDate) {
                 window.app.newStartDate = fromDatepicker.datepicker("getDate");                                
-                if (window.app.newStartDate != window.app.startDate) {
+                if (window.app.newStartDate !== window.app.startDate) {
                     window.app.startDate = window.app.newStartDate;
                     window.app.endDate = window.app.newEndDate;
-                    var fromDateString = $.datepicker.formatDate(app.dateFormatForDatePicker, window.app.startDate);
+                    var fromDateString = $.datepicker.formatDate(window.app.dateFormatForDatePicker, window.app.startDate);
                     toDatepicker.datepicker("option", "minDate", fromDateString);
                     $(document).trigger("intervalChanged");
                 }
@@ -134,20 +183,20 @@ var ReportsContentArea = Backbone.View.extend({
             numberOfMonths: 3,
             onSelect: function (selectedDate) {
                 window.app.newEndDate = toDatepicker.datepicker("getDate");
-                if (window.app.newEndDate != window.app.endDate) {
+                if (window.app.newEndDate !== window.app.endDate) {
                     window.app.startDate = window.app.newStartDate;
                     window.app.endDate = window.app.newEndDate;
-                    var endDateString = $.datepicker.formatDate(app.dateFormatForDatePicker, window.app.endDate);
+                    var endDateString = $.datepicker.formatDate(window.app.dateFormatForDatePicker, window.app.endDate);
                     fromDatepicker.datepicker("option", "maxDate", endDateString);
                     $(document).trigger("intervalChanged");
                 }
             }
         });
                 
-        var fromDateString = $.datepicker.formatDate(app.dateFormatForDatePicker, window.app.startDate);
-        var toDateString = $.datepicker.formatDate(app.dateFormatForDatePicker, window.app.endDate);
+        var fromDateString = $.datepicker.formatDate(window.app.dateFormatForDatePicker, window.app.startDate);
+        var toDateString = $.datepicker.formatDate(window.app.dateFormatForDatePicker, window.app.endDate);
         var today = new Date();
-        var todayString = $.datepicker.formatDate(app.dateFormatForDatePicker, today);
+        //var todayString = $.datepicker.formatDate(window.app.dateFormatForDatePicker, today);
 
         // Setup the calendar culture
         $.datepicker.regional[window.app.calendarCulture].dateFormat = window.app.dateFormatForDatePicker;
@@ -175,38 +224,8 @@ var ReportsContentArea = Backbone.View.extend({
     }
 });
 
-var Transition = function() {
-    var opts = {
-        lines: 13, // The number of lines to draw
-        length: 7, // The length of each line
-        width: 4, // The line thickness
-        radius: 10, // The radius of the inner circle
-        rotate: 0, // The rotation offset
-        color: '#fff', // #rgb or #rrggbb
-        speed: 1, // Rounds per second
-        trail: 60, // Afterglow percentage
-        shadow: true, // Whether to render a shadow
-        hwaccel: false, // Whether to use hardware acceleration
-        className: 'spinner', // The CSS class to assign to the spinner
-        zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: 'auto', // Top position relative to parent in px
-        left: 'auto' // Left position relative to parent in px
-    };
-    var spinner = new Spinner(opts);
-    var target = document.getElementById('chartArea');
-
-    this.startTransition = function () {
-        spinner.spin(target);
-        $("#overlay").show();
-    }
-
-    this.endTransition = function () {
-        spinner.stop();
-        $("#overlay").hide();
-    }    
-}
-
 var ReportsArea = function () {
+   "use strict";
    var self = this;
    var localReportsRepository = {};
 

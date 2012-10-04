@@ -1,9 +1,23 @@
-﻿"use strict";
+﻿//#region Defines to stop jshint from complaining about "undefined objects"
+/*global window */
+/*global Strophe */
+/*global document */
+/*global console */
+/*global $pres */
+/*global $iq */
+/*global $msg */
+/*global Persist */
+/*global DOMParser */
+/*global ActiveXObject */
+/*global Backbone */
+/*global _ */
+/*global CollapsibleLists */
+//#endregion
 window.app = window.app || {};
 
 _.templateSettings = {
    interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
-   evaluate: /\{%([\s\S]+?)%\}/g,   // excute code: {% code_to_execute %}
+   evaluate: /\{%([\s\S]+?)%\}/g,   // execute code: {% code_to_execute %}
    escape: /\{%-([\s\S]+?)%\}/g
 }; // excape HTML: {%- <script> %} prints &lt
 
@@ -25,7 +39,7 @@ window.app.MenuCollection = Backbone.Collection.extend({
 
 window.app.MenuItemView = Backbone.View.extend({
    tagName: 'li',
-   model: app.MenuItemModel,
+   model: window.app.MenuItemModel,
    initialize: function () {
       _.bindAll(this, 'render');
    },
@@ -68,11 +82,11 @@ window.app.MenuView = Backbone.View.extend({
       _(this.menuItems.models).each(function (menuItemModel) {
          var menuItemView = new window.app.MenuItemView({ model: menuItemModel });
          if (!menuItemModel.get("leaf")) {
-            if (menuItemModel.get("parent") == 0) {
+            if (menuItemModel.get("parent") === 0) {
                $("ul.primaryList", self.el).append(menuItemView.renderParent().el);
             } else {
-               var selector = ".item" + menuItemModel.get("parent");
-               $(selector, self.el).append(menuItemView.renderParent().el);
+               var sel = ".item" + menuItemModel.get("parent");
+               $(sel, self.el).append(menuItemView.renderParent().el);
             }
          } else {
             var selector = ".item" + menuItemModel.get("parent");

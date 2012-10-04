@@ -1,3 +1,19 @@
+//#region Defines to stop jshint from complaining about "undefined objects"
+/*global window */
+/*global Strophe */
+/*global document */
+/*global console */
+/*global $pres */
+/*global $iq */
+/*global $msg */
+/*global Persist */
+/*global DOMParser */
+/*global ActiveXObject */
+/*global Backbone */
+/*global _ */
+/*global alert */
+//#endregion
+
 jQuery(function ($) {
     var contact = {
         message: null,
@@ -166,8 +182,8 @@ jQuery(function ($) {
                 e.preventDefault();
                 // validate form
                 if (contact.validate()) {
-                    var msg = $('#contact-container .contact-message');
-                    msg.fadeOut(function () {
+                    var msgValidated = $('#contact-container .contact-message');
+                    msgValidated.fadeOut(function () {
                         msg.removeClass('contact-error').empty();
                      });
                     var sendingMsg = $('#sendEmailSendingEmailMsg').val();
@@ -176,7 +192,7 @@ jQuery(function ($) {
                     $('#contact-container .contact-content').animate({
                         height: '80px'
                      }, function () {
-                        var serializedInfo = $('#contact-container form').serialize();
+                        //var serializedInfo = $('#contact-container form').serialize();
                         $('#contact-container .contact-loading').fadeIn(200, function () {
                             $.ajax({
                                 url: 'EmailSend/SendEmail',
@@ -272,37 +288,43 @@ jQuery(function ($) {
 
             // Make sure the at (@) sybmol exists and
             // it is not the first or last character
-            if (at < 1 || (at + 1) === email.length)
-                return false;
+            if (at < 1 || (at + 1) === email.length) {
+               return false;
+            }
 
             // Make sure there aren't multiple periods together
-            if (/(\.{2,})/.test(email))
-                return false;
+            if (/(\.{2,})/.test(email)) {
+               return false;
+            }
 
             // Break up the local and domain portions
             var local = email.substring(0, at);
             var domain = email.substring(at + 1);
 
             // Check lengths
-            if (local.length < 1 || local.length > 64 || domain.length < 4 || domain.length > 255)
-                return false;
+            if (local.length < 1 || local.length > 64 || domain.length < 4 || domain.length > 255) {
+               return false;
+            }
 
             // Make sure local and domain don't start with or end with a period
-            if (/(^\.|\.$)/.test(local) || /(^\.|\.$)/.test(domain))
-                return false;
+            if (/(^\.|\.$)/.test(local) || /(^\.|\.$)/.test(domain)) {
+               return false;
+            }
 
             // Check for quoted-string addresses
             // Since almost anything is allowed in a quoted-string address,
             // we're just going to let them go through
             if (!/^"(.+)"$/.test(local)) {
                 // It's a dot-string address...check for valid characters
-                if (!/^[-a-zA-Z0-9!#$%*\/?|^{}`~&'+=_\.]*$/.test(local))
-                    return false;
+               if (!/^[-a-zA-Z0-9!#$%*\/?|^{}`~&'+=_\.]*$/.test(local)) {
+                  return false;
+               }
             }
 
             // Make sure domain contains only valid characters and at least one period
-            if (!/^[-a-zA-Z0-9\.]*$/.test(domain) || domain.indexOf(".") === -1)
-                return false;
+            if (!/^[-a-zA-Z0-9\.]*$/.test(domain) || domain.indexOf(".") === -1) {
+               return false;
+            }
 
             return true;
         },
