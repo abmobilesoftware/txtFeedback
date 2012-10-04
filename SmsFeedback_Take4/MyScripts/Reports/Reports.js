@@ -8,6 +8,10 @@ _.templateSettings = {
     escape: /\{%-([\s\S]+?)%\}/g
 }; // excape HTML: {%- <script> %} prints &lt
 
+function drawThisArea(element, indexOfTheElement) {
+    element.drawArea();
+}
+
 var ReportModel = Backbone.Model.extend({
     menuId: 1,
     title: "Total sms report",
@@ -48,7 +52,7 @@ var ReportsContentArea = Backbone.View.extend({
         var displayTooltip = false;
         for (var k = 0; k < this.model.get("sections").length; ++k)
             if (this.model.get("sections")[k].visibility) {
-                this.renderSection("#" + this.model.get("sections")[k].identifier, this.model.get("sections")[k].uniqueId, this.model.get("sections")[k].resources);
+                this.renderSection("#" + this.model.get("sections")[k].identifier, this.model.get("sections")[k].uniqueId, this.model.get("sections")[k].sectionId, this.model.get("sections")[k].resources);
                 if (this.model.get("sections")[k].resources[0].tooltip != "no tooltip") displayTooltip = true;
             }
         
@@ -58,32 +62,27 @@ var ReportsContentArea = Backbone.View.extend({
         // resize event is triggered here, because after populating the divs with content the page height will change
         $(document).trigger("resize");
     },
-    renderSection: function(section, id, resources) {
+    renderSection: function(section, uniqueId, sectionId, resources) {
         var parameters = resources[0];
-        parameters.identifier = id;
+        parameters.uniqueId = uniqueId;
+        parameters.sectionId = sectionId;
         var template = _.template($(section).html(), parameters);
         $("#reportContent").append(template);
         if (section == "#PrimaryChartArea") {
-            // --------------------------------------
-            /*var areaName = "area" + id;
-            var instructions = 'var ' + areaName + ' = new FirstArea(resources[0].source, "day", resources[0].options, id);' +
-            areaName + '.drawArea();' +
-            'window.app.areas.push(' +  areaName + ');';
-            eval(instructions);
-            */
-            // -----------------------------------
-            var area = new FirstArea(resources[0].source, "day", resources[0].options, id, resources[0].tooltip);
+            var area = new FirstArea(resources[0].source, "day", resources[0].options, uniqueId, resources[0].tooltip);
             area.drawArea();
-            //window.app.areas[id] = area;
-            window.app.areas.push(area);
+            window.app.areas[uniqueId] = area;
+            //window.app.areas.push(area);
         } else if (section == "#SecondaryChartArea") {
             window.app.thirdArea = new ThirdArea(resources[0].source);
             window.app.thirdArea.drawArea();
-            window.app.areas.push(window.app.thirdArea);
+            //window.app.areas.push(window.app.thirdArea);
+            window.app.areas[uniqueId] = window.app.thirdArea;
         } else if (section == "#InfoBox") {
             window.app.secondArea = new SecondArea(resources);
             window.app.secondArea.drawArea();
-            window.app.areas.push(window.app.secondArea);
+            //window.app.areas.push(window.app.secondArea);
+            window.app.areas[uniqueId] = window.app.secondArea;
         }
     },
     setupEnvironment: function (displayTooltip) {
@@ -165,14 +164,14 @@ var ReportsContentArea = Backbone.View.extend({
     },
     updateReport: function () {
         $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
-        for (i = 0; i < window.app.areas.length; ++i) {
+        /*for (i = 0; i < window.app.areas.length; ++i) {
             window.app.areas[i].drawArea();
-        }
-        /*
+        }        
         window.app.firstArea.drawArea();
         window.app.secondArea.drawArea();
         window.app.thirdArea.drawArea();
         */
+        window.app.areas.forEach(drawThisArea);
     }
 });
 
