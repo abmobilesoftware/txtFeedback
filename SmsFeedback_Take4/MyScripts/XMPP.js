@@ -73,6 +73,7 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
    var toID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
    toID = cleanupPhoneNumber(toID);
    var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
+   var isSmsBased = xmlMsgToBeDecoded.getElementsByTagName('sms')[0].textContent;
    var convID = buildConversationID(fromID, toID);   
    if (isIncomming) {
       //nothing to do atm
@@ -95,7 +96,8 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
       msgID: window.app.receivedMsgID,
       dateReceived: dateReceived,
       text: newText,
-      readStatus: readStatus
+      readStatus: readStatus,
+      isSmsBased: isSmsBased
    });
    
 };
@@ -187,7 +189,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       }).c("query", { xmlns: "http://jabber.org/protocol/disco#info" });
       this.connection.send(reqInfo);
    };
-   this.send_reply = function (from, to, dateSent, convID, message, xmppTo) {
+   this.send_reply = function (from, to, dateSent, convID, message, xmppTo, isSmsBased) {      
       var message_body = "<msg>" +
                                     " <from>" + from +"@txtfeedback.net" + "</from>" +
                                     " <to>" + to + "@moderator.txtfeedback.net" + "</to>" +
@@ -195,7 +197,7 @@ window.app.XMPPhandler = function XMPPhandler() {
                                      "<convID>" + convID + "</convID>" +
                                     " <body>" + message + "</body>" +
                                     " <staff>false</staff>" +
-                                    " <sms>false</sms>" +
+                                    " <sms>" + isSmsBased.toString() +"</sms>" +
                                 " </msg>";
       var replymsg = $msg({
          from: window.app.selfXmppAddress,

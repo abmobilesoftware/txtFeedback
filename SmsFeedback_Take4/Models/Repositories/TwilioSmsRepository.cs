@@ -65,21 +65,40 @@ namespace SmsFeedback_Take4.Models
          string[] utilitiesGetFromAndToFromConversationID = ConversationUtilities.GetFromAndToFromConversationID(convID);
          if (utilitiesGetFromAndToFromConversationID.Length == 2)
          {
-             var fromNumber = utilitiesGetFromAndToFromConversationID[0];
-             var toNumber = utilitiesGetFromAndToFromConversationID[1];
-             //var fromNumber = "442033221909"; //the client
-             //var toNumber = "442033221134"; //the twilio number
-             //get messages from a person
-             SmsMessageResult listOfIncomingMessages = twilio.ListSmsMessages(toNumber, fromNumber, null, null, null);
-             //get message to that person         
-             SmsMessageResult listOfOutgoingMessages = twilio.ListSmsMessages(fromNumber, toNumber, null, null, null);
-             //combine the results
+            var fromNumber = utilitiesGetFromAndToFromConversationID[0];
+            var toNumber = utilitiesGetFromAndToFromConversationID[1];
+            //var fromNumber = "442033221909"; //the client
+            //var toNumber = "442033221134"; //the twilio number
+            //get messages from a person
+            SmsMessageResult listOfIncomingMessages = twilio.ListSmsMessages(toNumber, fromNumber, null, null, null);
+            //get message to that person         
+            SmsMessageResult listOfOutgoingMessages = twilio.ListSmsMessages(fromNumber, toNumber, null, null, null);
+            //combine the results
 
-
-             IEnumerable<SMSMessage> union = listOfIncomingMessages.SMSMessages.Union(listOfOutgoingMessages.SMSMessages).Distinct(new MessagesComparer());
-             //this should be ordered ascending by datesent as the last will be at the end
-             var records = from c in union orderby c.DateSent select new SmsMessage() { Id = c.Sid.GetHashCode(), From = c.From, To = c.To, Text = c.Body, TimeReceived = c.DateSent, Read = true, ConvID = convID, Starred = isConvFavourite, Day = c.DateSent.Day, Month = c.DateSent.Month, Year = c.DateSent.Year, Hours = c.DateSent.Hour, Minutes = c.DateSent.Minute, Seconds = c.DateSent.Second};
-             return records;
+            //DA: since twilio is SMS -> isSmsBased will be true
+            IEnumerable<SMSMessage> union = listOfIncomingMessages.SMSMessages.Union(listOfOutgoingMessages.SMSMessages).Distinct(new MessagesComparer());
+            //this should be ordered ascending by datesent as the last will be at the end
+            var records = from c in union
+                          orderby c.DateSent
+                          select new SmsMessage()
+                          {
+                             Id = c.Sid.GetHashCode(),
+                             From = c.From,
+                             To = c.To,
+                             Text = c.Body,
+                             TimeReceived = c.DateSent,
+                             Read = true,
+                             ConvID = convID,
+                             Starred = isConvFavourite,
+                             Day = c.DateSent.Day,
+                             Month = c.DateSent.Month,
+                             Year = c.DateSent.Year,
+                             Hours = c.DateSent.Hour,
+                             Minutes = c.DateSent.Minute,
+                             Seconds = c.DateSent.Second,
+                             IsSmsBased = true
+                          };
+            return records;
          }
          else {
              return null;
@@ -92,24 +111,28 @@ namespace SmsFeedback_Take4.Models
                                                                String userName)
       {
          //here we don't aplly skip or load, as they will be applied on the merged list
-         logger.InfoFormat("Retrieving conversations, lastUpdate:{0}",lastUpdate);
+         logger.InfoFormat("Retrieving conversations, lastUpdate:{0}", lastUpdate);
          var accoundSID = "ACf79c0f33a5f74621ac527c0d2ab30981";
          var authToken = "cfdeca286645c1dca6674b45729a895c";
-         var twilio = new TwilioRestClient(accoundSID, authToken);         
+         var twilio = new TwilioRestClient(accoundSID, authToken);
          //var toNumber = workingPointsNumbers;
-         var toNumber = workingPointsNumber;         
+         var toNumber = workingPointsNumber;
          //the lastUpdate parameter will be used by default with the = operator. I need the >= parameter.
          SmsMessageResult res = twilio.ListSmsMessages(toNumber, "", lastUpdate, ComparisonType.GreaterThanOrEqualTo, null, null);
-         //twilio.ListSmsMessages(
-         var result = from c in res.SMSMessages orderby c.DateSent descending select  
-                         new SmsMessage(){
-                            Id=c.Sid.GetHashCode(),
-                            From= c.From, 
-                            To= c.To, 
-                            Text= c.Body, 
-                            TimeReceived= c.DateSent,
-                            Read=false,
-                            ConvID=Utilities.ConversationUtilities.BuildConversationIDFromFromAndTo(c.From,c.To) ,                            
+         //DA: twilio conversations are always sms based
+         var result = from c in res.SMSMessages
+                      orderby c.DateSent descending
+                      select
+                         new SmsMessage()
+                         {
+                            Id = c.Sid.GetHashCode(),
+                            From = c.From,
+                            To = c.To,
+                            Text = c.Body,
+                            TimeReceived = c.DateSent,
+                            Read = false,
+                            ConvID = Utilities.ConversationUtilities.BuildConversationIDFromFromAndTo(c.From, c.To),
+                            IsSmsBased = true
                          };
          var ret = result.Distinct(new ConversationsComparer());
          logger.InfoFormat("Records returned by Twilio: {0}", ret.Count());
@@ -117,21 +140,20 @@ namespace SmsFeedback_Take4.Models
          //in order to make sure that the text/update time is the latest we have to check if we have any "sent" messages to those numbers
          var listOfConvs = ret.ToList();
          //if retrieving the conversations is too slow, and we are positive that the conversation gets updated when we send a message we can take out the region below
- #region "nice to have but not required"
+         #region "nice to have but not required"
          foreach (var conv in listOfConvs)
          {
             SmsMessageResult newerSentMessages = twilio.ListSmsMessages(conv.From, toNumber, conv.TimeReceived, ComparisonType.GreaterThanOrEqualTo, null, null);
             var newMessages = newerSentMessages.SMSMessages.OrderByDescending(c => c.DateSent);
             if (newMessages.Count() > 0)
-            {               
+            {
                var newestMessage = newMessages.First();
                conv.TimeReceived = newestMessage.DateSent;
                conv.Text = newestMessage.Body;
             }
          }
-#endregion
+         #endregion
          return listOfConvs;
-
       }     
     }
 }

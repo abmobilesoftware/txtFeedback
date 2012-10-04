@@ -290,10 +290,10 @@ namespace SmsFeedback_Take4.Controllers
         //}
 
         private void UpdateDbAfterMessageWasSent(String userId, String from, String to, String conversationId, String text, Boolean readStatus,
-                                                     DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, smsfeedbackEntities dbContext)
+                                                     DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, smsfeedbackEntities dbContext)
         {
             string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, dbContext);
-            mEFInterface.AddMessage(userId, from, to, conversationId, text, readStatus, updateTime, prevConvFrom, prevConvUpdateTime, dbContext);
+            mEFInterface.AddMessage(userId, from, to, conversationId, text, readStatus, updateTime, prevConvFrom, prevConvUpdateTime,isSmsBased, dbContext);
             mEFInterface.IncrementNumberOfSentSms(from, dbContext);
         }
 
@@ -314,7 +314,7 @@ namespace SmsFeedback_Take4.Controllers
                     SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgResponse) =>
                     {
                        //TODO add check if message was sent successfully 
-                       UpdateDbAfterMessageWasSent(userId, from, to, convId, text, false, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, lContextPerRequest);
+                       UpdateDbAfterMessageWasSent(userId, from, to, convId, text, false, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, lContextPerRequest);
                     });
                     //we should wait for the call to finish
                     //I should return the sent time (if successful)              

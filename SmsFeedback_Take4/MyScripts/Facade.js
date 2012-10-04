@@ -22,10 +22,10 @@
 window.app = window.app || {};
 window.app.calendarCulture = "en-GB";
 
-function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
+function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus, isSmsBased) {
    //the conversations window expects that the toID be a "name" and not a telephone number
-   convView.newMessageReceived(fromID, toId, convID, dateReceived, text);
-   msgView.messagesView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
+   convView.newMessageReceived(fromID, toId, convID, dateReceived, text, isSmsBased);
+   msgView.messagesView.newMessageReceived(fromID, convID, msgID, dateReceived, text, isSmsBased);
 }
 
 function refreshConversationList(convView, msgView) {
@@ -89,7 +89,7 @@ function InitializeGUI() {
    window.app.requestIndex = 0; //make sure the first time we update from external sources
    
    $(document).bind('msgReceived', function (ev, data) {      
-      newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
+      newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false, data.isSmsBased);
    });
 
    $(document).bind('refreshConversationList', function (ev, data) {

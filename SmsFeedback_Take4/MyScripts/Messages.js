@@ -73,7 +73,8 @@ window.app.Message = Backbone.Model.extend({
       ConvID: 1,
       Direction: "from",
       Read: false,
-      Starred: false
+      Starred: false,
+      IsSmsBased: false
    },
    parse: function (data, xhc) {
       //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
@@ -111,7 +112,6 @@ window.app.defaultMessagesOptions = {
 };
 //#endregion
 
-//window.app.SendMessageToClient(convView,
 function MessagesArea(convView, tagsArea) {
    "use strict";
     var self = this;
@@ -161,46 +161,50 @@ function MessagesArea(convView, tagsArea) {
 
     var id = 412536; //this should be unique
     var sendMessageToClient = function () {
-        var inputBox = $("#limitedtextarea");
-        id++;
-        //add it to the visual list
-        //I should set values to all the properties
-        var msgContent = inputBox.val();
+       var inputBox = $("#limitedtextarea");
+       id++;
+       //add it to the visual list
+       //I should set values to all the properties
+       var msgContent = inputBox.val();
 
-        var fromTo = getFromToFromConversation(self.currentConversationId);
-        var from = fromTo[0];
-        var to = fromTo[1];        
-       //send it to the server
-       // $.getJSON('Messages/SendMessage',
-       //         {
-       //            from: to,
-       //            to: from,
-       //            convId: self.currentConversationId,
-       //            text: msgContent
-       //         },
-       //         function (data) {
-       //            //delivered successfully? if yes - indicate this
-       //         }
-       //);
+       var fromTo = getFromToFromConversation(self.currentConversationId);
+       var from = fromTo[0];
+       var to = fromTo[1];
+       //decide if this should be handled via SMS or not
+       var isSmsBased = window.app.selectedConversation.get("IsSmsBased");
+       if (isSmsBased) {
+          //send it to the server
+          $.getJSON('Messages/SendMessage',
+                  {
+                     from: to,
+                     to: from,
+                     convId: self.currentConversationId,
+                     text: msgContent
+                  },
+                  function (data) {
+                     //delivered successfully? if yes - indicate this
+                  }
+         );
+       }
+   
+       //TODO should be RFC822 format
+       var timeSent = new Date();
+       $(document).trigger('msgReceived', {
+          fromID: to,
+          toID: from,
+          convID: self.currentConversationId,
+          msgID: id,
+          dateReceived: timeSent,
+          text: msgContent,
+          readStatus: false,
+          messageIsSent: true,
+          isSmsBased: isSmsBased
+       });
+       //reset the input form
+       $("#replyToMessageForm")[0].reset();
 
-        //TODO should be RFC822 format
-        var timeSent = new Date();
-        $(document).trigger('msgReceived', {
-            fromID: to,
-            toID: from,
-            convID: self.currentConversationId,
-            msgID: id,
-            dateReceived: timeSent,
-            text: msgContent,
-           readStatus: false,
-           messageIsSent: true
-        });
-        //reset the input form
-        $("#replyToMessageForm")[0].reset();
-
-       //signal all the other "listeners/agents"
-        //window.app.xmppHandlerInstance.send_reply(to, from, timeSent, msgContent, window.app.addressOfPhpScripts);
-        window.app.xmppHandlerInstance.send_reply(from, to, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress);
+       //signal all the other "listeners/agents"       
+       window.app.xmppHandlerInstance.send_reply(from, to, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress, isSmsBased);
     };
 
     $("#replyBtn").click(function () {
@@ -370,8 +374,16 @@ function MessagesArea(convView, tagsArea) {
 
             }
         },
-        newMessageReceived: function (fromID, convID, msgID, dateReceived, text) {
-            var newMsg = new window.app.Message({ Id: msgID });
+        newMessageReceived: function (fromID, convID, msgID, dateReceived, text, isSmsBased) {
+           var newMsg = new window.app.Message({
+              Id: msgID,              
+              From: fromID,
+              Text: text,
+              ConvID: convID,
+              ClientDisplayName: from,
+              ClientIsSupportBot: false,
+              IsSmsBased: isSmsBased
+           });
             //decide if this is a from or to message
             var fromTo = getFromToFromConversation(convID);
             var from = fromTo[0];
@@ -379,14 +391,9 @@ function MessagesArea(convView, tagsArea) {
             if (!comparePhoneNumbers(fromID, from)) {
                 direction = "to";
             }
-            newMsg.set("Direction", direction);
-            newMsg.set("From", fromID);
-            newMsg.set("ConvID", convID);
-            newMsg.set("Text", text);
+            newMsg.set("Direction", direction);            
             //we receive the date as RFC 822 string - we need to convert it to a valid Date
-            newMsg.set("TimeReceived", new Date(Date.parse(dateReceived)));
-            newMsg.set("ClientDisplayName", from);
-            newMsg.set("ClientIsSupportBot", false);
+            newMsg.set("TimeReceived", new Date(Date.parse(dateReceived)));            
             //we add the message only if are in correct conversation
             if (window.app.globalMessagesRep[convID] !== undefined) {
                 window.app.globalMessagesRep[convID].add(newMsg);

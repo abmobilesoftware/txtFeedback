@@ -284,7 +284,8 @@ namespace SmsFeedback_Take4.Utilities
             return null;
         }
 
-        public Message AddMessage(String userID, String from, String to, String conversationId, String text, Boolean readStatus, DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, smsfeedbackEntities dbContext)
+        public Message AddMessage(String userID, String from, String to, String conversationId, String text,
+           Boolean readStatus, DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, smsfeedbackEntities dbContext)
         {
             //assume userID and convID are valid
             logger.Info("Call made");
@@ -308,7 +309,8 @@ namespace SmsFeedback_Take4.Utilities
                     Text = text,
                     TimeReceived = updateTime,
                     ConversationId = conversationId,
-                    Read = readStatus
+                    Read = readStatus,
+                    IsSmsBased = isSmsBased
                 };
                 dbContext.Messages.AddObject(msg);
                 dbContext.SaveChanges();
@@ -447,7 +449,7 @@ namespace SmsFeedback_Take4.Utilities
         public IEnumerable<SmsMessage> GetMessagesForConversation(string convID, smsfeedbackEntities dbContext)
         {
             //TODO: error handling & sanity checks
-            //if the conversation is marked as "favourite" then all the messages will be "favourite"
+            //if the conversation is marked as "favourite" then all the messages will be "favorite"
             var isConvFavourite = IsConversationFavourite(convID, dbContext);
             var msgs = from conv in dbContext.Conversations
                        where conv.ConvId == convID 
@@ -468,7 +470,8 @@ namespace SmsFeedback_Take4.Utilities
                                Year = msg.TimeReceived.Year,
                                Hours = msg.TimeReceived.Hour,
                                Minutes = msg.TimeReceived.Minute,
-                               Seconds = msg.TimeReceived.Second
+                               Seconds = msg.TimeReceived.Second,
+                               IsSmsBased = msg.IsSmsBased
                            });
             if (msgs.Count() > 0)
             {

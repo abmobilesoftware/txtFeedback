@@ -34,7 +34,8 @@ window.app.Conversation = Backbone.Model.extend({
         To: "defaultRecipient",
         Starred: false,
         ClientDisplayName: "defaultClient",
-        ClientIsSupportBot: false
+        ClientIsSupportBot: false,
+        IsSmsBased: false
     },
     parse: function (data, xhc) {
         data.TimeUpdated = data.TimeReceived;
@@ -417,7 +418,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                 }
             }
         },
-        newMessageReceived: function (fromID, toID, convID, dateReceived, newText) {
+        newMessageReceived: function (fromID, toID, convID, dateReceived, newText, isSmsBased) {
             //if the given conversation exists we update it, otherwise we create a new conversation
             var newReadStatus = false;
             var modelToUpdate = self.convsView.convsList.get(convID);
@@ -434,7 +435,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                 //show conversation only if not filtering
                 if (!self.convsView.filters.IsFilteringEnabled()) {
                     var modelToAdd = new window.app.Conversation({
-                        From: fromID, To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText, ClientDisplayName: fromID, ClientIsSupportBot: false });
+                        From: fromID, To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText, ClientDisplayName: fromID, ClientIsSupportBot: false, IsSmsBased: isSmsBased });
                     self.convsView.convsList.add(modelToAdd);
                     self.convsView.addConversationWithEffect(modelToAdd, true, false);
                 } 

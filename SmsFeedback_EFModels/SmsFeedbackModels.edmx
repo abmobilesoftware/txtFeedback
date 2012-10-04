@@ -86,6 +86,10 @@
             <End Role="TagTypes" EntitySet="TagTypes" />
             <End Role="TagTagTypes" EntitySet="TagTagTypes" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserCompany" Association="smsfeedbackModel.Store.FK_UserCompany">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserMessages" Association="smsfeedbackModel.Store.FK_UserMessages">
             <End Role="Users" EntitySet="Users" />
             <End Role="Messages" EntitySet="Messages" />
@@ -173,8 +177,8 @@
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="NrOfTrainingHoursDelivered" Type="int" Nullable="false" />
           <Property Name="Subscription_Type" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="NrOfTrainingHoursDelivered" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ConversationHistories">
           <Key>
@@ -201,6 +205,7 @@
           <Property Name="WorkingPoint_TelNumber" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Client_TelNumber" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="LastSequence" Type="int" Nullable="false" />
+          <Property Name="IsSmsBased" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ConversationTags">
           <Key>
@@ -222,7 +227,7 @@
           <Property Name="FriendlyName" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'txtfeedback_nexmo.dbo.Log' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'txtfeedback_dev.dbo.Log' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Log">
           <Key>
@@ -278,6 +283,7 @@
           <Property Name="ConversationId" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="ResponseTime" Type="bigint" />
           <Property Name="UserUserId" Type="uniqueidentifier" />
+          <Property Name="IsSmsBased" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Profiles">
           <Key>
@@ -343,8 +349,8 @@
           <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="IsAnonymous" Type="bit" Nullable="false" />
           <Property Name="LastActivityDate" Type="datetime" Nullable="false" />
-          <Property Name="XmppConnection_Id" Type="int" />
           <Property Name="Company_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="XmppConnection_Id" Type="int" />
         </EntityType>
         <EntityType Name="UsersForWorkingPoints">
           <Key>
@@ -530,6 +536,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserCompany">
+          <End Role="Companies" Type="smsfeedbackModel.Store.Companies" Multiplicity="0..1" />
+          <End Role="Users" Type="smsfeedbackModel.Store.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Company_Name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserMessages">
           <End Role="Users" Type="smsfeedbackModel.Store.Users" Multiplicity="0..1" />
           <End Role="Messages" Type="smsfeedbackModel.Store.Messages" Multiplicity="*" />
@@ -686,15 +704,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="Base64Encode" ReturnType="varchar(max)" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="bin" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="Base64Encode1" ReturnType="varchar(max)" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="bin" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="Base64Encoding" ReturnType="nvarchar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="bin" Type="varbinary(max)" Mode="In" />
-        </Function>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -836,6 +845,12 @@
           <NavigationProperty Name="WorkingPoints" Relationship="smsfeedbackModel.FK_SupportConversationForWorkingPoint1" FromRole="Conversation" ToRole="WorkingPoint" />
           <Property Type="Int32" Name="LastSequence" Nullable="false" />
           <NavigationProperty Name="ConversationEvents" Relationship="smsfeedbackModel.ConversationToConversationHistory" FromRole="Conversation" ToRole="ConversationHistory" />
+          <Property Type="Boolean" Name="IsSmsBased" Nullable="false" DefaultValue="False" >
+            <Documentation>
+              <Summary>Sms Convesations are treated differently</Summary>
+              <LongDescription>Dragos: right now we have sms and xmpp based conversations - I chose to implement this as a true/false flag and not as an enum due to speed and the fact that I don't see this changing in the forsesable future</LongDescription>
+            </Documentation>
+          </Property>
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -853,6 +868,11 @@
           <Property Type="Guid" Name="UserUserId" Nullable="true" />
           <NavigationProperty Name="User" Relationship="smsfeedbackModel.FK_UserMessages" FromRole="Message" ToRole="User" />
           <NavigationProperty Name="ConversationHistories" Relationship="smsfeedbackModel.ConversationHistoryMessage" FromRole="Message" ToRole="ConversationHistory" />
+          <Property Type="Boolean" Name="IsSmsBased" Nullable="false" DefaultValue="False" >
+            <Documentation>
+              <LongDescription>Messages can arrive via SMS of via XMPP</LongDescription>
+            </Documentation>
+          </Property>
         </EntityType>
         <EntityType Name="WorkingPoint">
           <Key>
@@ -1347,7 +1367,8 @@
     <EntitySetMapping Name="Conversations">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Conversation)">
         <MappingFragment StoreEntitySet="Conversations">
-          <ScalarProperty Name="ConvId" ColumnName="ConvId" />
+                <ScalarProperty Name="IsSmsBased" ColumnName="IsSmsBased" />
+                <ScalarProperty Name="ConvId" ColumnName="ConvId" />
           <ScalarProperty Name="Text" ColumnName="Text" />
           <ScalarProperty Name="Read" ColumnName="Read" />
           <ScalarProperty Name="TimeUpdated" ColumnName="TimeUpdated" />
@@ -1362,7 +1383,8 @@
     <EntitySetMapping Name="Messages">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Message)">
         <MappingFragment StoreEntitySet="Messages">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IsSmsBased" ColumnName="IsSmsBased" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="From" ColumnName="From" />
           <ScalarProperty Name="To" ColumnName="To" />
           <ScalarProperty Name="Text" ColumnName="Text" />

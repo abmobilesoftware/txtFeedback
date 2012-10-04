@@ -53,12 +53,24 @@ namespace SmsFeedback_Take4.Models
                     where wp.TelNumber == consistentWP
                     select (from c in wp.Conversations
                             where (onlyFavorites ? c.Starred == true : true) &&
-                            (onlyUnread? c.Read == false : true) &&
+                            (onlyUnread ? c.Read == false : true) &&
                             (earliestStartDate.HasValue ? c.StartTime >= earliestStartDate.Value : true) &&
                             (latestEndDate.HasValue ? c.TimeUpdated <= latestEndDate.Value : true) &&
                             !tags.Except(c.ConversationTags.Select(tag => tag.TagName)).Any()
                             orderby c.TimeUpdated descending
-                            select (new SmsMessage() { From = c.From, To = c.From, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId, Starred = c.Starred, ClientDisplayName = c.Client.DisplayName, ClientIsSupportBot = c.Client.isSupportClient }));
+                            select (new SmsMessage()
+                            {
+                               From = c.From,
+                               To = c.From,
+                               Text = c.Text,
+                               TimeReceived = c.TimeUpdated,
+                               Read = c.Read,
+                               ConvID = c.ConvId,
+                               Starred = c.Starred,
+                               ClientDisplayName = c.Client.DisplayName,
+                               ClientIsSupportBot = c.Client.isSupportClient,
+                               IsSmsBased = c.IsSmsBased
+                            }));
          }
          else
          {
@@ -70,7 +82,19 @@ namespace SmsFeedback_Take4.Models
                             (earliestStartDate.HasValue ? c.StartTime >= earliestStartDate.Value : true) &&
                             (latestEndDate.HasValue ? c.TimeUpdated <= latestEndDate.Value : true)
                             orderby c.TimeUpdated descending
-                            select (new SmsMessage() { From = c.From, To = wp.Name, Text = c.Text, TimeReceived = c.TimeUpdated, Read = c.Read, ConvID = c.ConvId, Starred = c.Starred, ClientDisplayName = c.Client.DisplayName, ClientIsSupportBot = c.Client.isSupportClient }));
+                            select (new SmsMessage()
+                            {
+                               From = c.From,
+                               To = wp.Name,
+                               Text = c.Text,
+                               TimeReceived = c.TimeUpdated,
+                               Read = c.Read,
+                               ConvID = c.ConvId,
+                               Starred = c.Starred,
+                               ClientDisplayName = c.Client.DisplayName,
+                               ClientIsSupportBot = c.Client.isSupportClient,
+                               IsSmsBased = c.IsSmsBased
+                            }));
          }
          if (convs != null && convs.Count() > 0)
          {
@@ -161,8 +185,20 @@ namespace SmsFeedback_Take4.Models
               var supportConversation = wp.ConversationForSupport;
               if (supportConversation != null)
               {
-                  var packedSupportConversation = new SmsMessage() { From = supportConversation.From, To = supportConversation.From, Text = supportConversation.Text, TimeReceived = supportConversation.TimeUpdated, Read = supportConversation.Read, ConvID = supportConversation.ConvId, Starred = supportConversation.Starred, ClientDisplayName = supportConversation.Client.DisplayName, ClientIsSupportBot = supportConversation.Client.isSupportClient };
-                  supportConversations.Add(packedSupportConversation);
+                 var packedSupportConversation = new SmsMessage()
+                 {
+                    From = supportConversation.From,
+                    To = supportConversation.From,
+                    Text = supportConversation.Text,
+                    TimeReceived = supportConversation.TimeUpdated,
+                    Read = supportConversation.Read,
+                    ConvID = supportConversation.ConvId,
+                    Starred = supportConversation.Starred,
+                    ClientDisplayName = supportConversation.Client.DisplayName,
+                    ClientIsSupportBot = supportConversation.Client.isSupportClient,
+                    IsSmsBased = supportConversation.IsSmsBased
+                 };
+                 supportConversations.Add(packedSupportConversation);
               }
           }
           return supportConversations.Skip(skip).Take(top);
