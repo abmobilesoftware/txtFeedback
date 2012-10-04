@@ -174,17 +174,17 @@ function MessagesArea(convView, tagsArea) {
        var isSmsBased = window.app.selectedConversation.get("IsSmsBased");
        if (isSmsBased) {
           //send it to the server
-          $.getJSON('Messages/SendMessage',
-                  {
-                     from: to,
-                     to: from,
-                     convId: self.currentConversationId,
-                     text: msgContent
-                  },
-                  function (data) {
-                     //delivered successfully? if yes - indicate this
-                  }
-         );
+         // $.getJSON('Messages/SendMessage',
+         //         {
+         //            from: to,
+         //            to: from,
+         //            convId: self.currentConversationId,
+         //            text: msgContent
+         //         },
+         //         function (data) {
+         //            //delivered successfully? if yes - indicate this
+         //         }
+         //);
        }
    
        //TODO should be RFC822 format
