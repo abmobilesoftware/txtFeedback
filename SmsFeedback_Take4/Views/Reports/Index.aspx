@@ -89,18 +89,18 @@
     <script type="text/template" id="PrimaryChartArea">
         <div class="chartArea">
             <div id="titleWrapper">
-                <a href="#" class="chartAreaTitle" {% if (tooltip != "no tooltip") { %} title="{{ tooltip }}" {% } %} sectionId="{{ identifier }}"><img class="sectionVisibility" src="<%: Url.UpdatedResourceLink("~/Content/images/minimize_square.png") %>" alt="Expand section" />{{ name }}</a>
-                <p id="description{{identifier}}" class="sectionDescription invisible">Displays two dimensional data set</p>    
+                <a href="#" class="chartAreaTitle" {% if (tooltip != "no tooltip") { %} title="{{ tooltip }}" {% } %} sectionId="{{ sectionId }}"><img class="sectionVisibility" src="<%: Url.UpdatedResourceLink("~/Content/images/minimize_square.png") %>" alt="Expand section" />{{ name }}</a>
+                <p id="description{{uniqueId}}" class="sectionDescription invisible">Displays two dimensional data set</p>    
         </div>
-            <div class="chartAreaContent{{identifier}}">
+            <div class="chartAreaContent{{sectionId}}">
                 <form action="">    
-                <div id="granularitySelector{{ identifier }}" class="granularitySelector">
-                    <div class="radioBtnWrapper active"><label for="day{{identifier}}" class="radioBtn"><input type="radio" id="day{{identifier}}" name="radio{{identifier}}" checked="checked" selectorId="{{identifier}}" class="radioOption{{identifier}} radioOption" value="day"/><%: Resources.Global.RepDay %></label></div>
-		            <div class="radioBtnWrapper"><label for="week{{identifier}}" class="radioBtn"><input type="radio" id="week{{identifier}}" name="radio{{identifier}}" selectorId="{{identifier}}" class="radioOption{{identifier}} radioOption" value="week" /><%: Resources.Global.RepWeek %></label></div>
-		            <div class="radioBtnWrapper"><label for="month{{identifier}}" class="radioBtn"><input type="radio" id="month{{identifier}}" name="radio{{identifier}}" selectorId="{{identifier}}" class="radioOption{{identifier}} radioOption" value="month"/><%: Resources.Global.RepMonth %></label></div>
+                <div id="granularitySelector{{ uniqueId }}" class="granularitySelector">
+                    <div class="radioBtnWrapper active"><label for="day{{uniqueId}}" class="radioBtn"><input type="radio" id="day{{uniqueId}}" name="radio{{uniqueId}}" checked="checked" selectorId="{{ uniqueId }}" class="radioOption{{uniqueId}} radioOption" value="day"/><%: Resources.Global.RepDay %></label></div>
+		            <div class="radioBtnWrapper"><label for="week{{uniqueId}}" class="radioBtn"><input type="radio" id="week{{uniqueId}}" name="radio{{uniqueId}}" selectorId="{{ uniqueId }}" class="radioOption{{uniqueId}} radioOption" value="week" /><%: Resources.Global.RepWeek %></label></div>
+		            <div class="radioBtnWrapper"><label for="month{{uniqueId}}" class="radioBtn"><input type="radio" id="month{{uniqueId}}" name="radio{{uniqueId}}" selectorId="{{ uniqueId }}" class="radioOption{{uniqueId}} radioOption" value="month"/><%: Resources.Global.RepMonth %></label></div>
                 </div>
                 </form>
-                <div id="chart_div{{identifier}}" class="chart_div"></div>
+                <div id="chart_div{{uniqueId}}" class="chart_div"></div>
                 <div class="clear"></div>
             </div>
          </div>     
@@ -111,7 +111,7 @@
         </div>
     </script>
     <script type="text/template" id="SecondaryChartArea">
-        <div id="tableArea" class="chartAreaContent{{identifier}}">
+        <div id="tableArea" class="chartAreaContent{{sectionId}}">
             <div id="tableContent">
             </div>
             <div id="tableChart">

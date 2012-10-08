@@ -8,6 +8,7 @@ namespace SmsFeedback_Take4.Utilities
 {
    public class ConversationUtilities
    {
+      public static Random RandomNumberGenerator = new Random();
       private const char cIDSeparator = '-';
       public static string[] GetFromAndToFromConversationID(string conversationID)
       {

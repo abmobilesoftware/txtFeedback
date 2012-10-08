@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 09/06/2012 14:25:49
+-- Date Created: 10/04/2012 16:50:00
 -- Generated from EDMX file: D:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_EFModels\SmsFeedbackModels.edmx
 -- --------------------------------------------------
 
@@ -92,6 +92,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_ConversationToConversationHistory]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ConversationHistories] DROP CONSTRAINT [FK_ConversationToConversationHistory];
 GO
+IF OBJECT_ID(N'[dbo].[FK_ConversationHistoryMessage]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ConversationHistories] DROP CONSTRAINT [FK_ConversationHistoryMessage];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -154,6 +157,9 @@ GO
 IF OBJECT_ID(N'[dbo].[ConversationHistories]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ConversationHistories];
 GO
+IF OBJECT_ID(N'[dbo].[Logs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Logs];
+GO
 IF OBJECT_ID(N'[dbo].[UsersForWorkingPoints]', 'U') IS NOT NULL
     DROP TABLE [dbo].[UsersForWorkingPoints];
 GO
@@ -176,6 +182,7 @@ CREATE TABLE [dbo].[Conversations] (
     [StartTime] datetime  NOT NULL,
     [WorkingPoint_TelNumber] nvarchar(50)  NOT NULL,
     [LastSequence] int  NOT NULL,
+    [IsSmsBased] bit  NOT NULL,
     [Client_TelNumber] nvarchar(50)  NOT NULL
 );
 GO
@@ -190,7 +197,7 @@ CREATE TABLE [dbo].[Messages] (
     [Read] bit  NOT NULL,
     [ConversationId] nvarchar(50)  NOT NULL,
     [ResponseTime] bigint  NULL,
-    [UserUserId] uniqueidentifier  NULL
+    [IsSmsBased] bit  NOT NULL
 );
 GO
 
@@ -351,7 +358,8 @@ GO
 -- Creating table 'EventTypes'
 CREATE TABLE [dbo].[EventTypes] (
     [Name] nvarchar(50)  NOT NULL,
-    [Description] nvarchar(200)  NOT NULL
+    [Description] nvarchar(200)  NOT NULL,
+    [FriendlyName] nvarchar(50)  NOT NULL
 );
 GO
 
@@ -361,7 +369,20 @@ CREATE TABLE [dbo].[ConversationHistories] (
     [Sequence] int  NOT NULL,
     [Date] datetime  NOT NULL,
     [EventTypeName] nvarchar(50)  NULL,
-    [ConversationConvId] nvarchar(50)  NOT NULL
+    [ConversationConvId] nvarchar(50)  NOT NULL,
+    [MessageId] int  NOT NULL
+);
+GO
+
+-- Creating table 'Logs'
+CREATE TABLE [dbo].[Logs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Date] datetime  NOT NULL,
+    [Thread] varchar(255)  NOT NULL,
+    [Level] varchar(50)  NOT NULL,
+    [Logger] varchar(255)  NOT NULL,
+    [Message] varchar(4000)  NOT NULL,
+    [Exception] varchar(2000)  NULL
 );
 GO
 
@@ -495,6 +516,12 @@ GO
 ALTER TABLE [dbo].[ConversationHistories]
 ADD CONSTRAINT [PK_ConversationHistories]
     PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id], [Date], [Thread], [Level], [Logger], [Message] in table 'Logs'
+ALTER TABLE [dbo].[Logs]
+ADD CONSTRAINT [PK_Logs]
+    PRIMARY KEY CLUSTERED ([Id], [Date], [Thread], [Level], [Logger], [Message] ASC);
 GO
 
 -- Creating primary key on [Users_UserId], [WorkingPoints_TelNumber] in table 'UsersForWorkingPoints'
@@ -666,20 +693,6 @@ ON [dbo].[Conversations]
     ([WorkingPoint_TelNumber]);
 GO
 
--- Creating foreign key on [UserUserId] in table 'Messages'
-ALTER TABLE [dbo].[Messages]
-ADD CONSTRAINT [FK_UserMessages]
-    FOREIGN KEY ([UserUserId])
-    REFERENCES [dbo].[Users]
-        ([UserId])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_UserMessages'
-CREATE INDEX [IX_FK_UserMessages]
-ON [dbo].[Messages]
-    ([UserUserId]);
-GO
-
 -- Creating foreign key on [Client_TelNumber] in table 'Conversations'
 ALTER TABLE [dbo].[Conversations]
 ADD CONSTRAINT [FK_ConversationClient]
@@ -831,6 +844,20 @@ ADD CONSTRAINT [FK_ConversationToConversationHistory]
 CREATE INDEX [IX_FK_ConversationToConversationHistory]
 ON [dbo].[ConversationHistories]
     ([ConversationConvId]);
+GO
+
+-- Creating foreign key on [MessageId] in table 'ConversationHistories'
+ALTER TABLE [dbo].[ConversationHistories]
+ADD CONSTRAINT [FK_ConversationHistoryMessage]
+    FOREIGN KEY ([MessageId])
+    REFERENCES [dbo].[Messages]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ConversationHistoryMessage'
+CREATE INDEX [IX_FK_ConversationHistoryMessage]
+ON [dbo].[ConversationHistories]
+    ([MessageId]);
 GO
 
 -- --------------------------------------------------

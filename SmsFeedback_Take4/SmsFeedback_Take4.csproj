@@ -162,6 +162,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ComponentController.cs" />
     <Compile Include="Controllers\EmailSendController.cs" />
     <Compile Include="Controllers\ErrorLogController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
@@ -193,6 +194,8 @@
     <Compile Include="Models\BusinessObjects\ConvTag.cs" />
     <Compile Include="Models\BusinessObjects\WorkingPointConfModel.cs" />
     <Compile Include="Models\Helpers\ChartValue.cs" />
+    <Compile Include="Models\Helpers\Agent.cs" />
+    <Compile Include="Models\Helpers\MsgHandlers.cs" />
     <Compile Include="Models\Helpers\RepDataColumn.cs" />
     <Compile Include="Models\Helpers\RepChartData.cs" />
     <Compile Include="Models\Helpers\RepDataRow.cs" />
@@ -559,7 +562,16 @@
     <None Include="Web.Debug_demo.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.Debug_Dev.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.MyConfiguration.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.Release_demo.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release_Dev.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release_production.config">
@@ -629,6 +641,15 @@
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'MyConfiguration|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>

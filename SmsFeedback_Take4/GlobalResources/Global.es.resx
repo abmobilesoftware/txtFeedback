@@ -593,10 +593,10 @@
     <value />
   </data>
   <data name="starredLabel" xml:space="preserve">
-    <value>Support</value>
+    <value>Favoritos</value>
   </data>
   <data name="supportLabel" xml:space="preserve">
-    <value>Favoritos</value>
+    <value>Support</value>
   </data>
   <data name="tabHelp" xml:space="preserve">
     <value>Help</value>
