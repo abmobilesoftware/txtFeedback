@@ -20,7 +20,6 @@ using System.Xml.Serialization;
 #region EDM Relationship Metadata
 
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "UsersForWorkingPoints", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.User), "WorkingPoint", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.WorkingPoint))]
-[assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_UserXmppConnection", "XmppConnection", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.XmppConnection), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.User), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_CompanyTag", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Company), "Tag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Tag), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_UserCompany", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.Company), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.User), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "ConversationMessage", "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Conversation), "Message", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Message), true)]
@@ -30,7 +29,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "MembershipUser", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.User), "Membership", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.Membership), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "UserProfile", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.User), "Profile", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.Profile), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_WorkingPointConversation", "WorkingPoint", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.WorkingPoint), "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Conversation), true)]
-[assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_UserMessages", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.User), "Message", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Message), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "ConversationClient", "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Conversation), "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Client))]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_ConversationConversationTags", "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Conversation), "ConversationTag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.ConversationTag), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_TagConversationTags", "Tag", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Tag), "ConversationTag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.ConversationTag), true)]
@@ -43,6 +41,8 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "ConversationHistoryEventType", "ConversationHistory", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.ConversationHistory), "EventType", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.EventType), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "ConversationToConversationHistory", "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Conversation), "ConversationHistory", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.ConversationHistory), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "ConversationHistoryMessage", "ConversationHistory", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.ConversationHistory), "Message", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Message), true)]
+[assembly: EdmRelationshipAttribute("smsfeedbackModel", "UserXmppConnection", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.User), "XmppConnection", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.XmppConnection), true)]
+[assembly: EdmRelationshipAttribute("smsfeedbackModel", "MessageXmppConnection", "Message", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Message), "XmppConnection", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.XmppConnection), true)]
 
 #endregion
 
@@ -397,22 +397,6 @@ namespace SmsFeedback_EFModels
             }
         }
         private ObjectSet<ConversationHistory> _ConversationHistories;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<Log> Logs
-        {
-            get
-            {
-                if ((_Logs == null))
-                {
-                    _Logs = base.CreateObjectSet<Log>("Logs");
-                }
-                return _Logs;
-            }
-        }
-        private ObjectSet<Log> _Logs;
 
         #endregion
 
@@ -568,14 +552,6 @@ namespace SmsFeedback_EFModels
         public void AddToConversationHistories(ConversationHistory conversationHistory)
         {
             base.AddObject("ConversationHistories", conversationHistory);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the Logs EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToLogs(Log log)
-        {
-            base.AddObject("Logs", log);
         }
 
         #endregion
@@ -2444,232 +2420,6 @@ namespace SmsFeedback_EFModels
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="smsfeedbackModel", Name="Log")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Log : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Log object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="date">Initial value of the Date property.</param>
-        /// <param name="thread">Initial value of the Thread property.</param>
-        /// <param name="level">Initial value of the Level property.</param>
-        /// <param name="logger">Initial value of the Logger property.</param>
-        /// <param name="message">Initial value of the Message property.</param>
-        public static Log CreateLog(global::System.Int32 id, global::System.DateTime date, global::System.String thread, global::System.String level, global::System.String logger, global::System.String message)
-        {
-            Log log = new Log();
-            log.Id = id;
-            log.Date = date;
-            log.Thread = thread;
-            log.Level = level;
-            log.Logger = logger;
-            log.Message = message;
-            return log;
-        }
-
-        #endregion
-
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Id
-        {
-            get
-            {
-                return _Id;
-            }
-            set
-            {
-                if (_Id != value)
-                {
-                    OnIdChanging(value);
-                    ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Id");
-                    OnIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.DateTime Date
-        {
-            get
-            {
-                return _Date;
-            }
-            set
-            {
-                if (_Date != value)
-                {
-                    OnDateChanging(value);
-                    ReportPropertyChanging("Date");
-                    _Date = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Date");
-                    OnDateChanged();
-                }
-            }
-        }
-        private global::System.DateTime _Date;
-        partial void OnDateChanging(global::System.DateTime value);
-        partial void OnDateChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Thread
-        {
-            get
-            {
-                return _Thread;
-            }
-            set
-            {
-                if (_Thread != value)
-                {
-                    OnThreadChanging(value);
-                    ReportPropertyChanging("Thread");
-                    _Thread = StructuralObject.SetValidValue(value, false);
-                    ReportPropertyChanged("Thread");
-                    OnThreadChanged();
-                }
-            }
-        }
-        private global::System.String _Thread;
-        partial void OnThreadChanging(global::System.String value);
-        partial void OnThreadChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Level
-        {
-            get
-            {
-                return _Level;
-            }
-            set
-            {
-                if (_Level != value)
-                {
-                    OnLevelChanging(value);
-                    ReportPropertyChanging("Level");
-                    _Level = StructuralObject.SetValidValue(value, false);
-                    ReportPropertyChanged("Level");
-                    OnLevelChanged();
-                }
-            }
-        }
-        private global::System.String _Level;
-        partial void OnLevelChanging(global::System.String value);
-        partial void OnLevelChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Logger
-        {
-            get
-            {
-                return _Logger;
-            }
-            set
-            {
-                if (_Logger != value)
-                {
-                    OnLoggerChanging(value);
-                    ReportPropertyChanging("Logger");
-                    _Logger = StructuralObject.SetValidValue(value, false);
-                    ReportPropertyChanged("Logger");
-                    OnLoggerChanged();
-                }
-            }
-        }
-        private global::System.String _Logger;
-        partial void OnLoggerChanging(global::System.String value);
-        partial void OnLoggerChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Message
-        {
-            get
-            {
-                return _Message;
-            }
-            set
-            {
-                if (_Message != value)
-                {
-                    OnMessageChanging(value);
-                    ReportPropertyChanging("Message");
-                    _Message = StructuralObject.SetValidValue(value, false);
-                    ReportPropertyChanged("Message");
-                    OnMessageChanged();
-                }
-            }
-        }
-        private global::System.String _Message;
-        partial void OnMessageChanging(global::System.String value);
-        partial void OnMessageChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String Exception
-        {
-            get
-            {
-                return _Exception;
-            }
-            set
-            {
-                OnExceptionChanging(value);
-                ReportPropertyChanging("Exception");
-                _Exception = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("Exception");
-                OnExceptionChanged();
-            }
-        }
-        private global::System.String _Exception;
-        partial void OnExceptionChanging(global::System.String value);
-        partial void OnExceptionChanged();
-
-        #endregion
-
-    
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="smsfeedbackModel", Name="Membership")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -3497,30 +3247,6 @@ namespace SmsFeedback_EFModels
         partial void OnResponseTimeChanged();
     
         /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Guid> UserUserId
-        {
-            get
-            {
-                return _UserUserId;
-            }
-            set
-            {
-                OnUserUserIdChanging(value);
-                ReportPropertyChanging("UserUserId");
-                _UserUserId = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("UserUserId");
-                OnUserUserIdChanged();
-            }
-        }
-        private Nullable<global::System.Guid> _UserUserId;
-        partial void OnUserUserIdChanging(Nullable<global::System.Guid> value);
-        partial void OnUserUserIdChanged();
-    
-        /// <summary>
         /// 
         /// </summary>
         /// <LongDescription>
@@ -3546,6 +3272,30 @@ namespace SmsFeedback_EFModels
         private global::System.Boolean _IsSmsBased = false;
         partial void OnIsSmsBasedChanging(global::System.Boolean value);
         partial void OnIsSmsBasedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String XmppConnectionXmppUser
+        {
+            get
+            {
+                return _XmppConnectionXmppUser;
+            }
+            set
+            {
+                OnXmppConnectionXmppUserChanging(value);
+                ReportPropertyChanging("XmppConnectionXmppUser");
+                _XmppConnectionXmppUser = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("XmppConnectionXmppUser");
+                OnXmppConnectionXmppUserChanged();
+            }
+        }
+        private global::System.String _XmppConnectionXmppUser;
+        partial void OnXmppConnectionXmppUserChanging(global::System.String value);
+        partial void OnXmppConnectionXmppUserChanged();
 
         #endregion
 
@@ -3596,44 +3346,6 @@ namespace SmsFeedback_EFModels
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "FK_UserMessages", "User")]
-        public User User
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("smsfeedbackModel.FK_UserMessages", "User").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("smsfeedbackModel.FK_UserMessages", "User").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<User> UserReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("smsfeedbackModel.FK_UserMessages", "User");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("smsfeedbackModel.FK_UserMessages", "User", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "ConversationHistoryMessage", "ConversationHistory")]
         public EntityCollection<ConversationHistory> ConversationHistories
         {
@@ -3646,6 +3358,44 @@ namespace SmsFeedback_EFModels
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ConversationHistory>("smsfeedbackModel.ConversationHistoryMessage", "ConversationHistory", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "MessageXmppConnection", "XmppConnection")]
+        public XmppConnection XmppConnection
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<XmppConnection>("smsfeedbackModel.MessageXmppConnection", "XmppConnection").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<XmppConnection>("smsfeedbackModel.MessageXmppConnection", "XmppConnection").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<XmppConnection> XmppConnectionReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<XmppConnection>("smsfeedbackModel.MessageXmppConnection", "XmppConnection");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<XmppConnection>("smsfeedbackModel.MessageXmppConnection", "XmppConnection", value);
                 }
             }
         }
@@ -4761,7 +4511,8 @@ namespace SmsFeedback_EFModels
         /// <param name="userName">Initial value of the UserName property.</param>
         /// <param name="isAnonymous">Initial value of the IsAnonymous property.</param>
         /// <param name="lastActivityDate">Initial value of the LastActivityDate property.</param>
-        public static User CreateUser(global::System.Guid applicationId, global::System.Guid userId, global::System.String userName, global::System.Boolean isAnonymous, global::System.DateTime lastActivityDate)
+        /// <param name="xmppConnectionXmppUser">Initial value of the XmppConnectionXmppUser property.</param>
+        public static User CreateUser(global::System.Guid applicationId, global::System.Guid userId, global::System.String userName, global::System.Boolean isAnonymous, global::System.DateTime lastActivityDate, global::System.String xmppConnectionXmppUser)
         {
             User user = new User();
             user.ApplicationId = applicationId;
@@ -4769,6 +4520,7 @@ namespace SmsFeedback_EFModels
             user.UserName = userName;
             user.IsAnonymous = isAnonymous;
             user.LastActivityDate = lastActivityDate;
+            user.XmppConnectionXmppUser = xmppConnectionXmppUser;
             return user;
         }
 
@@ -4904,30 +4656,6 @@ namespace SmsFeedback_EFModels
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> XmppConnection_Id
-        {
-            get
-            {
-                return _XmppConnection_Id;
-            }
-            set
-            {
-                OnXmppConnection_IdChanging(value);
-                ReportPropertyChanging("XmppConnection_Id");
-                _XmppConnection_Id = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("XmppConnection_Id");
-                OnXmppConnection_IdChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _XmppConnection_Id;
-        partial void OnXmppConnection_IdChanging(Nullable<global::System.Int32> value);
-        partial void OnXmppConnection_IdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public global::System.String Company_Name
         {
             get
@@ -4946,6 +4674,30 @@ namespace SmsFeedback_EFModels
         private global::System.String _Company_Name;
         partial void OnCompany_NameChanging(global::System.String value);
         partial void OnCompany_NameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String XmppConnectionXmppUser
+        {
+            get
+            {
+                return _XmppConnectionXmppUser;
+            }
+            set
+            {
+                OnXmppConnectionXmppUserChanging(value);
+                ReportPropertyChanging("XmppConnectionXmppUser");
+                _XmppConnectionXmppUser = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("XmppConnectionXmppUser");
+                OnXmppConnectionXmppUserChanged();
+            }
+        }
+        private global::System.String _XmppConnectionXmppUser;
+        partial void OnXmppConnectionXmppUserChanging(global::System.String value);
+        partial void OnXmppConnectionXmppUserChanged();
 
         #endregion
 
@@ -4970,44 +4722,6 @@ namespace SmsFeedback_EFModels
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<WorkingPoint>("smsfeedbackModel.UsersForWorkingPoints", "WorkingPoint", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "FK_UserXmppConnection", "XmppConnection")]
-        public XmppConnection XmppConnection
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<XmppConnection>("smsfeedbackModel.FK_UserXmppConnection", "XmppConnection").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<XmppConnection>("smsfeedbackModel.FK_UserXmppConnection", "XmppConnection").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<XmppConnection> XmppConnectionReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<XmppConnection>("smsfeedbackModel.FK_UserXmppConnection", "XmppConnection");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<XmppConnection>("smsfeedbackModel.FK_UserXmppConnection", "XmppConnection", value);
                 }
             }
         }
@@ -5170,28 +4884,6 @@ namespace SmsFeedback_EFModels
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "FK_UserMessages", "Message")]
-        public EntityCollection<Message> Messages
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Message>("smsfeedbackModel.FK_UserMessages", "Message");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Message>("smsfeedbackModel.FK_UserMessages", "Message", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "UsersInRoles", "Role")]
         public EntityCollection<Role> Roles
         {
@@ -5204,6 +4896,44 @@ namespace SmsFeedback_EFModels
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Role>("smsfeedbackModel.UsersInRoles", "Role", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "UserXmppConnection", "XmppConnection")]
+        public XmppConnection XmppConnection
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<XmppConnection>("smsfeedbackModel.UserXmppConnection", "XmppConnection").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<XmppConnection>("smsfeedbackModel.UserXmppConnection", "XmppConnection").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<XmppConnection> XmppConnectionReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<XmppConnection>("smsfeedbackModel.UserXmppConnection", "XmppConnection");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<XmppConnection>("smsfeedbackModel.UserXmppConnection", "XmppConnection", value);
                 }
             }
         }
@@ -5546,13 +5276,11 @@ namespace SmsFeedback_EFModels
         /// </summary>
         /// <param name="xmppUser">Initial value of the XmppUser property.</param>
         /// <param name="xmppPassword">Initial value of the XmppPassword property.</param>
-        /// <param name="id">Initial value of the Id property.</param>
-        public static XmppConnection CreateXmppConnection(global::System.String xmppUser, global::System.String xmppPassword, global::System.Int32 id)
+        public static XmppConnection CreateXmppConnection(global::System.String xmppUser, global::System.String xmppPassword)
         {
             XmppConnection xmppConnection = new XmppConnection();
             xmppConnection.XmppUser = xmppUser;
             xmppConnection.XmppPassword = xmppPassword;
-            xmppConnection.Id = id;
             return xmppConnection;
         }
 
@@ -5563,7 +5291,7 @@ namespace SmsFeedback_EFModels
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String XmppUser
         {
@@ -5573,11 +5301,14 @@ namespace SmsFeedback_EFModels
             }
             set
             {
-                OnXmppUserChanging(value);
-                ReportPropertyChanging("XmppUser");
-                _XmppUser = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("XmppUser");
-                OnXmppUserChanged();
+                if (_XmppUser != value)
+                {
+                    OnXmppUserChanging(value);
+                    ReportPropertyChanging("XmppUser");
+                    _XmppUser = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("XmppUser");
+                    OnXmppUserChanged();
+                }
             }
         }
         private global::System.String _XmppUser;
@@ -5607,33 +5338,6 @@ namespace SmsFeedback_EFModels
         private global::System.String _XmppPassword;
         partial void OnXmppPasswordChanging(global::System.String value);
         partial void OnXmppPasswordChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Id
-        {
-            get
-            {
-                return _Id;
-            }
-            set
-            {
-                if (_Id != value)
-                {
-                    OnIdChanging(value);
-                    ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Id");
-                    OnIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
 
         #endregion
 
@@ -5646,18 +5350,40 @@ namespace SmsFeedback_EFModels
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "FK_UserXmppConnection", "User")]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "UserXmppConnection", "User")]
         public EntityCollection<User> Users
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<User>("smsfeedbackModel.FK_UserXmppConnection", "User");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<User>("smsfeedbackModel.UserXmppConnection", "User");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User>("smsfeedbackModel.FK_UserXmppConnection", "User", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User>("smsfeedbackModel.UserXmppConnection", "User", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "MessageXmppConnection", "Message")]
+        public EntityCollection<Message> Messages
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Message>("smsfeedbackModel.MessageXmppConnection", "Message");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Message>("smsfeedbackModel.MessageXmppConnection", "Message", value);
                 }
             }
         }

@@ -191,8 +191,8 @@ window.app.XMPPhandler = function XMPPhandler() {
    };
    this.send_reply = function (from, to, dateSent, convID, message, xmppTo, isSmsBased) {      
       var message_body = "<msg>" +
-                                    " <from>" + from +"@txtfeedback.net" + "</from>" +
-                                    " <to>" + to + "@moderator.txtfeedback.net" + "</to>" +
+                                    " <from>" + from  + "</from>" +
+                                    " <to>" + to + "</to>" +
                                     " <datesent>" + dateSent + "</datesent>" +
                                      "<convID>" + convID + "</convID>" +
                                     " <body>" + message + "</body>" +

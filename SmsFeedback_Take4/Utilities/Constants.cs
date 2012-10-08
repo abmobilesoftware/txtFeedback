@@ -33,5 +33,7 @@ namespace SmsFeedback_Take4.Utilities
         public const string NEUTER = "neuter";
         public const string POSITIVE_FEEDBACK = "positiveFeedback";
         public const string NEGATIVE_FEEDBACK = "negativeFeedback";
+        public const String DIRECTION_OUT = "out";
+        public const String DIRECTION_IN = "in";
     }
 }

@@ -284,13 +284,16 @@ namespace SmsFeedback_Take4.Utilities
             return null;
         }
 
-        public Message AddMessage(String userID, String from, String to, String conversationId, String text,
-           Boolean readStatus, DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, smsfeedbackEntities dbContext)
+        public Message AddMessage(String from, String to, String conversationId, String text,
+           Boolean readStatus, DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, String XmppUser, smsfeedbackEntities dbContext)
         {
             //assume userID and convID are valid
             logger.Info("Call made");
+            /* Data about the user who sends the message 
             var userGuids = from usr in dbContext.Users where usr.UserName == userID select usr.UserId;
             var userGuid = userGuids.First();
+            */
+            
             //for the responce time -> the lastest details are always in the conversation
 
             long? responceTime = null;
@@ -303,14 +306,14 @@ namespace SmsFeedback_Take4.Utilities
                 var msg = new Message()
                 {
                     ResponseTime = responceTime,
-                    UserUserId = userGuid,
                     From = from,
                     To = to,
                     Text = text,
                     TimeReceived = updateTime,
                     ConversationId = conversationId,
                     Read = readStatus,
-                    IsSmsBased = isSmsBased
+                    IsSmsBased = isSmsBased,
+                    XmppConnectionXmppUser = XmppUser
                 };
                 dbContext.Messages.AddObject(msg);
                 dbContext.SaveChanges();
@@ -497,8 +500,9 @@ namespace SmsFeedback_Take4.Utilities
 
         public Conversation GetLatestConversationDetails(string convId, smsfeedbackEntities dbContext)
         {
-            var conv = (from c in dbContext.Conversations where c.ConvId == convId select c).First();
-            return conv;
+            var conv = (from c in dbContext.Conversations where c.ConvId == convId select c);
+            if (conv.Count() > 0) return conv.First();
+            else return null;            
         }
 
         public IEnumerable<SmsFeedback_EFModels.WorkingPoint> GetWorkingPointsForAUser(String scope, String userName, smsfeedbackEntities dbContext)

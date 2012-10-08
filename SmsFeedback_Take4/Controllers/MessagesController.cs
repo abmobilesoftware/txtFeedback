@@ -289,21 +289,19 @@ namespace SmsFeedback_Take4.Controllers
         //   return null;
         //}
 
-        private void UpdateDbAfterMessageWasSent(String userId, String from, String to, String conversationId, String text, Boolean readStatus,
-                                                     DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, smsfeedbackEntities dbContext)
+        private void UpdateDbAfterMessageWasSent(String from, String to, String conversationId, String text, Boolean readStatus,
+                                                     DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, String XmppUser, smsfeedbackEntities dbContext)
         {
             string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, dbContext);
-            mEFInterface.AddMessage(userId, from, to, conversationId, text, readStatus, updateTime, prevConvFrom, prevConvUpdateTime,isSmsBased, dbContext);
+            mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime, prevConvFrom, prevConvUpdateTime,isSmsBased, XmppUser, dbContext);
             mEFInterface.IncrementNumberOfSentSms(from, dbContext);
         }
 
-        public JsonResult SendMessage(String from, String to, String convId, String text)
+        public JsonResult SendMessage(String from, String to, String convId, String text, String XmppUser)
         {
             if (HttpContext.Request.IsAjaxRequest())
             {
                 logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}]", from, to, convId, text);
-                var userId = User.Identity.Name;
-
                 try
                 {
                     smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
@@ -314,7 +312,7 @@ namespace SmsFeedback_Take4.Controllers
                     SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgResponse) =>
                     {
                        //TODO add check if message was sent successfully 
-                       UpdateDbAfterMessageWasSent(userId, from, to, convId, text, false, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, lContextPerRequest);
+                       UpdateDbAfterMessageWasSent(from, to, convId, text, false, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, XmppUser, lContextPerRequest);
                     });
                     //we should wait for the call to finish
                     //I should return the sent time (if successful)              
