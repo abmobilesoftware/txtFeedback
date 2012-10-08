@@ -38,11 +38,11 @@ public class TxtPacket {
 	
     private final int FROM_ADDRESS_POS = 0;
     private final int TO_ADDRESS_POS = FROM_ADDRESS_POS + 1;
-    private final int DATE_SENT_POS = TO_ADDRESS_POS + 1;
-    private final int BODY_POS = DATE_SENT_POS + 1;
+    private final int CONVERSATION_ID_POS = TO_ADDRESS_POS + 1;
+    private final int BODY_POS = CONVERSATION_ID_POS + 1;
     private final int STAFF_POS = BODY_POS + 1;
     private final int SMS_POS = STAFF_POS + 1;
-    private final int CONVERSATION_ID_POS = SMS_POS + 1;
+    private final int DATE_SENT_POS = SMS_POS + 1;
     
     private static final String dateFormat = "dd-MMM-yy";
     
@@ -55,9 +55,9 @@ public class TxtPacket {
 		
 		mTxtPacketTagsName.add(TO_ADDRESS_POS,TO_ADDRESS);
 		mTxtPacketTagsValue.add(TO_ADDRESS_POS, iTo);
-					
-		mTxtPacketTagsName.add(DATE_SENT_POS, DATE_SENT);
-		mTxtPacketTagsValue.add(DATE_SENT_POS, formatter.format(iDate));
+				
+		mTxtPacketTagsName.add(CONVERSATION_ID_POS, CONVERSATION_ID);
+		mTxtPacketTagsValue.add(CONVERSATION_ID_POS, iConversationId);
 		
 		mTxtPacketTagsName.add(BODY_POS, BODY);
 		mTxtPacketTagsValue.add(BODY_POS, iBody);
@@ -68,8 +68,9 @@ public class TxtPacket {
 		mTxtPacketTagsName.add(SMS_POS, SMS);
 		mTxtPacketTagsValue.add(SMS_POS, String.valueOf(iSms));
 		
-		mTxtPacketTagsName.add(CONVERSATION_ID_POS, CONVERSATION_ID);
-		mTxtPacketTagsValue.add(CONVERSATION_ID_POS, iConversationId);
+		mTxtPacketTagsName.add(DATE_SENT_POS, DATE_SENT);
+		mTxtPacketTagsValue.add(DATE_SENT_POS, formatter.format(iDate));		
+		
 	}
 	
 	public TxtPacket(String iXmlContent) {

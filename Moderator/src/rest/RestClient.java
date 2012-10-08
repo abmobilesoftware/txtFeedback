@@ -87,7 +87,7 @@ public class RestClient {
 			String add = pair.getKey() + "="
 					+ URLEncoder.encode(pair.getValue().toString(), "UTF-8");
 			if (params.size() > 1) {
-				res += "&amp;" + add;
+				res += "&" + add;
 			} else {
 				res += add;
 			}

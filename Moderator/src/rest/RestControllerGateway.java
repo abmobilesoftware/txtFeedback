@@ -18,7 +18,8 @@ import org.json.JSONObject;
 public class RestControllerGateway {
 	private String RESTGetHandlersForMessageURL = "http://localhost:4631/Component/GetHandlerForMessage";
 	private String RESTGetWorkingPointForCertainAddress = "http://localhost:4631/Component/GetWorkingPointForCertainAddress";
-	private String RESTSendMessage = "http://localhost:4631/Component/SendMessage";
+	private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
+	private String RESTParametersTest = "http://localhost:4631/Component/GetParametersTest";
 	
 	public ArrayList<Agent> getHandlersForMessage(String iWP, String iConversationId) {
 		ArrayList<Agent> handlers = new ArrayList<Agent>();
@@ -57,14 +58,25 @@ public class RestControllerGateway {
 		return wp;	
 	}
 	
-	public boolean sendMessage(String from, String to, String convId, String text) {
+	// Method used just for testing purposes
+	public void sendParameters() {
+		Hashtable<String, String> params = new Hashtable<String, String>();
+		params.put("id", "7");
+		params.put("from","de la mine");
+		params.put("to", "mihai");		
+		String result = getResourceAsString(RESTParametersTest, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);		
+	}
+	
+	public boolean saveMessage(String from, String to, String convId, String text, String xmppUser, boolean isSms) {
 		Hashtable<String, String> params = new Hashtable<String, String>();
 		params.put("from", from);
 		params.put("to", to);
 		params.put("convId", convId);
 		params.put("text", text);
-		String restCallResponse = getResourceAsString(RESTSendMessage, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);		
-		if (restCallResponse.equals("sent successfully")) {
+		params.put("xmppUser", xmppUser);
+		params.put("isSms", String.valueOf(isSms));
+		String restCallResponse = getResourceAsString(RESTSaveMessage, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);		
+		if (restCallResponse.equals("{success}")) {
 			return true;
 		} else {
 			return false;

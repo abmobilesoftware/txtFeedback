@@ -37,6 +37,7 @@ import org.xmpp.packet.JID;
 import org.xmpp.packet.Packet;
 import org.xmpp.packet.StreamError;
 
+
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;

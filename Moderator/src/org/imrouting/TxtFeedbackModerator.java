@@ -15,9 +15,9 @@ import org.helpers.TxtPacket;
 import org.helpers.WorkingPoint;
 import org.jivesoftware.whack.ExternalComponentManager;
 import org.xmpp.component.Component;
+import org.xmpp.component.ComponentException;
 import org.xmpp.component.ComponentManager;
 import org.xmpp.component.ComponentManagerFactory;
-import org.xmpp.component.ComponentException;
 import org.xmpp.packet.JID;
 import org.xmpp.packet.Message;
 import org.xmpp.packet.Message.Type;
@@ -28,6 +28,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
  
 import rest.RestClient;
 import rest.RestControllerGateway;
@@ -57,7 +58,7 @@ public class TxtFeedbackModerator implements Component {
 			// TODO : Process body.
 			if (lReceivedMessage.getSubject() != null) {
 				if (lReceivedMessage.getSubject().equals(Constants.INTERNAL_PACKET)) {
-					processInternalPacket(lReceivedMessage.getBody());				
+					processInternalPacket(lReceivedMessage);				
 				}
 			}
 			
@@ -72,37 +73,40 @@ public class TxtFeedbackModerator implements Component {
 		}
 	}
 	
-	private String processInternalPacket(String iPacketContent) {
-		TxtPacket internalPacket = new TxtPacket(iPacketContent);
+	private String processInternalPacket(Message iPacket) {
+		TxtPacket internalPacket = new TxtPacket(iPacket.getBody());
 		if (!internalPacket.getIsSms()) {
 			if (internalPacket.getIsForStaff()) {
+				//restGtw.saveMessage(internalPacket.getFromAddress(), internalPacket.getToAddress(), internalPacket.getConversationId(), internalPacket.getBody(), iPacket.getFrom().toBareJID(), false);
 				String WPTelNumber = getWPForThisAddress(internalPacket.getToAddress());
 				ArrayList<Agent> handlers = restGtw.getHandlersForMessage(WPTelNumber, internalPacket.getConversationId());
 				for (int i=0; i<handlers.size(); ++i) {
-					sendInternalMessage(iPacketContent, 
+					sendInternalMessage(iPacket.getBody(), 
 							handlers.get(i).getUser(),
 							internalPacket.getToAddress());			
 				}
 				return "MsgToStaff";
 			} else {
-				sendInternalMessage(iPacketContent, 
+				//restGtw.saveMessage(internalPacket.getToAddress(), internalPacket.getFromAddress(), internalPacket.getConversationId(), internalPacket.getBody(), iPacket.getFrom().toBareJID(), false);
+				sendInternalMessage(iPacket.getBody(), 
 						internalPacket.getFromAddress(),
 						internalPacket.getToAddress());
 				return "MsgToClient";
 			}
 		} else {
 			if (internalPacket.getIsForStaff()) {
+				//restGtw.saveMessage(internalPacket.getFromAddress(), internalPacket.getToAddress(), internalPacket.getConversationId(), internalPacket.getBody(), iPacket.getFrom().toBareJID(), true);
 				String WPTelNumber = getWPForThisAddress(internalPacket.getToAddress());
 				ArrayList<Agent> handlers = restGtw.getHandlersForMessage(WPTelNumber, internalPacket.getConversationId());
 				for (int i=0; i<handlers.size(); ++i) {
-					sendInternalMessage(iPacketContent, 
+					sendInternalMessage(iPacket.getBody(), 
 							handlers.get(i).getUser(),
 							internalPacket.getToAddress());			
 				}				
 			} else {
-				restGtw.sendMessage(internalPacket.getToAddress(), internalPacket.getFromAddress(), internalPacket.getConversationId(), internalPacket.getBody());
-				
+				restGtw.saveMessage(internalPacket.getToAddress(), internalPacket.getFromAddress(), internalPacket.getConversationId(), internalPacket.getBody(), iPacket.getFrom().toBareJID(), true);				
 			}
+			
 			System.out.println("Message sent to " + internalPacket.getToAddress() 
 					+ " , from " + internalPacket.getFromAddress());
 		}

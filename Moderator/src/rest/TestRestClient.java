@@ -9,6 +9,15 @@ import org.json.JSONObject;
 
 public class TestRestClient {
 	public static void main(String args[]) {
+		TestRestClient.testParametersSending();
+	}
+	
+	public static void testParametersSending() {
+		RestControllerGateway restGtw = new RestControllerGateway();
+		restGtw.sendParameters();
+	}
+	
+	public static void testRestClient() {
 		RestClient ri = new RestClient("http://localhost:4631/Component/GetHandlerForMessage");
 		//ri.addParam("httpcontext", "application/json");
 		ri.addHeader("Accept", "application/json");

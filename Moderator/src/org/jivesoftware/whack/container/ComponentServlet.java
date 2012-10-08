@@ -26,6 +26,7 @@ import org.dom4j.io.SAXReader;
 import org.xmpp.component.Component;
 import org.xmpp.component.ComponentManager;
 
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;

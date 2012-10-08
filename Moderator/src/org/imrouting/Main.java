@@ -4,11 +4,12 @@ import java.util.logging.*;
 import org.jivesoftware.whack.*;
 import org.xmpp.component.*;
 
+
 public class Main {
 	private final static String HOST = "176.34.122.48";
 	//private final static int PORT = 5275; -- Openfire component port
 	private final static int PORT = 5270;
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		
 	  ExternalComponentManager mgr = new ExternalComponentManager(HOST, PORT);
 	  mgr.setServerName("txtfeedback.net");
