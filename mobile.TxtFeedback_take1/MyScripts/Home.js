@@ -165,7 +165,7 @@ function MessagesArea() {
          self.currentConversationId = '';
       },
       getMessages: function (conversationId) {
-         console.log("get messages");
+         //console.log("get messages");
          $("#messagesbox").html('');         
          var messages = new window.app.MessagesList();
          messages.identifier = conversationId;
