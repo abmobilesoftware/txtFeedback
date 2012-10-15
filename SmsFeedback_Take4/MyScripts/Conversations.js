@@ -38,7 +38,13 @@ window.app.Conversation = Backbone.Model.extend({
         IsSmsBased: false
     },
     parse: function (data, xhc) {
-        data.TimeUpdated = data.TimeReceived;
+       data.TimeUpdated = data.TimeReceived;
+       if (data.IsSmsBased === "false") {
+          data.IsSmsBased = false;
+       } else {
+          data.IsSmsBased = true;
+       }
+       
         return data;
     },
     idAttribute: "ConvID" //the id shold be the combination from-to

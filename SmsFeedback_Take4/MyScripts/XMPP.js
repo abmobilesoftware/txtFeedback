@@ -73,7 +73,11 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
    var toID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
    toID = cleanupPhoneNumber(toID);
    var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
-   var isSmsBased = xmlMsgToBeDecoded.getElementsByTagName('sms')[0].textContent;
+   var isSmsBasedAsString = xmlMsgToBeDecoded.getElementsByTagName('sms')[0].textContent;
+   var isSmsBased = false;
+   if (isSmsBasedAsString === "true") {
+      isSmsBased = true;
+   }
    var convID = buildConversationID(fromID, toID);   
    if (isIncomming) {
       //nothing to do atm
