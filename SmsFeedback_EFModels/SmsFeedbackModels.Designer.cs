@@ -4961,7 +4961,8 @@ namespace SmsFeedback_EFModels
         /// <param name="provider">Initial value of the Provider property.</param>
         /// <param name="sentSms">Initial value of the SentSms property.</param>
         /// <param name="maxNrOfSmsToSend">Initial value of the MaxNrOfSmsToSend property.</param>
-        public static WorkingPoint CreateWorkingPoint(global::System.String telNumber, global::System.String description, global::System.String name, global::System.String provider, global::System.Int32 sentSms, global::System.Int32 maxNrOfSmsToSend)
+        /// <param name="shortID">Initial value of the ShortID property.</param>
+        public static WorkingPoint CreateWorkingPoint(global::System.String telNumber, global::System.String description, global::System.String name, global::System.String provider, global::System.Int32 sentSms, global::System.Int32 maxNrOfSmsToSend, global::System.String shortID)
         {
             WorkingPoint workingPoint = new WorkingPoint();
             workingPoint.TelNumber = telNumber;
@@ -4970,6 +4971,7 @@ namespace SmsFeedback_EFModels
             workingPoint.Provider = provider;
             workingPoint.SentSms = sentSms;
             workingPoint.MaxNrOfSmsToSend = maxNrOfSmsToSend;
+            workingPoint.ShortID = shortID;
             return workingPoint;
         }
 
@@ -5147,6 +5149,54 @@ namespace SmsFeedback_EFModels
         private global::System.String _SupportConversation;
         partial void OnSupportConversationChanging(global::System.String value);
         partial void OnSupportConversationChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ShortID
+        {
+            get
+            {
+                return _ShortID;
+            }
+            set
+            {
+                OnShortIDChanging(value);
+                ReportPropertyChanging("ShortID");
+                _ShortID = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ShortID");
+                OnShortIDChanged();
+            }
+        }
+        private global::System.String _ShortID;
+        partial void OnShortIDChanging(global::System.String value);
+        partial void OnShortIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String WelcomeMessage
+        {
+            get
+            {
+                return _WelcomeMessage;
+            }
+            set
+            {
+                OnWelcomeMessageChanging(value);
+                ReportPropertyChanging("WelcomeMessage");
+                _WelcomeMessage = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("WelcomeMessage");
+                OnWelcomeMessageChanged();
+            }
+        }
+        private global::System.String _WelcomeMessage;
+        partial void OnWelcomeMessageChanging(global::System.String value);
+        partial void OnWelcomeMessageChanged();
 
         #endregion
 
