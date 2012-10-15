@@ -348,6 +348,8 @@
           <Property Name="SentSms" Type="int" Nullable="false" />
           <Property Name="MaxNrOfSmsToSend" Type="int" Nullable="false" />
           <Property Name="SupportConversation" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShortID" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="WelcomeMessage" Type="nvarchar" MaxLength="160" />
         </EntityType>
         <EntityType Name="XmppConnections">
           <Key>
@@ -856,6 +858,8 @@
           <NavigationProperty Name="ActivityLogWorkingPoints" Relationship="smsfeedbackModel.WorkingPointActivityLogWorkingPoint" FromRole="WorkingPoint" ToRole="ActivityLogWorkingPoint" />
           <Property Type="String" Name="SupportConversation" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ConversationForSupport" Relationship="smsfeedbackModel.FK_SupportConversationForWorkingPoint1" FromRole="WorkingPoint" ToRole="Conversation" />
+          <Property Type="String" Name="ShortID" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="WelcomeMessage" MaxLength="160" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -1348,7 +1352,9 @@
     <EntitySetMapping Name="WorkingPoints">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.WorkingPoint)">
         <MappingFragment StoreEntitySet="WorkingPoints">
-          <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
+          <ScalarProperty Name="WelcomeMessage" ColumnName="WelcomeMessage" />
+                <ScalarProperty Name="ShortID" ColumnName="ShortID" />
+                <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Provider" ColumnName="Provider" />
