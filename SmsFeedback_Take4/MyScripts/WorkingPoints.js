@@ -19,12 +19,17 @@ window.app = window.app || {}; //window.app = window.app || { } will set window.
 window.app.workingPoints = {};
 
 //#region WorkingPoint model
+//A working point is defined by
+// telNumber - used for SMS communication
+// shortID - used for XMPP communication
+//this is why, we use both tel number and short id when selecting conversations belonging to a certain wp
    window.app.WorkingPoint = Backbone.Model.extend({
       defaults: {
          TelNumber: "defaultNumber",
          Name: "defaultNumber",
          Description: "defaultDescription",
-         CheckedStatus: true
+         CheckedStatus: true,
+         ShortID: "defaultID"
       },
       parse: function (data, xhc) {
           //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
@@ -187,6 +192,7 @@ window.app.workingPoints = {};
            _.each(this.phoneNumbersPool.models, function (wp) {
               if (wp.get('CheckedStatus') === true) {
                  self.checkedPhoneNumbersArray.push(wp.get('TelNumber'));
+                 self.checkedPhoneNumbersArray.push(wp.get('ShortID'));
               }
            });
            $(document).trigger('refreshConversationList');

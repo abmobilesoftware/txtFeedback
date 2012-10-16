@@ -1,7 +1,15 @@
 ﻿$(document).ready(function () {   
    module("WorkingPoint");
-   test("Constructor_defaultConstructor_CheckedStateIsTrue", function () {
-      var wp = new app.WorkingPoint();
+   test("Constructor_defaultPropertiesAreInitializedCorrectly", 7, function () {
+      var wp = new app.WorkingPoint();      
+      ok(wp.has("TelNumber"), "TelNumber should be present");
+      ok(wp.has("Name"), "Name should be present");
+      ok(wp.has("Description"), "Description should be present");
+      ok(wp.has("CheckedStatus"), "CheckedStatus should be present");      
+      ok(wp.has("ShortID"), "ShortID should be present");      
+      //based on http://stackoverflow.com/questions/126100/how-to-efficiently-count-the-number-of-keys-properties-of-an-object-in-javascrip
+      ok(Object.keys(wp.attributes).length == 5, "If you add more properties - they should be accounted for");
+
       deepEqual(wp.get('CheckedStatus'), true, "By default a number should be checked");
    });
 
@@ -53,6 +61,7 @@
       ok(typeof (this.wpArea.checkedPhoneNumbers) != undefined, "The checked phone numbers should be exposed");
       ok(typeof (this.wpArea.wpPoolView.getWorkingPoints) != undefined, "getWorkingPoints should be exposed");
       ok(typeof (this.wpArea.wpPoolView.phoneNumbersPool) != undefined, "we should have a collection of wps");
+    
    });
 
 });

@@ -61,7 +61,7 @@ namespace SmsFeedback_Take4.Models
          //the convention is that if workingPoints number is empty then we retrieve all the conversations
          if (workingPointsNumbers == null)
          {//we have to get all the working points 
-            workingPointsNumbers = (from wp in mEFRep.GetWorkingPointsPerUser(userName,dbContext) select wp.TelNumber).ToArray();            
+            workingPointsNumbers = (from wp in mEFRep.GetWorkingPointsPerUser(userName, dbContext) select wp).SelectMany(w=> new []{ w.TelNumber, w.ShortID }).ToArray();            
          }
         
          try
@@ -74,14 +74,10 @@ namespace SmsFeedback_Take4.Models
                //we may have the following scenario - we get ask for first 10 records, skip 0
                //in our db we have only "old" conversations, so the twilio db returns 40 records
                //we then ask for "more conversations"- next 10, skip 10 - this will end up being applied on the twilio data
-               //it is inneficient to retrieve all records from our db, and to merge them afterwards (not to mention very slow)
+               //it is inefficient to retrieve all records from our db, and to merge them afterwards (not to mention very slow)
 
                //TODO check if we have access to the given numbers to avoid a security breach
-               //first update our db with the latest from twilio (nexmo) then do our conditional select
-            if (performUpdateFromExternalSources)
-            {
-               //UpdateConversationsFromExternalSources(workingPointsNumbers, lastUpdate, userName, dbContext);
-            }
+               //first update our db with the latest from twilio (nexmo) then do our conditional select            
                IEnumerable<SmsMessage> efConversationsForNumbers = mEFRep.GetConversationsForNumbers(onlyFavorites, tags, workingPointsNumbers,startDate,endDate,onlyUnread, skip, top, lastUpdate, userName,dbContext);
                return efConversationsForNumbers;           
          }
