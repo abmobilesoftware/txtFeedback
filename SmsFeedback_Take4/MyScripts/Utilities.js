@@ -40,10 +40,21 @@ function cleanupPhoneNumber(data) {
 function buildConversationID(from, to) {
    return cleanupPhoneNumber(from) + cConversationIdNumbersSeparator + cleanupPhoneNumber(to);
 }
-function comparePhoneNumbers(phoneNumber1, phoneNumber2)
-{
+function comparePhoneNumbers(phoneNumber1, phoneNumber2){
    //take into account that they could start with + or 00 - so we strip away any leading + or 00
    return cleanupPhoneNumber(phoneNumber1) === cleanupPhoneNumber(phoneNumber2);
+}
+
+function endsWith(str, suffix) {
+   return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+
+function isWorkingPoint(phoneNumber, componentExtension) {
+   if (componentExtension === undefined || componentExtension==="null") {
+      return false;
+   }
+   //yes if its format is id@componentExtension
+   return endsWith(phoneNumber, componentExtension);
 }
 //#endregion
 

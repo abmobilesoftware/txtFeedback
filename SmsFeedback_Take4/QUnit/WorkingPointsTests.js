@@ -1,14 +1,15 @@
 ﻿$(document).ready(function () {   
    module("WorkingPoint");
-   test("Constructor_defaultPropertiesAreInitializedCorrectly", 7, function () {
+   test("Constructor_defaultPropertiesAreInitializedCorrectly", 8, function () {
       var wp = new app.WorkingPoint();      
       ok(wp.has("TelNumber"), "TelNumber should be present");
       ok(wp.has("Name"), "Name should be present");
       ok(wp.has("Description"), "Description should be present");
       ok(wp.has("CheckedStatus"), "CheckedStatus should be present");      
-      ok(wp.has("ShortID"), "ShortID should be present");      
+      ok(wp.has("ShortID"), "ShortID should be present");
+      ok(wp.has("XMPPsuffix"), "XMPPsuffix should be present");
       //based on http://stackoverflow.com/questions/126100/how-to-efficiently-count-the-number-of-keys-properties-of-an-object-in-javascrip
-      ok(Object.keys(wp.attributes).length == 5, "If you add more properties - they should be accounted for");
+      ok(Object.keys(wp.attributes).length == 6, "If you add more properties - they should be accounted for");
 
       deepEqual(wp.get('CheckedStatus'), true, "By default a number should be checked");
    });

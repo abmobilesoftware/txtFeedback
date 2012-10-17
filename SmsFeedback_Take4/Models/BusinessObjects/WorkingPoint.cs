@@ -15,12 +15,13 @@ namespace SmsFeedback_Take4.Models
 
       }
 
-      public WorkingPoint(string telNumber,string name,string descr, string shortID)
+      public WorkingPoint(string telNumber, string name, string descr, string shortID, string xmppSuffix)
       {
          TelNumber = telNumber;
          Name = name;
          Description = descr;
          ShortID = shortID;
+         XMPPsuffix = xmppSuffix;
       }
       [Required(ErrorMessageResourceName = "settingsConfigureWpTelNumberError",
                 ErrorMessageResourceType = typeof(Resources.Global))]
@@ -41,5 +42,7 @@ namespace SmsFeedback_Take4.Models
       public int MaxNrOfSmsToSendPerMonth { get; set; }
       //TODO DA required
       public string ShortID { get; set; }
+      //TODO DA required
+      public string XMPPsuffix { get; set; }
    }
 }

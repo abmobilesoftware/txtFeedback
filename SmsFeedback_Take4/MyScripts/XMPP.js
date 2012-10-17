@@ -54,6 +54,7 @@ $(function () {
    });
 });
 
+//TODO DA move this somewhere else :)
 window.app.handleIncommingMessage = function (msgContent, isIncomming) {
    window.app.receivedMsgID++;
    var xmlDoc;
@@ -67,24 +68,35 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
       xmlDoc.loadXML(msgContent);
    }
    var xmlMsgToBeDecoded = xmlDoc.getElementsByTagName("msg")[0];
-   var fromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
-   fromID = cleanupPhoneNumber(fromID);
-   var toID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
-   toID = cleanupPhoneNumber(toID);
+   var rawFromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
+   var rawToID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
+   var toID = cleanupPhoneNumber(rawToID);
+   var fromID = cleanupPhoneNumber(rawFromID);
+   var extension;   
+   extension = window.app.workingPointsSuffixDictionary[toID] || window.app.workingPointsSuffixDictionary[fromID];   
+   //decide if we are dealing with a message coming from another WorkingPoint
+   var isFromWorkingPoint = isWorkingPoint(rawFromID, extension);  
    var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
    var isSmsBasedAsString = xmlMsgToBeDecoded.getElementsByTagName('sms')[0].textContent;
    var isSmsBased = false;
    if (isSmsBasedAsString === "true") {
       isSmsBased = true;
    }
-   var convID = buildConversationID(fromID, toID);   
-   if (isIncomming) {
-      //nothing to do atm
+   var convID;
+   if (isFromWorkingPoint && isIncomming) {
+      convID = buildConversationID(fromID, toID);     
+   } else {
+      convID = xmlMsgToBeDecoded.getElementsByTagName("convID")[0].textContent;
    }
-   else {
+
+   if (!isIncomming && !isFromWorkingPoint) {
+      //carbon
       var swapTmp = fromID;
       fromID = toID;
-      toID = swapTmp;
+      toID = swapTmp;      
+   }
+   else {
+      //regular message
    }
    
    var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
@@ -193,10 +205,11 @@ window.app.XMPPhandler = function XMPPhandler() {
       this.connection.send(reqInfo);
    };
    this.send_reply = function (from, to, dateSent, convID, message, xmppTo, isSmsBased, toStaff) {
-      if (!isSmsBased) {
-         from = from + "@txtfeedback.net";
-         to = to +  "@moderator.txtfeedback.net";
-      }
+      /*
+      here we should just build the message from what is handed to us
+      there should be no responsibility regarding the logic of building the content of the message
+      but only regarding the structure (what fields have to be filled in)
+      */
       var message_body = "<msg>" +
                                     " <from>" + from +  "</from>" +
                                     " <to>" + to + "</to>" +

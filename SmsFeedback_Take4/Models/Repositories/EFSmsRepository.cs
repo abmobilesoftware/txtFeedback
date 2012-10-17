@@ -214,7 +214,8 @@ namespace SmsFeedback_Take4.Models
             Description = wp.Description, 
             NrOfSentSmsThisMonth = wp.SentSms, 
             MaxNrOfSmsToSendPerMonth =wp.MaxNrOfSmsToSend,
-            ShortID = wp.ShortID
+            ShortID = wp.ShortID,
+            XMPPsuffix= wp.XMPPsuffix
          });
          if (workingPoints.Count() >= 0)
             return workingPoints.First();

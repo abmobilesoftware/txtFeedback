@@ -169,6 +169,15 @@ function MessagesArea(convView, tagsArea) {
        //I should set values to all the properties
        var msgContent = inputBox.val();
 
+       /*
+       inside a conversationID
+       for SMS messages
+       from - tel number
+       to - self tel number
+       for XMPP messages
+       from - clientXMPP id without @
+       to - selfXMPP id without @
+       */
        var fromTo = getFromToFromConversation(self.currentConversationId);
        var from = fromTo[0];
        var to = fromTo[1];
@@ -207,6 +216,18 @@ function MessagesArea(convView, tagsArea) {
 
        //sendToSupport you send to support or to another Staff web client
        var sendToSupport = window.app.selectedConversation.get("ClientIsSupportBot");
+
+       if (!isSmsBased) {
+          if (sendToSupport) {
+             //we assume that the TxtFeedback support runs on the same component
+             from = from + window.app.workingPointsSuffixDictionary[to];
+          } else {
+             //TODO @txtfeedback.net is now hardcoded
+             from = from + "@txtfeedback.net";
+          }
+          to = to + window.app.workingPointsSuffixDictionary[to];
+       }
+
        //signal all the other "listeners/agents"       
        var storeStaffAddress = "";
        if (sendToSupport) {
@@ -216,13 +237,18 @@ function MessagesArea(convView, tagsArea) {
           staff has to be true
           to has to be the supportID
           from has to be the storeStaffID
+          Note: support conversations goes through XMPP
           */
           var txtFeedbackSupportAddress = from;
           storeStaffAddress = to;
-          window.app.xmppHandlerInstance.send_reply(storeStaffAddress, txtFeedbackSupportAddress, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress, isSmsBased, sendToSupport);
+          window.app.xmppHandlerInstance.send_reply(storeStaffAddress, txtFeedbackSupportAddress, timeSent, self.currentConversationId, msgContent, txtFeedbackSupportAddress, isSmsBased, sendToSupport);
        } else {
           /*
           we are dealing with a non-support conversation 
+          For SMS
+          We send a message to trigger carbons
+          For XMPP
+          We send a message and then the component redirects that message to the client
           */
           var clientToRespondToAddress = to;
           storeStaffAddress = from;
