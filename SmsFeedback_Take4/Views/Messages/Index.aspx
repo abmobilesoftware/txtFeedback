@@ -81,7 +81,7 @@
                         <embed src="<%: Url.Content("~/Content/images/check-grey.svg") %>" type="image/svg+xml" class="images conversationImageRead" />
                 {% } else {
                         var fromTo = getFromToFromConversation(ConvID);
-                        if (fromTo[0] == From) {
+                        if (comparePhoneNumbers(fromTo[0],From)) {
                         %}
                             <embed src="<%: Url.Content("~/Content/images/exclamation-blue.svg") %>" type="image/svg+xml" class="images conversationImageUnread" />
                         {% } else { %}
@@ -120,7 +120,7 @@
                             %}
                        </span> 
                        <span class='conversationArrows'> >> </span>
-                       <span class="conversationTo">{{ window.app.workingPoints[getFromToFromConversation(ConvID)[1]] }}</span> </span>
+                       <span class="conversationTo">{{ window.app.workingPointsNameDictionary[getFromToFromConversation(ConvID)[1]] }}</span> </span>
                 </div>
                <div class='clear'></div>
                 <div class="spanClassText rightSideMembers">

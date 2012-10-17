@@ -812,7 +812,12 @@
           <NavigationProperty Name="Client" Relationship="smsfeedbackModel.ConversationClient" FromRole="Conversation" ToRole="Client" />
           <NavigationProperty Name="ConversationTags" Relationship="smsfeedbackModel.FK_ConversationConversationTags" FromRole="Conversation" ToRole="ConversationTag" />
           <NavigationProperty Name="WorkingPoints" Relationship="smsfeedbackModel.FK_SupportConversationForWorkingPoint1" FromRole="Conversation" ToRole="WorkingPoint" />
-          <Property Type="Int32" Name="LastSequence" Nullable="false" />
+          <Property Type="Int32" Name="LastSequence" Nullable="false" >
+            <Documentation>
+              <Summary>Current sequence</Summary>
+              <LongDescription>Indicates the current sequence (seq of messages)</LongDescription>
+            </Documentation>
+          </Property>
           <NavigationProperty Name="ConversationEvents" Relationship="smsfeedbackModel.ConversationToConversationHistory" FromRole="Conversation" ToRole="ConversationHistory" />
           <Property Type="Boolean" Name="IsSmsBased" Nullable="false" DefaultValue="False" >
             <Documentation>

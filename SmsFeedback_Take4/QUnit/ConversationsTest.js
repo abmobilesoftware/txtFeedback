@@ -1,6 +1,6 @@
 ﻿$(function () {
    module("ConversationModel");
-   test("Constructor_PropsAreInitializedWithDefaultValues", 12,function () {
+   test("Constructor_PropsAreInitializedWithDefaultValues", 13,function () {
       var conv = new app.Conversation();
       var expectedStarredValue = false;
       var expectedReadValue = false;
@@ -10,13 +10,14 @@
       deepEqual(conv.get("Read"), expectedReadValue, "Read should be false");
       ok(conv.has("TimeUpdated"), "TimeUpdated should be present");
       ok(conv.has("To"), "To should be present");
+      ok(conv.has("ConvID"), "ConvID should be present");
       ok(conv.has("From"), "From should be present");
       ok(conv.has("Text"), "Text should be present");
       ok(conv.has("ClientDisplayName"), "ClientDisplayName should be present");
       ok(conv.has("ClientIsSupportBot"), "ClientIsSupportBot should be present");
       ok(conv.has("IsSmsBased"), "IsSmsBased should be present");
       //based on http://stackoverflow.com/questions/126100/how-to-efficiently-count-the-number-of-keys-properties-of-an-object-in-javascrip
-      ok(Object.keys(conv.attributes).length == 9, "If you add more properties - they should be accounted for");
+      ok(Object.keys(conv.attributes).length == 10, "If you add more properties - they should be accounted for");
    });
 
    module("ConversationView");

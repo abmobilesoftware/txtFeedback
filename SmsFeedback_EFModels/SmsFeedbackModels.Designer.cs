@@ -1535,8 +1535,11 @@ namespace SmsFeedback_EFModels
         partial void OnWorkingPoint_TelNumberChanged();
     
         /// <summary>
-        /// No Metadata Documentation available.
+        /// Current sequence
         /// </summary>
+        /// <LongDescription>
+        /// Indicates the current sequence (seq of messages)
+        /// </LongDescription>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Int32 LastSequence

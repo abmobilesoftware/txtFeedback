@@ -19,7 +19,7 @@ namespace mobile.TxtFeedback_take1.Controllers
          if (RouteData.Values[cStoreKey] != null &&
            !string.IsNullOrWhiteSpace(RouteData.Values[cStoreKey].ToString()))
          {
-            mStore = Utilities.ConversationUtilities.RemovePrefixFromNumber(RouteData.Values[cStoreKey].ToString());
+            mStore = Utilities.ConversationUtilities.CleanUpPhoneNumber(RouteData.Values[cStoreKey].ToString());
          }         
       }
 

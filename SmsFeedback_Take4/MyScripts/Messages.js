@@ -19,6 +19,8 @@
 /*global setTooltipOnElement */
 //#endregion
 window.app = window.app || {};
+window.app.globalMessagesRep = {};
+//window.app.globalMsgHistoryNotLoaded = {};
 var gSelectedMessage = null;
 var gSelectedConversationID = null;
 var gSelectedElement = null;
@@ -203,8 +205,31 @@ function MessagesArea(convView, tagsArea) {
        //reset the input form
        $("#replyToMessageForm")[0].reset();
 
+       //sendToSupport you send to support or to another Staff web client
+       var sendToSupport = window.app.selectedConversation.get("ClientIsSupportBot");
        //signal all the other "listeners/agents"       
-       window.app.xmppHandlerInstance.send_reply(from, to, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress, isSmsBased);
+       var storeStaffAddress = "";
+       if (sendToSupport) {
+          /*
+          for a support conversation the id is in the form of supportID-storeStaffID, where the from is TxtFeedback support ID and the to is store staff ID
+          We need to send a message to TxtFeedback support - which has its own Staff website, so 
+          staff has to be true
+          to has to be the supportID
+          from has to be the storeStaffID
+          */
+          var txtFeedbackSupportAddress = from;
+          storeStaffAddress = to;
+          window.app.xmppHandlerInstance.send_reply(storeStaffAddress, txtFeedbackSupportAddress, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress, isSmsBased, sendToSupport);
+       } else {
+          /*
+          we are dealing with a non-support conversation 
+          */
+          var clientToRespondToAddress = to;
+          storeStaffAddress = from;
+         window.app.xmppHandlerInstance.send_reply(storeStaffAddress, clientToRespondToAddress, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress, isSmsBased, sendToSupport);
+       }
+
+       
     };
 
     $("#replyBtn").click(function () {
@@ -217,10 +242,6 @@ function MessagesArea(convView, tagsArea) {
             event.preventDefault();
         }
     });   
-
-    /*_.templateSettings = {
-        interpolate: /\{\{(.+?)\}\}/g
-    };*/
 
     _.templateSettings = {
         interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
@@ -241,14 +262,11 @@ function MessagesArea(convView, tagsArea) {
             this.$el.html(this.messageTemplate(this.model.toJSON()));
             var direction = "messagefrom";         
             var arrowInnerMenuLeft = "arrowInnerLeft";
-            var extraMenuWrapperSide = "extraMenuWrapperLeft";
-            //var arrowExtraMenu="arrowExtraMenuFrom";
-            //var arrowInnerExtraMenu = "arrowInnerExtraMenuFrom";
+            var extraMenuWrapperSide = "extraMenuWrapperLeft";            
             if (this.model.attributes.Direction === "to") {
                direction = "messageto";                              
                arrowInnerMenuLeft = "arrowInnerRight";
                extraMenuWrapperSide = "extraMenuWrapperRight";
-               //arrowInnerExtraMenu = "arrowInnerExtraMenuTo";
             }            
             this.$el.addClass("message");
             this.$el.addClass(direction);
@@ -258,7 +276,6 @@ function MessagesArea(convView, tagsArea) {
 
             var sendEmail = $("div.sendEmailButton img", this.$el);
             setTooltipOnElement(sendEmail, sendEmail.attr('tooltiptitle'),'dark');
-            //$(".arrowInnerExtraMenu", this.$el).addClass(arrowInnerExtraMenu);
             return this;
         },
         updateView: function () {           
@@ -298,7 +315,6 @@ function MessagesArea(convView, tagsArea) {
                "newMessageReceived");// to solve the this issue
             this.messages = new window.app.MessagesList();
             this.messages.bind("reset", this.render);
-            //$("#messagesbox").selectable();
         },
         resetViewToDefault: function () {
            var noConversationLoadedMessage = $("#noConversationSelectedMessage").val();
@@ -306,7 +322,6 @@ function MessagesArea(convView, tagsArea) {
             $("#textareaContainer").addClass("invisible");
             $("#tagsContainer").addClass("invisible");
             self.currentConversationId = '';
-            //$("textareaContainer").hide("slow");
         },
         getMessages: function (conversationId) {
             $("#messagesbox").html('');
@@ -324,8 +339,10 @@ function MessagesArea(convView, tagsArea) {
                 $("textareaContainer").fadeIn("slow");
                 $("#tagsContainer").removeClass("invisible");
                 $("#tagsContainer").fadeIn("slow");
-                //$("#textareaContainer").addClass("visible");
+                //if (window.app.globalMsgHistoryNotLoaded[convID] === true) {
+                   //the conversation has no history - load also the history
 
+                //}
             }
             else {
                 var messages1 = new window.app.MessagesList();
@@ -375,12 +392,13 @@ function MessagesArea(convView, tagsArea) {
             }
         },
         newMessageReceived: function (fromID, convID, msgID, dateReceived, text, isSmsBased) {
+           //var innerSelf = this;
            var newMsg = new window.app.Message({
               Id: msgID,              
               From: fromID,
               Text: text,
               ConvID: convID,
-              ClientDisplayName: from,
+              ClientDisplayName: fromID,
               ClientIsSupportBot: false,
               IsSmsBased: isSmsBased
            });
@@ -396,7 +414,17 @@ function MessagesArea(convView, tagsArea) {
             newMsg.set("TimeReceived", new Date(Date.parse(dateReceived)));            
             //we add the message only if are in correct conversation
             if (window.app.globalMessagesRep[convID] !== undefined) {
-                window.app.globalMessagesRep[convID].add(newMsg);
+               window.app.globalMessagesRep[convID].add(newMsg);
+            }
+            else {
+               //this conversation has not been opened so for, so no history is available
+               //window.app.globalMsgHistoryNotLoaded[convID] = true;
+               //var msgs = new window.app.MessagesList();
+               //msgs.identifier = convID;
+               //msgs.bind("reset", innerSelf.render);
+               //msgs.bind('add', innerSelf.appendMessage);
+               //msgs.add(newMsg);
+               //window.app.globalMessagesRep[convID] = msgs;
             }
         },
         appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {

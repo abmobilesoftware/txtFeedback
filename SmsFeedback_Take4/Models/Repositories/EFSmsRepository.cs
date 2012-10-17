@@ -46,11 +46,11 @@ namespace SmsFeedback_Take4.Models
             latestEndDate = new DateTime(oldVal.Year, oldVal.Month, oldVal.Day, 23, 59, 59);
          }
          IQueryable<IEnumerable<SmsMessage>> convs = null;
-         string consistentWP = ConversationUtilities.RemovePrefixFromNumber(workingPointsNumber);
+         string consistentWP = ConversationUtilities.CleanUpPhoneNumber(workingPointsNumber);
          if (tags != null && tags.Count() != 0)
          {
             convs = from wp in dbContext.WorkingPoints
-                    where wp.TelNumber == consistentWP
+                    where (wp.TelNumber == consistentWP || wp.ShortID == consistentWP)
                     select (from c in wp.Conversations
                             where (onlyFavorites ? c.Starred == true : true) &&
                             (onlyUnread ? c.Read == false : true) &&
@@ -75,7 +75,7 @@ namespace SmsFeedback_Take4.Models
          else
          {
             convs = from wp in dbContext.WorkingPoints
-                    where wp.TelNumber == consistentWP
+                    where (wp.TelNumber == consistentWP || wp.ShortID == consistentWP)
                     select (from c in wp.Conversations
                             where (onlyFavorites ? c.Starred == true : true) &&
                             (onlyUnread ? c.Read == false : true) &&

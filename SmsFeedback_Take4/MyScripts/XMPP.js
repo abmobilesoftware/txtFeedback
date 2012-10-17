@@ -19,7 +19,6 @@ window.app = window.app || {};
 window.app.xmppConn = {};
 window.app.receivedMsgID = 12345;
 window.app.getFeaturesIQID = "info14";
-window.app.addressOfPhpScripts = "dragos@txtfeedback.net";
 window.app.suffixedMessageModeratorAddress = "dragos@moderator.txtfeedback.net";
 window.app.selfXmppAddress = "";
 
@@ -193,7 +192,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       }).c("query", { xmlns: "http://jabber.org/protocol/disco#info" });
       this.connection.send(reqInfo);
    };
-   this.send_reply = function (from, to, dateSent, convID, message, xmppTo, isSmsBased) {
+   this.send_reply = function (from, to, dateSent, convID, message, xmppTo, isSmsBased, toStaff) {
       if (!isSmsBased) {
          from = from + "@txtfeedback.net";
          to = to +  "@moderator.txtfeedback.net";
@@ -204,7 +203,7 @@ window.app.XMPPhandler = function XMPPhandler() {
                                     " <datesent>" + dateSent + "</datesent>" +
                                      "<convID>" + convID + "</convID>" +
                                     " <body>" + message + "</body>" +
-                                    " <staff>false</staff>" +
+                                    " <staff>" + toStaff.toString() + "</staff>" +
                                     " <sms>" + isSmsBased.toString() +"</sms>" +
                                 " </msg>";
       var replymsg = $msg({

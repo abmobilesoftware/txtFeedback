@@ -17,10 +17,10 @@ namespace mobile.TxtFeedback_take1.Utilities
 
       public static string BuildConversationIDFromFromAndTo(string from, string to)
       {         
-         return RemovePrefixFromNumber(from) + cIDSeparator + RemovePrefixFromNumber(to);
+         return CleanUpPhoneNumber(from) + cIDSeparator + CleanUpPhoneNumber(to);
       }
 
-      public static string RemovePrefixFromNumber(string number)
+      public static string CleanUpPhoneNumber(string number)
       {
          string[] prefixes = { "00", "\\+" , "@"};
          string pattern = "^(" + String.Join("|", prefixes) + ")";

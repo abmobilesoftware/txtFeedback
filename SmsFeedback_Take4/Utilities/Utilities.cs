@@ -17,12 +17,12 @@ namespace SmsFeedback_Take4.Utilities
 
       public static string BuildConversationIDFromFromAndTo(string from, string to)
       {         
-         return RemovePrefixFromNumber(from) + cIDSeparator + RemovePrefixFromNumber(to);
+         return CleanUpPhoneNumber(from) + cIDSeparator + CleanUpPhoneNumber(to);
       }
 
-      public static string RemovePrefixFromNumber(string number)
+      public static string CleanUpPhoneNumber(string number)
       {
-         string[] prefixes = { "00", "\\+" };
+         string[] prefixes = { "00", "\\+", "@" };
          string pattern = "^(" + String.Join("|", prefixes) + ")";
 
          Regex rgx = new Regex(pattern);
@@ -36,9 +36,10 @@ namespace SmsFeedback_Take4.Utilities
 
       public static Direction GetDirectionForMessage(string latestFrom, string convID)
       {
+         var cleanedUpFrom = CleanUpPhoneNumber(latestFrom);
          var fromTo = GetFromAndToFromConversationID(convID);
          var res = Direction.from;
-         if (fromTo[1] == latestFrom)
+         if (fromTo[1] == cleanedUpFrom)
          {
             res = Direction.to;
          }
