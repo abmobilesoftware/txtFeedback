@@ -4965,7 +4965,8 @@ namespace SmsFeedback_EFModels
         /// <param name="sentSms">Initial value of the SentSms property.</param>
         /// <param name="maxNrOfSmsToSend">Initial value of the MaxNrOfSmsToSend property.</param>
         /// <param name="shortID">Initial value of the ShortID property.</param>
-        public static WorkingPoint CreateWorkingPoint(global::System.String telNumber, global::System.String description, global::System.String name, global::System.String provider, global::System.Int32 sentSms, global::System.Int32 maxNrOfSmsToSend, global::System.String shortID)
+        /// <param name="xMPPsuffix">Initial value of the XMPPsuffix property.</param>
+        public static WorkingPoint CreateWorkingPoint(global::System.String telNumber, global::System.String description, global::System.String name, global::System.String provider, global::System.Int32 sentSms, global::System.Int32 maxNrOfSmsToSend, global::System.String shortID, global::System.String xMPPsuffix)
         {
             WorkingPoint workingPoint = new WorkingPoint();
             workingPoint.TelNumber = telNumber;
@@ -4975,6 +4976,7 @@ namespace SmsFeedback_EFModels
             workingPoint.SentSms = sentSms;
             workingPoint.MaxNrOfSmsToSend = maxNrOfSmsToSend;
             workingPoint.ShortID = shortID;
+            workingPoint.XMPPsuffix = xMPPsuffix;
             return workingPoint;
         }
 
@@ -5200,6 +5202,30 @@ namespace SmsFeedback_EFModels
         private global::System.String _WelcomeMessage;
         partial void OnWelcomeMessageChanging(global::System.String value);
         partial void OnWelcomeMessageChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String XMPPsuffix
+        {
+            get
+            {
+                return _XMPPsuffix;
+            }
+            set
+            {
+                OnXMPPsuffixChanging(value);
+                ReportPropertyChanging("XMPPsuffix");
+                _XMPPsuffix = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("XMPPsuffix");
+                OnXMPPsuffixChanged();
+            }
+        }
+        private global::System.String _XMPPsuffix;
+        partial void OnXMPPsuffixChanging(global::System.String value);
+        partial void OnXMPPsuffixChanged();
 
         #endregion
 
