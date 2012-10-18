@@ -1,4 +1,5 @@
 ﻿using mobile.TxtFeedback_take1.Models;
+using SmsFeedback_EFModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,28 +12,41 @@ namespace mobile.TxtFeedback_take1.Controllers
 {
    public class HomeController : Controller
    {
+      private const String cStoreKey = "store";
+      private String mStore = "";      
+      protected override void OnActionExecuting(ActionExecutingContext filterContext)
+      {
+         if (RouteData.Values[cStoreKey] != null &&
+           !string.IsNullOrWhiteSpace(RouteData.Values[cStoreKey].ToString()))
+         {
+            mStore = Utilities.ConversationUtilities.CleanUpPhoneNumber(RouteData.Values[cStoreKey].ToString());
+         }         
+      }
+
       public ActionResult Index()
       {
-         ViewBag.Message = "Welcome to Lidl Republicii. How can we be of service?";
-         ViewBag.ComponentLocation = "dragos";
+         //based on store ID we should retrieve the "long description"
+         smsfeedbackEntities ent = new smsfeedbackEntities();
+         var wp = from w in ent.WorkingPoints where w.ShortID == mStore select w;
+         if (wp.Count() == 1)
+         {
+            var desc = wp.First().Name;
+            ViewBag.Store = desc;
+            ViewBag.Message = wp.First().WelcomeMessage;
+            ViewBag.ComponentLocation = mStore;
+            return View();
+         }
+         //else we should return an error page
+         return RedirectToAction("StoreNotFound");
+      }
+
+      public ActionResult StoreNotFound()
+      {
+         ViewBag.Store = mStore;
          return View();
       }
 
-      public ActionResult About()
-      {
-         ViewBag.Message = "Your app description page.";
-
-         return View();
-      }
-
-      public ActionResult Contact()
-      {
-         ViewBag.Message = "Your contact page.";
-
-         return View();
-      }      
-
-      public JsonResult GetUser(string location)
+     public JsonResult GetUser(string location)
       {
          /*based on the location we:
           * create a conversationID 

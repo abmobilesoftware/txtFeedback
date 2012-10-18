@@ -53,7 +53,7 @@ window.app.initializeBasedOnConnectionDetails = function (user, password, convID
 };
 
 window.app.logOnXmppNetwork = function (register) {
-   console.log("log on xmpp");
+   //console.log("log on xmpp");
    window.app.xmppHandlerInstance = new window.app.XMPPhandler();
    window.app.msgView.messagesView.getMessages(window.app.defaultConversationID);
    if (register) {
@@ -201,7 +201,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       self.conn.send(ping);
    };
    this.send_initial_presence = function (to) {
-      console.log("presence sent!");
+      //console.log("presence sent!");
       var self = this;
       var presence = $pres().c("status").t("MobileClient");
       self.conn.send(presence);
@@ -231,7 +231,8 @@ window.app.XMPPhandler = function XMPPhandler() {
                                      " <body>" + message + "</body>" +
                                      " <staff>true</staff>" +
                                      " <sms>false</sms>" +
-                                 " </msg>";
+                                     " </msg>";
+      //console.log(message_body);
       var replymsg = $msg({
          from: window.app.xmppSuffixedUserToConnectAs,
          to: xmppTo,         
@@ -308,30 +309,30 @@ window.app.saveLoginDetails = function () {
    var store = new Persist.Store('TxtFeedback');
    store.set('xmppUser', window.app.xmppUserToConnectAs);
    store.set('xmppPassw', window.app.xmppPasswordForUser);
-   store.set('conversationID', window.app.defaultConversationID);
+   store.set('conversationID', window.app.defaultConversationID);   
 };
 
 window.app.loadLoginDetails = function () {
-   console.log("load login details");     
+   //console.log("load login details");     
    var store = new Persist.Store('TxtFeedback');   
    var user = store.get('xmppUser');   
-   if (user !== undefined && user) {
-      //  if (false) {
+   //if (user !== undefined && user) {
+        if (false) {
       //we found a previous logged in user, so we reuse that on         
-         console.log("reuse existing user");         
+         //console.log("reuse existing user");         
          var password = store.get('xmppPassw');          
          var defaultConversationID = store.get('conversationID');
          window.app.initializeBasedOnConnectionDetails(user, password, defaultConversationID);                        
          window.app.logOnXmppNetwork(false);
       }
       else {
-         console.log("new user");
+         //console.log("new user");
          //no previous user found, create a new one
          $.getJSON(            
             'Home/GetUser',
             { location: window.app.messageModeratorAddress },
             function (data) {
-               console.log("create new user");                              
+               //console.log("create new user");                              
                window.app.initializeBasedOnConnectionDetails(data.Name, data.Password, data.ConversationID);               
                window.app.logOnXmppNetwork(true);
             }

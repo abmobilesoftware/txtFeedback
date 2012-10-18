@@ -16,7 +16,7 @@
 //#endregion
 window.app = window.app || {};
 window.app.selectedConversation = {};
-window.app.globalMessagesRep = {};
+
 
 //#region Constants
 window.app.defaultNrOfConversationsToDisplay = 10;
@@ -29,16 +29,23 @@ window.app.Conversation = Backbone.Model.extend({
     defaults: {
         TimeUpdated: Date.now(),
         Read: false,
-        Text: "some data",
-        From: "defaultNumber",
+        Text: "some data", //content text
+        From: "defaultDirectionNumber", //used for indication if the last message was from or to
         To: "defaultRecipient",
-        Starred: false,
+        ConvID: "defaultConversationID", //unique identifier for a conversation
+        Starred: false, //favorite conversation or not
         ClientDisplayName: "defaultClient",
         ClientIsSupportBot: false,
         IsSmsBased: false
     },
     parse: function (data, xhc) {
-        data.TimeUpdated = data.TimeReceived;
+       data.TimeUpdated = data.TimeReceived;
+       if (data.IsSmsBased === "false" || data.IsSmsBased === false) {
+          data.IsSmsBased = false;
+       } else {
+          data.IsSmsBased = true;
+       }
+       
         return data;
     },
     idAttribute: "ConvID" //the id shold be the combination from-to
@@ -99,21 +106,10 @@ $(function () {
 
             //#region Click on Mark as Favorite
             $(".conversationStarIconImg", this.$el).bind("click", function (e) {
-                e.preventDefault();
-                var id = $(this).parents(".conversation").attr("conversationId");
-                var newStarredStatus = false;
-                if (window.app.globalMessagesRep[id] !== undefined) {
-                    window.app.globalMessagesRep[id].each(function (msg) {
-                        //var newStarredValue = ;
-                        msg.set("Starred", !msg.attributes.Starred);                        
-                        newStarredStatus = msg.attributes.Starred;
-                    });
-                }
-                var starredStatus = selfConvView.model.get("Starred");
-                //hide the tooltip before changing the model
-             
+                e.preventDefault();                               
+                var starredStatus = selfConvView.model.get("Starred");                             
                 selfConvView.model.set("Starred", !starredStatus);
-
+                var id = $(this).parents(".conversation").attr("conversationId");
                 $.getJSON('Messages/ChangeStarredStatusForConversation',
                         { conversationId: id, newStarredStatus: !starredStatus },
                         function (data) {

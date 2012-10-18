@@ -1,4 +1,4 @@
-﻿var validConvID = "442033222249-442033221134";
+﻿var validConvID = "12898437378-12898437378";
 
 $(function () {
    module("MessagesController")   
@@ -120,15 +120,16 @@ $(function () {
    });
    asyncTest("Messages/ConversationsList_widestOptionsPossible_dataIsReturned",7, function () {
       var filterOptions = {};
-      filterOptions["onlyFavorites"] = false;
-      filterOptions["tags"] = [];
-      filterOptions["workingPointsNumbers"] = [];
-      filterOptions["startDate"] = null;
-      filterOptions["endDate"] = null;
-      filterOptions["onlyUnread"] = false;
-      filterOptions["skip"] = 0;
-      filterOptions["top"] = 10;
-      filterOptions["requestIndex"] = 0
+      filterOptions.onlyFavorites = false;
+      filterOptions.tags = [];
+      filterOptions.workingPointsNumbers = [];
+      filterOptions.startDate = null;
+      filterOptions.endDate = null;
+      filterOptions.onlyUnread = false;
+      filterOptions.skip = 0;
+      filterOptions.top = 10;
+      filterOptions.requestIndex = 0;
+      filterOptions.popUpSupport = false;
 
       var validUrlLocationForConversationsList = "/ro-RO/Messages/ConversationsList";
       $.ajax({

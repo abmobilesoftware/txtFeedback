@@ -49,7 +49,7 @@ $(function () {
 
 //#region Client side JavaScript errors
 window.app.logErrorOnServer = function logError(message) {
-   console.log("error: " + message);
+   //console.log("error: " + message);
    $.ajax({
       type: 'POST',
       url: 'ErrorLog/LogError',
@@ -59,7 +59,7 @@ window.app.logErrorOnServer = function logError(message) {
 };
 
 window.app.logDebugOnServer = function logError(message) {
-   console.log("message: " + message);
+   //console.log("message: " + message);
    $.ajax({
       type: 'POST',
       url: 'ErrorLog/LogDebug',

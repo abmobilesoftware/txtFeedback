@@ -19,6 +19,7 @@ window.app = window.app || {};
 window.app.xmppConn = {};
 window.app.receivedMsgID = 12345;
 window.app.getFeaturesIQID = "info14";
+window.app.addressOfPhpScripts = "dragos@txtfeedback.net";
 window.app.suffixedMessageModeratorAddress = "dragos@moderator.txtfeedback.net";
 window.app.selfXmppAddress = "";
 
@@ -54,7 +55,6 @@ $(function () {
    });
 });
 
-//TODO DA move this somewhere else :)
 window.app.handleIncommingMessage = function (msgContent, isIncomming) {
    window.app.receivedMsgID++;
    var xmlDoc;
@@ -68,35 +68,20 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
       xmlDoc.loadXML(msgContent);
    }
    var xmlMsgToBeDecoded = xmlDoc.getElementsByTagName("msg")[0];
-   var rawFromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
-   var rawToID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
-   var toID = cleanupPhoneNumber(rawToID);
-   var fromID = cleanupPhoneNumber(rawFromID);
-   var extension;   
-   extension = window.app.workingPointsSuffixDictionary[toID] || window.app.workingPointsSuffixDictionary[fromID];   
-   //decide if we are dealing with a message coming from another WorkingPoint
-   var isFromWorkingPoint = isWorkingPoint(rawFromID, extension);  
+   var fromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
+   fromID = cleanupPhoneNumber(fromID);
+   var toID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
+   toID = cleanupPhoneNumber(toID);
    var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
-   var isSmsBasedAsString = xmlMsgToBeDecoded.getElementsByTagName('sms')[0].textContent;
-   var isSmsBased = false;
-   if (isSmsBasedAsString === "true") {
-      isSmsBased = true;
-   }
-   var convID;
-   if (isFromWorkingPoint && isIncomming) {
-      convID = buildConversationID(fromID, toID);     
-   } else {
-      convID = xmlMsgToBeDecoded.getElementsByTagName("convID")[0].textContent;
-   }
-
-   if (!isIncomming && !isFromWorkingPoint) {
-      //carbon
-      var swapTmp = fromID;
-      fromID = toID;
-      toID = swapTmp;      
+   var isSmsBased = xmlMsgToBeDecoded.getElementsByTagName('sms')[0].textContent;
+   var convID = buildConversationID(fromID, toID);   
+   if (isIncomming) {
+      //nothing to do atm
    }
    else {
-      //regular message
+      var swapTmp = fromID;
+      fromID = toID;
+      toID = swapTmp;
    }
    
    var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
@@ -204,19 +189,22 @@ window.app.XMPPhandler = function XMPPhandler() {
       }).c("query", { xmlns: "http://jabber.org/protocol/disco#info" });
       this.connection.send(reqInfo);
    };
-   this.send_reply = function (from, to, dateSent, convID, message, xmppTo, isSmsBased, toStaff) {
-      /*
-      here we should just build the message from what is handed to us
-      there should be no responsibility regarding the logic of building the content of the message
-      but only regarding the structure (what fields have to be filled in)
-      */
+   this.send_reply = function (from, to, dateSent, convID, message, xmppTo, isSmsBased) {
+      if (!isSmsBased) {
+         from = from + "@txtfeedback.net";
+         to = to +  "@moderator.txtfeedback.net";
+      }
       var message_body = "<msg>" +
+<<<<<<< HEAD
                                     " <from>" + from +  "</from>" +
+=======
+                                    " <from>" + from  + "</from>" +
+>>>>>>> 0364c2e62b9d1d887ccc38981c5598bb3fc9a16f
                                     " <to>" + to + "</to>" +
                                     " <datesent>" + dateSent + "</datesent>" +
                                      "<convID>" + convID + "</convID>" +
                                     " <body>" + message + "</body>" +
-                                    " <staff>" + toStaff.toString() + "</staff>" +
+                                    " <staff>false</staff>" +
                                     " <sms>" + isSmsBased.toString() +"</sms>" +
                                 " </msg>";
       var replymsg = $msg({

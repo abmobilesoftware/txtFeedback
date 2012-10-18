@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 
-namespace SmsFeedback_Take4.Utilities
+namespace mobile.TxtFeedback_take1.Utilities
 {
    public class ConversationUtilities
    {
@@ -22,7 +22,7 @@ namespace SmsFeedback_Take4.Utilities
 
       public static string CleanUpPhoneNumber(string number)
       {
-         string[] prefixes = { "00", "\\+", "@" };
+         string[] prefixes = { "00", "\\+" , "@"};
          string pattern = "^(" + String.Join("|", prefixes) + ")";
 
          Regex rgx = new Regex(pattern);
@@ -31,34 +31,19 @@ namespace SmsFeedback_Take4.Utilities
       
       public enum Direction { 
          from = 0,
-         to = 1,
-         no_direction = 2
+         to = 1
       }
 
       public static Direction GetDirectionForMessage(string latestFrom, string convID)
       {
-         var cleanedUpFrom = CleanUpPhoneNumber(latestFrom);
          var fromTo = GetFromAndToFromConversationID(convID);
          var res = Direction.from;
-         if (!latestFrom.Equals(Constants.NO_LAST_FROM))
+         if (fromTo[1] == latestFrom)
          {
-             if (fromTo[1] == cleanedUpFrom)
-             {
-                 res = Direction.to;
-             }
-         }
-         else
-         {
-             res = Direction.no_direction;
+            res = Direction.to;
          }
          return res;
       }
-
-      public static string ExtractUserFromAddress(string address)
-      {
-          return address.Substring(0, address.IndexOf('@'));
-      }
-
    }
 
 

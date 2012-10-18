@@ -16,21 +16,29 @@
 /*global setCheckboxState */
 //#endregion
 window.app = window.app || {}; //window.app = window.app || { } will set window.app to an empty object if there is no window.app and will leave window.app alone if it has already been set; doing it like this makes the JavaScript files more self-contained and less subject to loading order
-window.app.workingPoints = {};
+window.app.workingPointsNameDictionary = {}; //
+window.app.workingPointsSuffixDictionary = {};
 
 //#region WorkingPoint model
+//A working point is defined by
+// telNumber - used for SMS communication
+// shortID - used for XMPP communication
+//this is why, we use both tel number and short id when selecting conversations belonging to a certain wp
    window.app.WorkingPoint = Backbone.Model.extend({
       defaults: {
          TelNumber: "defaultNumber",
          Name: "defaultNumber",
          Description: "defaultDescription",
-         CheckedStatus: true
+         CheckedStatus: true,
+         ShortID: "defaultID",
+         XMPPsuffix: "defaultXMPPsuffix"
       },
       parse: function (data, xhc) {
           //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
           //in the TimeReceived property we have the same info coded as ticks, so we replace the TimeReceived value with a value build from the ticks value
-          window.app.workingPoints[data.TelNumber] = data.Name;
-
+         window.app.workingPointsNameDictionary[data.TelNumber] = data.Name;
+         window.app.workingPointsNameDictionary[data.ShortID] = data.Name;
+         window.app.workingPointsSuffixDictionary[data.ShortID] = data.XMPPsuffix;
           return data;
       },
       idAttribute: "TelNumber"
@@ -187,6 +195,7 @@ window.app.workingPoints = {};
            _.each(this.phoneNumbersPool.models, function (wp) {
               if (wp.get('CheckedStatus') === true) {
                  self.checkedPhoneNumbersArray.push(wp.get('TelNumber'));
+                 self.checkedPhoneNumbersArray.push(wp.get('ShortID'));
               }
            });
            $(document).trigger('refreshConversationList');
