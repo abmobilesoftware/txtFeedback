@@ -17,9 +17,7 @@
 //#endregion
 window.app = window.app || {};
 window.app.xmppConn = {};
-window.app.receivedMsgID = 12345;
 window.app.getFeaturesIQID = "info14";
-//window.app.suffixedMessageModeratorAddress = "dragos@moderator.txtfeedback.net";
 window.app.selfXmppAddress = "";
 
 function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, text, readStatus) {
@@ -54,76 +52,7 @@ $(function () {
    });
 });
 
-//TODO DA move this somewhere else :)
-window.app.handleIncommingMessage = function (msgContent, isIncomming) {
-   window.app.receivedMsgID++;
-   var xmlDoc;
-   if (window.DOMParser) {
-      var parser = new DOMParser();
-      xmlDoc = parser.parseFromString(msgContent, "text/xml");
-   }
-   else {
-      xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
-      xmlDoc.async = false;
-      xmlDoc.loadXML(msgContent);
-   }
-   var xmlMsgToBeDecoded = xmlDoc.getElementsByTagName("msg")[0];
-   var rawFromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
-   var rawToID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
-   var toID = cleanupPhoneNumber(rawToID);
-   var fromID = cleanupPhoneNumber(rawFromID);
-   var extension;
-   /*
-   DA: the following line seems weird and it actually is :)
-   Right now a Working Point XMPP address is shortID@moderator.txtfeedback.net
-   In order not to hard code the @ prefix we try to retrieve it from SuffixDictionary
-   The issue is that the WP's address might be the from address or the to address (depending on different factors)
-   But for sure the WP is either the to or the from -> we will find it in the suffix dictionary
-   To avoid complicated logic we test both from and to in the suffix dictionary and one of them will hit :)
-   */
-   extension = window.app.workingPointsSuffixDictionary[toID] || window.app.workingPointsSuffixDictionary[fromID];   
-   //decide if we are dealing with a message coming from another WorkingPoint
-   var isFromWorkingPoint = isWorkingPoint(rawFromID, extension);  
-   var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
-   var isSmsBasedAsString = xmlMsgToBeDecoded.getElementsByTagName('sms')[0].textContent;
-   var isSmsBased = false;
-   if (isSmsBasedAsString === "true") {
-      isSmsBased = true;
-   }
-   var convID;
-   if (isFromWorkingPoint && isIncomming) {
-      convID = buildConversationID(fromID, toID);     
-   } else {
-      convID = xmlMsgToBeDecoded.getElementsByTagName("convID")[0].textContent;
-   }
 
-   if (!isIncomming && !isFromWorkingPoint) {
-      //carbon
-      var swapTmp = fromID;
-      fromID = toID;
-      toID = swapTmp;      
-   }
-   else {
-      //regular message
-   }
-   
-   var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
-   
-   var readStatus = false;
-
-   window.app.receivedMsgID++;
-   $(document).trigger('msgReceived', {
-      fromID: fromID,
-      toID: toID,
-      convID: convID,
-      msgID: window.app.receivedMsgID,
-      dateReceived: dateReceived,
-      text: newText,
-      readStatus: readStatus,
-      isSmsBased: isSmsBased
-   });
-   
-};
 
 window.app.XMPPhandler = function XMPPhandler() {
    this.userid = null;
@@ -274,13 +203,17 @@ window.app.XMPPhandler = function XMPPhandler() {
          if ($(message).children("sent").attr("xmlns") === "urn:xmpp:carbons:1") {
             if (message.getElementsByTagName("body") !== undefined && message.getElementsByTagName("body").length !== 0) {
                var carbonMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
-               window.app.handleIncommingMessage(carbonMsg,false);
+               if (window.app.handleIncommingMessage !== undefined) {
+                  window.app.handleIncommingMessage(carbonMsg, false);
+               }
             }
          }
          else {
             //incommingMSG
             var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
-            window.app.handleIncommingMessage(incommingMsg,true);
+            if (window.app.handleIncommingMessage !== undefined) {
+               window.app.handleIncommingMessage(incommingMsg, true);
+            }
          }
       } else if ($(message).attr("type") === "error") {
          var error = message.getElementsByTagName("error")[0];

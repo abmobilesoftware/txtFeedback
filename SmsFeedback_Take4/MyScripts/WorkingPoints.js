@@ -211,7 +211,7 @@ window.app.workingPointsSuffixDictionary = {};
            _.each(this.phoneNumbersPool.models, function (wp) {
               if (wp.get('CheckedStatus') === true) {
                  self.checkedPhoneNumbersArray.push(wp.get('TelNumber'));
-                 self.checkedPhoneNumbersArray.push(wp.get('ShortID'));
+                 //self.checkedPhoneNumbersArray.push(wp.get('ShortID'));
               }
            });
            $(document).trigger('refreshConversationList');
