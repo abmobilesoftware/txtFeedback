@@ -104,6 +104,9 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
    }   
 };
 
+var user_counter = 0;
+var user_credentials = "";
+var all_credentials = "";
 window.app.XMPPhandler = function XMPPhandler() {
    "use strict";
    this.userid = null;
@@ -115,7 +118,7 @@ window.app.XMPPhandler = function XMPPhandler() {
    this.connectCallback = function (status, condition) {
       var needReconnect = false;
       if (status === Strophe.Status.CONNECTED) {
-         window.app.logDebugOnServer("XMPP connected");                  
+         //window.app.logDebugOnServer("XMPP connected");                  
          window.app.xmppConn.conn.addHandler(window.app.xmppConn.handle_infoquery, null, "iq", null, null);
          window.app.xmppConn.conn.addHandler(window.app.xmppConn.handle_message, null, "message", null, null);
          var domain = Strophe.getDomainFromJid(window.app.xmppConn.conn.jid);         
@@ -125,19 +128,26 @@ window.app.XMPPhandler = function XMPPhandler() {
       } else if (status === Strophe.Status.REGIFAIL) {
          window.app.logErrorOnServer("XMPP registration failed");
       } else if (status === Strophe.Status.REGISTER) {
-         window.app.logDebugOnServer("XMPP registering with user [" + window.app.xmppUserToConnectAs + "]");
-         window.app.xmppConn.conn.register.fields.username = window.app.xmppUserToConnectAs;
-         window.app.xmppConn.conn.register.fields.password = window.app.xmppPasswordForUser;
+          //window.app.logDebugOnServer("XMPP registering with user [" + window.app.xmppUserToConnectAs + "]");
+          var randomnumber = Math.floor(Math.random() * 10000);
+          var username = "xy" + randomnumber;
+          user_credentials = "user[" + user_counter + "]=" + username + "; pass[" + user_counter + "]=123456;";
+          window.app.xmppConn.conn.register.fields.username = username;
+         window.app.xmppConn.conn.register.fields.password = "123456";
          window.app.xmppConn.conn.register.submit();
+         
       } else if (status === Strophe.Status.REGISTERED) {
-         window.app.logDebugOnServer("XMPP Register successful");
-         window.app.xmppConn.conn.register.authenticate();
+          all_credentials += user_credentials;
+          alert(all_credentials);
+          ++user_counter;
+         //window.app.logDebugOnServer("XMPP Register successful");
+         //window.app.xmppConn.conn.register.authenticate();
       } else if (status === Strophe.Status.SBMTFAIL) {
          window.app.logDebugOnServer("XMPP registration failed, condition [" +condition + "]");
          //registration failed - check the reason
          if (condition === "conflict") {
             //the user already exists
-            window.app.logDebugOnServer("XMPP registration failed: user already exists");
+           // window.app.logDebugOnServer("XMPP registration failed: user already exists");
             window.app.xmppHandlerInstance.connect(window.app.xmppSuffixedUserToConnectAs, window.app.xmppPasswordForUser);
          }
       } else if (status === Strophe.Status.CONNECTING) {
@@ -145,16 +155,16 @@ window.app.XMPPhandler = function XMPPhandler() {
       } else if (status === Strophe.Status.AUTHENTICATING) {
          
       } else if (status === Strophe.Status.DISCONNECTED) {
-         window.app.logDebugOnServer("XMPP disconnected");        
+         //window.app.logDebugOnServer("XMPP disconnected");        
          needReconnect = true;
       } else if (status === Strophe.Status.CONNFAIL) {         
-         window.app.logDebugOnServer("XMPP connection fail");
+         //window.app.logDebugOnServer("XMPP connection fail");
          window.app.xmppConn.conn.disconnect();
       } else if (status === Strophe.Status.AUTHFAIL) {
-         window.app.logDebugOnServer("XMPP authentication failed");         
+         //window.app.logDebugOnServer("XMPP authentication failed");         
          window.app.xmppConn.conn.disconnect();
       } else if (status === Strophe.Status.ERROR) {
-         window.app.logDebugOnServer("XMPP status error");         
+         //window.app.logDebugOnServer("XMPP status error");         
          window.app.xmppConn.conn.disconnect();
       }
       if (needReconnect) {

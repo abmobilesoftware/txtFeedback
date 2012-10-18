@@ -232,6 +232,11 @@
     <Content Include="MyScripts\strophe.register.js" />
     <Content Include="MyScripts\Utilities.js" />
     <Content Include="MyScripts\XMPP.js" />
+    <Content Include="QUnit\CreateUsers.js" />
+    <Content Include="QUnit\QUnitTests.html" />
+    <Content Include="QUnit\RunJS.html" />
+    <Content Include="QUnit\XMPPHacked.js" />
+    <Content Include="QUnit\XMPPTest.js" />
     <Content Include="Scripts\backbone-min.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />

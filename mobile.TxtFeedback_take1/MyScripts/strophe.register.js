@@ -395,7 +395,6 @@ Strophe.addConnectionPlugin('register', {
     */
    authenticate: function () {
       var auth_str, hashed_auth_str, that = this._connection;
-
       if (Strophe.getNodeFromJid(that.jid) === null &&
           this.authentication.sasl_anonymous) {
          that._changeConnectStatus(Strophe.Status.AUTHENTICATING, null);
