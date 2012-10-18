@@ -31,7 +31,8 @@ window.app.workingPointsSuffixDictionary = {};
          Description: "defaultDescription",
          CheckedStatus: true,
          ShortID: "defaultID",
-         XMPPsuffix: "defaultXMPPsuffix"
+         XMPPsuffix: "defaultXMPPsuffix",
+         XMPPaddress: "defaultXmppAddress"
       },
       parse: function (data, xhc) {
           //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
@@ -39,7 +40,9 @@ window.app.workingPointsSuffixDictionary = {};
          window.app.workingPointsNameDictionary[data.TelNumber] = data.Name;
          window.app.workingPointsNameDictionary[data.ShortID] = data.Name;
          window.app.workingPointsSuffixDictionary[data.ShortID] = data.XMPPsuffix;
-          return data;
+         //for convenience we build the XMPPAddess
+         data.XMPPaddress = data.ShortID + data.XMPPsuffix;
+         return data;
       },
       idAttribute: "TelNumber"
    });
@@ -50,6 +53,19 @@ window.app.workingPointsSuffixDictionary = {};
       model: window.app.WorkingPoint,
       url: function () {
          return window.app.domainName + "/Messages/WorkingPointsPerUser";
+      },
+      getWorkingPointXmppAddress: function(id) {
+         //the ID could be the telNumber or the shortID
+         if (this.get(id) !== undefined) {
+            return this.get(id).get("XMPPaddress");
+         } else {
+            //not the TelNumber - now try the short id
+            var result = this.where({ ShortID: id });
+            if (result.length === 1) {
+               return result[0].get("XMPPaddress");
+            }
+         }
+         return null;
       }
    });
 //#endregion

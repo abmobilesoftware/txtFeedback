@@ -114,7 +114,7 @@ window.app.defaultMessagesOptions = {
 };
 //#endregion
 
-function MessagesArea(convView, tagsArea) {
+function MessagesArea(convView, tagsArea, wpsArea) {
    "use strict";
     var self = this;
 
@@ -134,7 +134,8 @@ function MessagesArea(convView, tagsArea) {
 
    this.convView = convView;
    this.tagsArea = tagsArea;
-   //set the filter to make on the top div (conversation) selecteble
+   this.wpsArea = wpsArea;
+   //set the filter to make on the top div (conversation) selectable
   // in the absence of the filter option all elements within the conversation are made "selectable"
    $("#conversations").selectable({
        filter: ".conversation",
@@ -230,6 +231,7 @@ function MessagesArea(convView, tagsArea) {
 
        //signal all the other "listeners/agents"       
        var storeStaffAddress = "";
+       var txtFeedbackSupportAddress = "";
        if (sendToSupport) {
           /*
           for a support conversation the id is in the form of supportID-storeStaffID, where the from is TxtFeedback support ID and the to is store staff ID
@@ -239,7 +241,7 @@ function MessagesArea(convView, tagsArea) {
           from has to be the storeStaffID
           Note: support conversations goes through XMPP
           */
-          var txtFeedbackSupportAddress = from;
+          txtFeedbackSupportAddress = from;
           storeStaffAddress = to;
           window.app.xmppHandlerInstance.send_reply(storeStaffAddress, txtFeedbackSupportAddress, timeSent, self.currentConversationId, msgContent, txtFeedbackSupportAddress, isSmsBased, sendToSupport);
        } else {
@@ -252,7 +254,8 @@ function MessagesArea(convView, tagsArea) {
           */
           var clientToRespondToAddress = to;
           storeStaffAddress = from;
-         window.app.xmppHandlerInstance.send_reply(storeStaffAddress, clientToRespondToAddress, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress, isSmsBased, sendToSupport);
+          txtFeedbackSupportAddress = self.wpsArea.wpPoolView.phoneNumbersPool.getWorkingPointXmppAddress(cleanupPhoneNumber(to)) || self.wpsArea.wpPoolView.phoneNumbersPool.getWorkingPointXmppAddress(cleanupPhoneNumber(from));          
+          window.app.xmppHandlerInstance.send_reply(storeStaffAddress, clientToRespondToAddress, timeSent, self.currentConversationId, msgContent, txtFeedbackSupportAddress, isSmsBased, sendToSupport);
        }
 
        

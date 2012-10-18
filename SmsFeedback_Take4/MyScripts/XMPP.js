@@ -19,7 +19,7 @@ window.app = window.app || {};
 window.app.xmppConn = {};
 window.app.receivedMsgID = 12345;
 window.app.getFeaturesIQID = "info14";
-window.app.suffixedMessageModeratorAddress = "dragos@moderator.txtfeedback.net";
+//window.app.suffixedMessageModeratorAddress = "dragos@moderator.txtfeedback.net";
 window.app.selfXmppAddress = "";
 
 function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, text, readStatus) {
@@ -72,7 +72,15 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
    var rawToID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
    var toID = cleanupPhoneNumber(rawToID);
    var fromID = cleanupPhoneNumber(rawFromID);
-   var extension;   
+   var extension;
+   /*
+   DA: the following line seems weird and it actually is :)
+   Right now a Working Point XMPP address is shortID@moderator.txtfeedback.net
+   In order not to hard code the @ prefix we try to retrieve it from SuffixDictionary
+   The issue is that the WP's address might be the from address or the to address (depending on different factors)
+   But for sure the WP is either the to or the from -> we will find it in the suffix dictionary
+   To avoid complicated logic we test both from and to in the suffix dictionary and one of them will hit :)
+   */
    extension = window.app.workingPointsSuffixDictionary[toID] || window.app.workingPointsSuffixDictionary[fromID];   
    //decide if we are dealing with a message coming from another WorkingPoint
    var isFromWorkingPoint = isWorkingPoint(rawFromID, extension);  
