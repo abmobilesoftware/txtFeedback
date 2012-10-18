@@ -9,10 +9,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.helpers.Agent;
+import log.Log;
+import log.LogEntryType;
+
 import org.helpers.Constants;
 import org.helpers.TxtPacket;
-import org.helpers.WorkingPoint;
+import org.helpers.Utilities;
+import org.helpers.json.Agent;
+import org.helpers.json.WorkingPoint;
 import org.jivesoftware.whack.ExternalComponentManager;
 import org.xmpp.component.Component;
 import org.xmpp.component.ComponentException;
@@ -39,9 +43,11 @@ public class TxtFeedbackModerator implements Component {
 	
 	/* Store users who can send administrator commands */
 	private LinkedList<String> privilegedUser = new LinkedList<String>();
-	private String COMPONENT_NAME = "moderator.txtfeedback.net";
 	private Hashtable<String, WorkingPoint> WPAddressHash = new Hashtable(); 
 	private RestControllerGateway restGtw = new RestControllerGateway();
+	private int clientToStaffCounter = 0;
+	private int staffToClientCounter = 0;
+	private TxtFeedbackModerator self;
 	
 	public String getName() {
 		return ("Txtfeedback component");
@@ -52,16 +58,25 @@ public class TxtFeedbackModerator implements Component {
 	}
 
 	public void processPacket(Packet iReceivedPacket) {
-		System.out.println(iReceivedPacket.toXML());
+		/*Log.addLogEntry("Received packet ID=" + iReceivedPacket.getID() + 
+				", FROM = " + iReceivedPacket.getFrom().toBareJID() +
+				"  BODY = " + iReceivedPacket.toXML(), LogEntryType.INFO);*/
 		if (iReceivedPacket instanceof Message) {
-			Message lReceivedMessage = (Message) iReceivedPacket;
-			// TODO : Process body.
+			final Message lReceivedMessage = (Message) iReceivedPacket;
 			if (lReceivedMessage.getSubject() != null) {
 				if (lReceivedMessage.getSubject().equals(Constants.INTERNAL_PACKET)) {
-					processInternalPacket(lReceivedMessage);				
+					Thread newThread = new Thread(new Runnable() {
+						
+						@Override
+						public void run() {
+							MessageProcessor mp = new MessageProcessor(self, lReceivedMessage);
+							mp.processInternalPacket();
+							
+						}
+					});
+					newThread.start();
 				}
-			}
-			
+			}			
 		} else if (iReceivedPacket instanceof Presence) {
 			Presence lPresence = (Presence) iReceivedPacket;
 			if (lPresence.getType() == Presence.Type.unavailable) {
@@ -73,82 +88,6 @@ public class TxtFeedbackModerator implements Component {
 		}
 	}
 	
-	private String processInternalPacket(Message iPacket) {
-		TxtPacket internalPacket = new TxtPacket(iPacket.getBody());
-		if (!internalPacket.getIsSms()) {
-			if (internalPacket.getIsForStaff()) {
-				//restGtw.saveMessage(internalPacket.getFromAddress(), internalPacket.getToAddress(), internalPacket.getConversationId(), internalPacket.getBody(), iPacket.getFrom().toBareJID(), false);
-				String WPTelNumber = getWPForThisAddress(internalPacket.getToAddress());
-				ArrayList<Agent> handlers = restGtw.getHandlersForMessage(WPTelNumber, internalPacket.getConversationId());
-				for (int i=0; i<handlers.size(); ++i) {
-					sendInternalMessage(iPacket.getBody(), 
-							handlers.get(i).getUser(),
-							internalPacket.getToAddress());			
-				}
-				return "MsgToStaff";
-			} else {
-				//restGtw.saveMessage(internalPacket.getToAddress(), internalPacket.getFromAddress(), internalPacket.getConversationId(), internalPacket.getBody(), iPacket.getFrom().toBareJID(), false);
-				sendInternalMessage(iPacket.getBody(), 
-						internalPacket.getFromAddress(),
-						internalPacket.getToAddress());
-				return "MsgToClient";
-			}
-		} else {
-			if (internalPacket.getIsForStaff()) {
-				//restGtw.saveMessage(internalPacket.getFromAddress(), internalPacket.getToAddress(), internalPacket.getConversationId(), internalPacket.getBody(), iPacket.getFrom().toBareJID(), true);
-				String WPTelNumber = getWPForThisAddress(internalPacket.getToAddress());
-				ArrayList<Agent> handlers = restGtw.getHandlersForMessage(WPTelNumber, internalPacket.getConversationId());
-				for (int i=0; i<handlers.size(); ++i) {
-					sendInternalMessage(iPacket.getBody(), 
-							handlers.get(i).getUser(),
-							internalPacket.getToAddress());			
-				}				
-			} else {
-				restGtw.saveMessage(internalPacket.getToAddress(), internalPacket.getFromAddress(), internalPacket.getConversationId(), internalPacket.getBody(), iPacket.getFrom().toBareJID(), true);				
-			}
-			
-			System.out.println("Message sent to " + internalPacket.getToAddress() 
-					+ " , from " + internalPacket.getFromAddress());
-		}
-		return "";		
-	}
-	
-	private String createConvId(TxtPacket iInternalPacket) {
-		String conversationId = ""; 
-		if (iInternalPacket.getIsSms()) {
-			conversationId = cleanupPhoneNumber(iInternalPacket.getFromAddress()) + "-" + cleanupPhoneNumber(iInternalPacket.getToAddress());	
-		} else {
-			// ConversationId is SomGUID@txtfeedback.net-wp1@lidl.txtfeedback.net
-			conversationId = iInternalPacket.getFromAddress() + "-" + iInternalPacket.getToAddress();			
-		}
-		return conversationId;
-	}
-	
-	private String getWPForThisAddress(String iAddress) {
-		if (WPAddressHash.containsKey(iAddress)) return WPAddressHash.get(iAddress).getTelNumber(); 
-		else {
-			WorkingPoint lWP = restGtw.getWorkingPointForCertainAddress(iAddress);
-			if (lWP != null) {
-				WPAddressHash.put(iAddress, lWP);
-				return lWP.getTelNumber();
-			} else {
-				return Constants.REQUEST_WITH_NO_RESULT;
-			}			
-		}	
-	}
-	
-	private String cleanupPhoneNumber(String phoneNumber) {
-		//take into account that they could start with + or 00 - so we strip away any leading + or 00
-		String transformedString;
-		String pattern1 = "^00";
-		String pattern2 = "^+";
-		// delete 00
-		transformedString = phoneNumber.replaceAll(pattern1, "");
-		// delete +
-		transformedString = transformedString.replaceAll(pattern2, "");
-		return transformedString;
-	}
-	
 	private void sendMessage(String iBody, String iSubject, Message.Type iType, String iTo, String iFrom) {
 		try {
 			Message lResponseMessage = new Message();
@@ -156,30 +95,31 @@ public class TxtFeedbackModerator implements Component {
 			lResponseMessage.setBody(iBody);
 			lResponseMessage.setSubject(iSubject);
 			lResponseMessage.setTo(iTo);
-			lResponseMessage.setFrom(iFrom);
-			mMgr.sendPacket(this, lResponseMessage);
+			lResponseMessage.setThread(iFrom);
+			
+			mMgr.sendPacket(this, lResponseMessage);			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
 		}
 	}
 	
-	private void sendInternalMessage(String iBody, String iTo, String iFrom) {
+	public void sendInternalMessage(String iBody, String iTo, String iFrom) {
 		sendMessage(iBody, Constants.INTERNAL_PACKET, Type.chat, iTo, iFrom);
 	}
 	
 	public void initialize(JID iJid, ComponentManager iComponentManager)
 			throws ComponentException {
-		System.out.println("Initializing component.");
+		Log.addLogEntry("Component initializing", LogEntryType.INFO);
 		mMgr = (ExternalComponentManager) iComponentManager;
-				
+		self = this;		
 	}
 
 	public void start() {
-		System.out.println("Component started.");
+		Log.addLogEntry("Component started", LogEntryType.INFO);
 	}
 
 	public void shutdown() {
-		System.out.println("Component is shutted down.");			
-	}
+		Log.addLogEntry("Component is shutted down", LogEntryType.INFO);			
+	}	
 	
 }

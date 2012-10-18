@@ -92,15 +92,14 @@ public class TxtPacket {
 		        	++k;
 		        	mTxtPacketTagsName.add(i-k, lNode.getNodeName());
 		        	mTxtPacketTagsValue.add(i-k, lNode.getTextContent());
-		        	System.out.println((i-k) + "." + "name=" + lNode.getNodeName());
-		        	System.out.println((i-k) + "." + "value=" + lNode.getTextContent());
+		        	//System.out.println((i-k) + "." + "name=" + lNode.getNodeName());
+		        	//System.out.println((i-k) + "." + "value=" + lNode.getTextContent());
 		        }
 		                 
 		    }
 		 }
 		 catch (Exception e) {
-			 System.out.println("XML -> data error");
-			 e.printStackTrace();
+			 System.out.println("XML bad formatted - TxtPacket(String iXmlContent)   - " + iXmlContent);			 
 		 }
 	}
 	
@@ -145,7 +144,7 @@ public class TxtPacket {
             xmlString = lSw.toString();
 
 		} catch (Exception e) {
-            System.out.println("HERE = " + e);
+            System.out.println("toXML exception = " + e);
         }
 		return xmlString;
 	}

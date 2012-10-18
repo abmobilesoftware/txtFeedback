@@ -1,4 +1,4 @@
-package org.helpers;
+package org.helpers.json;
 
 public class WorkingPoint {
 	public String telNumber;
@@ -11,8 +11,7 @@ public class WorkingPoint {
 	public WorkingPoint() {}
 	public WorkingPoint(String iTelNumber, String iDescription, 
 			String iName, int iSentSms, 
-			int iMaxNrOfSms) {
-		
+			int iMaxNrOfSms) {		
 		telNumber = iTelNumber;
 		description = iDescription;
 		name = iName;
