@@ -292,7 +292,7 @@ namespace SmsFeedback_Take4.Controllers
         private void UpdateDbAfterMessageWasSent(String from, String to, String conversationId, String text, Boolean readStatus,
                                                      DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, String XmppUser, smsfeedbackEntities dbContext)
         {
-            string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, dbContext);
+            string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, true, dbContext);
             mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime, prevConvFrom, prevConvUpdateTime,isSmsBased, XmppUser, dbContext);
             mEFInterface.IncrementNumberOfSentSms(from, dbContext);
         }

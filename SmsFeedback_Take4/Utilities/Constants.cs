@@ -33,7 +33,9 @@ namespace SmsFeedback_Take4.Utilities
         public const string NEUTER = "neuter";
         public const string POSITIVE_FEEDBACK = "positiveFeedback";
         public const string NEGATIVE_FEEDBACK = "negativeFeedback";
-        public const String DIRECTION_OUT = "out";
-        public const String DIRECTION_IN = "in";
+        public const string DIRECTION_OUT = "OUT";
+        public const string DIRECTION_IN = "IN";
+        public const string NO_LAST_FROM = "no previous from";
+        public const string DONT_ADD_XMPP_USER = "don't add xmpp user";
     }
 }
