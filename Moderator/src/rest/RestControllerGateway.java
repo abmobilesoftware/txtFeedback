@@ -8,22 +8,49 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.http.client.ClientProtocolException;
-import org.helpers.Agent;
 import org.helpers.Constants;
-import org.helpers.WorkingPoint;
+import org.helpers.json.Agent;
+import org.helpers.json.WorkingPoint;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RestControllerGateway {
-	private String RESTGetHandlersForMessageURL = "http://localhost:4631/Component/GetHandlerForMessage";
-	private String RESTGetWorkingPointForCertainAddress = "http://localhost:4631/Component/GetWorkingPointForCertainAddress";
+	private String RESTGetHandlersForMessageURL = "http://dev.txtfeedback.net/Component/GetHandlerForMessage";
+	private String RESTGetHandlersForMessageURL1 = "http://dev.txtfeedback.net/Component/GetHandlerForMessage1";
+	private String RESTGetWorkingPointForCertainAddress = "http://dev.txtfeedback.net/Component/GetWorkingPointForCertainAddress";
 	private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
-	private String RESTParametersTest = "http://localhost:4631/Component/GetParametersTest";
+	//private String RESTSaveMessage = "http://dev.txtfeedback.net/Component/SaveMessage";
+	private String RESTParametersTest = "http://dev.txtfeedback.net/Component/GetParametersTest";
 	
-	public ArrayList<Agent> getHandlersForMessage(String iWP, String iConversationId) {
+	public ArrayList<Agent> getHandlersForMessage(String iWP, String iConversationId, boolean isSms) {
 		ArrayList<Agent> handlers = new ArrayList<Agent>();
-		JSONObject listOfAgentsJsonObject = getResourceAsJsonObject(RESTGetHandlersForMessageURL, RestClient.GET, null, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
+		Hashtable<String, String> params = new Hashtable<String, String>();
+		params.put("wp", iWP);
+		params.put("convId", iConversationId);
+		params.put("isSms", String.valueOf(isSms));
+		JSONObject listOfAgentsJsonObject = getResourceAsJsonObject(RESTGetHandlersForMessageURL, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
+		if (listOfAgentsJsonObject != null) {
+			try {
+				JSONArray listOfAgentsArray = listOfAgentsJsonObject.getJSONArray("agents");
+				for (int i=0; i<listOfAgentsArray.length(); ++i) {
+					handlers.add(new Agent(listOfAgentsArray.getJSONObject(i).getString("user"), listOfAgentsArray.getJSONObject(i).getInt("priority")));												
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return handlers;
+	}
+	
+	public ArrayList<Agent> getHandlersForMessage1(String iWP, String iConversationId, boolean isSms) {
+		ArrayList<Agent> handlers = new ArrayList<Agent>();
+		Hashtable<String, String> params = new Hashtable<String, String>();
+		params.put("wp", iWP);
+		params.put("convId", iConversationId);
+		params.put("isSms", String.valueOf(isSms));
+		JSONObject listOfAgentsJsonObject = getResourceAsJsonObject(RESTGetHandlersForMessageURL1, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
 		if (listOfAgentsJsonObject != null) {
 			try {
 				JSONArray listOfAgentsArray = listOfAgentsJsonObject.getJSONArray("agents");
@@ -74,7 +101,7 @@ public class RestControllerGateway {
 		params.put("convId", convId);
 		params.put("text", text);
 		params.put("xmppUser", xmppUser);
-		params.put("isSms", String.valueOf(isSms));
+		params.put("isSms", String.valueOf(isSms));		
 		String restCallResponse = getResourceAsString(RESTSaveMessage, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);		
 		if (restCallResponse.equals("{success}")) {
 			return true;
@@ -124,7 +151,7 @@ public class RestControllerGateway {
 		try {
 			ri.callWebService(iMethod);									
 			// INFO Log the event - a REST resource was accessed 
-			System.out.println(ri.getResponse());
+			//System.out.println(ri.getResponse());
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {

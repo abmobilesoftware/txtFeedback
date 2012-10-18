@@ -3,29 +3,32 @@ package org.imrouting;
 import java.util.logging.*;
 import org.jivesoftware.whack.*;
 import org.xmpp.component.*;
-
+import log.*;
+import log.Log;
 
 public class Main {
 	private final static String HOST = "176.34.122.48";
-	//private final static int PORT = 5275; -- Openfire component port
 	private final static int PORT = 5270;
+	
+	private final static String DOMAIN = "txtfeedback.net";
+	private final static String SUBDOMAIN = "compdev";
+	private final static String SECRET_KEY = "im1234!";
+	
 	public static void main(String[] args) {
-		
 	  ExternalComponentManager mgr = new ExternalComponentManager(HOST, PORT);
-	  mgr.setServerName("txtfeedback.net");
-	  mgr.setSecretKey("moderator", "im123!");
+	  mgr.setServerName(DOMAIN);
+	  mgr.setSecretKey(SUBDOMAIN, SECRET_KEY);
       
       try {
-           mgr.addComponent("moderator", new TxtFeedbackModerator());
+           mgr.addComponent(SUBDOMAIN, new TxtFeedbackModerator());
       } catch (ComponentException e) {
-         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "main", e);
-         System.exit(-1);
+    	  Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
       }
       while (true)
          try {
             Thread.sleep(10000);
          } catch (Exception e) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "main", e);
+        	 Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
          }
    }
 }

@@ -1,4 +1,4 @@
-package org.helpers;
+package org.helpers.json;
 
 public class Agent {
 	public String user;

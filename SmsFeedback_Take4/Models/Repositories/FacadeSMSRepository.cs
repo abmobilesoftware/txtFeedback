@@ -136,7 +136,7 @@ namespace SmsFeedback_Take4.Models
       {
          foreach (SmsMessage sms in twilioConversationsForNumbers)
          {
-            mEFInterface.UpdateAddConversation(sms.From, sms.To, sms.ConvID, sms.Text, sms.Read, sms.TimeReceived,dbContext);
+            mEFInterface.UpdateAddConversation(sms.From, sms.To, sms.ConvID, sms.Text, sms.Read, sms.TimeReceived, true, dbContext);
          }
       }
 

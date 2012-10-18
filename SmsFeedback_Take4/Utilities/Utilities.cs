@@ -31,7 +31,8 @@ namespace SmsFeedback_Take4.Utilities
       
       public enum Direction { 
          from = 0,
-         to = 1
+         to = 1,
+         no_direction = 2
       }
 
       public static Direction GetDirectionForMessage(string latestFrom, string convID)
@@ -39,12 +40,25 @@ namespace SmsFeedback_Take4.Utilities
          var cleanedUpFrom = CleanUpPhoneNumber(latestFrom);
          var fromTo = GetFromAndToFromConversationID(convID);
          var res = Direction.from;
-         if (fromTo[1] == cleanedUpFrom)
+         if (!latestFrom.Equals(Constants.NO_LAST_FROM))
          {
-            res = Direction.to;
+             if (fromTo[1] == cleanedUpFrom)
+             {
+                 res = Direction.to;
+             }
+         }
+         else
+         {
+             res = Direction.no_direction;
          }
          return res;
       }
+
+      public static string ExtractUserFromAddress(string address)
+      {
+          return address.Substring(0, address.IndexOf('@'));
+      }
+
    }
 
 

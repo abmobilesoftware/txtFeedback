@@ -124,6 +124,7 @@
     <Content Include="SmsFeedbackModels.edmx_old.sql" />
     <Content Include="SmsFeedbackModels13.edmx.sql" />
     <Content Include="SmsFeedbackModels7.edmx.sql" />
+    <Content Include="SmsFeedbackModels_new.edmx.sql" />
     <Content Include="SmsFeedbackModels_old.edmx.sql" />
   </ItemGroup>
   <ItemGroup>

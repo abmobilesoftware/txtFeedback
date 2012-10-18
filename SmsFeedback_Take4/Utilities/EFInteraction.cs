@@ -118,11 +118,16 @@ namespace SmsFeedback_Take4.Utilities
                             if (!(currentEvent.Equals(Constants.POS_REMOVE_EVENT) || currentEvent.Equals(Constants.NEG_REMOVE_EVENT)))
                             {
                                 var eventTransformed = Constants.POS_ADD_EVENT;
-                                if (currentEvent.Equals(Constants.POS_TO_NEG_EVENT)) {
+                                if (currentEvent.Equals(Constants.POS_TO_NEG_EVENT))
+                                {
                                     eventTransformed = Constants.NEG_ADD_EVENT;
-                                } else if (currentEvent.Equals(Constants.NEG_TO_POS_EVENT)) {
+                                }
+                                else if (currentEvent.Equals(Constants.NEG_TO_POS_EVENT))
+                                {
                                     eventTransformed = Constants.POS_ADD_EVENT;
-                                } else {
+                                }
+                                else
+                                {
                                     eventTransformed = currentEvent;
                                 }
                                 ConversationHistory convEvent = convEvents.First();
@@ -184,12 +189,13 @@ namespace SmsFeedback_Take4.Utilities
         }
 
         public string UpdateAddConversation(
-                                            String from,
-                                            String to,
+                                            String sender,
+                                            String addressee,
                                             String conversationId,
                                             String text,
                                             Boolean readStatus,
                                             DateTime? updateTime,
+                                            bool isSmsBased,
                                             smsfeedbackEntities dbContext,
                                             bool markConversationAsRead = false
                                             )
@@ -202,7 +208,7 @@ namespace SmsFeedback_Take4.Utilities
                 var updateDateToInsert = updateTime.HasValue ? updateTime.Value.ToString() : "null";
                 if (conversations.Count() > 0)
                 {
-                    logger.InfoFormat("Updating conversation: [{0}] with read: {1}, updateTime: {2},  text: {3}, from {4}", conversationId, readStatus.ToString(), updateDateToInsert, text, from);
+                    logger.InfoFormat("Updating conversation: [{0}] with read: {1}, updateTime: {2},  text: {3}, from {4}", conversationId, readStatus.ToString(), updateDateToInsert, text, sender);
                     var conv = conversations.First();
                     convId = conv.ConvId;
                     //since twilio returns (messages >= the latest message) it could be that the latest message is returned again - the only difference is that now "read" is false
@@ -213,36 +219,88 @@ namespace SmsFeedback_Take4.Utilities
                         if (updateTime.HasValue) conv.TimeUpdated = updateTime.Value;
                         if (!string.IsNullOrEmpty(text)) conv.Text = text;
                         //show the direction of the last message
-                        conv.From = from;
+                        conv.From = sender;
                         conv.Read = readStatus;
                         dbContext.SaveChanges();
                     }
                 }
                 else
                 {
-                    logger.InfoFormat("Adding conversation: [{0}] with read: {1}, updateTime: {2}, text: [{3}], from: [{4}]", conversationId, readStatus.ToString(), updateDateToInsert, text, from);
-                    //get the working point id
-                    string consistentWP = ConversationUtilities.CleanUpPhoneNumber(to);
-                    var workingPointIDs = from wp in dbContext.WorkingPoints where wp.TelNumber == consistentWP select wp;
-                    if (workingPointIDs != null && workingPointIDs.Count() > 0)
+                    if (isSmsBased)
                     {
-                        var wpId = workingPointIDs.First();
-                        //add the conversation and give back the id
-                        //if we add a new conversation then we the start time will be the update time of the first message
-                        dbContext.Conversations.AddObject(new Conversation
+                        logger.InfoFormat("Adding conversation: [{0}] with read: {1}, updateTime: {2}, text: [{3}], from: [{4}]", conversationId, readStatus.ToString(), updateDateToInsert, text, sender);
+                        //get the working point id
+                        string consistentWP = ConversationUtilities.CleanUpPhoneNumber(addressee);
+                        var workingPointIDs = from wp in dbContext.WorkingPoints where wp.TelNumber == consistentWP select wp;
+                        if (workingPointIDs != null && workingPointIDs.Count() > 0)
                         {
-                            ConvId = conversationId,
-                            Text = text,
-                            Read = readStatus,
-                            TimeUpdated = updateTime.Value,
-                            From = from,
-                            WorkingPoint = wpId,
-                            StartTime = updateTime.Value
-                        });
-                        dbContext.SaveChanges();
-                        //now get the id of the added conversation
-                        conversations = from c in dbContext.Conversations where c.ConvId == conversationId select c;
-                        convId = conversations.First().ConvId;
+                            var wpId = workingPointIDs.First();
+                            //add the conversation and give back the id
+                            //if we add a new conversation then we the start time will be the update time of the first message
+                            dbContext.Conversations.AddObject(new Conversation
+                            {
+                                ConvId = conversationId,
+                                Text = text,
+                                Read = readStatus,
+                                TimeUpdated = updateTime.Value,
+                                From = sender,
+                                WorkingPoint = wpId,
+                                StartTime = updateTime.Value,
+                                IsSmsBased = isSmsBased
+                            });
+                            dbContext.SaveChanges();
+                            //now get the id of the added conversation
+                            conversations = from c in dbContext.Conversations where c.ConvId == conversationId select c;
+                            convId = conversations.First().ConvId;
+                        }
+                    }
+                    else
+                    {
+                        logger.InfoFormat("Adding conversation: [{0}] with read: {1}, updateTime: {2}, text: [{3}], from: [{4}]", conversationId, readStatus.ToString(), updateDateToInsert, text, sender);
+                        IEnumerable<Client> clients = from cl in dbContext.Clients where cl.TelNumber == sender select cl;
+                        Client clientForThisConversation;
+                        if (clients.Count() <= 0)
+                        {
+                            var newClient = new Client()
+                            {
+                                TelNumber = sender,
+                                Description = "im client",
+                                DisplayName = sender,
+                                isSupportClient = false
+                            };
+                            dbContext.Clients.AddObject(newClient);
+                            dbContext.SaveChanges();
+                            clientForThisConversation = newClient;
+                        }
+                        else
+                        {
+                            clientForThisConversation = clients.First();
+                        }
+
+                        String workingPointShortId = ConversationUtilities.GetFromAndToFromConversationID(conversationId)[1];
+                        var workingPointIDs = from wp in dbContext.WorkingPoints where wp.ShortID == workingPointShortId select wp;
+                        if (workingPointIDs != null && workingPointIDs.Count() > 0)
+                        {
+                            var wpId = workingPointIDs.First();
+                            //add the conversation and give back the id
+                            //if we add a new conversation then we the start time will be the update time of the first message
+                            dbContext.Conversations.AddObject(new Conversation
+                            {
+                                ConvId = conversationId,
+                                Text = text,
+                                Read = readStatus,
+                                TimeUpdated = updateTime.Value,
+                                From = sender,
+                                WorkingPoint = wpId,
+                                StartTime = updateTime.Value,
+                                IsSmsBased = isSmsBased,
+                                Client = clientForThisConversation
+                            });
+                            dbContext.SaveChanges();
+                            //now get the id of the added conversation
+                            conversations = from c in dbContext.Conversations where c.ConvId == conversationId select c;
+                            convId = conversations.First().ConvId;
+                        }                        
                     }
                 }
                 return convId;
@@ -285,36 +343,50 @@ namespace SmsFeedback_Take4.Utilities
         }
 
         public Message AddMessage(String from, String to, String conversationId, String text,
-           Boolean readStatus, DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, String XmppUser, smsfeedbackEntities dbContext)
+           Boolean readStatus, DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime,
+           bool isSmsBased, String XmppUser, smsfeedbackEntities dbContext)
         {
             //assume userID and convID are valid
             logger.Info("Call made");
-            /* Data about the user who sends the message 
-            var userGuids = from usr in dbContext.Users where usr.UserName == userID select usr.UserId;
-            var userGuid = userGuids.First();
-            */
-            
-            //for the responce time -> the lastest details are always in the conversation
+            //for the response time -> the lastest details are always in the conversation
+            if (!XmppUser.Equals(Constants.DONT_ADD_XMPP_USER))
+            {
+                /* 
+                 * It's very unlikely that the xmpp user which sends the message is not in db.
+                 * However if this happens, the xmpp user is added in db.
+                 */ 
+                var xmppUsers = from xu in dbContext.XmppConnections where xu.XmppUser == XmppUser select xu;
+                if (xmppUsers.Count() == 0)
+                {
+                    var newXmppUser = new XmppConnection()
+                    {
+                        XmppUser = XmppUser,
+                        XmppPassword = "123456"
+                    };
+                    dbContext.XmppConnections.AddObject(newXmppUser);
+                    dbContext.SaveChanges();
+                }
+            }                        
 
-            long? responceTime = null;
+            long? responseTime = null;
             if (ConversationUtilities.GetDirectionForMessage(prevConvFrom, conversationId) == ConversationUtilities.Direction.from)
             {
-                responceTime = updateTime.Subtract(prevConvUpdateTime).Ticks;
+                responseTime = updateTime.Subtract(prevConvUpdateTime).Ticks;
             }
             try
             {
                 var msg = new Message()
                 {
-                    ResponseTime = responceTime,
+                    ResponseTime = responseTime,
                     From = from,
                     To = to,
                     Text = text,
                     TimeReceived = updateTime,
                     ConversationId = conversationId,
                     Read = readStatus,
-                    IsSmsBased = isSmsBased,
-                    XmppConnectionXmppUser = XmppUser
+                    IsSmsBased = isSmsBased                    
                 };
+                if (!XmppUser.Equals(Constants.DONT_ADD_XMPP_USER)) msg.XmppConnectionXmppUser = XmppUser;
                 dbContext.Messages.AddObject(msg);
                 dbContext.SaveChanges();
                 return msg;
@@ -455,9 +527,9 @@ namespace SmsFeedback_Take4.Utilities
             //if the conversation is marked as "favourite" then all the messages will be "favorite"
             var isConvFavourite = IsConversationFavourite(convID, dbContext);
             var msgs = from conv in dbContext.Conversations
-                       where conv.ConvId == convID 
+                       where conv.ConvId == convID
                        select
-                          (from msg in conv.Messages 
+                          (from msg in conv.Messages
                            select new SmsMessage()
                            {
                                From = msg.From,
@@ -478,7 +550,7 @@ namespace SmsFeedback_Take4.Utilities
                            });
             if (msgs.Count() > 0)
             {
-                return msgs.First().OrderBy(x=>x.TimeReceived);
+                return msgs.First().OrderBy(x => x.TimeReceived);
             }
             else
             {
@@ -502,7 +574,7 @@ namespace SmsFeedback_Take4.Utilities
         {
             var conv = (from c in dbContext.Conversations where c.ConvId == convId select c);
             if (conv.Count() > 0) return conv.First();
-            else return null;            
+            else return null;
         }
 
         public IEnumerable<SmsFeedback_EFModels.WorkingPoint> GetWorkingPointsForAUser(String scope, String userName, smsfeedbackEntities dbContext)

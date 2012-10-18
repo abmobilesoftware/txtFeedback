@@ -188,7 +188,7 @@
           <Property Name="Text" Type="nvarchar" Nullable="false" MaxLength="160" />
           <Property Name="Read" Type="bit" Nullable="false" />
           <Property Name="TimeUpdated" Type="datetime" Nullable="false" />
-          <Property Name="From" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="From" Type="nvarchar" MaxLength="100" />
           <Property Name="Starred" Type="bit" Nullable="false" />
           <Property Name="StartTime" Type="datetime" Nullable="false" />
           <Property Name="WorkingPoint_TelNumber" Type="nvarchar" Nullable="false" MaxLength="50" />
@@ -244,8 +244,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="From" Type="nvarchar" Nullable="false" MaxLength="30" />
-          <Property Name="To" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="From" Type="nvarchar" MaxLength="100" />
+          <Property Name="To" Type="nvarchar" MaxLength="100" />
           <Property Name="Text" Type="nvarchar" Nullable="false" MaxLength="160" />
           <Property Name="TimeReceived" Type="datetime" Nullable="false" />
           <Property Name="Read" Type="bit" Nullable="false" />
@@ -1359,16 +1359,16 @@
     <EntitySetMapping Name="WorkingPoints">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.WorkingPoint)">
         <MappingFragment StoreEntitySet="WorkingPoints">
-          <ScalarProperty Name="XMPPsuffix" ColumnName="XMPPsuffix" />
-                <ScalarProperty Name="WelcomeMessage" ColumnName="WelcomeMessage" />
-                <ScalarProperty Name="ShortID" ColumnName="ShortID" />
-                <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
+          <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Provider" ColumnName="Provider" />
           <ScalarProperty Name="SentSms" ColumnName="SentSms" />
           <ScalarProperty Name="MaxNrOfSmsToSend" ColumnName="MaxNrOfSmsToSend" />
           <ScalarProperty Name="SupportConversation" ColumnName="SupportConversation" />
+          <ScalarProperty Name="ShortID" ColumnName="ShortID" />
+          <ScalarProperty Name="WelcomeMessage" ColumnName="WelcomeMessage" />
+          <ScalarProperty Name="XMPPsuffix" ColumnName="XMPPsuffix" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
