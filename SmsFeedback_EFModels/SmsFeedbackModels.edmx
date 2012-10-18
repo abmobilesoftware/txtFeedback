@@ -1359,10 +1359,7 @@
     <EntitySetMapping Name="WorkingPoints">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.WorkingPoint)">
         <MappingFragment StoreEntitySet="WorkingPoints">
-          <ScalarProperty Name="XMPPsuffix" ColumnName="XMPPsuffix" />
-                <ScalarProperty Name="WelcomeMessage" ColumnName="WelcomeMessage" />
-                <ScalarProperty Name="ShortID" ColumnName="ShortID" />
-                <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
+          <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Provider" ColumnName="Provider" />

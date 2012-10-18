@@ -230,7 +230,7 @@ namespace SmsFeedback_Take4.Utilities
                     {
                         logger.InfoFormat("Adding conversation: [{0}] with read: {1}, updateTime: {2}, text: [{3}], from: [{4}]", conversationId, readStatus.ToString(), updateDateToInsert, text, sender);
                         //get the working point id
-                        string consistentWP = ConversationUtilities.RemovePrefixFromNumber(addressee);
+                        string consistentWP = ConversationUtilities.CleanUpPhoneNumber(addressee);
                         var workingPointIDs = from wp in dbContext.WorkingPoints where wp.TelNumber == consistentWP select wp;
                         if (workingPointIDs != null && workingPointIDs.Count() > 0)
                         {
