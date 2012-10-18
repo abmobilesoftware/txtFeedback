@@ -229,6 +229,23 @@ namespace SmsFeedback_Take4.Utilities
                     if (isSmsBased)
                     {
                         logger.InfoFormat("Adding conversation: [{0}] with read: {1}, updateTime: {2}, text: [{3}], from: [{4}]", conversationId, readStatus.ToString(), updateDateToInsert, text, sender);
+                        var clients = from cl in dbContext.Clients where cl.TelNumber == sender select cl;
+                        Client clientToBeAddedInDb;
+                        if (clients.Count() == 0)
+                        {
+                            var newClient = new Client()
+                            {
+                                TelNumber = ConversationUtilities.CleanUpPhoneNumber(sender),
+                                DisplayName = sender,
+                                Description = "new client",
+                                isSupportClient = false
+                            };
+                            dbContext.Clients.AddObject(newClient);
+                            dbContext.SaveChanges();
+                            clientToBeAddedInDb = newClient;
+                        }
+                        else clientToBeAddedInDb = clients.First();                       
+
                         //get the working point id
                         string consistentWP = ConversationUtilities.CleanUpPhoneNumber(addressee);
                         var workingPointIDs = from wp in dbContext.WorkingPoints where wp.TelNumber == consistentWP select wp;
@@ -246,7 +263,8 @@ namespace SmsFeedback_Take4.Utilities
                                 From = sender,
                                 WorkingPoint = wpId,
                                 StartTime = updateTime.Value,
-                                IsSmsBased = isSmsBased
+                                IsSmsBased = isSmsBased,
+                                Client = clientToBeAddedInDb
                             });
                             dbContext.SaveChanges();
                             //now get the id of the added conversation

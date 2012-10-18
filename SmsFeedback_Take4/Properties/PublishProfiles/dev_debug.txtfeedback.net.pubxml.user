@@ -18,13 +18,13 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>07/30/2012 09:36:16</publishTime>
     </File>
     <File Include="bin/de/SmsFeedback_Take4.resources.dll">
-      <publishTime>10/17/2012 19:08:49</publishTime>
+      <publishTime>10/18/2012 13:53:20</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
     <File Include="bin/es/SmsFeedback_Take4.resources.dll">
-      <publishTime>10/17/2012 19:08:49</publishTime>
+      <publishTime>10/18/2012 13:53:20</publishTime>
     </File>
     <File Include="bin/ICSharpCode.SharpZipLib.dll">
       <publishTime>07/30/2012 09:36:16</publishTime>
@@ -54,19 +54,19 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>07/17/2012 09:44:05</publishTime>
     </File>
     <File Include="bin/ro/SmsFeedback_Take4.resources.dll">
-      <publishTime>10/17/2012 19:08:49</publishTime>
+      <publishTime>10/18/2012 13:53:21</publishTime>
     </File>
     <File Include="bin/SmsFeedback_EFModels.dll">
-      <publishTime>10/17/2012 15:00:43</publishTime>
+      <publishTime>10/18/2012 13:23:36</publishTime>
     </File>
     <File Include="bin/SmsFeedback_EFModels.pdb">
-      <publishTime>10/17/2012 15:00:43</publishTime>
+      <publishTime>10/18/2012 13:23:35</publishTime>
     </File>
     <File Include="bin/SmsFeedback_Take4.dll">
-      <publishTime>10/17/2012 19:08:48</publishTime>
+      <publishTime>10/18/2012 13:53:19</publishTime>
     </File>
     <File Include="bin/SmsFeedback_Take4.pdb">
-      <publishTime>10/17/2012 19:08:48</publishTime>
+      <publishTime>10/18/2012 13:53:19</publishTime>
     </File>
     <File Include="bin/System.Net.Http.dll">
       <publishTime>07/10/2012 21:52:12</publishTime>
@@ -573,7 +573,7 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>10/04/2012 13:54:49</publishTime>
     </File>
     <File Include="MyScripts/Conversations.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>10/18/2012 13:09:56</publishTime>
     </File>
     <File Include="MyScripts/ConversationTags.js">
       <publishTime>10/04/2012 13:54:49</publishTime>
@@ -588,7 +588,7 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>10/04/2012 13:54:49</publishTime>
     </File>
     <File Include="MyScripts/Messages.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>10/18/2012 13:09:56</publishTime>
     </File>
     <File Include="MyScripts/Minified/contact.js">
       <publishTime>10/04/2012 12:46:17</publishTime>
@@ -675,13 +675,13 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>10/04/2012 13:54:49</publishTime>
     </File>
     <File Include="MyScripts/Utilities.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>10/18/2012 13:09:56</publishTime>
     </File>
     <File Include="MyScripts/WorkingPoints.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>10/18/2012 13:09:56</publishTime>
     </File>
     <File Include="MyScripts/XMPP.js">
-      <publishTime>10/08/2012 12:34:30</publishTime>
+      <publishTime>10/18/2012 13:09:56</publishTime>
     </File>
     <File Include="Nexmo/nexmoTest.js">
       <publishTime>08/18/2012 12:22:50</publishTime>
@@ -690,16 +690,16 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
     <File Include="QUnit/ControllerTest.js">
-      <publishTime>09/04/2012 10:07:57</publishTime>
+      <publishTime>10/18/2012 13:09:56</publishTime>
     </File>
     <File Include="QUnit/ConversationsTest.js">
-      <publishTime>07/17/2012 09:44:04</publishTime>
+      <publishTime>10/18/2012 13:09:56</publishTime>
     </File>
     <File Include="QUnit/FilteringTest.js">
       <publishTime>07/26/2012 14:16:07</publishTime>
     </File>
     <File Include="QUnit/MessagesTests.js">
-      <publishTime>07/26/2012 14:16:07</publishTime>
+      <publishTime>10/18/2012 13:09:56</publishTime>
     </File>
     <File Include="QUnit/QUnitTests.html">
       <publishTime>09/05/2012 14:28:00</publishTime>
@@ -711,7 +711,7 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
     <File Include="QUnit/WorkingPointsTests.js">
-      <publishTime>07/17/2012 09:44:04</publishTime>
+      <publishTime>10/18/2012 13:09:56</publishTime>
     </File>
     <File Include="Scripts/backbone.js">
       <publishTime>08/06/2012 14:39:01</publishTime>
@@ -924,7 +924,7 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
     <File Include="Views/Messages/Index.aspx">
-      <publishTime>09/25/2012 14:40:49</publishTime>
+      <publishTime>10/18/2012 13:09:56</publishTime>
     </File>
     <File Include="Views/Messages/MyMessages.ascx">
       <publishTime>07/17/2012 09:44:04</publishTime>
@@ -972,7 +972,7 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>07/17/2012 09:44:04</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/17/2012 19:09:19</publishTime>
+      <publishTime>10/18/2012 14:07:56</publishTime>
     </File>
   </ItemGroup>
 </Project>
