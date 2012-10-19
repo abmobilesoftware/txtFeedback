@@ -112,8 +112,6 @@ window.app.MessagesList = Backbone.Collection.extend({
 });
 //#endregion
 
-
-
 //#region Receive message
 //TODO DA move this somewhere else :)
 window.app.handleIncommingMessage = function (msgContent, isIncomming) {
@@ -321,12 +319,11 @@ function MessagesArea(convView, tagsArea, wpsArea) {
           event.preventDefault();
         }
     });   
-
     _.templateSettings = {
         interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
         evaluate: /\{%([\s\S]+?)%\}/g,   // execute code: {% code_to_execute %}
         escape: /\{%-([\s\S]+?)%\}/g
-    }; // excape HTML: {%- <script> %} prints &lt
+    }; // escape HTML: {%- <script> %} prints &lt
 
     var MessageView = Backbone.View.extend({
         model: window.app.Message,
@@ -379,7 +376,6 @@ function MessagesArea(convView, tagsArea, wpsArea) {
         left: 'auto' // Left position relative to parent in px
     };
     var spinner = new Spinner(opts);
-
     //we fade in when we first load a conversation, afterwards we just render - no fade in
     var performFadeIn = false;
     var MessagesView = Backbone.View.extend({
@@ -409,7 +405,8 @@ function MessagesArea(convView, tagsArea, wpsArea) {
 
             self.currentConversationId = conversationId;
             if (self.currentConversationId in window.app.globalMessagesRep) {
-                //we have already loaded this conversation
+               //we have already loaded this conversation so display the cached messages 
+               //this should be a realistic view due to the fact that we are listening to new messages
                 performFadeIn = false;
                 spinner.stop();
                 startTimer(3000);
@@ -417,11 +414,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                 $("#textareaContainer").removeClass("invisible");
                 $("textareaContainer").fadeIn("slow");
                 $("#tagsContainer").removeClass("invisible");
-                $("#tagsContainer").fadeIn("slow");
-                //if (window.app.globalMsgHistoryNotLoaded[convID] === true) {
-                   //the conversation has no history - load also the history
-
-                //}
+                $("#tagsContainer").fadeIn("slow");                
             }
             else {
                 var messages1 = new window.app.MessagesList();
@@ -446,7 +439,6 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                     value.set("Starred", window.app.selectedConversation.get("Starred"));
                 });
             }
-
         },
         render: function () {
             $("#messagesbox").html('');
@@ -459,7 +451,6 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             //scroll to bottom
             //var messagesEl = $("#scrollablemessagebox");
             //messagesEl.animate({ scrollTop: messagesEl.prop("scrollHeight") }, 3000);
-
             return this;
         },
         appendMessage: function (msg) {
@@ -467,11 +458,9 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             if (msg.get('ConvID') === self.currentConversationId) {
                 //when appending a new message always scroll to bottom
                 this.appendMessageToDiv(msg, true, true);
-
             }
         },
         newMessageReceived: function (fromID, convID, msgID, dateReceived, text, isSmsBased) {
-           //var innerSelf = this;
            var newMsg = new window.app.Message({
               Id: msgID,              
               From: fromID,
@@ -495,16 +484,6 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             if (window.app.globalMessagesRep[convID] !== undefined) {
                window.app.globalMessagesRep[convID].add(newMsg);
             }
-            else {
-               //this conversation has not been opened so for, so no history is available
-               //window.app.globalMsgHistoryNotLoaded[convID] = true;
-               //var msgs = new window.app.MessagesList();
-               //msgs.identifier = convID;
-               //msgs.bind("reset", innerSelf.render);
-               //msgs.bind('add', innerSelf.appendMessage);
-               //msgs.add(newMsg);
-               //window.app.globalMessagesRep[convID] = msgs;
-            }
         },
         appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
             var msgView = new MessageView({ model: msg });
@@ -523,7 +502,6 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                 //$(helperDiv).fadeOut("fast");
                 $(helperDiv).hide();
             });
-
             if (performFadeIn) {
                 $(item).hide().fadeIn("2000");
             }
@@ -535,8 +513,6 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             }
         }
     });
-       
-          
     this.messagesView = new MessagesView();
 }
 

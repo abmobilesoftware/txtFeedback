@@ -116,12 +116,12 @@ namespace SmsFeedback_Take4.Controllers
                     {
                         if (iGranularity.Equals(Constants.DAY_GRANULARITY))
                         {
-                            var msgsTo = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.To == wp.TelNumber) group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
+                            var msgsTo = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.To == wp.TelNumber || msg.To.StartsWith(wp.ShortID))) group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
                             foreach (var entry in msgsTo)
                             {
                                 resultIncomingInterval[entry.date].value += entry.count;
                             }
-                            var msgsFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.From == wp.TelNumber) group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
+                            var msgsFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.From == wp.TelNumber || msg.From.StartsWith(wp.ShortID))) group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
                             foreach (var entry in msgsFrom)
                             {
                                 resultOutgoingInterval[entry.date].value += entry.count;
@@ -129,8 +129,8 @@ namespace SmsFeedback_Take4.Controllers
                         }
                         else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
                         {
-                            var msgsTo = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.To == wp.TelNumber) group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g select new { date = g.Key, count = g.Count() };
-                            var msgsFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.From == wp.TelNumber) group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g select new { date = g.Key, count = g.Count() };
+                            var msgsTo = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.To == wp.TelNumber || msg.To.StartsWith(wp.ShortID))) group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g select new { date = g.Key, count = g.Count() };
+                            var msgsFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.From == wp.TelNumber ||msg.From.StartsWith(wp.ShortID))) group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g select new { date = g.Key, count = g.Count() };
                             foreach (var entry in msgsTo)
                             {
                                 var monthDateTime = new DateTime(entry.date.Year, entry.date.Month, 1);
@@ -151,8 +151,8 @@ namespace SmsFeedback_Take4.Controllers
                         }
                         else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
                         {
-                            var msgsTo = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.To == wp.TelNumber) group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g select new { date = g.Key, count = g.Count() };
-                            var msgsFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & msg.From == wp.TelNumber) group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g select new { date = g.Key, count = g.Count() };
+                           var msgsTo = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.To == wp.TelNumber || msg.To.StartsWith(wp.ShortID))) group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g select new { date = g.Key, count = g.Count() };
+                           var msgsFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.From == wp.TelNumber || msg.From.StartsWith(wp.ShortID))) group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g select new { date = g.Key, count = g.Count() };
                             foreach (var entry in msgsTo)
                             {
                                 var weekDateTime = entry.date.firstDayOfTheWeek;
@@ -1605,7 +1605,7 @@ namespace SmsFeedback_Take4.Controllers
             {
                 foreach (var conv in wp.Conversations)
                 {
-                    var msgsTo = (from msg in conv.Messages where (msg.TimeReceived >= iIntervalStart & msg.TimeReceived <= iIntervalEnd & msg.To == wp.TelNumber) select msg).Count();
+                    var msgsTo = (from msg in conv.Messages where (msg.TimeReceived >= iIntervalStart & msg.TimeReceived <= iIntervalEnd & (msg.To == wp.TelNumber || msg.To.StartsWith(wp.ShortID))) select msg).Count();
                     incomingNoOfSms += msgsTo;
                 }
             }
@@ -1620,7 +1620,7 @@ namespace SmsFeedback_Take4.Controllers
                 var conversations = from conv in wp.Conversations select conv;
                 foreach (var conv in conversations)
                 {
-                    var msgsFrom = (from msg in conv.Messages where (msg.TimeReceived >= iIntervalStart & msg.TimeReceived <= iIntervalEnd & msg.From == wp.TelNumber) select msg).Count();
+                    var msgsFrom = (from msg in conv.Messages where (msg.TimeReceived >= iIntervalStart & msg.TimeReceived <= iIntervalEnd & (msg.From == wp.TelNumber || msg.From.StartsWith(wp.ShortID))) select msg).Count();
                     outgoingNoOfSms += msgsFrom;
                 }
             }
