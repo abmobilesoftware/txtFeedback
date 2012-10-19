@@ -112,12 +112,7 @@ window.app.MessagesList = Backbone.Collection.extend({
 });
 //#endregion
 
-//#region MessagesArea default properties
-window.app.defaultMessagesOptions = {
-   messagesRep: {},
-   currentConversationId: ""
-};
-//#endregion
+
 
 //#region Receive message
 //TODO DA move this somewhere else :)
@@ -180,6 +175,85 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
 };
 //#endregion
 
+//#region Send message
+window.app.sendMessageToClient = function (text, conversationID, selectedConv, msgID, wpPool) {
+   /*
+   inside a conversationID
+   SMS messages
+     from - tel number
+     to - self tel number
+   XMPP messages
+     from - clientXMPP id without @
+     to - selfXMPP id without @
+   */
+   var fromTo = getFromToFromConversation(conversationID);
+   var from = fromTo[0];
+   var to = fromTo[1];
+   //decide if this should be handled via SMS or not
+   var isSmsBased = selectedConv.get("IsSmsBased");
+   //the component will send/save the message on the server so we don't have to trigger this ourselves        
+   //TODO should be RFC822 format
+   var timeSent = new Date();
+   $(document).trigger('msgReceived', {
+      fromID: to,
+      toID: from,
+      convID: conversationID,
+      msgID: msgID,
+      dateReceived: timeSent,
+      text: text,
+      readStatus: false,
+      messageIsSent: true,
+      isSmsBased: isSmsBased
+   });
+   //sendToSupport you send to support or to another Staff web client
+   var sendToSupport = selectedConv.get("ClientIsSupportBot");
+   var storeStaffAddress = to; // defaults to the conversation's to
+
+   var clientToRespondToAddress = from; //defaults to the conversation's from
+   if (!isSmsBased) {
+      if (sendToSupport) {
+         //we assume that the TxtFeedback support runs on the same component
+         clientToRespondToAddress = from + window.app.workingPointsSuffixDictionary[to];
+      } else {
+         //TODO @txtfeedback.net is now hardcoded             
+         clientToRespondToAddress = from + "@txtfeedback.net";
+      }
+      //build the store@moderator.txtfeedback.net
+      storeStaffAddress = to + window.app.workingPointsSuffixDictionary[to];
+   }
+   var storeXMPPcomponentAddress = "";
+   if (sendToSupport) {
+      /*          
+      We need to send a message to TxtFeedback support - which has its own Staff website, so 
+      staff has to be true, sms false
+      to = should normally be storeID, BUT because we are sending not to our own component (supportID@moderator.txtfeedback.net) but to the one of the store (store@moderator.txtfeedback.net)
+      we make some "adjustments" (NOTE: support conversations are treated differently that other conversations)
+      convID remains the same: storeID-supportID
+      from: support (staff in this case) ID
+      to: 
+      XMPPto = storeID
+      */
+      storeXMPPcomponentAddress = clientToRespondToAddress;
+   } else {
+      /*
+      we are dealing with a non-support conversation 
+      For SMS
+      We send a message to trigger carbons
+      For XMPP
+      We send a message and then the component redirects that message to the client
+      */
+      storeXMPPcomponentAddress = wpPool.getWorkingPointXmppAddress(cleanupPhoneNumber(to)) || wpPool.getWorkingPointXmppAddress(cleanupPhoneNumber(from));
+   }
+   window.app.xmppHandlerInstance.send_reply(storeStaffAddress, clientToRespondToAddress, timeSent, conversationID, text, storeXMPPcomponentAddress, isSmsBased, sendToSupport);
+};
+//#endregion
+
+//#region MessagesArea default properties
+window.app.defaultMessagesOptions = {
+   messagesRep: {},
+   currentConversationId: ""
+};
+//#endregion
 function MessagesArea(convView, tagsArea, wpsArea) {
    "use strict";
     var self = this;
@@ -228,103 +302,30 @@ function MessagesArea(convView, tagsArea, wpsArea) {
        cancel: ".conversationStarIconImg"
     });
 
-    //var id = 412536; //this should be unique
-    var sendMessageToClient = function () {
-       var inputBox = $("#limitedtextarea");
-       window.app.receivedMsgID++;
-       //add it to the visual list
-       //I should set values to all the properties
-       var msgContent = inputBox.val();
-
-       /*
-       inside a conversationID
-       for SMS messages
-       from - tel number
-       to - self tel number
-       for XMPP messages
-       from - clientXMPP id without @
-       to - selfXMPP id without @
-       */
-       var fromTo = getFromToFromConversation(self.currentConversationId);
-       var from = fromTo[0];
-       var to = fromTo[1];
-       //decide if this should be handled via SMS or not
-       var isSmsBased = window.app.selectedConversation.get("IsSmsBased");
-       //the component will send/save the message on the server so we don't have to trigger this ourselves        
-       //TODO should be RFC822 format
-       var timeSent = new Date();
-       $(document).trigger('msgReceived', {
-          fromID: to,
-          toID: from,
-          convID: self.currentConversationId,
-          msgID: window.app.receivedMsgID,
-          dateReceived: timeSent,
-          text: msgContent,
-          readStatus: false,
-          messageIsSent: true,
-          isSmsBased: isSmsBased
-       });
-       //reset the input form
-       $("#replyToMessageForm")[0].reset();
-
-       //sendToSupport you send to support or to another Staff web client
-       var sendToSupport = window.app.selectedConversation.get("ClientIsSupportBot");
-       var storeStaffAddress = to; // defaults to the conversation's to
-     
-       var clientToRespondToAddress = from; //defaults to the conversation's from
-       if (!isSmsBased) {
-          if (sendToSupport) {
-             //we assume that the TxtFeedback support runs on the same component
-             clientToRespondToAddress = from + window.app.workingPointsSuffixDictionary[to];
-          } else {
-             //TODO @txtfeedback.net is now hardcoded             
-             clientToRespondToAddress = from + "@txtfeedback.net";
-          }
-          //build the store@moderator.txtfeedback.net
-          storeStaffAddress = to + window.app.workingPointsSuffixDictionary[to];
-       }
-
-       //signal all the other "listeners/agents"       
-       var storeXMPPcomponentAddress = "";
-       if (sendToSupport) {
-          /*          
-          We need to send a message to TxtFeedback support - which has its own Staff website, so 
-          staff has to be true, sms false
-          to = should normally be storeID, BUT because we are sending not to our own component (supportID@moderator.txtfeedback.net) but to the one of the store (store@moderator.txtfeedback.net)
-          we make some "adjustments" (NOTE: support conversations are treated differently that other conversations)
-          convID remains the same: storeID-supportID
-          from: support (staff in this case) ID
-          to: 
-          XMPPto = storeID
-          */
-          storeXMPPcomponentAddress = clientToRespondToAddress;          
-       } else {
-          /*
-          we are dealing with a non-support conversation 
-          For SMS
-          We send a message to trigger carbons
-          For XMPP
-          We send a message and then the component redirects that message to the client
-          */          
-          storeXMPPcomponentAddress = self.wpsArea.wpPoolView.phoneNumbersPool.getWorkingPointXmppAddress(cleanupPhoneNumber(to)) || self.wpsArea.wpPoolView.phoneNumbersPool.getWorkingPointXmppAddress(cleanupPhoneNumber(from));                    
-       }
-       window.app.xmppHandlerInstance.send_reply(storeStaffAddress, clientToRespondToAddress, timeSent, self.currentConversationId, msgContent, storeXMPPcomponentAddress, isSmsBased, sendToSupport);
-    };
-
-    $("#replyBtn").click(function () {
-        sendMessageToClient();
+   $("#replyBtn").click(function () {
+      var inputBox = $("#limitedtextarea");
+      window.app.receivedMsgID++;      
+      var msgContent = inputBox.val();
+      //reset the input form
+      $("#replyToMessageForm")[0].reset();
+      window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, window.app.receivedMsgID, self.wpsArea.wpPoolView.phoneNumbersPool);
     });
 
     $("#limitedtextarea").keydown(function (event) {
-        if (event.which === 13 && event.shiftKey) {
-            sendMessageToClient();
-            event.preventDefault();
+       if (event.which === 13 && event.shiftKey) {
+          var inputBox = $("#limitedtextarea");
+          window.app.receivedMsgID++;
+          var msgContent = inputBox.val();
+          //reset the input form
+          $("#replyToMessageForm")[0].reset();
+          window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, window.app.receivedMsgID, self.wpsArea.wpPoolView.phoneNumbersPool);
+          event.preventDefault();
         }
     });   
 
     _.templateSettings = {
         interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
-        evaluate: /\{%([\s\S]+?)%\}/g,   // excute code: {% code_to_execute %}
+        evaluate: /\{%([\s\S]+?)%\}/g,   // execute code: {% code_to_execute %}
         escape: /\{%-([\s\S]+?)%\}/g
     }; // excape HTML: {%- <script> %} prints &lt
 

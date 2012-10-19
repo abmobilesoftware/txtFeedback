@@ -135,7 +135,7 @@ window.app.workingPointsSuffixDictionary = {};
    });
 //#endregion
 
-   function WorkingPointsArea() {
+function WorkingPointsArea() {
       "use strict";
     var self = this;   
     self.checkedPhoneNumbersArray = [];
@@ -210,8 +210,11 @@ window.app.workingPointsSuffixDictionary = {};
            self.checkedPhoneNumbersArray = [];
            _.each(this.phoneNumbersPool.models, function (wp) {
               if (wp.get('CheckedStatus') === true) {
+                 /*
+                 We don't need to send the short ID as the WP - conversation relationship is based on the TelNumber key
+                 */
                  self.checkedPhoneNumbersArray.push(wp.get('TelNumber'));
-                 //self.checkedPhoneNumbersArray.push(wp.get('ShortID'));
+                 
               }
            });
            $(document).trigger('refreshConversationList');
