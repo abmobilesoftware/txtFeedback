@@ -6,6 +6,7 @@ import log.Log;
 import log.LogEntryType;
 
 import org.helpers.TxtPacket;
+import org.helpers.Utilities;
 import org.helpers.json.Agent;
 import org.xmpp.packet.Message;
 
@@ -45,18 +46,39 @@ public class MessageProcessor {
 
 	private void SendImMessageToStaff(Message iPacket, TxtPacket internalPacket) {
 		try {
-			restGtw.saveMessage(
+			String[] fromTo = internalPacket.getConversationId().split("-");
+			if (!Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()).equals(fromTo[1])) {
+				StringBuilder reversedConvIdSb = new StringBuilder();
+				reversedConvIdSb.append(fromTo[1]);
+				reversedConvIdSb.append("-");
+				reversedConvIdSb.append(fromTo[0]);
+				restGtw.saveMessage(
 					internalPacket.getFromAddress(), 
 					internalPacket.getToAddress(), 
 					internalPacket.getConversationId(),
 					internalPacket.getBody(), 
 					iPacket.getFrom().toBareJID(),
 					false);
+				restGtw.saveMessage(
+					internalPacket.getFromAddress(),
+					internalPacket.getToAddress(),
+					reversedConvIdSb.toString(),
+					internalPacket.getBody(), 
+					iPacket.getFrom().toBareJID(),
+					false);
+			} else {
+				restGtw.saveMessage(
+						internalPacket.getFromAddress(), 
+						internalPacket.getToAddress(), 
+						internalPacket.getConversationId(),
+						internalPacket.getBody(), 
+						iPacket.getFrom().toBareJID(),
+						false);				
+			}
 			ArrayList<Agent> handlers = restGtw.getHandlersForMessage1(iPacket.getTo().toBareJID(), internalPacket.getConversationId(), false);
 			for (int i=0; i<handlers.size(); ++i) {
 				moderator.sendInternalMessage(iPacket.getBody(), 
-						handlers.get(i).getUser(),
-						internalPacket.getFromAddress());			
+						handlers.get(i).getUser());			
 			}						
 		} catch (Exception e) {
 			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
@@ -66,14 +88,13 @@ public class MessageProcessor {
 	private void SendImMessageToClient(Message iPacket, TxtPacket internalPacket) {
 		try {
 			restGtw.saveMessage(
-					internalPacket.getToAddress(),
 					internalPacket.getFromAddress(),
+					internalPacket.getToAddress(),
 					internalPacket.getConversationId(), 
 					internalPacket.getBody(),
 					iPacket.getFrom().toBareJID(),
 					false);
 			moderator.sendInternalMessage(iPacket.getBody(), 
-					internalPacket.getFromAddress(),
 					internalPacket.getToAddress());
 			} catch (Exception e) {
 			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
@@ -88,8 +109,7 @@ public class MessageProcessor {
 			ArrayList<Agent> handlers = restGtw.getHandlersForMessage1(iPacket.getTo().toBareJID(), internalPacket.getConversationId(), true);
 			for (int i=0; i<handlers.size(); ++i) {
 				moderator.sendInternalMessage(iPacket.getBody(), 
-						handlers.get(i).getUser(),
-						internalPacket.getToAddress());			
+						handlers.get(i).getUser());			
 			}
 		} catch (Exception e) {
 			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
@@ -99,8 +119,8 @@ public class MessageProcessor {
 	private void sendSmsMessageToClient(Message iPacket, TxtPacket internalPacket) {
 		try {
 			restGtw.saveMessage(
+			 		internalPacket.getFromAddress(), 
 					internalPacket.getToAddress(), 
-					internalPacket.getFromAddress(), 
 					internalPacket.getConversationId(),
 					internalPacket.getBody(), 
 					iPacket.getFrom().toBareJID(),

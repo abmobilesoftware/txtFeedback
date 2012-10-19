@@ -19,8 +19,8 @@ public class RestControllerGateway {
 	private String RESTGetHandlersForMessageURL = "http://dev.txtfeedback.net/Component/GetHandlerForMessage";
 	private String RESTGetHandlersForMessageURL1 = "http://dev.txtfeedback.net/Component/GetHandlerForMessage1";
 	private String RESTGetWorkingPointForCertainAddress = "http://dev.txtfeedback.net/Component/GetWorkingPointForCertainAddress";
-	private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
-	//private String RESTSaveMessage = "http://dev.txtfeedback.net/Component/SaveMessage";
+	//private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
+	private String RESTSaveMessage = "http://dev.txtfeedback.net/Component/SaveMessage";
 	private String RESTParametersTest = "http://dev.txtfeedback.net/Component/GetParametersTest";
 	
 	public ArrayList<Agent> getHandlersForMessage(String iWP, String iConversationId, boolean isSms) {

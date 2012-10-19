@@ -318,7 +318,7 @@ namespace SmsFeedback_Take4.Controllers
                     else
                     {
                         // the message should already be stored in DB by the php script
-                        // UpdateDb(from, to, convId, text, false, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, xmppUser, lContextPerRequest);
+                        //UpdateDb(from, to, convId, text, false, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, xmppUser, lContextPerRequest);
                         String response = "success"; //TODO should be a class
                         return Json(response, JsonRequestBehavior.AllowGet);
                     }
@@ -327,7 +327,7 @@ namespace SmsFeedback_Take4.Controllers
                 {
                     string xmppUserToBeSaved = xmppUser;
                     if (direction.Equals(Constants.DIRECTION_IN)) xmppUserToBeSaved = Constants.DONT_ADD_XMPP_USER;
-                    UpdateDb(from, to, conversationId, text, false, DateTime.Now, prevConvFrom, prevConvUpdateTime, false, xmppUserToBeSaved, lContextPerRequest);
+                    UpdateDb(from, to, conversationId, text, false, DateTime.UtcNow, prevConvFrom, prevConvUpdateTime, false, xmppUserToBeSaved, lContextPerRequest);
                     String response = "success"; //TODO should be a class
                     return Json(response, JsonRequestBehavior.AllowGet);
                 }
