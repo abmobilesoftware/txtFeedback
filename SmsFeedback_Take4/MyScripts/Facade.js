@@ -72,7 +72,7 @@ function InitializeGUI() {
    this.filterArea = new FilterArea();
 
    //build the areas
-   this.wpsArea = new WorkingPointsArea();
+   this.wpsArea = new window.app.WorkingPointsArea();
    this.wpsView = this.wpsArea.wpPoolView;
    this.convArea = new ConversationArea(self.filterArea, self.wpsArea);
    this.convView = this.convArea.convsView;

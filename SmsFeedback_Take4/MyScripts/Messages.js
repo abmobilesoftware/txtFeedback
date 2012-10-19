@@ -269,7 +269,6 @@ function MessagesArea(convView, tagsArea, wpsArea) {
         },
         style: 'dark'
     });
-
    $.extend(this, window.app.defaultMessagesOptions);
 
    this.convView = convView;
