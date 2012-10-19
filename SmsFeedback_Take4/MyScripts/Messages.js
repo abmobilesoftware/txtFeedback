@@ -20,7 +20,12 @@
 //#endregion
 window.app = window.app || {};
 window.app.globalMessagesRep = {};
+/*
+when receiving messages it is important that each message is associated an unique id (js wise)
+so we start from a certain id and each time we receive/send a message, we increment the id
+*/
 window.app.receivedMsgID = 12345;
+
 var gSelectedMessage = null;
 var gSelectedConversationID = null;
 var gSelectedElement = null;
@@ -196,7 +201,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
    this.convView = convView;
    this.tagsArea = tagsArea;
    this.wpsArea = wpsArea;
-   //set the filter to make on the top div (conversation) selectable
+   //set the filter to make only the top div (conversation) selectable
   // in the absence of the filter option all elements within the conversation are made "selectable"
    $("#conversations").selectable({
        filter: ".conversation",
@@ -223,10 +228,10 @@ function MessagesArea(convView, tagsArea, wpsArea) {
        cancel: ".conversationStarIconImg"
     });
 
-    var id = 412536; //this should be unique
+    //var id = 412536; //this should be unique
     var sendMessageToClient = function () {
        var inputBox = $("#limitedtextarea");
-       id++;
+       window.app.receivedMsgID++;
        //add it to the visual list
        //I should set values to all the properties
        var msgContent = inputBox.val();
@@ -245,28 +250,14 @@ function MessagesArea(convView, tagsArea, wpsArea) {
        var to = fromTo[1];
        //decide if this should be handled via SMS or not
        var isSmsBased = window.app.selectedConversation.get("IsSmsBased");
-       if (isSmsBased) {
-          //send it to the server
-         // $.getJSON('Messages/SendMessage',
-         //         {
-         //            from: to,
-         //            to: from,
-         //            convId: self.currentConversationId,
-         //            text: msgContent
-         //         },
-         //         function (data) {
-         //            //delivered successfully? if yes - indicate this
-         //         }
-         //);
-       }
-   
+       //the component will send/save the message on the server so we don't have to trigger this ourselves        
        //TODO should be RFC822 format
        var timeSent = new Date();
        $(document).trigger('msgReceived', {
           fromID: to,
           toID: from,
           convID: self.currentConversationId,
-          msgID: id,
+          msgID: window.app.receivedMsgID,
           dateReceived: timeSent,
           text: msgContent,
           readStatus: false,
@@ -278,33 +269,35 @@ function MessagesArea(convView, tagsArea, wpsArea) {
 
        //sendToSupport you send to support or to another Staff web client
        var sendToSupport = window.app.selectedConversation.get("ClientIsSupportBot");
-
+       var storeStaffAddress = to; // defaults to the conversation's to
+     
+       var clientToRespondToAddress = from; //defaults to the conversation's from
        if (!isSmsBased) {
           if (sendToSupport) {
              //we assume that the TxtFeedback support runs on the same component
-             from = from + window.app.workingPointsSuffixDictionary[to];
+             clientToRespondToAddress = from + window.app.workingPointsSuffixDictionary[to];
           } else {
-             //TODO @txtfeedback.net is now hardcoded
-             from = from + "@txtfeedback.net";
+             //TODO @txtfeedback.net is now hardcoded             
+             clientToRespondToAddress = from + "@txtfeedback.net";
           }
-          to = to + window.app.workingPointsSuffixDictionary[to];
+          //build the store@moderator.txtfeedback.net
+          storeStaffAddress = to + window.app.workingPointsSuffixDictionary[to];
        }
 
        //signal all the other "listeners/agents"       
-       var storeStaffAddress = "";
-       var txtFeedbackSupportAddress = "";
+       var storeXMPPcomponentAddress = "";
        if (sendToSupport) {
-          /*
-          for a support conversation the id is in the form of supportID-storeStaffID, where the from is TxtFeedback support ID and the to is store staff ID
+          /*          
           We need to send a message to TxtFeedback support - which has its own Staff website, so 
-          staff has to be true
-          to has to be the supportID
-          from has to be the storeStaffID
-          Note: support conversations goes through XMPP
+          staff has to be true, sms false
+          to = should normally be storeID, BUT because we are sending not to our own component (supportID@moderator.txtfeedback.net) but to the one of the store (store@moderator.txtfeedback.net)
+          we make some "adjustments" (NOTE: support conversations are treated differently that other conversations)
+          convID remains the same: storeID-supportID
+          from: support (staff in this case) ID
+          to: 
+          XMPPto = storeID
           */
-          txtFeedbackSupportAddress = from;
-          storeStaffAddress = to;
-          window.app.xmppHandlerInstance.send_reply(storeStaffAddress, txtFeedbackSupportAddress, timeSent, self.currentConversationId, msgContent, txtFeedbackSupportAddress, isSmsBased, sendToSupport);
+          storeXMPPcomponentAddress = clientToRespondToAddress;          
        } else {
           /*
           we are dealing with a non-support conversation 
@@ -312,14 +305,10 @@ function MessagesArea(convView, tagsArea, wpsArea) {
           We send a message to trigger carbons
           For XMPP
           We send a message and then the component redirects that message to the client
-          */
-          var clientToRespondToAddress = from
-          storeStaffAddress = to;
-          txtFeedbackSupportAddress = self.wpsArea.wpPoolView.phoneNumbersPool.getWorkingPointXmppAddress(cleanupPhoneNumber(to)) || self.wpsArea.wpPoolView.phoneNumbersPool.getWorkingPointXmppAddress(cleanupPhoneNumber(from));          
-          window.app.xmppHandlerInstance.send_reply(storeStaffAddress, clientToRespondToAddress, timeSent, self.currentConversationId, msgContent, txtFeedbackSupportAddress, isSmsBased, sendToSupport);
+          */          
+          storeXMPPcomponentAddress = self.wpsArea.wpPoolView.phoneNumbersPool.getWorkingPointXmppAddress(cleanupPhoneNumber(to)) || self.wpsArea.wpPoolView.phoneNumbersPool.getWorkingPointXmppAddress(cleanupPhoneNumber(from));                    
        }
-
-       
+       window.app.xmppHandlerInstance.send_reply(storeStaffAddress, clientToRespondToAddress, timeSent, self.currentConversationId, msgContent, storeXMPPcomponentAddress, isSmsBased, sendToSupport);
     };
 
     $("#replyBtn").click(function () {
