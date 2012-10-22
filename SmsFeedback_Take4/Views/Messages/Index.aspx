@@ -91,36 +91,19 @@
             </div>
             <div class="rightLiDiv convColumn">    
                    
-               <div class="spanClassFrom rightSideMembers">
-                    <span class="conversationHeader">
+               <div class="spanClassFrom rightSideMembers">                    
                         {% 
-                            var clientDisplayName = "defaultClient";
-                            if (ClientIsSupportBot) {
-                                clientDisplayName = ClientDisplayName;
-                            } else {
-                                // Currently if is not support, a number will be displayed
-                                //var fromTo = getFromToFromConversation(ConvID); 
-                                //var FromNumber = fromTo[0]; 
-                                var FromNumber = ClientDisplayName;
-                                var countryPrefix = FromNumber.substring(0,2);
-                                var localPrefix = FromNumber.substring(2, FromNumber.length);
-                                clientDisplayName = "(" + countryPrefix + ") " + localPrefix;
-                            }                                          
-                        %} 
-                        
-                        <span class="conversationFrom">
-                           
-                            {{ clientDisplayName }} 
-                             {%
+                            var clientDisplayName = cleanupPhoneNumber(ClientDisplayName);                                                                      
+                        %}                         
+                        <span class="conversationFrom" title="{{ clientDisplayName }}" >{{ clientDisplayName }} {%
                              if (ClientIsSupportBot) {             
                             %}
                                 <img class="conversationHeaderImg" src="<%: Url.Content("~/Content/images/Help-16.png") %>"/>
                             {%
                             }
-                            %}
-                       </span> 
+                            %}</span> 
                        <span class='conversationArrows'> >> </span>
-                       <span class="conversationTo">{{ window.app.workingPointsNameDictionary[getFromToFromConversation(ConvID)[1]] }}</span> </span>
+                       <span class="conversationTo">{{ window.app.workingPointsNameDictionary[getFromToFromConversation(ConvID)[1]] }}</span>      
                 </div>
                <div class='clear'></div>
                 <div class="spanClassText rightSideMembers">
