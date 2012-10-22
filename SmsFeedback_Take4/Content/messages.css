@@ -1,5 +1,4 @@
-﻿@charset "UTF-8";
-/*Tags*/
+﻿/*Tags*/
 #messageTagsSeparator {
    height: 5px;
    background: -webkit-radial-gradient( 50% 0%, 100% 100%, rgba(184,186,187,1) 0%, rgba(184,186,187,0.00) 70% ); /*for chrome*/
