@@ -76,6 +76,10 @@
 		</span>
    </script>
    <script type="text/template" id="conversation-template">
+            {% if (IsSmsBased) { %}
+               <img class="isSms" src="<%: Url.Content("~/Content/images/SMS-24x24.png") %>"/>
+             {% } %}
+
             <div class="leftLiDiv convColumn">
                 {% if (Read) { %}
                         <embed src="<%: Url.Content("~/Content/images/check-grey.svg") %>" type="image/svg+xml" class="images conversationImageRead" />
@@ -94,14 +98,15 @@
                <div class="spanClassFrom rightSideMembers">                    
                         {% 
                             var clientDisplayName = cleanupPhoneNumber(ClientDisplayName);                                                                      
-                        %}                         
-                        <span class="conversationFrom" title="{{ clientDisplayName }}" >{{ clientDisplayName }} {%
+                        %} 
+                        {%
                              if (ClientIsSupportBot) {             
                             %}
                                 <img class="conversationHeaderImg" src="<%: Url.Content("~/Content/images/Help-16.png") %>"/>
                             {%
                             }
-                            %}</span> 
+                         %}                         
+                        <span class="conversationFrom" title="{{ clientDisplayName }}" >{{ clientDisplayName }} </span> 
                        <span class='conversationArrows'> >> </span>
                        <span class="conversationTo">{{ window.app.workingPointsNameDictionary[getFromToFromConversation(ConvID)[1]] }}</span>      
                 </div>
