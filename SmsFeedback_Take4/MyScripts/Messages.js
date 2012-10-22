@@ -20,7 +20,12 @@
 //#endregion
 window.app = window.app || {};
 window.app.globalMessagesRep = {};
-//window.app.globalMsgHistoryNotLoaded = {};
+/*
+when receiving messages it is important that each message is associated an unique id (js wise)
+so we start from a certain id and each time we receive/send a message, we increment the id
+*/
+window.app.receivedMsgID = 12345;
+
 var gSelectedMessage = null;
 var gSelectedConversationID = null;
 var gSelectedElement = null;
@@ -107,14 +112,147 @@ window.app.MessagesList = Backbone.Collection.extend({
 });
 //#endregion
 
+//#region Receive message
+//TODO DA move this somewhere else :)
+window.app.handleIncommingMessage = function (msgContent, isIncomming) {
+   window.app.receivedMsgID++;
+   var xmlDoc;
+   if (window.DOMParser) {
+      var parser = new DOMParser();
+      xmlDoc = parser.parseFromString(msgContent, "text/xml");
+   }
+   else {
+      xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+      xmlDoc.async = false;
+      xmlDoc.loadXML(msgContent);
+   }
+   var xmlMsgToBeDecoded = xmlDoc.getElementsByTagName("msg")[0];
+   var rawFromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
+   var rawToID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
+   var toID = cleanupPhoneNumber(rawToID);
+   var fromID = cleanupPhoneNumber(rawFromID);
+   var extension;
+   /*
+   DA: the following line seems weird and it actually is :)
+   Right now a Working Point XMPP address is shortID@moderator.txtfeedback.net
+   In order not to hard code the @ prefix we try to retrieve it from SuffixDictionary
+   The issue is that the WP's address might be the from address or the to address (depending on different factors)
+   But for sure the WP is either the to or the from -> we will find it in the suffix dictionary
+   To avoid complicated logic we test both from and to in the suffix dictionary and one of them will hit :)
+   */
+   extension = window.app.workingPointsSuffixDictionary[toID] || window.app.workingPointsSuffixDictionary[fromID];
+   //decide if we are dealing with a message coming from another WorkingPoint
+   var isFromWorkingPoint = isWorkingPoint(rawFromID, extension);
+   var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
+   var isSmsBasedAsString = xmlMsgToBeDecoded.getElementsByTagName('sms')[0].textContent;
+   var isSmsBased = false;
+   if (isSmsBasedAsString === "true") {
+      isSmsBased = true;
+   }
+   var convID;
+   if (isFromWorkingPoint && isIncomming) {
+      convID = buildConversationID(fromID, toID);
+   } else {
+      convID = xmlMsgToBeDecoded.getElementsByTagName("convID")[0].textContent;
+   }
+
+   var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
+   var readStatus = false; //one "freshly received" message is always unread
+   window.app.receivedMsgID++;
+   $(document).trigger('msgReceived', {
+      fromID: fromID,
+      toID: toID,
+      convID: convID,
+      msgID: window.app.receivedMsgID,
+      dateReceived: dateReceived,
+      text: newText,
+      readStatus: readStatus,
+      isSmsBased: isSmsBased
+   });
+
+};
+//#endregion
+
+//#region Send message
+window.app.sendMessageToClient = function (text, conversationID, selectedConv, msgID, wpPool) {
+   /*
+   inside a conversationID
+   SMS messages
+     from - tel number
+     to - self tel number
+   XMPP messages
+     from - clientXMPP id without @
+     to - selfXMPP id without @
+   */
+   var fromTo = getFromToFromConversation(conversationID);
+   var from = fromTo[0];
+   var to = fromTo[1];
+   //decide if this should be handled via SMS or not
+   var isSmsBased = selectedConv.get("IsSmsBased");
+   //the component will send/save the message on the server so we don't have to trigger this ourselves        
+   //TODO should be RFC822 format
+   var timeSent = new Date();
+   $(document).trigger('msgReceived', {
+      fromID: to,
+      toID: from,
+      convID: conversationID,
+      msgID: msgID,
+      dateReceived: timeSent,
+      text: text,
+      readStatus: false,
+      messageIsSent: true,
+      isSmsBased: isSmsBased
+   });
+   //sendToSupport you send to support or to another Staff web client
+   var sendToSupport = selectedConv.get("ClientIsSupportBot");
+   var storeStaffAddress = to; // defaults to the conversation's to
+
+   var clientToRespondToAddress = from; //defaults to the conversation's from
+   if (!isSmsBased) {
+      if (sendToSupport) {
+         //we assume that the TxtFeedback support runs on the same component
+         clientToRespondToAddress = from + window.app.workingPointsSuffixDictionary[to];
+      } else {
+         //TODO @txtfeedback.net is now hardcoded             
+         clientToRespondToAddress = from + "@txtfeedback.net";
+      }
+      //build the store@moderator.txtfeedback.net
+      storeStaffAddress = to + window.app.workingPointsSuffixDictionary[to];
+   }
+   var storeXMPPcomponentAddress = "";
+   if (sendToSupport) {
+      /*          
+      We need to send a message to TxtFeedback support - which has its own Staff website, so 
+      staff has to be true, sms false
+      to = should normally be storeID, BUT because we are sending not to our own component (supportID@moderator.txtfeedback.net) but to the one of the store (store@moderator.txtfeedback.net)
+      we make some "adjustments" (NOTE: support conversations are treated differently that other conversations)
+      convID remains the same: storeID-supportID
+      from: support (staff in this case) ID
+      to: 
+      XMPPto = storeID
+      */
+      storeXMPPcomponentAddress = clientToRespondToAddress;
+   } else {
+      /*
+      we are dealing with a non-support conversation 
+      For SMS
+      We send a message to trigger carbons
+      For XMPP
+      We send a message and then the component redirects that message to the client
+      */
+      storeXMPPcomponentAddress = wpPool.getWorkingPointXmppAddress(cleanupPhoneNumber(to)) || wpPool.getWorkingPointXmppAddress(cleanupPhoneNumber(from));
+   }
+   window.app.xmppHandlerInstance.send_reply(storeStaffAddress, clientToRespondToAddress, timeSent, conversationID, text, storeXMPPcomponentAddress, isSmsBased, sendToSupport);
+};
+//#endregion
+
 //#region MessagesArea default properties
 window.app.defaultMessagesOptions = {
    messagesRep: {},
    currentConversationId: ""
 };
 //#endregion
-
-function MessagesArea(convView, tagsArea) {
+function MessagesArea(convView, tagsArea, wpsArea) {
    "use strict";
     var self = this;
 
@@ -129,12 +267,12 @@ function MessagesArea(convView, tagsArea) {
         },
         style: 'dark'
     });
-
    $.extend(this, window.app.defaultMessagesOptions);
 
    this.convView = convView;
    this.tagsArea = tagsArea;
-   //set the filter to make on the top div (conversation) selecteble
+   this.wpsArea = wpsArea;
+   //set the filter to make only the top div (conversation) selectable
   // in the absence of the filter option all elements within the conversation are made "selectable"
    $("#conversations").selectable({
        filter: ".conversation",
@@ -161,119 +299,31 @@ function MessagesArea(convView, tagsArea) {
        cancel: ".conversationStarIconImg"
     });
 
-    var id = 412536; //this should be unique
-    var sendMessageToClient = function () {
-       var inputBox = $("#limitedtextarea");
-       id++;
-       //add it to the visual list
-       //I should set values to all the properties
-       var msgContent = inputBox.val();
-
-       /*
-       inside a conversationID
-       for SMS messages
-       from - tel number
-       to - self tel number
-       for XMPP messages
-       from - clientXMPP id without @
-       to - selfXMPP id without @
-       */
-       var fromTo = getFromToFromConversation(self.currentConversationId);
-       var from = fromTo[0];
-       var to = fromTo[1];
-       //decide if this should be handled via SMS or not
-       var isSmsBased = window.app.selectedConversation.get("IsSmsBased");
-       if (isSmsBased) {
-          //send it to the server
-         // $.getJSON('Messages/SendMessage',
-         //         {
-         //            from: to,
-         //            to: from,
-         //            convId: self.currentConversationId,
-         //            text: msgContent
-         //         },
-         //         function (data) {
-         //            //delivered successfully? if yes - indicate this
-         //         }
-         //);
-       }
-   
-       //TODO should be RFC822 format
-       var timeSent = new Date();
-       $(document).trigger('msgReceived', {
-          fromID: to,
-          toID: from,
-          convID: self.currentConversationId,
-          msgID: id,
-          dateReceived: timeSent,
-          text: msgContent,
-          readStatus: false,
-          messageIsSent: true,
-          isSmsBased: isSmsBased
-       });
-       //reset the input form
-       $("#replyToMessageForm")[0].reset();
-
-       //sendToSupport you send to support or to another Staff web client
-       var sendToSupport = window.app.selectedConversation.get("ClientIsSupportBot");
-
-       if (!isSmsBased) {
-          if (sendToSupport) {
-             //we assume that the TxtFeedback support runs on the same component
-             from = from + window.app.workingPointsSuffixDictionary[to];
-          } else {
-             //TODO @txtfeedback.net is now hardcoded
-             from = from + "@txtfeedback.net";
-          }
-          to = to + window.app.workingPointsSuffixDictionary[to];
-       }
-
-       //signal all the other "listeners/agents"       
-       var storeStaffAddress = "";
-       if (sendToSupport) {
-          /*
-          for a support conversation the id is in the form of supportID-storeStaffID, where the from is TxtFeedback support ID and the to is store staff ID
-          We need to send a message to TxtFeedback support - which has its own Staff website, so 
-          staff has to be true
-          to has to be the supportID
-          from has to be the storeStaffID
-          Note: support conversations goes through XMPP
-          */
-          var txtFeedbackSupportAddress = from;
-          storeStaffAddress = to;
-          window.app.xmppHandlerInstance.send_reply(storeStaffAddress, txtFeedbackSupportAddress, timeSent, self.currentConversationId, msgContent, txtFeedbackSupportAddress, isSmsBased, sendToSupport);
-       } else {
-          /*
-          we are dealing with a non-support conversation 
-          For SMS
-          We send a message to trigger carbons
-          For XMPP
-          We send a message and then the component redirects that message to the client
-          */
-          var clientToRespondToAddress = to;
-          storeStaffAddress = from;
-         window.app.xmppHandlerInstance.send_reply(storeStaffAddress, clientToRespondToAddress, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress, isSmsBased, sendToSupport);
-       }
-
-       
-    };
-
-    $("#replyBtn").click(function () {
-        sendMessageToClient();
+   $("#replyBtn").click(function () {
+      var inputBox = $("#limitedtextarea");
+      window.app.receivedMsgID++;      
+      var msgContent = inputBox.val();
+      //reset the input form
+      $("#replyToMessageForm")[0].reset();
+      window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, window.app.receivedMsgID, self.wpsArea.wpPoolView.phoneNumbersPool);
     });
 
     $("#limitedtextarea").keydown(function (event) {
-        if (event.which === 13 && event.shiftKey) {
-            sendMessageToClient();
-            event.preventDefault();
+       if (event.which === 13 && event.shiftKey) {
+          var inputBox = $("#limitedtextarea");
+          window.app.receivedMsgID++;
+          var msgContent = inputBox.val();
+          //reset the input form
+          $("#replyToMessageForm")[0].reset();
+          window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, window.app.receivedMsgID, self.wpsArea.wpPoolView.phoneNumbersPool);
+          event.preventDefault();
         }
     });   
-
     _.templateSettings = {
         interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
-        evaluate: /\{%([\s\S]+?)%\}/g,   // excute code: {% code_to_execute %}
+        evaluate: /\{%([\s\S]+?)%\}/g,   // execute code: {% code_to_execute %}
         escape: /\{%-([\s\S]+?)%\}/g
-    }; // excape HTML: {%- <script> %} prints &lt
+    }; // escape HTML: {%- <script> %} prints &lt
 
     var MessageView = Backbone.View.extend({
         model: window.app.Message,
@@ -326,7 +376,6 @@ function MessagesArea(convView, tagsArea) {
         left: 'auto' // Left position relative to parent in px
     };
     var spinner = new Spinner(opts);
-
     //we fade in when we first load a conversation, afterwards we just render - no fade in
     var performFadeIn = false;
     var MessagesView = Backbone.View.extend({
@@ -356,7 +405,8 @@ function MessagesArea(convView, tagsArea) {
 
             self.currentConversationId = conversationId;
             if (self.currentConversationId in window.app.globalMessagesRep) {
-                //we have already loaded this conversation
+               //we have already loaded this conversation so display the cached messages 
+               //this should be a realistic view due to the fact that we are listening to new messages
                 performFadeIn = false;
                 spinner.stop();
                 startTimer(3000);
@@ -364,11 +414,7 @@ function MessagesArea(convView, tagsArea) {
                 $("#textareaContainer").removeClass("invisible");
                 $("textareaContainer").fadeIn("slow");
                 $("#tagsContainer").removeClass("invisible");
-                $("#tagsContainer").fadeIn("slow");
-                //if (window.app.globalMsgHistoryNotLoaded[convID] === true) {
-                   //the conversation has no history - load also the history
-
-                //}
+                $("#tagsContainer").fadeIn("slow");                
             }
             else {
                 var messages1 = new window.app.MessagesList();
@@ -393,7 +439,6 @@ function MessagesArea(convView, tagsArea) {
                     value.set("Starred", window.app.selectedConversation.get("Starred"));
                 });
             }
-
         },
         render: function () {
             $("#messagesbox").html('');
@@ -406,7 +451,6 @@ function MessagesArea(convView, tagsArea) {
             //scroll to bottom
             //var messagesEl = $("#scrollablemessagebox");
             //messagesEl.animate({ scrollTop: messagesEl.prop("scrollHeight") }, 3000);
-
             return this;
         },
         appendMessage: function (msg) {
@@ -414,11 +458,9 @@ function MessagesArea(convView, tagsArea) {
             if (msg.get('ConvID') === self.currentConversationId) {
                 //when appending a new message always scroll to bottom
                 this.appendMessageToDiv(msg, true, true);
-
             }
         },
         newMessageReceived: function (fromID, convID, msgID, dateReceived, text, isSmsBased) {
-           //var innerSelf = this;
            var newMsg = new window.app.Message({
               Id: msgID,              
               From: fromID,
@@ -442,16 +484,6 @@ function MessagesArea(convView, tagsArea) {
             if (window.app.globalMessagesRep[convID] !== undefined) {
                window.app.globalMessagesRep[convID].add(newMsg);
             }
-            else {
-               //this conversation has not been opened so for, so no history is available
-               //window.app.globalMsgHistoryNotLoaded[convID] = true;
-               //var msgs = new window.app.MessagesList();
-               //msgs.identifier = convID;
-               //msgs.bind("reset", innerSelf.render);
-               //msgs.bind('add', innerSelf.appendMessage);
-               //msgs.add(newMsg);
-               //window.app.globalMessagesRep[convID] = msgs;
-            }
         },
         appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
             var msgView = new MessageView({ model: msg });
@@ -470,7 +502,6 @@ function MessagesArea(convView, tagsArea) {
                 //$(helperDiv).fadeOut("fast");
                 $(helperDiv).hide();
             });
-
             if (performFadeIn) {
                 $(item).hide().fadeIn("2000");
             }
@@ -482,8 +513,6 @@ function MessagesArea(convView, tagsArea) {
             }
         }
     });
-       
-          
     this.messagesView = new MessagesView();
 }
 

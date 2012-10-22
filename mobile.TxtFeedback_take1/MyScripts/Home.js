@@ -97,7 +97,7 @@ function MessagesArea() {
       inputBox.val('');
 
       //signal all the other "listeners/agents"
-      window.app.xmppHandlerInstance.send_reply(to, from, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress);
+      window.app.xmppHandlerInstance.send_reply(from, to, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress);
    };
 
       _.templateSettings = {

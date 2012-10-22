@@ -36,8 +36,16 @@ namespace SmsFeedback_Take4.Controllers
                 else
                 {
                     // set the culture by the location if not specified
-                    langHeader = HttpContext.Request.UserLanguages[0];
-                    Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(langHeader);
+                   if (HttpContext.Request.UserLanguages != null && HttpContext.Request.UserLanguages.Count() > 0) 
+                   {
+                      langHeader = HttpContext.Request.UserLanguages[0];
+                      Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(langHeader);
+                   }
+                   else
+                   {
+                      //when not called via a browser HttpContext.Request.UserLanguages will be null
+                      langHeader = "en-US";
+                   }
                 }
                 // set the lang value into route data
                 RouteData.Values["lang"] = langHeader;

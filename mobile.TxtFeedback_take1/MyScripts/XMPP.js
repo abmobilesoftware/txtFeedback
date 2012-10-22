@@ -83,18 +83,20 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
    toID = cleanupPhoneNumber(toID);
    //var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datereceived')[0].textContent;
    var convID;
-   if (isIncomming) {
-      convID = buildConversationID(fromID, toID);
-   }
-   else {
-      convID = buildConversationID(toID, fromID);
-   }
+   //DA - the conversation ID will not be correct for this user
+   convID = buildConversationID(toID, fromID);
+   //if (!isIncomming) {
+   //   convID = buildConversationID(fromID, toID);
+   //}
+   //else {
+   //   convID = buildConversationID(toID, fromID);
+   //}
    var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
 
    if (isIncomming) {
       $(document).trigger('msgReceived', {
-         fromID: toID,
-         toID: fromID,
+         fromID: fromID,
+         toID: toID,
          convID: convID,
          msgID: window.app.receivedMsgID,
          dateReceived: new Date(),
