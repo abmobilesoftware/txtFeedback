@@ -24,8 +24,8 @@ public class RestControllerGateway {
 	private String RESTDomain = "http://rest.txtfeedback.net/";
 	private String RESTGetHandlersForMessageURL1 = "http://dev.txtfeedback.net/Component/GetHandlerForMessage1";
 	private String RESTGetWorkingPointForCertainAddress = "http://dev.txtfeedback.net/Component/GetWorkingPointForCertainAddress";
-	//private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
-	private String RESTSaveMessage = "http://dev.txtfeedback.net/Component/SaveMessage";
+	private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
+	//private String RESTSaveMessage = "http://dev.txtfeedback.net/Component/SaveMessage";
 	private String RESTParametersTest = "http://dev.txtfeedback.net/Component/GetParametersTest";
 	
 	public ArrayList<Agent> getHandlersForMessage(String iWP, String iConversationId, boolean isSms) {
@@ -113,13 +113,16 @@ public class RestControllerGateway {
 	
 	public boolean saveMessage(String from, String to, String convId, String text, String xmppUser, boolean isSms) {
 		Hashtable<String, String> params = new Hashtable<String, String>();
-		params.put("from", from);
-		params.put("to", to);
-		params.put("convId", convId);
-		params.put("text", text);
-		params.put("xmppUser", xmppUser);
-		params.put("isSms", String.valueOf(isSms));
-		
+		try {
+			params.put("from", from);
+			params.put("to", to);
+			params.put("convId", convId);
+			params.put("text", URLEncoder.encode(text, "UTF-8"));
+			params.put("xmppUser", xmppUser);
+			params.put("isSms", String.valueOf(isSms));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		String restCallResponse = getResourceAsString(RESTSaveMessage, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);		
 		if (restCallResponse.equals("{success}")) {
 			return true;

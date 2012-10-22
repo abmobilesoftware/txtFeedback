@@ -9,6 +9,7 @@ using SmsFeedback_Take4.Utilities;
 using SmsFeedback_EFModels;
 using Twilio;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace SmsFeedback_Take4.Controllers
 {
@@ -273,14 +274,13 @@ namespace SmsFeedback_Take4.Controllers
 
         public JsonResult SaveMessage(String from, String to, String convId, String text, String xmppUser, bool isSms)
         {
-            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}]", from, to, convId, text);
+            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}], xmppUser: [{4}], isSms: [{5}]", from, to, convId, text, xmppUser, isSms.ToString());
             try
             {
                 /* 
                  * get the previous conversation from and time.
                  */
                 smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-
                 var previousConv = mEFInterface.GetLatestConversationDetails(convId, lContextPerRequest);
                 String prevConvFrom = Constants.NO_LAST_FROM;
                 DateTime prevConvUpdateTime = DateTime.MaxValue;
@@ -300,15 +300,18 @@ namespace SmsFeedback_Take4.Controllers
                 {
                     if (fromTo[0].Equals(ConversationUtilities.ExtractUserFromAddress(from))) direction = Constants.DIRECTION_IN;
                 }
+
+                // decode text from UTF-8 and make conversationId lower case
+                var textUnescaped = Server.UrlDecode(text);
                 var conversationId = convId.ToLower();
                 if (isSms)
                 {
                     if (direction.Equals(Constants.DIRECTION_OUT))
                     {
-                        SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgResponse) =>
+                        SMSRepository.SendMessage(from, to, textUnescaped, lContextPerRequest, (msgResponse) =>
                         {
                             //TODO add check if message was sent successfully 
-                            UpdateDb(from, to, conversationId, text, false, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, xmppUser, lContextPerRequest);
+                            UpdateDb(from, to, conversationId, textUnescaped, false, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, xmppUser, lContextPerRequest);
                         });
                         //we should wait for the call to finish
                         //I should return the sent time (if successful)              
@@ -317,17 +320,16 @@ namespace SmsFeedback_Take4.Controllers
                     }
                     else
                     {
-                        // the message should already be stored in DB by the php script
-                        //UpdateDb(from, to, convId, text, false, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, xmppUser, lContextPerRequest);
                         String response = "success"; //TODO should be a class
                         return Json(response, JsonRequestBehavior.AllowGet);
                     }
                 }
                 else
                 {
+                    // save xmppUser in db just when the message direction is from customer to client
                     string xmppUserToBeSaved = xmppUser;
                     if (direction.Equals(Constants.DIRECTION_IN)) xmppUserToBeSaved = Constants.DONT_ADD_XMPP_USER;
-                    UpdateDb(from, to, conversationId, text, false, DateTime.UtcNow, prevConvFrom, prevConvUpdateTime, false, xmppUserToBeSaved, lContextPerRequest);
+                    UpdateDb(from, to, conversationId, textUnescaped, false, DateTime.UtcNow, prevConvFrom, prevConvUpdateTime, false, xmppUserToBeSaved, lContextPerRequest);
                     String response = "success"; //TODO should be a class
                     return Json(response, JsonRequestBehavior.AllowGet);
                 }
@@ -338,10 +340,6 @@ namespace SmsFeedback_Take4.Controllers
             }
             return Json("error", JsonRequestBehavior.AllowGet);            
         }
-
-        public JsonResult GetParametersTest(String id, String from, String to)
-        {
-            return Json("hei", JsonRequestBehavior.AllowGet);
-        }
+      
     }
 }
