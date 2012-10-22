@@ -72,12 +72,12 @@ function InitializeGUI() {
    this.filterArea = new FilterArea();
 
    //build the areas
-   this.wpsArea = new WorkingPointsArea();
+   this.wpsArea = new window.app.WorkingPointsArea();
    this.wpsView = this.wpsArea.wpPoolView;
    this.convArea = new ConversationArea(self.filterArea, self.wpsArea);
    this.convView = this.convArea.convsView;
    this.tagsArea = TagsArea();
-   this.msgView = new MessagesArea(self.convView, self.tagsArea);
+   this.msgView = new MessagesArea(self.convView, self.tagsArea, self.wpsArea);
 
     //get the initial working points   
    this.wpsView.getWorkingPoints(function () {

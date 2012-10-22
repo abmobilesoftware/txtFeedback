@@ -61,7 +61,8 @@ namespace SmsFeedback_Take4.Models
          //the convention is that if workingPoints number is empty then we retrieve all the conversations
          if (workingPointsNumbers == null)
          {//we have to get all the working points 
-            workingPointsNumbers = (from wp in mEFRep.GetWorkingPointsPerUser(userName, dbContext) select wp).SelectMany(w=> new []{ w.TelNumber, w.ShortID }).ToArray();            
+            //workingPointsNumbers = (from wp in mEFRep.GetWorkingPointsPerUser(userName, dbContext) select wp).SelectMany(w=> new []{ w.TelNumber, w.ShortID }).ToArray();            
+            workingPointsNumbers = (from wp in mEFRep.GetWorkingPointsPerUser(userName, dbContext) select wp.TelNumber).ToArray();  
          }
         
          try

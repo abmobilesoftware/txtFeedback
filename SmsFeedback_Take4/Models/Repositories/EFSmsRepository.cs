@@ -50,7 +50,7 @@ namespace SmsFeedback_Take4.Models
          if (tags != null && tags.Count() != 0)
          {
             convs = from wp in dbContext.WorkingPoints
-                    where (wp.TelNumber == consistentWP || wp.ShortID == consistentWP)
+                    where (wp.TelNumber == consistentWP)
                     select (from c in wp.Conversations
                             where (onlyFavorites ? c.Starred == true : true) &&
                             (onlyUnread ? c.Read == false : true) &&
@@ -75,7 +75,7 @@ namespace SmsFeedback_Take4.Models
          else
          {
             convs = from wp in dbContext.WorkingPoints
-                    where (wp.TelNumber == consistentWP || wp.ShortID == consistentWP)
+                    where (wp.TelNumber == consistentWP )
                     select (from c in wp.Conversations
                             where (onlyFavorites ? c.Starred == true : true) &&
                             (onlyUnread ? c.Read == false : true) &&
