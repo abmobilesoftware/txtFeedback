@@ -75,7 +75,7 @@ public class MessageProcessor {
 						iPacket.getFrom().toBareJID(),
 						false);				
 			}
-			ArrayList<Agent> handlers = restGtw.getHandlersForMessage1(iPacket.getTo().toBareJID(), internalPacket.getConversationId(), false);
+			ArrayList<Agent> handlers = restGtw.getHandlersForMessage(Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()), internalPacket.getConversationId(), false);
 			for (int i=0; i<handlers.size(); ++i) {
 				moderator.sendInternalMessage(iPacket.getBody(), 
 						handlers.get(i).getUser());			
@@ -106,7 +106,7 @@ public class MessageProcessor {
 		try {
 			//restGtw.saveMessage(internalPacket.getFromAddress(), internalPacket.getToAddress(), internalPacket.getConversationId(), internalPacket.getBody(), iPacket.getFrom().toBareJID(), true);
 			//String WPTelNumber = getWPForThisAddress(internalPacket.getToAddress());
-			ArrayList<Agent> handlers = restGtw.getHandlersForMessage1(iPacket.getTo().toBareJID(), internalPacket.getConversationId(), true);
+			ArrayList<Agent> handlers = restGtw.getHandlersForMessage(Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()), internalPacket.getConversationId(), true);
 			for (int i=0; i<handlers.size(); ++i) {
 				moderator.sendInternalMessage(iPacket.getBody(), 
 						handlers.get(i).getUser());			

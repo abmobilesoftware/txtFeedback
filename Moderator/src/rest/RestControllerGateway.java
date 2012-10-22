@@ -1,6 +1,9 @@
 package rest;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -8,6 +11,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.utils.URIBuilder;
 import org.helpers.Constants;
 import org.helpers.json.Agent;
 import org.helpers.json.WorkingPoint;
@@ -17,6 +21,7 @@ import org.json.JSONObject;
 
 public class RestControllerGateway {
 	private String RESTGetHandlersForMessageURL = "http://dev.txtfeedback.net/Component/GetHandlerForMessage";
+	private String RESTDomain = "http://rest.txtfeedback.net/";
 	private String RESTGetHandlersForMessageURL1 = "http://dev.txtfeedback.net/Component/GetHandlerForMessage1";
 	private String RESTGetWorkingPointForCertainAddress = "http://dev.txtfeedback.net/Component/GetWorkingPointForCertainAddress";
 	//private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
@@ -24,12 +29,19 @@ public class RestControllerGateway {
 	private String RESTParametersTest = "http://dev.txtfeedback.net/Component/GetParametersTest";
 	
 	public ArrayList<Agent> getHandlersForMessage(String iWP, String iConversationId, boolean isSms) {
+		StringBuilder urlSb = new StringBuilder(RESTDomain);
+		urlSb.append(iWP);
+		urlSb.append("/api/rules/");
 		ArrayList<Agent> handlers = new ArrayList<Agent>();
 		Hashtable<String, String> params = new Hashtable<String, String>();
-		params.put("wp", iWP);
-		params.put("convId", iConversationId);
-		params.put("isSms", String.valueOf(isSms));
-		JSONObject listOfAgentsJsonObject = getResourceAsJsonObject(RESTGetHandlersForMessageURL, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
+		try {
+			params.put("from", URLEncoder.encode(iConversationId, "UTF-8"));			
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println("URL=" + urlSb.toString());
+		JSONObject listOfAgentsJsonObject = getResourceAsJsonObject(urlSb.toString(), RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
 		if (listOfAgentsJsonObject != null) {
 			try {
 				JSONArray listOfAgentsArray = listOfAgentsJsonObject.getJSONArray("agents");
@@ -47,9 +59,14 @@ public class RestControllerGateway {
 	public ArrayList<Agent> getHandlersForMessage1(String iWP, String iConversationId, boolean isSms) {
 		ArrayList<Agent> handlers = new ArrayList<Agent>();
 		Hashtable<String, String> params = new Hashtable<String, String>();
-		params.put("wp", iWP);
-		params.put("convId", iConversationId);
-		params.put("isSms", String.valueOf(isSms));
+		try {
+			params.put("wp", URLEncoder.encode(iWP, "UTF-8"));
+			params.put("convId", URLEncoder.encode(iConversationId, "UTF-8"));
+			params.put("isSms", URLEncoder.encode(String.valueOf(isSms), "UTF-8"));
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		JSONObject listOfAgentsJsonObject = getResourceAsJsonObject(RESTGetHandlersForMessageURL1, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
 		if (listOfAgentsJsonObject != null) {
 			try {
@@ -67,7 +84,7 @@ public class RestControllerGateway {
 	
 	public WorkingPoint getWorkingPointForCertainAddress(String iIMAddress) {
 		Hashtable<String, String> params = new Hashtable<String, String>();
-		params.put("iIMAddress", iIMAddress);
+		params.put("iIMAddress", String.valueOf(iIMAddress));
 		JSONObject wpJsonObject = getResourceAsJsonObject(RESTGetWorkingPointForCertainAddress, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);		
 		WorkingPoint wp = null;
 		if (wpJsonObject != null) {
@@ -101,7 +118,8 @@ public class RestControllerGateway {
 		params.put("convId", convId);
 		params.put("text", text);
 		params.put("xmppUser", xmppUser);
-		params.put("isSms", String.valueOf(isSms));		
+		params.put("isSms", String.valueOf(isSms));
+		
 		String restCallResponse = getResourceAsString(RESTSaveMessage, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);		
 		if (restCallResponse.equals("{success}")) {
 			return true;
