@@ -165,7 +165,7 @@ window.app.logDebugOnServer = function logError(message) {
 
 $(function () {
    window.onerror = function (message, file, line) {
-      var details = file + ':' + line + '\n' + message;
+      var details = file + ': ' + line + '\n' + message;
       window.app.logErrorOnServer(details);
    };
 });
