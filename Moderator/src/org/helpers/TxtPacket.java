@@ -119,7 +119,7 @@ public class TxtPacket {
                        
             Document lXmlDoc = mDocBuilder.newDocument();
 
-            Element lPartyNode = lXmlDoc.createElement("internalPacket");
+            Element lPartyNode = lXmlDoc.createElement("msg");
             lXmlDoc.appendChild(lPartyNode);
 
             for (int i=0; i<mTxtPacketTagsName.size(); ++i) {
