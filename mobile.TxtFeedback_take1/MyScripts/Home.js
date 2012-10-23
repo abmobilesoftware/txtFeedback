@@ -230,12 +230,25 @@ function MessagesArea() {
          }
       },
       appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
-         var msgView = new MessageView({ model: msg });
-         var item = msgView.render().el;
-         $(this.el).append(item);         
-         if (performFadeIn) {
-            $(item).hide().fadeIn("2000");
-         }
+          
+          var bodyHeight = window.innerHeight - 2 * $(".ui-header").height();
+          var contentHeight = $("#contentArea").height();
+          $(".debug").empty();
+          $(".debug").html("Body height: " + bodyHeight + " </br> Content height: " + contentHeight);
+
+
+          if (contentHeight > bodyHeight) {
+            window.scrollTo(0, document.body.scrollHeight + 50);
+          }
+
+
+          var msgView = new MessageView({ model: msg });
+          var item = msgView.render().el;
+          $(this.el).append(item);         
+          if (performFadeIn) {
+              $(item).hide().fadeIn("2000");
+          }
+                   
          //var helperDiv = $(this).find("div")[0];
          //$(helperDiv).css)
          //if (scrollToBottomParam) {
