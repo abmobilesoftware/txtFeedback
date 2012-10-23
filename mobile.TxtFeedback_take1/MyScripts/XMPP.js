@@ -117,7 +117,7 @@ window.app.XMPPhandler = function XMPPhandler() {
    this.connectCallback = function (status, condition) {
       var needReconnect = false;
       if (status === Strophe.Status.CONNECTED) {
-         window.app.logDebugOnServer("XMPP connected");                  
+         //window.app.logDebugOnServer("XMPP connected");                  
          window.app.xmppConn.conn.addHandler(window.app.xmppConn.handle_infoquery, null, "iq", null, null);
          window.app.xmppConn.conn.addHandler(window.app.xmppConn.handle_message, null, "message", null, null);
          var domain = Strophe.getDomainFromJid(window.app.xmppConn.conn.jid);         
@@ -127,7 +127,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       } else if (status === Strophe.Status.REGIFAIL) {
          window.app.logErrorOnServer("XMPP registration failed");
       } else if (status === Strophe.Status.REGISTER) {
-         window.app.logDebugOnServer("XMPP registering with user [" + window.app.xmppUserToConnectAs + "]");
+         //window.app.logDebugOnServer("XMPP registering with user [" + window.app.xmppUserToConnectAs + "]");
          window.app.xmppConn.conn.register.fields.username = window.app.xmppUserToConnectAs;
          window.app.xmppConn.conn.register.fields.password = window.app.xmppPasswordForUser;
          window.app.xmppConn.conn.register.submit();
@@ -147,7 +147,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       } else if (status === Strophe.Status.AUTHENTICATING) {
          
       } else if (status === Strophe.Status.DISCONNECTED) {
-         window.app.logDebugOnServer("XMPP disconnected");        
+         //window.app.logDebugOnServer("XMPP disconnected");        
          needReconnect = true;
       } else if (status === Strophe.Status.CONNFAIL) {         
          window.app.logDebugOnServer("XMPP connection fail");
@@ -164,7 +164,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       }
    };
    this.connect = function (userid, password) {
-      window.app.logDebugOnServer("XMPP connecting with user [" + userid + "]");
+      //window.app.logDebugOnServer("XMPP connecting with user [" + userid + "]");
       var self = this;
       var xmppServerAddress = "http://176.34.122.48:5280/http-bind/";
       self.conn = new Strophe.Connection(xmppServerAddress);
