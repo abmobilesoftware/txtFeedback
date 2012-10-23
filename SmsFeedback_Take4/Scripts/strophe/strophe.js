@@ -1054,7 +1054,13 @@ Strophe = {
      */
     log: function (level, msg)
     {
-        //console.log("Level " + level + "with message: " + msg);
+       //console.log("Level " + level + "with message: " + msg);
+       var message = "Level " + level + " with message: " + msg;
+       if (window.app.logErrorOnServer) {
+          if (level === Strophe.LogLevel.ERROR || level === Strophe.LogLevel.FATAL) {
+             window.app.logErrorOnServer(message);
+          }
+       }
         return;
     },
 
@@ -1534,10 +1540,12 @@ Strophe.Handler.prototype = {
                               e.fileName + ":" + e.lineNumber + " - " +
                               e.name + ": " + e.message);
             } else {
-                Strophe.fatal("error: " + this.handler);
+               Strophe.fatal("error: " + e.message);
+               //DA - we force a true return to make sure we can handle future requests
+            
             }
-
-            throw e;
+            result = true;
+            //throw e;
         }
 
         return result;
@@ -2734,7 +2742,7 @@ Strophe.Connection.prototype = {
         Strophe.warn("request errored, status: " + reqStatus +
                      ", number of errors: " + this.errors);
         if (this.errors > 4) {
-            this._onDisconnectTimeout();
+           // this._onDisconnectTimeout();
         }
     },
 

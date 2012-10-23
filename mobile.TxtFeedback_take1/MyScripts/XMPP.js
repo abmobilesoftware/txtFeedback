@@ -37,11 +37,17 @@ window.app.defaultTo = '';
 window.app.defaultMessage = '';
 
 window.app.initializeBasedOnLocation = function () {
+   
    //based on the address we should have received from the server some configuration data, so now we initialize those variables based on that data
    window.app.messageModeratorAddress = $("#componentLocation").text();
+   if (window.app.messageModeratorAddress === '') {
+      return false;
+   }
    window.app.suffixedMessageModeratorAddress = window.app.messageModeratorAddress + window.app.xmppComponentExtension;
    window.app.welcomeMessage = $("#welcomeMessage").text();
+   return true;
 };
+
 window.app.initializeBasedOnConnectionDetails = function (user, password, convID) {
    window.app.xmppUserToConnectAs = user;
    window.app.xmppPasswordForUser = password;
@@ -117,7 +123,7 @@ window.app.XMPPhandler = function XMPPhandler() {
    this.connectCallback = function (status, condition) {
       var needReconnect = false;
       if (status === Strophe.Status.CONNECTED) {
-         window.app.logDebugOnServer("XMPP connected");                  
+         //window.app.logDebugOnServer("XMPP connected");                  
          window.app.xmppConn.conn.addHandler(window.app.xmppConn.handle_infoquery, null, "iq", null, null);
          window.app.xmppConn.conn.addHandler(window.app.xmppConn.handle_message, null, "message", null, null);
          var domain = Strophe.getDomainFromJid(window.app.xmppConn.conn.jid);         
@@ -127,7 +133,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       } else if (status === Strophe.Status.REGIFAIL) {
          window.app.logErrorOnServer("XMPP registration failed");
       } else if (status === Strophe.Status.REGISTER) {
-         window.app.logDebugOnServer("XMPP registering with user [" + window.app.xmppUserToConnectAs + "]");
+         //window.app.logDebugOnServer("XMPP registering with user [" + window.app.xmppUserToConnectAs + "]");
          window.app.xmppConn.conn.register.fields.username = window.app.xmppUserToConnectAs;
          window.app.xmppConn.conn.register.fields.password = window.app.xmppPasswordForUser;
          window.app.xmppConn.conn.register.submit();
@@ -147,7 +153,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       } else if (status === Strophe.Status.AUTHENTICATING) {
          
       } else if (status === Strophe.Status.DISCONNECTED) {
-         window.app.logDebugOnServer("XMPP disconnected");        
+         //window.app.logDebugOnServer("XMPP disconnected");        
          needReconnect = true;
       } else if (status === Strophe.Status.CONNFAIL) {         
          window.app.logDebugOnServer("XMPP connection fail");
@@ -164,7 +170,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       }
    };
    this.connect = function (userid, password) {
-      window.app.logDebugOnServer("XMPP connecting with user [" + userid + "]");
+      //window.app.logDebugOnServer("XMPP connecting with user [" + userid + "]");
       var self = this;
       var xmppServerAddress = "http://176.34.122.48:5280/http-bind/";
       self.conn = new Strophe.Connection(xmppServerAddress);
@@ -306,6 +312,11 @@ window.app.XMPPhandler = function XMPPhandler() {
    };
 };
 
+window.app.disconnectXMPP = function () {
+   if (window.app.xmppHandlerInstance && window.app.xmppHandlerInstance.disconnect) {
+      window.app.xmppHandlerInstance.disconnect();
+   }
+};
 //#region Store/retrieve login details
 window.app.saveLoginDetails = function () {
    var store = new Persist.Store('TxtFeedback');
@@ -316,29 +327,30 @@ window.app.saveLoginDetails = function () {
 
 window.app.loadLoginDetails = function () {
    //console.log("load login details");     
-   var store = new Persist.Store('TxtFeedback');   
-   var user = store.get('xmppUser');   
+   var store = new Persist.Store('TxtFeedback');
+   var user = store.get('xmppUser');
    if (user !== undefined && user) {
-        //if (false) {
+      //if (false) {
       //we found a previous logged in user, so we reuse that on         
-         //console.log("reuse existing user");         
-         var password = store.get('xmppPassw');          
-         var defaultConversationID = store.get('conversationID');
-         window.app.initializeBasedOnConnectionDetails(user, password, defaultConversationID);                        
-         window.app.logOnXmppNetwork(false);
-      }
-      else {
-         //console.log("new user");
-         //no previous user found, create a new one
-         $.getJSON(            
-            'Home/GetUser',
-            { location: window.app.messageModeratorAddress },
-            function (data) {
-               //console.log("create new user");                              
-               window.app.initializeBasedOnConnectionDetails(data.Name, data.Password, data.ConversationID);               
-               window.app.logOnXmppNetwork(true);
-            }
-         );
-      }  
+      //console.log("reuse existing user");         
+      var password = store.get('xmppPassw');
+      //we cannot store/retrieve the conversation ID as it changes from store to store
+      var defaultConversationID = buildConversationID(user, window.app.messageModeratorAddress);
+      window.app.initializeBasedOnConnectionDetails(user, password, defaultConversationID);
+      window.app.logOnXmppNetwork(false);
+   }
+   else {
+      //console.log("new user");
+      //no previous user found, create a new one
+      $.getJSON(
+         'Home/GetUser',
+         { location: window.app.messageModeratorAddress },
+         function (data) {
+            //console.log("create new user");                              
+            window.app.initializeBasedOnConnectionDetails(data.Name, data.Password, data.ConversationID);
+            window.app.logOnXmppNetwork(true);
+         }
+      );
+   }
 };
 //#endregion

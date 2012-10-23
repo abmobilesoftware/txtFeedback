@@ -64,7 +64,7 @@ window.app.XMPPhandler = function XMPPhandler() {
    this.connectCallback = function (status) {
       var needReconnect = false;
       if (status === Strophe.Status.CONNECTED) {
-         window.app.logDebugOnServer("XMPP connected");         
+         //window.app.logDebugOnServer("XMPP connected");         
          window.app.xmppConn.connection = window.app.xmppConn.conn;
          window.app.xmppConn.connection.addHandler(window.app.xmppConn.handle_infoquery, null, "iq", null,null);
          window.app.xmppConn.connection.addHandler(window.app.xmppConn.handle_message, null, "message", null, null);
@@ -75,11 +75,11 @@ window.app.XMPPhandler = function XMPPhandler() {
        
          //self.request_conversations(self.account_number);
       } else if (status === Strophe.Status.CONNECTING) {
-         window.app.logDebugOnServer("XMPP connecting...");         
+         //window.app.logDebugOnServer("XMPP connecting...");         
       } else if (status === Strophe.Status.AUTHENTICATING) {
-         window.app.logDebugOnServer("XMPP authenticating...");         
+        // window.app.logDebugOnServer("XMPP authenticating...");         
       } else if (status === Strophe.Status.DISCONNECTED) {
-         window.app.logDebugOnServer("XMPP disconnected");        
+         //window.app.logDebugOnServer("XMPP disconnected");        
          needReconnect = true;
       } else if (status === Strophe.Status.CONNFAIL) {         
          window.app.logDebugOnServer("XMPP connection fail");

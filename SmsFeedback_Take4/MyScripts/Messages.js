@@ -127,49 +127,50 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
       xmlDoc.loadXML(msgContent);
    }
    var xmlMsgToBeDecoded = xmlDoc.getElementsByTagName("msg")[0];
-   var rawFromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
-   var rawToID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
-   var toID = cleanupPhoneNumber(rawToID);
-   var fromID = cleanupPhoneNumber(rawFromID);
-   var extension;
-   /*
-   DA: the following line seems weird and it actually is :)
-   Right now a Working Point XMPP address is shortID@moderator.txtfeedback.net
-   In order not to hard code the @ prefix we try to retrieve it from SuffixDictionary
-   The issue is that the WP's address might be the from address or the to address (depending on different factors)
-   But for sure the WP is either the to or the from -> we will find it in the suffix dictionary
-   To avoid complicated logic we test both from and to in the suffix dictionary and one of them will hit :)
-   */
-   extension = window.app.workingPointsSuffixDictionary[toID] || window.app.workingPointsSuffixDictionary[fromID];
-   //decide if we are dealing with a message coming from another WorkingPoint
-   var isFromWorkingPoint = isWorkingPoint(rawFromID, extension);
-   var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
-   var isSmsBasedAsString = xmlMsgToBeDecoded.getElementsByTagName('sms')[0].textContent;
-   var isSmsBased = false;
-   if (isSmsBasedAsString === "true") {
-      isSmsBased = true;
-   }
-   var convID;
-   if (isFromWorkingPoint && isIncomming) {
-      convID = buildConversationID(fromID, toID);
-   } else {
-      convID = xmlMsgToBeDecoded.getElementsByTagName("convID")[0].textContent;
-   }
+   if (xmlMsgToBeDecoded !== undefined) {
+      var rawFromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
+      var rawToID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
+      var toID = cleanupPhoneNumber(rawToID);
+      var fromID = cleanupPhoneNumber(rawFromID);      
+      var extension;
+      /*
+      DA: the following line seems weird and it actually is :)
+      Right now a Working Point XMPP address is shortID@moderator.txtfeedback.net
+      In order not to hard code the @ prefix we try to retrieve it from SuffixDictionary
+      The issue is that the WP's address might be the from address or the to address (depending on different factors)
+      But for sure the WP is either the to or the from -> we will find it in the suffix dictionary
+      To avoid complicated logic we test both from and to in the suffix dictionary and one of them will hit :)
+      */
+      extension = window.app.workingPointsSuffixDictionary[toID] || window.app.workingPointsSuffixDictionary[fromID];
+      //decide if we are dealing with a message coming from another WorkingPoint
+      var isFromWorkingPoint = isWorkingPoint(rawFromID, extension);
+      var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
+      var isSmsBasedAsString = xmlMsgToBeDecoded.getElementsByTagName('sms')[0].textContent;
+      var isSmsBased = false;
+      if (isSmsBasedAsString === "true") {
+         isSmsBased = true;
+      }
+      var convID;
+      if (isFromWorkingPoint && isIncomming) {
+         convID = buildConversationID(fromID, toID);
+      } else {
+         convID = xmlMsgToBeDecoded.getElementsByTagName("convID")[0].textContent;
+      }
 
-   var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
-   var readStatus = false; //one "freshly received" message is always unread
-   window.app.receivedMsgID++;
-   $(document).trigger('msgReceived', {
-      fromID: fromID,
-      toID: toID,
-      convID: convID,
-      msgID: window.app.receivedMsgID,
-      dateReceived: dateReceived,
-      text: newText,
-      readStatus: readStatus,
-      isSmsBased: isSmsBased
-   });
-
+      var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
+      var readStatus = false; //one "freshly received" message is always unread
+      window.app.receivedMsgID++;
+      $(document).trigger('msgReceived', {
+         fromID: fromID,
+         toID: toID,
+         convID: convID,
+         msgID: window.app.receivedMsgID,
+         dateReceived: dateReceived,
+         text: newText,
+         readStatus: readStatus,
+         isSmsBased: isSmsBased
+      });
+   }
 };
 //#endregion
 
