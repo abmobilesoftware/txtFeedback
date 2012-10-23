@@ -35,6 +35,20 @@ window.app.unsentMsgXmppToQueue = [];
 window.app.XMPPConnecting = false;
 //#endregion
 
+//#region "timer for reconnect"
+window.app.reconnectTimer;
+window.app.intervalToWaitBetweenChecks = 15000;
+window.app.startReconnectTimer = function() {
+   clearTimeout(window.app.reconnectTimer);
+   window.app.reconnectTimer = setTimeout(reconnectIfRequired, window.app.intervalToWaitBetweenChecks);
+}
+function reconnectIfRequired() {
+   if (window.app.xmppConn && window.app.xmppConn.conn && !window.app.xmppConn.conn.connected && !window.app.XMPPConnecting) {
+      window.app.xmppHandlerInstance.connect(window.app.xmppSuffixedUserToConnectAs, window.app.xmppPasswordForUser, window.app.xmppHandlerInstance.connectCallback)
+   }
+   window.app.startReconnectTimer();
+}
+//#endregion
 window.app.defaultConversationID = '';
 window.app.defaultFrom = '';
 window.app.defaultTo = '';

@@ -261,7 +261,8 @@ $(function () {
             window.app.saveLoginDetails();
             window.app.disconnectXMPP();
          });
-         window.app.loadLoginDetails();      
+         window.app.loadLoginDetails();
+         window.app.startReconnectTimer();
    }
 });
 
