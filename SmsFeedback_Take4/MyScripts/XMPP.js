@@ -36,6 +36,11 @@ window.app.xmppHandlerInstance = {};
 $(function () {
    //the xmpp handler for new messages
    window.app.xmppHandlerInstance = new window.app.XMPPhandler();
+   $(window).unload(function () {
+      if (window.app.xmppHandlerInstance && window.app.xmppHandlerInstance.disconnect) {
+         window.app.xmppHandlerInstance.disconnect();
+      }
+   });
    $.getJSON(window.app.domainName + '/Xmpp/GetConnectionDetailsForLoggedInUser', function (data) {
       if (data !== "") {
          window.app.selfXmppAddress = data.XmppUser;
@@ -110,7 +115,10 @@ window.app.XMPPhandler = function XMPPhandler() {
    };
    this.disconnect = function () {
       var self = this;
-      self.conn.disconnect();
+      //DA based on http://stackoverflow.com/questions/5198410/disconnect-strophe-connection-on-page-unload
+      self.conn.sync = true; // Switch to using synchronous requests since this is typically called onUnload.
+      self.conn.flush();
+      self.conn.disconnect();     
    };
    this.send_ping = function (to) {
       var ping = $iq({
