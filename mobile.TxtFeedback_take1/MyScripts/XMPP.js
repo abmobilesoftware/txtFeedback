@@ -318,8 +318,8 @@ window.app.loadLoginDetails = function () {
    //console.log("load login details");     
    var store = new Persist.Store('TxtFeedback');   
    var user = store.get('xmppUser');   
-   //if (user !== undefined && user) {
-        if (false) {
+   if (user !== undefined && user) {
+        //if (false) {
       //we found a previous logged in user, so we reuse that on         
          //console.log("reuse existing user");         
          var password = store.get('xmppPassw');          

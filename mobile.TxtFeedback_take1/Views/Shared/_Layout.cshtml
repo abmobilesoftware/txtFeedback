@@ -27,18 +27,19 @@
          }
       </div>
       <div data-role="content" id="contentArea">
+          <div class="debug"></div>
          @RenderBody()
       </div>
       @*<div id="footer">
               <textarea cols="40" rows="3" name="textarea" id="limitedtextarea" autofocus></textarea>
            </div> *@
       <div data-role="footer" data-position="fixed" class="ui-bar">
-         <div data-role="controlgroup" data-type="horizontal" >
-            <div class="ui-block-a">               
+         <div data-role="controlgroup" data-type="horizontal">
+            <div class="threeQuarters">               
                <input type="text" value="" class="input ui-input-text ui-body-a ui-corner-all ui-  -inset"
                   data-form="ui-body-a" id="replyText">
             </div>
-            <div class="ui-block-b">
+            <div class="oneQuarter"> <!-- ui-block-b -->
                <button type="submit" id="reply" data-theme="a" class="ui-btn-hidden" aria-disabled="false">Reply</button>               
             </div>
          </div>
