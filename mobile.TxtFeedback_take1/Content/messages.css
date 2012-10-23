@@ -404,3 +404,15 @@ html, body
 .ui-page {
    height:100%;
 }
+
+
+.threeQuarters {
+    width: 55%;
+    float: left;
+}
+
+.oneQuarter {
+    width: 30%;
+    padding-top:1px;
+    float: left;
+}
