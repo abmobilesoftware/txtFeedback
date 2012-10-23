@@ -257,9 +257,9 @@ $(function () {
             newMessageReceivedGUI(window.app.msgView.messagesView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
          });
 
-         $(window).unload(function () {
-            window.app.disconnectXMPP();
+         $(window).unload(function () {            
             window.app.saveLoginDetails();
+            window.app.disconnectXMPP();
          });
          window.app.loadLoginDetails();      
    }
