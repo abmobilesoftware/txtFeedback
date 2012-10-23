@@ -37,11 +37,17 @@ window.app.defaultTo = '';
 window.app.defaultMessage = '';
 
 window.app.initializeBasedOnLocation = function () {
+   
    //based on the address we should have received from the server some configuration data, so now we initialize those variables based on that data
    window.app.messageModeratorAddress = $("#componentLocation").text();
+   if (window.app.messageModeratorAddress === '') {
+      return false;
+   }
    window.app.suffixedMessageModeratorAddress = window.app.messageModeratorAddress + window.app.xmppComponentExtension;
    window.app.welcomeMessage = $("#welcomeMessage").text();
+   return true;
 };
+
 window.app.initializeBasedOnConnectionDetails = function (user, password, convID) {
    window.app.xmppUserToConnectAs = user;
    window.app.xmppPasswordForUser = password;
@@ -306,6 +312,11 @@ window.app.XMPPhandler = function XMPPhandler() {
    };
 };
 
+window.app.disconnectXMPP = function () {
+   if (window.app.xmppHandlerInstance && window.app.xmppHandlerInstance.disconnect) {
+      window.app.xmppHandlerInstance.disconnect();
+   }
+};
 //#region Store/retrieve login details
 window.app.saveLoginDetails = function () {
    var store = new Persist.Store('TxtFeedback');
@@ -316,29 +327,30 @@ window.app.saveLoginDetails = function () {
 
 window.app.loadLoginDetails = function () {
    //console.log("load login details");     
-   var store = new Persist.Store('TxtFeedback');   
-   var user = store.get('xmppUser');   
-   //if (user !== undefined && user) {
-        if (false) {
+   var store = new Persist.Store('TxtFeedback');
+   var user = store.get('xmppUser');
+   if (user !== undefined && user) {
+      //if (false) {
       //we found a previous logged in user, so we reuse that on         
-         //console.log("reuse existing user");         
-         var password = store.get('xmppPassw');          
-         var defaultConversationID = store.get('conversationID');
-         window.app.initializeBasedOnConnectionDetails(user, password, defaultConversationID);                        
-         window.app.logOnXmppNetwork(false);
-      }
-      else {
-         //console.log("new user");
-         //no previous user found, create a new one
-         $.getJSON(            
-            'Home/GetUser',
-            { location: window.app.messageModeratorAddress },
-            function (data) {
-               //console.log("create new user");                              
-               window.app.initializeBasedOnConnectionDetails(data.Name, data.Password, data.ConversationID);               
-               window.app.logOnXmppNetwork(true);
-            }
-         );
-      }  
+      //console.log("reuse existing user");         
+      var password = store.get('xmppPassw');
+      //we cannot store/retrieve the conversation ID as it changes from store to store
+      var defaultConversationID = buildConversationID(user, window.app.messageModeratorAddress);
+      window.app.initializeBasedOnConnectionDetails(user, password, defaultConversationID);
+      window.app.logOnXmppNetwork(false);
+   }
+   else {
+      //console.log("new user");
+      //no previous user found, create a new one
+      $.getJSON(
+         'Home/GetUser',
+         { location: window.app.messageModeratorAddress },
+         function (data) {
+            //console.log("create new user");                              
+            window.app.initializeBasedOnConnectionDetails(data.Name, data.Password, data.ConversationID);
+            window.app.logOnXmppNetwork(true);
+         }
+      );
+   }
 };
 //#endregion

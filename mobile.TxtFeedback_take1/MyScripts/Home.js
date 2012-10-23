@@ -60,7 +60,7 @@ window.app.defaultMessagesOptions = {
 };
 //#endregion
 
-function MessagesArea() {
+window.app.MessagesArea = function()  {
    "use strict";
    var self = this;
 
@@ -248,20 +248,21 @@ function MessagesArea() {
 }
 
 $(function () {
-   window.app.initializeBasedOnLocation();
+   if (window.app.initializeBasedOnLocation()) {            
+         window.app.msgView = new window.app.MessagesArea();
+         $("[data-role=header]").fixedtoolbar({ tapToggle: true });
+         $("[data-role=footer]").fixedtoolbar({ tapToggle: false });
 
-   window.app.msgView = new MessagesArea();
-   $("[data-role=header]").fixedtoolbar({ tapToggle: true });
-   $("[data-role=footer]").fixedtoolbar({ tapToggle: false });
+         $(document).bind('msgReceived', function (ev, data) {
+            newMessageReceivedGUI(window.app.msgView.messagesView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
+         });
 
-   $(document).bind('msgReceived', function (ev, data) {
-      newMessageReceivedGUI(window.app.msgView.messagesView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
-   });
-
-   $(window).unload(function () {
-      window.app.saveLoginDetails();
-   });
-   window.app.loadLoginDetails();
+         $(window).unload(function () {
+            window.app.disconnectXMPP();
+            window.app.saveLoginDetails();
+         });
+         window.app.loadLoginDetails();      
+   }
 });
 
 
