@@ -156,6 +156,7 @@ window.app.MessagesArea = function()  {
             "newMessageReceived");// to solve the this issue
          this.messages = new window.app.MessagesList();
          this.messages.bind("reset", this.render);
+         $(this.el).append("<div class='clear'></div>");
       },
       resetViewToDefault: function () {
          var noConversationLoadedMessage = $("#noConversationSelectedMessage").val();
@@ -193,7 +194,8 @@ window.app.MessagesArea = function()  {
          //messages.add(msgFromReply);        
       },
       render: function () {
-         $("#messagesbox").html('');
+          $("#messagesbox").html('');
+          $("#messagesbox").append("<div class='clear'></div>");
          var selfMessageView = this;
          window.app.globalMessagesRep[self.currentConversationId].each(function (msg) {            
             selfMessageView.appendMessageToDiv(msg, performFadeIn, false);
@@ -230,25 +232,23 @@ window.app.MessagesArea = function()  {
          }
       },
       appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
-          
-          var bodyHeight = window.innerHeight - 2 * $(".ui-header").height();
-          var contentHeight = $("#contentArea").height();
-          $(".debug").empty();
-          $(".debug").html("Body height: " + bodyHeight + " </br> Content height: " + contentHeight);
-
-
-          if (contentHeight > bodyHeight) {
-            window.scrollTo(0, document.body.scrollHeight + 50);
-          }
-
-
           var msgView = new MessageView({ model: msg });
           var item = msgView.render().el;
           $(this.el).append(item);         
           if (performFadeIn) {
               $(item).hide().fadeIn("2000");
           }
-                   
+
+          //var bodyHeight = window.innerHeight - 2 * $(".ui-header").height();
+          var bodyHeight = $(window).height() - 2 * $(".ui-header").height() - 50;
+          var contentHeight = $("#contentArea").height();
+          $("title").empty();
+          $("title").html("Body height: " + bodyHeight + " Content height: " + contentHeight);
+          if (contentHeight > bodyHeight) {
+              window.scrollTo(0, document.body.scrollHeight + 50);
+          }
+          
+          $(this.el).append("<div class='clear'></div>");
          //var helperDiv = $(this).find("div")[0];
          //$(helperDiv).css)
          //if (scrollToBottomParam) {
