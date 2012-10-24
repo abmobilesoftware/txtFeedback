@@ -200,7 +200,7 @@ window.app.sendMessageToClient = function (text, conversationID, selectedConv, m
       msgID: msgID,
       dateReceived: timeSent,
       text: text,
-      readStatus: false,
+      readStatus: true,
       messageIsSent: true,
       isSmsBased: isSmsBased
    });
@@ -461,7 +461,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                 this.appendMessageToDiv(msg, true, true);
             }
         },
-        newMessageReceived: function (fromID, convID, msgID, dateReceived, text, isSmsBased) {
+        newMessageReceived: function (fromID, convID, msgID, dateReceived, text, read, isSmsBased) {
            var newMsg = new window.app.Message({
               Id: msgID,              
               From: fromID,
@@ -469,6 +469,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
               ConvID: convID,
               ClientDisplayName: fromID,
               ClientIsSupportBot: false,
+              Read: read,
               IsSmsBased: isSmsBased
            });
             //decide if this is a from or to message

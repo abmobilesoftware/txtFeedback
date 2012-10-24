@@ -414,15 +414,14 @@ function ConversationArea(filterArea, workingPointsArea) {
                 }
             }
         },
-        newMessageReceived: function (fromID, toID, convID, dateReceived, newText, isSmsBased) {
-            //if the given conversation exists we update it, otherwise we create a new conversation
-            var newReadStatus = false;
+        newMessageReceived: function (fromID, toID, convID, dateReceived, newText, readStatus, isSmsBased) {
+            //if the given conversation exists we update it, otherwise we create a new conversation          
             var modelToUpdate = self.convsView.convsList.get(convID);
             if (modelToUpdate) {
                 //since the view will react to model changes we make sure that we do "batch updates" - only the last update will trigger the update
                 //all the previous updates will be "silent"
                 modelToUpdate.set({ "Text": newText }, { silent: true });
-                modelToUpdate.set({ "Read": newReadStatus }, { silent: true });
+                modelToUpdate.set({ "Read": readStatus }, { silent: true });
 
                 modelToUpdate.set("To", toID);
                 modelToUpdate.set("From", fromID);
