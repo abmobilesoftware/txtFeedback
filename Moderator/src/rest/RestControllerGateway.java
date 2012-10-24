@@ -10,9 +10,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import log.Log;
+import log.LogEntryType;
+
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.utils.URIBuilder;
 import org.helpers.Constants;
+import org.helpers.Utilities;
 import org.helpers.json.Agent;
 import org.helpers.json.WorkingPoint;
 import org.json.JSONArray;
@@ -24,8 +28,8 @@ public class RestControllerGateway {
 	private String RESTDomain = "http://rest.txtfeedback.net/";
 	private String RESTGetHandlersForMessageURL1 = "http://dev.txtfeedback.net/Component/GetHandlerForMessage1";
 	private String RESTGetWorkingPointForCertainAddress = "http://dev.txtfeedback.net/Component/GetWorkingPointForCertainAddress";
-	private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
-	//private String RESTSaveMessage = "http://dev.txtfeedback.net/Component/SaveMessage";
+	//private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
+	private String RESTSaveMessage = "http://dev.txtfeedback.net/Component/SaveMessage";
 	private String RESTParametersTest = "http://dev.txtfeedback.net/Component/GetParametersTest";
 	
 	public ArrayList<Agent> getHandlersForMessage(String iWP, String iConversationId, boolean isSms) {
@@ -36,9 +40,8 @@ public class RestControllerGateway {
 		Hashtable<String, String> params = new Hashtable<String, String>();
 		try {
 			params.put("from", URLEncoder.encode(iConversationId, "UTF-8"));			
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 		}
 		System.out.println("URL=" + urlSb.toString());
 		JSONObject listOfAgentsJsonObject = getResourceAsJsonObject(urlSb.toString(), RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
@@ -49,8 +52,7 @@ public class RestControllerGateway {
 					handlers.add(new Agent(listOfAgentsArray.getJSONObject(i).getString("user"), listOfAgentsArray.getJSONObject(i).getInt("priority")));												
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));				
 			}
 		}
 		return handlers;
@@ -63,9 +65,8 @@ public class RestControllerGateway {
 			params.put("wp", URLEncoder.encode(iWP, "UTF-8"));
 			params.put("convId", URLEncoder.encode(iConversationId, "UTF-8"));
 			params.put("isSms", URLEncoder.encode(String.valueOf(isSms), "UTF-8"));
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 		}
 		JSONObject listOfAgentsJsonObject = getResourceAsJsonObject(RESTGetHandlersForMessageURL1, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
 		if (listOfAgentsJsonObject != null) {
@@ -75,8 +76,7 @@ public class RestControllerGateway {
 					handlers.add(new Agent(listOfAgentsArray.getJSONObject(i).getString("user"), listOfAgentsArray.getJSONObject(i).getInt("priority")));												
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 			}
 		}
 		return handlers;
@@ -95,8 +95,7 @@ public class RestControllerGateway {
 				wpJsonObject.getInt("NrOfSentSmsThisMonth"),
 				wpJsonObject.getInt("MaxNrOfSmsToSendPerMonth"));
 			} catch (JSONException e) {
-				// TODO: Log this error
-				System.out.println(e.getMessage());
+				Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 			}	
 		}		
 		return wp;	
@@ -121,7 +120,7 @@ public class RestControllerGateway {
 			params.put("xmppUser", xmppUser);
 			params.put("isSms", String.valueOf(isSms));
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 		}
 		String restCallResponse = getResourceAsString(RESTSaveMessage, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);		
 		if (restCallResponse.equals("{success}")) {
@@ -140,8 +139,7 @@ public class RestControllerGateway {
 			ri.createObjectJson();
 			wpJsonObj = ri.getRecvObject();
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 		}
 		return wpJsonObj;
 	}
@@ -174,11 +172,11 @@ public class RestControllerGateway {
 			// INFO Log the event - a REST resource was accessed 
 			//System.out.println(ri.getResponse());
 		} catch (IllegalStateException e) {
-			e.printStackTrace();
+			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 		} catch (ClientProtocolException e) {
-			e.printStackTrace();
+			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 		} 
 		return ri;
 	}

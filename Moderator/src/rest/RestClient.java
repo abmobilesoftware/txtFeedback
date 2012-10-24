@@ -26,8 +26,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
  
-
- 
 public class RestClient {
  
 	public static final String TAG = "RestClient";
