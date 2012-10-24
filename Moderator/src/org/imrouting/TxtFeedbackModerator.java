@@ -48,6 +48,7 @@ public class TxtFeedbackModerator implements Component {
 	private int clientToStaffCounter = 0;
 	private int staffToClientCounter = 0;
 	private TxtFeedbackModerator self;
+	private MessageProcessor mp;
 	
 	public String getName() {
 		return ("Txtfeedback component");
@@ -65,16 +66,7 @@ public class TxtFeedbackModerator implements Component {
 			final Message lReceivedMessage = (Message) iReceivedPacket;
 			if (lReceivedMessage.getSubject() != null) {
 				if (lReceivedMessage.getSubject().equals(Constants.INTERNAL_PACKET)) {
-					Thread newThread = new Thread(new Runnable() {
-						
-						@Override
-						public void run() {
-							MessageProcessor mp = new MessageProcessor(self, lReceivedMessage);
-							mp.processInternalPacket();
-							
-						}
-					});
-					newThread.start();
+					mp.processInternalPacket(lReceivedMessage);					
 				}
 			}			
 		} else if (iReceivedPacket instanceof Presence) {
@@ -109,6 +101,7 @@ public class TxtFeedbackModerator implements Component {
 			throws ComponentException {
 		Log.addLogEntry("Component initializing", LogEntryType.INFO);
 		mMgr = (ExternalComponentManager) iComponentManager;
+		mp = new MessageProcessor(this);
 		self = this;		
 	}
 
