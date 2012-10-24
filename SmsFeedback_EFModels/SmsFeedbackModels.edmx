@@ -351,6 +351,8 @@
           <Property Name="ShortID" Type="nvarchar" Nullable="false" MaxLength="10" />
           <Property Name="WelcomeMessage" Type="nvarchar" MaxLength="160" />
           <Property Name="XMPPsuffix" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="BusyMessage" Type="nvarchar" MaxLength="160" />
+          <Property Name="OutsideOfficeHoursMessage" Type="nvarchar" MaxLength="160" />
         </EntityType>
         <EntityType Name="XmppConnections">
           <Key>
@@ -804,7 +806,7 @@
           <Property Name="Text" Type="String" Nullable="false" MaxLength="160" Unicode="true" FixedLength="false" />
           <Property Name="Read" Type="Boolean" Nullable="false" />
           <Property Name="TimeUpdated" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Type="String" Name="From" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="From" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Type="Boolean" Name="Starred" Nullable="false" />
           <NavigationProperty Name="Messages" Relationship="smsfeedbackModel.ConversationMessage" FromRole="Conversation" ToRole="Message" />
           <Property Type="DateTime" Name="StartTime" Nullable="false" Precision="3" />
@@ -832,8 +834,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
-          <Property Name="From" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
-          <Property Name="To" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="From" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="To" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Text" Type="String" Nullable="false" MaxLength="160" Unicode="true" FixedLength="false" />
           <Property Name="TimeReceived" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Read" Type="Boolean" Nullable="false" />
@@ -867,7 +869,9 @@
           <Property Type="String" Name="ShortID" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="WelcomeMessage" MaxLength="160" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="XMPPsuffix" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
+          <Property Type="String" Name="BusyMessage" MaxLength="160" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="OutsideOfficeHoursMessage" MaxLength="160" FixedLength="false" Unicode="true" />
+          </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserId" />
@@ -1359,7 +1363,9 @@
     <EntitySetMapping Name="WorkingPoints">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.WorkingPoint)">
         <MappingFragment StoreEntitySet="WorkingPoints">
-          <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
+          <ScalarProperty Name="OutsideOfficeHoursMessage" ColumnName="OutsideOfficeHoursMessage" />
+                <ScalarProperty Name="BusyMessage" ColumnName="BusyMessage" />
+                <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Provider" ColumnName="Provider" />
