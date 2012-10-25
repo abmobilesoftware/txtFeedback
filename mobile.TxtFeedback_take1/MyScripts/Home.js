@@ -276,6 +276,22 @@ $(function () {
          });
          window.app.loadLoginDetails();      
    }
+    
+   $("#replyText").click(function () {
+       if ($("#replyText").is(":focus")) {
+           $("#footer").css("position", "relative");
+       }
+   });
+
+   $("#replyText").blur(function () {
+       $("#footer").css("position", "fixed");
+   });
+   
+  /*
+   $(window).scroll(function () {
+       $("#footer").css("top", window.scrollTop + $(window).height - 50);
+   });
+   */
 });
 
 

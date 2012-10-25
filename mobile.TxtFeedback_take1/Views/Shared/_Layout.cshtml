@@ -49,7 +49,9 @@
       @*<div id="footer">
               <textarea cols="40" rows="3" name="textarea" id="limitedtextarea" autofocus></textarea>
            </div> *@
-      <div data-role="footer" data-position="fixed" class="ui-bar">
+
+       <!--data-role="footer" data-position="fixed"-->
+      <div class="ui-bar customFooter" id="footer">
          <div data-role="controlgroup" data-type="horizontal">
             <div class="threeQuarters">               
                <input type="text" value="" class="input ui-input-text ui-body-a ui-corner-all ui-  -inset"
@@ -63,5 +65,9 @@
    </div>
    
    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        //$("#footer").css("top", window.scrollTop + $(window).height - 50);
+    </script>
 </body>
 </html>

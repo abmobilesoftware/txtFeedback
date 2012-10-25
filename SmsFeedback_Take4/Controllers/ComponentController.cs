@@ -28,50 +28,9 @@ namespace SmsFeedback_Take4.Controllers
             }
         }
 
-        // GET: /Component/GetHandlerForMessage
-        public JsonResult GetHandlerForMessage(String wp, String convId, bool isSms)
-        {
-            if (isSms)
-            {
-                // No conversion required for wp
-                if (wp.Equals("abmob1@moderator.txtfeedback.net", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    Agent agent1 = new Agent("support_dev_de@txtfeedback.net", 7);
-                    Agent agent2 = new Agent("dragos@txtfeedback.net", 7);
-                    List<Agent> agents = new List<Agent> { agent1, agent2 };
-                    MsgHandlers listOfAgents = new MsgHandlers(agents);
-                    return Json(listOfAgents, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    Agent agent1 = new Agent("support_dev_de@txtfeedback.net", 7);
-                    Agent agent2 = new Agent("dragos@txtfeedback.net", 7);
-                    List<Agent> agents = new List<Agent> { agent1, agent2 };
-                    MsgHandlers listOfAgents = new MsgHandlers(agents);
-                    return Json(listOfAgents, JsonRequestBehavior.AllowGet);
-                }
-            }
-            else
-            {
-                if (wp.Equals("abmobando@moderator.txtfeedback.net", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    Agent agent1 = new Agent("testDA@txtfeedback.net", 7);
-                    List<Agent> agents = new List<Agent> { agent1};
-                    MsgHandlers listOfAgents = new MsgHandlers(agents);
-                    return Json(listOfAgents, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    // Conversion required from xmpp address to wp number. It's stored in wp param
-                    Agent agent1 = new Agent("support_dev_de@txtfeedback.net", 7);
-                    Agent agent2 = new Agent("dragos@txtfeedback.net", 7);
-                    List<Agent> agents = new List<Agent> { agent1, agent2 };
-                    MsgHandlers listOfAgents = new MsgHandlers(agents);
-                    return Json(listOfAgents, JsonRequestBehavior.AllowGet);
-                }
-            }
-        }
-
+        /*
+         * Just for testing 
+         */ 
         public JsonResult GetHandlerForMessage1(String wp, String convId, bool isSms)
         {
             if (isSms)
@@ -264,7 +223,7 @@ namespace SmsFeedback_Take4.Controllers
             return Json(wp, JsonRequestBehavior.AllowGet);
         }
 
-         private void UpdateDb(String from, String to, String conversationId, String text, Boolean readStatus,
+        private void UpdateDb(String from, String to, String conversationId, String text, Boolean readStatus,
                                                      DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, String XmppUser, smsfeedbackEntities dbContext)
         {
             string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, isSmsBased, dbContext);
