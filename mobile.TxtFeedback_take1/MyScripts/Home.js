@@ -243,30 +243,21 @@ window.app.MessagesArea = function () {
          if (performFadeIn) {
             $(item).hide().fadeIn("2000");
          }
-
-          //var bodyHeight = window.innerHeight - 2 * $(".ui-header").height();
           var bodyHeight = $(window).height() - 2 * $(".ui-header").height() - 50;
-          var contentHeight = $("#contentArea").height();
-          $("title").empty();
-          $("title").html("Body height: " + bodyHeight + " Content height: " + contentHeight);
+          var contentHeight = $("#contentArea").height();          
           if (contentHeight > bodyHeight) {
               window.scrollTo(0, document.body.scrollHeight + 50);
           }
-          
           $(this.el).append("<div class='clear'></div>");
-         //var helperDiv = $(this).find("div")[0];
-         //$(helperDiv).css)
-         //if (scrollToBottomParam) {
-         //var messagesEl = $("#messagesbox");
-         //messagesEl.animate({ scrollTop: messagesEl.prop("scrollHeight") }, 3000);
-         //}
       }
    });
    this.messagesView = new MessagesView();
 };
 
 $(function () {
-   if (window.app.initializeBasedOnLocation()) {            
+   if (window.app.initializeBasedOnLocation()) {
+         $('body').bind('touchstart', function (e) {
+         });
          window.app.msgView = new window.app.MessagesArea();
          $("[data-role=header]").fixedtoolbar({ tapToggle: true });
          $("[data-role=footer]").fixedtoolbar({ tapToggle: false });
