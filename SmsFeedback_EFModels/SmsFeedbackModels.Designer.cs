@@ -4960,7 +4960,8 @@ namespace SmsFeedback_EFModels
         /// <param name="maxNrOfSmsToSend">Initial value of the MaxNrOfSmsToSend property.</param>
         /// <param name="shortID">Initial value of the ShortID property.</param>
         /// <param name="xMPPsuffix">Initial value of the XMPPsuffix property.</param>
-        public static WorkingPoint CreateWorkingPoint(global::System.String telNumber, global::System.String description, global::System.String name, global::System.String provider, global::System.Int32 sentSms, global::System.Int32 maxNrOfSmsToSend, global::System.String shortID, global::System.String xMPPsuffix)
+        /// <param name="language">Initial value of the Language property.</param>
+        public static WorkingPoint CreateWorkingPoint(global::System.String telNumber, global::System.String description, global::System.String name, global::System.String provider, global::System.Int32 sentSms, global::System.Int32 maxNrOfSmsToSend, global::System.String shortID, global::System.String xMPPsuffix, global::System.String language)
         {
             WorkingPoint workingPoint = new WorkingPoint();
             workingPoint.TelNumber = telNumber;
@@ -4971,6 +4972,7 @@ namespace SmsFeedback_EFModels
             workingPoint.MaxNrOfSmsToSend = maxNrOfSmsToSend;
             workingPoint.ShortID = shortID;
             workingPoint.XMPPsuffix = xMPPsuffix;
+            workingPoint.Language = language;
             return workingPoint;
         }
 
@@ -5268,6 +5270,30 @@ namespace SmsFeedback_EFModels
         private global::System.String _OutsideOfficeHoursMessage;
         partial void OnOutsideOfficeHoursMessageChanging(global::System.String value);
         partial void OnOutsideOfficeHoursMessageChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Language
+        {
+            get
+            {
+                return _Language;
+            }
+            set
+            {
+                OnLanguageChanging(value);
+                ReportPropertyChanging("Language");
+                _Language = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Language");
+                OnLanguageChanged();
+            }
+        }
+        private global::System.String _Language;
+        partial void OnLanguageChanging(global::System.String value);
+        partial void OnLanguageChanged();
 
         #endregion
 

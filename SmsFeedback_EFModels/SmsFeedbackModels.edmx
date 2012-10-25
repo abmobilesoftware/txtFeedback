@@ -353,6 +353,7 @@
           <Property Name="XMPPsuffix" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="BusyMessage" Type="nvarchar" MaxLength="160" />
           <Property Name="OutsideOfficeHoursMessage" Type="nvarchar" MaxLength="160" />
+          <Property Name="Language" Type="nvarchar" Nullable="false" MaxLength="10" />
         </EntityType>
         <EntityType Name="XmppConnections">
           <Key>
@@ -871,6 +872,7 @@
           <Property Type="String" Name="XMPPsuffix" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="BusyMessage" MaxLength="160" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="OutsideOfficeHoursMessage" MaxLength="160" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Language" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           </EntityType>
         <EntityType Name="User">
           <Key>
@@ -1363,7 +1365,8 @@
     <EntitySetMapping Name="WorkingPoints">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.WorkingPoint)">
         <MappingFragment StoreEntitySet="WorkingPoints">
-          <ScalarProperty Name="OutsideOfficeHoursMessage" ColumnName="OutsideOfficeHoursMessage" />
+          <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="OutsideOfficeHoursMessage" ColumnName="OutsideOfficeHoursMessage" />
                 <ScalarProperty Name="BusyMessage" ColumnName="BusyMessage" />
                 <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
           <ScalarProperty Name="Description" ColumnName="Description" />
