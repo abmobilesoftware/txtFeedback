@@ -14,16 +14,14 @@ import rest.RestControllerGateway;
 
 public class MessageProcessor {
 	private TxtFeedbackModerator moderator;
-	private Message message;
 	private RestControllerGateway restGtw;	
 	
-	public MessageProcessor(TxtFeedbackModerator tfm, Message xm) {
+	public MessageProcessor(TxtFeedbackModerator tfm) {
 		moderator = tfm;	
-		message = xm;	
 		restGtw = new RestControllerGateway();
 	}
 	
-	public void processInternalPacket() {
+	public void processInternalPacket(Message message) {
 		try {
 			TxtPacket internalPacket = new TxtPacket(message.getBody());
 			if (!internalPacket.getIsSms()) {

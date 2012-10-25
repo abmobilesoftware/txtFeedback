@@ -311,7 +311,7 @@ namespace SmsFeedback_Take4.Controllers
                         SMSRepository.SendMessage(from, to, textUnescaped, lContextPerRequest, (msgResponse) =>
                         {
                             //TODO add check if message was sent successfully 
-                            UpdateDb(from, to, conversationId, textUnescaped, false, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, xmppUser, lContextPerRequest);
+                            UpdateDb(from, to, conversationId, textUnescaped, true, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, xmppUser, lContextPerRequest);
                         });
                         //we should wait for the call to finish
                         //I should return the sent time (if successful)              
@@ -328,8 +328,13 @@ namespace SmsFeedback_Take4.Controllers
                 {
                     // save xmppUser in db just when the message direction is from customer to client
                     string xmppUserToBeSaved = xmppUser;
-                    if (direction.Equals(Constants.DIRECTION_IN)) xmppUserToBeSaved = Constants.DONT_ADD_XMPP_USER;
-                    UpdateDb(from, to, conversationId, textUnescaped, false, DateTime.UtcNow, prevConvFrom, prevConvUpdateTime, false, xmppUserToBeSaved, lContextPerRequest);
+                    bool readStatus = true;
+                    if (direction.Equals(Constants.DIRECTION_IN))
+                    {
+                        xmppUserToBeSaved = Constants.DONT_ADD_XMPP_USER;
+                        readStatus = false;
+                    }
+                    UpdateDb(from, to, conversationId, textUnescaped, readStatus, DateTime.UtcNow, prevConvFrom, prevConvUpdateTime, false, xmppUserToBeSaved, lContextPerRequest);
                     String response = "success"; //TODO should be a class
                     return Json(response, JsonRequestBehavior.AllowGet);
                 }
