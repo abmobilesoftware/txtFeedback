@@ -9,6 +9,12 @@
 /*global Persist */
 /*global DOMParser */
 /*global ActiveXObject */
+/*global getFromToFromConversation */
+/*global comparePhoneNumbers */
+/*global cleanupPhoneNumber */
+/*global buildConversationID */
+/*global clearTimeout */
+/*global setTimeout */
 //#endregion
 
 window.app = window.app || {};
@@ -36,19 +42,21 @@ window.app.XMPPConnecting = false;
 //#endregion
 
 //#region "timer for reconnect"
-window.app.reconnectTimer;
+window.app.reconnectTimer = {};
 window.app.intervalToWaitBetweenChecks = 15000;
-window.app.startReconnectTimer = function() {
-   clearTimeout(window.app.reconnectTimer);
-   window.app.reconnectTimer = setTimeout(reconnectIfRequired, window.app.intervalToWaitBetweenChecks);
-}
 function reconnectIfRequired() {
    if (window.app.xmppConn && window.app.xmppConn.conn && !window.app.xmppConn.conn.connected && !window.app.XMPPConnecting) {
-      window.app.xmppHandlerInstance.connect(window.app.xmppSuffixedUserToConnectAs, window.app.xmppPasswordForUser, window.app.xmppHandlerInstance.connectCallback)
+      window.app.xmppHandlerInstance.connect(window.app.xmppSuffixedUserToConnectAs, window.app.xmppPasswordForUser, window.app.xmppHandlerInstance.connectCallback);
    }
    window.app.startReconnectTimer();
 }
+window.app.startReconnectTimer = function () {
+   clearTimeout(window.app.reconnectTimer);
+   window.app.reconnectTimer = setTimeout(reconnectIfRequired, window.app.intervalToWaitBetweenChecks);
+};
+
 //#endregion
+window.app.calendarCulture = "en";
 window.app.defaultConversationID = '';
 window.app.defaultFrom = '';
 window.app.defaultTo = '';
@@ -61,6 +69,7 @@ window.app.initializeBasedOnLocation = function () {
    if (window.app.messageModeratorAddress === '') {
       return false;
    }
+   window.app.calendarCulture = $("#language").text();
    window.app.suffixedMessageModeratorAddress = window.app.messageModeratorAddress + window.app.xmppComponentExtension;
    window.app.welcomeMessage = $("#welcomeMessage").text();
    return true;
@@ -176,14 +185,13 @@ window.app.XMPPhandler = function XMPPhandler() {
          window.app.xmppConn.connect(window.app.xmppConn.userid, window.app.xmppConn.password, window.app.xmppConn.connectCallback);
       }
    };
-   this.sendMessagesInQueue = function () {
-      var self = this;
+   this.sendMessagesInQueue = function () {    
       while (window.app.unsentMsgQueue.length > 0) {
          var msg = window.app.unsentMsgQueue.shift();
          var xmppTo = window.app.unsentMsgXmppToQueue.shift();
          window.app.xmppConn.send_message(msg, xmppTo);
       }
-   }
+   };
    this.connect = function (userid, password) {
       //window.app.logDebugOnServer("XMPP connecting with user [" + userid + "]");
       var self = this;
@@ -270,7 +278,7 @@ window.app.XMPPhandler = function XMPPhandler() {
          //force synch connect 
          if (!window.app.XMPPConnecting) {
             window.app.XMPPConnecting = true;
-            window.app.xmppHandlerInstance.connect(window.app.xmppSuffixedUserToConnectAs, window.app.xmppPasswordForUser, self.connectCallback)
+            window.app.xmppHandlerInstance.connect(window.app.xmppSuffixedUserToConnectAs, window.app.xmppPasswordForUser, self.connectCallback);
          }
       }
    },
@@ -341,10 +349,9 @@ window.app.XMPPhandler = function XMPPhandler() {
          if (error !== undefined) {
             var type = $(error).attr("type");
             window.app.logDebugOnServer("XMPP error, type [" + type+ "]");
-         }
-         
+         }         
          //TODO what other messages might there be?
-         //TODO log as error
+         window.app.logErrorOnServer("unknown XMPP message type: " + $(message).attr("type"));
       }
       return true;
    };

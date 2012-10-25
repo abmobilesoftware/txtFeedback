@@ -137,6 +137,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GlobalResources\Global.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Global.resx</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\UserDetails.cs" />
     <Compile Include="Models\Utilities.cs" />
@@ -145,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\images\128x128.png" />
+    <Content Include="Content\images\42x42.png" />
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\ajax-loader.png" />
     <Content Include="Content\images\icons-18-black.png" />
@@ -264,6 +270,7 @@
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\persist-min.js" />
     <Content Include="Scripts\underscore.js" />
+    <Content Include="Views\Home\AutoReconnect.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -289,6 +296,7 @@
     <Content Include="Views\Error\General.cshtml" />
     <Content Include="Views\Error\Error404.cshtml" />
     <Content Include="Views\Home\StoreNotFound.cshtml" />
+    <Content Include="Views\Home\AutoReconnect.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -301,6 +309,13 @@
       <Project>{f2dfc840-77cc-44f6-93d8-559639ad2580}</Project>
       <Name>SmsFeedback_EFModels</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GlobalResources\Global.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Global.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GlobalResources\Global.ro.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
