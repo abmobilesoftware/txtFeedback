@@ -2,8 +2,10 @@
 using SmsFeedback_EFModels;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using Utilities;
@@ -24,15 +26,20 @@ namespace mobile.TxtFeedback_take1.Controllers
       }
 
       public ActionResult Index()
-      {
+      {         
          //based on store ID we should retrieve the "long description"
-         smsfeedbackEntities ent = new smsfeedbackEntities();
-         var wp = from w in ent.WorkingPoints where w.ShortID == mStore select w;
-         if (wp.Count() == 1)
+         smsfeedbackEntities ent = new smsfeedbackEntities();                  
+         var wps = from w in ent.WorkingPoints where w.ShortID == mStore select w;
+         if (wps.Count() == 1)
          {
-            var desc = wp.First().Name;
+            var wp = wps.First();
+            String language = wp.Language;
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(language);
+            var desc = wp.Name;
             ViewBag.Store = desc;
-            ViewBag.Message = wp.First().WelcomeMessage;
+            ViewBag.Message = wp.WelcomeMessage;
+            //the format of the db language should be en-US or ro-RO (general-LOCAL)
+            ViewBag.Language = language.Split('-')[0];
             ViewBag.ComponentLocation = mStore;
             return View();
          }

@@ -2473,7 +2473,8 @@ if (!Array.prototype.indexOf) {
                           "." + req.sends + " posting");
 
             try {
-               req.xhr.open("POST", this.service, true);
+               var async = !('sync' in this && this.sync === true);
+               req.xhr.open("POST", this.service, async);               
             } catch (e2) {
                Strophe.error("XHR open failed.");
                if (!this.connected) {

@@ -312,7 +312,7 @@ namespace SmsFeedback_Take4.Controllers
                     SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgResponse) =>
                     {
                        //TODO add check if message was sent successfully 
-                       UpdateDbAfterMessageWasSent(from, to, convId, text, false, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, XmppUser, lContextPerRequest);
+                       UpdateDbAfterMessageWasSent(from, to, convId, text, true, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, XmppUser, lContextPerRequest);
                     });
                     //we should wait for the call to finish
                     //I should return the sent time (if successful)              

@@ -19,6 +19,14 @@ function trim(s) {
 
 //#region Utilities for processing phone numbers
 var cConversationIdNumbersSeparator = '-';
+function cleanupPhoneNumber(data) {
+   var prefixes = new Array("00", "\\+");
+   //remove 00 and + from the beginning of the number
+   //remove all domain qualifiers - everything after @
+   var reg = new RegExp('^(' + prefixes.join('|') + ')|@.+$', "g");
+   data = data.replace(reg, "");
+   return data;
+}
 function buildConversationID(from, to) {
    return cleanupPhoneNumber(from) + cConversationIdNumbersSeparator + cleanupPhoneNumber(to);
 }
@@ -26,14 +34,6 @@ function comparePhoneNumbers(phoneNumber1, phoneNumber2)
 {
    //take into account that they could start with + or 00 - so we strip away any leading + or 00
    return cleanupPhoneNumber(phoneNumber1) === cleanupPhoneNumber(phoneNumber2);
-}
-function cleanupPhoneNumber(data) {
-   var prefixes = new Array("00", "\\+");
-   //remove 00 and + from the beginning of the number
-   //remove all domain qualifiers - everything after @
-   var reg = new RegExp('^(' + prefixes.join('|') + ')|@.+$', "g");
-   data = data.replace(reg, "");   
-   return data;
 }
 function getFromToFromConversation(convID) {
    var fromToArray = convID.split(cConversationIdNumbersSeparator);

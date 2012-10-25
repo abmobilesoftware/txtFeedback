@@ -1,12 +1,17 @@
-﻿
+﻿//#region Defined in other documents
 /*global window */
 /*global Backbone */
 /*global document */
 /*global console */
+/*global getFromToFromConversation */
+/*global comparePhoneNumbers */
+/*global cleanupPhoneNumber */
+/*global _ */
+//#endregion
 window.app = window.app || {};
 window.app.globalMessagesRep = {};
 window.app.msgView = {};
-window.app.calendarCulture = "en-GB";
+
 
 function newMessageReceivedGUI(msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
    //the conversations window expects that the toID be a "name" and not a telephone number   
@@ -60,12 +65,12 @@ window.app.defaultMessagesOptions = {
 };
 //#endregion
 
-window.app.MessagesArea = function()  {
+window.app.MessagesArea = function () {
    "use strict";
    var self = this;
 
-   $.extend(this, window.app.defaultMessagesOptions);  
-  
+   $.extend(this, window.app.defaultMessagesOptions);
+
    $("#reply").click(function () {
       sendMessageToClient();
    });
@@ -80,7 +85,7 @@ window.app.MessagesArea = function()  {
 
       var fromTo = getFromToFromConversation(self.currentConversationId);
       var from = fromTo[0];
-      var to = fromTo[1];      
+      var to = fromTo[1];
       //TODO should be RFC822 format
       var timeSent = new Date();
       $(document).trigger('msgReceived', {
@@ -100,7 +105,7 @@ window.app.MessagesArea = function()  {
       window.app.xmppHandlerInstance.send_reply(from, to, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress);
    };
 
-      _.templateSettings = {
+   _.templateSettings = {
       interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
       evaluate: /\{%([\s\S]+?)%\}/g,   // execute code: {% code_to_execute %}
       escape: /\{%-([\s\S]+?)%\}/g
@@ -167,13 +172,13 @@ window.app.MessagesArea = function()  {
       },
       getMessages: function (conversationId) {
          //console.log("get messages");
-         $("#messagesbox").html('');         
+         $("#messagesbox").html('');
          var messages = new window.app.MessagesList();
          messages.identifier = conversationId;
          messages.bind("reset", this.render);
          messages.bind('add', this.appendMessage);
          performFadeIn = true;
-         
+
          self.currentConversationId = conversationId;
          window.app.globalMessagesRep[self.currentConversationId] = messages;
 
@@ -197,9 +202,9 @@ window.app.MessagesArea = function()  {
           $("#messagesbox").html('');
           $("#messagesbox").append("<div class='clear'></div>");
          var selfMessageView = this;
-         window.app.globalMessagesRep[self.currentConversationId].each(function (msg) {            
+         window.app.globalMessagesRep[self.currentConversationId].each(function (msg) {
             selfMessageView.appendMessageToDiv(msg, performFadeIn, false);
-         });         
+         });
          return this;
       },
       appendMessage: function (msg) {
@@ -232,36 +237,27 @@ window.app.MessagesArea = function()  {
          }
       },
       appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
-          var msgView = new MessageView({ model: msg });
-          var item = msgView.render().el;
-          $(this.el).append(item);         
-          if (performFadeIn) {
-              $(item).hide().fadeIn("2000");
-          }
-
-          //var bodyHeight = window.innerHeight - 2 * $(".ui-header").height();
+         var msgView = new MessageView({ model: msg });
+         var item = msgView.render().el;
+         $(this.el).append(item);
+         if (performFadeIn) {
+            $(item).hide().fadeIn("2000");
+         }
           var bodyHeight = $(window).height() - 2 * $(".ui-header").height() - 50;
-          var contentHeight = $("#contentArea").height();
-          $("title").empty();
-          $("title").html("Body height: " + bodyHeight + " Content height: " + contentHeight);
+          var contentHeight = $("#contentArea").height();          
           if (contentHeight > bodyHeight) {
               window.scrollTo(0, document.body.scrollHeight + 50);
           }
-          
           $(this.el).append("<div class='clear'></div>");
-         //var helperDiv = $(this).find("div")[0];
-         //$(helperDiv).css)
-         //if (scrollToBottomParam) {
-         //var messagesEl = $("#messagesbox");
-         //messagesEl.animate({ scrollTop: messagesEl.prop("scrollHeight") }, 3000);
-         //}
       }
    });
    this.messagesView = new MessagesView();
-}
+};
 
 $(function () {
-   if (window.app.initializeBasedOnLocation()) {            
+   if (window.app.initializeBasedOnLocation()) {
+         $('body').bind('touchstart', function (e) {
+         });
          window.app.msgView = new window.app.MessagesArea();
          $("[data-role=header]").fixedtoolbar({ tapToggle: true });
          $("[data-role=footer]").fixedtoolbar({ tapToggle: false });
@@ -270,11 +266,20 @@ $(function () {
             newMessageReceivedGUI(window.app.msgView.messagesView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
          });
 
-         $(window).unload(function () {
-            window.app.disconnectXMPP();
+         $(window).unload(function () {            
             window.app.saveLoginDetails();
+            window.app.disconnectXMPP();
          });
-         window.app.loadLoginDetails();      
+         window.app.loadLoginDetails();
+         //DA launch timer only if not on blackberry
+         //var blackBerry = false;
+         //var ua = window.navigator.userAgent;
+         //if (ua.indexOf("BlackBerry") >= 0) {            
+         //      blackBerry = true;            
+         //}
+         //if (!blackBerry) {
+            window.app.startReconnectTimer();
+         //}
    }
     
    $("#replyText").click(function () {

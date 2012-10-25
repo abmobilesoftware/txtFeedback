@@ -1315,19 +1315,17 @@ namespace SmsFeedback_EFModels
         /// <param name="text">Initial value of the Text property.</param>
         /// <param name="read">Initial value of the Read property.</param>
         /// <param name="timeUpdated">Initial value of the TimeUpdated property.</param>
-        /// <param name="from">Initial value of the From property.</param>
         /// <param name="starred">Initial value of the Starred property.</param>
         /// <param name="startTime">Initial value of the StartTime property.</param>
         /// <param name="workingPoint_TelNumber">Initial value of the WorkingPoint_TelNumber property.</param>
         /// <param name="lastSequence">Initial value of the LastSequence property.</param>
-        public static Conversation CreateConversation(global::System.String convId, global::System.String text, global::System.Boolean read, global::System.DateTime timeUpdated, global::System.String from, global::System.Boolean starred, global::System.DateTime startTime, global::System.String workingPoint_TelNumber, global::System.Int32 lastSequence)
+        public static Conversation CreateConversation(global::System.String convId, global::System.String text, global::System.Boolean read, global::System.DateTime timeUpdated, global::System.Boolean starred, global::System.DateTime startTime, global::System.String workingPoint_TelNumber, global::System.Int32 lastSequence)
         {
             Conversation conversation = new Conversation();
             conversation.ConvId = convId;
             conversation.Text = text;
             conversation.Read = read;
             conversation.TimeUpdated = timeUpdated;
-            conversation.From = from;
             conversation.Starred = starred;
             conversation.StartTime = startTime;
             conversation.WorkingPoint_TelNumber = workingPoint_TelNumber;
@@ -1441,7 +1439,7 @@ namespace SmsFeedback_EFModels
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
         public global::System.String From
         {
@@ -1453,7 +1451,7 @@ namespace SmsFeedback_EFModels
             {
                 OnFromChanging(value);
                 ReportPropertyChanging("From");
-                _From = StructuralObject.SetValidValue(value, false);
+                _From = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("From");
                 OnFromChanged();
             }
@@ -3031,18 +3029,14 @@ namespace SmsFeedback_EFModels
         /// Create a new Message object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="from">Initial value of the From property.</param>
-        /// <param name="to">Initial value of the To property.</param>
         /// <param name="text">Initial value of the Text property.</param>
         /// <param name="timeReceived">Initial value of the TimeReceived property.</param>
         /// <param name="read">Initial value of the Read property.</param>
         /// <param name="conversationId">Initial value of the ConversationId property.</param>
-        public static Message CreateMessage(global::System.Int32 id, global::System.String from, global::System.String to, global::System.String text, global::System.DateTime timeReceived, global::System.Boolean read, global::System.String conversationId)
+        public static Message CreateMessage(global::System.Int32 id, global::System.String text, global::System.DateTime timeReceived, global::System.Boolean read, global::System.String conversationId)
         {
             Message message = new Message();
             message.Id = id;
-            message.From = from;
-            message.To = to;
             message.Text = text;
             message.TimeReceived = timeReceived;
             message.Read = read;
@@ -3084,7 +3078,7 @@ namespace SmsFeedback_EFModels
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
         public global::System.String From
         {
@@ -3096,7 +3090,7 @@ namespace SmsFeedback_EFModels
             {
                 OnFromChanging(value);
                 ReportPropertyChanging("From");
-                _From = StructuralObject.SetValidValue(value, false);
+                _From = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("From");
                 OnFromChanged();
             }
@@ -3108,7 +3102,7 @@ namespace SmsFeedback_EFModels
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
         public global::System.String To
         {
@@ -3120,7 +3114,7 @@ namespace SmsFeedback_EFModels
             {
                 OnToChanging(value);
                 ReportPropertyChanging("To");
-                _To = StructuralObject.SetValidValue(value, false);
+                _To = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("To");
                 OnToChanged();
             }
@@ -4966,7 +4960,8 @@ namespace SmsFeedback_EFModels
         /// <param name="maxNrOfSmsToSend">Initial value of the MaxNrOfSmsToSend property.</param>
         /// <param name="shortID">Initial value of the ShortID property.</param>
         /// <param name="xMPPsuffix">Initial value of the XMPPsuffix property.</param>
-        public static WorkingPoint CreateWorkingPoint(global::System.String telNumber, global::System.String description, global::System.String name, global::System.String provider, global::System.Int32 sentSms, global::System.Int32 maxNrOfSmsToSend, global::System.String shortID, global::System.String xMPPsuffix)
+        /// <param name="language">Initial value of the Language property.</param>
+        public static WorkingPoint CreateWorkingPoint(global::System.String telNumber, global::System.String description, global::System.String name, global::System.String provider, global::System.Int32 sentSms, global::System.Int32 maxNrOfSmsToSend, global::System.String shortID, global::System.String xMPPsuffix, global::System.String language)
         {
             WorkingPoint workingPoint = new WorkingPoint();
             workingPoint.TelNumber = telNumber;
@@ -4977,6 +4972,7 @@ namespace SmsFeedback_EFModels
             workingPoint.MaxNrOfSmsToSend = maxNrOfSmsToSend;
             workingPoint.ShortID = shortID;
             workingPoint.XMPPsuffix = xMPPsuffix;
+            workingPoint.Language = language;
             return workingPoint;
         }
 
@@ -5226,6 +5222,78 @@ namespace SmsFeedback_EFModels
         private global::System.String _XMPPsuffix;
         partial void OnXMPPsuffixChanging(global::System.String value);
         partial void OnXMPPsuffixChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String BusyMessage
+        {
+            get
+            {
+                return _BusyMessage;
+            }
+            set
+            {
+                OnBusyMessageChanging(value);
+                ReportPropertyChanging("BusyMessage");
+                _BusyMessage = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("BusyMessage");
+                OnBusyMessageChanged();
+            }
+        }
+        private global::System.String _BusyMessage;
+        partial void OnBusyMessageChanging(global::System.String value);
+        partial void OnBusyMessageChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String OutsideOfficeHoursMessage
+        {
+            get
+            {
+                return _OutsideOfficeHoursMessage;
+            }
+            set
+            {
+                OnOutsideOfficeHoursMessageChanging(value);
+                ReportPropertyChanging("OutsideOfficeHoursMessage");
+                _OutsideOfficeHoursMessage = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("OutsideOfficeHoursMessage");
+                OnOutsideOfficeHoursMessageChanged();
+            }
+        }
+        private global::System.String _OutsideOfficeHoursMessage;
+        partial void OnOutsideOfficeHoursMessageChanging(global::System.String value);
+        partial void OnOutsideOfficeHoursMessageChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Language
+        {
+            get
+            {
+                return _Language;
+            }
+            set
+            {
+                OnLanguageChanging(value);
+                ReportPropertyChanging("Language");
+                _Language = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Language");
+                OnLanguageChanged();
+            }
+        }
+        private global::System.String _Language;
+        partial void OnLanguageChanging(global::System.String value);
+        partial void OnLanguageChanged();
 
         #endregion
 

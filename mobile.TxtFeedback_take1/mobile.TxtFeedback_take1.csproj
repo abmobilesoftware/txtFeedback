@@ -21,7 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
-    <JSLintSkip>\MyScripts\strophe.js|\Scripts\backbone-min.js|\Scripts\jquery-1.7.1.intellisense.js|\Scripts\jquery-1.7.1.js|\Scripts\jquery-1.7.1.min.js|\Scripts\jquery-ui-1.8.20.js|\Scripts\jquery-ui-1.8.20.min.js|\Scripts\jquery.mobile-1.1.0.js|\Scripts\jquery.mobile-1.1.0.min.js|\Scripts\jquery.ui.datepicker-de.js|\Scripts\jquery.ui.datepicker-en-GB.js|\Scripts\jquery.ui.datepicker-es.js|\Scripts\jquery.ui.datepicker-ro.js|\Scripts\jQuery.ui.datepicker.js|\Scripts\jquery.ui.datepicker.mobile.js|\Scripts\jquery.unobtrusive-ajax.js|\Scripts\jquery.unobtrusive-ajax.min.js|\Scripts\jquery.validate-vsdoc.js|\Scripts\jquery.validate.js|\Scripts\jquery.validate.min.js|\Scripts\jquery.validate.unobtrusive.js|\Scripts\jquery.validate.unobtrusive.min.js|\Scripts\knockout-2.1.0.debug.js|\Scripts\knockout-2.1.0.js|\Scripts\modernizr-2.5.3.js|\Scripts\persist-min.js|\Scripts\underscore.js|\MyScripts\strophe.register.js|\QUnit\CreateUsers.js|\QUnit\XMPPHacked.js|\QUnit\XMPPTest.js</JSLintSkip>
+    <JSLintSkip>\MyScripts\strophe.js|\Scripts\backbone-min.js|\Scripts\jquery-1.7.1.intellisense.js|\Scripts\jquery-1.7.1.js|\Scripts\jquery-1.7.1.min.js|\Scripts\jquery-ui-1.8.20.js|\Scripts\jquery-ui-1.8.20.min.js|\Scripts\jquery.mobile-1.1.0.js|\Scripts\jquery.mobile-1.1.0.min.js|\Scripts\jquery.ui.datepicker-de.js|\Scripts\jquery.ui.datepicker-en-GB.js|\Scripts\jquery.ui.datepicker-es.js|\Scripts\jquery.ui.datepicker-ro.js|\Scripts\jQuery.ui.datepicker.js|\Scripts\jquery.ui.datepicker.mobile.js|\Scripts\jquery.unobtrusive-ajax.js|\Scripts\jquery.unobtrusive-ajax.min.js|\Scripts\jquery.validate-vsdoc.js|\Scripts\jquery.validate.js|\Scripts\jquery.validate.min.js|\Scripts\jquery.validate.unobtrusive.js|\Scripts\jquery.validate.unobtrusive.min.js|\Scripts\knockout-2.1.0.debug.js|\Scripts\knockout-2.1.0.js|\Scripts\modernizr-2.5.3.js|\Scripts\persist-min.js|\Scripts\underscore.js|\MyScripts\strophe.register.js|\QUnit\CreateUsers.js|\QUnit\XMPPHacked.js|\QUnit\XMPPTest.js|\Scripts\jquery.mobile-1.2.0.js|\Scripts\jquery.mobile-1.2.0.min.js</JSLintSkip>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -137,6 +137,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GlobalResources\Global.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Global.resx</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\UserDetails.cs" />
     <Compile Include="Models\Utilities.cs" />
@@ -145,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\images\128x128.png" />
+    <Content Include="Content\images\42x42.png" />
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\ajax-loader.png" />
     <Content Include="Content\images\icons-18-black.png" />
@@ -156,14 +162,15 @@
     <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\logo-square-24.png" />
     <Content Include="Content\images\logo-square-128.png" />
-    <Content Include="Content\jquery.mobile-1.1.0.css" />
-    <Content Include="Content\jquery.mobile-1.1.0.min.css" />
+    <Content Include="Content\jquery.mobile-1.2.0.css" />
+    <Content Include="Content\jquery.mobile-1.2.0.min.css" />
     <Content Include="Content\jquery.mobile.structure-1.1.0.css" />
     <Content Include="Content\jquery.mobile.structure-1.1.0.min.css" />
     <Content Include="Content\jquery.mobile.theme-1.1.0.css" />
     <Content Include="Content\jquery.mobile.theme-1.1.0.min.css" />
     <Content Include="Content\jquery.ui.datepicker.mobile.css" />
     <Content Include="Content\messages.css" />
+    <Content Include="Content\themes\base\images\ajax-loader.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -241,13 +248,13 @@
     <Content Include="QUnit\XMPPHacked.js" />
     <Content Include="QUnit\XMPPTest.js" />
     <Content Include="Scripts\backbone-min.js" />
-    <Content Include="Scripts\jquery-1.7.1.js" />
-    <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\jquery-1.8.2.js" />
+    <Content Include="Scripts\jquery-1.8.2.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
-    <Content Include="Scripts\jquery.mobile-1.1.0.js" />
-    <Content Include="Scripts\jquery.mobile-1.1.0.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.mobile-1.2.0.js" />
+    <Content Include="Scripts\jquery.mobile-1.2.0.min.js" />
     <Content Include="Scripts\jquery.ui.datepicker-de.js" />
     <Content Include="Scripts\jquery.ui.datepicker-en-GB.js" />
     <Content Include="Scripts\jquery.ui.datepicker-es.js" />
@@ -302,6 +309,13 @@
       <Project>{f2dfc840-77cc-44f6-93d8-559639ad2580}</Project>
       <Name>SmsFeedback_EFModels</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GlobalResources\Global.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Global.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GlobalResources\Global.ro.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
