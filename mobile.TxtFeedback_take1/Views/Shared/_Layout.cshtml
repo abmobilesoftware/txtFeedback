@@ -1,16 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@using mobile.TxtFeedback_take1.GlobalResources
+<!DOCTYPE html>
 <html lang="en">
+   
 <head>
    <meta charset="utf-8" />
    <title>@ViewBag.Title</title>
    <meta name="viewport" content="width=device-width" />
    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
    @Styles.Render("~/Content/mobileCss", "~/Content/css")
-   @Styles.Render("~/Content/themes/base/css")   
-   @Scripts.Render("~/bundles/modernizr")
-   @Scripts.Render("~/bundles/jquery", "~/bundles/jquerymobile")
-   @Scripts.Render("~/bundles/lessLikelyToChange")
-   @Scripts.Render("~/bundles/myscripts")   
+   @Styles.Render("~/Content/themes/base/css")  
+   @Scripts.Render("~/bundles/modernizr")    
 </head>
 <body>
     <script type="text/template" id="message-template">
@@ -20,10 +19,10 @@
     {% var dateComponents = TimeReceived.toString().split(" ");      
        var displayPattern = "DD, MM d";
        var time = dateComponents[4];     
-       var timeReceivedLocal = $.datepicker.formatDate(displayPattern, TimeReceived,
+       var timeRec = $.datepicker.formatDate(displayPattern, TimeReceived,
                                                       {dayNamesShort: $.datepicker.regional[window.app.calendarCulture].dayNamesShort, dayNames: $.datepicker.regional[window.app.calendarCulture].dayNames,
                                                         monthNamesShort: $.datepicker.regional[window.app.calendarCulture].monthNamesShort, monthNames: $.datepicker.regional[window.app.calendarCulture].monthNames}); 
-     var timeReceivedLocal = timeReceivedLocal + " " + time;
+      var timeReceivedLocal = timeRec + " " + time;
     %}
        <span class="timeReceived">{{ timeReceivedLocal }} </span>
       </div>      
@@ -37,31 +36,29 @@
          }
          else
          {                   
-            <img id="logo" src="~/Content/images/128x128.png" />
+            <img id="logo" src="~/Content/images/42x42.png" width="42" height="42" />
             <h1>@ViewBag.Title</h1>
-@*Html.Partial("_LoginPartial")*@
          }
       </div>
-      <div data-role="content" id="contentArea">
-          <div class="debug"></div>
+      <div data-role="content" id="contentArea">         
          @RenderBody()
-      </div>
-      @*<div id="footer">
-              <textarea cols="40" rows="3" name="textarea" id="limitedtextarea" autofocus></textarea>
-           </div> *@
+      </div>      
       <div data-role="footer" data-position="fixed" class="ui-bar">
          <div data-role="controlgroup" data-type="horizontal">
             <div class="threeQuarters">               
                <input type="text" value="" class="input ui-input-text ui-body-a ui-corner-all ui-  -inset"
                   data-form="ui-body-a" id="replyText">
             </div>
-            <div class="oneQuarter"> <!-- ui-block-b -->
-               <button type="submit" id="reply" data-theme="a" class="ui-btn-hidden" aria-disabled="false">Reply</button>               
+            <div class="oneQuarter"> <!-- ui-block-b -->               
+               <button type="submit" id="reply" data-theme="a" class="ui-btn-hidden" aria-disabled="false"> @Global.btnSend</button>               
             </div>
          </div>
       </div>
    </div>
    
+   @Scripts.Render("~/bundles/jquery", "~/bundles/jquerymobile")
+   @Scripts.Render("~/bundles/lessLikelyToChange")
+   @Scripts.Render("~/bundles/myscripts")   
    @RenderSection("scripts", required: false)
 </body>
 </html>
