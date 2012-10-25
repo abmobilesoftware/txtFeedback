@@ -270,7 +270,6 @@
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\persist-min.js" />
     <Content Include="Scripts\underscore.js" />
-    <Content Include="Views\Home\AutoReconnect.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -296,7 +295,6 @@
     <Content Include="Views\Error\General.cshtml" />
     <Content Include="Views\Error\Error404.cshtml" />
     <Content Include="Views\Home\StoreNotFound.cshtml" />
-    <Content Include="Views\Home\AutoReconnect.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
