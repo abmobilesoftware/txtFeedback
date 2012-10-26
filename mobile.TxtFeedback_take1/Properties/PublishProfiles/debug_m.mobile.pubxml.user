@@ -5,7 +5,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
+    <LastUsedBuildConfiguration>Debug</LastUsedBuildConfiguration>
     <LastUsedPlatform>Any CPU</LastUsedPlatform>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAxW6f83DdZk6G679N7CirBQAAAAACAAAAAAAQZgAAAAEAACAAAACJdzSnvyZG+qxYVofD/1MMvdMQeciM6PdentRUDIWGyQAAAAAOgAAAAAIAACAAAACpR3aJe+7tUs62kz0MOFbXsuiF5D+zvxyFrruY6UDIKCAAAAAZAdQpzyIF7JdxaKyWMvJgLMb6x5xKLAnB4ayb64D8DkAAAADU8EFBFgVNN2iWITKbwcUGyjRQ9q3Oq5ywlChMmANmwut7RxCQrufUlR6oYrySD0Whmg9svtgSEFNq5C1ywjf8</EncryptedPassword>
@@ -24,19 +24,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/04/2012 13:54:50</publishTime>
     </File>
     <File Include="bin/mobile.TxtFeedback_take1.dll">
-      <publishTime>10/22/2012 19:04:20</publishTime>
+      <publishTime>10/23/2012 14:32:06</publishTime>
     </File>
     <File Include="bin/mobile.TxtFeedback_take1.pdb">
-      <publishTime>10/15/2012 16:47:13</publishTime>
+      <publishTime>10/23/2012 14:32:06</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>07/17/2012 09:44:05</publishTime>
     </File>
     <File Include="bin/SmsFeedback_EFModels.dll">
-      <publishTime>10/22/2012 14:51:14</publishTime>
+      <publishTime>10/23/2012 14:32:02</publishTime>
     </File>
     <File Include="bin/SmsFeedback_EFModels.pdb">
-      <publishTime>10/15/2012 16:45:47</publishTime>
+      <publishTime>10/23/2012 14:32:02</publishTime>
     </File>
     <File Include="bin/System.Net.Http.dll">
       <publishTime>07/10/2012 21:52:12</publishTime>
@@ -321,7 +321,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/04/2012 13:54:49</publishTime>
     </File>
     <File Include="Content/themes/try1.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>10/24/2012 15:32:09</publishTime>
     </File>
     <File Include="Content/themes/try1.min.css">
       <publishTime>10/04/2012 13:54:49</publishTime>
@@ -333,13 +333,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/04/2012 13:54:49</publishTime>
     </File>
     <File Include="MyScripts/Home.js">
-      <publishTime>10/23/2012 13:43:54</publishTime>
+      <publishTime>10/24/2012 13:53:28</publishTime>
     </File>
     <File Include="MyScripts/Messages.js">
       <publishTime>09/28/2012 11:12:44</publishTime>
     </File>
     <File Include="MyScripts/strophe.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>10/23/2012 16:58:19</publishTime>
     </File>
     <File Include="MyScripts/strophe.register.js">
       <publishTime>10/11/2012 11:51:06</publishTime>
@@ -348,7 +348,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/18/2012 13:09:56</publishTime>
     </File>
     <File Include="MyScripts/XMPP.js">
-      <publishTime>10/23/2012 11:51:12</publishTime>
+      <publishTime>10/23/2012 16:58:19</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>10/04/2012 13:54:50</publishTime>
@@ -471,7 +471,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>10/18/2012 13:09:56</publishTime>
+      <publishTime>10/23/2012 16:58:19</publishTime>
     </File>
     <File Include="Views/Home/StoreNotFound.cshtml">
       <publishTime>10/18/2012 13:09:56</publishTime>
@@ -480,7 +480,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/04/2012 13:54:50</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>10/23/2012 10:53:33</publishTime>
+      <publishTime>10/23/2012 16:58:19</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>10/04/2012 13:54:50</publishTime>
@@ -492,7 +492,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/04/2012 13:54:50</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/23/2012 13:44:56</publishTime>
+      <publishTime>10/24/2012 15:32:39</publishTime>
     </File>
   </ItemGroup>
 </Project>

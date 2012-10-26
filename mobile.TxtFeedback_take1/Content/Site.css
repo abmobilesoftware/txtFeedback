@@ -59,6 +59,7 @@
    background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, rgb(240,248,250)), color-stop(0.65, rgb(245,248,250)) );   
 }
 
+
 #footer {
    position:fixed;
    left:0px;
@@ -66,5 +67,22 @@
    /*height:30px;*/
    width:100%;
    /*background:#999;*/
-   padding: 2px;
+   /*padding: 2px;*/
+   z-index:50000;
 }
+
+/*/
+.customFooter
+{
+    height:20px;
+    background-color:#D9D9D9;
+    background-image:url(../images/footer.png);
+    background-repeat:repeat-x;
+    width:100%;
+    position:fixed;
+    bottom:0;
+    z-index:500;
+
+}
+    */
+

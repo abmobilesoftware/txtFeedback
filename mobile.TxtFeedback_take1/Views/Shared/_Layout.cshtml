@@ -44,6 +44,9 @@
          @RenderBody()
       </div>      
       <div data-role="footer" data-position="fixed" data-id="myfooter">          
+
+       <!--data-role="footer" data-position="fixed"-->
+      
             <div class="threeQuarters">               
                <input type="text" value="" class="input ui-input-text ui-body-a ui-corner-all ui-  -inset"
                   data-form="ui-body-a" id="replyText">
@@ -52,11 +55,16 @@
                <button type="submit" id="reply" data-theme="a" class="ui-btn-hidden" aria-disabled="false"> @Global.btnSend</button>               
             </div>         
       </div>
-   </div>
+    </div>
+   
    
    @Scripts.Render("~/bundles/jquery", "~/bundles/jquerymobile")
    @Scripts.Render("~/bundles/lessLikelyToChange")
    @Scripts.Render("~/bundles/myscripts")   
    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        //$("#footer").css("top", window.scrollTop + $(window).height - 50);
+    </script>
 </body>
 </html>
