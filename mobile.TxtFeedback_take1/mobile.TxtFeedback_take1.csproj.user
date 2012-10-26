@@ -1,13 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-<<<<<<< HEAD
     <NameOfLastUsedPublishProfile>debug_m.mobitest</NameOfLastUsedPublishProfile>
     <ProjectView>ProjectFiles</ProjectView>
-=======
-    <NameOfLastUsedPublishProfile>debug_m.mobile</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>debug_m.mobitest</NameOfLastUsedPublishProfile>
     <ProjectView>ShowAllFiles</ProjectView>
->>>>>>> 1a8c2f3987a19334191d3c9611f32c0a140e5598
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

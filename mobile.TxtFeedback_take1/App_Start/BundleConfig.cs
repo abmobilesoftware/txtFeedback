@@ -30,7 +30,7 @@ namespace mobile.TxtFeedback_take1
                      "~/Scripts/jquery.ui.datepicker-es.js"));
                           
          bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                     "~/Scripts/jquery-1.*"));
+                     "~/Scripts/jquery-1.8*"));
 
          bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                      "~/Scripts/jquery-ui*"));
@@ -42,14 +42,14 @@ namespace mobile.TxtFeedback_take1
          bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                      "~/Scripts/modernizr-*"));
 
-         bundles.Add(new ScriptBundle("~/bundles/jquerymobile").Include("~/Scripts/jquery.mobile*"));
+         bundles.Add(new ScriptBundle("~/bundles/jquerymobile").Include("~/Scripts/jquery.mobile-1.2*"));
 
          bundles.Add(new StyleBundle("~/Content/css").Include(
                   "~/Content/site.css",
                   "~/Content/messages.css",
                   "~/Content/jquery.ui.datepicker.mobile.css"));         
 
-         bundles.Add(new StyleBundle("~/Content/mobilecss").Include("~/Content/jquery.mobile*"));                  
+         bundles.Add(new StyleBundle("~/Content/mobilecss").Include("~/Content/jquery.mobile-1.2*"));                  
 
          bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                      "~/Content/themes/try1.css",
