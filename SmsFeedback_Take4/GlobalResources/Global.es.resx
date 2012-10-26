@@ -211,28 +211,28 @@
     <value>No leído</value>
   </data>
   <data name="RepAvgNoOfIncomingSmsPerConversation" xml:space="preserve">
-    <value>Número medio de SMS entrante por cliente</value>
+    <value>Número medio de mensajes entrante por cliente</value>
   </data>
   <data name="RepAvgNoOfIncomingSmsPerConversationToolitp" xml:space="preserve">
-    <value>Número medio de SMS entrante por cliente</value>
+    <value>Número medio de mensajes entrante por cliente</value>
   </data>
   <data name="RepAvgNoOfOutgoingSmsPerConversation" xml:space="preserve">
-    <value>Número medio de SMS saliente por cliente</value>
+    <value>Número medio de mensajes saliente por cliente</value>
   </data>
   <data name="RepAvgNoOfOutgoingSmsPerConversationTooltip" xml:space="preserve">
-    <value>Número medio de SMS saliente por cliente</value>
+    <value>Número medio de mensajes saliente por cliente</value>
   </data>
   <data name="RepAvgNoOfSmsPerClient" xml:space="preserve">
-    <value>Número medio de SMS por cliente</value>
+    <value>Número medio de mensajes por cliente</value>
   </data>
   <data name="RepAvgNoOfSmsPerClientTooltip" xml:space="preserve">
-    <value>Número medio de SMS por cliente</value>
+    <value>Número medio de mensajes por cliente</value>
   </data>
   <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
-    <value>Número medio de SMS por día </value>
+    <value>Número medio de mensajes por día </value>
   </data>
   <data name="RepAvgNoOfSmsPerDayTooltip" xml:space="preserve">
-    <value>Número medio de SMS por día </value>
+    <value>Número medio de mensajes por día </value>
   </data>
   <data name="RepAvgNoOfTagsPerConversation" xml:space="preserve">
     <value>Número medio de etiquetas por conversación</value>
@@ -265,7 +265,7 @@
     <value />
   </data>
   <data name="RepIncomingSmsChart" xml:space="preserve">
-    <value>SMS Entrante</value>
+    <value>Entrante</value>
   </data>
   <data name="RepIncomingVsOutgoing" xml:space="preserve">
     <value>Entrante vs Saliente</value>
@@ -310,10 +310,10 @@
     <value />
   </data>
   <data name="RepNoOfIncomingSms" xml:space="preserve">
-    <value>Número de SMS entrante</value>
+    <value>Número de mensajes entrante</value>
   </data>
   <data name="RepNoOfIncomingSmsTooltip" xml:space="preserve">
-    <value>Número de SMS entrante</value>
+    <value>Número de mensajes entrante</value>
   </data>
   <data name="RepNoOfNewClients" xml:space="preserve">
     <value>Número de clientes nuevos</value>
@@ -322,10 +322,10 @@
     <value>Número de clientes nuevos</value>
   </data>
   <data name="RepNoOfOutgoingSms" xml:space="preserve">
-    <value>Número de SMS saliente</value>
+    <value>Número de mensajes saliente</value>
   </data>
   <data name="RepNoOfOutgoingSmsTooltip" xml:space="preserve">
-    <value>Número de SMS saliente</value>
+    <value>Número de mensajes saliente</value>
   </data>
   <data name="RepNoOfReturningClients" xml:space="preserve">
     <value>Número de clientes recurrentes</value>
@@ -379,13 +379,13 @@
     <value>segundos</value>
   </data>
   <data name="RepSmsPerClient" xml:space="preserve">
-    <value>SMS/cliente</value>
+    <value>mensajes/cliente</value>
   </data>
   <data name="RepSmsPerDayUnit" xml:space="preserve">
-    <value>SMS/día</value>
+    <value>mensajes/día</value>
   </data>
   <data name="RepSmsUnit" xml:space="preserve">
-    <value>SMS</value>
+    <value>mensaje(s)</value>
   </data>
   <data name="RepTags" xml:space="preserve">
     <value>Etiquetas</value>
@@ -401,13 +401,13 @@
     <value>Número de clientes</value>
   </data>
   <data name="RepTotalNoOfSms" xml:space="preserve">
-    <value>Número total de SMS</value>
+    <value>Número total de mensajes</value>
   </data>
   <data name="RepTotalNoOfSmsTooltip" xml:space="preserve">
-    <value>Número total de SMS</value>
+    <value>Número total de mensajes</value>
   </data>
   <data name="RepTotalSmsChart" xml:space="preserve">
-    <value>Todos los SMS</value>
+    <value>Todos los mensajes</value>
   </data>
   <data name="RepTypeTable" xml:space="preserve">
     <value>Escribir</value>

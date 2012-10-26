@@ -340,7 +340,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average number of incoming SMS per customer.
+        ///   Looks up a localized string similar to Average number of incoming messages per customer.
         /// </summary>
         public static string RepAvgNoOfIncomingSmsPerConversation {
             get {
@@ -349,7 +349,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average number of incoming SMS per customer.
+        ///   Looks up a localized string similar to Average number of incoming messages per customer.
         /// </summary>
         public static string RepAvgNoOfIncomingSmsPerConversationToolitp {
             get {
@@ -358,7 +358,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average number of outgoing SMS per customer.
+        ///   Looks up a localized string similar to Average number of outgoing messages per customer.
         /// </summary>
         public static string RepAvgNoOfOutgoingSmsPerConversation {
             get {
@@ -367,7 +367,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average number of outgoing SMS per customer.
+        ///   Looks up a localized string similar to Average number of outgoing messages per customer.
         /// </summary>
         public static string RepAvgNoOfOutgoingSmsPerConversationTooltip {
             get {
@@ -376,7 +376,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average number of SMS per customer.
+        ///   Looks up a localized string similar to Average number of messages per customer.
         /// </summary>
         public static string RepAvgNoOfSmsPerClient {
             get {
@@ -385,7 +385,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average number of SMS per customer.
+        ///   Looks up a localized string similar to Average number of messages per customer.
         /// </summary>
         public static string RepAvgNoOfSmsPerClientTooltip {
             get {
@@ -394,7 +394,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average number of SMS per day.
+        ///   Looks up a localized string similar to Average number of messages per day.
         /// </summary>
         public static string RepAvgNoOfSmsPerDay {
             get {
@@ -403,7 +403,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average number of SMS per day.
+        ///   Looks up a localized string similar to Average number of messages per day.
         /// </summary>
         public static string RepAvgNoOfSmsPerDayTooltip {
             get {
@@ -493,7 +493,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Incoming and outgoing SMS.
+        ///   Looks up a localized string similar to Incoming and outgoing messages.
         /// </summary>
         public static string RepIncomingOutgoingChartTitle {
             get {
@@ -502,7 +502,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Incoming SMS.
+        ///   Looks up a localized string similar to Incoming.
         /// </summary>
         public static string RepIncomingSmsChart {
             get {
@@ -646,7 +646,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of incoming SMS.
+        ///   Looks up a localized string similar to Number of incoming messages.
         /// </summary>
         public static string RepNoOfIncomingSms {
             get {
@@ -655,7 +655,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of incoming SMS.
+        ///   Looks up a localized string similar to Number of incoming messages.
         /// </summary>
         public static string RepNoOfIncomingSmsTooltip {
             get {
@@ -682,7 +682,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of outgoing SMS.
+        ///   Looks up a localized string similar to Number of outgoing messages.
         /// </summary>
         public static string RepNoOfOutgoingSms {
             get {
@@ -691,7 +691,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of outgoing SMS.
+        ///   Looks up a localized string similar to Number of outgoing messages.
         /// </summary>
         public static string RepNoOfOutgoingSmsTooltip {
             get {
@@ -745,7 +745,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total number of SMS.
+        ///   Looks up a localized string similar to Total number of messages.
         /// </summary>
         public static string RepOverviewChartTitle {
             get {
@@ -853,7 +853,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SMS/customer.
+        ///   Looks up a localized string similar to messages/customer.
         /// </summary>
         public static string RepSmsPerClient {
             get {
@@ -862,7 +862,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SMS/day.
+        ///   Looks up a localized string similar to messages/day.
         /// </summary>
         public static string RepSmsPerDayUnit {
             get {
@@ -871,7 +871,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SMS.
+        ///   Looks up a localized string similar to message(s).
         /// </summary>
         public static string RepSmsUnit {
             get {
@@ -916,7 +916,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total number of SMS.
+        ///   Looks up a localized string similar to Total number of messages.
         /// </summary>
         public static string RepTotalNoOfSms {
             get {
@@ -925,7 +925,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total number of SMS.
+        ///   Looks up a localized string similar to Total number of messages.
         /// </summary>
         public static string RepTotalNoOfSmsTooltip {
             get {
@@ -934,7 +934,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All SMS.
+        ///   Looks up a localized string similar to All messages.
         /// </summary>
         public static string RepTotalSmsChart {
             get {
@@ -1420,7 +1420,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Define you working points.
+        ///   Looks up a localized string similar to Define your working points.
         /// </summary>
         public static string settingsWpDefineWpsMenu {
             get {

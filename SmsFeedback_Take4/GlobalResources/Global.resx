@@ -232,28 +232,28 @@
     <comment>Conversation:</comment>
   </data>
   <data name="RepAvgNoOfIncomingSmsPerConversation" xml:space="preserve">
-    <value>Average number of incoming SMS per customer</value>
+    <value>Average number of incoming messages per customer</value>
   </data>
   <data name="RepAvgNoOfIncomingSmsPerConversationToolitp" xml:space="preserve">
-    <value>Average number of incoming SMS per customer</value>
+    <value>Average number of incoming messages per customer</value>
   </data>
   <data name="RepAvgNoOfOutgoingSmsPerConversation" xml:space="preserve">
-    <value>Average number of outgoing SMS per customer</value>
+    <value>Average number of outgoing messages per customer</value>
   </data>
   <data name="RepAvgNoOfOutgoingSmsPerConversationTooltip" xml:space="preserve">
-    <value>Average number of outgoing SMS per customer</value>
+    <value>Average number of outgoing messages per customer</value>
   </data>
   <data name="RepAvgNoOfSmsPerClient" xml:space="preserve">
-    <value>Average number of SMS per customer</value>
+    <value>Average number of messages per customer</value>
   </data>
   <data name="RepAvgNoOfSmsPerClientTooltip" xml:space="preserve">
-    <value>Average number of SMS per customer</value>
+    <value>Average number of messages per customer</value>
   </data>
   <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
-    <value>Average number of SMS per day</value>
+    <value>Average number of messages per day</value>
   </data>
   <data name="RepAvgNoOfSmsPerDayTooltip" xml:space="preserve">
-    <value>Average number of SMS per day</value>
+    <value>Average number of messages per day</value>
   </data>
   <data name="RepAvgNoOfTagsPerConversation" xml:space="preserve">
     <value>Average number of tags per conversation</value>
@@ -280,7 +280,7 @@
     <value>Day</value>
   </data>
   <data name="RepIncomingSmsChart" xml:space="preserve">
-    <value>Incoming SMS</value>
+    <value>Incoming</value>
   </data>
   <data name="RepIncomingVsOutgoing" xml:space="preserve">
     <value>Incoming &amp; Outgoing</value>
@@ -307,10 +307,10 @@
     <value>None</value>
   </data>
   <data name="RepNoOfIncomingSms" xml:space="preserve">
-    <value>Number of incoming SMS</value>
+    <value>Number of incoming messages</value>
   </data>
   <data name="RepNoOfIncomingSmsTooltip" xml:space="preserve">
-    <value>Number of incoming SMS</value>
+    <value>Number of incoming messages</value>
   </data>
   <data name="RepNoOfNewClients" xml:space="preserve">
     <value>Number of new customers</value>
@@ -319,10 +319,10 @@
     <value>Number of new customers</value>
   </data>
   <data name="RepNoOfOutgoingSms" xml:space="preserve">
-    <value>Number of outgoing SMS</value>
+    <value>Number of outgoing messages</value>
   </data>
   <data name="RepNoOfOutgoingSmsTooltip" xml:space="preserve">
-    <value>Number of outgoing SMS</value>
+    <value>Number of outgoing messages</value>
   </data>
   <data name="RepNoOfReturningClients" xml:space="preserve">
     <value>Number of returning customers</value>
@@ -353,13 +353,13 @@
     <value>seconds</value>
   </data>
   <data name="RepSmsPerClient" xml:space="preserve">
-    <value>SMS/customer</value>
+    <value>messages/customer</value>
   </data>
   <data name="RepSmsPerDayUnit" xml:space="preserve">
-    <value>SMS/day</value>
+    <value>messages/day</value>
   </data>
   <data name="RepSmsUnit" xml:space="preserve">
-    <value>SMS</value>
+    <value>message(s)</value>
   </data>
   <data name="RepTags" xml:space="preserve">
     <value>Tags</value>
@@ -374,13 +374,13 @@
     <value>Number of clients</value>
   </data>
   <data name="RepTotalNoOfSms" xml:space="preserve">
-    <value>Total number of SMS</value>
+    <value>Total number of messages</value>
   </data>
   <data name="RepTotalNoOfSmsTooltip" xml:space="preserve">
-    <value>Total number of SMS</value>
+    <value>Total number of messages</value>
   </data>
   <data name="RepTotalSmsChart" xml:space="preserve">
-    <value>All SMS</value>
+    <value>All messages</value>
   </data>
   <data name="RepTypeTable" xml:space="preserve">
     <value>Type</value>
@@ -732,7 +732,7 @@
     <value>Positive feedback removed</value>
   </data>
   <data name="RepIncomingOutgoingChartTitle" xml:space="preserve">
-    <value>Incoming and outgoing SMS</value>
+    <value>Incoming and outgoing messages</value>
   </data>
   <data name="RepNewReturningClientsChartTitle" xml:space="preserve">
     <value>New and returning clients</value>
@@ -741,7 +741,7 @@
     <value>Number of conversations by tags</value>
   </data>
   <data name="RepOverviewChartTitle" xml:space="preserve">
-    <value>Total number of SMS</value>
+    <value>Total number of messages</value>
   </data>
   <data name="RepPositiveNegativeActivityChartTitle" xml:space="preserve">
     <value>Positive and negative tags activity</value>
@@ -756,7 +756,7 @@
     <value>No data to display</value>
   </data>
   <data name="settingsWpDefineWpsMenu" xml:space="preserve">
-    <value>Define you working points</value>
+    <value>Define your working points</value>
     <comment>Settings:</comment>
   </data>
   <data name="settingsWpMenuName" xml:space="preserve">
