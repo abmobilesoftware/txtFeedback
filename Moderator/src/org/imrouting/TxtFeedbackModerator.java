@@ -59,6 +59,7 @@ public class TxtFeedbackModerator implements Component {
 	}
 
 	public void processPacket(Packet iReceivedPacket) {
+		//System.out.println(iReceivedPacket.toXML());
 		/*Log.addLogEntry("Received packet ID=" + iReceivedPacket.getID() + 
 				", FROM = " + iReceivedPacket.getFrom().toBareJID() +
 				"  BODY = " + iReceivedPacket.toXML(), LogEntryType.INFO);*/

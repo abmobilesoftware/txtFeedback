@@ -318,7 +318,12 @@ namespace SmsFeedback_Take4.Utilities
                             //now get the id of the added conversation
                             conversations = from c in dbContext.Conversations where c.ConvId == conversationId select c;
                             convId = conversations.First().ConvId;
-                        }                        
+                        }
+                        else
+                        {
+                            logger.InfoFormat("UpdateAddConversation - no WP found");
+                        }
+                    
                     }
                 }
                 return convId;
