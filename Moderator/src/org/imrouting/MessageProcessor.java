@@ -80,13 +80,13 @@ public class MessageProcessor {
 						iPacket.getFrom().toBareJID(),
 						false);				
 			}
-			ArrayList<Agent> handlers = restGtw.getHandlersForMessage1(Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()), internalPacket.getConversationId(), false);
+			ArrayList<Agent> handlers = restGtw.getHandlersForMessage(Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()), internalPacket.getConversationId(), false);
 			for (int i=0; i<handlers.size(); ++i) {
 				moderator.sendInternalMessage(iPacket.getBody(), 
 						handlers.get(i).getUser());			
 			}						
 		} catch (Exception e) {
-			//Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
 			Runnable task = new Runnable() {
 				public void run() {
 					System.out.println("Re");
@@ -111,7 +111,7 @@ public class MessageProcessor {
 			moderator.sendInternalMessage(iPacket.getBody(), 
 					internalPacket.getToAddress());
 			} catch (Exception e) {
-			//Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
 			Runnable task = new Runnable() {
 				public void run() {
 					System.out.println("Re");
@@ -128,13 +128,13 @@ public class MessageProcessor {
 		try {
 			//restGtw.saveMessage(internalPacket.getFromAddress(), internalPacket.getToAddress(), internalPacket.getConversationId(), internalPacket.getBody(), iPacket.getFrom().toBareJID(), true);
 			//String WPTelNumber = getWPForThisAddress(internalPacket.getToAddress());
-			ArrayList<Agent> handlers = restGtw.getHandlersForMessage1(Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()), internalPacket.getConversationId(), true);
+			ArrayList<Agent> handlers = restGtw.getHandlersForMessage(Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()), internalPacket.getConversationId(), true);
 			for (int i=0; i<handlers.size(); ++i) {
 				moderator.sendInternalMessage(iPacket.getBody(), 
 						handlers.get(i).getUser());			
 			}
 		} catch (Exception e) {
-			//Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
 			Runnable task = new Runnable() {
 				public void run() {
 					System.out.println("Re");
@@ -156,7 +156,7 @@ public class MessageProcessor {
 					iPacket.getFrom().toBareJID(),
 					true);
 		} catch (Exception e) {
-			//Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());	
+			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());	
 			Runnable task = new Runnable() {
 				public void run() {
 					System.out.println("Re");
