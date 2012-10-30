@@ -23,7 +23,10 @@ namespace SmsFeedback_Take4.Controllers
             get
             {
                 if (mSmsRepository == null)
-                    mSmsRepository = AggregateSmsRepository.GetInstance(User.Identity.Name);
+                    /*if (User.Identity.Name.Length > 0) 
+                        mSmsRepository = AggregateSmsRepository.GetInstance(User.Identity.Name);
+                    else*/
+                        mSmsRepository = AggregateSmsRepository.GetInstance("ando"); // for testing
                 return mSmsRepository;
             }
         }
@@ -223,23 +226,13 @@ namespace SmsFeedback_Take4.Controllers
             return Json(wp, JsonRequestBehavior.AllowGet);
         }
 
-        private void UpdateDb(String from, String to, String conversationId, String text, Boolean readStatus,
-                                                     DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, String XmppUser, smsfeedbackEntities dbContext)
-        {
-            string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, isSmsBased, dbContext);
-            mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime, prevConvFrom, prevConvUpdateTime, isSmsBased, XmppUser, dbContext);
-            mEFInterface.IncrementNumberOfSentSms(from, dbContext);
-        }
-
         public JsonResult SaveMessage(String from, String to, String convId, String text, String xmppUser, bool isSms)
         {
-            logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}], xmppUser: [{4}], isSms: [{5}]", from, to, convId, text, xmppUser, isSms.ToString());
+            logger.InfoFormat("SaveMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}], xmppUser: [{4}], isSms: [{5}]", from, to, convId, text, xmppUser, isSms.ToString());
             try
             {
-                /* 
-                 * get the previous conversation from and time.
-                 */
-                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+                // get the previous from message to compute the response time
+                smsfeedbackEntities lContextPerRequest = getContext();
                 var previousConv = mEFInterface.GetLatestConversationDetails(convId, lContextPerRequest);
                 String prevConvFrom = Constants.NO_LAST_FROM;
                 DateTime prevConvUpdateTime = DateTime.MaxValue;
@@ -248,61 +241,106 @@ namespace SmsFeedback_Take4.Controllers
                     prevConvFrom = previousConv.From;
                     prevConvUpdateTime = previousConv.TimeUpdated;
                 }
-                // Compute direction
-                var direction = Constants.DIRECTION_OUT;
-                string[] fromTo = ConversationUtilities.GetFromAndToFromConversationID(convId);
-                if (isSms)
+                string direction = ComputeDirection(from, convId, isSms);
+                bool validDirection = !direction.Equals(Constants.DIRECTION_INVALID);
+                if (validDirection)
                 {
-                    if (fromTo[0].Equals(from)) direction = Constants.DIRECTION_IN;
-                }
-                else
-                {
-                    if (fromTo[0].Equals(ConversationUtilities.ExtractUserFromAddress(from))) direction = Constants.DIRECTION_IN;
-                }
-
-                // decode text from UTF-8 and make conversationId lower case
-                var textUnescaped = Server.UrlDecode(text);
-                var conversationId = convId.ToLower();
-                if (isSms)
-                {
-                    if (direction.Equals(Constants.DIRECTION_OUT))
+                    text = HttpUtility.UrlDecode(text);
+                    convId = convId.ToLower();
+                    if (isSms)
                     {
-                        SMSRepository.SendMessage(from, to, textUnescaped, lContextPerRequest, (msgResponse) =>
+                        if (direction.Equals(Constants.DIRECTION_OUT))
                         {
-                            //TODO add check if message was sent successfully 
-                            UpdateDb(from, to, conversationId, textUnescaped, true, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, xmppUser, lContextPerRequest);
-                        });
-                        //we should wait for the call to finish
-                        //I should return the sent time (if successful)              
-                        String response = "success"; //TODO should be a class
-                        return Json(response, JsonRequestBehavior.AllowGet);
+                            SendSmsMessageAndUpdateDb(from, to, convId,
+                                text, xmppUser, lContextPerRequest,
+                                prevConvFrom, prevConvUpdateTime);
+                        }
+                        else
+                        {
+                            return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
+                        }
                     }
                     else
                     {
-                        String response = "success"; //TODO should be a class
-                        return Json(response, JsonRequestBehavior.AllowGet);
+                        return SaveImMessageInDb(from, to, convId,
+                            text, xmppUser, lContextPerRequest,
+                            prevConvFrom, prevConvUpdateTime, direction);
                     }
                 }
                 else
                 {
-                    // save xmppUser in db just when the message direction is from customer to client
-                    string xmppUserToBeSaved = xmppUser;
-                    bool readStatus = true;
-                    if (direction.Equals(Constants.DIRECTION_IN))
-                    {
-                        xmppUserToBeSaved = Constants.DONT_ADD_XMPP_USER;
-                        readStatus = false;
-                    }
-                    UpdateDb(from, to, conversationId, textUnescaped, readStatus, DateTime.UtcNow, prevConvFrom, prevConvUpdateTime, false, xmppUserToBeSaved, lContextPerRequest);
-                    String response = "success"; //TODO should be a class
-                    return Json(response, JsonRequestBehavior.AllowGet);
+                    return Json(JsonReturnMessages.INVALID_DIRECTION, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception ex)
             {
                 logger.Error("SendMessage error", ex);
+                Console.WriteLine("SaveMessage Error = " + ex.Message);
+                Console.WriteLine("SaveMessage Error stack = " + ex.StackTrace + "||| & source " + ex.Source);
             }
             return Json("error", JsonRequestBehavior.AllowGet);            
+        }
+
+        private static smsfeedbackEntities getContext()
+        {
+            return new smsfeedbackEntities(); 
+        }
+
+        private JsonResult SaveImMessageInDb(String from, String to, String convId, String text, String xmppUser, smsfeedbackEntities lContextPerRequest, String prevConvFrom, DateTime prevConvUpdateTime, string direction)
+        {
+            // save xmppUser in db just when the message direction is from staff to client
+            string xmppUserToBeSaved = xmppUser;
+            bool readStatus = true;
+            if (direction.Equals(Constants.DIRECTION_IN))
+            {
+                xmppUserToBeSaved = Constants.DONT_ADD_XMPP_USER;
+                readStatus = false;
+            }
+            //maybe delegate the result to the UpdateDB function
+            //or interpret the result and return an appropriate message
+            String result = mEFInterface.UpdateDb(from, to, convId, text, readStatus, DateTime.UtcNow, prevConvFrom, prevConvUpdateTime, false, xmppUserToBeSaved, lContextPerRequest);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        private JsonResult SendSmsMessageAndUpdateDb(String from, String to, String convId, String text, String xmppUser, smsfeedbackEntities lContextPerRequest, String prevConvFrom, DateTime prevConvUpdateTime)
+        {
+            SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgResponse) =>
+            {
+                mEFInterface.UpdateDb(from, to, convId, text, true, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, xmppUser, lContextPerRequest);
+            });
+            return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
+        }
+
+        private static string ComputeDirection(String from, String convId, bool isSms)
+        {
+            /*
+             * Example: 
+             *      IN:  convId = xy123-shop10 (client-WP) 
+             *           from = xy123
+             *           isSms = false
+             *      OUT: Direction_IN 
+             *      A message has the "IN" direction if it comes from the client and "OUT" otherwise.
+             *      ConvId it's fixed between messages of the same conversation and has the format "client-WP". [part1]-[part2] 
+             *      From indicates the sender of the message. 
+             *      To compute the direction I test the from against the first part of the convId.
+             *          
+             */
+            var direction = Constants.DIRECTION_OUT;
+            string[] fromTo = ConversationUtilities.GetFromAndToFromConversationID(convId);
+            if (isSms)
+            {
+                if (fromTo[0].Equals(from)) direction = Constants.DIRECTION_IN;
+                else if (fromTo[1].Equals(from)) direction = Constants.DIRECTION_OUT;
+                else direction = Constants.DIRECTION_INVALID;
+            }
+            else
+            {
+                var userId = ConversationUtilities.ExtractUserFromAddress(from);
+                if (fromTo[0].Equals(userId)) direction = Constants.DIRECTION_IN;
+                else if (fromTo[1].Equals(userId)) direction = Constants.DIRECTION_OUT;
+                else direction = Constants.DIRECTION_INVALID;            
+            }
+            return direction;
         }
       
     }

@@ -289,44 +289,6 @@ namespace SmsFeedback_Take4.Controllers
         //   return null;
         //}
 
-        private void UpdateDbAfterMessageWasSent(String from, String to, String conversationId, String text, Boolean readStatus,
-                                                     DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, String XmppUser, smsfeedbackEntities dbContext)
-        {
-            string convID = mEFInterface.UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, true, dbContext);
-            mEFInterface.AddMessage(from, to, conversationId, text, readStatus, updateTime, prevConvFrom, prevConvUpdateTime,isSmsBased, XmppUser, dbContext);
-            mEFInterface.IncrementNumberOfSentSms(from, dbContext);
-        }
-
-        public JsonResult SendMessage(String from, String to, String convId, String text, String XmppUser)
-        {
-            if (HttpContext.Request.IsAjaxRequest())
-            {
-                logger.InfoFormat("SendMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}]", from, to, convId, text);
-                try
-                {
-                    smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-                    var previousConv = mEFInterface.GetLatestConversationDetails(convId, lContextPerRequest);
-
-                    var prevConvFrom = previousConv.From;
-                    var prevConvUpdateTime = previousConv.TimeUpdated;
-                    SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgResponse) =>
-                    {
-                       //TODO add check if message was sent successfully 
-                       UpdateDbAfterMessageWasSent(from, to, convId, text, true, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, XmppUser, lContextPerRequest);
-                    });
-                    //we should wait for the call to finish
-                    //I should return the sent time (if successful)              
-                    String response = "sent successfully"; //TODO should be a class
-                    return Json(response, JsonRequestBehavior.AllowGet);
-                }
-                catch (Exception ex)
-                {
-                    logger.Error("SendMessage error", ex);
-                }
-            }
-            return null;
-        }
-
         public JsonResult AddAnEventInConversationHistory(String conversationId, String eventType)
         {
             if (conversationId == null)

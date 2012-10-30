@@ -35,7 +35,16 @@ namespace SmsFeedback_Take4.Utilities
         public const string NEGATIVE_FEEDBACK = "negativeFeedback";
         public const string DIRECTION_OUT = "OUT";
         public const string DIRECTION_IN = "IN";
+        public const string DIRECTION_INVALID = "INVALID_DIRECTION";
         public const string NO_LAST_FROM = "no previous from";
         public const string DONT_ADD_XMPP_USER = "don't add xmpp user";
+    }
+    public class JsonReturnMessages
+    {
+        public const string OP_SUCCESSFUL = "success";
+        public const string INVALID_WPID = "Invalid working point id";
+        public const string DUPLICATE_MESSAGE = "duplicate message";
+        public const string EXCEPTION = "exception";
+        public const string INVALID_DIRECTION = "invalid direction";
     }
 }
