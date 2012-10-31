@@ -184,7 +184,7 @@ jQuery(function ($) {
                 if (contact.validate()) {
                     var msgValidated = $('#contact-container .contact-message');
                     msgValidated.fadeOut(function () {
-                        msg.removeClass('contact-error').empty();
+                       msgValidated.removeClass('contact-error').empty();
                      });
                     var sendingMsg = $('#sendEmailSendingEmailMsg').val();
                     $('#contact-container .contact-title').html(sendingMsg);
@@ -204,7 +204,7 @@ jQuery(function ($) {
                                    $('#contact-container .contact-loading').fadeOut(200, function () {
                                       var emailSentMsg = $('#sendEmailEmailSentMsg').val();
                                       $('#contact-container .contact-title').html(emailSentMsg);
-                                        msg.html(data).fadeIn(200);
+                                      msgValidated.html(data).fadeIn(200);
                                     });
                                 },
                                 error: contact.error
