@@ -117,77 +117,35 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="logOnMessage" xml:space="preserve">
-    <value>Authentificati-va</value>
-  </data>
-  <data name="LogOnModel_UserName_DisplayName" xml:space="preserve">
-    <value>Utilizator</value>
-  </data>
-  <data name="LogOnModel_UserName_Required" xml:space="preserve">
-    <value>Campul Utilizator este necesar</value>
-  </data>
-  <data name="logOnRegister" xml:space="preserve">
-    <value>Inregistrati-va</value>
-  </data>
-  <data name="logOnRegisterSuffixMsg" xml:space="preserve">
-    <value>daca nu aveti un cont</value>
-  </data>
-  <data name="logOnWithUserPassMsg" xml:space="preserve">
-    <value>Va rugam introduceti userul si parola.</value>
-  </data>
-  <data name="tabMessages" xml:space="preserve">
-    <value>Conversatii</value>
-  </data>
-  <data name="welcomeMessage" xml:space="preserve">
-    <value>Bine ai venit</value>
+  <data name="accountAuthenticate" xml:space="preserve">
+    <value>Autentificaţi-vă</value>
   </data>
   <data name="accountInformation" xml:space="preserve">
-    <value>Informatii cont</value>
+    <value>Informaţii cont</value>
   </data>
-  <data name="LogOnButtonMessage" xml:space="preserve">
-    <value>Intra in cont</value>
-  </data>
-  <data name="LogOnModel_Password_DisplayName" xml:space="preserve">
-    <value>Parola</value>
-  </data>
-  <data name="LogOnModel_Password_Required" xml:space="preserve">
-    <value>Campul Parola este necesar</value>
-  </data>
-  <data name="LogOnModel_RememberMe_DisplayName" xml:space="preserve">
-    <value>Tine-ma minte?</value>
-  </data>
-  <data name="tabHelp" xml:space="preserve">
-    <value>Ajutor</value>
-  </data>
-  <data name="tabReports" xml:space="preserve">
-    <value>Rapoarte</value>
-  </data>
-  <data name="tabSettings" xml:space="preserve">
-    <value>Setari</value>
-  </data>
-  <data name="tagsLabel" xml:space="preserve">
-    <value>Etichete:</value>
+  <data name="addATagLabel" xml:space="preserve">
+    <value>adaugă o etichetă</value>
   </data>
   <data name="dateLabel" xml:space="preserve">
     <value>Data:</value>
   </data>
+  <data name="feedbackSendUsFeedback" xml:space="preserve">
+    <value>Trimiteţi-ne feedback</value>
+  </data>
+  <data name="filteringAddFilterTag" xml:space="preserve">
+    <value>adaugă eticheta de filtrare</value>
+  </data>
+  <data name="filteringRemoveFilterTag" xml:space="preserve">
+    <value>şterge eticheta de filtrare</value>
+  </data>
   <data name="fromDate" xml:space="preserve">
-    <value>initiata la</value>
+    <value>iniţiata la</value>
   </data>
-  <data name="starredLabel" xml:space="preserve">
-    <value>Favorite</value>
+  <data name="helpPageTitle" xml:space="preserve">
+    <value>Ajutor</value>
   </data>
-  <data name="toDate" xml:space="preserve">
-    <value>ultima actualizare</value>
-  </data>
-  <data name="readLabel" xml:space="preserve">
-    <value>Necitite</value>
-  </data>
-  <data name="sendButton" xml:space="preserve">
-    <value>Trimite</value>
-  </data>
-  <data name="accountAuthenticate" xml:space="preserve">
-    <value>Autentificati-va</value>
+  <data name="lblNoConversationSelected" xml:space="preserve">
+    <value>Nici o conversaţie selectată, vă rugăm să selectaţi una</value>
   </data>
   <data name="lblPassword" xml:space="preserve">
     <value>parola</value>
@@ -195,71 +153,284 @@
   <data name="lblUserName" xml:space="preserve">
     <value>utilizator</value>
   </data>
+  <data name="loadMoreConversations" xml:space="preserve">
+    <value>Încarcă mai multe conversaţii</value>
+  </data>
+  <data name="loginUnsuccessfulDetails" xml:space="preserve">
+    <value>Utilizator sau parola incorecte</value>
+  </data>
+  <data name="loginUnsuccessfulSummary" xml:space="preserve">
+    <value>Logare esuată. Corectaţi erorile şi încercaţi din nou.</value>
+  </data>
+  <data name="LogOnButtonMessage" xml:space="preserve">
+    <value>Intră în cont</value>
+  </data>
   <data name="logOnLogOffMsg" xml:space="preserve">
     <value>Deconectare</value>
   </data>
   <data name="logOnLogOnMsg" xml:space="preserve">
     <value>Conectare</value>
   </data>
-  <data name="tooltipIncludeDateInFilter" xml:space="preserve">
-    <value>Activati/dezactivati filtrul conform datei</value>
+  <data name="logOnMessage" xml:space="preserve">
+    <value>Autentificaţi-vă</value>
   </data>
-  <data name="tooltipIncludeStarredInFilter" xml:space="preserve">
-    <value>Activati/dezactivati filtrul pentru favorite</value>
+  <data name="LogOnModel_Password_DisplayName" xml:space="preserve">
+    <value>Parola</value>
   </data>
-  <data name="tooltipIncludeTagsInFilter" xml:space="preserve">
-    <value>Activati/dezactivati filtrul conform etichetelor</value>
+  <data name="LogOnModel_Password_Required" xml:space="preserve">
+    <value>Câmpul Parola este necesar</value>
   </data>
-  <data name="tooltipIncludeUnreadInFilter" xml:space="preserve">
-    <value>Activati/dezactivati filtrul pentru conversatiile necitite</value>
+  <data name="LogOnModel_RememberMe_DisplayName" xml:space="preserve">
+    <value>Ţine-mă minte</value>
   </data>
-  <data name="tooltipMarkAsFavouriteImg" xml:space="preserve">
-    <value>Marcheaza ca si favorit</value>
+  <data name="LogOnModel_UserName_DisplayName" xml:space="preserve">
+    <value>Nume utilizator</value>
   </data>
-  <data name="tooltipReplyBtn" xml:space="preserve">
-    <value>Trimite mesaj de raspuns clientului</value>
+  <data name="LogOnModel_UserName_Required" xml:space="preserve">
+    <value>Câmpul Utilizator este necesar</value>
   </data>
-  <data name="tooltipSendEmailImg" xml:space="preserve">
-    <value>Trimite ca si email</value>
+  <data name="logOnRegister" xml:space="preserve">
+    <value>Înregistraţi-vă</value>
   </data>
-  <data name="tooltipWpImg" xml:space="preserve">
-    <value>Activati/dezactivati afisarea mesajelor pentru acest punct de lucru</value>
+  <data name="logOnRegisterSuffixMsg" xml:space="preserve">
+    <value>daca nu aveţi un cont</value>
   </data>
-  <data name="addATagLabel" xml:space="preserve">
-    <value>adauga o eticheta</value>
+  <data name="logOnWithUserPassMsg" xml:space="preserve">
+    <value>Vă rugăm introduceţi userul şi parola.</value>
   </data>
-  <data name="loadMoreConversations" xml:space="preserve">
-    <value>Incarca mai multe conversatii</value>
+  <data name="messagesAddTagPlaceHolder" xml:space="preserve">
+    <value>adaugă o etichetă</value>
   </data>
-  <data name="loginUnsuccessfulDetails" xml:space="preserve">
-    <value>Utilizator sau parola incorecte</value>
+  <data name="messagesPageTitle" xml:space="preserve">
+    <value>Conversaţii</value>
   </data>
-  <data name="loginUnsuccessfulSummary" xml:space="preserve">
-    <value>Logare esuata. Corectati erorile si incercati din nou.</value>
+  <data name="messagesRemoveTagPlaceHolder" xml:space="preserve">
+    <value>Şterge eticheta  </value>
   </data>
-  <data name="lblNoConversationSelected" xml:space="preserve">
-    <value>Nici o conversatie selectata, va rugam sa selectati una</value>
+  <data name="readLabel" xml:space="preserve">
+    <value>Necitite</value>
   </data>
-  <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
-    <value>Numarul conversatiilor cu mesaje necitite</value>
+  <data name="RepAvgNoOfIncomingSmsPerConversation" xml:space="preserve">
+    <value>Numărul mediu de mesaje primite per client</value>
   </data>
-  <data name="sendEmailHeader" xml:space="preserve">
-    <value>Trimite email</value>
+  <data name="RepAvgNoOfIncomingSmsPerConversationToolitp" xml:space="preserve">
+    <value>Numărul mediu de mesaje primite per client</value>
   </data>
-  <data name="sendEmailMessage" xml:space="preserve">
-    <value>*Mesaj:</value>
+  <data name="RepAvgNoOfOutgoingSmsPerConversation" xml:space="preserve">
+    <value>Numărul mediu de mesaje trimise per client</value>
   </data>
-  <data name="sendEmailSubject" xml:space="preserve">
-    <value>*Subiect:</value>
+  <data name="RepAvgNoOfOutgoingSmsPerConversationTooltip" xml:space="preserve">
+    <value>Numărul mediu de mesaje trimise per client</value>
   </data>
-  <data name="sendEmailTo" xml:space="preserve">
-    <value>*Catre:</value>
+  <data name="RepAvgNoOfSmsPerClient" xml:space="preserve">
+    <value>Numărul mediu de mesaje per client</value>
+  </data>
+  <data name="RepAvgNoOfSmsPerClientTooltip" xml:space="preserve">
+    <value>Numărul mediu de mesaje per client</value>
+  </data>
+  <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
+    <value>Numărul mediu de mesaje pe zi</value>
+  </data>
+  <data name="RepAvgNoOfSmsPerDayTooltip" xml:space="preserve">
+    <value>Numărul mediu de mesaje pe zi</value>
+  </data>
+  <data name="RepAvgNoOfTagsPerConversation" xml:space="preserve">
+    <value>Numărul mediu de etichete pe conversaţie</value>
+  </data>
+  <data name="RepAvgNoOfTagsPerConversationTooltip" xml:space="preserve">
+    <value>Numărul mediu de etichete pe conversaţie</value>
+  </data>
+  <data name="RepAvgResponseTime" xml:space="preserve">
+    <value>Timp mediu de răspuns</value>
+  </data>
+  <data name="RepAvgResponseTimeTooltip" xml:space="preserve">
+    <value>Timp mediu de răspuns</value>
+  </data>
+  <data name="RepClients" xml:space="preserve">
+    <value>Clienţi</value>
+  </data>
+  <data name="RepClientsUnit" xml:space="preserve">
+    <value>clienţi</value>
+  </data>
+  <data name="RepConversations" xml:space="preserve">
+    <value>Conversaţii</value>
+  </data>
+  <data name="RepConversationsUnit" xml:space="preserve">
+    <value>Conversaţii</value>
+  </data>
+  <data name="RepDay" xml:space="preserve">
+    <value>Zi</value>
+  </data>
+  <data name="RepIncomingOutgoingChartTitle" xml:space="preserve">
+    <value>Message primite şi trimise</value>
+  </data>
+  <data name="RepIncomingSmsChart" xml:space="preserve">
+    <value>Mesaje primite</value>
+  </data>
+  <data name="RepIncomingVsOutgoing" xml:space="preserve">
+    <value>Recepţionate vs Trimise</value>
+  </data>
+  <data name="RepMinutesUnit" xml:space="preserve">
+    <value>minute</value>
+  </data>
+  <data name="RepMonth" xml:space="preserve">
+    <value>Luna</value>
+  </data>
+  <data name="RepMostUsedTag" xml:space="preserve">
+    <value>Cele mai folosite etichete</value>
+  </data>
+  <data name="RepMostUsedTagsTooltip" xml:space="preserve">
+    <value>Cele mai folosite etichete</value>
+  </data>
+  <data name="RepNegativeFeedback" xml:space="preserve">
+    <value>Feedback negativ</value>
+  </data>
+  <data name="RepNegFeedbackAdded" xml:space="preserve">
+    <value>Feedback negativ adăugat</value>
+  </data>
+  <data name="RepNegFeedbackRemoved" xml:space="preserve">
+    <value>Feedback negativ soluţionat</value>
+  </data>
+  <data name="RepNegToPosFeedback" xml:space="preserve">
+    <value>Feedback negativ transformat in feedback pozitiv</value>
+  </data>
+  <data name="RepNewClientsChart" xml:space="preserve">
+    <value>Clienţi noi</value>
+  </data>
+  <data name="RepNewReturningClientsChartTitle" xml:space="preserve">
+    <value>Clienţi noi si clienţi fideli</value>
+  </data>
+  <data name="RepNewVsReturning" xml:space="preserve">
+    <value>Noi vs Fideli</value>
+  </data>
+  <data name="RepNoDataToDisplay" xml:space="preserve">
+    <value>Nu exista informaţii de afişat</value>
+  </data>
+  <data name="RepNoneDefaultValue" xml:space="preserve">
+    <value>Nici unul</value>
+  </data>
+  <data name="RepNoOfConversationsByTagsChartTitle" xml:space="preserve">
+    <value>Număr de conversaţii per etichetă</value>
+  </data>
+  <data name="RepNoOfIncomingSms" xml:space="preserve">
+    <value>Numărul de mesaje primite</value>
+  </data>
+  <data name="RepNoOfIncomingSmsTooltip" xml:space="preserve">
+    <value>Numărul de mesaje primite</value>
+  </data>
+  <data name="RepNoOfNewClients" xml:space="preserve">
+    <value>Numărul de clienţi noi</value>
+  </data>
+  <data name="RepNoOfNewClientsTooltip" xml:space="preserve">
+    <value>Numărul de clienţi noi</value>
+  </data>
+  <data name="RepNoOfOutgoingSms" xml:space="preserve">
+    <value>Numărul de mesaje trimise</value>
+  </data>
+  <data name="RepNoOfOutgoingSmsTooltip" xml:space="preserve">
+    <value>Numărul de mesaje trimise</value>
+  </data>
+  <data name="RepNoOfReturningClients" xml:space="preserve">
+    <value>Numărul de clienţi fideli</value>
+  </data>
+  <data name="RepNoOfReturningClientsTooltip" xml:space="preserve">
+    <value>Numărul de clienţi fideli</value>
+  </data>
+  <data name="reportsPageTitle" xml:space="preserve">
+    <value>Rapoarte</value>
+  </data>
+  <data name="RepOutgoingSmsChart" xml:space="preserve">
+    <value>Mesaje trimise</value>
+  </data>
+  <data name="RepOverview" xml:space="preserve">
+    <value>Sumar</value>
+  </data>
+  <data name="RepOverviewChartTitle" xml:space="preserve">
+    <value>Numărul total de mesaje</value>
+  </data>
+  <data name="RepPosFeedbackAdded" xml:space="preserve">
+    <value>Feedback pozitiv adăugat</value>
+  </data>
+  <data name="RepPosFeedbackRemoved" xml:space="preserve">
+    <value>Feedback pozitiv pierdut</value>
+  </data>
+  <data name="RepPositiveAndNegative" xml:space="preserve">
+    <value>Pozitiv şi negativ</value>
+  </data>
+  <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
+    <value>Feedback pozitiv &amp; negativ</value>
+  </data>
+  <data name="RepPositiveFeedback" xml:space="preserve">
+    <value>Feedback pozitiv</value>
+  </data>
+  <data name="RepPositiveNegativeActivityChartTitle" xml:space="preserve">
+    <value>Activitate pe etichetele cu feedback pozitiv si negativ</value>
+  </data>
+  <data name="RepPositiveNegativeEvolutionChartTitle" xml:space="preserve">
+    <value>Evoluţia pe feedbackul pozitiv si negativ</value>
+  </data>
+  <data name="RepPositiveNegativeTransitionsChartTitle" xml:space="preserve">
+    <value>Tranziţii pentru feedbackul pozitiv şi negativ</value>
+  </data>
+  <data name="RepPosToNegFeedback" xml:space="preserve">
+    <value>Feedback pozitiv transformat în feedback negativ</value>
+  </data>
+  <data name="RepReturningClientsChart" xml:space="preserve">
+    <value>Clienţi fideli</value>
+  </data>
+  <data name="RepSecondsUnit" xml:space="preserve">
+    <value>secunde</value>
+  </data>
+  <data name="RepSmsPerClient" xml:space="preserve">
+    <value>mesaje/client</value>
+  </data>
+  <data name="RepSmsPerDayUnit" xml:space="preserve">
+    <value>mesaje/zi</value>
+  </data>
+  <data name="RepSmsUnit" xml:space="preserve">
+    <value>mesaje</value>
+  </data>
+  <data name="RepTags" xml:space="preserve">
+    <value>Etichete</value>
+  </data>
+  <data name="RepTagsPerConversationUnit" xml:space="preserve">
+    <value>etichete/conversaţie</value>
+  </data>
+  <data name="RepTotalNoOfClients" xml:space="preserve">
+    <value>Numărul de clienţi ce oferă feedback</value>
+  </data>
+  <data name="RepTotalNoOfClientsTooltip" xml:space="preserve">
+    <value>Numărul de clienţi</value>
+  </data>
+  <data name="RepTotalNoOfSms" xml:space="preserve">
+    <value>Numărul total de mesaje</value>
+  </data>
+  <data name="RepTotalNoOfSmsTooltip" xml:space="preserve">
+    <value>Numărul total de mesaje</value>
+  </data>
+  <data name="RepTotalSmsChart" xml:space="preserve">
+    <value>Toate mesajele</value>
+  </data>
+  <data name="RepTypeTable" xml:space="preserve">
+    <value>Tip</value>
+  </data>
+  <data name="RepValueTable" xml:space="preserve">
+    <value>Valoare</value>
+  </data>
+  <data name="RepWeek" xml:space="preserve">
+    <value>Săptămană</value>
+  </data>
+  <data name="saveBtnCaption" xml:space="preserve">
+    <value>Salvează</value>
+  </data>
+  <data name="sendButton" xml:space="preserve">
+    <value>Trimite</value>
   </data>
   <data name="sendEmailCancel" xml:space="preserve">
-    <value>Anuleaza</value>
+    <value>Anulează</value>
   </data>
   <data name="sendEmailConjuctionSubject" xml:space="preserve">
-    <value>] si [</value>
+    <value>] şi [</value>
   </data>
   <data name="sendEmailEmailSent" xml:space="preserve">
     <value>Email trimis!</value>
@@ -267,11 +438,17 @@
   <data name="sendEmailEmailSentSuccessfuly" xml:space="preserve">
     <value>Email trimis cu succes</value>
   </data>
+  <data name="sendEmailHeader" xml:space="preserve">
+    <value>Trimite email</value>
+  </data>
   <data name="sendEmailLoadingScreen" xml:space="preserve">
-    <value>Incarca...</value>
+    <value>Încarca...</value>
+  </data>
+  <data name="sendEmailMessage" xml:space="preserve">
+    <value>*Mesaj:</value>
   </data>
   <data name="sendEmailPrefixSubject" xml:space="preserve">
-    <value>Schimb txt intre [</value>
+    <value>Schimb txt între [</value>
   </data>
   <data name="sendEmailSend" xml:space="preserve">
     <value>Trimite</value>
@@ -279,259 +456,217 @@
   <data name="sendEmailSendingEmail" xml:space="preserve">
     <value>Trimite...</value>
   </data>
+  <data name="sendEmailStartingText" xml:space="preserve">
+    <value>Mesaj de la utilizatorul TxtFeedback</value>
+  </data>
+  <data name="sendEmailSubject" xml:space="preserve">
+    <value>*Subiect:</value>
+  </data>
+  <data name="sendEmailTo" xml:space="preserve">
+    <value>*Către:</value>
+  </data>
   <data name="sendEmailValidationEmailInvalid" xml:space="preserve">
-    <value>Adresa email invalida. </value>
+    <value>Adresa de email este invalidă.</value>
   </data>
   <data name="sendEmailValidationEmailRequired" xml:space="preserve">
-    <value>Destinatar necesar. </value>
+    <value>Destinatarul este necesar.</value>
   </data>
   <data name="sendEmailValidationMessageRequired" xml:space="preserve">
-    <value>Mesaj necesar. </value>
+    <value>Mesajul este necesar.</value>
   </data>
   <data name="sendEmailValidationSubjectRequired" xml:space="preserve">
-    <value>Subiect necesar. </value>
-  </data>
-  <data name="feedbackSendUsFeedback" xml:space="preserve">
-    <value>Trimiteti-ne feedback</value>
-  </data>
-  <data name="sendEmailStartingText" xml:space="preserve">
-    <value>Mesaj de la utilizatorul TxtFeedback </value>
+    <value>Subiectul este necesar.</value>
   </data>
   <data name="sendFeedbackFeedbackSentSuccessfully" xml:space="preserve">
-    <value>Feedbackul dumneavoastra a fost trimis - echipa TxtFeedback va multumeste pentru timpul acordat!</value>
+    <value>Feedbackul dumneavoastră a fost trimis - echipa TxtFeedback vă mulţumeşte pentru timpul acordat!</value>
   </data>
   <data name="sendFeedbackHeader" xml:space="preserve">
     <value>Trimite feedback</value>
   </data>
   <data name="sendFeedbackNegativeFeedbackSubject" xml:space="preserve">
-    <value>Nu imi place faptul ca...</value>
+    <value>Nu îmi place faptul că...</value>
   </data>
   <data name="sendFeedbackPlaceholderMessage" xml:space="preserve">
-    <value>Inlocuiti cu mesajul dumneavoastra</value>
+    <value>Înlocuiţi cu mesajul dumneavoastră</value>
   </data>
   <data name="sendFeedbackPositiveFeedbackSubject" xml:space="preserve">
-    <value>Imi place faptul ca...</value>
+    <value>Îmi place faptul că...</value>
   </data>
-  <data name="tooltipSendNegativeFeedback" xml:space="preserve">
-    <value>Trimiteti feedback negativ</value>
+  <data name="settingsBtnChangePassword" xml:space="preserve">
+    <value>Schimbă parola</value>
   </data>
-  <data name="tooltipSendPositiveFeedback" xml:space="preserve">
-    <value>Trimiteti feedback pozitiv</value>
+  <data name="settingsChangePassword" xml:space="preserve">
+    <value>Schimbă parola</value>
   </data>
-  <data name="RepClients" xml:space="preserve">
-    <value>Clienti</value>
+  <data name="settingsChangePasswordTitle" xml:space="preserve">
+    <value>Schimbă parola</value>
   </data>
-  <data name="RepConversations" xml:space="preserve">
-    <value>Conversatii</value>
+  <data name="settingsConfigureWpDescription" xml:space="preserve">
+    <value>Descriere</value>
   </data>
-  <data name="RepIncomingVsOutgoing" xml:space="preserve">
-    <value>Receptionate vs Trimise</value>
+  <data name="settingsConfigureWpDescriptionError" xml:space="preserve">
+    <value>Descrierea punctului de lucru nu poate lipsi</value>
   </data>
-  <data name="RepNewVsReturning" xml:space="preserve">
-    <value>Noi vs Fideli</value>
+  <data name="settingsConfigureWpName" xml:space="preserve">
+    <value>Nume</value>
   </data>
-  <data name="RepOverview" xml:space="preserve">
-    <value>Sumar</value>
+  <data name="settingsConfigureWpNameError" xml:space="preserve">
+    <value>Numele punctului de lucru nu poate lipsi</value>
   </data>
-  <data name="RepTotalNoOfSms" xml:space="preserve">
-    <value>Numarul total de sms-uri</value>
+  <data name="settingsConfigureWpTelNumberError" xml:space="preserve">
+    <value>Numărul de telefon nu poate lipsi</value>
   </data>
-  <data name="filteringAddFilterTag" xml:space="preserve">
-    <value>adauga eticheta de filtrare</value>
+  <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
+    <value>Confirma noua parola</value>
   </data>
-  <data name="messagesAddTagPlaceHolder" xml:space="preserve">
-    <value>adauga eticheta</value>
+  <data name="settingsCurrentPasswordLabel" xml:space="preserve">
+    <value>Parola curentă</value>
   </data>
-  <data name="RepDay" xml:space="preserve">
-    <value>Zi</value>
+  <data name="settingsDescriptionPrefix" xml:space="preserve">
+    <value>Noile parole trebuie sa fie de minim {0} caractere</value>
   </data>
-  <data name="RepMonth" xml:space="preserve">
-    <value>Luna</value>
+  <data name="settingsErrorNewPasswordsDontMatch" xml:space="preserve">
+    <value>Parola noua şi parola noua reintrodusă nu se potrivesc</value>
   </data>
-  <data name="RepWeek" xml:space="preserve">
-    <value>Saptamana</value>
+  <data name="settingsErrorPasswordChangeSummary" xml:space="preserve">
+    <value>Nu am reusit să schimbăm parola. Corectaţi erorile şi încercaţi din nou</value>
   </data>
-  <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
-    <value>Numarul mediu de sms-uri pe zi</value>
+  <data name="settingsErrorPasswordIncorrect" xml:space="preserve">
+    <value>Parola curentă sau parola noua sunt invalide</value>
   </data>
-  <data name="RepAvgNoOfSmsPerClient" xml:space="preserve">
-    <value>Numarul mediu de sms-uri pe client</value>
+  <data name="settingsErrorPasswordNotLongEnough" xml:space="preserve">
+    <value>Noua parolă trebuie să fie de minim {2} caractere</value>
   </data>
-  <data name="RepAvgResponseTime" xml:space="preserve">
-    <value>Timp mediu de raspuns</value>
+  <data name="settingsErrorWpDescriptionLength" xml:space="preserve">
+    <value>Descrierea punctului de lucru trebuie să fie de maxim 160 de caractere</value>
   </data>
-  <data name="RepNoOfNewClients" xml:space="preserve">
-    <value>Numarul de noi clienti</value>
+  <data name="settingsErrorWpNameLength" xml:space="preserve">
+    <value>Numele punctului de lucru trebuie să conţină între 6 şi 40 de caractere</value>
   </data>
-  <data name="RepTags" xml:space="preserve">
-    <value>Etichete</value>
+  <data name="settingsErrorWpTelNumberLength" xml:space="preserve">
+    <value>Numărul de telefon asociat punctului de lucru trebuie să conţina între 8 şi 50 de caractere</value>
   </data>
-  <data name="helpPageTitle" xml:space="preserve">
-    <value>Ajutor</value>
+  <data name="settingsMaxOutboundSmsHeader" xml:space="preserve">
+    <value>Numărul maxim de SMSuri ce se pot trimite</value>
   </data>
-  <data name="messagesPageTitle" xml:space="preserve">
-    <value>Conversatii</value>
+  <data name="settingsNewPasswordLabel" xml:space="preserve">
+    <value>Noua parola</value>
   </data>
   <data name="settingsPageTitle" xml:space="preserve">
-    <value>Setari</value>
+    <value>Configurări</value>
   </data>
-  <data name="RepAvgNoOfIncomingSmsPerConversation" xml:space="preserve">
-    <value>Numarul mediu de sms-uri primite per conversatie</value>
+  <data name="settingsPasswordChangedSuccessfully" xml:space="preserve">
+    <value>Parola a fost schimbată cu succes</value>
   </data>
-  <data name="RepAvgNoOfOutgoingSmsPerConversation" xml:space="preserve">
-    <value>Numarul mediu de sms-uri trimise per conversatie</value>
+  <data name="settingsPrivacy" xml:space="preserve">
+    <value>Confidenţialitate</value>
   </data>
-  <data name="RepAvgNoOfTagsPerConversation" xml:space="preserve">
-    <value>Numarul mediu de etichete pe conversatie</value>
+  <data name="settingsTelNoHeader" xml:space="preserve">
+    <value>Număr de telefon</value>
   </data>
-  <data name="RepMostUsedTag" xml:space="preserve">
-    <value>Cele mai folosite etichete</value>
+  <data name="settingsWpConfigErrors" xml:space="preserve">
+    <value>Am întâmpinat erori în a salva noua configuraţie</value>
   </data>
-  <data name="RepNoOfIncomingSms" xml:space="preserve">
-    <value>Numarul de sms-uri primite</value>
+  <data name="settingsWpConfigLegend" xml:space="preserve">
+    <value>Puncte de lucru</value>
   </data>
-  <data name="RepNoOfOutgoingSms" xml:space="preserve">
-    <value>Numarul de sms-uri trimise</value>
+  <data name="settingsWpDefineWpsMenu" xml:space="preserve">
+    <value>Configurează-ţi punctele de lucru</value>
   </data>
-  <data name="RepNoOfReturningClients" xml:space="preserve">
-    <value>Numarul de clienti fideli</value>
+  <data name="settingsWpDescriptionHeader" xml:space="preserve">
+    <value>Descriere</value>
   </data>
-  <data name="reportsPageTitle" xml:space="preserve">
-    <value>Rapoarte</value>
+  <data name="settingsWpDescriptionHeaderTooltip" xml:space="preserve">
+    <value>Descrierea punctului de lucru</value>
   </data>
-  <data name="RepTotalNoOfClients" xml:space="preserve">
-    <value>Numarul de clienti</value>
+  <data name="settingsWpMaxOutboundSmsHeaderTooltip" xml:space="preserve">
+    <value>Numărul maxim de SMSuri ce se pot trimite de la acest punct de lucru</value>
   </data>
-  <data name="RepAvgNoOfIncomingSmsPerConversationToolitp" xml:space="preserve">
-    <value>Avg no of incoming sms per conversation RO</value>
-    <comment>Reports page - tooltip</comment>
+  <data name="settingsWpMenuName" xml:space="preserve">
+    <value>Puncte de lucru</value>
   </data>
-  <data name="RepAvgNoOfOutgoingSmsPerConversationTooltip" xml:space="preserve">
-    <value>Avg no outgoing sms per conversation RO</value>
-    <comment>Reports page - tooltip</comment>
+  <data name="settingsWpNameHeader" xml:space="preserve">
+    <value>Numele punctului de lucru</value>
   </data>
-  <data name="RepAvgNoOfSmsPerClientTooltip" xml:space="preserve">
-    <value>Average no of sms per client RO</value>
-    <comment>Reports page - tooltip</comment>
+  <data name="settingsWpNameHeaderTooltip" xml:space="preserve">
+    <value>Numele scurt folosit de platforma</value>
   </data>
-  <data name="RepAvgNoOfSmsPerDayTooltip" xml:space="preserve">
-    <value>Average no of sms per day RO</value>
-    <comment>Reports page - tooltip</comment>
+  <data name="settingsWpTelNoHeaderTooltip" xml:space="preserve">
+    <value>Numărul de telefon asociat acestui punct de lucru</value>
   </data>
-  <data name="RepAvgNoOfTagsPerConversationTooltip" xml:space="preserve">
-    <value>Average no of tags per conversation RO</value>
-    <comment>Reports page - tooltip</comment>
+  <data name="settingUserPreferences" xml:space="preserve">
+    <value>Configurările utilizatorului</value>
   </data>
-  <data name="RepAvgResponseTimeTooltip" xml:space="preserve">
-    <value>Average response time RO</value>
-    <comment>Reports page - tooltip</comment>
+  <data name="settingWpConfigSavedSuccessfuly" xml:space="preserve">
+    <value>Configuraţia punctului de lucru a fost salvată</value>
   </data>
-  <data name="RepClientsUnit" xml:space="preserve">
-    <value>clienti</value>
-    <comment>Report page - info box, measurement units</comment>
-  </data>
-  <data name="RepIncomingSmsChart" xml:space="preserve">
-    <value>Mesaje primite</value>
-    <comment>Reports page - main chart</comment>
-  </data>
-  <data name="RepMinutesUnit" xml:space="preserve">
-    <value>minute</value>
-    <comment>Report page - info box, measurement units</comment>
-  </data>
-  <data name="RepMostUsedTagsTooltip" xml:space="preserve">
-    <value>Most used tags RO</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="RepNewClientsChart" xml:space="preserve">
-    <value>Clienti noi</value>
-    <comment>Reports page - main chart</comment>
-  </data>
-  <data name="RepNoOfIncomingSmsTooltip" xml:space="preserve">
-    <value>No of incoming sms RO</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="RepNoOfNewClientsTooltip" xml:space="preserve">
-    <value>Number of new clients RO</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="RepNoOfOutgoingSmsTooltip" xml:space="preserve">
-    <value>No of outgoing sms RO</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="RepNoOfReturningClientsTooltip" xml:space="preserve">
-    <value>Number of returning clients RO</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="RepOutgoingSmsChart" xml:space="preserve">
-    <value>Mesaje trimise</value>
-    <comment>Reports page - main chart</comment>
-  </data>
-  <data name="RepReturningClientsChart" xml:space="preserve">
-    <value>Clienti fideli</value>
-    <comment>Reports page - main chart</comment>
-  </data>
-  <data name="RepSecondsUnit" xml:space="preserve">
-    <value>secunde</value>
-    <comment>Report page - info box, measurement units</comment>
-  </data>
-  <data name="RepSmsPerClient" xml:space="preserve">
-    <value>sms-uri/client</value>
-    <comment>Report page - info box, measurement units</comment>
-  </data>
-  <data name="RepSmsPerDayUnit" xml:space="preserve">
-    <value>sms-uri/zi</value>
-    <comment>Report page - info box, measurement units</comment>
-  </data>
-  <data name="RepSmsUnit" xml:space="preserve">
-    <value>sms-uri</value>
-    <comment>Report page - info box, measurement units</comment>
-  </data>
-  <data name="RepTagsPerConversationUnit" xml:space="preserve">
-    <value>tag-uri/conversatie</value>
-    <comment>Report page - info box, measurement units</comment>
-  </data>
-  <data name="RepTotalNoOfClientsTooltip" xml:space="preserve">
-    <value>Number of clients RO</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="RepTotalNoOfSmsTooltip" xml:space="preserve">
-    <value>Total no of sms RO</value>
-    <comment>Reports page - tooltip</comment>
-  </data>
-  <data name="RepTotalSmsChart" xml:space="preserve">
-    <value>Toate mesajele</value>
-    <comment>Reports page - main chart</comment>
-  </data>
-  <data name="RepTypeTable" xml:space="preserve">
-    <value>Tip</value>
-    <comment>Reports page - table area</comment>
-  </data>
-  <data name="RepValueTable" xml:space="preserve">
-    <value>Valoare</value>
-    <comment>Reports page - table area</comment>
+  <data name="starredLabel" xml:space="preserve">
+    <value>Preferate</value>
   </data>
   <data name="supportLabel" xml:space="preserve">
-    <value>Suport</value>
+    <value>Ajutor</value>
   </data>
-  <data name="tooltipIncludeSupportFilter" xml:space="preserve">
-    <value>Accesati rapid conversatiile de suport</value>
+  <data name="tabHelp" xml:space="preserve">
+    <value>Ajutor</value>
   </data>
-  <data name="RepNoneDefaultValue" xml:space="preserve">
-    <value>Nici unul</value>
+  <data name="tabMessages" xml:space="preserve">
+    <value>Conversaţii</value>
   </data>
-  <data name="RepPositiveAndNegative" xml:space="preserve">
-    <value>Pozitiv &amp; Negativ</value>
+  <data name="tabReports" xml:space="preserve">
+    <value>Rapoarte</value>
   </data>
-  <data name="RepNoneDefaultValue1" xml:space="preserve">
-    <value>None</value>
+  <data name="tabSettings" xml:space="preserve">
+    <value>Setări</value>
   </data>
-  <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
-    <value>Feedback pozitiv &amp; negativ</value>
+  <data name="tagsLabel" xml:space="preserve">
+    <value>Etichete:</value>
   </data>
   <data name="thumbsDownTooltip" xml:space="preserve">
-    <value>Mark conversation as negative RO</value>
+    <value>Etichetează această conversaţie ca şi feedback negativ</value>
   </data>
   <data name="thumbsUpTooltip" xml:space="preserve">
-    <value>Mark conversation as positive RO</value>
+    <value>Etichetează această conversaţie ca şi feedback pozitiv</value>
+  </data>
+  <data name="toDate" xml:space="preserve">
+    <value>ultima actualizare</value>
+  </data>
+  <data name="tooltipIncludeDateInFilter" xml:space="preserve">
+    <value>Activaţi/dezactivaţi filtrul conform datei</value>
+  </data>
+  <data name="tooltipIncludeStarredInFilter" xml:space="preserve">
+    <value>Activaţi/dezactivaţi filtrul pentru favorite</value>
+  </data>
+  <data name="tooltipIncludeSupportFilter" xml:space="preserve">
+    <value>Accesaţi rapid conversaţiile de suport</value>
+  </data>
+  <data name="tooltipIncludeTagsInFilter" xml:space="preserve">
+    <value>Activaţi/dezactivaţi filtrul conform etichetelor</value>
+  </data>
+  <data name="tooltipIncludeUnreadInFilter" xml:space="preserve">
+    <value>Activaţi/dezactivaţi filtrul pentru conversaţiile necitite</value>
+  </data>
+  <data name="tooltipMarkAsFavouriteImg" xml:space="preserve">
+    <value>Marchează ca şi favorit</value>
+  </data>
+  <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
+    <value>Numărul conversaţiilor cu mesaje necitite</value>
+  </data>
+  <data name="tooltipReplyBtn" xml:space="preserve">
+    <value>Trimite mesaj de răspuns clientului</value>
+  </data>
+  <data name="tooltipSendEmailImg" xml:space="preserve">
+    <value>Trimite ca şi email</value>
+  </data>
+  <data name="tooltipSendNegativeFeedback" xml:space="preserve">
+    <value>Trimiteţi feedback negativ</value>
+  </data>
+  <data name="tooltipSendPositiveFeedback" xml:space="preserve">
+    <value>Trimiteţi feedback pozitiv</value>
+  </data>
+  <data name="tooltipWpImg" xml:space="preserve">
+    <value>Activaţi/dezactivaţi afişarea mesajelor pentru acest punct de lucru</value>
+  </data>
+  <data name="welcomeMessage" xml:space="preserve">
+    <value>Bine ai venit</value>
   </data>
 </root>

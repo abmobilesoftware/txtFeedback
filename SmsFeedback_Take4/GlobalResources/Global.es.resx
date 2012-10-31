@@ -614,10 +614,10 @@
     <value>Etiqueta(s):</value>
   </data>
   <data name="thumbsDownTooltip" xml:space="preserve">
-    <value>Mark this conversation as  positive feedback</value>
+    <value>Mark this conversation as negative feedback</value>
   </data>
   <data name="thumbsUpTooltip" xml:space="preserve">
-    <value>Mark this conversation as negative feedback</value>
+    <value>Mark this conversation as  positive feedback</value>
   </data>
   <data name="toDate" xml:space="preserve">
     <value>última actualización</value>

@@ -622,10 +622,10 @@
     <value>Schlagwort(e):</value>
   </data>
   <data name="thumbsDownTooltip" xml:space="preserve">
-    <value>Die Unterhaltung als positiven Feedback markieren</value>
+    <value>Die Unterhaltung als negativen Feedback markieren</value>
   </data>
   <data name="thumbsUpTooltip" xml:space="preserve">
-    <value>Die Unterhaltung als negativen Feedback markieren</value>
+    <value>Die Unterhaltung als positiven Feedback markieren</value>
   </data>
   <data name="toDate" xml:space="preserve">
     <value>Letzte Aktualisierung</value>
