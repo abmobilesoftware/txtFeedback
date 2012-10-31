@@ -7,11 +7,11 @@ using System.Web.Http;
 using Models;
 using System.Web.Mvc;
 
-namespace RestAbmob1.Controllers
+namespace Controllers
 {
     public class RulesController : ApiController
     {
-        private const string SHORT_ID = "abmobdemo2";
+        private const string SHORT_ID = "abmobdemo3";
         
         // GET api/rules/abmob1
         public MsgHandlers Get(string from)

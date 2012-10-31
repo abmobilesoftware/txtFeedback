@@ -11,12 +11,12 @@ namespace RestAbmob1.Controllers
 {
     public class RulesController : ApiController
     {
-        private const string SHORT_ID = "abmobdemo2";
+        private const string SHORT_ID = "abmobdemo5";
         
         // GET api/rules/abmob1
         public MsgHandlers Get(string from)
         {
-            Agent agent1 = new Agent("txtdemo3@txtfeedback.net", 7);
+           Agent agent1 = new Agent("txtdemo5@txtfeedback.net", 7);
             List<Agent> agents = new List<Agent> { agent1 };
             MsgHandlers listOfAgents = new MsgHandlers(agents);
             return listOfAgents;

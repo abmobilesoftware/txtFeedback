@@ -7,7 +7,7 @@ using System.Web.Http;
 using Models;
 using System.Web.Mvc;
 
-namespace RestAbmob1.Controllers
+namespace Controllers
 {
     public class RulesController : ApiController
     {
@@ -16,7 +16,7 @@ namespace RestAbmob1.Controllers
         // GET api/rules/abmob1
         public MsgHandlers Get(string from)
         {
-            Agent agent1 = new Agent("txtdemo2@txtfeedback.net", 7);
+            Agent agent1 = new Agent("txtdemo1@txtfeedback.net", 7);
             List<Agent> agents = new List<Agent> { agent1 };
             MsgHandlers listOfAgents = new MsgHandlers(agents);
             return listOfAgents;
