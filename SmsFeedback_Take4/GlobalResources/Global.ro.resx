@@ -355,10 +355,10 @@
     <value>Feedback pozitiv pierdut</value>
   </data>
   <data name="RepPositiveAndNegative" xml:space="preserve">
-    <value>Pozitiv şi negativ</value>
+    <value>Feedback pozitiv vs negativ</value>
   </data>
   <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
-    <value>Feedback pozitiv &amp; negativ</value>
+    <value>Feedback pozitiv vs negativ</value>
   </data>
   <data name="RepPositiveFeedback" xml:space="preserve">
     <value>Feedback pozitiv</value>
@@ -517,7 +517,7 @@
     <value>Numărul de telefon nu poate lipsi</value>
   </data>
   <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
-    <value>Confirma noua parola</value>
+    <value>Confirmă noua parolă</value>
   </data>
   <data name="settingsCurrentPasswordLabel" xml:space="preserve">
     <value>Parola curentă</value>
