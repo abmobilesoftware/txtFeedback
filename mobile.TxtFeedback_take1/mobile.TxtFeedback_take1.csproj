@@ -236,6 +236,7 @@
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\debug_m.mobile.pubxml" />
     <None Include="Properties\PublishProfiles\debug_m.mobitest.pubxml" />
+    <None Include="Properties\PublishProfiles\t3xt.me_release.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MyScripts\Home.js" />
     <Content Include="MyScripts\strophe.js" />
@@ -311,6 +312,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GlobalResources\Global.de.resx" />
     <EmbeddedResource Include="GlobalResources\Global.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Global.Designer.cs</LastGenOutput>
