@@ -5,35 +5,41 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LastUsedBuildConfiguration>Debug</LastUsedBuildConfiguration>
+    <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
     <LastUsedPlatform>Any CPU</LastUsedPlatform>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAxW6f83DdZk6G679N7CirBQAAAAACAAAAAAAQZgAAAAEAACAAAACJdzSnvyZG+qxYVofD/1MMvdMQeciM6PdentRUDIWGyQAAAAAOgAAAAAIAACAAAACpR3aJe+7tUs62kz0MOFbXsuiF5D+zvxyFrruY6UDIKCAAAAAZAdQpzyIF7JdxaKyWMvJgLMb6x5xKLAnB4ayb64D8DkAAAADU8EFBFgVNN2iWITKbwcUGyjRQ9q3Oq5ywlChMmANmwut7RxCQrufUlR6oYrySD0Whmg9svtgSEFNq5C1ywjf8</EncryptedPassword>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:33</publishTime>
+    </File>
+    <File Include="bin/de/mobile.TxtFeedback_take1.resources.dll">
+      <publishTime>10/28/2012 20:33:03</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:23</publishTime>
     </File>
     <File Include="bin/log4net.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/28/2012 13:20:06</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="bin/mobile.TxtFeedback_take1.dll">
-      <publishTime>10/23/2012 14:32:06</publishTime>
+      <publishTime>10/28/2012 20:33:02</publishTime>
     </File>
     <File Include="bin/mobile.TxtFeedback_take1.pdb">
       <publishTime>10/23/2012 14:32:06</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
-      <publishTime>07/17/2012 09:44:05</publishTime>
+      <publishTime>06/27/2012 18:16:31</publishTime>
+    </File>
+    <File Include="bin/ro/mobile.TxtFeedback_take1.resources.dll">
+      <publishTime>10/28/2012 20:33:03</publishTime>
     </File>
     <File Include="bin/SmsFeedback_EFModels.dll">
-      <publishTime>10/23/2012 14:32:02</publishTime>
+      <publishTime>10/28/2012 20:33:02</publishTime>
     </File>
     <File Include="bin/SmsFeedback_EFModels.pdb">
       <publishTime>10/23/2012 14:32:02</publishTime>
@@ -42,79 +48,82 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/10/2012 21:52:12</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Formatting.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:32</publishTime>
     </File>
     <File Include="bin/System.Net.Http.WebRequest.dll">
       <publishTime>07/10/2012 21:52:12</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:31</publishTime>
     </File>
     <File Include="bin/System.Web.Http.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:32</publishTime>
     </File>
     <File Include="bin/System.Web.Http.WebHost.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:32</publishTime>
     </File>
     <File Include="bin/System.Web.Mvc.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:31</publishTime>
     </File>
     <File Include="bin/System.Web.Optimization.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:33</publishTime>
     </File>
     <File Include="bin/System.Web.Providers.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:33</publishTime>
     </File>
     <File Include="bin/System.Web.Razor.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:31</publishTime>
     </File>
     <File Include="bin/System.Web.WebPages.Deployment.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:31</publishTime>
     </File>
     <File Include="bin/System.Web.WebPages.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:31</publishTime>
     </File>
     <File Include="bin/System.Web.WebPages.Razor.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:31</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:33</publishTime>
     </File>
     <File Include="Content/images/128x128.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/26/2012 15:02:37</publishTime>
+    </File>
+    <File Include="Content/images/42x42.png">
+      <publishTime>10/24/2012 09:34:21</publishTime>
     </File>
     <File Include="Content/images/ajax-loader.gif">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:28</publishTime>
     </File>
     <File Include="Content/images/ajax-loader.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:28</publishTime>
     </File>
     <File Include="Content/images/icons-18-black.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:28</publishTime>
     </File>
     <File Include="Content/images/icons-18-white.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:28</publishTime>
     </File>
     <File Include="Content/images/icons-36-black.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:28</publishTime>
     </File>
     <File Include="Content/images/icons-36-white.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:28</publishTime>
     </File>
     <File Include="Content/images/logo-square-128.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/26/2012 11:31:22</publishTime>
     </File>
     <File Include="Content/images/logo-square-24.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/26/2012 11:27:27</publishTime>
     </File>
     <File Include="Content/images/logo-square-32.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/26/2012 11:30:55</publishTime>
     </File>
     <File Include="Content/images/logo.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/26/2012 10:59:23</publishTime>
     </File>
     <File Include="Content/images/logo1.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/26/2012 11:08:41</publishTime>
     </File>
     <File Include="Content/jquery.mobile-1.1.0.css">
       <publishTime>10/22/2012 15:48:05</publishTime>
@@ -122,254 +131,263 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/jquery.mobile-1.1.0.min.css">
       <publishTime>10/04/2012 13:54:49</publishTime>
     </File>
+    <File Include="Content/jquery.mobile-1.2.0.css">
+      <publishTime>10/25/2012 14:40:45</publishTime>
+    </File>
+    <File Include="Content/jquery.mobile-1.2.0.min.css">
+      <publishTime>10/25/2012 14:40:39</publishTime>
+    </File>
     <File Include="Content/jquery.mobile.structure-1.1.0.css">
-      <publishTime>10/22/2012 15:40:35</publishTime>
+      <publishTime>10/26/2012 16:29:03</publishTime>
     </File>
     <File Include="Content/jquery.mobile.structure-1.1.0.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:28</publishTime>
     </File>
     <File Include="Content/jquery.mobile.theme-1.1.0.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/26/2012 11:37:59</publishTime>
     </File>
     <File Include="Content/jquery.mobile.theme-1.1.0.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:28</publishTime>
     </File>
     <File Include="Content/jquery.ui.datepicker.mobile.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/28/2012 12:10:58</publishTime>
     </File>
     <File Include="Content/messages.css">
-      <publishTime>10/22/2012 16:00:28</publishTime>
+      <publishTime>10/25/2012 15:36:15</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>10/26/2012 16:29:03</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ajax-loader.gif">
+      <publishTime>09/25/2012 18:49:28</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-bg_flat_75_ffffff_40x100.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-bg_glass_55_fbf9ee_1x400.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-bg_glass_65_ffffff_1x400.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-bg_glass_75_dadada_1x400.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-bg_glass_75_e6e6e6_1x400.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-bg_glass_95_fef1ec_1x400.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-bg_highlight-soft_75_cccccc_1x100.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-icons_222222_256x240.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-icons_2e83ff_256x240.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-icons_454545_256x240.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-icons_888888_256x240.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/images/ui-icons_cd0a0a_256x240.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/jquery-ui.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/jquery.ui.accordion.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/jquery.ui.all.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/jquery.ui.autocomplete.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/jquery.ui.base.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/jquery.ui.button.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/jquery.ui.core.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/jquery.ui.datepicker.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/jquery.ui.dialog.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/jquery.ui.progressbar.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/jquery.ui.resizable.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/jquery.ui.selectable.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/jquery.ui.slider.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/jquery.ui.tabs.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/jquery.ui.theme.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/minified/images/ui-bg_flat_0_aaaaaa_40x100.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/minified/images/ui-bg_flat_75_ffffff_40x100.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/minified/images/ui-bg_glass_55_fbf9ee_1x400.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/minified/images/ui-bg_glass_65_ffffff_1x400.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/minified/images/ui-bg_glass_75_dadada_1x400.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/minified/images/ui-bg_glass_75_e6e6e6_1x400.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/minified/images/ui-bg_glass_95_fef1ec_1x400.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/minified/images/ui-bg_highlight-soft_75_cccccc_1x100.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/minified/images/ui-icons_222222_256x240.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/minified/images/ui-icons_2e83ff_256x240.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/minified/images/ui-icons_454545_256x240.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/minified/images/ui-icons_888888_256x240.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Content/themes/base/minified/images/ui-icons_cd0a0a_256x240.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Content/themes/base/minified/jquery-ui.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Content/themes/base/minified/jquery.ui.accordion.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Content/themes/base/minified/jquery.ui.autocomplete.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Content/themes/base/minified/jquery.ui.button.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Content/themes/base/minified/jquery.ui.core.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Content/themes/base/minified/jquery.ui.datepicker.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Content/themes/base/minified/jquery.ui.dialog.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Content/themes/base/minified/jquery.ui.progressbar.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Content/themes/base/minified/jquery.ui.resizable.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Content/themes/base/minified/jquery.ui.selectable.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Content/themes/base/minified/jquery.ui.slider.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Content/themes/base/minified/jquery.ui.tabs.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Content/themes/base/minified/jquery.ui.theme.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Content/themes/images/ajax-loader.gif">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/28/2012 00:41:06</publishTime>
     </File>
     <File Include="Content/themes/images/icons-18-black.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/28/2012 00:41:06</publishTime>
     </File>
     <File Include="Content/themes/images/icons-18-white.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/28/2012 00:41:06</publishTime>
     </File>
     <File Include="Content/themes/images/icons-36-black.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/28/2012 00:41:06</publishTime>
     </File>
     <File Include="Content/themes/images/icons-36-white.png">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/28/2012 00:41:06</publishTime>
     </File>
     <File Include="Content/themes/try1.css">
-      <publishTime>10/24/2012 15:32:09</publishTime>
+      <publishTime>10/26/2012 16:29:03</publishTime>
     </File>
     <File Include="Content/themes/try1.min.css">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/28/2012 00:41:06</publishTime>
     </File>
     <File Include="favicon.ico">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="Global.asax">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="MyScripts/Home.js">
-      <publishTime>10/24/2012 13:53:28</publishTime>
+      <publishTime>10/26/2012 16:29:03</publishTime>
     </File>
     <File Include="MyScripts/Messages.js">
       <publishTime>09/28/2012 11:12:44</publishTime>
     </File>
     <File Include="MyScripts/strophe.js">
-      <publishTime>10/23/2012 16:58:19</publishTime>
+      <publishTime>10/23/2012 14:39:11</publishTime>
     </File>
     <File Include="MyScripts/strophe.register.js">
-      <publishTime>10/11/2012 11:51:06</publishTime>
+      <publishTime>10/18/2012 14:45:51</publishTime>
     </File>
     <File Include="MyScripts/Utilities.js">
-      <publishTime>10/18/2012 13:09:56</publishTime>
+      <publishTime>10/24/2012 09:54:46</publishTime>
     </File>
     <File Include="MyScripts/XMPP.js">
-      <publishTime>10/23/2012 16:58:19</publishTime>
+      <publishTime>10/25/2012 12:45:56</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/28/2012 13:20:08</publishTime>
     </File>
     <File Include="QUnit/CreateUsers.js">
-      <publishTime>10/11/2012 14:10:31</publishTime>
+      <publishTime>10/18/2012 14:45:51</publishTime>
     </File>
     <File Include="QUnit/QUnitTests.html">
-      <publishTime>10/10/2012 15:44:35</publishTime>
+      <publishTime>10/18/2012 14:45:51</publishTime>
     </File>
     <File Include="QUnit/RunJS.html">
-      <publishTime>10/11/2012 11:59:25</publishTime>
+      <publishTime>10/18/2012 14:45:51</publishTime>
     </File>
     <File Include="QUnit/XMPPHacked.js">
-      <publishTime>10/11/2012 12:35:07</publishTime>
+      <publishTime>10/18/2012 14:45:51</publishTime>
     </File>
     <File Include="QUnit/XMPPTest.js">
-      <publishTime>10/10/2012 15:59:06</publishTime>
+      <publishTime>10/18/2012 14:45:51</publishTime>
     </File>
     <File Include="Scripts/backbone-min.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/26/2012 12:02:31</publishTime>
     </File>
     <File Include="Scripts/jquery-1.7.1.js">
       <publishTime>10/04/2012 13:54:49</publishTime>
@@ -377,11 +395,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/jquery-1.7.1.min.js">
       <publishTime>10/04/2012 13:54:49</publishTime>
     </File>
+    <File Include="Scripts/jquery-1.8.2.js">
+      <publishTime>10/25/2012 14:59:00</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.8.2.min.js">
+      <publishTime>10/25/2012 14:59:04</publishTime>
+    </File>
     <File Include="Scripts/jquery-ui-1.8.20.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Scripts/jquery-ui-1.8.20.min.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Scripts/jquery.mobile-1.1.0.js">
       <publishTime>10/04/2012 13:54:49</publishTime>
@@ -389,80 +413,86 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/jquery.mobile-1.1.0.min.js">
       <publishTime>10/04/2012 13:54:49</publishTime>
     </File>
+    <File Include="Scripts/jquery.mobile-1.2.0.js">
+      <publishTime>10/25/2012 14:38:54</publishTime>
+    </File>
+    <File Include="Scripts/jquery.mobile-1.2.0.min.js">
+      <publishTime>10/25/2012 14:38:25</publishTime>
+    </File>
     <File Include="Scripts/jquery.ui.datepicker-de.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/26/2012 13:10:56</publishTime>
     </File>
     <File Include="Scripts/jquery.ui.datepicker-en-GB.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>10/24/2012 12:37:45</publishTime>
     </File>
     <File Include="Scripts/jquery.ui.datepicker-es.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/26/2012 13:10:56</publishTime>
     </File>
     <File Include="Scripts/jquery.ui.datepicker-ro.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/26/2012 13:10:56</publishTime>
     </File>
     <File Include="Scripts/jQuery.ui.datepicker.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/28/2012 12:09:15</publishTime>
     </File>
     <File Include="Scripts/jquery.ui.datepicker.mobile.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/28/2012 12:09:50</publishTime>
     </File>
     <File Include="Scripts/jquery.unobtrusive-ajax.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Scripts/jquery.unobtrusive-ajax.min.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Scripts/jquery.validate.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Scripts/jquery.validate.min.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:29</publishTime>
     </File>
     <File Include="Scripts/jquery.validate.unobtrusive.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Scripts/jquery.validate.unobtrusive.min.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Scripts/knockout-2.1.0.debug.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:34</publishTime>
     </File>
     <File Include="Scripts/knockout-2.1.0.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:34</publishTime>
     </File>
     <File Include="Scripts/modernizr-2.5.3.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:30</publishTime>
     </File>
     <File Include="Scripts/persist-min.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>10/02/2012 16:18:24</publishTime>
     </File>
     <File Include="Scripts/underscore.js">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/26/2012 12:05:36</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>10/04/2012 13:54:49</publishTime>
+      <publishTime>09/25/2012 18:49:28</publishTime>
     </File>
     <File Include="Views/Account/ChangePassword.cshtml">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="Views/Account/ChangePasswordSuccess.cshtml">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="Views/Account/Index.cshtml">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="Views/Account/Login.cshtml">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="Views/Account/Register.cshtml">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="Views/Error/Error404.cshtml">
-      <publishTime>10/18/2012 13:09:56</publishTime>
+      <publishTime>10/15/2012 15:00:24</publishTime>
     </File>
     <File Include="Views/Error/General.cshtml">
-      <publishTime>10/18/2012 13:09:56</publishTime>
+      <publishTime>10/15/2012 14:51:59</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>09/25/2012 18:49:21</publishTime>
@@ -471,28 +501,28 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>10/23/2012 16:58:19</publishTime>
+      <publishTime>10/25/2012 12:14:34</publishTime>
     </File>
     <File Include="Views/Home/StoreNotFound.cshtml">
-      <publishTime>10/18/2012 13:09:56</publishTime>
+      <publishTime>10/25/2012 12:16:37</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>10/23/2012 16:58:19</publishTime>
+      <publishTime>10/26/2012 16:29:03</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="Views/Web.config">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
-      <publishTime>10/04/2012 13:54:50</publishTime>
+      <publishTime>09/25/2012 18:49:21</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/24/2012 15:32:39</publishTime>
+      <publishTime>10/28/2012 20:33:04</publishTime>
     </File>
   </ItemGroup>
 </Project>
