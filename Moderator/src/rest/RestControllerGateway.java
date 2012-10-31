@@ -24,7 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RestControllerGateway {
-	/* REST resources for dev
+	/* REST resources for dev 
 	private String RESTGetHandlersForMessageURL = "http://dev.txtfeedback.net/Component/GetHandlerForMessage";
 	private String RESTDomain = "http://rest.txtfeedback.net/";
 	private String RESTGetHandlersForMessageURL1 = "http://dev.txtfeedback.net/Component/GetHandlerForMessage1";
