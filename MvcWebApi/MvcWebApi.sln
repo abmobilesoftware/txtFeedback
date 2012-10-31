@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abmobdemo5", "Abmobdemo5\Ab
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abmobdemo6", "Abmobdemo6\Abmobdemo6.csproj", "{EF3C3387-3D64-4DC1-9591-27411974D6BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "absupde", "absupde\absupde.csproj", "{3FF055DA-D7B2-4292-9A8F-6A3DBCD43020}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{EF3C3387-3D64-4DC1-9591-27411974D6BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF3C3387-3D64-4DC1-9591-27411974D6BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF3C3387-3D64-4DC1-9591-27411974D6BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FF055DA-D7B2-4292-9A8F-6A3DBCD43020}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FF055DA-D7B2-4292-9A8F-6A3DBCD43020}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FF055DA-D7B2-4292-9A8F-6A3DBCD43020}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FF055DA-D7B2-4292-9A8F-6A3DBCD43020}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
