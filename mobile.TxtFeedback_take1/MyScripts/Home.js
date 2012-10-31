@@ -77,32 +77,34 @@ window.app.MessagesArea = function () {
 
    var id = 412536; //this should be unique
    var sendMessageToClient = function () {
-      var inputBox = $("#replyText");
-      id++;
-      //add it to the visual list
-      //I should set values to all the properties
-      var msgContent = inputBox.val();
+       var inputBox = $("#replyText");
+       if ($.trim($("#replyText").val()).length > 0) {
+           id++;
+           //add it to the visual list
+           //I should set values to all the properties
+           var msgContent = inputBox.val();
 
-      var fromTo = getFromToFromConversation(self.currentConversationId);
-      var from = fromTo[0];
-      var to = fromTo[1];
-      //TODO should be RFC822 format
-      var timeSent = new Date();
-      $(document).trigger('msgReceived', {
-         fromID: from,
-         toID: to,
-         convID: self.currentConversationId,
-         msgID: id,
-         dateReceived: timeSent,
-         text: msgContent,
-         readStatus: false,
-         messageIsSent: true
-      });
-      //reset the input form
-      inputBox.val('');
+           var fromTo = getFromToFromConversation(self.currentConversationId);
+           var from = fromTo[0];
+           var to = fromTo[1];
+           //TODO should be RFC822 format
+           var timeSent = new Date();
+           $(document).trigger('msgReceived', {
+               fromID: from,
+               toID: to,
+               convID: self.currentConversationId,
+               msgID: id,
+               dateReceived: timeSent,
+               text: msgContent,
+               readStatus: false,
+               messageIsSent: true
+           });
+           //reset the input form
+           inputBox.val('');
 
-      //signal all the other "listeners/agents"
-      window.app.xmppHandlerInstance.send_reply(from, to, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress);
+           //signal all the other "listeners/agents"
+           window.app.xmppHandlerInstance.send_reply(from, to, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress);
+       } 
    };
 
    _.templateSettings = {
