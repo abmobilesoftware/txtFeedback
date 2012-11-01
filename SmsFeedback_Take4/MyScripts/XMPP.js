@@ -20,7 +20,7 @@ window.app.xmppConn = {};
 window.app.getFeaturesIQID = "info14";
 window.app.selfXmppAddress = "";
 
-function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, text, readStatus) {
+function getNumberOfConversationsWithUnreadMessages() {
    "use strict";
    window.app.updateNrOfUnreadConversations(false);
 }
@@ -50,11 +50,9 @@ $(function () {
       }
    });
 
-   $(document).bind('msgReceived', function (ev, data) {
-      if (data.messageIsSent === undefined || (data.messageIsSent !== undefined && !data.messageIsSent)) {
-         signalMsgReceivedAtServer(data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
-      }
-   });
+   $(document).bind('updateUnreadConvsNr', function (ev, data) {      
+         getNumberOfConversationsWithUnreadMessages();
+      });
 });
 
 
@@ -220,8 +218,9 @@ window.app.XMPPhandler = function XMPPhandler() {
             //incommingMSG
             var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
             if (window.app.handleIncommingMessage !== undefined) {
-               window.app.handleIncommingMessage(incommingMsg, true);
+               window.app.handleIncommingMessage(incommingMsg, true);              
             }
+            $(document).trigger('updateUnreadConvsNr');
          }
       } else if ($(message).attr("type") === "error") {
          var error = message.getElementsByTagName("error")[0];
