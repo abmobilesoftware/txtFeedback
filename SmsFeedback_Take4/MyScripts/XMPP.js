@@ -158,7 +158,7 @@ window.app.XMPPhandler = function XMPPhandler() {
                                     " <to>" + to + "</to>" +
                                     " <datesent>" + dateSent + "</datesent>" +
                                      "<convID>" + convID + "</convID>" +
-                                    " <body>" + message + "</body>" +
+                                    " <body>" + Strophe.xmlescape(message) + "</body>" +
                                     " <staff>" + toStaff.toString() + "</staff>" +
                                     " <sms>" + isSmsBased.toString() +"</sms>" +
                                 " </msg>";
