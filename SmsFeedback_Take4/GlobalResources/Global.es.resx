@@ -673,4 +673,7 @@
   <data name="RepTooltipPosNegFeedbackTransitions" xml:space="preserve">
     <value />
   </data>
+  <data name="TitleLogOn" xml:space="preserve">
+    <value>Autentificar</value>
+  </data>
 </root>

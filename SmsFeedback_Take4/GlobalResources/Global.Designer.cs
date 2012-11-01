@@ -1618,6 +1618,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Authenticate.
+        /// </summary>
+        public static string TitleLogOn {
+            get {
+                return ResourceManager.GetString("TitleLogOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to last updated.
         /// </summary>
         public static string toDate {

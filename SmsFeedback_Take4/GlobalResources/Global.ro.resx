@@ -678,4 +678,7 @@
   <data name="RepTooltipPosNegFeedbackTransitions" xml:space="preserve">
     <value>Tranzitii pentru feedbackul pozitiv si negativ</value>
   </data>
+  <data name="TitleLogOn" xml:space="preserve">
+    <value>Autentificaţi-vă</value>
+  </data>
 </root>

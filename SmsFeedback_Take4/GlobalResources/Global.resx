@@ -772,4 +772,8 @@
   <data name="RepTooltipPosNegFeedbackTransitions" xml:space="preserve">
     <value>Positive and negative feedback transitions</value>
   </data>
+  <data name="TitleLogOn" xml:space="preserve">
+    <value>Authenticate</value>
+    <comment>Title for Log On page</comment>
+  </data>
 </root>

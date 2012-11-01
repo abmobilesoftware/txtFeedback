@@ -23,7 +23,7 @@
    <% } %>
 
    <script src="<%: Url.Content("~/Scripts/jquery-1.6.2.min.js") %>" charset="charset="UTF-8" type="text/javascript"></script>
-    <title>Log On</title>
+    <title> <%: Resources.Global.TitleLogOn %></title>
 </head>
 
 <body>
