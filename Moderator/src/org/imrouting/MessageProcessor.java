@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import log.Log;
 import log.LogEntryType;
 
+import org.exceptions.RESTException;
 import org.helpers.TxtPacket;
 import org.helpers.Utilities;
 import org.helpers.json.Agent;
@@ -85,7 +86,7 @@ public class MessageProcessor {
 				moderator.sendInternalMessage(iPacket.getBody(), 
 						handlers.get(i).getUser());			
 			}						
-		} catch (Exception e) {
+		} catch (RESTException e) {
 			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
 			Runnable task = new Runnable() {
 				public void run() {
@@ -93,8 +94,9 @@ public class MessageProcessor {
 					processInternalPacket(receivedPacket);
 				}				
 			};
-			worker.schedule(task, 5, TimeUnit.SECONDS);
-			
+				worker.schedule(task, 5, TimeUnit.SECONDS);
+		} catch (Exception e) {
+			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());			
 		}
 	}
 	
@@ -110,15 +112,17 @@ public class MessageProcessor {
 					false);
 			moderator.sendInternalMessage(iPacket.getBody(), 
 					internalPacket.getToAddress());
-			} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
-			Runnable task = new Runnable() {
-				public void run() {
-					System.out.println("Re");
-					processInternalPacket(receivedPacket);
-				}				
-			};
+		} catch (RESTException e) {
+				Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+				Runnable task = new Runnable() {
+					public void run() {
+						System.out.println("Re");
+						processInternalPacket(receivedPacket);
+					}				
+				};
 			worker.schedule(task, 5, TimeUnit.SECONDS);
+		} catch (Exception e) {
+			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());			
 		}
 		
 	}
@@ -133,7 +137,7 @@ public class MessageProcessor {
 				moderator.sendInternalMessage(iPacket.getBody(), 
 						handlers.get(i).getUser());			
 			}
-		} catch (Exception e) {
+		} catch (RESTException e) {
 			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
 			Runnable task = new Runnable() {
 				public void run() {
@@ -141,7 +145,9 @@ public class MessageProcessor {
 					processInternalPacket(receivedPacket);
 				}				
 			};
-			worker.schedule(task, 5, TimeUnit.SECONDS);
+			worker.schedule(task, 5, TimeUnit.SECONDS);			
+		} catch (Exception e) {
+			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());			
 		}
 	}
 	
@@ -155,16 +161,18 @@ public class MessageProcessor {
 					internalPacket.getBody(), 
 					iPacket.getFrom().toBareJID(),
 					true);
-		} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());	
+		} catch (RESTException e) {
+			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
 			Runnable task = new Runnable() {
 				public void run() {
 					System.out.println("Re");
 					processInternalPacket(receivedPacket);
 				}				
 			};
-			worker.schedule(task, 5, TimeUnit.SECONDS);
-		}		
+			worker.schedule(task, 5, TimeUnit.SECONDS);			
+		} catch (Exception e) {
+			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());			
+		}	
 	}
 
 }

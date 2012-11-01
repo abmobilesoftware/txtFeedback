@@ -15,6 +15,7 @@ import log.LogEntryType;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.utils.URIBuilder;
+import org.exceptions.RESTException;
 import org.helpers.Constants;
 import org.helpers.Utilities;
 import org.helpers.json.Agent;
@@ -42,30 +43,29 @@ public class RestControllerGateway {
 	private String RESTSaveMessage = "http://demo.txtfeedback.net/Component/SaveMessage";
 	private String RESTParametersTest = "http://demo.txtfeedback.net/Component/GetParametersTest";
 	
-	public ArrayList<Agent> getHandlersForMessage(String iWP, String iConversationId, boolean isSms) {
-		StringBuilder urlSb = new StringBuilder(RESTDomain);
-		urlSb.append(iWP);
-		urlSb.append("/api/rules/");
-		ArrayList<Agent> handlers = new ArrayList<Agent>();
-		Hashtable<String, String> params = new Hashtable<String, String>();
+	public ArrayList<Agent> getHandlersForMessage(String iWP, String iConversationId, boolean isSms) throws RESTException {
 		try {
+			StringBuilder urlSb = new StringBuilder(RESTDomain);
+			urlSb.append(iWP);
+			urlSb.append("/api/rules/");
+			ArrayList<Agent> handlers = new ArrayList<Agent>();
+			Hashtable<String, String> params = new Hashtable<String, String>();
 			params.put("from", URLEncoder.encode(iConversationId, "UTF-8"));			
-		} catch (UnsupportedEncodingException e) {
-			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
-		}
-		System.out.println("URL=" + urlSb.toString());
-		JSONObject listOfAgentsJsonObject = getResourceAsJsonObject(urlSb.toString(), RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
-		if (listOfAgentsJsonObject != null) {
-			try {
+			JSONObject listOfAgentsJsonObject = getResourceAsJsonObject(urlSb.toString(), RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
+			if (listOfAgentsJsonObject != null) {
 				JSONArray listOfAgentsArray = listOfAgentsJsonObject.getJSONArray("agents");
 				for (int i=0; i<listOfAgentsArray.length(); ++i) {
 					handlers.add(new Agent(listOfAgentsArray.getJSONObject(i).getString("user"), listOfAgentsArray.getJSONObject(i).getInt("priority")));												
 				}
-			} catch (JSONException e) {
-				Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));				
 			}
-		}
-		return handlers;
+			return handlers;
+		} catch (JSONException e) {
+			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
+			throw new RESTException();
+		}catch (UnsupportedEncodingException e) {
+			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
+			throw new RESTException();
+		}		
 	}
 	
 	public ArrayList<Agent> getHandlersForMessage1(String iWP, String iConversationId, boolean isSms) {
@@ -120,23 +120,29 @@ public class RestControllerGateway {
 		String result = getResourceAsString(RESTParametersTest, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);		
 	}
 	
-	public boolean saveMessage(String from, String to, String convId, String text, String xmppUser, boolean isSms) {
-		Hashtable<String, String> params = new Hashtable<String, String>();
+	public boolean saveMessage(String from, String to, String convId, String text, String xmppUser, boolean isSms) throws RESTException {
+		
 		try {
+			Hashtable<String, String> params = new Hashtable<String, String>();
 			params.put("from", from);
 			params.put("to", to);
 			params.put("convId", convId);
 			params.put("text", URLEncoder.encode(text, "UTF-8"));
 			params.put("xmppUser", xmppUser);
 			params.put("isSms", String.valueOf(isSms));
+			
+			String restCallResponse = getResourceAsString(RESTSaveMessage, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);		
+			if (restCallResponse.equals("{success}")) {
+				return true;
+			} else {
+				return false;
+			}
 		} catch (UnsupportedEncodingException e) {
 			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
-		}
-		String restCallResponse = getResourceAsString(RESTSaveMessage, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);		
-		if (restCallResponse.equals("{success}")) {
-			return true;
-		} else {
-			return false;
+			throw new RESTException();
+		} catch (Exception e) {
+			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
+			throw new RESTException();			
 		}
 	}
 	
