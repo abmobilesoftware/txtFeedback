@@ -664,4 +664,13 @@
   <data name="RepNoDataToDisplay" xml:space="preserve">
     <value>No data to display ES</value>
   </data>
+  <data name="RepTooltipPosNegFeedbackActivity" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RepTooltipPosNegFeedbackEvolution" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RepTooltipPosNegFeedbackTransitions" xml:space="preserve">
+    <value />
+  </data>
 </root>

@@ -898,6 +898,33 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Positive and negative feedback activity.
+        /// </summary>
+        public static string RepTooltipPosNegFeedbackActivity {
+            get {
+                return ResourceManager.GetString("RepTooltipPosNegFeedbackActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positive and negative feedback evolution.
+        /// </summary>
+        public static string RepTooltipPosNegFeedbackEvolution {
+            get {
+                return ResourceManager.GetString("RepTooltipPosNegFeedbackEvolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positive and negative feedback transitions.
+        /// </summary>
+        public static string RepTooltipPosNegFeedbackTransitions {
+            get {
+                return ResourceManager.GetString("RepTooltipPosNegFeedbackTransitions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of customers giving feedback.
         /// </summary>
         public static string RepTotalNoOfClients {

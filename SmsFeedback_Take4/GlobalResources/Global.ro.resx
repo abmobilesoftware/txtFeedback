@@ -669,4 +669,13 @@
   <data name="welcomeMessage" xml:space="preserve">
     <value>Bine ai venit</value>
   </data>
+  <data name="RepTooltipPosNegFeedbackActivity" xml:space="preserve">
+    <value>Activitate pe etichetele cu feedback pozitiv si negativ</value>
+  </data>
+  <data name="RepTooltipPosNegFeedbackEvolution" xml:space="preserve">
+    <value>Evolutia pe feedbackul pozitiv si negativ</value>
+  </data>
+  <data name="RepTooltipPosNegFeedbackTransitions" xml:space="preserve">
+    <value>Tranzitii pentru feedbackul pozitiv si negativ</value>
+  </data>
 </root>

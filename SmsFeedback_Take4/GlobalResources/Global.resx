@@ -763,4 +763,13 @@
     <value>Working points</value>
     <comment>Settings:</comment>
   </data>
+  <data name="RepTooltipPosNegFeedbackActivity" xml:space="preserve">
+    <value>Positive and negative feedback activity</value>
+  </data>
+  <data name="RepTooltipPosNegFeedbackEvolution" xml:space="preserve">
+    <value>Positive and negative feedback evolution</value>
+  </data>
+  <data name="RepTooltipPosNegFeedbackTransitions" xml:space="preserve">
+    <value>Positive and negative feedback transitions</value>
+  </data>
 </root>
