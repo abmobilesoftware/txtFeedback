@@ -195,7 +195,7 @@ window.app.XMPPhandler = function XMPPhandler() {
    this.connect = function (userid, password) {
       //window.app.logDebugOnServer("XMPP connecting with user [" + userid + "]");
       var self = this;
-      var xmppServerAddress = "http://176.34.122.48:5280/http-bind/";
+      var xmppServerAddress = "http://46.137.26.124:5280/http-bind/";
       if (!self.conn || !window.app.xmppConn) {
          self.conn = new Strophe.Connection(xmppServerAddress);
          self.userid = userid;

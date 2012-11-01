@@ -18,13 +18,13 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>07/24/2012 11:43:40</publishTime>
     </File>
     <File Include="bin/de/SmsFeedback_Take4.resources.dll">
-      <publishTime>10/31/2012 12:08:57</publishTime>
+      <publishTime>10/31/2012 13:35:11</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>05/30/2012 19:03:38</publishTime>
     </File>
     <File Include="bin/es/SmsFeedback_Take4.resources.dll">
-      <publishTime>10/31/2012 12:08:57</publishTime>
+      <publishTime>10/31/2012 13:35:11</publishTime>
     </File>
     <File Include="bin/ICSharpCode.SharpZipLib.dll">
       <publishTime>07/24/2012 11:42:11</publishTime>
@@ -54,19 +54,19 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>05/30/2012 18:33:10</publishTime>
     </File>
     <File Include="bin/ro/SmsFeedback_Take4.resources.dll">
-      <publishTime>10/31/2012 12:08:57</publishTime>
+      <publishTime>10/31/2012 13:35:11</publishTime>
     </File>
     <File Include="bin/SmsFeedback_EFModels.dll">
-      <publishTime>10/28/2012 20:52:42</publishTime>
+      <publishTime>10/31/2012 13:35:10</publishTime>
     </File>
     <File Include="bin/SmsFeedback_EFModels.pdb">
-      <publishTime>10/28/2012 20:52:42</publishTime>
+      <publishTime>10/31/2012 13:35:10</publishTime>
     </File>
     <File Include="bin/SmsFeedback_Take4.dll">
-      <publishTime>10/31/2012 12:08:57</publishTime>
+      <publishTime>10/31/2012 13:35:11</publishTime>
     </File>
     <File Include="bin/SmsFeedback_Take4.pdb">
-      <publishTime>10/31/2012 12:08:57</publishTime>
+      <publishTime>10/31/2012 13:35:11</publishTime>
     </File>
     <File Include="bin/System.Net.Http.dll">
       <publishTime>07/10/2012 21:52:12</publishTime>
@@ -186,13 +186,13 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>08/21/2012 17:39:59</publishTime>
     </File>
     <File Include="Content/css/Minified/areaDefinitions.css">
-      <publishTime>10/31/2012 12:09:01</publishTime>
+      <publishTime>10/31/2012 13:35:15</publishTime>
     </File>
     <File Include="Content/css/Minified/reports.css">
-      <publishTime>10/31/2012 12:09:01</publishTime>
+      <publishTime>10/31/2012 13:35:15</publishTime>
     </File>
     <File Include="Content/css/Minified/settings.css">
-      <publishTime>10/31/2012 12:09:01</publishTime>
+      <publishTime>10/31/2012 13:35:14</publishTime>
     </File>
     <File Include="Content/css/reports.css">
       <publishTime>10/22/2012 17:03:49</publishTime>
@@ -432,16 +432,16 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>10/22/2012 17:01:47</publishTime>
     </File>
     <File Include="Content/Minified/contact.css">
-      <publishTime>10/31/2012 12:09:01</publishTime>
+      <publishTime>10/31/2012 13:35:14</publishTime>
     </File>
     <File Include="Content/Minified/conversations.css">
-      <publishTime>10/31/2012 12:09:00</publishTime>
+      <publishTime>10/31/2012 13:35:14</publishTime>
     </File>
     <File Include="Content/Minified/filtersStrip.css">
-      <publishTime>10/31/2012 12:09:00</publishTime>
+      <publishTime>10/31/2012 13:35:14</publishTime>
     </File>
     <File Include="Content/Minified/grid.css">
-      <publishTime>10/31/2012 12:08:59</publishTime>
+      <publishTime>10/31/2012 13:35:12</publishTime>
     </File>
     <File Include="Content/Minified/images/thumbs_down_hover_red_24x24.png">
       <publishTime>09/17/2012 11:29:37</publishTime>
@@ -450,31 +450,31 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>09/17/2012 11:29:37</publishTime>
     </File>
     <File Include="Content/Minified/jquery.tagsinput.css">
-      <publishTime>10/31/2012 12:09:01</publishTime>
+      <publishTime>10/31/2012 13:35:15</publishTime>
     </File>
     <File Include="Content/Minified/layout.css">
-      <publishTime>10/31/2012 12:08:59</publishTime>
+      <publishTime>10/31/2012 13:35:12</publishTime>
     </File>
     <File Include="Content/Minified/messages.css">
-      <publishTime>10/31/2012 12:09:00</publishTime>
+      <publishTime>10/31/2012 13:35:13</publishTime>
     </File>
     <File Include="Content/Minified/nav.css">
-      <publishTime>10/31/2012 12:08:59</publishTime>
+      <publishTime>10/31/2012 13:35:12</publishTime>
     </File>
     <File Include="Content/Minified/phonenumbers.css">
-      <publishTime>10/31/2012 12:09:00</publishTime>
+      <publishTime>10/31/2012 13:35:13</publishTime>
     </File>
     <File Include="Content/Minified/reset.css">
-      <publishTime>10/31/2012 12:08:58</publishTime>
+      <publishTime>10/31/2012 13:35:12</publishTime>
     </File>
     <File Include="Content/Minified/Site.css">
-      <publishTime>10/31/2012 12:08:59</publishTime>
+      <publishTime>10/31/2012 13:35:13</publishTime>
     </File>
     <File Include="Content/Minified/tags.css">
-      <publishTime>10/31/2012 12:09:00</publishTime>
+      <publishTime>10/31/2012 13:35:14</publishTime>
     </File>
     <File Include="Content/Minified/text.css">
-      <publishTime>10/31/2012 12:08:58</publishTime>
+      <publishTime>10/31/2012 13:35:12</publishTime>
     </File>
     <File Include="Content/nav.css">
       <publishTime>05/09/2012 15:10:44</publishTime>
@@ -594,10 +594,10 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>10/03/2012 17:40:41</publishTime>
     </File>
     <File Include="MyScripts/Base/Minified/BaseLeftSideMenu.js">
-      <publishTime>10/31/2012 12:09:08</publishTime>
+      <publishTime>10/31/2012 13:35:24</publishTime>
     </File>
     <File Include="MyScripts/contact.js">
-      <publishTime>10/03/2012 18:04:57</publishTime>
+      <publishTime>10/31/2012 13:26:15</publishTime>
     </File>
     <File Include="MyScripts/Conversations.js">
       <publishTime>10/24/2012 09:22:45</publishTime>
@@ -618,34 +618,34 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>10/24/2012 09:19:30</publishTime>
     </File>
     <File Include="MyScripts/Minified/contact.js">
-      <publishTime>10/31/2012 12:09:02</publishTime>
+      <publishTime>10/31/2012 13:35:16</publishTime>
     </File>
     <File Include="MyScripts/Minified/Conversations.js">
-      <publishTime>10/31/2012 12:09:02</publishTime>
+      <publishTime>10/31/2012 13:35:16</publishTime>
     </File>
     <File Include="MyScripts/Minified/ConversationTags.js">
-      <publishTime>10/31/2012 12:09:03</publishTime>
+      <publishTime>10/31/2012 13:35:17</publishTime>
     </File>
     <File Include="MyScripts/Minified/Facade.js">
-      <publishTime>10/31/2012 12:09:03</publishTime>
+      <publishTime>10/31/2012 13:35:17</publishTime>
     </File>
     <File Include="MyScripts/Minified/Filtering.js">
-      <publishTime>10/31/2012 12:09:03</publishTime>
+      <publishTime>10/31/2012 13:35:18</publishTime>
     </File>
     <File Include="MyScripts/Minified/Messages.js">
-      <publishTime>10/31/2012 12:09:04</publishTime>
+      <publishTime>10/31/2012 13:35:18</publishTime>
     </File>
     <File Include="MyScripts/Minified/Settings/SettingsFacade.js">
       <publishTime>08/17/2012 13:36:10</publishTime>
     </File>
     <File Include="MyScripts/Minified/Utilities.js">
-      <publishTime>10/31/2012 12:09:04</publishTime>
+      <publishTime>10/31/2012 13:35:19</publishTime>
     </File>
     <File Include="MyScripts/Minified/WorkingPoints.js">
-      <publishTime>10/31/2012 12:09:05</publishTime>
+      <publishTime>10/31/2012 13:35:19</publishTime>
     </File>
     <File Include="MyScripts/Minified/XMPP.js">
-      <publishTime>10/31/2012 12:09:05</publishTime>
+      <publishTime>10/31/2012 13:35:20</publishTime>
     </File>
     <File Include="MyScripts/Reports/DateHelper.js">
       <publishTime>10/03/2012 16:49:51</publishTime>
@@ -657,25 +657,25 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>10/03/2012 17:38:26</publishTime>
     </File>
     <File Include="MyScripts/Reports/Minified/DateHelper.js">
-      <publishTime>10/31/2012 12:09:08</publishTime>
+      <publishTime>10/31/2012 13:35:23</publishTime>
     </File>
     <File Include="MyScripts/Reports/Minified/FirstArea.js">
-      <publishTime>10/31/2012 12:09:06</publishTime>
+      <publishTime>10/31/2012 13:35:21</publishTime>
     </File>
     <File Include="MyScripts/Reports/Minified/GlobalVariables.js">
-      <publishTime>10/31/2012 12:09:06</publishTime>
+      <publishTime>10/31/2012 13:35:20</publishTime>
     </File>
     <File Include="MyScripts/Reports/Minified/RepFacade.js">
-      <publishTime>10/31/2012 12:09:08</publishTime>
+      <publishTime>10/31/2012 13:35:23</publishTime>
     </File>
     <File Include="MyScripts/Reports/Minified/Reports.js">
-      <publishTime>10/31/2012 12:09:07</publishTime>
+      <publishTime>10/31/2012 13:35:22</publishTime>
     </File>
     <File Include="MyScripts/Reports/Minified/SecondArea.js">
-      <publishTime>10/31/2012 12:09:07</publishTime>
+      <publishTime>10/31/2012 13:35:21</publishTime>
     </File>
     <File Include="MyScripts/Reports/Minified/ThirdArea.js">
-      <publishTime>10/31/2012 12:09:07</publishTime>
+      <publishTime>10/31/2012 13:35:22</publishTime>
     </File>
     <File Include="MyScripts/Reports/RepFacade.js">
       <publishTime>10/03/2012 17:12:08</publishTime>
@@ -690,10 +690,10 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>10/03/2012 17:29:24</publishTime>
     </File>
     <File Include="MyScripts/Settings/Minified/settings.js">
-      <publishTime>10/31/2012 12:09:09</publishTime>
+      <publishTime>10/31/2012 13:35:24</publishTime>
     </File>
     <File Include="MyScripts/Settings/Minified/SettingsFacade.js">
-      <publishTime>10/31/2012 12:09:05</publishTime>
+      <publishTime>10/31/2012 13:35:20</publishTime>
     </File>
     <File Include="MyScripts/Settings/settings.js">
       <publishTime>10/03/2012 17:25:09</publishTime>
@@ -873,28 +873,28 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>09/11/2012 09:58:06</publishTime>
     </File>
     <File Include="Scripts/Minified/CollapsibleLists.js">
-      <publishTime>10/31/2012 12:09:11</publishTime>
+      <publishTime>10/31/2012 13:35:27</publishTime>
     </File>
     <File Include="Scripts/Minified/jquery.cookie.js">
-      <publishTime>10/31/2012 12:09:10</publishTime>
+      <publishTime>10/31/2012 13:35:25</publishTime>
     </File>
     <File Include="Scripts/Minified/jquery.simplemodal.js">
-      <publishTime>10/31/2012 12:09:10</publishTime>
+      <publishTime>10/31/2012 13:35:25</publishTime>
     </File>
     <File Include="Scripts/Minified/jquery.tagsinput.js">
-      <publishTime>10/31/2012 12:09:10</publishTime>
+      <publishTime>10/31/2012 13:35:26</publishTime>
     </File>
     <File Include="Scripts/Minified/jquery.ui.datepicker-de.js">
-      <publishTime>10/31/2012 12:09:11</publishTime>
+      <publishTime>10/31/2012 13:35:27</publishTime>
     </File>
     <File Include="Scripts/Minified/jquery.ui.datepicker-en-GB.js">
-      <publishTime>10/31/2012 12:09:12</publishTime>
+      <publishTime>10/31/2012 13:35:28</publishTime>
     </File>
     <File Include="Scripts/Minified/jquery.ui.datepicker-ro.js">
-      <publishTime>10/31/2012 12:09:12</publishTime>
+      <publishTime>10/31/2012 13:35:28</publishTime>
     </File>
     <File Include="Scripts/Minified/spin.js">
-      <publishTime>10/31/2012 12:09:09</publishTime>
+      <publishTime>10/31/2012 13:35:24</publishTime>
     </File>
     <File Include="Scripts/modernizr-2.0.6-development-only.js">
       <publishTime>07/24/2012 15:35:28</publishTime>
@@ -909,7 +909,7 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>06/06/2012 12:24:19</publishTime>
     </File>
     <File Include="Scripts/strophe/Minified/strophe.js">
-      <publishTime>10/31/2012 12:09:13</publishTime>
+      <publishTime>10/31/2012 13:35:29</publishTime>
     </File>
     <File Include="Scripts/strophe/strophe.js">
       <publishTime>10/23/2012 14:39:38</publishTime>
@@ -1002,7 +1002,7 @@ by customizing this MSBuild file. In order to learn more about this please visit
       <publishTime>05/14/2012 11:32:22</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/31/2012 12:09:15</publishTime>
+      <publishTime>10/31/2012 13:35:30</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -20,7 +20,7 @@ window.app.xmppConn = {};
 window.app.getFeaturesIQID = "info14";
 window.app.selfXmppAddress = "";
 
-function signalMsgReceivedAtServer(fromID, toId, convID, msgID, dateReceived, text, readStatus) {
+function getNumberOfConversationsWithUnreadMessages() {
    "use strict";
    window.app.updateNrOfUnreadConversations(false);
 }
@@ -50,11 +50,9 @@ $(function () {
       }
    });
 
-   $(document).bind('msgReceived', function (ev, data) {
-      if (data.messageIsSent === undefined || (data.messageIsSent !== undefined && !data.messageIsSent)) {
-         signalMsgReceivedAtServer(data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
-      }
-   });
+   $(document).bind('updateUnreadConvsNr', function (ev, data) {      
+         getNumberOfConversationsWithUnreadMessages();
+      });
 });
 
 
@@ -105,7 +103,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       var self = this;
       //var xmppServerAddress = "http://localhost:3333/app/dsadsa/http-bindours/";
       //var xmppServerAddress = "http://www.cluj-info.com/smsfeedback/nocontroller/http-bindours/";
-      var xmppServerAddress = "http://176.34.122.48:5280/http-bind/";
+      var xmppServerAddress = "http://46.137.26.124:5280/http-bind/";
       self.conn = new Strophe.Connection(xmppServerAddress);
       self.userid = userid;
       self.password = password;
@@ -220,8 +218,9 @@ window.app.XMPPhandler = function XMPPhandler() {
             //incommingMSG
             var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
             if (window.app.handleIncommingMessage !== undefined) {
-               window.app.handleIncommingMessage(incommingMsg, true);
+               window.app.handleIncommingMessage(incommingMsg, true);              
             }
+            $(document).trigger('updateUnreadConvsNr');
          }
       } else if ($(message).attr("type") === "error") {
          var error = message.getElementsByTagName("error")[0];
