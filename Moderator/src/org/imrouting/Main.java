@@ -7,7 +7,7 @@ import log.*;
 import log.Log;
 
 public class Main {
-	private final static String HOST = "176.34.122.48";
+	private final static String HOST = "46.137.26.124";
 	private final static int PORT = 5270;
 	
 	private final static String DOMAIN = "txtfeedback.net";
