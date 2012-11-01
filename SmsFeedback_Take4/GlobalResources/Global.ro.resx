@@ -211,10 +211,10 @@
     <value>Necitite</value>
   </data>
   <data name="RepAvgNoOfIncomingSmsPerConversation" xml:space="preserve">
-    <value>Numărul mediu de mesaje primite per client</value>
+    <value>Numărul mediu de mesaje receptionate per client</value>
   </data>
   <data name="RepAvgNoOfIncomingSmsPerConversationToolitp" xml:space="preserve">
-    <value>Numărul mediu de mesaje primite per client</value>
+    <value>Numărul mediu de mesaje receptionate per client</value>
   </data>
   <data name="RepAvgNoOfOutgoingSmsPerConversation" xml:space="preserve">
     <value>Numărul mediu de mesaje trimise per client</value>
@@ -262,13 +262,13 @@
     <value>Zi</value>
   </data>
   <data name="RepIncomingOutgoingChartTitle" xml:space="preserve">
-    <value>Message primite şi trimise</value>
+    <value>Mesaje receptionate şi trimise</value>
   </data>
   <data name="RepIncomingSmsChart" xml:space="preserve">
-    <value>Mesaje primite</value>
+    <value>Mesaje receptionate</value>
   </data>
   <data name="RepIncomingVsOutgoing" xml:space="preserve">
-    <value>Recepţionate vs Trimise</value>
+    <value>Recepţionate și Trimise</value>
   </data>
   <data name="RepMinutesUnit" xml:space="preserve">
     <value>minute</value>
@@ -301,7 +301,7 @@
     <value>Clienţi noi si clienţi fideli</value>
   </data>
   <data name="RepNewVsReturning" xml:space="preserve">
-    <value>Noi vs Fideli</value>
+    <value>Noi și Fideli</value>
   </data>
   <data name="RepNoDataToDisplay" xml:space="preserve">
     <value>Nu exista informaţii de afişat</value>
@@ -355,10 +355,10 @@
     <value>Feedback pozitiv pierdut</value>
   </data>
   <data name="RepPositiveAndNegative" xml:space="preserve">
-    <value>Feedback pozitiv vs negativ</value>
+    <value>Feedback pozitiv și negativ</value>
   </data>
   <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
-    <value>Feedback pozitiv vs negativ</value>
+    <value>Feedback pozitiv și negativ</value>
   </data>
   <data name="RepPositiveFeedback" xml:space="preserve">
     <value>Feedback pozitiv</value>
