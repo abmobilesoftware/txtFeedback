@@ -241,15 +241,20 @@ window.app.MessagesArea = function () {
       appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
          var msgView = new MessageView({ model: msg });
          var item = msgView.render().el;
+         $(".debug").empty();
          $(this.el).append(item);
          if (performFadeIn) {
             $(item).hide().fadeIn("2000");
          }
-          var bodyHeight = $(window).height() - 2 * $(".ui-header").height() - 50;
-          var contentHeight = $("#contentArea").height();          
+         
+         var bodyHeight = $(window).height() - 2 * $(".ui-header").height() - 100;
+         var contentHeight = $("#contentArea").height();
+         //$(".debug").append("body = " + bodyHeight + " -- contentHeight = " + contentHeight + " -- document scroll = " + (document.body.scrollHeight + 200));
           if (contentHeight > bodyHeight) {
-              window.scrollTo(0, document.body.scrollHeight + 50);
-          }
+              //$(".debug").append("to bottom");
+              //window.scrollTo(0, contentHeight + 200);              
+              $(document).scrollTop(document.body.scrollHeight - $(".ui-footer").height());
+          }        
           $(this.el).append("<div class='clear'></div>");
       }
    });
