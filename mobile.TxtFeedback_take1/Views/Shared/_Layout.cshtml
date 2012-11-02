@@ -16,15 +16,7 @@
       <div class="textMessage">
          <span>{{ Text }} </span> 
           <div class="clear"></div>
-    {% var dateComponents = TimeReceived.toString().split(" ");      
-       var displayPattern = "DD, MM d";
-       var time = dateComponents[4];     
-       var timeRec = $.datepicker.formatDate(displayPattern, TimeReceived,
-                                                      {dayNamesShort: $.datepicker.regional[window.app.calendarCulture].dayNamesShort, dayNames: $.datepicker.regional[window.app.calendarCulture].dayNames,
-                                                        monthNamesShort: $.datepicker.regional[window.app.calendarCulture].monthNamesShort, monthNames: $.datepicker.regional[window.app.calendarCulture].monthNames}); 
-      var timeReceivedLocal = timeRec + " " + time;
-    %}
-       <span class="timeReceived">{{ timeReceivedLocal }} </span>
+       <span class="timeReceived"></span>
       </div>      
       <div class="clear"></div>      
    </script>
