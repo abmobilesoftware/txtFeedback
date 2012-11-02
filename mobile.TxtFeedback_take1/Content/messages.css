@@ -50,6 +50,7 @@
 #messagesbox {
    min-height: 200px;
    display: block;
+   margin-bottom: 100px;
 }
 
 span.timeReceived {
@@ -413,6 +414,5 @@ html, body
 
 .oneQuarter {
     width: 30%;
-    padding-top:1px;
     float: left;
 }

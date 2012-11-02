@@ -1806,11 +1806,11 @@ div.ui-mobile-viewport { overflow-x: hidden; }
 .ui-navbar li .ui-btn .ui-btn-inner { padding-top: .7em; padding-bottom: .8em }
 .ui-navbar li .ui-btn-icon-top .ui-btn-inner { padding-top: 30px; }
 .ui-navbar li .ui-btn-icon-bottom .ui-btn-inner { padding-bottom: 30px; }
-.ui-btn { display: block; text-align: center; cursor:pointer; position: relative; margin: .5em 0; padding: 0; }
+.ui-btn { display: block; text-align: center; cursor:pointer; position: relative; margin-top: 5px; margin-bottom: 5px; padding-top:2px; padding-bottom: 3px; width: 90%; }
 .ui-mini { margin-top: .25em; margin-bottom: .25em; }
 .ui-btn-left, .ui-btn-right, .ui-input-clear, .ui-btn-inline,
 .ui-grid-a .ui-btn, .ui-grid-b .ui-btn, .ui-grid-c .ui-btn, .ui-grid-d .ui-btn, .ui-grid-e .ui-btn, .ui-grid-solo .ui-btn { margin-right: 5px; margin-left: 5px; }
-.ui-btn-inner { font-size: 16px; padding: .6em 20px; min-width: .75em; display: block; position: relative; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; zoom: 1; }
+.ui-btn-inner { font-size: 16px; padding: .6em 20px; min-width: .75em; display: block; position: relative; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; zoom: 1; top: 0px; }
 .ui-btn input, .ui-btn button { z-index: 2; }
 .ui-btn-left, .ui-btn-right, .ui-btn-inline { display: inline-block; vertical-align: middle; }
 .ui-mobile .ui-btn-left, .ui-mobile .ui-btn-right { margin: 0; } /* .ui-mobile to increase specificity level */
@@ -1821,7 +1821,7 @@ div.ui-mobile-viewport { overflow-x: hidden; }
 .ui-footer .ui-btn-block { display: block; }
 .ui-header .ui-btn-inner,
 .ui-footer .ui-btn-inner,
-.ui-mini .ui-btn-inner { font-size: 12.5px; padding: .55em 11px .5em; }
+.ui-mini .ui-btn-inner { font-size: 12.5px; }
 .ui-fullsize .ui-btn-inner,
 .ui-fullsize .ui-btn-inner { font-size: 16px; padding: .6em 20px; }
 .ui-btn-icon-notext { width: 24px; height: 24px; }
@@ -2141,7 +2141,7 @@ label.ui-submit { font-size: 16px; line-height: 1.4; font-weight: normal; margin
 	border-radius:         inherit;
 }
 .ui-checkbox, .ui-radio { position: relative; clear: both; margin: 0; z-index: 1; }
-.ui-checkbox .ui-btn, .ui-radio .ui-btn { margin-top: .5em; margin-bottom: .5em; text-align: left; z-index: 2; }
+.ui-checkbox .ui-btn, .ui-radio .ui-btn { margin-top: 5px; margin-bottom: 5px; text-align: left; z-index: 2; }
 .ui-checkbox .ui-btn.ui-mini, .ui-radio .ui-btn.ui-mini { margin: .25em 0; }
 .ui-controlgroup .ui-checkbox .ui-btn, .ui-controlgroup .ui-radio .ui-btn { margin: 0; }
 .ui-checkbox .ui-btn-inner, .ui-radio .ui-btn-inner { white-space: normal; }
@@ -2212,7 +2212,7 @@ label.ui-select { font-size: 16px; line-height: 1.4; font-weight: normal; margin
 /* when no placeholder is defined in a multiple select, the header height doesn't even extend past the close button.  this shim's content in there */
 .ui-selectmenu .ui-header h1:after { content: '.'; visibility: hidden; }
 label.ui-input-text { font-size: 16px; line-height: 1.4; display: block; font-weight: normal; margin: 0 0 .3em; }
-input.ui-input-text, textarea.ui-input-text { background-image: none; padding: .4em; margin: .5em 0; line-height: 1.4; font-size: 16px; display: block; width: 100%; outline: 0; }
+input.ui-input-text, textarea.ui-input-text { background-image: none; padding: .4em; margin-top: 5px; margin-bottom: 5px; line-height: 1.4; font-size: 16px; display: block; width: 96%; outline: 0; margin-left: 2%;}
 input.ui-input-text.ui-mini, textarea.ui-input-text.ui-mini { margin: .25em 0; }
 .ui-field-contain input.ui-input-text, .ui-field-contain textarea.ui-input-text { margin: 0; }
 input.ui-input-text, textarea.ui-input-text, .ui-input-search { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; box-sizing: border-box; }
