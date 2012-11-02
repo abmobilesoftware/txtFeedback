@@ -193,13 +193,16 @@
 	color: 					#222 /*{b-body-color}*/;
 	text-shadow: 0 /*{b-body-shadow-x}*/ 1px /*{b-body-shadow-y}*/ 0 /*{b-body-shadow-radius}*/ #fff /*{b-body-shadow-color}*/;
 	font-weight: normal;
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #ddd /*{b-body-background-start}*/), to( #ccc /*{b-body-background-end}*/)); /* Saf4+, Chrome */
-	background-image: -webkit-linear-gradient( #ddd /*{b-body-background-start}*/, #ccc /*{b-body-background-end}*/); /* Chrome 10+, Saf5.1+ */
-	background-image:    -moz-linear-gradient( #ddd /*{b-body-background-start}*/, #ccc /*{b-body-background-end}*/); /* FF3.6 */
-	background-image:     -ms-linear-gradient( #ddd /*{b-body-background-start}*/, #ccc /*{b-body-background-end}*/); /* IE10 */
-	background-image:      -o-linear-gradient( #ddd /*{b-body-background-start}*/, #ccc /*{b-body-background-end}*/); /* Opera 11.10+ */
-	background-image:         linear-gradient( #ddd /*{b-body-background-start}*/, #ccc /*{b-body-background-end}*/);
+	background: #ffffff;
 }
+/*
+background-image: -webkit-gradient(linear, left top, left bottom, from( #ddd ), to( #ccc )); 
+	background-image: -webkit-linear-gradient( #ddd , #ccc ); 
+	background-image:    -moz-linear-gradient( #ddd , #ccc ); 
+	background-image:     -ms-linear-gradient( #ddd , #ccc ); 
+	background-image:      -o-linear-gradient( #ddd , #ccc );
+	background-image:         linear-gradient( #ddd , #ccc );
+*/
 .ui-overlay-b {
 	background-image: none;
 	border-width: 0;
