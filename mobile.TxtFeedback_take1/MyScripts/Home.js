@@ -164,6 +164,7 @@ window.app.MessagesArea = function () {
          this.messages = new window.app.MessagesList();
          this.messages.bind("reset", this.render);
          $(this.el).append("<div class='clear'></div>");
+         $(this.el).css("margin-bottom", "100px");         
       },
       resetViewToDefault: function () {
          var noConversationLoadedMessage = $("#noConversationSelectedMessage").val();
@@ -247,13 +248,12 @@ window.app.MessagesArea = function () {
             $(item).hide().fadeIn("2000");
          }
          
-         var bodyHeight = $(window).height() - 2 * $(".ui-header").height() - 100;
+         var magicNumber = 50;
+         var bodyHeight = $(window).height() - 2 * $(".ui-header").height() - magicNumber;
          var contentHeight = $("#contentArea").height();
-         //$(".debug").append("body = " + bodyHeight + " -- contentHeight = " + contentHeight + " -- document scroll = " + (document.body.scrollHeight + 200));
+         // $(".debug").append("body = " + bodyHeight + " -- contentHeight = " + contentHeight + " -- document scroll = " + (document.body.scrollHeight + 200));
           if (contentHeight > bodyHeight) {
-              //$(".debug").append("to bottom");
-              //window.scrollTo(0, contentHeight + 200);              
-              $(document).scrollTop(document.body.scrollHeight - $(".ui-footer").height());
+            $(document).scrollTop(document.body.scrollHeight - $(".ui-footer").height());
           }        
           $(this.el).append("<div class='clear'></div>");
       }

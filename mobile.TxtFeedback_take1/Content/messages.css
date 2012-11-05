@@ -49,8 +49,7 @@
 
 #messagesbox {
    min-height: 200px;
-   display: block;
-   margin-bottom: 100px;
+   display: block;  
 }
 
 span.timeReceived {
