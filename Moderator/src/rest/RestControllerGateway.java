@@ -43,6 +43,16 @@ public class RestControllerGateway {
 	private String RESTSaveMessage = "http://demo.txtfeedback.net/Component/SaveMessage";
 	private String RESTParametersTest = "http://demo.txtfeedback.net/Component/GetParametersTest";
 	
+	/* REST resources for product  
+	private String RESTGetHandlersForMessageURL = "http://product.txtfeedback.net/Component/GetHandlerForMessage";
+	private String RESTDomain = "http://rest.txtfeedback.net/";
+	private String RESTGetHandlersForMessageURL1 = "http://product.txtfeedback.net/Component/GetHandlerForMessage1";
+	private String RESTGetWorkingPointForCertainAddress = "http://product.txtfeedback.net/Component/GetWorkingPointForCertainAddress";
+	//private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
+	private String RESTSaveMessage = "http://product.txtfeedback.net/Component/SaveMessage";
+	private String RESTParametersTest = "http://product.txtfeedback.net/Component/GetParametersTest";
+	*/
+	
 	public ArrayList<Agent> getHandlersForMessage(String iWP, String iConversationId, boolean isSms) throws RESTException {
 		try {
 			StringBuilder urlSb = new StringBuilder(RESTDomain);
