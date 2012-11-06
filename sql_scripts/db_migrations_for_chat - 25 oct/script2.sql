@@ -1,6 +1,6 @@
 SET XACT_ABORT ON
 BEGIN TRANSACTION
-USE txtfeedback_nexmo;
+USE txtfeedback_production;
 
  -- Migrarea datelor
  -- 1 Pe baza xmpp_id-ului populez coloana xmpp_user din tablea Users
