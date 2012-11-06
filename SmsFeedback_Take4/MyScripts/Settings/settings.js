@@ -52,10 +52,12 @@ window.app.getDataForWorkingPoints = function () {
    $('#rightColumn table').find('tr[name="dataRow"]').each(function () {
       var row = {
          TelNumber: $('span[name="TelNumber"]', this).text(),
+         ShortID: $('span[name="ShortID"]', this).text(),
+         MaxNrOfSmsToSendPerMonth: $('span[name="MaxNrOfSmsToSendPerMonth"]', this).text(),
          Name: trim($('input[name="Name"]', this).val()),
          Description: trim($('input[name="Description"]', this).val()),
          NrOfSentSmsThisMonth: 15,
-         MaxNrOfSmsToSendPerMonth: $('span[name="MaxNrOfSmsToSendPerMonth"]', this).text()
+         WelcomeMessage: trim($('input[name="WelcomeMessage"]', this).val())         
       };
       data.push(row);
    });
