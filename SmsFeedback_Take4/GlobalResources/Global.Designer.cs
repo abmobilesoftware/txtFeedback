@@ -1285,6 +1285,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Working point welcome message should not be empty.
+        /// </summary>
+        public static string settingsConfigureWpWelcomeMsgError {
+            get {
+                return ResourceManager.GetString("settingsConfigureWpWelcomeMsgError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm new password.
         /// </summary>
         public static string settingsConfirmNewPasswordLabel {
@@ -1375,11 +1384,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Welcome message should be between 10 and 160 characters long.
+        /// </summary>
+        public static string settingsErrorWpWelcomeLength {
+            get {
+                return ResourceManager.GetString("settingsErrorWpWelcomeLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Max outbound SMS.
         /// </summary>
         public static string settingsMaxOutboundSmsHeader {
             get {
                 return ResourceManager.GetString("settingsMaxOutboundSmsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The maximum number of SMS that can be sent from this working point in one month.
+        /// </summary>
+        public static string settingsMaxOutboundSmsHeaderTooltip {
+            get {
+                return ResourceManager.GetString("settingsMaxOutboundSmsHeaderTooltip", resourceCulture);
             }
         }
         
@@ -1416,6 +1443,24 @@ namespace Resources {
         public static string settingsPrivacy {
             get {
                 return ResourceManager.GetString("settingsPrivacy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Short ID.
+        /// </summary>
+        public static string settingsShortIDHeader {
+            get {
+                return ResourceManager.GetString("settingsShortIDHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The working point&apos;s short identifier.
+        /// </summary>
+        public static string settingsShortIDHeaderTooltip {
+            get {
+                return ResourceManager.GetString("settingsShortIDHeaderTooltip", resourceCulture);
             }
         }
         
@@ -1515,6 +1560,24 @@ namespace Resources {
         public static string settingsWpTelNoHeaderTooltip {
             get {
                 return ResourceManager.GetString("settingsWpTelNoHeaderTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome message.
+        /// </summary>
+        public static string settingsWpWelcomeMessageHeader {
+            get {
+                return ResourceManager.GetString("settingsWpWelcomeMessageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The greeting message on the mobile website.
+        /// </summary>
+        public static string settingsWpWelcomeMessageHeaderTooltip {
+            get {
+                return ResourceManager.GetString("settingsWpWelcomeMessageHeaderTooltip", resourceCulture);
             }
         }
         

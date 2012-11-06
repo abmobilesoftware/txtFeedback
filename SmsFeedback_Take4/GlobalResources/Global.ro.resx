@@ -681,4 +681,29 @@
   <data name="TitleLogOn" xml:space="preserve">
     <value>Autentificaţi-vă</value>
   </data>
+  <data name="settingsConfigureWpWelcomeMsgError" xml:space="preserve">
+    <value>Mesajul de întâmpinare nu poate lipsi</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsErrorWpWelcomeLength" xml:space="preserve">
+    <value>Mesajul de întâmpinare trebuie sa conţină între 10 şi 160 caractere</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsMaxOutboundSmsHeaderTooltip" xml:space="preserve">
+    <value>Numărul maxim de SMSuri ce pot fi trimise într-o lună de la această filială</value>
+  </data>
+  <data name="settingsShortIDHeader" xml:space="preserve">
+    <value>Identificator scurt</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsShortIDHeaderTooltip" xml:space="preserve">
+    <value>Identificatorul filialei</value>
+  </data>
+  <data name="settingsWpWelcomeMessageHeader" xml:space="preserve">
+    <value>Mesaj de întâmpinare</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpWelcomeMessageHeaderTooltip" xml:space="preserve">
+    <value>Mesajul de întâmpinare de pe site-ul pentru mobile</value>
+  </data>
 </root>

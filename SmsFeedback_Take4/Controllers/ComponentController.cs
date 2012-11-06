@@ -220,7 +220,7 @@ namespace SmsFeedback_Take4.Controllers
 
         public JsonResult GetWorkingPointForCertainAddress(String iIMAddress)
         {
-            SmsFeedback_Take4.Models.WorkingPoint wp = new SmsFeedback_Take4.Models.WorkingPoint("07897951452", "hei", "nexmo","defaultShortID", "@moderator.txtfeedback.net");
+            SmsFeedback_Take4.Models.WorkingPoint wp = new SmsFeedback_Take4.Models.WorkingPoint("07897951452", "hei", "nexmo","defaultShortID", "@moderator.txtfeedback.net", "Hello");
             wp.NrOfSentSmsThisMonth = 10;
             wp.MaxNrOfSmsToSendPerMonth = 100;
             return Json(wp, JsonRequestBehavior.AllowGet);

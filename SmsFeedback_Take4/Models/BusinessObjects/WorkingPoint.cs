@@ -15,13 +15,14 @@ namespace SmsFeedback_Take4.Models
 
       }
 
-      public WorkingPoint(string telNumber, string name, string descr, string shortID, string xmppSuffix)
+      public WorkingPoint(string telNumber, string name, string descr, string shortID, string xmppSuffix, string welcomeMessage)
       {
          TelNumber = telNumber;
          Name = name;
          Description = descr;
          ShortID = shortID;
          XMPPsuffix = xmppSuffix;
+         WelcomeMessage = welcomeMessage;
       }
       [Required(ErrorMessageResourceName = "settingsConfigureWpTelNumberError",
                 ErrorMessageResourceType = typeof(Resources.Global))]
@@ -44,5 +45,10 @@ namespace SmsFeedback_Take4.Models
       public string ShortID { get; set; }
       //TODO DA required
       public string XMPPsuffix { get; set; }
+
+      [Required(ErrorMessageResourceName = "settingsConfigureWpWelcomeMsgError",
+                ErrorMessageResourceType = typeof(Resources.Global))]
+      [LocalizationStringLength(160, 10, "settingsErrorWpWelcomeLength", typeof(Resources.Global))]
+      public string WelcomeMessage { get; set; }
    }
 }

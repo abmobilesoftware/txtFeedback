@@ -681,4 +681,29 @@
   <data name="TitleLogOn" xml:space="preserve">
     <value>Anmelden</value>
   </data>
+  <data name="settingsConfigureWpWelcomeMsgError" xml:space="preserve">
+    <value>Working point welcome message should not be empty</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsErrorWpWelcomeLength" xml:space="preserve">
+    <value>Welcome message should be between 10 and 160 characters long</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsShortIDHeader" xml:space="preserve">
+    <value>Short ID</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpWelcomeMessageHeader" xml:space="preserve">
+    <value>Welcome message</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsMaxOutboundSmsHeaderTooltip" xml:space="preserve">
+    <value>The maximum number of SMS that can be sent from this working point in one month</value>
+  </data>
+  <data name="settingsShortIDHeaderTooltip" xml:space="preserve">
+    <value>The working point's short identifier</value>
+  </data>
+  <data name="settingsWpWelcomeMessageHeaderTooltip" xml:space="preserve">
+    <value>The greeting message on the mobile website</value>
+  </data>
 </root>
