@@ -2,23 +2,31 @@ SET XACT_ABORT ON
 BEGIN TRAN
 USE txtfeedback_production -- choose db
 
--- Important fields
-DECLARE @Client_TelNumber nvarchar(50) = '8524569631';
-DECLARE @Client_Description nvarchar(160) = 'H&M';
-DECLARE @WP_Name nvarchar(40) = 'H&M';
-DECLARE @WP_ShortID nvarchar(10) = 'abprod15';
+-- Client working point
+DECLARE @Client_TelNumber nvarchar(50) = '61477751536';
+DECLARE @WP_ShortID nvarchar(10) = 'caferoma';
+DECLARE @WP_Name nvarchar(40) = 'Caferoma';
+DECLARE @Client_Description nvarchar(160) = 'Caferoma';
 
--- Working point data
-DECLARE @WP_Support_TelNumber nvarchar(50) = '1597533697';
+-- Company
+DECLARE @U_CompanyName nvarchar(50) = 'Caferoma'; -- details in less used section
+
+-- Subscription
+DECLARE @C_Subscription_Type nvarchar(50) = 'Free'; -- details in less used section
+
+-- Support working point
+DECLARE @WP_Support_TelNumber nvarchar(50) = '1110000001';
+DECLARE @WP_Support_ShortID nvarchar(10) = 'supportau';
+DECLARE @WP_Support_Name nvarchar(40) = 'AU support';
+DECLARE @WP_Support_Description nvarchar(120)= 'Support for Australia';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'dino';
-DECLARE @U_ReqularUserPassword nvarchar(128) = '+P4kuRdiAtys31V1FhlI+z/iMxw=';
-DECLARE @U_RegularPasswordSalt nvarchar(128) = 'Iv/7pKfCftn7cXKQYhjpdA==';
-DECLARE @U_XmppUser varchar(30) = 'txtprod3@txtfeedback.net';
+DECLARE @U_RegularUserName varchar(30) = 'james.mclennan';
+DECLARE @U_ReqularUserPassword nvarchar(128) = 'OXeVt65ojhipQECPybQqhz0mEoQ=';
+DECLARE @U_RegularPasswordSalt nvarchar(128) = 'OLzTSMKwpiGcs6NMbUUtIw==';
+DECLARE @U_XmppUser varchar(30) = '61477751536@txtfeedback.net';
 DECLARE @U_XmppPassword varchar(30) = '123456';
-DECLARE @U_RegularUserEmail nvarchar(256) = 'user@clientserver.net';
-
+DECLARE @U_RegularUserEmail nvarchar(256) = 'emailjames@mail.com';
 -- END Important fields
 
 -- Less used
@@ -39,28 +47,24 @@ DECLARE @WP_ConvIdSupportToWP nvarchar(50);
 DECLARE @WP_ConvIdWPToSupport nvarchar(50);
 DECLARE @WP_Starred bit = 1;
 -- Support WP
-DECLARE @WP_Support_Description nvarchar(120)= 'Support WP';
-DECLARE @WP_Support_Name nvarchar(40) = 'Support';
 DECLARE @WP_Support_Provider nvarchar(50) = 'nexmo';
 DECLARE @WP_Support_SentSms int = 0;
 DECLARE @WP_Support_MaxNrOfSms int = 200;
-DECLARE @WP_Support_ShortID nvarchar(10) = 'abprod1';
 DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback!';
 DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
 DECLARE @WP_Support_BusyMessage nvarchar(160) = 'Busy';
 DECLARE @WP_Support_OutsideOfficeHoursMessage nvarchar(160) = 'Outside of office hours';
 DECLARE @WP_Support_Language nvarchar(10) = 'en';
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'AbMobileApps';
 DECLARE @C_Description nvarchar(max) = 'new company';
 DECLARE @C_Address nvarchar(max) = 'company address';
 DECLARE @C_NrOfTrainingHoursDelivered int = 12;
 -- Subscriptions 
-DECLARE @C_Subscription_Type nvarchar(50) = 'Free';
 DECLARE @S_NrOfWorkingPoints int = 2;
 DECLARE @S_SmsPerWorkingPoint int = 30;
 DECLARE @S_NrOfUsers int = 2;
 DECLARE @S_NrOfHoursOfTraining nvarchar(max) = 12;
+
 -- Tags
 DECLARE @TagDescription nvarchar(200) = 'default tag';
 -- English version
@@ -72,11 +76,21 @@ DECLARE @TagNegative nvarchar(50) = 'Negative feedback';
 
 DECLARE @NegativeTagType NVARCHAR(50) = 'negativeFeedback';
 DECLARE @PositiveTagType NVARCHAR(50) = 'positiveFeedback';
+-- End tags
 
 -- Don't touch
 DECLARE @Client_isSupportClient bit = 0; 
-SET @WP_ConvIdSupportToWP = @WP_Support_TelNumber + '-' + @Client_TelNumber;
-SET @WP_ConvIdWPToSupport = @Client_TelNumber + '-' + @WP_Support_TelNumber;
+DECLARE @Support_isSupportClient bit = 1;
+DECLARE @isSmsBased_IM bit = 0;
+DECLARE @isSmsBased_SMS bit = 1;
+
+DECLARE @WP_XmppAddress nvarchar(50);
+SET @WP_XmppAddress = @WP_ShortID + @WP_XmppSuffix;
+DECLARE @WP_Support_XmppAddress nvarchar(50);
+SET @WP_Support_XmppAddress = @WP_Support_ShortID + @WP_Support_XmppSuffix;
+
+SET @WP_ConvIdSupportToWP = @WP_Support_ShortID + '-' + @WP_ShortID;
+SET @WP_ConvIdWPToSupport = @WP_ShortID + '-' + @WP_Support_ShortID;
 -- For support client
 DECLARE @Client_Support_Description nvarchar(160) = 'support client';
 DECLARE @Client_Support_IsSupport bit = 1;
@@ -90,17 +104,17 @@ DECLARE @U_UniversalCounter int = 0;
 DECLARE @U_UniversalDate datetime = GETUTCDATE();
 DECLARE @U_PasswordFormat int = 1;
 
-
-IF (SELECT COUNT(*) FROM [dbo].[Clients] WHERE [dbo].[Clients].[TelNumber] = @Client_TelNumber) = 0 
+-- Create clients
+IF (SELECT COUNT(*) FROM [dbo].[Clients] WHERE [dbo].[Clients].[TelNumber] = @WP_ShortID) = 0 
 INSERT INTO Clients(TelNumber, DisplayName,
 		Description, isSupportClient)
-		VALUES (@Client_TelNumber, @Client_TelNumber, 
-		@Client_Description, @Client_isSupportClient);	
+		VALUES (@WP_ShortID, @WP_ShortID, 
+		@Client_Description, @Support_isSupportClient);	
 
-IF (SELECT COUNT(*) FROM [dbo].[Clients] WHERE [dbo].[Clients].[TelNumber] = @WP_Support_TelNumber) = 0 
+IF (SELECT COUNT(*) FROM [dbo].[Clients] WHERE [dbo].[Clients].[TelNumber] = @WP_Support_ShortID) = 0 
 INSERT INTO Clients(TelNumber, DisplayName, Description, isSupportClient)
-	VALUES (@WP_Support_TelNumber, @Client_Support_DisplayName,
-	 @Client_Support_Description, @Client_Support_IsSupport);
+	VALUES (@WP_Support_ShortID, @WP_Support_ShortID,
+	 @WP_Support_Description, @Support_IsSupportClient);
 	
 -- Add working point
 IF (SELECT COUNT(*) FROM [dbo].[WorkingPoints] WHERE [dbo].[WorkingPoints].[TelNumber] = @Client_TelNumber) = 0 
@@ -124,12 +138,12 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 -- Welcome conversation Support - WP. 
 INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
 		[From], Starred, StartTime, WorkingPoint_TelNumber, 
-		Client_TelNumber) VALUES (@WP_ConvIdSupportToWP, @WP_WelcomeMessage,
+		Client_TelNumber, IsSmsBased) VALUES (@WP_ConvIdSupportToWP, @WP_WelcomeMessage,
 		@WP_Read, @WP_TimeReceived, @WP_Support_TelNumber, @WP_Starred, @WP_TimeReceived, 
-		@Client_TelNumber, @WP_Support_TelNumber);
+		@Client_TelNumber, @WP_Support_ShortID, @isSmsBased_IM);
 		
 INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId, XmppConnectionXmppUser)
-		VALUES (@WP_Support_TelNumber, @Client_TelNumber, @WP_WelcomeMessage,
+		VALUES (@WP_Support_XmppAddress, @WP_XmppAddress, @WP_WelcomeMessage,
 		@WP_TimeReceived, @WP_Read, @WP_ConvIdSupportToWP, NULL);
 		
 UPDATE WorkingPoints SET SupportConversation = @WP_ConvIdSupportToWP WHERE TelNumber = @Client_TelNumber;
@@ -137,12 +151,12 @@ UPDATE WorkingPoints SET SupportConversation = @WP_ConvIdSupportToWP WHERE TelNu
 -- Welcome conversation WP - Support
 INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
 		[From], Starred, StartTime, WorkingPoint_TelNumber, 
-		Client_TelNumber) VALUES (@WP_ConvIdWPToSupport, @WP_WelcomeMessage,
+		Client_TelNumber, IsSmsBased) VALUES (@WP_ConvIdWPToSupport, @WP_WelcomeMessage,
 		@WP_Read, @WP_TimeReceived, @WP_Support_TelNumber, @WP_Starred, @WP_TimeReceived, 
-		@WP_Support_TelNumber, @Client_TelNumber);
+		@WP_Support_TelNumber, @WP_ShortID, @isSmsBased_IM);
 		
 INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId, XmppConnectionXmppUser)
-		VALUES (@WP_Support_TelNumber, @Client_TelNumber, @WP_WelcomeMessage,
+		VALUES (@WP_XmppAddress, @WP_Support_XmppAddress, @WP_WelcomeMessage,
 		@WP_TimeReceived, @WP_Read, @WP_ConvIdWPToSupport, NULL);
 
 DECLARE @U_ApplicationId uniqueidentifier = (SELECT TOP 1 ApplicationId FROM dbo.Applications); 
@@ -157,13 +171,13 @@ INSERT INTO Subscriptions (Type, NrOfWorkingPoints, SmsPerWorkingPoint, NrOfUser
 	 VALUES (@C_Subscription_Type, @S_NrOfWorkingPoints, @S_SmsPerWorkingPoint, @S_NrOfUsers, @S_NrOfHoursOfTraining);
 
 -- Check the company
-IF (SELECT COUNT(*) FROM [dbo].[Clients] WHERE [dbo].[Clients].[TelNumber] = @WP_Support_TelNumber) = 0 
+IF (SELECT COUNT(*) FROM [dbo].[Companies] WHERE [dbo].[Companies].[Name] = @U_CompanyName) = 0 
 INSERT INTO Companies (Name, Description, Address, NrOfTrainingHoursDelivered, Subscription_Type)
 	 VALUES (@U_CompanyName, @C_Description, @C_Address, @C_NrOfTrainingHoursDelivered, @C_Subscription_Type);
 		
-IF (SELECT COUNT(*) FROM [dbo].[Tags] WHERE [dbo].[Tags].[Name] = @TagPositive) = 0 
+IF (SELECT COUNT(*) FROM [dbo].[Tags] WHERE ([dbo].[Tags].[Name] = @TagPositive) AND ([dbo].[Tags].[CompanyName] = @U_CompanyName) ) = 0 
 INSERT INTO dbo.Tags(Name, [Description], CompanyName) VALUES (@TagPositive, @TagDescription, @U_CompanyName);
-IF (SELECT COUNT(*) FROM [dbo].[Tags] WHERE [dbo].[Tags].[Name] = @TagNegative) = 0 
+IF (SELECT COUNT(*) FROM [dbo].[Tags] WHERE ([dbo].[Tags].[Name] = @TagNegative) AND ([dbo].[Tags].[CompanyName] = @U_CompanyName) ) = 0 
 INSERT INTO dbo.Tags(Name, [Description], CompanyName) VALUES (@TagNegative, @TagDescription, @U_CompanyName);
 
 IF (SELECT COUNT(*) FROM [dbo].[TagTagTypes] WHERE ([dbo].[TagTagTypes].[TagName] = @TagPositive) AND ([dbo].[TagTagTypes].[TagCompanyName] = @U_CompanyName)) = 0 
