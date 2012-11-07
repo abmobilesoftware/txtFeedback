@@ -622,6 +622,7 @@ namespace SmsFeedback_Take4.Utilities
                     {
                         newWp.First().Name = wp.Name;
                         newWp.First().Description = wp.Description;
+                        newWp.First().WelcomeMessage = wp.WelcomeMessage;
                     }
                 }
                 dbContext.SaveChanges();
