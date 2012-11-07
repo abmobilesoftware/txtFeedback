@@ -1,6 +1,6 @@
 SET XACT_ABORT ON
 BEGIN TRANSACTION
-USE txtfeedback_nexmo;
+USE txtfeedback_production;
 
  -- Remove foreign key and index constraint
 ALTER TABLE [dbo].[Messages] DROP CONSTRAINT [FK_UserMessages];
