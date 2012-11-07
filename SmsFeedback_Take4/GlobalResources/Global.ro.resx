@@ -646,7 +646,7 @@
     <value>Activaţi/dezactivaţi filtrul pentru conversaţiile necitite</value>
   </data>
   <data name="tooltipMarkAsFavouriteImg" xml:space="preserve">
-    <value>Marchează ca şi favorit</value>
+    <value>Marchează ca favorit</value>
   </data>
   <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
     <value>Numărul conversaţiilor cu mesaje necitite</value>
