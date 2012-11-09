@@ -1,32 +1,32 @@
 SET XACT_ABORT ON
 BEGIN TRAN
-USE txtfeedback_production -- choose db
+USE txtfeedback_nexmo -- choose db
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = '61477751536';
-DECLARE @WP_ShortID nvarchar(10) = 'caferoma';
-DECLARE @WP_Name nvarchar(40) = 'Caferoma';
-DECLARE @Client_Description nvarchar(160) = 'Caferoma';
+DECLARE @Client_TelNumber nvarchar(50) = '2220000101';
+DECLARE @WP_ShortID nvarchar(10) = 'esport';
+DECLARE @WP_Name nvarchar(40) = 'Echipament sportiv';
+DECLARE @Client_Description nvarchar(160) = 'Echipament de sport';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'Caferoma'; -- details in less used section
+DECLARE @U_CompanyName nvarchar(50) = 'Sport'; -- details in less used section
 
 -- Subscription
 DECLARE @C_Subscription_Type nvarchar(50) = 'Free'; -- details in less used section
 
 -- Support working point
-DECLARE @WP_Support_TelNumber nvarchar(50) = '1110000001';
-DECLARE @WP_Support_ShortID nvarchar(10) = 'supportau';
-DECLARE @WP_Support_Name nvarchar(40) = 'AU support';
-DECLARE @WP_Support_Description nvarchar(120)= 'Support for Australia';
+DECLARE @WP_Support_TelNumber nvarchar(50) = '2220000111';
+DECLARE @WP_Support_ShortID nvarchar(10) = 'supportro';
+DECLARE @WP_Support_Name nvarchar(40) = 'RO Support';
+DECLARE @WP_Support_Description nvarchar(120)= 'Support for Romania';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'james.mclennan';
-DECLARE @U_ReqularUserPassword nvarchar(128) = 'OXeVt65ojhipQECPybQqhz0mEoQ=';
-DECLARE @U_RegularPasswordSalt nvarchar(128) = 'OLzTSMKwpiGcs6NMbUUtIw==';
-DECLARE @U_XmppUser varchar(30) = '61477751536@txtfeedback.net';
+DECLARE @U_RegularUserName varchar(30) = 'esport';
+DECLARE @U_ReqularUserPassword nvarchar(128) = '9s68AWFx3Z9BnqdOfB0ijjnenbQ=';
+DECLARE @U_RegularPasswordSalt nvarchar(128) = 'NrTytuBTripu4wUM09//Rg==';
+DECLARE @U_XmppUser varchar(30) = 'esport@txtfeedback.net';
 DECLARE @U_XmppPassword varchar(30) = '123456';
-DECLARE @U_RegularUserEmail nvarchar(256) = 'emailjames@mail.com';
+DECLARE @U_RegularUserEmail nvarchar(256) = 'esport@mail.com';
 -- END Important fields
 
 -- Less used
@@ -35,12 +35,11 @@ DECLARE @WP_SmsSent int = 0;
 DECLARE @WP_MaxNrOfSmsToSend int = 200;
 DECLARE @WP_Description_Additional_Text nvarchar(120) = ' WP';
 DECLARE @WP_Description nvarchar(160) = @WP_Name + @WP_Description_Additional_Text;
-DECLARE @WP_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
+DECLARE @WP_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
 DECLARE @WP_BusyMessage nvarchar(160) = 'Busy';
 DECLARE @WP_OutsideOfficeHoursMessage nvarchar(160) = 'Outside of office hours';
-DECLARE @WP_Language nvarchar(10) = 'en';
 -- Welcome message
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback!';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Bine ati venit!';
 DECLARE @WP_TimeReceived datetime = GETUTCDATE();
 DECLARE @WP_Read bit = 0;
 DECLARE @WP_ConvIdSupportToWP nvarchar(50);
@@ -51,10 +50,9 @@ DECLARE @WP_Support_Provider nvarchar(50) = 'nexmo';
 DECLARE @WP_Support_SentSms int = 0;
 DECLARE @WP_Support_MaxNrOfSms int = 200;
 DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback!';
-DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
+DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
 DECLARE @WP_Support_BusyMessage nvarchar(160) = 'Busy';
 DECLARE @WP_Support_OutsideOfficeHoursMessage nvarchar(160) = 'Outside of office hours';
-DECLARE @WP_Support_Language nvarchar(10) = 'en';
 -- Company
 DECLARE @C_Description nvarchar(max) = 'new company';
 DECLARE @C_Address nvarchar(max) = 'company address';
@@ -94,7 +92,7 @@ SET @WP_ConvIdWPToSupport = @WP_ShortID + '-' + @WP_Support_ShortID;
 -- For support client
 DECLARE @Client_Support_Description nvarchar(160) = 'support client';
 DECLARE @Client_Support_IsSupport bit = 1;
-DECLARE @Client_Support_DisplayName nvarchar(50) = 'Support';
+DECLARE @Client_Support_DisplayName nvarchar(50) = 'TxtSupport';
 -- For user
 DECLARE @U_GUID uniqueidentifier = NEWID();
 DECLARE @U_IsApproved bit = 1;
@@ -103,6 +101,11 @@ DECLARE @U_isAnonymous bit = 0;
 DECLARE @U_UniversalCounter int = 0;
 DECLARE @U_UniversalDate datetime = GETUTCDATE();
 DECLARE @U_PasswordFormat int = 1;
+-- Languages for working points
+DECLARE @WP_Language_RO nvarchar(10) = 'ro-RO';
+DECLARE @WP_Language_US nvarchar(10) = 'en-US';
+DECLARE @WP_Language_DE nvarchar(10) = 'de-DE';
+
 
 -- Create clients
 IF (SELECT COUNT(*) FROM [dbo].[Clients] WHERE [dbo].[Clients].[TelNumber] = @WP_ShortID) = 0 
@@ -113,7 +116,7 @@ INSERT INTO Clients(TelNumber, DisplayName,
 
 IF (SELECT COUNT(*) FROM [dbo].[Clients] WHERE [dbo].[Clients].[TelNumber] = @WP_Support_ShortID) = 0 
 INSERT INTO Clients(TelNumber, DisplayName, Description, isSupportClient)
-	VALUES (@WP_Support_ShortID, @WP_Support_ShortID,
+	VALUES (@WP_Support_ShortID, @Client_Support_DisplayName,
 	 @WP_Support_Description, @Support_IsSupportClient);
 	
 -- Add working point
@@ -124,7 +127,7 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@Client_TelNumber, @WP_Description, @WP_Name, 
 		@WP_Provider, @WP_SmsSent, @WP_MaxNrOfSmsToSend, @WP_ShortID, 
 		@WP_XmppSuffix, @WP_WelcomeMessage, @WP_BusyMessage,
-		@WP_OutsideOfficeHoursMessage, @WP_Language);
+		@WP_OutsideOfficeHoursMessage, @WP_Language_RO);
 		
 IF (SELECT COUNT(*) FROM [dbo].[WorkingPoints] WHERE [dbo].[WorkingPoints].[TelNumber] = @WP_Support_TelNumber) = 0 
 INSERT INTO WorkingPoints(TelNumber, Description, Name, 
@@ -133,7 +136,7 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@WP_Support_TelNumber, @WP_Support_Description, @WP_Support_Name, 
 		@WP_Support_Provider, @WP_Support_SentSms, @WP_Support_MaxNrOfSms, @WP_Support_ShortID, 
 		@WP_Support_XmppSuffix, @WP_Support_WelcomeMessage, @WP_Support_BusyMessage,
-		@WP_Support_OutsideOfficeHoursMessage, @WP_Support_Language);
+		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_RO);
 
 -- Welcome conversation Support - WP. 
 INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
