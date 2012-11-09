@@ -321,3 +321,8 @@ input.filterDate {
     margin-top: 10px;
     font-style: italic;
 }
+
+.exportBtn {
+    float:right;
+    margin-right: 7px;
+}

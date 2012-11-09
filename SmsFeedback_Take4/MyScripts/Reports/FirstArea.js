@@ -16,13 +16,15 @@
 //#endregion
 window.app = window.app || {};
 
-function FirstArea(iResource, iGranularity, iOptions, iId, iTooltip) {
+function FirstArea(iResource, iGranularity, iOptions, iId, iTooltip, iTitle) {
     var self = this;
     var resource = iResource;
     var granularity = iGranularity;
     var chart = null;
     var data = null;
+    var jsonDataReceived = null;
     var tooltip = iTooltip;
+    var title = iTitle;
 
     var options = {
         animation: {
@@ -73,10 +75,15 @@ function FirstArea(iResource, iGranularity, iOptions, iId, iTooltip) {
         window.app.areas[selectorId].drawArea();
     });
 
+    $(".toCsv" + identifier).click(function () {
+        DownloadJSON2CSV(JSON.stringify(jsonDataReceived), title);
+    });
+
     this.drawChart = function (jsonData) {
-       // Create our data table out of JSON data loaded from server.
-       data = new google.visualization.DataTable(jsonData);
-       chart.draw(data, options);
+        // Create our data table out of JSON data loaded from server.
+        jsonDataReceived = jsonData;
+        data = new google.visualization.DataTable(jsonData);
+        chart.draw(data, options);
     };
 
     this.setGranularity = function (iGranularity) {
