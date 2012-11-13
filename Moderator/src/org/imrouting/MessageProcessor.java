@@ -83,7 +83,8 @@ public class MessageProcessor {
 			}
 			ArrayList<Agent> handlers = restGtw.getHandlersForMessage(Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()), internalPacket.getConversationId(), false);
 			for (int i=0; i<handlers.size(); ++i) {
-				moderator.sendInternalMessage(iPacket.getBody(), 
+				String from = internalPacket.getFromAddress();
+				moderator.sendInternalMessage(iPacket.getBody(), from, 
 						handlers.get(i).getUser());			
 			}						
 		} catch (RESTException e) {
@@ -110,7 +111,8 @@ public class MessageProcessor {
 					internalPacket.getBody(),
 					iPacket.getFrom().toBareJID(),
 					false);
-			moderator.sendInternalMessage(iPacket.getBody(), 
+			String from = internalPacket.getFromAddress();
+			moderator.sendInternalMessage(iPacket.getBody(), from,
 					internalPacket.getToAddress());
 		} catch (RESTException e) {
 				Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
@@ -134,7 +136,8 @@ public class MessageProcessor {
 			//String WPTelNumber = getWPForThisAddress(internalPacket.getToAddress());
 			ArrayList<Agent> handlers = restGtw.getHandlersForMessage(Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()), internalPacket.getConversationId(), true);
 			for (int i=0; i<handlers.size(); ++i) {
-				moderator.sendInternalMessage(iPacket.getBody(), 
+				String from = internalPacket.getFromAddress();
+				moderator.sendInternalMessage(iPacket.getBody(), from, 
 						handlers.get(i).getUser());			
 			}
 		} catch (RESTException e) {

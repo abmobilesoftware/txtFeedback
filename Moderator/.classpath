@@ -2,28 +2,28 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/XMPP/Componenta/whack_src_1_0_0/whack.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/XMPP/Componenta/whack_src_1_0_0/build/ant-contrib.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/XMPP/Componenta/whack_src_1_0_0/build/lib/dist/hsqldb.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/XMPP/Componenta/whack_src_1_0_0/build/lib/dist/mysql.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/XMPP/Componenta/whack_src_1_0_0/build/lib/dist/postgres.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/XMPP/Componenta/whack_src_1_0_0/build/lib/dist/servlet.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/XMPP/Componenta/whack_src_1_0_0/build/lib/merge/commons-logging.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/XMPP/Componenta/whack_src_1_0_0/build/lib/merge/dom4j.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/XMPP/Componenta/whack_src_1_0_0/build/lib/merge/jaxen.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/XMPP/Componenta/whack_src_1_0_0/build/lib/merge/jetty.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/XMPP/Componenta/whack_src_1_0_0/build/lib/merge/jstl.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/XMPP/Componenta/whack_src_1_0_0/build/lib/merge/stringprep.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/XMPP/Componenta/whack_src_1_0_0/build/lib/merge/xpp3.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/Mysql JDBC/mysql-connector-java-5.1.22/mysql-connector-java-5.1.22-bin.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/Apache/extracted/commons-codec-1.6.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/Apache/extracted/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/Apache/extracted/fluent-hc-4.2.1.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/Apache/extracted/httpclient-4.2.1.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/Apache/extracted/httpclient-cache-4.2.1.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/Apache/extracted/httpcore-4.2.1.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/Apache/extracted/httpmime-4.2.1.jar"/>
-	<classpathentry kind="lib" path="D:/Work/Txtfeedback/Librarii/Json/java-json.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/hsqldb.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/httpclient-4.2.1.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/httpclient-cache-4.2.1.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/httpcore-4.2.1.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/httpmime-4.2.1.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/java-json.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/jaxen.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/jetty.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/jstl.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/junit-dep-4.10.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/mysql.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/mysql-connector-java-5.1.22-bin.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/postgres.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/servlet.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/stringprep.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/whack.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/xpp3.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/commons-logging.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/dom4j.jar"/>
+	<classpathentry kind="lib" path="D:/Work/smsFeedback/Moderator/src/Librarii/fluent-hc-4.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

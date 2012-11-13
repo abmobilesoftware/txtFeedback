@@ -81,21 +81,25 @@ public class TxtFeedbackModerator implements Component {
 		}
 	}
 	
-	private void sendMessage(String iBody, String iSubject, Message.Type iType, String iTo) {
+	private void sendMessage(String iFrom, String iBody, String iSubject, Message.Type iType, String iTo) {
 		try {
 			Message lResponseMessage = new Message();
 			lResponseMessage.setType(iType);
 			lResponseMessage.setBody(iBody);
 			lResponseMessage.setSubject(iSubject);
-			lResponseMessage.setTo(iTo);			
+			lResponseMessage.setTo(iTo);
+			String[] split = iFrom.split("@");
+			String from = String.format("%s@%s.%s",split[0],Main.SUBDOMAIN,Main.DOMAIN);
+			lResponseMessage.setFrom(from);//split[0] + "@"+ Main.SUBDOMAIN+ "." + Main.DOMAIN);
+			
 			mMgr.sendPacket(this, lResponseMessage);			
 		} catch (Exception e) {
 			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
 		}
 	}
 	
-	public void sendInternalMessage(String iBody, String iTo) {
-		sendMessage(iBody, Constants.INTERNAL_PACKET, Type.chat, iTo);
+	public void sendInternalMessage(String iBody,String iFrom, String iTo) {
+		sendMessage(iFrom, iBody, Constants.INTERNAL_PACKET, Type.chat, iTo);
 	}
 	
 	public void initialize(JID iJid, ComponentManager iComponentManager)
