@@ -18,10 +18,10 @@ DECLARE @U_CompanyName nvarchar(50) = 'Coffee Club'; -- details in less used sec
 DECLARE @C_Subscription_Type nvarchar(50) = 'Free'; -- details in less used section
 
 -- Support working point
-DECLARE @WP_Support_TelNumber nvarchar(50) = '12898437378';
-DECLARE @WP_Support_ShortID nvarchar(10) = 'supportca';
-DECLARE @WP_Support_Name nvarchar(40) = 'CA support';
-DECLARE @WP_Support_Description nvarchar(120)= 'Support for Canada!';
+DECLARE @WP_Support_TelNumber nvarchar(50) = '4915706107678';
+DECLARE @WP_Support_ShortID nvarchar(10) = 'supportde';
+DECLARE @WP_Support_Name nvarchar(40) = 'DE support';
+DECLARE @WP_Support_Description nvarchar(120)= 'Support for Germany!';
 DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
 DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback!';
 
@@ -128,7 +128,7 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@Client_TelNumber, @WP_Description, @WP_Name, 
 		@WP_Provider, @WP_SmsSent, @WP_MaxNrOfSmsToSend, @WP_ShortID, 
 		@WP_XmppSuffix, @WP_WelcomeMessage, @WP_BusyMessage,
-		@WP_OutsideOfficeHoursMessage, @WP_Language_US);
+		@WP_OutsideOfficeHoursMessage, @WP_Language_DE);
 		
 IF (SELECT COUNT(*) FROM [dbo].[WorkingPoints] WHERE [dbo].[WorkingPoints].[TelNumber] = @WP_Support_TelNumber) = 0 
 INSERT INTO WorkingPoints(TelNumber, Description, Name, 
@@ -137,7 +137,7 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@WP_Support_TelNumber, @WP_Support_Description, @WP_Support_Name, 
 		@WP_Support_Provider, @WP_Support_SentSms, @WP_Support_MaxNrOfSms, @WP_Support_ShortID, 
 		@WP_Support_XmppSuffix, @WP_Support_WelcomeMessage, @WP_Support_BusyMessage,
-		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_US);
+		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_DE);
 
 -- Welcome conversation Support - WP. 
 INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,

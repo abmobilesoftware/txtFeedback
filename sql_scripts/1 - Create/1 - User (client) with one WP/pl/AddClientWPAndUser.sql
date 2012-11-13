@@ -4,34 +4,34 @@ USE txtfeedback_production -- choose db
 -- Script for Canada
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = '61477751378';
-DECLARE @WP_ShortID nvarchar(10) = 'ccpr';
-DECLARE @WP_Name nvarchar(40) = 'Coffee Club Park Road';
-DECLARE @Client_Description nvarchar(160) = 'Coffee Club Park Road';
+DECLARE @Client_TelNumber nvarchar(50) = '3330000011';
+DECLARE @WP_ShortID nvarchar(10) = 'pagepropl';
+DECLARE @WP_Name nvarchar(40) = 'Pagepro';
+DECLARE @Client_Description nvarchar(160) = 'Pagepro Poland';
 DECLARE @WP_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to Coffee Club Toowong!';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to Pagepro!';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'Coffee Club'; -- details in less used section
+DECLARE @U_CompanyName nvarchar(50) = 'Pagepro'; -- details in less used section
 
 -- Subscription
 DECLARE @C_Subscription_Type nvarchar(50) = 'Free'; -- details in less used section
 
 -- Support working point
-DECLARE @WP_Support_TelNumber nvarchar(50) = '12898437378';
-DECLARE @WP_Support_ShortID nvarchar(10) = 'supportca';
-DECLARE @WP_Support_Name nvarchar(40) = 'CA support';
-DECLARE @WP_Support_Description nvarchar(120)= 'Support for Canada!';
+DECLARE @WP_Support_TelNumber nvarchar(50) = '3330000101';
+DECLARE @WP_Support_ShortID nvarchar(10) = 'supportpl';
+DECLARE @WP_Support_Name nvarchar(40) = 'PL support';
+DECLARE @WP_Support_Description nvarchar(120)= 'Support for Poland!';
 DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
 DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback!';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'staff.coffeeClubPR';
-DECLARE @U_ReqularUserPassword nvarchar(128) = '9/bsBgt7T/Te9o/lU/d1EMUiuo0=';
-DECLARE @U_RegularPasswordSalt nvarchar(128) = 'nK289YAG0WLWys5tS0P2AA==';
-DECLARE @U_XmppUser varchar(30) = 'coffeeclubpr@txtfeedback.net';
+DECLARE @U_RegularUserName varchar(30) = 'pagepropl';
+DECLARE @U_ReqularUserPassword nvarchar(128) = 'Ipov5srUG2GyAWgGNlHEklBr8LY=';
+DECLARE @U_RegularPasswordSalt nvarchar(128) = 'nHQMCN+gft4m+uVkjDeHYQ==';
+DECLARE @U_XmppUser varchar(30) = 'pagepropl@txtfeedback.net';
 DECLARE @U_XmppPassword varchar(30) = '123456';
-DECLARE @U_RegularUserEmail nvarchar(256) = 'esport@mail.com';
+DECLARE @U_RegularUserEmail nvarchar(256) = 'kontakt@pagepro.pl';
 -- END Important fields
 
 -- Less used

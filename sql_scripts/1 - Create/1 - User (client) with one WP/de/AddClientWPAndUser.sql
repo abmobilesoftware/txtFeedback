@@ -18,10 +18,10 @@ DECLARE @U_CompanyName nvarchar(50) = 'Coffee Club'; -- details in less used sec
 DECLARE @C_Subscription_Type nvarchar(50) = 'Free'; -- details in less used section
 
 -- Support working point
-DECLARE @WP_Support_TelNumber nvarchar(50) = '12898437378';
-DECLARE @WP_Support_ShortID nvarchar(10) = 'supportca';
-DECLARE @WP_Support_Name nvarchar(40) = 'CA support';
-DECLARE @WP_Support_Description nvarchar(120)= 'Support for Canada!';
+DECLARE @WP_Support_TelNumber nvarchar(50) = '16783694507';
+DECLARE @WP_Support_ShortID nvarchar(10) = 'supportus';
+DECLARE @WP_Support_Name nvarchar(40) = 'US support';
+DECLARE @WP_Support_Description nvarchar(120)= 'Support for US!';
 DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
 DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback!';
 

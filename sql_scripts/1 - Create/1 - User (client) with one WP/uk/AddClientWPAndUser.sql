@@ -1,37 +1,37 @@
 SET XACT_ABORT ON
 BEGIN TRAN
-USE txtfeedback_production -- choose db 
+USE txtfeedback_nexmo -- choose db 
 -- Script for Canada
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = '61477751378';
-DECLARE @WP_ShortID nvarchar(10) = 'ccpr';
-DECLARE @WP_Name nvarchar(40) = 'Coffee Club Park Road';
-DECLARE @Client_Description nvarchar(160) = 'Coffee Club Park Road';
-DECLARE @WP_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to Coffee Club Toowong!';
+DECLARE @Client_TelNumber nvarchar(50) = '1234';
+DECLARE @WP_ShortID nvarchar(10) = 'stud_mu';
+DECLARE @WP_Name nvarchar(40) = 'Students';
+DECLARE @Client_Description nvarchar(160) = 'Students';
+DECLARE @WP_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome!';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'Coffee Club'; -- details in less used section
+DECLARE @U_CompanyName nvarchar(50) = 'StudentsMU'; -- details in less used section
 
 -- Subscription
 DECLARE @C_Subscription_Type nvarchar(50) = 'Free'; -- details in less used section
 
 -- Support working point
-DECLARE @WP_Support_TelNumber nvarchar(50) = '12898437378';
-DECLARE @WP_Support_ShortID nvarchar(10) = 'supportca';
-DECLARE @WP_Support_Name nvarchar(40) = 'CA support';
-DECLARE @WP_Support_Description nvarchar(120)= 'Support for Canada!';
-DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
+DECLARE @WP_Support_TelNumber nvarchar(50) = '441157070678';
+DECLARE @WP_Support_ShortID nvarchar(10) = 'd.suppuk';
+DECLARE @WP_Support_Name nvarchar(40) = 'UK support';
+DECLARE @WP_Support_Description nvarchar(120)= 'Support for UK';
+DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
 DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback!';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'staff.coffeeClubPR';
-DECLARE @U_ReqularUserPassword nvarchar(128) = '9/bsBgt7T/Te9o/lU/d1EMUiuo0=';
-DECLARE @U_RegularPasswordSalt nvarchar(128) = 'nK289YAG0WLWys5tS0P2AA==';
-DECLARE @U_XmppUser varchar(30) = 'coffeeclubpr@txtfeedback.net';
+DECLARE @U_RegularUserName varchar(30) = 'tony.eddison';
+DECLARE @U_ReqularUserPassword nvarchar(128) = '7qxcJPkhoSlhfzvpXtoN59s/14w=';
+DECLARE @U_RegularPasswordSalt nvarchar(128) = 'AZuA0am5/JEvifWkiFN35Q==';
+DECLARE @U_XmppUser varchar(30) = 'stud_mu@txtfeedback.net';
 DECLARE @U_XmppPassword varchar(30) = '123456';
-DECLARE @U_RegularUserEmail nvarchar(256) = 'esport@mail.com';
+DECLARE @U_RegularUserEmail nvarchar(256) = 'ant_je10@yahoo.co.uk';
 -- END Important fields
 
 -- Less used
