@@ -1,8 +1,8 @@
 USE txtfeedback_production;
 
 --Important fields
-DECLARE @UserId uniqueidentifier = 'd6e62ef1-e6eb-4110-b828-c18a75dbe51e';
-DECLARE @WorkingPointTelNumber nvarchar(50) = '442033222167';
+DECLARE @UserId uniqueidentifier = 'a29f8c80-433e-4483-8501-580f3df22d19';
+DECLARE @WorkingPointTelNumber nvarchar(50) = '0000000001';
 
 INSERT INTO UsersForWorkingPoints (Users_UserId, WorkingPoints_TelNumber) 
 			VALUES (@UserId, @WorkingPointTelNumber);	

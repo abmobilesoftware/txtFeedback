@@ -414,6 +414,7 @@
     <Content Include="MyScripts\Reports\Minified\DateHelper.js" />
     <Content Include="MyScripts\Reports\Minified\FirstArea.js" />
     <Content Include="MyScripts\Reports\Minified\GlobalVariables.js" />
+    <Content Include="MyScripts\Reports\Json2Csv.js" />
     <Content Include="MyScripts\Reports\Minified\RepFacade.js" />
     <Content Include="MyScripts\Reports\Minified\Reports.js" />
     <Content Include="MyScripts\Reports\Minified\SecondArea.js" />
@@ -450,6 +451,7 @@
     <Content Include="Scripts\jquery.ui.datepicker-en-GB.js" />
     <Content Include="Scripts\jquery.ui.datepicker-es.js" />
     <Content Include="Scripts\jquery.ui.datepicker-ro.js" />
+    <Content Include="Scripts\json.js" />
     <Content Include="Scripts\Minified\CollapsibleLists.js" />
     <Content Include="Scripts\Minified\jquery.cookie.js" />
     <Content Include="Scripts\Minified\jquery.simplemodal.js" />

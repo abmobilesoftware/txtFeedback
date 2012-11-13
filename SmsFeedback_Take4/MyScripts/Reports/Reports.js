@@ -119,7 +119,7 @@ var ReportsContentArea = Backbone.View.extend({
         var template = _.template($(section).html(), parameters);
         $("#reportContent").append(template);
         if (section === "#PrimaryChartArea") {
-            var area = new FirstArea(resources[0].source, "day", resources[0].options, uniqueId, resources[0].tooltip);
+            var area = new FirstArea(resources[0].source, "day", resources[0].options, uniqueId, resources[0].tooltip, resources[0].name);
             area.drawArea();
             window.app.areas[uniqueId] = area;
             //window.app.areas.push(area);

@@ -3,12 +3,12 @@ BEGIN TRAN
 USE txtfeedback_production; -- choose db
 
 -- Important fields
-DECLARE @RegularUserName varchar(30) = 'john';
-DECLARE @RegularPasswordSalt nvarchar(128) = 'ys0i0yEGycfLXwKF0lmkBw==';
-DECLARE @ReqularUserPassword nvarchar(128) = 'H6ZpmRmX0s6P3+pHhPPJdbElEFE=';
-DECLARE @XmppUser varchar(30) = @RegularUserName + '@txtfeedback.net';
+DECLARE @RegularUserName varchar(30) = 'supportAU';
+DECLARE @RegularPasswordSalt nvarchar(128) = 'poeN6D2+lOY5fHMkB9oseg==';
+DECLARE @ReqularUserPassword nvarchar(128) = 'LXr9wAU5nbezKtcpd9XVhwObFhs=';
+DECLARE @XmppUser varchar(30) = 'supportau@txtfeedback.net';
 DECLARE @XmppPassword varchar(30) = '123456';
-DECLARE @RegularUserEmail nvarchar(256) = 'john@clientserver.net';
+DECLARE @RegularUserEmail nvarchar(256) = 'support@txtfeedback.net';
 
 -- Less used
 DECLARE @CompanyName nvarchar(50) = 'AbMobileApps';
@@ -17,22 +17,17 @@ DECLARE @IsApproved bit = 1;
 DECLARE @IsLockedOut bit = 0;
 DECLARE @isAnonymous bit = 0;
 DECLARE @UniversalCounter int = 0;
-DECLARE @UniversalDate datetime = Current_Timestamp;
+DECLARE @UniversalDate datetime = GETUTCDATE();
 DECLARE @PasswordFormat int = 1;
 DECLARE @XmppConnLastId int;
 
-IF (SELECT COUNT(*) FROM dbo.XmppConnections) > 0
-	 SET @XmppConnLastId = (SELECT TOP 1 Id FROM dbo.XmppConnections ORDER BY Id DESC);
-ELSE 
-	 SET @XmppConnLastId = 0;
 DECLARE @ApplicationId uniqueidentifier = (SELECT TOP 1 ApplicationId FROM dbo.Applications); 
-SELECT @XmppConnLastId = @XmppConnLastId + 1;
-INSERT INTO XmppConnections (XmppUser, XmppPassword, Id) VALUES (@XmppUser, @XmppPassword, @XmppConnLastId)
+INSERT INTO XmppConnections (XmppUser, XmppPassword) VALUES (@XmppUser, @XmppPassword)
 
 INSERT INTO Users (ApplicationId, UserId, UserName, IsAnonymous,
-		LastActivityDate, Company_Name, XmppConnection_Id) 
+		LastActivityDate, Company_Name, XmppConnectionXmppUser) 
 		VALUES (@ApplicationId, @GUID, @RegularUserName, 
-		@isAnonymous, @UniversalDate, @CompanyName, @XmppConnLastId);
+		@isAnonymous, @UniversalDate, @CompanyName, @XmppUser);
 
 INSERT INTO Memberships (ApplicationId, UserId, [Password],
 		 PasswordFormat, PasswordSalt, Email, IsApproved,
@@ -46,6 +41,16 @@ INSERT INTO Memberships (ApplicationId, UserId, [Password],
 		 @RegularPasswordSalt, @RegularUserEmail, @IsApproved, @IsLockedOut,
 		 @UniversalDate, @UniversalDate, @UniversalDate,@UniversalDate,
 		 @UniversalDate, @UniversalCounter, @UniversalCounter, @UniversalDate);
+		 
+-- Add roles
+DECLARE @ROLE_COMUNICATION_RESPONSIBLE uniqueidentifier;
+SET @ROLE_COMUNICATION_RESPONSIBLE = (SELECT TOP 1 RoleId FROM Roles WHERE RoleName = 'ComunicationResponsible' ORDER BY RoleId DESC);
+DECLARE @ROLE_WORKING_POINTS_CONFIGURATOR uniqueidentifier;
+SET @ROLE_WORKING_POINTS_CONFIGURATOR = (SELECT TOP 1 RoleId FROM Roles WHERE RoleName = 'WorkingPointsConfigurator' ORDER BY RoleId DESC);
+INSERT INTO UsersInRoles (UserId, RoleId) VALUES
+		(@GUID, @ROLE_COMUNICATION_RESPONSIBLE);
+INSERT INTO UsersInRoles (UserId, RoleId) VALUES 
+		(@GUID, @ROLE_WORKING_POINTS_CONFIGURATOR);
 		
 COMMIT TRAN
 

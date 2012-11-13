@@ -48,6 +48,8 @@
    <!-- Global variables -->
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/GlobalVariables.js") %>" type="application/javascript"></script>
    <!-- Reports page specific scripts -->
+    
+    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Json2Csv.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/FirstArea.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/SecondArea.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/ThirdArea.js") %>" type="application/javascript"></script>
@@ -90,7 +92,8 @@
         <div class="chartArea">
             <div id="titleWrapper">
                 <a href="#" class="chartAreaTitle" {% if (tooltip != "no tooltip") { %} title="{{ tooltip }}" {% } %} sectionId="{{ sectionId }}"><img class="sectionVisibility" src="<%: Url.UpdatedResourceLink("~/Content/images/minimize_square.png") %>" alt="Expand section" />{{ name }}</a>
-                <p id="description{{uniqueId}}" class="sectionDescription invisible">Displays two dimensional data set</p>    
+                <p id="description{{uniqueId}}" class="sectionDescription invisible">Displays two dimensional data set</p>   
+                <a href="#" class="toCsv{{ uniqueId }} exportBtn">Export to CSV</a> 
         </div>
             <div class="chartAreaContent{{sectionId}}">
                 <form action="">    
@@ -100,6 +103,7 @@
 		            <div class="radioBtnWrapper"><label for="month{{uniqueId}}" class="radioBtn"><input type="radio" id="month{{uniqueId}}" name="radio{{uniqueId}}" selectorId="{{ uniqueId }}" class="radioOption{{uniqueId}} radioOption" value="month"/><%: Resources.Global.RepMonth %></label></div>
                 </div>
                 </form>
+                
                 <div id="chart_div{{uniqueId}}" class="chart_div"></div>
                 <div class="clear"></div>
             </div>
