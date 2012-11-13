@@ -804,4 +804,8 @@
     <value>The greeting message on the mobile website</value>
     <comment>Settings:</comment>
   </data>
+  <data name="RepExportToExcel" xml:space="preserve">
+    <value>Export to Excel</value>
+    <comment>Reports: Export to Excel</comment>
+  </data>
 </root>

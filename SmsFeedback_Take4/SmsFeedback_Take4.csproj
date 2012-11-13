@@ -287,6 +287,7 @@
     <Content Include="Content\images\delete.ico" />
     <Content Include="Content\images\De_flag.png" />
     <Content Include="Content\images\De_flag_16.png" />
+    <Content Include="Content\images\Excel-25.png" />
     <Content Include="Content\images\exclamation-blue.svg" />
     <Content Include="Content\images\exclamation-green.svg" />
     <Content Include="Content\images\exclamation-orange.svg" />
@@ -415,6 +416,7 @@
     <Content Include="MyScripts\Reports\Minified\FirstArea.js" />
     <Content Include="MyScripts\Reports\Minified\GlobalVariables.js" />
     <Content Include="MyScripts\Reports\Json2Csv.js" />
+    <Content Include="MyScripts\Reports\Minified\Json2Csv.js" />
     <Content Include="MyScripts\Reports\Minified\RepFacade.js" />
     <Content Include="MyScripts\Reports\Minified\Reports.js" />
     <Content Include="MyScripts\Reports\Minified\SecondArea.js" />
@@ -451,7 +453,6 @@
     <Content Include="Scripts\jquery.ui.datepicker-en-GB.js" />
     <Content Include="Scripts\jquery.ui.datepicker-es.js" />
     <Content Include="Scripts\jquery.ui.datepicker-ro.js" />
-    <Content Include="Scripts\json.js" />
     <Content Include="Scripts\Minified\CollapsibleLists.js" />
     <Content Include="Scripts\Minified\jquery.cookie.js" />
     <Content Include="Scripts\Minified\jquery.simplemodal.js" />
@@ -733,6 +734,7 @@ java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)My
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\ThirdArea.js" -o "$(ProjectDir)MyScripts\Reports\Minified\ThirdArea.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\Reports.js" -o "$(ProjectDir)MyScripts\Reports\Minified\Reports.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\RepFacade.js" -o "$(ProjectDir)MyScripts\Reports\Minified\RepFacade.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\Json2Csv.js" -o "$(ProjectDir)MyScripts\Reports\Minified\Json2Csv.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\DateHelper.js" -o "$(ProjectDir)MyScripts\Reports\Minified\DateHelper.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Base\BaseLeftSideMenu.js" -o "$(ProjectDir)MyScripts\Base\Minified\BaseLeftSideMenu.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Settings\settings.js" -o "$(ProjectDir)MyScripts\Settings\Minified\settings.js"

@@ -706,4 +706,7 @@
   <data name="settingsWpWelcomeMessageHeaderTooltip" xml:space="preserve">
     <value>Mesajul de întâmpinare de pe site-ul pentru mobile</value>
   </data>
+  <data name="RepExportToExcel" xml:space="preserve">
+    <value>Export catre Excel</value>
+  </data>
 </root>

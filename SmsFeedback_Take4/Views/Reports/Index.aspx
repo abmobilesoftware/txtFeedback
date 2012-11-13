@@ -18,6 +18,7 @@
    <!-- Helper scripts - used like static methods -->
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Minified/DateHelper.js") %>" type="application/javascript"></script>   
    <!-- Global variables -->
+    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Minified/Json2Csv.js") %>" type="application/javascript"></script>
     <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Helpers/Debounce.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Minified/GlobalVariables.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Minified/FirstArea.js") %>" type="application/javascript"></script>
@@ -93,7 +94,7 @@
             <div id="titleWrapper">
                 <a href="#" class="chartAreaTitle" {% if (tooltip != "no tooltip") { %} title="{{ tooltip }}" {% } %} sectionId="{{ sectionId }}"><img class="sectionVisibility" src="<%: Url.UpdatedResourceLink("~/Content/images/minimize_square.png") %>" alt="Expand section" />{{ name }}</a>
                 <p id="description{{uniqueId}}" class="sectionDescription invisible">Displays two dimensional data set</p>   
-                <a href="#" class="toCsv{{ uniqueId }} exportBtn">Export to CSV</a> 
+                <a href="#" class="toCsv{{ uniqueId }} exportBtn" title="<%: Resources.Global.RepExportToExcel %>"><img src="<%: Url.Content("~/Content/images/Excel-25.png") %>" /></a> 
         </div>
             <div class="chartAreaContent{{sectionId}}">
                 <form action="">    
