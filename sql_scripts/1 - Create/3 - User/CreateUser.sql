@@ -3,12 +3,12 @@ BEGIN TRAN
 USE txtfeedback_production; -- choose db
 
 -- Important fields
-DECLARE @RegularUserName varchar(30) = 'supportAU';
-DECLARE @RegularPasswordSalt nvarchar(128) = 'poeN6D2+lOY5fHMkB9oseg==';
-DECLARE @ReqularUserPassword nvarchar(128) = 'LXr9wAU5nbezKtcpd9XVhwObFhs=';
-DECLARE @XmppUser varchar(30) = 'supportau@txtfeedback.net';
+DECLARE @RegularUserName varchar(30) = 'supportpl';
+DECLARE @RegularPasswordSalt nvarchar(128) = '3uQCvtXaYTMV/ywaBQT25Q==';
+DECLARE @ReqularUserPassword nvarchar(128) = 'e9gA9WGlvPtvr6cIOj9zMy+1M9Q=';
+DECLARE @XmppUser varchar(30) = 'supportpl@txtfeedback.net';
 DECLARE @XmppPassword varchar(30) = '123456';
-DECLARE @RegularUserEmail nvarchar(256) = 'support@txtfeedback.net';
+DECLARE @RegularUserEmail nvarchar(256) = 'supportpl@txtfeedback.net';
 
 -- Less used
 DECLARE @CompanyName nvarchar(50) = 'AbMobileApps';
