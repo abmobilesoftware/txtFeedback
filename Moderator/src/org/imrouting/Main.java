@@ -10,9 +10,9 @@ public class Main {
 	private final static String HOST = "46.137.26.124";
 	private final static int PORT = 5270;
 	
-	private final static String DOMAIN = "txtfeedback.net";
-	private final static String SUBDOMAIN = "compdev";
-	private final static String SECRET_KEY = "im1234!";
+	public final static String DOMAIN = "txtfeedback.net";
+	public final static String SUBDOMAIN = "devbeem";
+	private final static String SECRET_KEY = "im12345!";
 	
 	public static void main(String[] args) {
 	  ExternalComponentManager mgr = new ExternalComponentManager(HOST, PORT);
