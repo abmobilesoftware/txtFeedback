@@ -49,7 +49,7 @@ namespace SmsFeedback_Take4.Models
               var sentMessage = msg as SMSMessage;
               //message was successfully sent
               logger.DebugFormat("Sent message with id: {0}", msg.Sid );
-              var responce = new MessageStatus() {DateSent= sentMessage.DateCreated, MessageSent= true, Status=sentMessage.Status };
+              var responce = new MessageStatus() {DateSent= sentMessage.DateCreated, MessageSent= true, Status=sentMessage.Status, ExternalID=sentMessage.Sid, Price = sentMessage.Price.ToString() };
               callback(responce);
            });           
       }

@@ -286,7 +286,9 @@ namespace SmsFeedback_Take4.Controllers
             return new smsfeedbackEntities(); 
         }
 
-        private JsonResult SaveImMessageInDb(String from, String to, String convId, String text, String xmppUser, smsfeedbackEntities lContextPerRequest, String prevConvFrom, DateTime prevConvUpdateTime, string direction)
+        private JsonResult SaveImMessageInDb(
+           String from, String to, String convId, String text, String xmppUser, smsfeedbackEntities lContextPerRequest,
+           String prevConvFrom, DateTime prevConvUpdateTime, string direction)
         {
             // save xmppUser in db just when the message direction is from staff to client
             string xmppUserToBeSaved = xmppUser;
@@ -298,15 +300,17 @@ namespace SmsFeedback_Take4.Controllers
             }
             //maybe delegate the result to the UpdateDB function
             //or interpret the result and return an appropriate message
-            String result = mEFInterface.UpdateDb(from, to, convId, text, readStatus, DateTime.UtcNow, prevConvFrom, prevConvUpdateTime, false, xmppUserToBeSaved, lContextPerRequest);
+            String result = mEFInterface.UpdateDb(from, to, convId, text, readStatus, DateTime.UtcNow, prevConvFrom, prevConvUpdateTime, false, xmppUserToBeSaved, null, null, lContextPerRequest);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        private JsonResult SendSmsMessageAndUpdateDb(String from, String to, String convId, String text, String xmppUser, smsfeedbackEntities lContextPerRequest, String prevConvFrom, DateTime prevConvUpdateTime)
+        private JsonResult SendSmsMessageAndUpdateDb(
+           String from, String to, String convId, String text, String xmppUser, smsfeedbackEntities lContextPerRequest, 
+           String prevConvFrom, DateTime prevConvUpdateTime)
         {
             SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgResponse) =>
             {
-                mEFInterface.UpdateDb(from, to, convId, text, true, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, xmppUser, lContextPerRequest);
+                mEFInterface.UpdateDb(from, to, convId, text, true, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, xmppUser, msgResponse.Price, msgResponse.ExternalID, lContextPerRequest);
             });
             return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
         }

@@ -15,6 +15,8 @@ namespace SmsFeedback_Take4.Models
       public bool MessageSent { get; set; }
       public string Status { get; set; }
       public DateTime DateSent { get; set; }
+      public String ExternalID { get; set; }
+      public String Price { get; set; }
    }
 
    [Serializable]
@@ -52,8 +54,8 @@ namespace SmsFeedback_Take4.Models
          var status = msg.Status;
          var sent = msg.Status.Equals("Success", StringComparison.InvariantCultureIgnoreCase) ? true : false;
          var sentDate = DateTime.Now.ToUniversalTime();
-         var response = new MessageStatus() { MessageSent = sent, DateSent = sentDate, Status = status };
          //dragos: atm, when sending the message via nexmo we don't receive the sent date (or created date) so we use the current datestamp of the server (UTC format)        
+         var response = new MessageStatus() { MessageSent = sent, DateSent = sentDate, Status = status, ExternalID=msg.MessageId,Price=msg.MessagePrice };
          callback(response);
       }
    }

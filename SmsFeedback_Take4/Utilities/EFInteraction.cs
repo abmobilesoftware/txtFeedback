@@ -354,13 +354,15 @@ namespace SmsFeedback_Take4.Utilities
             return null;
         }
 
-        public String AddMessage(String from, String to, String conversationId, String text,
+        public String AddMessage(
+           String from, String to, String conversationId, String text,
            Boolean readStatus, DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime,
-           bool isSmsBased, String XmppUser, smsfeedbackEntities dbContext)
+           bool isSmsBased, String XmppUser, String price, String externalID,
+           smsfeedbackEntities dbContext)
         {
             //assume userID and convID are valid
             logger.Info("Call made");
-            //for the response time -> the lastest details are always in the conversation
+            //for the response time -> the latest details are always in the conversation
             bool linkMessageWithXmppUser = !XmppUser.Equals(Constants.DONT_ADD_XMPP_USER);
             if (linkMessageWithXmppUser)
             {
@@ -397,8 +399,10 @@ namespace SmsFeedback_Take4.Utilities
                     TimeReceived = updateTime,
                     ConversationId = conversationId,
                     Read = readStatus,
-                    IsSmsBased = isSmsBased
+                    IsSmsBased = isSmsBased,                    
                 };
+                if (!String.IsNullOrEmpty(price)) msg.Price = price;
+                if (!String.IsNullOrEmpty(externalID)) msg.ExternalID = externalID;
                 if (!XmppUser.Equals(Constants.DONT_ADD_XMPP_USER)) msg.XmppConnectionXmppUser = XmppUser;
                 dbContext.Messages.AddObject(msg);
                 dbContext.SaveChanges();
@@ -630,13 +634,20 @@ namespace SmsFeedback_Take4.Utilities
 
         }
 
-        public String UpdateDb(String from, String to, String conversationId, String text, Boolean readStatus,
-                                                     DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, String XmppUser, smsfeedbackEntities dbContext)
+        public String UpdateDb(
+           String from, String to, String conversationId, String text, Boolean readStatus,
+           DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, String XmppUser,  
+           String price, String externalID,smsfeedbackEntities dbContext)
         {
             string updateAddConversationResult = UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, isSmsBased, dbContext);
             string addMessageResult = updateAddConversationResult;
-            if (updateAddConversationResult.Equals(JsonReturnMessages.OP_SUCCESSFUL)) addMessageResult = AddMessage(from, to, conversationId, text, readStatus, updateTime, prevConvFrom, prevConvUpdateTime, isSmsBased, XmppUser, dbContext);
-            if (addMessageResult.Equals(JsonReturnMessages.OP_SUCCESSFUL)) IncrementNumberOfSentSms(from, dbContext);
+            if (updateAddConversationResult.Equals(JsonReturnMessages.OP_SUCCESSFUL))
+            {
+               addMessageResult = AddMessage(from, to, conversationId, text, readStatus, updateTime, prevConvFrom, prevConvUpdateTime, isSmsBased, XmppUser, price, externalID, dbContext);
+            }
+           //we added the message - now if SMS based, mark this 
+            if (addMessageResult.Equals(JsonReturnMessages.OP_SUCCESSFUL) && isSmsBased) {
+               IncrementNumberOfSentSms(from, dbContext); }
             return addMessageResult;
         }
 
