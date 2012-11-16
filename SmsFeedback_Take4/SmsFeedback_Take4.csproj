@@ -451,7 +451,6 @@
     <Content Include="Scripts\jquery.ui.datepicker-en-GB.js" />
     <Content Include="Scripts\jquery.ui.datepicker-es.js" />
     <Content Include="Scripts\jquery.ui.datepicker-ro.js" />
-    <Content Include="Scripts\json.js" />
     <Content Include="Scripts\Minified\CollapsibleLists.js" />
     <Content Include="Scripts\Minified\jquery.cookie.js" />
     <Content Include="Scripts\Minified\jquery.simplemodal.js" />
