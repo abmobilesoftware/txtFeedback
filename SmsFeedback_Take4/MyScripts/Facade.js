@@ -96,7 +96,15 @@ function InitializeGUI() {
       refreshConversationList(self.convView, self.msgView);
    });
 
-   window.addEventListener("resize", resizeTriggered, false);
+   //DA IE8 doesn't support addEventListener so we use attachEvent
+   //source http://stackoverflow.com/questions/9769868/addeventlistener-not-working-in-ie8
+   if (!window.addEventListener) {
+      window.attachEvent("resize", resizeTriggered);      
+   }
+   else {
+      window.addEventListener("resize", resizeTriggered, false);
+   }
+   
    resizeTriggered();
 }
 

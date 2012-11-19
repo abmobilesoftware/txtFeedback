@@ -40,8 +40,15 @@ function updateChartsDimensions() {
 }
 
 function InitializeGUI() {
-   "use strict";   
-   window.addEventListener("resize", resizeTriggered, false);
+   "use strict";      
+   //DA IE8 doesn't support addEventListener so we use attachEvent
+   //source http://stackoverflow.com/questions/9769868/addeventlistener-not-working-in-ie8
+   if (!window.addEventListener) {
+      window.attachEvent("resize", resizeTriggered);
+   }
+   else {
+      window.addEventListener("resize", resizeTriggered, false);
+   }
    
    $(window).smartresize(function () {
        updateChartsDimensions();
