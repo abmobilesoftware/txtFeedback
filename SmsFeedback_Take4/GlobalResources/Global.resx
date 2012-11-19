@@ -808,4 +808,8 @@
     <value>Export to Excel</value>
     <comment>Reports: Export to Excel</comment>
   </data>
+  <data name="tooltipDeleteConversation" xml:space="preserve">
+    <value>Delete conversation</value>
+    <comment>Conversation: delete a conversation tooltip</comment>
+  </data>
 </root>

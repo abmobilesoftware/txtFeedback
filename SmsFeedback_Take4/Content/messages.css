@@ -65,14 +65,14 @@ span.timeReceived {
 .messageto div.extramenu {
    left: -30px;
    top: 0px;
-   bottom: 5px;
+   bottom: 14px;
 }
 
 /*for fromMessages we display the menu at their right*/
 .messagefrom div.extramenu {
    right: -30px;
    top: 0px;
-   bottom: 5px;
+   bottom: 14px;
 }
 .messagefrom::after {
    content:"";

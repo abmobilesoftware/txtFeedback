@@ -75,6 +75,17 @@ $(function () {
         escape: /\{%-([\s\S]+?)%\}/g
     }; // excape HTML: {%- <script> %} prints &lt
 
+    $(".deleteConvImg").qtip({
+        content: $(".deleteConvImg").attr('tooltiptitle'),
+        position: {
+            corner: {
+                target: 'leftMiddle',
+                tooltip: 'rightMiddle'
+            }
+        },
+        style: 'dark'
+    });
+
     window.app.ConversationView = Backbone.View.extend({
         model: window.app.Conversation,
         tagName: "div",
@@ -115,6 +126,24 @@ $(function () {
                         function (data) {
                             //conversation starred status changed                            
                         });
+            });
+
+            $(".deleteConvImg", this.$el).bind("click", function (e) {
+                e.preventDefault();
+                var conversationElement = $(this).parents(".conversation");
+                var textElementWrapper = $(conversationElement).find(".spanClassText");
+                var textElement = $(textElementWrapper).find("span");
+                var id = conversationElement.attr("conversationId");
+
+                if (confirm("Are you sure you want to delete conversation " + $(textElement).html() + " ?")) {
+                    $.getJSON('Messages/DeleteConversation',
+                            { convId: id },
+                            function (data) {
+                                if (data == "success") {
+                                    $(gSelectedElement).hide();
+                                }
+                            });
+                }
             });
             //#endregion
             return this;

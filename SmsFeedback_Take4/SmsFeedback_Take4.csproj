@@ -333,6 +333,7 @@
     <Content Include="Content\images\thumbs_up_hover_yellow_20x20.png" />
     <Content Include="Content\images\thumbs_up_hover_yellow_24x24.png" />
     <Content Include="Content\images\transparent.gif" />
+    <Content Include="Content\images\trash.png" />
     <Content Include="Content\images\Uk_flag.png" />
     <Content Include="Content\images\Uk_flag_16.png" />
     <Content Include="Content\jquery.tagsinput.css" />

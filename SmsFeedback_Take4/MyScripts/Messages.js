@@ -27,8 +27,12 @@ so we start from a certain id and each time we receive/send a message, we increm
 window.app.receivedMsgID = 12345;
 
 var gSelectedMessage = null;
+var gSelectedMessageItem = null;
 var gSelectedConversationID = null;
 var gSelectedElement = null;
+var gDateOfSelectedMessage = null;
+var gDateDisplayPattern = 'DD, MM d, yy';
+if (window.app.calendarCulture == "ro") gDateDisplayPattern = 'DD, d MM, yy';
 
 var timer; //this will be responsible for triggering the "mark conversation as read event"
 var timer_is_on = 0;
@@ -297,7 +301,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             self.messagesView.getMessages(convId);
             self.tagsArea.getTags(convId);
        },
-       cancel: ".conversationStarIconImg"
+       cancel: ".ignoreElementOnSelection"
     });
 
    $("#replyBtn").click(function () {
@@ -438,7 +442,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                 window.app.globalMessagesRep[self.currentConversationId] = messages1;
                 $.each(messages1, function (index, value) {
                     value.set("Starred", window.app.selectedConversation.get("Starred"));
-                });
+                });               
             }
         },
         render: function () {
@@ -496,6 +500,19 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                 //make sure to bind the buttons
                 // $(helperDiv).css("visibility", "visible");
                 gSelectedMessage = $($(this).find("div span")[0]).html();
+                
+                var extractedDateAndTime = $($(this).find(".timeReceived")[0]).html();
+                var justTheDate = extractedDateAndTime.substr(0, extractedDateAndTime.length - 10);
+                var justTheTime = extractedDateAndTime.substr(extractedDateAndTime.length - 9, 8);
+                var extractHours = justTheTime.substr(0, 2);
+                var extractMinutes = justTheTime.substr(3, 2);
+                var extractSeconds = justTheTime.substr(6, 2);
+                gDateOfSelectedMessage = $.datepicker.parseDate(gDateDisplayPattern, justTheDate,
+                    { dayNamesShort: $.datepicker.regional[window.app.calendarCulture].dayNamesShort, dayNames: $.datepicker.regional[window.app.calendarCulture].dayNames,
+                    monthNamesShort: $.datepicker.regional[window.app.calendarCulture].monthNamesShort, monthNames: $.datepicker.regional[window.app.calendarCulture].monthNames
+                    });
+                gDateOfSelectedMessage.setHours(extractHours, extractMinutes, extractSeconds);
+                gSelectedMessageItem = $(this);
                 //$(helperDiv).fadeIn(400);
                 $(helperDiv).show();
                 //ContactWindow.init();
@@ -516,6 +533,63 @@ function MessagesArea(convView, tagsArea, wpsArea) {
         }
     });
     this.messagesView = new MessagesView();
+    // The attachment of the handler for this type of event is done only once
+    $('div.deleteMessage').live("click", function (e) {
+        e.preventDefault();
+        var textToDisplay = gSelectedMessage;
+        var conversationId = gSelectedConversationID;
+        var timeReceived = gDateOfSelectedMessage;
+        var itemToBeDeleted = gSelectedMessageItem;
+        if (confirm("Are you sure you want to delete " + textToDisplay + " ?")) {
+            $.ajax({
+                url: "Messages/DeleteMessage",
+                data: { 'messageText': gSelectedMessage.trim(), 'convId': gSelectedConversationID, 'timeReceived': gDateOfSelectedMessage.toUTCString() },
+                success: function (data) {
+                    // TODO: Reload messages list for this conversation.
+                    if (data == "success") {
+                        /*
+                        $(itemToBeDeleted).hide();
+                        var messagePosition = 0;
+                        for (i = 0; i < window.app.globalMessagesRep[gSelectedConversationID].models.length; ++i) {
+                            var currentModel = window.app.globalMessagesRep[gSelectedConversationID].models[i];
+                            var timeDifference = gDateOfSelectedMessage.getTime() - currentModel.attributes.TimeReceived.getTime();
+                            if (currentModel.attributes.Text == gSelectedMessage.trim() && Math.abs(timeDifference) < 100 && currentModel.attributes.ConvID == gSelectedConversationID) {
+                                messagePosition = i;
+                            }
+                        }
+                        window.app.globalMessagesRep[gSelectedConversationID].remove(window.app.globalMessagesRep[gSelectedConversationID].at(messagePosition));
+                        */
+                        deleteMessage(itemToBeDeleted, gSelectedMessage, gDateOfSelectedMessage, gSelectedConversationID);
+                    } else if (data == "lastMessage") {
+                        // get the previous message
+                        var lastMessage = $($(itemToBeDeleted).prev()).find(".textMessage").find("span").html();
+                        deleteMessage(itemToBeDeleted, gSelectedMessage, gDateOfSelectedMessage, gSelectedConversationID);
+                        // update the conversation
+                        $.ajax({
+                            url: "Messages/UpdateConversation",
+                            data: { 'convId': gSelectedConversationID, 'newText': lastMessage },
+                            success: function (data) {
+                                $(gSelectedElement).find(".spanClassText").find("span").html(lastMessage);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    });
+}
+
+function deleteMessage(element, messageText, timeReceived, convId) {
+    $(element).hide();
+    var messagePosition = 0;
+    for (i = 0; i < window.app.globalMessagesRep[convId].models.length; ++i) {
+        var currentModel = window.app.globalMessagesRep[convId].models[i];
+        var timeDifference = timeReceived.getTime() - currentModel.attributes.TimeReceived.getTime();
+        if (currentModel.attributes.Text == messageText.trim() && Math.abs(timeDifference) < 100 && currentModel.attributes.ConvID == convId) {
+            messagePosition = i;
+        }
+    }
+    window.app.globalMessagesRep[convId].remove(window.app.globalMessagesRep[convId].at(messagePosition));
 }
 
 function limitText(limitField, limitCount, limitNum) {

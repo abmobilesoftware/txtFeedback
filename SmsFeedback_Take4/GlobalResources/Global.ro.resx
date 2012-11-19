@@ -709,4 +709,7 @@
   <data name="RepExportToExcel" xml:space="preserve">
     <value>Export catre Excel</value>
   </data>
+  <data name="tooltipDeleteConversation" xml:space="preserve">
+    <value>Delete conversation RO</value>
+  </data>
 </root>

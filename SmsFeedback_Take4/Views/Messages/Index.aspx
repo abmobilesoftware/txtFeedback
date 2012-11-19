@@ -112,7 +112,13 @@
                 <div class="spanClassText rightSideMembers">
                     <span>{{ Text }}</span>
                 </div>
-                <div class="conversationStarIcon">
+                <% if ((bool)ViewData["messageOrganizer"]) { %>
+                    <div class="deleteConv ignoreElementOnSelection">
+                        <img tooltiptitle="<%: Resources.Global.tooltipDeleteConversation %>" src="<%: Url.Content("~/Content/images/trash.png") %>" class="deleteConvImg" />
+                    </div>
+                <% } %>
+       
+                <div class="conversationStarIcon ignoreElementOnSelection">
                     {% if (Starred) { %}
                             <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected_orange.svg") %>" class="conversationStarIconImg" />
                     {% } else { %}
@@ -143,11 +149,16 @@
       <div class="extramenu" hoverID="{{ Id }}">
        <div class="extraMenuWrapper"></div>  
        <div class="innerExtraMenu">
+       <% if ((bool)ViewData["messageOrganizer"]) { %>
+           <div class="actionButtons deleteMessage"> 
+                 <img title="Delete message" src="<%: Url.Content("~/Content/images/trash16x16.png") %>" />    
+           </div>     
+       <% } %>
             <div class="actionButtons sendEmailButton">
                <img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/mail.png") %>" />
             </div>
-         <div class="clear"></div>                       
-         </div>               
+            <div class="clear"></div>                       
+       </div>               
         
       </div>        
    </script>

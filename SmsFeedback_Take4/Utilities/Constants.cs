@@ -46,5 +46,6 @@ namespace SmsFeedback_Take4.Utilities
         public const string DUPLICATE_MESSAGE = "duplicate message";
         public const string EXCEPTION = "exception";
         public const string INVALID_DIRECTION = "invalid direction";
+        public const string OP_FAILED = "failed";
     }
 }

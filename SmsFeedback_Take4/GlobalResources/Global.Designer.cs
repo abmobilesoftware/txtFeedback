@@ -1708,6 +1708,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete conversation.
+        /// </summary>
+        public static string tooltipDeleteConversation {
+            get {
+                return ResourceManager.GetString("tooltipDeleteConversation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Turn date filtering on/off.
         /// </summary>
         public static string tooltipIncludeDateInFilter {
