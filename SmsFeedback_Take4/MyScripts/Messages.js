@@ -540,7 +540,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
         var conversationId = gSelectedConversationID;
         var timeReceived = gDateOfSelectedMessage;
         var itemToBeDeleted = gSelectedMessageItem;
-        if (confirm("Are you sure you want to delete " + textToDisplay + " ?")) {
+        if (confirm("Are you sure you want to delete message \"" + textToDisplay + "\" ?")) {
             $.ajax({
                 url: "Messages/DeleteMessage",
                 data: { 'messageText': gSelectedMessage.trim(), 'convId': gSelectedConversationID, 'timeReceived': gDateOfSelectedMessage.toUTCString() },
@@ -580,7 +580,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
 }
 
 function deleteMessage(element, messageText, timeReceived, convId) {
-    $(element).hide();
+    $(element).remove();
     var messagePosition = 0;
     for (i = 0; i < window.app.globalMessagesRep[convId].models.length; ++i) {
         var currentModel = window.app.globalMessagesRep[convId].models[i];

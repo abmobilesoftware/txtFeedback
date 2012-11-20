@@ -134,13 +134,14 @@ $(function () {
                 var textElementWrapper = $(conversationElement).find(".spanClassText");
                 var textElement = $(textElementWrapper).find("span");
                 var id = conversationElement.attr("conversationId");
+                var elementToBeDeleted = $(this).parents(".conversation");
 
-                if (confirm("Are you sure you want to delete conversation " + $(textElement).html() + " ?")) {
+                if (confirm("Are you sure you want to delete conversation with conversationID " + id + " ?")) {
                     $.getJSON('Messages/DeleteConversation',
                             { convId: id },
                             function (data) {
                                 if (data == "success") {
-                                    $(gSelectedElement).hide();
+                                    $(elementToBeDeleted).remove();
                                 }
                             });
                 }
