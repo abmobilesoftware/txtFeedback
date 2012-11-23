@@ -3293,6 +3293,54 @@ namespace SmsFeedback_EFModels
         private global::System.String _XmppConnectionXmppUser;
         partial void OnXmppConnectionXmppUserChanging(global::System.String value);
         partial void OnXmppConnectionXmppUserChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ExternalID
+        {
+            get
+            {
+                return _ExternalID;
+            }
+            set
+            {
+                OnExternalIDChanging(value);
+                ReportPropertyChanging("ExternalID");
+                _ExternalID = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ExternalID");
+                OnExternalIDChanged();
+            }
+        }
+        private global::System.String _ExternalID;
+        partial void OnExternalIDChanging(global::System.String value);
+        partial void OnExternalIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Price
+        {
+            get
+            {
+                return _Price;
+            }
+            set
+            {
+                OnPriceChanging(value);
+                ReportPropertyChanging("Price");
+                _Price = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Price");
+                OnPriceChanged();
+            }
+        }
+        private global::System.String _Price;
+        partial void OnPriceChanging(global::System.String value);
+        partial void OnPriceChanged();
 
         #endregion
 
