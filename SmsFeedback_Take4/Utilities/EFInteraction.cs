@@ -218,13 +218,14 @@ namespace SmsFeedback_Take4.Utilities
             }            
         }
 
-        public void UpdateConversationText(string convId, string newText, smsfeedbackEntities dbContext)
+        public void UpdateConversationText(string convId, string newText, DateTime newTextDateReceived, smsfeedbackEntities dbContext)
         {
             var conversations = from conversation in dbContext.Conversations where conversation.ConvId.Equals(convId) select conversation;
             if (conversations.Count() > 0)
             {
                 Conversation conversation = conversations.First();
                 conversation.Text = newText;
+                conversation.TimeUpdated = newTextDateReceived;
                 dbContext.SaveChanges();
             }
         }

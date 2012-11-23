@@ -392,8 +392,9 @@ namespace SmsFeedback_Take4.Controllers
             }
         }
 
-        public JsonResult UpdateConversation(string convId, string newText)
+        public JsonResult UpdateConversation(string convId, string newText, DateTime newTextReceivedDate)
         {
+            DateTime newTextReceivedDateUTC = newTextReceivedDate.ToUniversalTime();
              if (convId == null)
             {
                 logger.Error("No conversationId passed");
@@ -411,7 +412,7 @@ namespace SmsFeedback_Take4.Controllers
                 if (HttpContext.User.IsInRole(cMessageOrganizer))
                 {
                     smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-                    mEFInterface.UpdateConversationText(convId, newText, lContextPerRequest);
+                    mEFInterface.UpdateConversationText(convId, newText, newTextReceivedDateUTC, lContextPerRequest);
                     return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
                 }
                 return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);

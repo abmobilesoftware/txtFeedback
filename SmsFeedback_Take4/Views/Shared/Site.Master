@@ -30,6 +30,7 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Site.css") %>" />        
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/contact.css") %>"/> 
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/css/areaDefinitions.css") %>" />
+
    <% } %> 
    <script src="<%: Url.Content("~/Scripts/jquery-1.6.2.min.js") %>" charset="UTF-8" type="text/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/jquery-ui-1.8.11.min.js") %>" charset="UTF-8" type="text/javascript"></script>   
@@ -64,6 +65,9 @@
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/contact.js") %>" type="application/javascript"></script>     
       <% } %>
    
+
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript">stLight.options({ publisher: "492d00c1-384a-4a45-a088-c2f77e0f5ee5" });</script>
 </head>
 <body>
    <script type="text/javascript">

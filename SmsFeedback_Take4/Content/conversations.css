@@ -257,3 +257,17 @@ div.leftLiDiv .conversationImageRead, div.leftLiDiv .conversationImageUnread {
     left: 0px;
     z-index: 20;
 }
+
+ #convOverlay {
+    position: fixed;
+    top: 115px;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    filter:alpha(opacity=20);
+    -moz-opacity:0.2;
+    -khtml-opacity: 0.2;
+    opacity: 0.2;
+    z-index: 10000;
+    left: 0px;
+}

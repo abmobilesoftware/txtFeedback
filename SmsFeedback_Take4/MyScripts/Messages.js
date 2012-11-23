@@ -259,7 +259,10 @@ window.app.defaultMessagesOptions = {
 //#endregion
 function MessagesArea(convView, tagsArea, wpsArea) {
    "use strict";
-    var self = this;
+   var self = this;
+   stLight.options({
+       publisher: '12345',
+   });
 
     var replyButton = $("#replyBtn");
     replyButton.qtip({
@@ -444,6 +447,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                     value.set("Starred", window.app.selectedConversation.get("Starred"));
                 });               
             }
+            
         },
         render: function () {
             $("#messagesbox").html('');
@@ -496,28 +500,24 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             var item = msgView.render().el;
             $(this.el).append(item);
             $(item).hover(function () {
-                var helperDiv = $(this).find("div.extramenu")[0];
+                /*var helperDiv = $(this).find("div.extramenu")[0];
+                if (helperDiv == null) {
+                    helperDiv = $(this).find("div.extramenuExtended")[0];
+                }*/
                 //make sure to bind the buttons
                 // $(helperDiv).css("visibility", "visible");
                 gSelectedMessage = $($(this).find("div span")[0]).html();
-                
                 var extractedDateAndTime = $($(this).find(".timeReceived")[0]).html();
-                var justTheDate = extractedDateAndTime.substr(0, extractedDateAndTime.length - 10);
-                var justTheTime = extractedDateAndTime.substr(extractedDateAndTime.length - 9, 8);
-                var extractHours = justTheTime.substr(0, 2);
-                var extractMinutes = justTheTime.substr(3, 2);
-                var extractSeconds = justTheTime.substr(6, 2);
-                gDateOfSelectedMessage = $.datepicker.parseDate(gDateDisplayPattern, justTheDate,
-                    { dayNamesShort: $.datepicker.regional[window.app.calendarCulture].dayNamesShort, dayNames: $.datepicker.regional[window.app.calendarCulture].dayNames,
-                    monthNamesShort: $.datepicker.regional[window.app.calendarCulture].monthNamesShort, monthNames: $.datepicker.regional[window.app.calendarCulture].monthNames
-                    });
-                gDateOfSelectedMessage.setHours(extractHours, extractMinutes, extractSeconds);
+                gDateOfSelectedMessage = convertDateTimeStringToObject(extractedDateAndTime);
                 gSelectedMessageItem = $(this);
                 //$(helperDiv).fadeIn(400);
-                $(helperDiv).show();
+                //$(helperDiv).show();
                 //ContactWindow.init();
             }, function () {
                 var helperDiv = $(this).find("div.extramenu")[0];
+                if (helperDiv == null) {
+                    helperDiv = $(this).find("div.extramenuExtended")[0];
+                }
                 //$(helperDiv).fadeOut("fast");
                 $(helperDiv).hide();
             });
@@ -547,36 +547,29 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                 success: function (data) {
                     // TODO: Reload messages list for this conversation.
                     if (data == "success") {
-                        /*
-                        $(itemToBeDeleted).hide();
-                        var messagePosition = 0;
-                        for (i = 0; i < window.app.globalMessagesRep[gSelectedConversationID].models.length; ++i) {
-                            var currentModel = window.app.globalMessagesRep[gSelectedConversationID].models[i];
-                            var timeDifference = gDateOfSelectedMessage.getTime() - currentModel.attributes.TimeReceived.getTime();
-                            if (currentModel.attributes.Text == gSelectedMessage.trim() && Math.abs(timeDifference) < 100 && currentModel.attributes.ConvID == gSelectedConversationID) {
-                                messagePosition = i;
-                            }
-                        }
-                        window.app.globalMessagesRep[gSelectedConversationID].remove(window.app.globalMessagesRep[gSelectedConversationID].at(messagePosition));
-                        */
                         deleteMessage(itemToBeDeleted, gSelectedMessage, gDateOfSelectedMessage, gSelectedConversationID);
                     } else if (data == "lastMessage") {
                         // get the previous message
-                        var lastMessage = $($(itemToBeDeleted).prev()).find(".textMessage").find("span").html();
+                        var previousItem = $(itemToBeDeleted).prev();
                         deleteMessage(itemToBeDeleted, gSelectedMessage, gDateOfSelectedMessage, gSelectedConversationID);
-                        // update the conversation
-                        $.ajax({
-                            url: "Messages/UpdateConversation",
-                            data: { 'convId': gSelectedConversationID, 'newText': lastMessage },
-                            success: function (data) {
-                                $(gSelectedElement).find(".spanClassText").find("span").html(lastMessage);
-                            }
-                        });
+                        // it's not the last message
+                        if (previousItem.length != 0) {
+                            var lastMessage = $($(previousItem).find(".textMessage").find("span")).html();
+                            var lastMessageDate = convertDateTimeStringToObject($($(previousItem).find(".timeReceived")[0]).html());
+                            // update the conversation
+                            $.ajax({
+                                url: "Messages/UpdateConversation",
+                                data: { 'convId': gSelectedConversationID, 'newText': lastMessage.trim(), 'newTextReceivedDate': lastMessageDate.toUTCString() },
+                                success: function (data) {
+                                    $(gSelectedElement).find(".spanClassText").find("span").html(lastMessage);
+                                }
+                            });
+                        }
                     }
                 }
             });
         }
-    });
+    });    
 }
 
 function deleteMessage(element, messageText, timeReceived, convId) {
@@ -598,4 +591,19 @@ function limitText(limitField, limitCount, limitNum) {
     } else {
         limitCount.value = limitNum - limitField.value.length;
     }
+}
+
+function convertDateTimeStringToObject(dateTimeString) {
+    var justTheDate = dateTimeString.substr(0, dateTimeString.length - 10);
+    var justTheTime = dateTimeString.substr(dateTimeString.length - 9, 8);
+    var extractHours = justTheTime.substr(0, 2);
+    var extractMinutes = justTheTime.substr(3, 2);
+    var extractSeconds = justTheTime.substr(6, 2);
+    var resultedDateTime = $.datepicker.parseDate(gDateDisplayPattern, justTheDate,
+        {
+            dayNamesShort: $.datepicker.regional[window.app.calendarCulture].dayNamesShort, dayNames: $.datepicker.regional[window.app.calendarCulture].dayNames,
+            monthNamesShort: $.datepicker.regional[window.app.calendarCulture].monthNamesShort, monthNames: $.datepicker.regional[window.app.calendarCulture].monthNames
+        });
+    resultedDateTime.setHours(extractHours, extractMinutes, extractSeconds);
+    return resultedDateTime;
 }

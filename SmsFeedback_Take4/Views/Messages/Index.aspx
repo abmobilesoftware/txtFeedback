@@ -38,10 +38,8 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/tags.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/jquery.tagsinput.css") %>" />    
    
-
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="application/javascript" ></script>
-   
-   
+     
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.tagsinput.js") %>" type="application/javascript"></script>
    
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-de.js") %>" type="application/javascript"></script>
@@ -130,7 +128,7 @@
    </script>
    <script type="text/template" id="message-template">
       <div class="textMessage">
-         <span>{{ Text }} </span> 
+         <span class="textMessageContent">{{ Text }} </span> 
          <div class="clear"></div>
          {% 
             var dateComponents = TimeReceived.toString().split(" ");
@@ -142,11 +140,33 @@
                                                              monthNamesShort: $.datepicker.regional[window.app.calendarCulture].monthNamesShort, monthNames: $.datepicker.regional[window.app.calendarCulture].monthNames}); 
             var timeReceivedLocal = timeReceivedLocal + " " + time;
        %}
-       <span class="timeReceived">{{ timeReceivedLocal }} </span>
+            <span class="timeReceived">{{ timeReceivedLocal }} </span>      
+       {%
+            var encodedUrl = encodeURIComponent("http://www.txtfeedback.net");
+            var encodedText = encodeURIComponent(Text);
+       %}
+            <div class="msgButtons sendEmailButton">
+                <img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/em16x16.png") %>" />
+            </div>
+            <div class="msgButtons">
+               <a href="http://www.facebook.com/sharer.php?u={{ encodedUrl }}&t={{ encodedText }}" target="_blank"><img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/fb16x16.png") %>" /></a>
+            </div>
+            <div class="msgButtons">
+               <a href="http://twitter.com/share?text={{ encodedText }}" target="_blank"><img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/tw16x16.png") %>" /></a>
+            </div>
+            <div class="msgButtons">
+               <a href="http://www.linkedin.com/shareArticle?mini=true&url={{ encodedUrl }}&title={{ encodedText }}" target="_blank"><img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/in16x16.png") %>" /></a>
+            </div> 
+           <% if ((bool)ViewData["messageOrganizer"]) { %>
+               <div class="msgButtons deleteMessage"> 
+                     <img title="Delete message" src="<%: Url.Content("~/Content/images/trash20x20.png") %>" />    
+               </div>     
+           <% } %>
+            
       </div>
       
       <div class="clear"></div>
-      <div class="extramenu" hoverID="{{ Id }}">
+      <div <% if ((bool)ViewData["messageOrganizer"]) { %> class="extramenuExtended" <% } else { %> class="extramenu" <% } %> hoverID="{{ Id }}">
        <div class="extraMenuWrapper"></div>  
        <div class="innerExtraMenu">
        <% if ((bool)ViewData["messageOrganizer"]) { %>
@@ -154,9 +174,22 @@
                  <img title="Delete message" src="<%: Url.Content("~/Content/images/trash16x16.png") %>" />    
            </div>     
        <% } %>
+             {%
+                var encodedUrl = encodeURIComponent("http://www.txtfeedback.net");
+                var encodedText = encodeURIComponent(Text);
+             %}
             <div class="actionButtons sendEmailButton">
                <img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/mail.png") %>" />
             </div>
+            <div class="actionButtons">
+               <a href="http://www.facebook.com/sharer.php?u={{ encodedUrl }}&t={{ encodedText }}" target="_blank"><img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/fb16x16.png") %>" /></a>
+            </div>
+            <div class="actionButtons">
+               <a href="http://twitter.com/share?text={{ encodedText }}" target="_blank"><img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/tw16x16.png") %>" /></a>
+            </div>
+            <div class="actionButtons">
+               <a href="http://www.linkedin.com/shareArticle?mini=true&url={{ encodedUrl }}&title={{ encodedText }}" target="_blank"><img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/in16x16.png") %>" /></a>
+            </div>         
             <div class="clear"></div>                       
        </div>               
         
@@ -234,6 +267,7 @@
             <%: Resources.Global.loadMoreConversations %>
          </div>
       </div>
+       <div id="convOverlay"></div> 
    </div>
    <div id="messagesArea" class="grid_6">
       <div id="scrollablemessagebox" class="messagesboxcontainerclass scrollablebox">
