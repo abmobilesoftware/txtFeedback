@@ -32,7 +32,6 @@ var gSelectedConversationID = null;
 var gSelectedElement = null;
 var gDateOfSelectedMessage = null;
 var gDateDisplayPattern = 'DD, MM d, yy';
-if (window.app.calendarCulture == "ro") gDateDisplayPattern = 'DD, d MM, yy';
 
 var timer; //this will be responsible for triggering the "mark conversation as read event"
 var timer_is_on = 0;
@@ -446,8 +445,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                 $.each(messages1, function (index, value) {
                     value.set("Starred", window.app.selectedConversation.get("Starred"));
                 });               
-            }
-            
+            }           
         },
         render: function () {
             $("#messagesbox").html('');
@@ -506,6 +504,8 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                 }*/
                 //make sure to bind the buttons
                 // $(helperDiv).css("visibility", "visible");
+                
+                if (window.app.calendarCulture == "ro") gDateDisplayPattern = 'DD, d MM, yy';
                 gSelectedMessage = $($(this).find("div span")[0]).html();
                 var extractedDateAndTime = $($(this).find(".timeReceived")[0]).html();
                 gDateOfSelectedMessage = convertDateTimeStringToObject(extractedDateAndTime);
@@ -540,18 +540,18 @@ function MessagesArea(convView, tagsArea, wpsArea) {
         var conversationId = gSelectedConversationID;
         var timeReceived = gDateOfSelectedMessage;
         var itemToBeDeleted = gSelectedMessageItem;
-        if (confirm("Are you sure you want to delete message \"" + textToDisplay + "\" ?")) {
+        if (confirm($("#confirmDeleteMessage").val() + " \""  + textToDisplay + "\" ?")) {
             $.ajax({
                 url: "Messages/DeleteMessage",
-                data: { 'messageText': gSelectedMessage.trim(), 'convId': gSelectedConversationID, 'timeReceived': gDateOfSelectedMessage.toUTCString() },
+                data: { 'messageText': textToDisplay.trim(), 'convId': conversationId, 'timeReceived': timeReceived.toUTCString() },
                 success: function (data) {
                     // TODO: Reload messages list for this conversation.
                     if (data == "success") {
-                        deleteMessage(itemToBeDeleted, gSelectedMessage, gDateOfSelectedMessage, gSelectedConversationID);
+                        deleteMessage(itemToBeDeleted, textToDisplay, timeReceived, conversationId);
                     } else if (data == "lastMessage") {
                         // get the previous message
                         var previousItem = $(itemToBeDeleted).prev();
-                        deleteMessage(itemToBeDeleted, gSelectedMessage, gDateOfSelectedMessage, gSelectedConversationID);
+                        deleteMessage(itemToBeDeleted, textToDisplay, timeReceived, conversationId);
                         // it's not the last message
                         if (previousItem.length != 0) {
                             var lastMessage = $($(previousItem).find(".textMessage").find("span")).html();
@@ -559,7 +559,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                             // update the conversation
                             $.ajax({
                                 url: "Messages/UpdateConversation",
-                                data: { 'convId': gSelectedConversationID, 'newText': lastMessage.trim(), 'newTextReceivedDate': lastMessageDate.toUTCString() },
+                                data: { 'convId': conversationId, 'newText': lastMessage.trim(), 'newTextReceivedDate': lastMessageDate.toUTCString() },
                                 success: function (data) {
                                     $(gSelectedElement).find(".spanClassText").find("span").html(lastMessage);
                                 }

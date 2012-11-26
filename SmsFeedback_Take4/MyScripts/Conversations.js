@@ -154,7 +154,7 @@ $(function () {
                 var user = id.split("-")[0];
 
                 $("#convOverlay").show();                
-                if (confirm("Are you sure you want to delete conversation from user " + user + " ?")) {
+                if (confirm($("#confirmDeleteConversation").val() + " \"" + user + "\" ?")) {
                     var target = document.getElementById('scrollableconversations');
                     deleteConvSpinner.spin(target);
                     $.getJSON('Messages/DeleteConversation',
