@@ -339,6 +339,7 @@
     <Content Include="Content\images\trash.png" />
     <Content Include="Content\images\trash16x16.png" />
     <Content Include="Content\images\trash18x18.png" />
+    <Content Include="Content\images\trash20x20.png" />
     <Content Include="Content\images\tw16x16.png" />
     <Content Include="Content\images\Uk_flag.png" />
     <Content Include="Content\images\Uk_flag_16.png" />

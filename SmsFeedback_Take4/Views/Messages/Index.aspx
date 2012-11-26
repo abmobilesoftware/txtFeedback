@@ -142,20 +142,20 @@
        %}
             <span class="timeReceived">{{ timeReceivedLocal }} </span>      
        {%
-            var encodedUrl = encodeURIComponent("http://www.txtfeedback.net");
+            var encodedUrl = encodeURIComponent("http://localhost:4631/ro-RO");
             var encodedText = encodeURIComponent(Text);
        %}
             <div class="msgButtons sendEmailButton">
-                <img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/em16x16.png") %>" />
+                <img title="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/em16x16.png") %>" />
             </div>
             <div class="msgButtons">
-               <a href="http://www.facebook.com/sharer.php?u={{ encodedUrl }}&t={{ encodedText }}" target="_blank"><img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/fb16x16.png") %>" /></a>
+               <a class="shareBtn" title="<%: Resources.Global.shareOnFacebook %>" href="http://www.facebook.com/sharer.php?u={{ encodedUrl }}&t={{ encodedText }}&via=txtfeedback" target="_blank"><img src="<%: Url.Content("~/Content/images/fb16x16.png") %>" /></a>
             </div>
             <div class="msgButtons">
-               <a href="http://twitter.com/share?text={{ encodedText }}" target="_blank"><img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/tw16x16.png") %>" /></a>
+               <a class="shareBtn" title="<%: Resources.Global.shareOnTwitter %>" href="http://twitter.com/share?text={{ encodedText }}&url={{ encodedUrl }}&via=txtfeedback" target="_blank"><img src="<%: Url.Content("~/Content/images/tw16x16.png") %>" /></a>
             </div>
             <div class="msgButtons">
-               <a href="http://www.linkedin.com/shareArticle?mini=true&url={{ encodedUrl }}&title={{ encodedText }}" target="_blank"><img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/in16x16.png") %>" /></a>
+               <a class="shareBtn" title="<%: Resources.Global.shareOnLinkedin %>" href="http://www.linkedin.com/shareArticle?mini=true&url={{ encodedUrl }}&title={{ encodedText }}&via=txtfeedback" target="_blank"><img src="<%: Url.Content("~/Content/images/in16x16.png") %>" /></a>
             </div> 
            <% if ((bool)ViewData["messageOrganizer"]) { %>
                <div class="msgButtons deleteMessage"> 
@@ -182,13 +182,13 @@
                <img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/mail.png") %>" />
             </div>
             <div class="actionButtons">
-               <a href="http://www.facebook.com/sharer.php?u={{ encodedUrl }}&t={{ encodedText }}" target="_blank"><img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/fb16x16.png") %>" /></a>
+               <a href="http://www.facebook.com/sharer.php?u={{ encodedUrl }}&t={{ encodedText }}" target="_blank"><img class="shareBtn" tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/fb16x16.png") %>" /></a>
             </div>
             <div class="actionButtons">
-               <a href="http://twitter.com/share?text={{ encodedText }}" target="_blank"><img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/tw16x16.png") %>" /></a>
+               <a href="http://twitter.com/share?text={{ encodedText }}" target="_blank"><img class="shareBtn" tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/tw16x16.png") %>" /></a>
             </div>
             <div class="actionButtons">
-               <a href="http://www.linkedin.com/shareArticle?mini=true&url={{ encodedUrl }}&title={{ encodedText }}" target="_blank"><img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/in16x16.png") %>" /></a>
+               <a href="http://www.linkedin.com/shareArticle?mini=true&url={{ encodedUrl }}&title={{ encodedText }}" target="_blank"><img class="shareBtn" tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/in16x16.png") %>" /></a>
             </div>         
             <div class="clear"></div>                       
        </div>               
@@ -308,7 +308,9 @@
          <input type="hidden" value="<%: Resources.Global.lblNoConversationSelected %>" id="noConversationSelectedMessage" />
          <input type="hidden" value="<%: Resources.Global.messagesAddTagPlaceHolder %>" id="messagesAddTagPlaceHolderMessage" />
          <input type="hidden" value="<%: Resources.Global.messagesRemoveTagPlaceHolder %>" id="messagesRemoveTagPlaceHolderMessage" />
-         <input type="hidden" value="<%: Resources.Global.filteringAddFilterTag %>" id="filteringAddFilterTagMessage" />         
+         <input type="hidden" value="<%: Resources.Global.filteringAddFilterTag %>" id="filteringAddFilterTagMessage" />     
+         <input type="hidden" value="<%: Resources.Global.confirmDeleteMessage %>" id="confirmDeleteMessage" />
+         <input type="hidden" value="<%: Resources.Global.confirmDeleteConversation %>" id="confirmDeleteConversation" />
       </div>
    </div>
 </asp:Content>

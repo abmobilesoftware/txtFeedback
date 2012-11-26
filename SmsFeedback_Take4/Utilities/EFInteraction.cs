@@ -163,11 +163,14 @@ namespace SmsFeedback_Take4.Utilities
 
         public string DeleteMessage(String messageText, String convId, DateTime receivedDate, smsfeedbackEntities dbContext)
         {
+            // disinfect input
+            messageText = messageText.Trim();
+            convId = convId.Trim();
             var conversations = from conv in dbContext.Conversations where conv.ConvId.Equals(convId) select conv;
             if (conversations.Count() > 0)                
             {
                 Conversation firstConversation = conversations.First();
-                var messages = from message in firstConversation.Messages where (Math.Abs(message.TimeReceived.Ticks - receivedDate.Ticks) < 10000000 && message.Text.Equals(messageText)) select message;
+                var messages = from message in firstConversation.Messages where (Math.Abs(message.TimeReceived.Ticks - receivedDate.Ticks) < 10000000 && message.Text.Trim().Equals(messageText)) select message;
                 if (messages.Count() > 0)
                 {
                     Message firstMessage = messages.First();
@@ -180,7 +183,7 @@ namespace SmsFeedback_Take4.Utilities
                     }
                     dbContext.Messages.DeleteObject(messages.First());
                     dbContext.SaveChanges();
-                    if ((firstMessage.TimeReceived.Ticks - firstConversation.TimeUpdated.Ticks) < 10000000 && firstConversation.Text.Equals(firstMessage.Text))
+                    if ((firstMessage.TimeReceived.Ticks - firstConversation.TimeUpdated.Ticks) < 10000000 && firstConversation.Text.Trim().Equals(firstMessage.Text.Trim()))
                     {
                         return "last message";
                     }
@@ -196,6 +199,8 @@ namespace SmsFeedback_Take4.Utilities
 
         public void DeleteConversation(String convId, smsfeedbackEntities dbContext)
         {
+            // desinfect input
+            convId = convId.Trim();
             var conversations = from conversation in dbContext.Conversations where conversation.ConvId == convId select conversation;
             if (conversations.Count() > 0)
             {
@@ -220,6 +225,8 @@ namespace SmsFeedback_Take4.Utilities
 
         public void UpdateConversationText(string convId, string newText, DateTime newTextDateReceived, smsfeedbackEntities dbContext)
         {
+            convId = convId.Trim();
+            newText = newText.Trim();
             var conversations = from conversation in dbContext.Conversations where conversation.ConvId.Equals(convId) select conversation;
             if (conversations.Count() > 0)
             {
