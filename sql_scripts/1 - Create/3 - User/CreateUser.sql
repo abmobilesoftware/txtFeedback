@@ -1,17 +1,17 @@
 SET XACT_ABORT ON
 BEGIN TRAN
-USE txtfeedback_production; -- choose db
+USE txtfeedback_nexmo; -- choose db
 
 -- Important fields
-DECLARE @RegularUserName varchar(30) = 'supportro';
-DECLARE @RegularPasswordSalt nvarchar(128) = 'JXB3h6gTnfA+fm2XQe64dw==';
-DECLARE @ReqularUserPassword nvarchar(128) = 'pyp6YKr66e3mxOpxt5ZixTlsjcI=';
-DECLARE @XmppUser varchar(30) = 'prod.supportro@txtfeedback.net';
-DECLARE @XmppPassword varchar(30) = 'fq,2&KPf,';
+DECLARE @RegularUserName varchar(30) = 'supporthu';
+DECLARE @RegularPasswordSalt nvarchar(128) = 'X3/MYyLHikQN6FkZk0TiuQ==';
+DECLARE @ReqularUserPassword nvarchar(128) = 'WOl0Z+S2CsLmFjI/kfPyl/PKb3U=';
+DECLARE @XmppUser varchar(30) = 'demo.supporthu@txtfeedback.net';
+DECLARE @XmppPassword varchar(30) = 'b*4LAsx{(';
 DECLARE @RegularUserEmail nvarchar(256) = 'no@email.com';
 
 -- Less used
-DECLARE @CompanyName nvarchar(50) = 'Active';
+DECLARE @CompanyName nvarchar(50) = 'AbMobileApps';
 DECLARE @GUID uniqueidentifier = NEWID();
 DECLARE @IsApproved bit = 1;
 DECLARE @IsLockedOut bit = 0;
