@@ -712,4 +712,19 @@
   <data name="tooltipDeleteConversation" xml:space="preserve">
     <value>Delete conversation RO</value>
   </data>
+  <data name="confirmDeleteConversation" xml:space="preserve">
+    <value>Sunteti sigur ca vreti sa stergeti conversatia initiata de utilizatorul </value>
+  </data>
+  <data name="confirmDeleteMessage" xml:space="preserve">
+    <value>Sunteti sigur ca vreti sa stergeti mesajul</value>
+  </data>
+  <data name="shareOnFacebook" xml:space="preserve">
+    <value>Distribuie pe Facebook</value>
+  </data>
+  <data name="shareOnLinkedin" xml:space="preserve">
+    <value>Distribuie pe Linkedin</value>
+  </data>
+  <data name="shareOnTwitter" xml:space="preserve">
+    <value>Distribuie pe Twitter</value>
+  </data>
 </root>

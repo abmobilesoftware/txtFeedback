@@ -812,4 +812,24 @@
     <value>Delete conversation</value>
     <comment>Conversation: delete a conversation tooltip</comment>
   </data>
+  <data name="confirmDeleteConversation" xml:space="preserve">
+    <value>Are you sure you want to delete the conversation with user</value>
+    <comment>Conversation: confirm delete conversation</comment>
+  </data>
+  <data name="confirmDeleteMessage" xml:space="preserve">
+    <value>Are you sure you want to delete message </value>
+    <comment>Conversation: confirm delete message</comment>
+  </data>
+  <data name="shareOnFacebook" xml:space="preserve">
+    <value>Share on Facebook</value>
+    <comment>Messages: share buttons</comment>
+  </data>
+  <data name="shareOnLinkedin" xml:space="preserve">
+    <value>Share on Linkedin</value>
+    <comment>Messages: share buttons</comment>
+  </data>
+  <data name="shareOnTwitter" xml:space="preserve">
+    <value>Share on Twitter</value>
+    <comment>Messages: share buttons</comment>
+  </data>
 </root>

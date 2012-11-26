@@ -88,6 +88,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the conversation with user.
+        /// </summary>
+        public static string confirmDeleteConversation {
+            get {
+                return ResourceManager.GetString("confirmDeleteConversation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete message .
+        /// </summary>
+        public static string confirmDeleteMessage {
+            get {
+                return ResourceManager.GetString("confirmDeleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date:.
         /// </summary>
         public static string dateLabel {
@@ -1605,6 +1623,33 @@ namespace Resources {
         public static string settingWpConfigSavedSuccessfuly {
             get {
                 return ResourceManager.GetString("settingWpConfigSavedSuccessfuly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Share on Facebook.
+        /// </summary>
+        public static string shareOnFacebook {
+            get {
+                return ResourceManager.GetString("shareOnFacebook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Share on Linkedin.
+        /// </summary>
+        public static string shareOnLinkedin {
+            get {
+                return ResourceManager.GetString("shareOnLinkedin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Share on Twitter.
+        /// </summary>
+        public static string shareOnTwitter {
+            get {
+                return ResourceManager.GetString("shareOnTwitter", resourceCulture);
             }
         }
         
