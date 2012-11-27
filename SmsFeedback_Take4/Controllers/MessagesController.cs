@@ -15,7 +15,7 @@ namespace SmsFeedback_Take4.Controllers
     public class MessagesController : BaseController
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
+        private const string cMessageOrganizer = "MessageOrganizer";
         private AggregateSmsRepository mSmsRepository;
         private AggregateSmsRepository SMSRepository
         {
@@ -31,6 +31,7 @@ namespace SmsFeedback_Take4.Controllers
         public ActionResult Index()
         {
             ViewData["currentCulture"] = getCurrentCulture();
+            ViewData["messageOrganizer"] = HttpContext.User.IsInRole(cMessageOrganizer);
             return View();
         }
 
@@ -315,6 +316,112 @@ namespace SmsFeedback_Take4.Controllers
             }
 
             return Json("Error", JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteMessage(String messageText, String convId, DateTime timeReceived)
+        {
+            if (convId == null)
+            {
+                logger.Error("no conversationId passed");
+                return Json(new Error(Constants.NO_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
+            }
+
+            if (convId.Equals(Constants.NULL_STRING))
+            {
+                logger.Error("Conversation Id was null");
+                return Json(new Error(Constants.NULL_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
+            }
+
+            try
+            {
+                if (HttpContext.User.IsInRole(cMessageOrganizer))
+                {
+                    smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+                    string queryResult = mEFInterface.DeleteMessage(messageText, convId, timeReceived.ToUniversalTime(), lContextPerRequest);
+                    if (queryResult.Equals("last message"))
+                    {
+                        return Json("lastMessage", JsonRequestBehavior.AllowGet);
+                    }
+                    else if (queryResult.Equals("normal message"))
+                    {
+                        return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);
+                    }
+                    
+                }
+                return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("DeleteMessage " + ex.Message);
+                return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult DeleteConversation(String convId)
+        {
+            if (convId == null)
+            {
+                logger.Error("No conversationId passed");
+                return Json(new Error(Constants.NO_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
+            }
+
+            if (convId.Equals(Constants.NULL_STRING))
+            {
+                logger.Error("Conversation Id was null");
+                return Json(new Error(Constants.NULL_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
+            }
+
+            try
+            {
+                if (HttpContext.User.IsInRole(cMessageOrganizer))
+                {
+                    smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+                    mEFInterface.DeleteConversation(convId, lContextPerRequest);
+                    return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
+                }
+                return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("DeleteConversation " + ex.Message);
+                return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult UpdateConversation(string convId, string newText, DateTime newTextReceivedDate)
+        {
+            DateTime newTextReceivedDateUTC = newTextReceivedDate.ToUniversalTime();
+             if (convId == null)
+            {
+                logger.Error("No conversationId passed");
+                return Json(new Error(Constants.NO_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
+            }
+
+            if (convId.Equals(Constants.NULL_STRING))
+            {
+                logger.Error("Conversation Id was null");
+                return Json(new Error(Constants.NULL_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
+            }
+
+            try
+            {
+                if (HttpContext.User.IsInRole(cMessageOrganizer))
+                {
+                    smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+                    mEFInterface.UpdateConversationText(convId, newText, newTextReceivedDateUTC, lContextPerRequest);
+                    return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
+                }
+                return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("UpdateConversation " + ex.Message);
+                return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

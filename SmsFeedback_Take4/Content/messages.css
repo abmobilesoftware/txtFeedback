@@ -58,22 +58,37 @@ span.timeReceived {
    font-style: italic;
    margin-bottom: 3px;
    margin-right: 3px;
-   margin-top: 10px;
+   margin-top: 6px;
 }
 
 /*for toMessages we display the menu at their left*/
 .messageto div.extramenu {
-   left: -30px;
+   left: -60px;
    top: 0px;
-   bottom: 5px;
+   bottom: 14px;
 }
 
 /*for fromMessages we display the menu at their right*/
 .messagefrom div.extramenu {
-   right: -30px;
+   right: -60px;
    top: 0px;
-   bottom: 5px;
+   bottom: 14px;
 }
+
+/*for toMessages we display the menu at their left*/
+.messageto div.extramenuExtended {
+   left: -89px;
+   top: 0px;
+   bottom: 14px;
+}
+
+/*for fromMessages we display the menu at their right*/
+.messagefrom div.extramenuExtended {
+   right: -89px;
+   top: 0px;
+   bottom: 14px;
+}
+
 .messagefrom::after {
    content:"";
 	position:absolute;
@@ -87,7 +102,7 @@ span.timeReceived {
    width:0;
 }
 
-div.extramenu {
+div.extramenu, div.extramenuExtended {
    /*width:  50%;*/
    float: left;
    z-index: 1;
@@ -157,8 +172,12 @@ div.actionButtons {
 }
 
 #messagesbox span {   
-   font-size:  15px;
+   font-size:  14px;
    line-height: 1.3em;   
+}
+
+#messagesbox span.textMessageContent {
+    font-size: 17px;
 }
 
 #noConversationsLoaded {
@@ -396,4 +415,34 @@ input[name="countdown"] {
    border-color: transparent transparent transparent #f7941d; /*border color should be same as div div background color*/
    border-style: solid;
    border-width: 6px;
+}
+
+.msgButtons {
+    float: left;
+    margin-left: 4px;
+    position: relative;
+    top: 6px;    
+}
+
+#messagesbox div.deleteMessage {
+    position:relative;
+    top:3px;
+}
+
+.msgButtons img {
+    opacity:0.3;
+    filter:alpha(opacity=20); /* For IE8 and earlier */
+}
+
+.msgButtons img:hover {
+    opacity:1;
+    filter:alpha(opacity=100); /* For IE8 and earlier */
+}
+
+.msgButtons {
+    opacity: 1;
+}
+
+div.messageMenu {
+    visibility: hidden;
 }

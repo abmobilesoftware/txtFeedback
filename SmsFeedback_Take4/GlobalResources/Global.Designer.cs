@@ -88,6 +88,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the conversation with user.
+        /// </summary>
+        public static string confirmDeleteConversation {
+            get {
+                return ResourceManager.GetString("confirmDeleteConversation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete message .
+        /// </summary>
+        public static string confirmDeleteMessage {
+            get {
+                return ResourceManager.GetString("confirmDeleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date:.
         /// </summary>
         public static string dateLabel {
@@ -489,6 +507,15 @@ namespace Resources {
         public static string RepDay {
             get {
                 return ResourceManager.GetString("RepDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export to Excel.
+        /// </summary>
+        public static string RepExportToExcel {
+            get {
+                return ResourceManager.GetString("RepExportToExcel", resourceCulture);
             }
         }
         
@@ -1600,6 +1627,42 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Share on Facebook.
+        /// </summary>
+        public static string shareOnFacebook {
+            get {
+                return ResourceManager.GetString("shareOnFacebook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Share on Linkedin.
+        /// </summary>
+        public static string shareOnLinkedin {
+            get {
+                return ResourceManager.GetString("shareOnLinkedin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Feedback received via Txtfeedback.
+        /// </summary>
+        public static string shareOnLinkedinTitle {
+            get {
+                return ResourceManager.GetString("shareOnLinkedinTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Share on Twitter.
+        /// </summary>
+        public static string shareOnTwitter {
+            get {
+                return ResourceManager.GetString("shareOnTwitter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Favorites.
         /// </summary>
         public static string starredLabel {
@@ -1695,6 +1758,15 @@ namespace Resources {
         public static string toDate {
             get {
                 return ResourceManager.GetString("toDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete conversation.
+        /// </summary>
+        public static string tooltipDeleteConversation {
+            get {
+                return ResourceManager.GetString("tooltipDeleteConversation", resourceCulture);
             }
         }
         

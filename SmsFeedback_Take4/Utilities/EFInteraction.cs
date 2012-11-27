@@ -161,6 +161,82 @@ namespace SmsFeedback_Take4.Utilities
 
         }
 
+        public string DeleteMessage(String messageText, String convId, DateTime receivedDate, smsfeedbackEntities dbContext)
+        {
+            // disinfect input
+            messageText = messageText.Trim();
+            convId = convId.Trim();
+            var conversations = from conv in dbContext.Conversations where conv.ConvId.Equals(convId) select conv;
+            if (conversations.Count() > 0)                
+            {
+                Conversation firstConversation = conversations.First();
+                var messages = from message in firstConversation.Messages where (Math.Abs(message.TimeReceived.Ticks - receivedDate.Ticks) < 10000000 && message.Text.Trim().Equals(messageText)) select message;
+                if (messages.Count() > 0)
+                {
+                    Message firstMessage = messages.First();
+                    
+                    List<ConversationHistory> events = (from convEvent in dbContext.ConversationHistories where convEvent.MessageId == firstMessage.Id select convEvent).ToList();
+                    foreach (var singleEvent in events)
+                    {
+                        dbContext.ConversationHistories.DeleteObject(singleEvent);
+                        dbContext.SaveChanges();
+                    }
+                    dbContext.Messages.DeleteObject(messages.First());
+                    dbContext.SaveChanges();
+                    if ((firstMessage.TimeReceived.Ticks - firstConversation.TimeUpdated.Ticks) < 10000000 && firstConversation.Text.Trim().Equals(firstMessage.Text.Trim()))
+                    {
+                        return "last message";
+                    }
+                    else
+                    {
+                        return "normal message";
+                    }
+                }
+                return "not executed";
+            }
+            return "not executed";
+        }
+
+        public void DeleteConversation(String convId, smsfeedbackEntities dbContext)
+        {
+            // desinfect input
+            convId = convId.Trim();
+            var conversations = from conversation in dbContext.Conversations where conversation.ConvId == convId select conversation;
+            if (conversations.Count() > 0)
+            {
+                var conversation = conversations.First();
+                List<ConversationTag> tagsForConversation = (from tag in conversation.ConversationTags select tag).ToList();
+                foreach (var tag in tagsForConversation)
+                {
+                    dbContext.ConversationTags.DeleteObject(tag);
+                    dbContext.SaveChanges();
+                }
+
+                List<Message> messagesForConversation = (from msg in conversation.Messages select msg).ToList();
+                foreach (var message in messagesForConversation)
+                {
+                    DeleteMessage(message.Text, message.ConversationId, message.TimeReceived, dbContext); 
+                }
+
+                dbContext.Conversations.DeleteObject(conversation);
+                dbContext.SaveChanges();
+            }            
+        }
+
+        public void UpdateConversationText(string convId, string newText, DateTime newTextDateReceived, smsfeedbackEntities dbContext)
+        {
+            convId = convId.Trim();
+            newText = newText.Trim();
+            var conversations = from conversation in dbContext.Conversations where conversation.ConvId.Equals(convId) select conversation;
+            if (conversations.Count() > 0)
+            {
+                Conversation conversation = conversations.First();
+                conversation.Text = newText;
+                conversation.TimeUpdated = newTextDateReceived;
+                dbContext.SaveChanges();
+            }
+        }
+
         private void addEventInConversationHistory(string iConversationId, int iSequence, string iEventTypeName, DateTime iEventDate, int iMessageId, smsfeedbackEntities dbContext)
         {
             var conversationEvent = new ConversationHistory()

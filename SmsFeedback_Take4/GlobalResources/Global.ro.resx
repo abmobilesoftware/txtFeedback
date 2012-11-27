@@ -706,4 +706,28 @@
   <data name="settingsWpWelcomeMessageHeaderTooltip" xml:space="preserve">
     <value>Mesajul de întâmpinare de pe site-ul pentru mobile</value>
   </data>
+  <data name="RepExportToExcel" xml:space="preserve">
+    <value>Export catre Excel</value>
+  </data>
+  <data name="tooltipDeleteConversation" xml:space="preserve">
+    <value>Șterge conversația</value>
+  </data>
+  <data name="confirmDeleteConversation" xml:space="preserve">
+    <value>Sunteti sigur ca vreti sa stergeti conversatia initiata de utilizatorul </value>
+  </data>
+  <data name="confirmDeleteMessage" xml:space="preserve">
+    <value>Sunteti sigur ca vreti sa stergeti mesajul</value>
+  </data>
+  <data name="shareOnFacebook" xml:space="preserve">
+    <value>Distribuie pe Facebook</value>
+  </data>
+  <data name="shareOnLinkedin" xml:space="preserve">
+    <value>Distribuie pe Linkedin</value>
+  </data>
+  <data name="shareOnTwitter" xml:space="preserve">
+    <value>Distribuie pe Twitter</value>
+  </data>
+  <data name="shareOnLinkedinTitle" xml:space="preserve">
+    <value>Acest feedback a fost primit prin Txtfeedback</value>
+  </data>
 </root>

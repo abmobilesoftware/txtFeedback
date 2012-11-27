@@ -706,4 +706,28 @@
   <data name="settingsWpWelcomeMessageHeaderTooltip" xml:space="preserve">
     <value>The greeting message on the mobile website</value>
   </data>
+  <data name="RepExportToExcel" xml:space="preserve">
+    <value>Export to Excel</value>
+  </data>
+  <data name="tooltipDeleteConversation" xml:space="preserve">
+    <value>Delete conversation DE</value>
+  </data>
+  <data name="confirmDeleteConversation" xml:space="preserve">
+    <value>Are you sure you want to delete the conversation with user</value>
+  </data>
+  <data name="confirmDeleteMessage" xml:space="preserve">
+    <value>Are you sure you want to delete message</value>
+  </data>
+  <data name="shareOnFacebook" xml:space="preserve">
+    <value>Share on Facebook</value>
+  </data>
+  <data name="shareOnLinkedin" xml:space="preserve">
+    <value>Share on Linkedin</value>
+  </data>
+  <data name="shareOnTwitter" xml:space="preserve">
+    <value>Share on Twitter</value>
+  </data>
+  <data name="shareOnLinkedinTitle" xml:space="preserve">
+    <value>Feedback received via Txtfeedback</value>
+  </data>
 </root>

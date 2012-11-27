@@ -853,13 +853,13 @@
           </Property>
           <NavigationProperty Name="XmppConnection" Relationship="smsfeedbackModel.MessageXmppConnection" FromRole="Message" ToRole="XmppConnection" />
           <Property Type="String" Name="XmppConnectionXmppUser" Nullable="true" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ExternalID" Nullable="true" MaxLength="60" >
+          <Property Type="String" Name="ExternalID" Nullable="true" MaxLength="60" Unicode="true">
             <Documentation>
               <Summary>MessageID used by external provider</Summary>
               <LongDescription>Useful for retrieving this message from the external provider's logs</LongDescription>
             </Documentation>
           </Property>
-          <Property Type="String" Name="Price" Nullable="true" MaxLength="100" >
+          <Property Type="String" Name="Price" Nullable="true" MaxLength="100" Unicode="true">
             <Documentation>
               <Summary>Price of this message</Summary>
             </Documentation>

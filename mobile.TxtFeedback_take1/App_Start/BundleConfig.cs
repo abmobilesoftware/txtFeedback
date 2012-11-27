@@ -49,7 +49,7 @@ namespace mobile.TxtFeedback_take1
                   "~/Content/messages.css",
                   "~/Content/jquery.ui.datepicker.mobile.css"));         
 
-         bundles.Add(new StyleBundle("~/Content/mobilecss").Include("~/Content/jquery.mobile-1.2*"));                  
+         bundles.Add(new StyleBundle("~/Content/mobilecss_m").Include("~/Content/jquery.mobile-1.2*"));                  
 
          bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                      "~/Content/themes/try1.css",

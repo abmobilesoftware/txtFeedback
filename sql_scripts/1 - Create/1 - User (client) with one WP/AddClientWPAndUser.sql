@@ -1,30 +1,35 @@
 SET XACT_ABORT ON
 BEGIN TRAN
-USE txtfeedback_nexmo -- choose db
+USE txtfeedback_production -- choose db 
+-- Script for Canada
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = '2220000101';
-DECLARE @WP_ShortID nvarchar(10) = 'esport';
-DECLARE @WP_Name nvarchar(40) = 'Echipament sportiv';
-DECLARE @Client_Description nvarchar(160) = 'Echipament de sport';
+DECLARE @Client_TelNumber nvarchar(50) = '61477751378';
+DECLARE @WP_ShortID nvarchar(10) = 'ccpr';
+DECLARE @WP_Name nvarchar(40) = 'Coffee Club Park Road';
+DECLARE @Client_Description nvarchar(160) = 'Coffee Club Park Road';
+DECLARE @WP_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to Coffee Club Toowong!';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'Sport'; -- details in less used section
+DECLARE @U_CompanyName nvarchar(50) = 'Coffee Club'; -- details in less used section
 
 -- Subscription
 DECLARE @C_Subscription_Type nvarchar(50) = 'Free'; -- details in less used section
 
 -- Support working point
-DECLARE @WP_Support_TelNumber nvarchar(50) = '2220000111';
-DECLARE @WP_Support_ShortID nvarchar(10) = 'supportro';
-DECLARE @WP_Support_Name nvarchar(40) = 'RO Support';
-DECLARE @WP_Support_Description nvarchar(120)= 'Support for Romania';
+DECLARE @WP_Support_TelNumber nvarchar(50) = '12898437378';
+DECLARE @WP_Support_ShortID nvarchar(10) = 'supportca';
+DECLARE @WP_Support_Name nvarchar(40) = 'CA support';
+DECLARE @WP_Support_Description nvarchar(120)= 'Support for Canada!';
+DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
+DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback!';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'esport';
-DECLARE @U_ReqularUserPassword nvarchar(128) = '9s68AWFx3Z9BnqdOfB0ijjnenbQ=';
-DECLARE @U_RegularPasswordSalt nvarchar(128) = 'NrTytuBTripu4wUM09//Rg==';
-DECLARE @U_XmppUser varchar(30) = 'esport@txtfeedback.net';
+DECLARE @U_RegularUserName varchar(30) = 'staff.coffeeClubPR';
+DECLARE @U_ReqularUserPassword nvarchar(128) = '9/bsBgt7T/Te9o/lU/d1EMUiuo0=';
+DECLARE @U_RegularPasswordSalt nvarchar(128) = 'nK289YAG0WLWys5tS0P2AA==';
+DECLARE @U_XmppUser varchar(30) = 'coffeeclubpr@txtfeedback.net';
 DECLARE @U_XmppPassword varchar(30) = '123456';
 DECLARE @U_RegularUserEmail nvarchar(256) = 'esport@mail.com';
 -- END Important fields
@@ -35,11 +40,9 @@ DECLARE @WP_SmsSent int = 0;
 DECLARE @WP_MaxNrOfSmsToSend int = 200;
 DECLARE @WP_Description_Additional_Text nvarchar(120) = ' WP';
 DECLARE @WP_Description nvarchar(160) = @WP_Name + @WP_Description_Additional_Text;
-DECLARE @WP_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
 DECLARE @WP_BusyMessage nvarchar(160) = 'Busy';
 DECLARE @WP_OutsideOfficeHoursMessage nvarchar(160) = 'Outside of office hours';
 -- Welcome message
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Bine ati venit!';
 DECLARE @WP_TimeReceived datetime = GETUTCDATE();
 DECLARE @WP_Read bit = 0;
 DECLARE @WP_ConvIdSupportToWP nvarchar(50);
@@ -49,8 +52,6 @@ DECLARE @WP_Starred bit = 1;
 DECLARE @WP_Support_Provider nvarchar(50) = 'nexmo';
 DECLARE @WP_Support_SentSms int = 0;
 DECLARE @WP_Support_MaxNrOfSms int = 200;
-DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback!';
-DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
 DECLARE @WP_Support_BusyMessage nvarchar(160) = 'Busy';
 DECLARE @WP_Support_OutsideOfficeHoursMessage nvarchar(160) = 'Outside of office hours';
 -- Company
@@ -127,7 +128,7 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@Client_TelNumber, @WP_Description, @WP_Name, 
 		@WP_Provider, @WP_SmsSent, @WP_MaxNrOfSmsToSend, @WP_ShortID, 
 		@WP_XmppSuffix, @WP_WelcomeMessage, @WP_BusyMessage,
-		@WP_OutsideOfficeHoursMessage, @WP_Language_RO);
+		@WP_OutsideOfficeHoursMessage, @WP_Language_US);
 		
 IF (SELECT COUNT(*) FROM [dbo].[WorkingPoints] WHERE [dbo].[WorkingPoints].[TelNumber] = @WP_Support_TelNumber) = 0 
 INSERT INTO WorkingPoints(TelNumber, Description, Name, 
@@ -136,13 +137,13 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@WP_Support_TelNumber, @WP_Support_Description, @WP_Support_Name, 
 		@WP_Support_Provider, @WP_Support_SentSms, @WP_Support_MaxNrOfSms, @WP_Support_ShortID, 
 		@WP_Support_XmppSuffix, @WP_Support_WelcomeMessage, @WP_Support_BusyMessage,
-		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_RO);
+		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_US);
 
 -- Welcome conversation Support - WP. 
 INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
 		[From], Starred, StartTime, WorkingPoint_TelNumber, 
 		Client_TelNumber, IsSmsBased) VALUES (@WP_ConvIdSupportToWP, @WP_WelcomeMessage,
-		@WP_Read, @WP_TimeReceived, @WP_Support_TelNumber, @WP_Starred, @WP_TimeReceived, 
+		@WP_Read, @WP_TimeReceived, @WP_Support_ShortID, @WP_Starred, @WP_TimeReceived, 
 		@Client_TelNumber, @WP_Support_ShortID, @isSmsBased_IM);
 		
 INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId, XmppConnectionXmppUser)
@@ -155,7 +156,7 @@ UPDATE WorkingPoints SET SupportConversation = @WP_ConvIdSupportToWP WHERE TelNu
 INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
 		[From], Starred, StartTime, WorkingPoint_TelNumber, 
 		Client_TelNumber, IsSmsBased) VALUES (@WP_ConvIdWPToSupport, @WP_WelcomeMessage,
-		@WP_Read, @WP_TimeReceived, @WP_Support_TelNumber, @WP_Starred, @WP_TimeReceived, 
+		@WP_Read, @WP_TimeReceived, @WP_ShortID, @WP_Starred, @WP_TimeReceived, 
 		@WP_Support_TelNumber, @WP_ShortID, @isSmsBased_IM);
 		
 INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId, XmppConnectionXmppUser)

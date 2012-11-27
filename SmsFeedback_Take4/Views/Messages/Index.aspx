@@ -38,10 +38,8 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/tags.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/jquery.tagsinput.css") %>" />    
    
-
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="application/javascript" ></script>
-   
-   
+     
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.tagsinput.js") %>" type="application/javascript"></script>
    
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-de.js") %>" type="application/javascript"></script>
@@ -112,7 +110,13 @@
                 <div class="spanClassText rightSideMembers">
                     <span>{{ Text }}</span>
                 </div>
-                <div class="conversationStarIcon">
+                <% if ((bool)ViewData["messageOrganizer"]) { %>
+                    <div class="deleteConv ignoreElementOnSelection">
+                        <img tooltiptitle="<%: Resources.Global.tooltipDeleteConversation %>" src="<%: Url.Content("~/Content/images/trash.png") %>" class="deleteConvImg" />
+                    </div>
+                <% } %>
+       
+                <div class="conversationStarIcon ignoreElementOnSelection">
                     {% if (Starred) { %}
                             <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected_orange.svg") %>" class="conversationStarIconImg" />
                     {% } else { %}
@@ -124,7 +128,7 @@
    </script>
    <script type="text/template" id="message-template">
       <div class="textMessage">
-         <span>{{ Text }} </span> 
+         <span class="textMessageContent">{{ Text }} </span> 
          <div class="clear"></div>
          {% 
             var dateComponents = TimeReceived.toString().split(" ");
@@ -136,18 +140,49 @@
                                                              monthNamesShort: $.datepicker.regional[window.app.calendarCulture].monthNamesShort, monthNames: $.datepicker.regional[window.app.calendarCulture].monthNames}); 
             var timeReceivedLocal = timeReceivedLocal + " " + time;
        %}
-       <span class="timeReceived">{{ timeReceivedLocal }} </span>
+            <input type="hidden" value="<%: Resources.Global.shareOnLinkedinTitle %>" id="linkedInTitle"/>
+            <span class="timeReceived">{{ timeReceivedLocal }} </span>      
+       {%
+            var encodedImgUrl = encodeURIComponent("http://txtfeedback.net/wp-content/uploads/2012/07/txtfeedback_logo_small.png");
+            var encodedUrl = encodeURIComponent("http://localhost:4631/ro-RO");
+            var encodedTxtUrl = encodeURIComponent("http://www.txtfeedback.net");
+            var encodedTextWithQuotationMarks = encodeURIComponent("\"" + Text + "\"");
+            var encodedText = encodeURIComponent(Text);
+            var encodedTitle = encodeURIComponent($("#linkedInTitle").val());
+       %}
+            <div class="messageMenu">
+                
+            
+                <div class="msgButtons sendEmailButton">
+                    <img title="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/em16x16.png") %>" />
+                </div>
+                <div class="msgButtons">
+                   <a class="shareBtn" title="<%: Resources.Global.shareOnFacebook %>" href="http://www.facebook.com/sharer/sharer.php?s=100&p[title]={{ encodedTitle }}&p[url]={{ encodedTxtUrl }}&p[images][0]={{ encodedImgUrl }}&p[summary]={{ encodedText }}" target="_blank"><img src="<%: Url.Content("~/Content/images/fb16x16.png") %>" /></a>
+                </div>
+                <div class="msgButtons">
+                   <a class="shareBtn" title="<%: Resources.Global.shareOnTwitter %>" href="http://twitter.com/share?text={{ encodedTextWithQuotationMarks }}&url={{ encodedUrl }}&via=txtfeedback" target="_blank"><img src="<%: Url.Content("~/Content/images/tw16x16.png") %>" /></a>
+                </div>
+                <div class="msgButtons">
+                   <a class="shareBtn" title="<%: Resources.Global.shareOnLinkedin %>" href="http://www.linkedin.com/shareArticle?mini=true&url={{ encodedUrl }}&title={{ encodedTitle }}&summary={{ encodedText }}" target="_blank"><img src="<%: Url.Content("~/Content/images/in16x16.png") %>" /></a>
+                </div> 
+               <% if ((bool)ViewData["messageOrganizer"]) { %>
+                   <div class="msgButtons deleteMessage"> 
+                         <img title="Delete message" src="<%: Url.Content("~/Content/images/trash20x20.png") %>" />    
+                   </div>     
+               <% } %>
+            </div>
+            
       </div>
       
       <div class="clear"></div>
-      <div class="extramenu" hoverID="{{ Id }}">
+      <div <% if ((bool)ViewData["messageOrganizer"]) { %> class="extramenuExtended" <% } else { %> class="extramenu" <% } %> hoverID="{{ Id }}">
        <div class="extraMenuWrapper"></div>  
        <div class="innerExtraMenu">
             <div class="actionButtons sendEmailButton">
                <img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/mail.png") %>" />
-            </div>
-         <div class="clear"></div>                       
-         </div>               
+            </div>            
+            <div class="clear"></div>                       
+       </div>               
         
       </div>        
    </script>
@@ -223,6 +258,7 @@
             <%: Resources.Global.loadMoreConversations %>
          </div>
       </div>
+       <div id="convOverlay"></div> 
    </div>
    <div id="messagesArea" class="grid_6">
       <div id="scrollablemessagebox" class="messagesboxcontainerclass scrollablebox">
@@ -263,7 +299,9 @@
          <input type="hidden" value="<%: Resources.Global.lblNoConversationSelected %>" id="noConversationSelectedMessage" />
          <input type="hidden" value="<%: Resources.Global.messagesAddTagPlaceHolder %>" id="messagesAddTagPlaceHolderMessage" />
          <input type="hidden" value="<%: Resources.Global.messagesRemoveTagPlaceHolder %>" id="messagesRemoveTagPlaceHolderMessage" />
-         <input type="hidden" value="<%: Resources.Global.filteringAddFilterTag %>" id="filteringAddFilterTagMessage" />         
+         <input type="hidden" value="<%: Resources.Global.filteringAddFilterTag %>" id="filteringAddFilterTagMessage" />     
+         <input type="hidden" value="<%: Resources.Global.confirmDeleteMessage %>" id="confirmDeleteMessage" />
+         <input type="hidden" value="<%: Resources.Global.confirmDeleteConversation %>" id="confirmDeleteConversation" />
       </div>
    </div>
 </asp:Content>
