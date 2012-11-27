@@ -358,7 +358,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             $(".extraMenuWrapper", this.$el).addClass(extraMenuWrapperSide);
 
             var sendEmail = $("div.sendEmailButton img", this.$el);
-            setTooltipOnElement(sendEmail, sendEmail.attr('tooltiptitle'),'dark');
+            //setTooltipOnElement(sendEmail, sendEmail.attr('tooltiptitle'),'dark');
             return this;
         },
         updateView: function () {           
@@ -498,26 +498,20 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             var item = msgView.render().el;
             $(this.el).append(item);
             $(item).hover(function () {
-                /*var helperDiv = $(this).find("div.extramenu")[0];
-                if (helperDiv == null) {
-                    helperDiv = $(this).find("div.extramenuExtended")[0];
-                }*/
+                var helperDiv = $(this).find("div.messageMenu")[0];
                 //make sure to bind the buttons
-                // $(helperDiv).css("visibility", "visible");
+                $(helperDiv).css("visibility", "visible");
                 
                 if (window.app.calendarCulture == "ro") gDateDisplayPattern = 'DD, d MM, yy';
                 gSelectedMessage = $($(this).find("div span")[0]).html();
                 var extractedDateAndTime = $($(this).find(".timeReceived")[0]).html();
                 gDateOfSelectedMessage = convertDateTimeStringToObject(extractedDateAndTime);
                 gSelectedMessageItem = $(this);
-                //$(helperDiv).fadeIn(400);
-                //$(helperDiv).show();
+                $(helperDiv).fadeIn(100);
+                $(helperDiv).show();
                 //ContactWindow.init();
             }, function () {
-                var helperDiv = $(this).find("div.extramenu")[0];
-                if (helperDiv == null) {
-                    helperDiv = $(this).find("div.extramenuExtended")[0];
-                }
+                var helperDiv = $(this).find("div.messageMenu")[0];
                 //$(helperDiv).fadeOut("fast");
                 $(helperDiv).hide();
             });
@@ -536,14 +530,14 @@ function MessagesArea(convView, tagsArea, wpsArea) {
     // The attachment of the handler for this type of event is done only once
     $('div.deleteMessage').live("click", function (e) {
         e.preventDefault();
-        var textToDisplay = gSelectedMessage;
+        var textToDisplay = gSelectedMessage.trim();
         var conversationId = gSelectedConversationID;
         var timeReceived = gDateOfSelectedMessage;
         var itemToBeDeleted = gSelectedMessageItem;
         if (confirm($("#confirmDeleteMessage").val() + " \""  + textToDisplay + "\" ?")) {
             $.ajax({
                 url: "Messages/DeleteMessage",
-                data: { 'messageText': textToDisplay.trim(), 'convId': conversationId, 'timeReceived': timeReceived.toUTCString() },
+                data: { 'messageText': textToDisplay, 'convId': conversationId, 'timeReceived': timeReceived.toUTCString() },
                 success: function (data) {
                     // TODO: Reload messages list for this conversation.
                     if (data == "success") {
@@ -554,12 +548,12 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                         deleteMessage(itemToBeDeleted, textToDisplay, timeReceived, conversationId);
                         // it's not the last message
                         if (previousItem.length != 0) {
-                            var lastMessage = $($(previousItem).find(".textMessage").find("span")).html();
+                            var lastMessage = $($(previousItem).find(".textMessage").find("span")).html().trim();
                             var lastMessageDate = convertDateTimeStringToObject($($(previousItem).find(".timeReceived")[0]).html());
                             // update the conversation
                             $.ajax({
                                 url: "Messages/UpdateConversation",
-                                data: { 'convId': conversationId, 'newText': lastMessage.trim(), 'newTextReceivedDate': lastMessageDate.toUTCString() },
+                                data: { 'convId': conversationId, 'newText': lastMessage, 'newTextReceivedDate': lastMessageDate.toUTCString() },
                                 success: function (data) {
                                     $(gSelectedElement).find(".spanClassText").find("span").html(lastMessage);
                                 }
@@ -578,7 +572,7 @@ function deleteMessage(element, messageText, timeReceived, convId) {
     for (i = 0; i < window.app.globalMessagesRep[convId].models.length; ++i) {
         var currentModel = window.app.globalMessagesRep[convId].models[i];
         var timeDifference = timeReceived.getTime() - currentModel.attributes.TimeReceived.getTime();
-        if (currentModel.attributes.Text == messageText.trim() && Math.abs(timeDifference) < 100 && currentModel.attributes.ConvID == convId) {
+        if (currentModel.attributes.Text.trim() == messageText && Math.abs(timeDifference) < 100 && currentModel.attributes.ConvID == convId) {
             messagePosition = i;
         }
     }

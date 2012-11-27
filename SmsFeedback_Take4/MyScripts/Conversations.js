@@ -75,17 +75,6 @@ $(function () {
         escape: /\{%-([\s\S]+?)%\}/g
     }; // excape HTML: {%- <script> %} prints &lt
 
-    $(".deleteConvImg").qtip({
-        content: $(".deleteConvImg").attr('tooltiptitle'),
-        position: {
-            corner: {
-                target: 'leftMiddle',
-                tooltip: 'rightMiddle'
-            }
-        },
-        style: 'dark'
-    });
-
     $("#convOverlay").hide();
     var opts = {
         lines: 13, // The number of lines to draw
@@ -132,8 +121,9 @@ $(function () {
             this.$el.addClass(convNormalSupport);
             $(this.el).attr("conversationId", this.model.attributes.ConvID);
             var markAsFavImg = $(".conversationStarIcon img", this.$el);
-            setTooltipOnElement(markAsFavImg,markAsFavImg.attr('tooltiptitle'), 'dark');            
-
+            setTooltipOnElement(markAsFavImg, markAsFavImg.attr('tooltiptitle'), 'dark');            
+            var deleteConvImg = $(".deleteConv img", this.$el);
+            setTooltipOnElement(deleteConvImg, deleteConvImg.attr('tooltiptitle'), 'dark');
             //#region Click on Mark as Favorite
             $(".conversationStarIconImg", this.$el).bind("click", function (e) {
                 e.preventDefault();                               

@@ -58,7 +58,7 @@ span.timeReceived {
    font-style: italic;
    margin-bottom: 3px;
    margin-right: 3px;
-   margin-top: 15px;
+   margin-top: 6px;
 }
 
 /*for toMessages we display the menu at their left*/
@@ -421,12 +421,12 @@ input[name="countdown"] {
     float: left;
     margin-left: 4px;
     position: relative;
-    top: 14px;    
+    top: 6px;    
 }
 
 #messagesbox div.deleteMessage {
     position:relative;
-    top:11px;
+    top:3px;
 }
 
 .msgButtons img {
@@ -441,4 +441,8 @@ input[name="countdown"] {
 
 .msgButtons {
     opacity: 1;
+}
+
+div.messageMenu {
+    visibility: hidden;
 }
