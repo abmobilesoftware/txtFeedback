@@ -671,7 +671,7 @@ namespace SmsFeedback_Take4.Utilities
                addMessageResult = AddMessage(from, to, conversationId, text, readStatus, updateTime,dir, prevConvFrom, prevConvUpdateTime, isSmsBased, XmppUser, price, externalID, dbContext);
             }
            //we added the message - now if SMS based, mark this 
-            if (addMessageResult.Equals(JsonReturnMessages.OP_SUCCESSFUL) && isSmsBased) {
+            if (addMessageResult.Equals(JsonReturnMessages.OP_SUCCESSFUL) && isSmsBased && (direction == Constants.DIRECTION_OUT)) {
                IncrementNumberOfSentSms(from, dbContext); }
             return addMessageResult;
         }
