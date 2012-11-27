@@ -54,6 +54,7 @@ public class MessageProcessor {
 		try {
 			String[] fromTo = internalPacket.getConversationId().split("-");
 			if (!Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()).equals(fromTo[1])) {
+				//this is the case when we have staff site to staff site communication
 				StringBuilder reversedConvIdSb = new StringBuilder();
 				reversedConvIdSb.append(fromTo[1]);
 				reversedConvIdSb.append("-");
@@ -131,9 +132,14 @@ public class MessageProcessor {
 	
 	private void sendSmsMessageToStaff(Message iPacket, TxtPacket internalPacket) {
 		final Message receivedPacket = iPacket;
-		try {
-			//restGtw.saveMessage(internalPacket.getFromAddress(), internalPacket.getToAddress(), internalPacket.getConversationId(), internalPacket.getBody(), iPacket.getFrom().toBareJID(), true);
-			//String WPTelNumber = getWPForThisAddress(internalPacket.getToAddress());
+		try {				
+			restGtw.saveMessage(
+						internalPacket.getFromAddress(), 
+						internalPacket.getToAddress(), 
+						internalPacket.getConversationId(),
+						internalPacket.getBody(), 
+						iPacket.getFrom().toBareJID(),
+						true);							
 			ArrayList<Agent> handlers = restGtw.getHandlersForMessage(Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()), internalPacket.getConversationId(), true);
 			for (int i=0; i<handlers.size(); ++i) {
 				String from = internalPacket.getFromAddress();

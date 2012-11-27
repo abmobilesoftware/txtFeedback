@@ -353,10 +353,27 @@ namespace SmsFeedback_Take4.Utilities
             logger.ErrorFormat("No conversation with id {0} found", convID);
             return null;
         }
-
+       /// <summary>
+       /// Adds a message in the db - if outgoing computes response time
+       /// </summary>
+       /// <param name="from"></param>
+       /// <param name="to"></param>
+       /// <param name="conversationId"></param>
+       /// <param name="text"></param>
+       /// <param name="readStatus"></param>
+       /// <param name="updateTime"></param>
+        /// <param name="direction"></param>
+       /// <param name="prevConvFrom"></param>
+       /// <param name="prevConvUpdateTime"></param>
+       /// <param name="isSmsBased"></param>
+       /// <param name="XmppUser"></param>
+       /// <param name="price"></param>
+       /// <param name="externalID"></param>
+       /// <param name="dbContext"></param>
+       /// <returns></returns>
         public String AddMessage(
            String from, String to, String conversationId, String text,
-           Boolean readStatus, DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime,
+           Boolean readStatus, DateTime updateTime, ConversationUtilities.Direction direction, String prevConvFrom, DateTime prevConvUpdateTime,
            bool isSmsBased, String XmppUser, String price, String externalID,
            smsfeedbackEntities dbContext)
         {
@@ -384,9 +401,14 @@ namespace SmsFeedback_Take4.Utilities
             }
 
             long? responseTime = null;
-            if (ConversationUtilities.GetDirectionForMessage(prevConvFrom, conversationId) == ConversationUtilities.Direction.from)
+            if (direction == ConversationUtilities.Direction.to)
             {
-                responseTime = updateTime.Subtract(prevConvUpdateTime).Ticks;
+               //only compute for outgoing messages
+               if (ConversationUtilities.GetDirectionForMessage(prevConvFrom, conversationId) == ConversationUtilities.Direction.from)
+               {
+                  //only compute for outgoing messages that follow an incoming message
+                  responseTime = updateTime.Subtract(prevConvUpdateTime).Ticks;
+               }
             }
             try
             {
@@ -637,13 +659,16 @@ namespace SmsFeedback_Take4.Utilities
         public String UpdateDb(
            String from, String to, String conversationId, String text, Boolean readStatus,
            DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, String XmppUser,  
-           String price, String externalID,smsfeedbackEntities dbContext)
+           String price, String externalID, String direction, smsfeedbackEntities dbContext)
         {
             string updateAddConversationResult = UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, isSmsBased, dbContext);
             string addMessageResult = updateAddConversationResult;
             if (updateAddConversationResult.Equals(JsonReturnMessages.OP_SUCCESSFUL))
             {
-               addMessageResult = AddMessage(from, to, conversationId, text, readStatus, updateTime, prevConvFrom, prevConvUpdateTime, isSmsBased, XmppUser, price, externalID, dbContext);
+               //compute direction and 
+               ConversationUtilities.Direction dir = ConversationUtilities.Direction.from;
+               if(direction == Constants.DIRECTION_OUT) { dir = ConversationUtilities.Direction.to;}
+               addMessageResult = AddMessage(from, to, conversationId, text, readStatus, updateTime,dir, prevConvFrom, prevConvUpdateTime, isSmsBased, XmppUser, price, externalID, dbContext);
             }
            //we added the message - now if SMS based, mark this 
             if (addMessageResult.Equals(JsonReturnMessages.OP_SUCCESSFUL) && isSmsBased) {

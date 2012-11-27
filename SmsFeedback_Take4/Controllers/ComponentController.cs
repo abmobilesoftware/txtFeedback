@@ -251,13 +251,13 @@ namespace SmsFeedback_Take4.Controllers
                     {
                         if (direction.Equals(Constants.DIRECTION_OUT))
                         {
-                            SendSmsMessageAndUpdateDb(from, to, convId,
+                           return SendSmsMessageAndUpdateDb(from, to, convId,
                                 text, xmppUser, lContextPerRequest,
                                 prevConvFrom, prevConvUpdateTime);
                         }
                         else
                         {
-                            return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
+                           return SaveIncommingMessage(from, to, convId, text, lContextPerRequest);
                         }
                     }
                     else
@@ -300,7 +300,7 @@ namespace SmsFeedback_Take4.Controllers
             }
             //maybe delegate the result to the UpdateDB function
             //or interpret the result and return an appropriate message
-            String result = mEFInterface.UpdateDb(from, to, convId, text, readStatus, DateTime.UtcNow, prevConvFrom, prevConvUpdateTime, false, xmppUserToBeSaved, null, null, lContextPerRequest);
+            String result = mEFInterface.UpdateDb(from, to, convId, text, readStatus, DateTime.UtcNow, prevConvFrom, prevConvUpdateTime, false, xmppUserToBeSaved, null, null, direction, lContextPerRequest);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -310,9 +310,15 @@ namespace SmsFeedback_Take4.Controllers
         {
             SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgResponse) =>
             {
-                mEFInterface.UpdateDb(from, to, convId, text, true, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, xmppUser, msgResponse.Price, msgResponse.ExternalID, lContextPerRequest);
+                mEFInterface.UpdateDb(from, to, convId, text, true, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, xmppUser, msgResponse.Price, msgResponse.ExternalID, Constants.DIRECTION_OUT, lContextPerRequest);
             });
             return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
+        }
+        private JsonResult SaveIncommingMessage(
+           String from, String to, String convId, String text, smsfeedbackEntities lContextPerRequest)
+        {
+           String result = mEFInterface.UpdateDb(from, to, convId, text, false, DateTime.UtcNow, null, DateTime.UtcNow, true, Constants.DONT_ADD_XMPP_USER, null, null, Constants.DIRECTION_IN, lContextPerRequest);
+           return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         private static string ComputeDirection(String from, String convId, bool isSms)
