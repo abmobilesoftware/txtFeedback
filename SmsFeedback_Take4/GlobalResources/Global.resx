@@ -832,4 +832,7 @@
     <value>Share on Twitter</value>
     <comment>Messages: share buttons</comment>
   </data>
+  <data name="shareOnLinkedinTitle" xml:space="preserve">
+    <value>Feedback received via Txtfeedback</value>
+  </data>
 </root>

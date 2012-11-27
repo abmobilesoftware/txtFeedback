@@ -722,4 +722,7 @@
   <data name="shareOnTwitter" xml:space="preserve">
     <value>Share on Twitter</value>
   </data>
+  <data name="shareOnLinkedinTitle" xml:space="preserve">
+    <value>Feedback received via Txtfeedback</value>
+  </data>
 </root>

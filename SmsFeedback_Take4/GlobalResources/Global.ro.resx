@@ -710,7 +710,7 @@
     <value>Export catre Excel</value>
   </data>
   <data name="tooltipDeleteConversation" xml:space="preserve">
-    <value>Delete conversation RO</value>
+    <value>Șterge conversația</value>
   </data>
   <data name="confirmDeleteConversation" xml:space="preserve">
     <value>Sunteti sigur ca vreti sa stergeti conversatia initiata de utilizatorul </value>
@@ -726,5 +726,8 @@
   </data>
   <data name="shareOnTwitter" xml:space="preserve">
     <value>Distribuie pe Twitter</value>
+  </data>
+  <data name="shareOnLinkedinTitle" xml:space="preserve">
+    <value>Acest feedback a fost primit prin Txtfeedback</value>
   </data>
 </root>

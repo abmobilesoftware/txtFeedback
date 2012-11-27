@@ -1645,6 +1645,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Feedback received via Txtfeedback.
+        /// </summary>
+        public static string shareOnLinkedinTitle {
+            get {
+                return ResourceManager.GetString("shareOnLinkedinTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Share on Twitter.
         /// </summary>
         public static string shareOnTwitter {
