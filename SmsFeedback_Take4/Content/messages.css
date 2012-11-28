@@ -446,3 +446,14 @@ input[name="countdown"] {
 div.messageMenu {
     visibility: hidden;
 }
+
+.sendAndReceivedChecks {
+    float: right;
+    padding-right: 10px;
+    position: relative;
+    top: 5px;
+}
+
+.check {
+    visibility: hidden;
+}

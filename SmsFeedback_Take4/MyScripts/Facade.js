@@ -33,6 +33,10 @@ function refreshConversationList(convView, msgView) {
       msgView.messagesView.resetViewToDefault();
 }
 
+function messageSuccessfullySent(msgView, msgID, convID) {
+    msgView.messagesView.messageSuccessfullySent(msgID, convID);
+}
+
 function resizeTriggered() {
    //pick the highest between window size (- header) and messagesArea
    var paddingTop = 5;
@@ -94,6 +98,10 @@ function InitializeGUI() {
 
    $(document).bind('refreshConversationList', function (ev, data) {
       refreshConversationList(self.convView, self.msgView);
+   });
+
+   $(document).bind('msgSent', function (ev, data) {
+       messageSuccessfullySent(self.msgView, data.msgID, data.convID);
    });
 
    window.addEventListener("resize", resizeTriggered, false);

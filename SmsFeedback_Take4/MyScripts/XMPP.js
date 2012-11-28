@@ -20,6 +20,11 @@ window.app.xmppConn = {};
 window.app.getFeaturesIQID = "info14";
 window.app.selfXmppAddress = "";
 
+window.app.separatorForUnsentMessages = "@@";
+window.app.unsentMsgQueue = [];
+window.app.unsentMsgXmppToQueue = [];
+window.app.XMPPConnecting = false;
+
 function getNumberOfConversationsWithUnreadMessages() {
    "use strict";
    window.app.updateNrOfUnreadConversations(false);
@@ -30,6 +35,13 @@ window.app.setNrOfUnreadConversationOnTab = function (unreadConvs) {
    window.app.nrOfUnreadConvs = unreadConvs;
    var toShow = "(" + unreadConvs + ")";
    $("#msgTabcount").text(toShow);
+};
+
+function MessageUnsent(msg, xmppTo, msgID, convID) {
+    this.msg = msg;
+    this.xmppTo = xmppTo;
+    this.msgID = msgID;
+    this.convID = convID;
 };
 
 window.app.xmppHandlerInstance = {};
@@ -67,7 +79,8 @@ window.app.XMPPhandler = function XMPPhandler() {
    this.connectCallback = function (status) {
       var needReconnect = false;
       if (status === Strophe.Status.CONNECTED) {
-         //window.app.logDebugOnServer("XMPP connected");         
+          //window.app.logDebugOnServer("XMPP connected");         
+         window.app.XMPPConnecting = false;
          window.app.xmppConn.connection = window.app.xmppConn.conn;
          window.app.xmppConn.connection.addHandler(window.app.xmppConn.handle_infoquery, null, "iq", null,null);
          window.app.xmppConn.connection.addHandler(window.app.xmppConn.handle_message, null, "message", null, null);
@@ -75,7 +88,7 @@ window.app.XMPPhandler = function XMPPhandler() {
          //window.app.xmppConn.send_ping(domain);
          window.app.xmppConn.send_initial_presence(domain);
          window.app.xmppConn.getInfo(domain);
-       
+         window.app.xmppConn.sendMessagesInQueue();
          //self.request_conversations(self.account_number);
       } else if (status === Strophe.Status.CONNECTING) {
          //window.app.logDebugOnServer("XMPP connecting...");         
@@ -97,6 +110,12 @@ window.app.XMPPhandler = function XMPPhandler() {
       if (needReconnect) {
          window.app.xmppConn.connect(window.app.xmppConn.userid, window.app.xmppConn.password, window.app.xmppConn.connectCallback);
       }
+   };
+   this.sendMessagesInQueue = function () {
+       while (window.app.unsentMsgQueue.length > 0) {
+           var unsentMsg = window.app.unsentMsgQueue.shift();
+           window.app.xmppConn.send_message(unsentMsg.msg, unsentMsg.xmppTo, unsentMsg.msgID, unsentMsg.convID);
+       }
    };
    this.connect = function (userid, password) {
       window.app.logDebugOnServer("XMPP connecting with user [" + userid + "]");
@@ -147,12 +166,13 @@ window.app.XMPPhandler = function XMPPhandler() {
       }).c("query", { xmlns: "http://jabber.org/protocol/disco#info" });
       this.connection.send(reqInfo);
    };
-   this.send_reply = function (from, to, dateSent, convID, message, xmppTo, isSmsBased, toStaff) {
+   this.send_reply = function (from, to, dateSent, convID, message, xmppTo, isSmsBased, toStaff, msgID) {
       /*
       here we should just build the message from what is handed to us
       there should be no responsibility regarding the logic of building the content of the message
       but only regarding the structure (what fields have to be filled in)
       */
+      var self = this;
       var message_body = "<msg>" +
                                     " <from>" + from +  "</from>" +
                                     " <to>" + to + "</to>" +
@@ -162,14 +182,35 @@ window.app.XMPPhandler = function XMPPhandler() {
                                     " <staff>" + toStaff.toString() + "</staff>" +
                                     " <sms>" + isSmsBased.toString() +"</sms>" +
                                 " </msg>";
-      var replymsg = $msg({
-         from: window.app.selfXmppAddress,
-         to: xmppTo,
-         "type": "chat"
-      }).c("body").t(message_body);
-      replymsg.up();
-      replymsg.c("subject").t("internal_packet");
-      window.app.xmppConn.conn.send(replymsg);
+      self.send_message(message_body, xmppTo, msgID, convID);
+   };
+   this.send_message = function (body, xmppTo, msgID, convID) {
+       var self = this;
+       var replymsg = $msg({
+           from: window.app.selfXmppAddress,
+           to: xmppTo,
+           "type": "chat"
+       }).c("body").t(body);
+       replymsg.up();
+       replymsg.c("subject").t("internal_packet");
+
+       if (window.app.xmppConn.conn.connected) {
+           window.app.xmppConn.conn.send(replymsg);
+           // trigger a document event to signal that the message was succesfully sent
+           $(document).trigger('msgSent', {
+               msgID: msgID,
+               convID: convID
+           });
+       } else {
+           var unsentMessage = new MessageUnsent(replymsg, xmppTo, msgID, convID);
+           window.app.unsentMsgQueue.push(unsentMessage);
+           //force synch connect 
+           if (!window.app.XMPPConnecting) {
+               window.app.XMPPConnecting = true;
+               window.app.xmppHandlerInstance.connect(window.app.xmppHandlerInstance.userid, window.app.xmppHandlerInstance.password, self.connectCallback);               
+           }
+       }
+
    };
    this.handle_infoquery = function (iq) {      
       var currentIq = $(iq);
