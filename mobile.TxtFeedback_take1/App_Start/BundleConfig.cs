@@ -8,7 +8,7 @@ namespace mobile.TxtFeedback_take1
       // For more information on Bundling, visit http://go.microsoft.com/fwlink/?LinkId=254725
       public static void RegisterBundles(BundleCollection bundles)
       {
-         BundleTable.EnableOptimizations = true;         
+         BundleTable.EnableOptimizations = false;         
          
          bundles.Add(new ScriptBundle("~/bundles/myscripts").Include(                                        
                      "~/MyScripts/Utilities.js",                    
@@ -21,6 +21,7 @@ namespace mobile.TxtFeedback_take1
                      "~/Scripts/backbone*",
                      "~/MyScripts/strophe.js",
                      "~/Scripts/persist-min.js",
+                     "~/Scripts/json2.js",
                      "~/MyScripts/strophe.register.js",
                      "~/Scripts/jQuery.ui.datepicker.js", 
                      "~/Scripts/jquery.ui.datepicker.mobile.js",

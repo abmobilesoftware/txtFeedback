@@ -17,6 +17,10 @@ function newMessageReceivedGUI(msgView, fromID, toId, convID, msgID, dateReceive
    //the conversations window expects that the toID be a "name" and not a telephone number   
    msgView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
 }
+
+function messageSuccessfullySent(msgView, msgID, convID) {
+    msgView.messageSuccessfullySent(msgID, convID);
+}
 //#region Message model
 window.app.Message = Backbone.Model.extend({
    defaults: {
@@ -27,7 +31,8 @@ window.app.Message = Backbone.Model.extend({
       ConvID: window.app.defaultConversationID,
       Direction: "from",
       Read: false,
-      Starred: false
+      Starred: false,
+      WasSuccessfullySent: false
    },
    parse: function (data, xhc) {
       //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
@@ -103,7 +108,7 @@ window.app.MessagesArea = function () {
            inputBox.val('');
 
            //signal all the other "listeners/agents"
-           window.app.xmppHandlerInstance.send_reply(from, to, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress);
+           window.app.xmppHandlerInstance.send_reply(from, to, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress, id);
        } 
    };
 
@@ -244,18 +249,32 @@ window.app.MessagesArea = function () {
          var item = msgView.render().el;
          $(".debug").empty();
          $(this.el).append(item);
-         if (performFadeIn) {
-            $(item).hide().fadeIn("2000");
-         }
+         //if (performFadeIn) {
+           // $(item).hide().fadeIn("2000");
+         //}
+         if (msg.get("WasSuccessfullySent"))
+             $(".singleCheckNo" + msg.get("Id")).css("visibility", "visible");
          
          var magicNumber = 50;
          var bodyHeight = $(window).height() - 2 * $(".ui-header").height() - magicNumber;
          var contentHeight = $("#contentArea").height();
-         // $(".debug").append("body = " + bodyHeight + " -- contentHeight = " + contentHeight + " -- document scroll = " + (document.body.scrollHeight + 200));
-          if (contentHeight > bodyHeight) {
+         if (contentHeight > bodyHeight) {
             $(document).scrollTop(document.body.scrollHeight - $(".ui-footer").height());
-          }        
-          $(this.el).append("<div class='clear'></div>");
+         }        
+         $(this.el).append("<div class='clear'></div>");
+      },
+      messageSuccessfullySent: function (msgID, convID) {
+          var messagePosition = 0;
+          for (var i = 0; i < window.app.globalMessagesRep[convID].models.length; ++i) {
+              var currentModel = window.app.globalMessagesRep[convID].models[i];
+              if (currentModel.attributes.Id == msgID) {
+                  messagePosition = i;
+              }
+          }
+          var msgSent = window.app.globalMessagesRep[convID].at(messagePosition);
+          msgSent.set("WasSuccessfullySent", true);
+          // update the view
+          $(".singleCheckNo" + msgID).css("visibility", "visible");
       }
    });
    this.messagesView = new MessagesView();
@@ -271,6 +290,10 @@ $(function () {
 
          $(document).bind('msgReceived', function (ev, data) {
             newMessageReceivedGUI(window.app.msgView.messagesView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
+         });
+
+         $(document).bind('msgSent', function (ev, data) {
+             messageSuccessfullySent(window.app.msgView.messagesView, data.msgID, data.convID);
          });
 
          $(window).unload(function () {            
