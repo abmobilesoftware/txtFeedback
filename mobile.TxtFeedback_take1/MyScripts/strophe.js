@@ -2665,7 +2665,7 @@ if (!Array.prototype.indexOf) {
          Strophe.warn("request errored, status: " + reqStatus +
                       ", number of errors: " + this.errors);
          if (this.errors > 4) {
-            // this._onDisconnectTimeout();
+            this._onDisconnectTimeout();
          }
       },
 
