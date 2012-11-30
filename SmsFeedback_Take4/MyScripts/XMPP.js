@@ -22,7 +22,6 @@ window.app.selfXmppAddress = "";
 
 window.app.separatorForUnsentMessages = "@@";
 window.app.unsentMsgQueue = [];
-window.app.unsentMsgXmppToQueue = [];
 window.app.XMPPConnecting = false;
 
 function getNumberOfConversationsWithUnreadMessages() {
@@ -37,11 +36,25 @@ window.app.setNrOfUnreadConversationOnTab = function (unreadConvs) {
    $("#msgTabcount").text(toShow);
 };
 
-function MessageUnsent(msg, xmppTo, msgID, convID) {
-    this.msg = msg;
+function MessageUnsent(body, xmppTo, msgID, convID) {
+    this.body = body;
     this.xmppTo = xmppTo;
     this.msgID = msgID;
     this.convID = convID;
+};
+
+//#region "timer for reconnect"
+window.app.reconnectTimer = {};
+window.app.intervalToWaitBetweenChecks = 15000;
+function reconnectIfRequired() {
+    if (window.app.xmppConn && window.app.xmppConn.conn && !window.app.xmppConn.conn.connected && !window.app.XMPPConnecting) {
+        window.app.xmppHandlerInstance.connect(window.app.xmppHandlerInstance.userId, window.app.xmppHandlerInstance.password, window.app.xmppHandlerInstance.connectCallback);
+    }
+    window.app.startReconnectTimer();
+}
+window.app.startReconnectTimer = function () {
+    clearTimeout(window.app.reconnectTimer);
+    window.app.reconnectTimer = setTimeout(reconnectIfRequired, window.app.intervalToWaitBetweenChecks);
 };
 
 window.app.xmppHandlerInstance = {};
@@ -114,7 +127,7 @@ window.app.XMPPhandler = function XMPPhandler() {
    this.sendMessagesInQueue = function () {
        while (window.app.unsentMsgQueue.length > 0) {
            var unsentMsg = window.app.unsentMsgQueue.shift();
-           window.app.xmppConn.send_message(unsentMsg.msg, unsentMsg.xmppTo, unsentMsg.msgID, unsentMsg.convID);
+           window.app.xmppConn.send_message(unsentMsg.body, unsentMsg.xmppTo, unsentMsg.msgID, unsentMsg.convID);
        }
    };
    this.connect = function (userid, password) {
@@ -127,7 +140,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       self.userid = userid;
       self.password = password;
       window.app.xmppConn = this;
-
+      
       self.conn.connect(userid, password, self.connectCallback);
    };
    this.disconnect = function () {
@@ -194,7 +207,7 @@ window.app.XMPPhandler = function XMPPhandler() {
        replymsg.up();
        replymsg.c("subject").t("internal_packet");
 
-       if (window.app.xmppConn.conn.connected) {
+       if (window.app.xmppConn.conn.authenticated) {
            window.app.xmppConn.conn.send(replymsg);
            // trigger a document event to signal that the message was succesfully sent
            $(document).trigger('msgSent', {
@@ -202,7 +215,7 @@ window.app.XMPPhandler = function XMPPhandler() {
                convID: convID
            });
        } else {
-           var unsentMessage = new MessageUnsent(replymsg, xmppTo, msgID, convID);
+           var unsentMessage = new MessageUnsent(body, xmppTo, msgID, convID);
            window.app.unsentMsgQueue.push(unsentMessage);
            //force synch connect 
            if (!window.app.XMPPConnecting) {

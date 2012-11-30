@@ -115,6 +115,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete message.
+        /// </summary>
+        public static string deleteMessage {
+            get {
+                return ResourceManager.GetString("deleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send us feedback.
         /// </summary>
         public static string feedbackSendUsFeedback {
@@ -1758,6 +1767,15 @@ namespace Resources {
         public static string toDate {
             get {
                 return ResourceManager.GetString("toDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message sent.
+        /// </summary>
+        public static string tooltipCheckMessageSent {
+            get {
+                return ResourceManager.GetString("tooltipCheckMessageSent", resourceCulture);
             }
         }
         

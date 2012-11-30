@@ -141,7 +141,14 @@
             var timeReceivedLocal = timeReceivedLocal + " " + time;
        %}
             <input type="hidden" value="<%: Resources.Global.shareOnLinkedinTitle %>" id="linkedInTitle"/>
-            <span class="timeReceived">{{ timeReceivedLocal }} </span>      
+            {% if (Direction == "to") { %}
+                <div class="sendAndReceivedChecks">
+                    <img title="<%: Resources.Global.tooltipCheckMessageSent %>" src="<%: Url.Content("~/Content/images/check-black.svg") %>" class="check singleCheck singleCheckNo{{ Id }}" />
+                    <img title="<%: Resources.Global.tooltipCheckMessageSent %>" src="<%: Url.Content("~/Content/images/check-black.svg") %>" class="check doubleCheck doubleCheckNo{{ Id }}" />
+                </div>    
+            {% } %}
+            <span class="timeReceived">{{ timeReceivedLocal }} </span>  
+           
        {%
             var encodedImgUrl = encodeURIComponent("http://txtfeedback.net/wp-content/uploads/2012/07/txtfeedback_logo_small.png");
             var encodedUrl = encodeURIComponent("http://localhost:4631/ro-RO");
@@ -150,9 +157,7 @@
             var encodedText = encodeURIComponent(Text);
             var encodedTitle = encodeURIComponent($("#linkedInTitle").val());
        %}
-            <div class="messageMenu">
-                
-            
+            <div class="messageMenu">           
                 <div class="msgButtons sendEmailButton">
                     <img title="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/em16x16.png") %>" />
                 </div>
@@ -167,7 +172,7 @@
                 </div> 
                <% if ((bool)ViewData["messageOrganizer"]) { %>
                    <div class="msgButtons deleteMessage"> 
-                         <img title="Delete message" src="<%: Url.Content("~/Content/images/trash20x20.png") %>" />    
+                         <img title="<%: Resources.Global.deleteMessage %>" src="<%: Url.Content("~/Content/images/trash20x20.png") %>" />    
                    </div>     
                <% } %>
             </div>

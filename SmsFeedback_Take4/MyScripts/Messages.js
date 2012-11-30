@@ -500,12 +500,12 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             var item = msgView.render().el;
             $(this.el).append(item);
             // Messages from db have positive IDs and recently sent messages have negative messages
-            if (msg.get("WasSuccessfullySent"))
-                $(".singleCheckNo" + msg.get("Id")).css("visibility", "visible");            
             $(item).hover(function () {
                 var helperDiv = $(this).find("div.messageMenu")[0];
-                //make sure to bind the buttons
                 $(helperDiv).css("visibility", "visible");
+                if (msg.get("WasSuccessfullySent"))
+                    $(".singleCheckNo" + msg.get("Id")).show();
+                    $(".singleCheckNo" + msg.get("Id")).css("visibility", "visible");
 
                 if (window.app.calendarCulture == "ro") gDateDisplayPattern = 'DD, d MM, yy';
                 gSelectedMessage = $($(this).find("div span")[0]).html();
@@ -519,6 +519,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                 var helperDiv = $(this).find("div.messageMenu")[0];
                 //$(helperDiv).fadeOut("fast");
                 $(helperDiv).hide();
+                $(".singleCheckNo" + msg.get("Id")).hide();
             });
             if (performFadeIn) {
                 $(item).hide().fadeIn("2000");
@@ -540,9 +541,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                 }
             }
             var msgSent = window.app.globalMessagesRep[convID].at(messagePosition);
-            msgSent.set("WasSuccessfullySent", true);
-            // update the view
-            $(".singleCheckNo" + msgID).css("visibility", "visible");
+            msgSent.set("WasSuccessfullySent", true);       
         }
     });
     this.messagesView = new MessagesView();

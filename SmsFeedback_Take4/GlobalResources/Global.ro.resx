@@ -730,4 +730,10 @@
   <data name="shareOnLinkedinTitle" xml:space="preserve">
     <value>Acest feedback a fost primit prin Txtfeedback</value>
   </data>
+  <data name="deleteMessage" xml:space="preserve">
+    <value>Șterge mesajul</value>
+  </data>
+  <data name="tooltipCheckMessageSent" xml:space="preserve">
+    <value>Mesaj trimis</value>
+  </data>
 </root>

@@ -106,6 +106,7 @@ function InitializeGUI() {
 
    window.addEventListener("resize", resizeTriggered, false);
    resizeTriggered();
+   window.app.startReconnectTimer();
 }
 
 $(document).ready(function () {
