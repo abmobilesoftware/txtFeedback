@@ -21,6 +21,7 @@
 
 window.app = window.app || {};
 window.app.calendarCulture = "en-GB";
+window.app.appStartTime = "";
 
 function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus, isSmsBased) {
    //the conversations window expects that the toID be a "name" and not a telephone number
@@ -68,6 +69,8 @@ function InitializeGUI() {
       delete Array.prototype.toJSON;
       delete String.prototype.toJSON;
    }
+   //make a note of the starting time - we'll use this for "delayed sent messages"
+    window.app.appStartTime = new Date();
    //initialize the filters area
    this.filterArea = new FilterArea();
 
