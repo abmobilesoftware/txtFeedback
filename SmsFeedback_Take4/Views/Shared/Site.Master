@@ -87,8 +87,8 @@
          </div>
          <div id="feedbackArea">
             <span><%: Resources.Global.feedbackSendUsFeedback %></span>
-            <img id="sendPositiveFeedback" tooltiptitle="<%: Resources.Global.tooltipSendPositiveFeedback %>" src="<%:Url.Content("~/Content/images/Smiley-Happy-32_20.png")%>" />    
-            <img id="sendNegativeFeedback" tooltiptitle="<%: Resources.Global.tooltipSendNegativeFeedback %>" src="<%:Url.Content("~/Content/images/Smiley-Sad-32_20.png")%>" />    
+            <img id="sendPositiveFeedback" tooltiptitle="<%: Resources.Global.tooltipSendPositiveFeedback %>" src="<%:Url.Content("~/Content/images/smiley-h.png")%>" />    
+            <img id="sendNegativeFeedback" tooltiptitle="<%: Resources.Global.tooltipSendNegativeFeedback %>" src="<%:Url.Content("~/Content/images/smiley-s.png")%>" />    
         </div>
          <nav>
             <ul id="menu">
