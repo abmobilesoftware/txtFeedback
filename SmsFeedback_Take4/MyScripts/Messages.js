@@ -279,21 +279,15 @@ function MessagesArea(convView, tagsArea, wpsArea) {
         render: function () {
             this.$el.html(this.messageTemplate(this.model.toJSON()));
             var direction = "messagefrom";         
-            var arrowInnerMenuLeft = "arrowInnerLeft";
-            var extraMenuWrapperSide = "extraMenuWrapperLeft";            
+            var arrowInnerMenuLeft = "arrowInnerLeft";            
             if (this.model.attributes.Direction === "to") {
                direction = "messageto";                              
-               arrowInnerMenuLeft = "arrowInnerRight";
-               extraMenuWrapperSide = "extraMenuWrapperRight";
+               arrowInnerMenuLeft = "arrowInnerRight";               
             }            
             this.$el.addClass("message");
             this.$el.addClass(direction);
                    
-            $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
-            $(".extraMenuWrapper", this.$el).addClass(extraMenuWrapperSide);
-
-            var sendEmail = $("div.sendEmailButton img", this.$el);
-            //setTooltipOnElement(sendEmail, sendEmail.attr('tooltiptitle'),'dark');
+            $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);                      
             return this;
         },
         updateView: function () {           
