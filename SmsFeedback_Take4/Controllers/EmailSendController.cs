@@ -39,12 +39,12 @@ namespace SmsFeedback_Take4.Controllers
               ViewData["emailText"] = emailText;
               string[] fromTo = ConversationUtilities.GetFromAndToFromConversationID(convID);
               smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-              var wpTelNumber = fromTo[1];
+              var lWpTelNoOrShortID = fromTo[1];
               var lEfInteraction = new EFInteraction();
-              var wpName = lEfInteraction.GetNameForWorkingPoint(wpTelNumber, lContextPerRequest);
+              var wpName = lEfInteraction.GetNameForWorkingPoint(lWpTelNoOrShortID, lContextPerRequest);
               if (String.IsNullOrEmpty(wpName))
               {
-                 wpName = wpTelNumber;
+                 wpName = lWpTelNoOrShortID;
               }
               ViewData["emailSubject"] = Resources.Global.sendEmailPrefixSubject + fromTo[0] + Resources.Global.sendEmailConjuctionSubject + wpName + "]";
               result = View();

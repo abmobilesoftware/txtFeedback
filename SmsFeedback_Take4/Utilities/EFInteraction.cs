@@ -674,9 +674,9 @@ namespace SmsFeedback_Take4.Utilities
                 return new SmsMessage[] { };
             }
         }
-        public string GetNameForWorkingPoint(string wpTelNumber, smsfeedbackEntities dbContext)
+        public string GetNameForWorkingPoint(string wpTelNumberOrShortID, smsfeedbackEntities dbContext)
         {
-            var wpName = from wp in dbContext.WorkingPoints where wp.TelNumber == wpTelNumber select wp.Name;
+            var wpName = from wp in dbContext.WorkingPoints where ((wp.TelNumber == wpTelNumberOrShortID) || (wp.ShortID == wpTelNumberOrShortID))  select wp.Name;
             if (wpName.Count() == 1)
             {
                 return wpName.First();
