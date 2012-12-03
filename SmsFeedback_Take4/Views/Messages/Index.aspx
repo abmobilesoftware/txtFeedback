@@ -73,7 +73,7 @@
    </script>
    <script type="text/template" id="conversation-template">
             {% if (IsSmsBased) { %}
-               <img class="isSms" src="<%: Url.Content("~/Content/images/SMS-24x24.png") %>"/>
+               <img class="isSms" src="<%: Url.Content("~/Content/images/sms.png") %>"/>
              {% } %}
 
             <div class="leftLiDiv convColumn">
@@ -167,7 +167,7 @@
                 </div> 
                <% if ((bool)ViewData["messageOrganizer"]) { %>
                    <div class="msgButtons deleteMessage"> 
-                         <img title="Delete message" src="<%: Url.Content("~/Content/images/trash20x20.png") %>" />    
+                         <img title="<%: Resources.Global.deleteMessage %>" src="<%: Url.Content("~/Content/images/trash20x20.png") %>" />    
                    </div>     
                <% } %>
             </div>

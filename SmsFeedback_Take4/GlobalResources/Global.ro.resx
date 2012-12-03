@@ -126,8 +126,17 @@
   <data name="addATagLabel" xml:space="preserve">
     <value>adaugă o etichetă</value>
   </data>
+  <data name="confirmDeleteConversation" xml:space="preserve">
+    <value>Sunteţi sigur că vreţi să ştergeţi conversaţia iniţiată de utilizatorul</value>
+  </data>
+  <data name="confirmDeleteMessage" xml:space="preserve">
+    <value>Sunteţi sigur că vreţi să ştergeţi mesajul</value>
+  </data>
   <data name="dateLabel" xml:space="preserve">
     <value>Data:</value>
+  </data>
+  <data name="deleteMessage" xml:space="preserve">
+    <value>Șterge mesajul</value>
   </data>
   <data name="feedbackSendUsFeedback" xml:space="preserve">
     <value>Trimiteţi-ne feedback</value>
@@ -205,16 +214,16 @@
     <value>Conversaţii</value>
   </data>
   <data name="messagesRemoveTagPlaceHolder" xml:space="preserve">
-    <value>Şterge eticheta  </value>
+    <value>Şterge eticheta  </value>
   </data>
   <data name="readLabel" xml:space="preserve">
     <value>Necitite</value>
   </data>
   <data name="RepAvgNoOfIncomingSmsPerConversation" xml:space="preserve">
-    <value>Numărul mediu de mesaje receptionate per client</value>
+    <value>Numărul mediu de mesaje recepţionate per client</value>
   </data>
   <data name="RepAvgNoOfIncomingSmsPerConversationToolitp" xml:space="preserve">
-    <value>Numărul mediu de mesaje receptionate per client</value>
+    <value>Numărul mediu de mesaje recepţionate per client</value>
   </data>
   <data name="RepAvgNoOfOutgoingSmsPerConversation" xml:space="preserve">
     <value>Numărul mediu de mesaje trimise per client</value>
@@ -235,10 +244,10 @@
     <value>Numărul mediu de mesaje pe zi</value>
   </data>
   <data name="RepAvgNoOfTagsPerConversation" xml:space="preserve">
-    <value>Numărul mediu de etichete pe conversaţie</value>
+    <value>Numărul mediu de etichete per conversaţie</value>
   </data>
   <data name="RepAvgNoOfTagsPerConversationTooltip" xml:space="preserve">
-    <value>Numărul mediu de etichete pe conversaţie</value>
+    <value>Numărul mediu de etichete per conversaţie</value>
   </data>
   <data name="RepAvgResponseTime" xml:space="preserve">
     <value>Timp mediu de răspuns</value>
@@ -261,11 +270,14 @@
   <data name="RepDay" xml:space="preserve">
     <value>Zi</value>
   </data>
+  <data name="RepExportToExcel" xml:space="preserve">
+    <value>Export către Excel</value>
+  </data>
   <data name="RepIncomingOutgoingChartTitle" xml:space="preserve">
-    <value>Mesaje receptionate şi trimise</value>
+    <value>Mesaje recepţionate şi trimise</value>
   </data>
   <data name="RepIncomingSmsChart" xml:space="preserve">
-    <value>Mesaje receptionate</value>
+    <value>Mesaje recepţionate</value>
   </data>
   <data name="RepIncomingVsOutgoing" xml:space="preserve">
     <value>Recepţionate și Trimise</value>
@@ -292,13 +304,13 @@
     <value>Feedback negativ soluţionat</value>
   </data>
   <data name="RepNegToPosFeedback" xml:space="preserve">
-    <value>Feedback negativ transformat in feedback pozitiv</value>
+    <value>Feedback negativ transformat în feedback pozitiv</value>
   </data>
   <data name="RepNewClientsChart" xml:space="preserve">
     <value>Clienţi noi</value>
   </data>
   <data name="RepNewReturningClientsChartTitle" xml:space="preserve">
-    <value>Clienţi noi si clienţi fideli</value>
+    <value>Clienţi noi şi clienţi fideli</value>
   </data>
   <data name="RepNewVsReturning" xml:space="preserve">
     <value>Noi și Fideli</value>
@@ -352,7 +364,7 @@
     <value>Feedback pozitiv adăugat</value>
   </data>
   <data name="RepPosFeedbackRemoved" xml:space="preserve">
-    <value>Feedback pozitiv pierdut</value>
+    <value>ftp://dragos@89.38.210.7/dragos/txtfeedback.net/wwwroot/wp-content/themes/business-lite/pricing.php</value>
   </data>
   <data name="RepPositiveAndNegative" xml:space="preserve">
     <value>Feedback pozitiv și negativ</value>
@@ -364,10 +376,10 @@
     <value>Feedback pozitiv</value>
   </data>
   <data name="RepPositiveNegativeActivityChartTitle" xml:space="preserve">
-    <value>Activitate pe etichetele cu feedback pozitiv si negativ</value>
+    <value>Activitate pe etichetele cu feedback pozitiv şi negativ</value>
   </data>
   <data name="RepPositiveNegativeEvolutionChartTitle" xml:space="preserve">
-    <value>Evoluţia pe feedbackul pozitiv si negativ</value>
+    <value>Evoluţia pe feedbackul pozitiv şi negativ</value>
   </data>
   <data name="RepPositiveNegativeTransitionsChartTitle" xml:space="preserve">
     <value>Tranziţii pentru feedbackul pozitiv şi negativ</value>
@@ -395,6 +407,15 @@
   </data>
   <data name="RepTagsPerConversationUnit" xml:space="preserve">
     <value>etichete/conversaţie</value>
+  </data>
+  <data name="RepTooltipPosNegFeedbackActivity" xml:space="preserve">
+    <value>Activitate pe etichetele cu feedback pozitiv şi negativ</value>
+  </data>
+  <data name="RepTooltipPosNegFeedbackEvolution" xml:space="preserve">
+    <value>Evolutia pe feedbackul pozitiv şi negativ</value>
+  </data>
+  <data name="RepTooltipPosNegFeedbackTransitions" xml:space="preserve">
+    <value>Tranziţii pentru feedbackul pozitiv şi negativ</value>
   </data>
   <data name="RepTotalNoOfClients" xml:space="preserve">
     <value>Numărul de clienţi ce oferă feedback</value>
@@ -516,6 +537,9 @@
   <data name="settingsConfigureWpTelNumberError" xml:space="preserve">
     <value>Numărul de telefon nu poate lipsi</value>
   </data>
+  <data name="settingsConfigureWpWelcomeMsgError" xml:space="preserve">
+    <value>Mesajul de întâmpinare nu poate lipsi</value>
+  </data>
   <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
     <value>Confirmă noua parolă</value>
   </data>
@@ -546,8 +570,14 @@
   <data name="settingsErrorWpTelNumberLength" xml:space="preserve">
     <value>Numărul de telefon asociat punctului de lucru trebuie să conţina între 8 şi 50 de caractere</value>
   </data>
+  <data name="settingsErrorWpWelcomeLength" xml:space="preserve">
+    <value>Mesajul de întâmpinare trebuie sa conţină între 10 şi 160 caractere</value>
+  </data>
   <data name="settingsMaxOutboundSmsHeader" xml:space="preserve">
     <value>Numărul maxim de SMSuri ce se pot trimite</value>
+  </data>
+  <data name="settingsMaxOutboundSmsHeaderTooltip" xml:space="preserve">
+    <value>Numărul maxim de SMSuri ce pot fi trimise într-o lună de la această filială</value>
   </data>
   <data name="settingsNewPasswordLabel" xml:space="preserve">
     <value>Noua parola</value>
@@ -560,6 +590,12 @@
   </data>
   <data name="settingsPrivacy" xml:space="preserve">
     <value>Confidenţialitate</value>
+  </data>
+  <data name="settingsShortIDHeader" xml:space="preserve">
+    <value>Identificator scurt</value>
+  </data>
+  <data name="settingsShortIDHeaderTooltip" xml:space="preserve">
+    <value>Identificatorul filialei</value>
   </data>
   <data name="settingsTelNoHeader" xml:space="preserve">
     <value>Număr de telefon</value>
@@ -594,11 +630,29 @@
   <data name="settingsWpTelNoHeaderTooltip" xml:space="preserve">
     <value>Numărul de telefon asociat acestui punct de lucru</value>
   </data>
+  <data name="settingsWpWelcomeMessageHeader" xml:space="preserve">
+    <value>Mesaj de întâmpinare</value>
+  </data>
+  <data name="settingsWpWelcomeMessageHeaderTooltip" xml:space="preserve">
+    <value>Mesajul de întâmpinare de pe site-ul pentru mobile</value>
+  </data>
   <data name="settingUserPreferences" xml:space="preserve">
     <value>Configurările utilizatorului</value>
   </data>
   <data name="settingWpConfigSavedSuccessfuly" xml:space="preserve">
     <value>Configuraţia punctului de lucru a fost salvată</value>
+  </data>
+  <data name="shareOnFacebook" xml:space="preserve">
+    <value>Distribuie pe Facebook</value>
+  </data>
+  <data name="shareOnLinkedin" xml:space="preserve">
+    <value>Distribuie pe Linkedin</value>
+  </data>
+  <data name="shareOnLinkedinTitle" xml:space="preserve">
+    <value>Acest feedback a fost primit prin Txtfeedback</value>
+  </data>
+  <data name="shareOnTwitter" xml:space="preserve">
+    <value>Distribuie pe Twitter</value>
   </data>
   <data name="starredLabel" xml:space="preserve">
     <value>Preferate</value>
@@ -627,8 +681,14 @@
   <data name="thumbsUpTooltip" xml:space="preserve">
     <value>Etichetează această conversaţie ca şi feedback pozitiv</value>
   </data>
+  <data name="TitleLogOn" xml:space="preserve">
+    <value>Autentificaţi-vă</value>
+  </data>
   <data name="toDate" xml:space="preserve">
     <value>ultima actualizare</value>
+  </data>
+  <data name="tooltipDeleteConversation" xml:space="preserve">
+    <value>Șterge conversația</value>
   </data>
   <data name="tooltipIncludeDateInFilter" xml:space="preserve">
     <value>Activaţi/dezactivaţi filtrul conform datei</value>
@@ -646,7 +706,7 @@
     <value>Activaţi/dezactivaţi filtrul pentru conversaţiile necitite</value>
   </data>
   <data name="tooltipMarkAsFavouriteImg" xml:space="preserve">
-    <value>Marchează ca favorit</value>
+    <value>Marchează ca favorită</value>
   </data>
   <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
     <value>Numărul conversaţiilor cu mesaje necitite</value>
@@ -668,66 +728,5 @@
   </data>
   <data name="welcomeMessage" xml:space="preserve">
     <value>Bine ai venit</value>
-  </data>
-  <data name="RepTooltipPosNegFeedbackActivity" xml:space="preserve">
-    <value>Activitate pe etichetele cu feedback pozitiv si negativ</value>
-  </data>
-  <data name="RepTooltipPosNegFeedbackEvolution" xml:space="preserve">
-    <value>Evolutia pe feedbackul pozitiv si negativ</value>
-  </data>
-  <data name="RepTooltipPosNegFeedbackTransitions" xml:space="preserve">
-    <value>Tranzitii pentru feedbackul pozitiv si negativ</value>
-  </data>
-  <data name="TitleLogOn" xml:space="preserve">
-    <value>Autentificaţi-vă</value>
-  </data>
-  <data name="settingsConfigureWpWelcomeMsgError" xml:space="preserve">
-    <value>Mesajul de întâmpinare nu poate lipsi</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="settingsErrorWpWelcomeLength" xml:space="preserve">
-    <value>Mesajul de întâmpinare trebuie sa conţină între 10 şi 160 caractere</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="settingsMaxOutboundSmsHeaderTooltip" xml:space="preserve">
-    <value>Numărul maxim de SMSuri ce pot fi trimise într-o lună de la această filială</value>
-  </data>
-  <data name="settingsShortIDHeader" xml:space="preserve">
-    <value>Identificator scurt</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="settingsShortIDHeaderTooltip" xml:space="preserve">
-    <value>Identificatorul filialei</value>
-  </data>
-  <data name="settingsWpWelcomeMessageHeader" xml:space="preserve">
-    <value>Mesaj de întâmpinare</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="settingsWpWelcomeMessageHeaderTooltip" xml:space="preserve">
-    <value>Mesajul de întâmpinare de pe site-ul pentru mobile</value>
-  </data>
-  <data name="RepExportToExcel" xml:space="preserve">
-    <value>Export catre Excel</value>
-  </data>
-  <data name="tooltipDeleteConversation" xml:space="preserve">
-    <value>Șterge conversația</value>
-  </data>
-  <data name="confirmDeleteConversation" xml:space="preserve">
-    <value>Sunteti sigur ca vreti sa stergeti conversatia initiata de utilizatorul </value>
-  </data>
-  <data name="confirmDeleteMessage" xml:space="preserve">
-    <value>Sunteti sigur ca vreti sa stergeti mesajul</value>
-  </data>
-  <data name="shareOnFacebook" xml:space="preserve">
-    <value>Distribuie pe Facebook</value>
-  </data>
-  <data name="shareOnLinkedin" xml:space="preserve">
-    <value>Distribuie pe Linkedin</value>
-  </data>
-  <data name="shareOnTwitter" xml:space="preserve">
-    <value>Distribuie pe Twitter</value>
-  </data>
-  <data name="shareOnLinkedinTitle" xml:space="preserve">
-    <value>Acest feedback a fost primit prin Txtfeedback</value>
   </data>
 </root>
