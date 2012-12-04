@@ -175,16 +175,7 @@
       </div>
       
       <div class="clear"></div>
-      <div <% if ((bool)ViewData["messageOrganizer"]) { %> class="extramenuExtended" <% } else { %> class="extramenu" <% } %> hoverID="{{ Id }}">
-       <div class="extraMenuWrapper"></div>  
-       <div class="innerExtraMenu">
-            <div class="actionButtons sendEmailButton">
-               <img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/mail.png") %>" />
-            </div>            
-            <div class="clear"></div>                       
-       </div>               
-        
-      </div>        
+      </div>
    </script>
    <script type="text/javascript">
       $(function () {
