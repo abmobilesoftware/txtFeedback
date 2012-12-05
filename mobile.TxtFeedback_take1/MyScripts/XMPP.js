@@ -25,7 +25,7 @@ window.app.xmppConn = {};
 //#region XMPP constants
 window.app.getFeaturesIQID = "infomobile";
 window.app.xmppServerExtension = "@txtfeedback.net";
-window.app.xmppComponentExtension = "@moderator.txtfeedback.net";
+window.app.xmppComponentExtension = "@compdev.txtfeedback.net";
 //#endregion
 
 window.app.messageModeratorAddress = '';
@@ -147,7 +147,9 @@ window.app.XMPPhandler = function XMPPhandler() {
          var domain = Strophe.getDomainFromJid(window.app.xmppConn.conn.jid);         
          window.app.xmppConn.send_initial_presence(domain);
          //DA after we are connected sent any potentially unsent messages
-         window.app.xmppConn.sendMessagesInQueue();         
+         window.app.xmppConn.sendMessagesInQueue();
+         //DA on Opera the onUnload event is not triggered when closing the window - so make sure the connected user saved
+         window.app.saveLoginDetails();
       } else if (status === Strophe.Status.REGIFAIL) {
          window.app.logErrorOnServer("XMPP registration failed");
       } else if (status === Strophe.Status.REGISTER) {
@@ -287,7 +289,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       var message_body = "<msg>" +
                                      " <from>" + window.app.xmppSuffixedUserToConnectAs + "</from>" +
                                      " <to>" + window.app.suffixedMessageModeratorAddress + "</to>" +
-                                     " <datesent>" + dateSent + "</datesent>" +
+                                     " <datesent>" + dateSent.toString() + "</datesent>" +
                                       "<convID>" + convID +"</convID>" +
                                      " <body>" + Strophe.xmlescape(message) + "</body>" +
                                      " <staff>true</staff>" +
