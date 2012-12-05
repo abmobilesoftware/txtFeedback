@@ -3,6 +3,8 @@ package org.helpers;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,12 +46,15 @@ public class TxtPacket {
     private final int SMS_POS = STAFF_POS + 1;
     private final int DATE_SENT_POS = SMS_POS + 1;
     
-    private static final String dateFormat = "dd-MMM-yy";
-    
+    //private static final String dateFormat = "dd-MMM-yy";
+	final static String ISO_FORMAT = "EEE MMM dd yyyy, HH:mm:ss";
 	public TxtPacket(String iFrom, String iTo, Date iDate, String iBody, boolean iStaff, boolean iSms, String iConversationId) {
 		initialize();
-		SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
-						
+		Locale enUS = new Locale("en", "US");
+		SimpleDateFormat formatter = new SimpleDateFormat(ISO_FORMAT,enUS);
+		final TimeZone utc = TimeZone.getTimeZone("UTC");
+		formatter.setTimeZone(utc);
+		
 		mTxtPacketTagsName.add(FROM_ADDRESS_POS, FROM_ADDRESS);
 		mTxtPacketTagsValue.add(FROM_ADDRESS_POS, iFrom);
 		
@@ -169,7 +174,11 @@ public class TxtPacket {
 	}
 		
 	public Date getDateSent() {
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yy");
+		Locale enUS = new Locale("en", "US");
+		SimpleDateFormat formatter = new SimpleDateFormat(ISO_FORMAT,enUS);
+		final TimeZone utc = TimeZone.getTimeZone("UTC");
+		formatter.setTimeZone(utc);
+		
 		Date formattedDate = null;
 		try {
 			formattedDate = (Date)formatter.parse(mTxtPacketTagsValue.get(DATE_SENT_POS));
@@ -181,11 +190,15 @@ public class TxtPacket {
 			return null;
 		}
 		return formattedDate;		
-	}
-	
+	}	
+
 	public void setDateSent(Date iDateSent) {
-		mTxtPacketTagsName.set(DATE_SENT_POS, FROM_ADDRESS);
-		mTxtPacketTagsValue.set(DATE_SENT_POS, iDateSent.toString());
+		mTxtPacketTagsName.set(DATE_SENT_POS, DATE_SENT);
+		Locale enUS = new Locale("en", "US");
+		SimpleDateFormat formatter = new SimpleDateFormat(ISO_FORMAT,enUS);		
+		final TimeZone utc = TimeZone.getTimeZone("UTC");
+		formatter.setTimeZone(utc);		
+		mTxtPacketTagsValue.set(DATE_SENT_POS, formatter.format(iDateSent));
 	}
 
 	public String getBody() {

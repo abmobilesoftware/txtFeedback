@@ -1,7 +1,10 @@
 package org.imrouting;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
+import java.util.TimeZone;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -26,11 +29,13 @@ public class MessageProcessor {
 	public MessageProcessor(TxtFeedbackModerator tfm) {
 		moderator = tfm;	
 		restGtw = new RestControllerGateway();
-	}
-	
+	}	
 	public void processInternalPacket(Message message) {
 		try {
 			TxtPacket internalPacket = new TxtPacket(message.getBody());
+			//DA since the date coming from the Javascript client is unreliable we use the server side time as reference
+			Date now = new Date();
+			internalPacket.setDateSent(now);
 			if (!internalPacket.getIsSms()) {
 				if (internalPacket.getIsForStaff()) {
 					SendImMessageToStaff(message, internalPacket);
@@ -85,7 +90,7 @@ public class MessageProcessor {
 			ArrayList<Agent> handlers = restGtw.getHandlersForMessage(Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()), internalPacket.getConversationId(), false);
 			for (int i=0; i<handlers.size(); ++i) {
 				String from = internalPacket.getFromAddress();
-				moderator.sendInternalMessage(iPacket.getBody(), from, 
+				moderator.sendInternalMessage(internalPacket.toXML(), from, 
 						handlers.get(i).getUser());			
 			}						
 		} catch (RESTException e) {
@@ -113,7 +118,7 @@ public class MessageProcessor {
 					iPacket.getFrom().toBareJID(),
 					false);
 			String from = internalPacket.getFromAddress();
-			moderator.sendInternalMessage(iPacket.getBody(), from,
+			moderator.sendInternalMessage(internalPacket.toXML(), from,
 					internalPacket.getToAddress());
 		} catch (RESTException e) {
 				Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
@@ -143,7 +148,7 @@ public class MessageProcessor {
 			ArrayList<Agent> handlers = restGtw.getHandlersForMessage(Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()), internalPacket.getConversationId(), true);
 			for (int i=0; i<handlers.size(); ++i) {
 				String from = internalPacket.getFromAddress();
-				moderator.sendInternalMessage(iPacket.getBody(), from, 
+				moderator.sendInternalMessage(internalPacket.toXML(), from, 
 						handlers.get(i).getUser());			
 			}
 		} catch (RESTException e) {
