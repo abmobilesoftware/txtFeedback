@@ -312,12 +312,15 @@
     <Content Include="Content\images\question-green.svg" />
     <Content Include="Content\images\question-orange.svg" />
     <Content Include="Content\images\Ro_flag_16.png" />
+    <Content Include="Content\images\smiley-h.png" />
     <Content Include="Content\images\Smiley-Happy-32.png" />
     <Content Include="Content\images\Smiley-Happy-32_20.png" />
+    <Content Include="Content\images\smiley-s.png" />
     <Content Include="Content\images\Smiley-Sad-32.png" />
     <Content Include="Content\images\Smiley-Sad-32_20.png" />
     <Content Include="Content\images\SMS-128x128.png" />
     <Content Include="Content\images\SMS-24x24.png" />
+    <Content Include="Content\images\sms.png" />
     <Content Include="Content\images\Spain_flag.png" />
     <Content Include="Content\images\Spain_flag_16.png" />
     <Content Include="Content\images\star-selected_orange.svg" />
