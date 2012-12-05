@@ -15,10 +15,8 @@ namespace SmsFeedback_Take4.Controllers
         private static List<String> supportedLanguage = new List<String> { "en", "de", "ro", "es" };
         protected override void ExecuteCore()
         {
-           //DA if the user language is not supported then we should not use it but default to en-US
-           
+           //DA if the user language is not supported then we should not use it but default to en-US           
            //we are only interested in the language part, not the country specific part
-
             if (RouteData.Values["lang"] != null &&
                 !string.IsNullOrWhiteSpace(RouteData.Values["lang"].ToString()))
             {
@@ -73,12 +71,10 @@ namespace SmsFeedback_Take4.Controllers
                 // set the lang value into route data
                 RouteData.Values["lang"] = langHeader;
             }
-
             // save the location into cookie
             HttpCookie _cookie = new HttpCookie("TxtFeedback.MvcLocalization.CurrentUICulture", Thread.CurrentThread.CurrentUICulture.Name);
             _cookie.Expires = DateTime.Now.AddYears(1);
             HttpContext.Response.SetCookie(_cookie);
-
             base.ExecuteCore();
         }
 
@@ -86,7 +82,4 @@ namespace SmsFeedback_Take4.Controllers
             return currentCulture;
         }
     }
-
-    
-
 }
