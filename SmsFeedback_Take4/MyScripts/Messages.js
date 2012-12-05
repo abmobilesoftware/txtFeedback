@@ -84,7 +84,7 @@ window.app.Message = Backbone.Model.extend({
    parse: function (data, xhc) {
       //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
       //in the TimeReceived property we have the same info coded as ticks, so we replace the TimeReceived value with a value build from the ticks value      
-      data.TimeReceived = (new Date(Date.UTC(data.Year, data.Month - 1, data.Day, data.Hours, data.Minutes, data.Seconds)));
+      data.TimeReceived = new Date(Date.UTC(data.Year, data.Month - 1, data.Day, data.Hours, data.Minutes, data.Seconds));
       //we have to determine the direction
       var dir = cleanupPhoneNumber(data.From) + "-" + cleanupPhoneNumber(data.To);
       if (dir === data.ConvID) {
@@ -405,7 +405,8 @@ function MessagesArea(convView, tagsArea, wpsArea) {
               ClientDisplayName: fromID,
               ClientIsSupportBot: false,
               Read: read,
-              IsSmsBased: isSmsBased
+              IsSmsBased: isSmsBased,
+              TimeReceived: dateReceived
            });
             //decide if this is a from or to message
             var fromTo = getFromToFromConversation(convID);
@@ -414,9 +415,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             if (!comparePhoneNumbers(fromID, from)) {
                 direction = "to";
             }
-            newMsg.set("Direction", direction);            
-            //we receive the date as RFC 822 string - we need to convert it to a valid Date
-            newMsg.set("TimeReceived", new Date(Date.parse(dateReceived)));            
+            newMsg.set("Direction", direction);                        
             //we add the message only if are in correct conversation
             if (window.app.globalMessagesRep[convID] !== undefined) {
                window.app.globalMessagesRep[convID].add(newMsg);

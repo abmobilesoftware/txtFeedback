@@ -108,7 +108,13 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
       var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
       var readStatus = false; //one "freshly received" message is always unread
       window.app.receivedMsgID++;
-      var asDateObject = new Date(dateReceived);
+      //DA the received time should be in UTC time
+      var asDateObject = new Date(Date.parse(dateReceived));
+      //Although now the time is shown in the correct timezone, we have to actually add timezone difference 
+      var milisecondsInMinute = 60000;
+      var localOffset = window.app.appStartTime.getTimezoneOffset() * milisecondsInMinute;
+      //a negative return value from getTimezoneOffset() indicates that the current location is ahead of UTC, while a positive value indicates that the location is behind UTC.
+      asDateObject = new Date(asDateObject.getTime() - localOffset);
       //DA only handle new messages - it could be that we received a message that was sent while the user was offline - this is already reflected in the state of the message 
       if (window.app.appStartTime < asDateObject) {
          $(document).trigger('msgReceived', {
@@ -116,7 +122,7 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
             toID: toID,
             convID: convID,
             msgID: window.app.receivedMsgID,
-            dateReceived: dateReceived,
+            dateReceived: asDateObject,
             text: newText,
             readStatus: readStatus,
             isSmsBased: isSmsBased

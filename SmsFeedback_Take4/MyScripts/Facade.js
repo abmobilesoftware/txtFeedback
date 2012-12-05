@@ -69,8 +69,8 @@ function InitializeGUI() {
       delete Array.prototype.toJSON;
       delete String.prototype.toJSON;
    }
-   //make a note of the starting time - we'll use this for "delayed sent messages"
-    window.app.appStartTime = new Date();
+   //make a note of the starting time - we'll use this for "delayed sent messages"    
+    window.app.appStartTime = new Date();    
    //initialize the filters area
    this.filterArea = new FilterArea();
 
