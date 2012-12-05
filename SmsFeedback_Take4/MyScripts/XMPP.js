@@ -116,7 +116,7 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
       //a negative return value from getTimezoneOffset() indicates that the current location is ahead of UTC, while a positive value indicates that the location is behind UTC.
       asDateObject = new Date(asDateObject.getTime() - localOffset);
       //DA only handle new messages - it could be that we received a message that was sent while the user was offline - this is already reflected in the state of the message 
-      if (window.app.appStartTime < asDateObject) {
+      //if (window.app.appStartTime < asDateObject) {
          $(document).trigger('msgReceived', {
             fromID: fromID,
             toID: toID,
@@ -129,7 +129,7 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
          });
          $(document).trigger('updateUnreadConvsNr');
       }
-   }
+   //}
 };
 //#endregion
 
@@ -291,10 +291,14 @@ window.app.XMPPhandler = function XMPPhandler() {
                }
             }
          }
-         else {
+         else {            
             //incommingMSG
-            var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
-           window.app.handleIncommingMessage(incommingMsg, true);              
+            //DA check if we are dealing with a delayed message or not - if yes - disregard the message
+            if ($(message).children("delay").length === 0) {
+               //according to http://xmpp.org/extensions/xep-0160.html#flow if we are dealing with a offline message we will have a delay child
+               var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
+               window.app.handleIncommingMessage(incommingMsg, true);
+            }
            
          }
       } else if ($(message).attr("type") === "error") {
