@@ -76,47 +76,50 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
    }
    var xmlMsgToBeDecoded = xmlDoc.getElementsByTagName("msg")[0];
    if (xmlMsgToBeDecoded !== undefined) {
-      var rawFromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
-      var rawToID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
-      var toID = cleanupPhoneNumber(rawToID);
-      var fromID = cleanupPhoneNumber(rawFromID);
-      var extension;
-      /*
-      DA: the following line seems weird and it actually is :)
-      Right now a Working Point XMPP address is shortID@moderator.txtfeedback.net
-      In order not to hard code the @ prefix we try to retrieve it from SuffixDictionary
-      The issue is that the WP's address might be the from address or the to address (depending on different factors)
-      But for sure the WP is either the to or the from -> we will find it in the suffix dictionary
-      To avoid complicated logic we test both from and to in the suffix dictionary and one of them will hit :)
-      */
-      extension = window.app.workingPointsSuffixDictionary[toID] || window.app.workingPointsSuffixDictionary[fromID];
-      //decide if we are dealing with a message coming from another WorkingPoint
-      var isFromWorkingPoint = isWorkingPoint(rawFromID, extension);
-      var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
-      var isSmsBasedAsString = xmlMsgToBeDecoded.getElementsByTagName('sms')[0].textContent;
-      var isSmsBased = false;
-      if (isSmsBasedAsString === "true") {
-         isSmsBased = true;
-      }
-      var convID;
-      if (isFromWorkingPoint && isIncomming) {
-         convID = buildConversationID(fromID, toID);
-      } else {
-         convID = xmlMsgToBeDecoded.getElementsByTagName("convID")[0].textContent;
-      }
+      //DA we have received a new message - so update the nr of unread conversations (this is generic)
+      $(document).trigger('updateUnreadConvsNr');
+      //DA now determine if we are in the Conversations tab so that we need to display the message
+      if (window.app.isInConversationsTab != undefined && window.app.isInConversationsTab === true)
+      {
+         var rawFromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
+         var rawToID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
+         var toID = cleanupPhoneNumber(rawToID);
+         var fromID = cleanupPhoneNumber(rawFromID);
+         var extension;
+         /*
+         DA: the following line seems weird and it actually is :)
+         Right now a Working Point XMPP address is shortID@moderator.txtfeedback.net
+         In order not to hard code the @ prefix we try to retrieve it from SuffixDictionary
+         The issue is that the WP's address might be the from address or the to address (depending on different factors)
+         But for sure the WP is either the to or the from -> we will find it in the suffix dictionary
+         To avoid complicated logic we test both from and to in the suffix dictionary and one of them will hit :)
+         */
+         extension = window.app.workingPointsSuffixDictionary[toID] || window.app.workingPointsSuffixDictionary[fromID];
+         //decide if we are dealing with a message coming from another WorkingPoint
+         var isFromWorkingPoint = isWorkingPoint(rawFromID, extension);
+         var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
+         var isSmsBasedAsString = xmlMsgToBeDecoded.getElementsByTagName('sms')[0].textContent;
+         var isSmsBased = false;
+         if (isSmsBasedAsString === "true") {
+            isSmsBased = true;
+         }
+         var convID;
+         if (isFromWorkingPoint && isIncomming) {
+            convID = buildConversationID(fromID, toID);
+         } else {
+            convID = xmlMsgToBeDecoded.getElementsByTagName("convID")[0].textContent;
+         }
 
-      var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
-      var readStatus = false; //one "freshly received" message is always unread
-      window.app.receivedMsgID++;
-      //DA the received time should be in UTC time
-      var asDateObject = new Date(Date.parse(dateReceived));
-      //Although now the time is shown in the correct timezone, we have to actually add timezone difference 
-      var milisecondsInMinute = 60000;
-      var localOffset = window.app.appStartTime.getTimezoneOffset() * milisecondsInMinute;
-      //a negative return value from getTimezoneOffset() indicates that the current location is ahead of UTC, while a positive value indicates that the location is behind UTC.
-      asDateObject = new Date(asDateObject.getTime() - localOffset);
-      //DA only handle new messages - it could be that we received a message that was sent while the user was offline - this is already reflected in the state of the message 
-      //if (window.app.appStartTime < asDateObject) {
+         var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
+         var readStatus = false; //one "freshly received" message is always unread
+         window.app.receivedMsgID++;
+         //DA the received time should be in UTC time
+         var asDateObject = new Date(Date.parse(dateReceived));
+         //Although now the time is shown in the correct timezone, we have to actually add timezone difference 
+         var milisecondsInMinute = 60000;
+         var localOffset = window.app.appStartTime.getTimezoneOffset() * milisecondsInMinute;
+         //a negative return value from getTimezoneOffset() indicates that the current location is ahead of UTC, while a positive value indicates that the location is behind UTC.
+         asDateObject = new Date(asDateObject.getTime() - localOffset);         
          $(document).trigger('msgReceived', {
             fromID: fromID,
             toID: toID,
@@ -126,10 +129,9 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
             text: newText,
             readStatus: readStatus,
             isSmsBased: isSmsBased
-         });
-         $(document).trigger('updateUnreadConvsNr');
+         });         
       }
-   //}
+   }
 };
 //#endregion
 
