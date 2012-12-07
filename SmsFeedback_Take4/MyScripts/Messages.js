@@ -79,7 +79,8 @@ window.app.Message = Backbone.Model.extend({
       Direction: "from",
       Read: false,
       Starred: false,
-      IsSmsBased: false
+      IsSmsBased: false,
+      WasSuccessfullySent: false
    },
    parse: function (data, xhc) {
       //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
@@ -93,6 +94,7 @@ window.app.Message = Backbone.Model.extend({
       else {
          dir = "to";
       }
+      if (data.Id > 0) data.WasSuccessfullySent = true;
       data.Direction = dir;
       return data;
    },
@@ -181,7 +183,7 @@ window.app.sendMessageToClient = function (text, conversationID, selectedConv, m
       */
       storeXMPPcomponentAddress = wpPool.getWorkingPointXmppAddress(cleanupPhoneNumber(to)) || wpPool.getWorkingPointXmppAddress(cleanupPhoneNumber(from));
    }
-   window.app.xmppHandlerInstance.send_reply(storeStaffAddress, clientToRespondToAddress, timeSent, conversationID, text, storeXMPPcomponentAddress, isSmsBased, sendToSupport);
+   window.app.xmppHandlerInstance.send_reply(storeStaffAddress, clientToRespondToAddress, timeSent, conversationID, text, storeXMPPcomponentAddress, isSmsBased, sendToSupport, msgID);
 };
 //#endregion
 
@@ -425,11 +427,14 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             var msgView = new MessageView({ model: msg });
             var item = msgView.render().el;
             $(this.el).append(item);
+            // Messages from db have positive IDs and recently sent messages have negative messages
             $(item).hover(function () {
                 var helperDiv = $(this).find("div.messageMenu")[0];
-                //make sure to bind the buttons
                 $(helperDiv).css("visibility", "visible");
-                
+                if (msg.get("WasSuccessfullySent"))
+                    $(".singleCheckNo" + msg.get("Id")).show();
+                    $(".singleCheckNo" + msg.get("Id")).css("visibility", "visible");
+
                 if (window.app.calendarCulture == "ro") gDateDisplayPattern = 'DD, d MM, yy';
                 gSelectedMessage = $($(this).find("div span")[0]).html();
                 var extractedDateAndTime = $($(this).find(".timeReceived")[0]).html();
@@ -442,6 +447,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                 var helperDiv = $(this).find("div.messageMenu")[0];
                 //$(helperDiv).fadeOut("fast");
                 $(helperDiv).hide();
+                $(".singleCheckNo" + msg.get("Id")).hide();
             });
             if (performFadeIn) {
                 $(item).hide().fadeIn("2000");
@@ -452,6 +458,18 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                 var messagesEl = $("#scrollablemessagebox");
                 messagesEl.animate({ scrollTop: messagesEl.prop("scrollHeight") }, 3000);
             }
+        },
+        messageSuccessfullySent: function (msgID, convID) {
+            // update the model
+            var messagePosition = 0;
+            for (i = 0; i < window.app.globalMessagesRep[convID].models.length; ++i) {
+                var currentModel = window.app.globalMessagesRep[convID].models[i];
+                if (currentModel.attributes.Id == msgID) {
+                    messagePosition = i;
+                }
+            }
+            var msgSent = window.app.globalMessagesRep[convID].at(messagePosition);
+            msgSent.set("WasSuccessfullySent", true);       
         }
     });
     this.messagesView = new MessagesView();

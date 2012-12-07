@@ -16,7 +16,14 @@
       <div class="textMessage">
          <span>{{ Text }} </span> 
           <div class="clear"></div>
+       
        <span class="timeReceived"></span>
+       {% if (Direction == "to") { %}
+            <div class="sendAndReceivedChecks">
+                <img src="/Content/images/check-black.svg" class="check singleCheck singleCheckNo{{ Id }}" />
+                <img src="/Content/images/check-black.svg" class="check doubleCheck doubleCheckNo{{ Id }}" />
+            </div>    
+       {% } %}
       </div>      
       <div class="clear"></div>      
    </script>

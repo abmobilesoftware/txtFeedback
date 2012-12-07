@@ -1771,6 +1771,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Message sent.
+        /// </summary>
+        public static string tooltipCheckMessageSent {
+            get {
+                return ResourceManager.GetString("tooltipCheckMessageSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete conversation.
         /// </summary>
         public static string tooltipDeleteConversation {

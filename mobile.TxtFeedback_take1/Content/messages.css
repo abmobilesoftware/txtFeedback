@@ -415,3 +415,16 @@ html, body
     width: 30%;
     float: left;
 }
+
+.sendAndReceivedChecks {
+    float: right;
+    padding-right: 10px;
+    position: relative;
+    top: 5px;
+}
+
+.check {
+    visibility: hidden;
+    height: 15px;
+    margin-bottom: 5px;
+}
