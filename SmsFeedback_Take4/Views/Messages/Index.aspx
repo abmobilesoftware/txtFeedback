@@ -78,14 +78,14 @@
 
             <div class="leftLiDiv convColumn">
                 {% if (Read) { %}
-                        <embed src="<%: Url.Content("~/Content/images/check-grey.svg") %>" type="image/svg+xml" class="images conversationImageRead" />
+                        <img src="<%: Url.Content("~/Content/images/check-grey.png") %>" class="images conversationImageRead" height="28" width="40" />
                 {% } else {
                         var fromTo = getFromToFromConversation(ConvID);
                         if (comparePhoneNumbers(fromTo[0],From)) {
                         %}
-                            <embed src="<%: Url.Content("~/Content/images/exclamation-blue.svg") %>" type="image/svg+xml" class="images conversationImageUnread" />
+                            <img src="<%: Url.Content("~/Content/images/exclamation-blue.png") %>" class="images conversationImageUnread" height="28" width="40" />
                         {% } else { %}
-                            <embed src="<%: Url.Content("~/Content/images/exclamation-green.svg") %>" type="image/svg+xml" class="images conversationImageUnread" />
+                            <embed src="<%: Url.Content("~/Content/images/exclamation-green.png") %>" class="images conversationImageUnread" height="28" width="40" />
                         {% }    
                 }  %}
             </div>
@@ -118,9 +118,9 @@
        
                 <div class="conversationStarIcon ignoreElementOnSelection">
                     {% if (Starred) { %}
-                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected_orange.svg") %>" class="conversationStarIconImg" />
+                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected_orange.svg") %>" class="conversationStarIconImg" height="33" width="33"/>
                     {% } else { %}
-                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star.svg") %>" class="conversationStarIconImg" /> 
+                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star.svg") %>" class="conversationStarIconImg" height="33" width="33"/> 
                     {% } %}
                 </div>
             </div>                         
