@@ -713,7 +713,7 @@
     <value>Anzahl der Unterhaltungen mit ungelesene Nachrichten</value>
   </data>
   <data name="tooltipReplyBtn" xml:space="preserve">
-    <value>Antwort an Kunde senden</value>
+    <value>Antwort an Kunde senden (Shift + Enter)</value>
   </data>
   <data name="tooltipSendEmailImg" xml:space="preserve">
     <value>Als E-mail versenden</value>

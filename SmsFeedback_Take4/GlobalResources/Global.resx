@@ -585,7 +585,7 @@
     <comment>Conversation: header area, number of the right of Conversations menu label</comment>
   </data>
   <data name="tooltipReplyBtn" xml:space="preserve">
-    <value>Send reply to customer</value>
+    <value>Send reply to customer (Shift + Enter)</value>
     <comment>Conversation: messages area, reply button</comment>
   </data>
   <data name="tooltipSendEmailImg" xml:space="preserve">
