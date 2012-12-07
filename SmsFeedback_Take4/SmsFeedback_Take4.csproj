@@ -262,6 +262,7 @@
     <Content Include="Content\grid.css" />
     <Content Include="Content\images\06-web-2.png" />
     <Content Include="Content\images\06-web-2_225.png" />
+    <Content Include="Content\images\check-grey.png" />
     <Content Include="Content\images\check-grey.svg" />
     <Content Include="Content\images\check-white.svg" />
     <Content Include="Content\images\checkbox_checked.png" />
@@ -289,7 +290,9 @@
     <Content Include="Content\images\De_flag_16.png" />
     <Content Include="Content\images\em16x16.png" />
     <Content Include="Content\images\Excel-25.png" />
+    <Content Include="Content\images\exclamation-blue.png" />
     <Content Include="Content\images\exclamation-blue.svg" />
+    <Content Include="Content\images\exclamation-green.png" />
     <Content Include="Content\images\exclamation-green.svg" />
     <Content Include="Content\images\exclamation-orange.svg" />
     <Content Include="Content\images\exclamationMark.jpg" />
