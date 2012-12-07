@@ -248,7 +248,7 @@ function FilterArea() {
 
    //#region IsFilteringEnabled
    this.IsFilteringEnabled = function () {
-      return self.tagFilteringEnabled || self.dateFilteringEnabled || self.starredFilteringEnabled || self.unreadFilteringEnabled;
+      return self.tagFilteringEnabled || self.dateFilteringEnabled || self.starredFilteringEnabled || self.unreadFilteringEnabled || self.supportFilteringEnabled;
    };
    //#endregion
 
