@@ -29,9 +29,13 @@ function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, d
    msgView.messagesView.newMessageReceived(fromID, convID, msgID, dateReceived, text, readStatus, isSmsBased);
 }
 
+function resetMessagesViewToInitialState(msgView) {
+   msgView.messagesView.resetViewToDefault();
+}
+
 function refreshConversationList(convView, msgView) {
       convView.getConversations();
-      msgView.messagesView.resetViewToDefault();
+      resetMessagesViewToInitialState(msgView);
 }
 
 function resizeTriggered() {
@@ -99,6 +103,9 @@ function InitializeGUI() {
       refreshConversationList(self.convView, self.msgView);
    });
 
+   $(document).bind('selectedConvDeleted', function (ev, data) {
+      resetMessagesViewToInitialState(self.msgView);
+   });
    //DA IE8 doesn't support addEventListener so we use attachEvent
    //source http://stackoverflow.com/questions/9769868/addeventlistener-not-working-in-ie8
    if (!window.addEventListener) {
