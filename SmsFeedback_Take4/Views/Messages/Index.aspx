@@ -143,7 +143,7 @@
             <input type="hidden" value="<%: Resources.Global.shareOnLinkedinTitle %>" id="linkedInTitle"/>
             {% if (Direction == "to") { %}
                 <div class="sendAndReceivedChecks">
-                    <img title="<%: Resources.Global.tooltipCheckMessageSent %>" src="<%: Url.Content("~/Content/images/check-black.svg") %>" class="check singleCheck singleCheckNo{{ Id }}" />
+                    <img title="<%: Resources.Global.tooltipCheckMessageSent %>" src="<%: Url.Content("~/Content/images/check-black.svg") %>" class="singleCheck singleCheckNo{{ Id }} {% if (WasSuccessfullySent) { %} checkSent {% } else { %} check {% } %}" />
                     <img title="<%: Resources.Global.tooltipCheckMessageSent %>" src="<%: Url.Content("~/Content/images/check-black.svg") %>" class="check doubleCheck doubleCheckNo{{ Id }}" />
                 </div>    
             {% } %}

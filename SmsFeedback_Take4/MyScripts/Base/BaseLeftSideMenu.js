@@ -62,8 +62,8 @@ window.app.MenuItemView = Backbone.View.extend({
 window.app.MenuView = Backbone.View.extend({
    el: $("#leftColumn"),
    eventToTriggerOnSelect: "defaultEventName",
-   initialize: function(options) {
-       _.bindAll(this, 'render','afterInitializeFunction');      
+   initialize: function (options) {
+      _.bindAll(this, 'render', 'afterInitializeFunction');
       var self = this;
       self.eventToTriggerOnSelect = options.eventToTriggerOnSelect;
       self.afterInitializeFunction = options.afterInitializeFunction;
@@ -71,8 +71,8 @@ window.app.MenuView = Backbone.View.extend({
 
       this.menuItems.fetch({
          success: function () {
-             self.render();
-             self.afterInitializeFunction();
+            self.render();
+            self.afterInitializeFunction();
          }
       });
    },
@@ -102,7 +102,7 @@ window.app.MenuView = Backbone.View.extend({
       });
       // apply collapsible functionality to list
       CollapsibleLists.apply();
-     
+
    },
    afterInitializeFunction: function () { }
 });
