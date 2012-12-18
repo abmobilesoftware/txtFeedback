@@ -26,11 +26,7 @@
           <EntitySet Name="UsersForWorkingPoints" EntityType="smsfeedbackModel.Store.UsersForWorkingPoints" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="UsersInRoles" EntityType="smsfeedbackModel.Store.UsersInRoles" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="WorkingPoints" EntityType="smsfeedbackModel.Store.WorkingPoints" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="XmppConnections" EntityType="smsfeedbackModel.Store.XmppConnections" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK_CompanySubscriptions" Association="smsfeedbackModel.Store.FK_CompanySubscriptions">
-            <End Role="Subscriptions" EntitySet="Subscriptions" />
-            <End Role="Companies" EntitySet="Companies" />
-          </AssociationSet>
+          <EntitySet Name="XmppConnections" EntityType="smsfeedbackModel.Store.XmppConnections" store:Type="Tables" Schema="dbo" />          
           <AssociationSet Name="FK_CompanyTag" Association="smsfeedbackModel.Store.FK_CompanyTag">
             <End Role="Companies" EntitySet="Companies" />
             <End Role="Tags" EntitySet="Tags" />
@@ -165,9 +161,7 @@
           </Key>
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Subscription_Type" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="NrOfTrainingHoursDelivered" Type="int" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />          
         </EntityType>
         <EntityType Name="ConversationHistories">
           <Key>
@@ -363,19 +357,7 @@
           </Key>
           <Property Name="XmppUser" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="XmppPassword" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_CompanySubscriptions">
-          <End Role="Subscriptions" Type="smsfeedbackModel.Store.Subscriptions" Multiplicity="1" />
-          <End Role="Companies" Type="smsfeedbackModel.Store.Companies" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Subscriptions">
-              <PropertyRef Name="Type" />
-            </Principal>
-            <Dependent Role="Companies">
-              <PropertyRef Name="Subscription_Type" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        </EntityType>        
         <Association Name="FK_CompanyTag">
           <End Role="Companies" Type="smsfeedbackModel.Store.Companies" Multiplicity="1" />
           <End Role="Tags" Type="smsfeedbackModel.Store.Tags" Multiplicity="*" />
@@ -760,10 +742,6 @@
             <End Role="ActivityLogWorkingPoint" EntitySet="ActivityLogWorkingPoints" />
           </AssociationSet>
           <EntitySet Name="Subscriptions" EntityType="smsfeedbackModel.Subscriptions" />
-          <AssociationSet Name="CompanySubscriptions" Association="smsfeedbackModel.CompanySubscriptions">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="Subscriptions" EntitySet="Subscriptions" />
-          </AssociationSet>
           <AssociationSet Name="FK_SupportConversationForWorkingPoint1" Association="smsfeedbackModel.FK_SupportConversationForWorkingPoint1">
             <End Role="Conversation" EntitySet="Conversations" />
             <End Role="WorkingPoint" EntitySet="WorkingPoints" />
@@ -942,8 +920,6 @@
           <Property Type="String" Name="Address" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Tags" Relationship="smsfeedbackModel.FK_CompanyTag" FromRole="Company" ToRole="Tag" />
           <NavigationProperty Name="Users" Relationship="smsfeedbackModel.FK_UserCompany" FromRole="Company" ToRole="User" />
-          <Property Type="Int32" Name="NrOfTrainingHoursDelivered" Nullable="false" />
-          <NavigationProperty Name="Subscription" Relationship="smsfeedbackModel.CompanySubscriptions" FromRole="Company" ToRole="Subscriptions" />
         </EntityType>
         <Association Name="FK_CompanyTag">
           <End Type="smsfeedbackModel.Company" Role="Company" Multiplicity="1" />
@@ -1181,12 +1157,7 @@
           <Property Type="Int32" Name="SmsPerWorkingPoint" Nullable="false" />
           <Property Type="Int32" Name="NrOfUsers" Nullable="false" />
           <Property Type="String" Name="NrOfHoursOfTraining" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Companies" Relationship="smsfeedbackModel.CompanySubscriptions" FromRole="Subscriptions" ToRole="Company" />
         </EntityType>
-        <Association Name="CompanySubscriptions">
-          <End Type="smsfeedbackModel.Company" Role="Company" Multiplicity="*" />
-          <End Type="smsfeedbackModel.Subscriptions" Role="Subscriptions" Multiplicity="1" />
-        </Association>
         <Association Name="FK_SupportConversationForWorkingPoint1">
           <End Type="smsfeedbackModel.Conversation" Role="Conversation" Multiplicity="0..1" />
           <End Type="smsfeedbackModel.WorkingPoint" Role="WorkingPoint" Multiplicity="*" />
@@ -1433,7 +1404,6 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="NrOfTrainingHoursDelivered" ColumnName="NrOfTrainingHoursDelivered" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1591,14 +1561,6 @@
       </EndProperty>
       <EndProperty Name="ActivityLogWorkingPoint">
         <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="CompanySubscriptions" TypeName="smsfeedbackModel.CompanySubscriptions" StoreEntitySet="Companies">
-      <EndProperty Name="Subscriptions">
-        <ScalarProperty Name="Type" ColumnName="Subscription_Type" />
-      </EndProperty>
-      <EndProperty Name="Company">
-        <ScalarProperty Name="Name" ColumnName="Name" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

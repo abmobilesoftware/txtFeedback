@@ -34,7 +34,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_TagConversationTags", "Tag", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Tag), "ConversationTag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.ConversationTag), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "UsersInRoles", "Role", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Role), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.User))]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "WorkingPointActivityLogWorkingPoint", "WorkingPoint", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.WorkingPoint), "ActivityLogWorkingPoint", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.ActivityLogWorkingPoint))]
-[assembly: EdmRelationshipAttribute("smsfeedbackModel", "CompanySubscriptions", "Company", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.Company), "Subscriptions", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Subscriptions))]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_SupportConversationForWorkingPoint1", "Conversation", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(SmsFeedback_EFModels.Conversation), "WorkingPoint", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.WorkingPoint), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_TagTagTagType", "Tag", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.Tag), "TagTagType", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.TagTagType), true)]
 [assembly: EdmRelationshipAttribute("smsfeedbackModel", "FK_TagTypeTagTagType", "TagType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SmsFeedback_EFModels.TagType), "TagTagType", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SmsFeedback_EFModels.TagTagType), true)]
@@ -1093,14 +1092,12 @@ namespace SmsFeedback_EFModels
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="description">Initial value of the Description property.</param>
         /// <param name="address">Initial value of the Address property.</param>
-        /// <param name="nrOfTrainingHoursDelivered">Initial value of the NrOfTrainingHoursDelivered property.</param>
-        public static Company CreateCompany(global::System.String name, global::System.String description, global::System.String address, global::System.Int32 nrOfTrainingHoursDelivered)
+        public static Company CreateCompany(global::System.String name, global::System.String description, global::System.String address)
         {
             Company company = new Company();
             company.Name = name;
             company.Description = description;
             company.Address = address;
-            company.NrOfTrainingHoursDelivered = nrOfTrainingHoursDelivered;
             return company;
         }
 
@@ -1182,30 +1179,6 @@ namespace SmsFeedback_EFModels
         private global::System.String _Address;
         partial void OnAddressChanging(global::System.String value);
         partial void OnAddressChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 NrOfTrainingHoursDelivered
-        {
-            get
-            {
-                return _NrOfTrainingHoursDelivered;
-            }
-            set
-            {
-                OnNrOfTrainingHoursDeliveredChanging(value);
-                ReportPropertyChanging("NrOfTrainingHoursDelivered");
-                _NrOfTrainingHoursDelivered = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("NrOfTrainingHoursDelivered");
-                OnNrOfTrainingHoursDeliveredChanged();
-            }
-        }
-        private global::System.Int32 _NrOfTrainingHoursDelivered;
-        partial void OnNrOfTrainingHoursDeliveredChanging(global::System.Int32 value);
-        partial void OnNrOfTrainingHoursDeliveredChanged();
 
         #endregion
 
@@ -1252,44 +1225,6 @@ namespace SmsFeedback_EFModels
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User>("smsfeedbackModel.FK_UserCompany", "User", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "CompanySubscriptions", "Subscriptions")]
-        public Subscriptions Subscription
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Subscriptions>("smsfeedbackModel.CompanySubscriptions", "Subscriptions").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Subscriptions>("smsfeedbackModel.CompanySubscriptions", "Subscriptions").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Subscriptions> SubscriptionReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Subscriptions>("smsfeedbackModel.CompanySubscriptions", "Subscriptions");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Subscriptions>("smsfeedbackModel.CompanySubscriptions", "Subscriptions", value);
                 }
             }
         }
@@ -4008,32 +3943,6 @@ namespace SmsFeedback_EFModels
         #endregion
 
     
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("smsfeedbackModel", "CompanySubscriptions", "Company")]
-        public EntityCollection<Company> Companies
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Company>("smsfeedbackModel.CompanySubscriptions", "Company");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Company>("smsfeedbackModel.CompanySubscriptions", "Company", value);
-                }
-            }
-        }
-
-        #endregion
-
     }
     
     /// <summary>
