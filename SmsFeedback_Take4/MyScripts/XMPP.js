@@ -24,7 +24,36 @@ window.app.selfXmppAddress = "";
 
 window.app.separatorForUnsentMessages = "@@";
 window.app.unsentMsgQueue = [];
+window.app.toBeSentMsgQueue = [];
 window.app.XMPPConnecting = false;
+
+//#region Helpers
+function getToBeSentMsg(msgID, convID) {
+   for (var i = 0; i < window.app.toBeSentMsgQueue; ++i) {
+      if (window.app.toBeSentMsgQueue[i].msgID == msgID && window.app.toBeSentMsgQueue[i].convID == convID) {
+         return window.app.toBeSentMsgQueue[i];
+      }
+   }
+   return null;
+}
+
+function removeToBeSentMsgById(msgID, convID) {
+   var toBeRemovedMsgPos = -1;
+   for (var i = 0; i < window.app.toBeSentMsgQueue; ++i) {
+      if (window.app.toBeSentMsgQueue[i].msgID == msgID && window.app.toBeSentMsgQueue[i].convID == convID) {
+         toBeRemovedMsgPos = i;
+         break;
+      }
+   }
+   if (toBeRemovedMsgPos != -1) {
+      window.app.toBeSentMsgQueue.splice(toBeRemovedMsgPos, 1);
+      return true;
+   } else {
+      return false;
+   }
+
+}
+//#endregion
 
 function getNumberOfConversationsWithUnreadMessages() {
    "use strict";
@@ -38,11 +67,16 @@ window.app.setNrOfUnreadConversationOnTab = function (unreadConvs) {
    $("#msgTabcount").text(toShow);
 };
 
-function MessageUnsent(body, xmppTo, msgID, convID) {
+function MessageUnsent(body, xmppTo, msgID, convID, from, dateReceived, text, read, isSmsBased) {
    this.body = body;
    this.xmppTo = xmppTo;
    this.msgID = msgID;
    this.convID = convID;
+   this.from = from;
+   this.dateReceived = dateReceived;
+   this.text = text;
+   this.read = read;
+   this.isSmsBased = isSmsBased;
 }
 
 //#region "timer for reconnect"
@@ -50,7 +84,8 @@ window.app.reconnectTimer = {};
 window.app.intervalToWaitBetweenChecks = 15000;
 function reconnectIfRequired() {
    if (window.app.xmppConn && window.app.xmppConn.conn && !window.app.xmppConn.conn.connected && !window.app.XMPPConnecting) {
-      window.app.xmppHandlerInstance.connect(window.app.xmppHandlerInstance.userId, window.app.xmppHandlerInstance.password, window.app.xmppHandlerInstance.connectCallback);
+      window.app.XMPPConnecting = true;
+      window.app.xmppHandlerInstance.connect(window.app.xmppConn.userid, window.app.xmppConn.password, window.app.xmppConn.connectCallback);      
    }
    window.app.startReconnectTimer();
 }
@@ -61,10 +96,13 @@ window.app.startReconnectTimer = function () {
 
 window.app.xmppHandlerInstance = {};
 $(function () {
+   // first load the unsent messages
+   window.app.loadUnsentMsgQueue();
    //the xmpp handler for new messages
    window.app.xmppHandlerInstance = new window.app.XMPPhandler();
    $(window).unload(function () {
       if (window.app.xmppHandlerInstance && window.app.xmppHandlerInstance.disconnect) {
+         window.app.storeUnsentMsgQueue();
          window.app.xmppHandlerInstance.disconnect();
       }
    });
@@ -82,8 +120,6 @@ $(function () {
    });
 });
 
-
-
 window.app.XMPPhandler = function XMPPhandler() {
    this.userid = null;
    this.password = null;
@@ -92,8 +128,7 @@ window.app.XMPPhandler = function XMPPhandler() {
    this.connection = null;
    this.start_time = null;
    this.connectCallback = function (status) {
-      var needReconnect = false;
-      if (status === Strophe.Status.CONNECTED) {
+     if (status === Strophe.Status.CONNECTED) {
          //window.app.logDebugOnServer("XMPP connected");         
          window.app.XMPPConnecting = false;
          window.app.xmppConn.connection = window.app.xmppConn.conn;
@@ -110,26 +145,26 @@ window.app.XMPPhandler = function XMPPhandler() {
       } else if (status === Strophe.Status.AUTHENTICATING) {
          // window.app.logDebugOnServer("XMPP authenticating...");         
       } else if (status === Strophe.Status.DISCONNECTED) {
-         //window.app.logDebugOnServer("XMPP disconnected");        
-         needReconnect = true;
+         window.app.XMPPConnecting = false;
+         //window.app.logDebugOnServer("XMPP disconnected");              
       } else if (status === Strophe.Status.CONNFAIL) {
+         window.app.XMPPConnecting = false;
          window.app.logDebugOnServer("XMPP connection fail");
          window.app.xmppConn.conn.disconnect();
       } else if (status === Strophe.Status.AUTHFAIL) {
+         window.app.XMPPConnecting = false;
          window.app.logDebugOnServer("XMPP authentication failed");
          window.app.xmppConn.conn.disconnect();
       } else if (status === Strophe.Status.ERROR) {
+         window.app.XMPPConnecting = false;
          window.app.logDebugOnServer("XMPP status error");
          window.app.xmppConn.conn.disconnect();
-      }
-      if (needReconnect) {
-         window.app.xmppConn.connect(window.app.xmppConn.userid, window.app.xmppConn.password, window.app.xmppConn.connectCallback);
-      }
+      }      
    };
    this.sendMessagesInQueue = function () {
       while (window.app.unsentMsgQueue.length > 0) {
          var unsentMsg = window.app.unsentMsgQueue.shift();
-         window.app.xmppConn.send_message(unsentMsg.body, unsentMsg.xmppTo, unsentMsg.msgID, unsentMsg.convID);
+         window.app.xmppConn.send_message(unsentMsg);
       }
    };
    this.connect = function (userid, password) {
@@ -187,6 +222,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       there should be no responsibility regarding the logic of building the content of the message
       but only regarding the structure (what fields have to be filled in)
       */
+
       var self = this;
       var message_body = "<msg>" +
                                     " <from>" + from + "</from>" +
@@ -197,27 +233,31 @@ window.app.XMPPhandler = function XMPPhandler() {
                                     " <staff>" + toStaff.toString() + "</staff>" +
                                     " <sms>" + isSmsBased.toString() + "</sms>" +
                                 " </msg>";
-      self.send_message(message_body, xmppTo, msgID, convID);
+
+      var messageToBeSent = new MessageUnsent(message_body, xmppTo, msgID, convID, from, dateSent, message, false, false);
+      self.send_message(messageToBeSent);
    };
-   this.send_message = function (body, xmppTo, msgID, convID) {
+   this.send_message = function (message) {
       var self = this;
+      //<request xmlns='urn:xmpp:receipts'/>
+
       var replymsg = $msg({
          from: window.app.selfXmppAddress,
-         to: xmppTo,
-         "type": "chat"
-      }).c("body").t(body);
+         to: message.xmppTo,
+         "type": "chat",
+         id: message.msgID
+      }).c("body").t(message.body);
       replymsg.up();
       replymsg.c("subject").t("internal_packet");
+      replymsg.up();
+      replymsg.c("request", { xmlns: "urn:xmpp:receipts" })
 
       if (window.app.xmppConn.conn.authenticated) {
-         window.app.xmppConn.conn.send(replymsg);
-         // trigger a document event to signal that the message was successfully sent
-         $(document).trigger('msgSent', {
-            msgID: msgID,
-            convID: convID
-         });
+         var toBeSentMsg = new MessageUnsent(message.body, message.xmppTo, message.msgID, message.convID);
+         window.app.toBeSentMsgQueue.push(toBeSentMsg);
+         window.app.xmppConn.conn.send(replymsg);         
       } else {
-         var unsentMessage = new MessageUnsent(body, xmppTo, msgID, convID);
+         var unsentMessage = new MessageUnsent(message.body, message.xmppTo, message.msgID, message.convID);
          window.app.unsentMsgQueue.push(unsentMessage);
          //force synch connect 
          if (!window.app.XMPPConnecting) {
@@ -255,6 +295,21 @@ window.app.XMPPhandler = function XMPPhandler() {
       } else if ($(message).attr("type") === "getMessagesForConversationResponse") {
          var messages = $(message).children("body").text();
          this.displayMessagesForConversation(messages);
+      } else if ($(message).attr("type") === "ServerMsgDeliveryReceipt") {
+         // server acknowledge message received
+         // search in toBeSent queue for the message with messageId
+         var messageId = $(message).children("received").attr("id");
+         var messageConvId = $(message).children("body").text();
+         var serverAckMsg = getToBeSentMsg(messageId, messageConvId);
+         $(document).trigger('serverAck', {
+            message: serverAckMsg,
+         });
+         removeToBeSentMsg(messageId, messageConvId);
+      } else if ($(message).attr("type") === "ClientMsgDeliveryReceipt") {
+         var msgID = $(message).children("received").attr("id");
+         $(document).trigger('clientAck', {
+            msgID: msgID
+         });
       } else if ($(message).attr("type") === "result") {
          //TODO result relevant to us?
       } else if ($(message).attr("type") === "chat") {
@@ -273,7 +328,7 @@ window.app.XMPPhandler = function XMPPhandler() {
             if (window.app.handleIncommingMessage !== undefined) {
                window.app.handleIncommingMessage(incommingMsg, true);
             }
-            $(document).trigger('updateUnreadConvsNr');
+            $(document).trigger('updateUnreadConvsNr');            
          }
       } else if ($(message).attr("type") === "error") {
          var error = message.getElementsByTagName("error")[0];
@@ -285,3 +340,22 @@ window.app.XMPPhandler = function XMPPhandler() {
       return true;
    };
 };
+
+//#region Load&Store unsent message queue
+window.app.loadUnsentMsgQueue = function () {
+   var store = new Persist.Store('TxtFeedbackStaff');
+   var unsentMsgs = store.get('unsentMessages');
+   if (unsentMsgs) {
+      window.app.unsentMsgQueue = eval(unsentMsgs);
+   }   
+};
+
+window.app.storeUnsentMsgQueue = function () {
+   var store = new Persist.Store('TxtFeedbackStaff');
+   // add in unsentMsgQueue all the messages from toBeSentMsgQueue
+   for (var i = 0; i < window.app.toBeSentMsgQueue.length; ++i) {
+      window.app.unsentMsgQueue.push(window.app.toBeSentMsgQueue[i]);
+   }
+   store.set('unsentMessages', JSON.stringify(window.app.unsentMsgQueue));
+};
+//#endregion
