@@ -12,7 +12,6 @@ window.app = window.app || {};
 window.app.globalMessagesRep = {};
 window.app.msgView = {};
 
-
 function newMessageReceivedGUI(msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
    //the conversations window expects that the toID be a "name" and not a telephone number   
    msgView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
@@ -80,11 +79,11 @@ window.app.MessagesArea = function () {
       sendMessageToClient();
    });
 
-   var id = 412536; //this should be unique
+   var id = 189542; //this should be unique
    var sendMessageToClient = function () {
        var inputBox = $("#replyText");
        if ($.trim($("#replyText").val()).length > 0) {
-           id++;
+          id++;
            //add it to the visual list
            //I should set values to all the properties
            var msgContent = inputBox.val();

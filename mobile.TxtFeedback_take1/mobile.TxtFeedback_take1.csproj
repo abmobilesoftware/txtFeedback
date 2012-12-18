@@ -31,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -239,6 +240,7 @@
     <None Include="Properties\PublishProfiles\debug_m.mobile.pubxml" />
     <None Include="Properties\PublishProfiles\debug_m.mobitest.pubxml" />
     <None Include="Properties\PublishProfiles\demo.t3xt.me_release.pubxml" />
+    <None Include="Properties\PublishProfiles\dev.t3xt.me.pubxml" />
     <None Include="Properties\PublishProfiles\t3xt.me_release.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MyScripts\Home.js" />
