@@ -136,7 +136,7 @@ namespace SmsFeedback_Take4.Utilities
                             }
                             else
                             {
-                                dbContext.ConversationHistories.DeleteObject(convEvents.First());
+                                dbContext.ConversationHistories.Remove(convEvents.First());                                
                                 dbContext.SaveChanges();
                             }
                         }
@@ -178,10 +178,10 @@ namespace SmsFeedback_Take4.Utilities
                     List<ConversationHistory> events = (from convEvent in dbContext.ConversationHistories where convEvent.MessageId == firstMessage.Id select convEvent).ToList();
                     foreach (var singleEvent in events)
                     {
-                        dbContext.ConversationHistories.DeleteObject(singleEvent);
+                        dbContext.ConversationHistories.Remove(singleEvent);
                         dbContext.SaveChanges();
                     }
-                    dbContext.Messages.DeleteObject(messages.First());
+                    dbContext.Messages.Remove(messages.First());
                     dbContext.SaveChanges();
                     if ((firstMessage.TimeReceived.Ticks - firstConversation.TimeUpdated.Ticks) < 10000000 && firstConversation.Text.Trim().Equals(firstMessage.Text.Trim()))
                     {
@@ -208,7 +208,7 @@ namespace SmsFeedback_Take4.Utilities
                 List<ConversationTag> tagsForConversation = (from tag in conversation.ConversationTags select tag).ToList();
                 foreach (var tag in tagsForConversation)
                 {
-                    dbContext.ConversationTags.DeleteObject(tag);
+                    dbContext.ConversationTags.Remove(tag);
                     dbContext.SaveChanges();
                 }
 
@@ -218,7 +218,7 @@ namespace SmsFeedback_Take4.Utilities
                     DeleteMessage(message.Text, message.ConversationId, message.TimeReceived, dbContext); 
                 }
 
-                dbContext.Conversations.DeleteObject(conversation);
+                dbContext.Conversations.Remove(conversation);
                 dbContext.SaveChanges();
             }            
         }
@@ -247,7 +247,7 @@ namespace SmsFeedback_Take4.Utilities
                 Date = iEventDate,
                 MessageId = iMessageId
             };
-            dbContext.ConversationHistories.AddObject(conversationEvent);
+            dbContext.ConversationHistories.Add(conversationEvent);
             dbContext.SaveChanges();
         }
 
@@ -318,7 +318,7 @@ namespace SmsFeedback_Take4.Utilities
             {
                 var wpId = workingPointIDs.First();
                 //if we add a new conversation then we the start time will be the update time of the first message
-                dbContext.Conversations.AddObject(new Conversation
+                dbContext.Conversations.Add(new Conversation
                 {
                     ConvId = conversationId,
                     Text = text,
@@ -352,7 +352,7 @@ namespace SmsFeedback_Take4.Utilities
                     Description = "new client",
                     isSupportClient = false
                 };
-                dbContext.Clients.AddObject(newClient);
+                dbContext.Clients.Add(newClient);
                 dbContext.SaveChanges();
                 clientToBeAddedInDb = newClient;
             }
@@ -471,7 +471,7 @@ namespace SmsFeedback_Take4.Utilities
                         XmppUser = XmppUser,
                         XmppPassword = "123456"
                     };
-                    dbContext.XmppConnections.AddObject(newXmppUser);
+                    dbContext.XmppConnections.Add(newXmppUser);
                     dbContext.SaveChanges();
                 }
             }
@@ -502,7 +502,7 @@ namespace SmsFeedback_Take4.Utilities
                 if (!String.IsNullOrEmpty(price)) msg.Price = price;
                 if (!String.IsNullOrEmpty(externalID)) msg.ExternalID = externalID;
                 if (!XmppUser.Equals(Constants.DONT_ADD_XMPP_USER)) msg.XmppConnectionXmppUser = XmppUser;
-                dbContext.Messages.AddObject(msg);
+                dbContext.Messages.Add(msg);
                 dbContext.SaveChanges();
                 return JsonReturnMessages.OP_SUCCESSFUL;
             }
@@ -545,7 +545,7 @@ namespace SmsFeedback_Take4.Utilities
                     var companies = from u in dbContext.Users where u.UserName == userName select u.Company;
                     var companyName = companies.First().Name;
                     var newTag = new Tag() { Name = tagName, Description = tagDescription, CompanyName = companyName };
-                    dbContext.Tags.AddObject(newTag);
+                    dbContext.Tags.Add(newTag);
                     dbContext.SaveChanges();
                     return newTag;
                 }
