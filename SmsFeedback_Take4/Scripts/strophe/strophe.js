@@ -2071,6 +2071,10 @@ if (!Array.prototype.indexOf) {
          this._idleTimeout = setTimeout(this._onIdle.bind(this), 100);
       },
 
+      getErrorsCounter: function() {
+         return this.errors;
+      },
+
       /** Function: flush
        *  Immediately send any pending outgoing data.
        *
@@ -2665,7 +2669,7 @@ if (!Array.prototype.indexOf) {
          Strophe.warn("request errored, status: " + reqStatus +
                       ", number of errors: " + this.errors);
          if (this.errors > 4) {
-            // this._onDisconnectTimeout();
+            this._onDisconnectTimeout();
          }
       },
 
