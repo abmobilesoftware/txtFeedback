@@ -11,8 +11,8 @@ public class Main {
 	private final static int PORT = 5270;
 	
 	public final static String DOMAIN = "txtfeedback.net";
-	public final static String SUBDOMAIN = "devbeem";
-	private final static String SECRET_KEY = "im12345!";
+	public final static String SUBDOMAIN = "devxmpp";
+	private final static String SECRET_KEY = "im123456!";
 	
 	public static void main(String[] args) {
 	  ExternalComponentManager mgr = new ExternalComponentManager(HOST, PORT);

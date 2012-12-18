@@ -20,6 +20,7 @@
 
 package org.xmpp.packet;
 
+import org.dom4j.Attribute;
 import org.dom4j.Element;
 
 import java.util.Iterator;
@@ -176,7 +177,51 @@ public class Message extends Packet {
         }
         bodyElement.setText(body);
     }
+    
+    /**
+     * Sets the receive tag of this message.
+     *
+     * @param receivedID the ID of the message.
+     */
+    public void setReceivedID(String receivedID) {
+        Element receivedElement = element.element("received");
+        // If body is null, clear the body.
+        if (receivedID == null) {
+            if (receivedElement != null) {
+                element.remove(receivedElement);
+            }
+            return;
+        }
+        // Do nothing if the new body is null
+        if (receivedID == null) {
+            return;
+        }
+        if (receivedElement == null) {
+            receivedElement = element.addElement("received");
+        }
+        Attribute xmlnsAttr = receivedElement.attribute("xmlns");
+        xmlnsAttr.setValue("urn:xmpp:receipts");
+        Attribute idAttr = receivedElement.attribute("id");
+        idAttr.setValue(receivedID);         
+        
+        receivedElement.add(xmlnsAttr);
+        receivedElement.add(idAttr);
+    }
 
+    
+    /**
+     * Returns the thread value of this message, an identifier that is used for
+     * tracking a conversation thread ("instant messaging session")
+     * between two entities. If the thread is not set, <tt>null</tt> will be
+     * returned.
+     *
+     * @return the thread value.
+     */
+    public String getReceivedID() {
+        return element.element("received").attributeValue("id");
+    }
+    
+    
     /**
      * Returns the thread value of this message, an identifier that is used for
      * tracking a conversation thread ("instant messaging session")
@@ -306,6 +351,10 @@ public class Message extends Packet {
          * Text message to be displayed in scrolling marquee displays.
          */
         headline,
+        
+        ServerMsgDeliveryReceipt,
+        
+        ClientMsgDeliveryReceipt,
 
         /**
          * Indicates a messaging error.

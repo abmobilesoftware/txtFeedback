@@ -31,18 +31,24 @@ public class MessageProcessor {
 	public void processInternalPacket(Message message) {
 		try {
 			TxtPacket internalPacket = new TxtPacket(message.getBody());
-			if (!internalPacket.getIsSms()) {
-				if (internalPacket.getIsForStaff()) {
-					SendImMessageToStaff(message, internalPacket);
-				} else {
-					SendImMessageToClient(message, internalPacket);				
-				}
+			if (message.getType().equals(Message.Type.ClientMsgDeliveryReceipt)) {
+				// For this message update WasReceivedByClient state in DB 
+				
 			} else {
-				if (internalPacket.getIsForStaff()) {
-					sendSmsMessageToStaff(message, internalPacket);				
+			
+				if (!internalPacket.getIsSms()) {
+					if (internalPacket.getIsForStaff()) {
+						SendImMessageToStaff(message, internalPacket);
+					} else {
+						SendImMessageToClient(message, internalPacket);				
+					}
 				} else {
-					sendSmsMessageToClient(message, internalPacket);				
-				}				
+					if (internalPacket.getIsForStaff()) {
+						sendSmsMessageToStaff(message, internalPacket);				
+					} else {
+						sendSmsMessageToClient(message, internalPacket);				
+					}				
+				}
 			}
 		} catch (Exception e) {
 			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getStackTrace().toString());
@@ -111,8 +117,20 @@ public class MessageProcessor {
 					internalPacket.getBody(),
 					iPacket.getFrom().toBareJID(),
 					false);
-			String from = internalPacket.getFromAddress();
-			moderator.sendInternalMessage(iPacket.getBody(), from,
+			String internalPackFrom = internalPacket.getFromAddress();
+			String internalPackTo = internalPacket.getToAddress();
+			String internalPackConvId = internalPacket.getConversationId();
+			String rcvPackID = receivedPacket.getID();
+			String rcvPackTo = receivedPacket.getTo().toBareJID();
+			String rcvPackFrom = receivedPacket.getFrom().toBareJID();
+			// Send acknowledge to staff
+			moderator.sendAcknowledgeMessage(rcvPackID, internalPackConvId, rcvPackTo, rcvPackFrom , Message.Type.ServerMsgDeliveryReceipt);
+			/* 
+			* send both temporary and db id - the db id will be used on callback 
+			* to mark that the message was successfully received
+			* and the temporary will be forwarded to staff.
+			*/ 
+			moderator.sendInternalMessage(iPacket.getBody(), internalPackFrom,
 					internalPacket.getToAddress());
 		} catch (RESTException e) {
 				Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());

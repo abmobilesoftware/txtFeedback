@@ -81,13 +81,20 @@ public class TxtFeedbackModerator implements Component {
 		}
 	}
 	
-	private void sendMessage(String iFrom, String iBody, String iSubject, Message.Type iType, String iTo) {
+	private void sendMessage(String iFrom, String iBody, String iSubject, Message.Type iType, String iTo, String receivedID) {
 		try {
 			Message lResponseMessage = new Message();
 			lResponseMessage.setType(iType);
-			lResponseMessage.setBody(iBody);
-			lResponseMessage.setSubject(iSubject);
+			if (iBody != null) {
+				lResponseMessage.setBody(iBody);
+			}
+			if (iSubject != null ) {
+				lResponseMessage.setSubject(iSubject);
+			}
 			lResponseMessage.setTo(iTo);
+			if (receivedID != null) {
+				lResponseMessage.setReceived(receivedID);
+			}
 			String[] split = iFrom.split("@");
 			String from = String.format("%s@%s.%s",split[0],Main.SUBDOMAIN,Main.DOMAIN);
 			lResponseMessage.setFrom(from);//split[0] + "@"+ Main.SUBDOMAIN+ "." + Main.DOMAIN);
@@ -99,7 +106,11 @@ public class TxtFeedbackModerator implements Component {
 	}
 	
 	public void sendInternalMessage(String iBody,String iFrom, String iTo) {
-		sendMessage(iFrom, iBody, Constants.INTERNAL_PACKET, Type.chat, iTo);
+		sendMessage(iFrom, iBody, Constants.INTERNAL_PACKET, Type.chat, iTo, null);
+	}
+	
+	public void sendAcknowledgeMessage(String msgID, String iBody, String iFrom, String iTo, Message.Type msgType) {
+		sendMessage(iFrom, iBody, null, msgType, iTo, msgID);
 	}
 	
 	public void initialize(JID iJid, ComponentManager iComponentManager)
