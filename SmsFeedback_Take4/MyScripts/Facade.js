@@ -33,8 +33,8 @@ function refreshConversationList(convView, msgView) {
    msgView.messagesView.resetViewToDefault();
 }
 
-function messageSuccessfullySent(msgView, msgID, convID) {
-   msgView.messagesView.messageSuccessfullySent(msgID, convID);
+function messageSuccessfullySent(msgView, message) {
+   msgView.messagesView.messageSuccessfullySent(message);
 }
 
 function resizeTriggered() {
@@ -101,7 +101,7 @@ function InitializeGUI() {
    });
 
    $(document).bind('msgSent', function (ev, data) {
-      messageSuccessfullySent(self.msgView, data.msgID, data.convID);
+      messageSuccessfullySent(self.msgView, data.message);
    });
 
    window.addEventListener("resize", resizeTriggered, false);
@@ -122,8 +122,6 @@ $(document).ready(function () {
    } else {
       window.app.calendarCulture = culture;
    }
-
-
 });
 
 
