@@ -14,6 +14,8 @@
 /*global Spinner */
 /*global buildConversationID */
 /*global cleanupPhoneNumber */
+/*global clearTimeout */
+/*global setTimeout */
 //#endregion
 window.app = window.app || {};
 window.app.xmppConn = {};
@@ -42,24 +44,24 @@ window.app.setNrOfUnreadConversationOnTab = function (unreadConvs) {
 };
 
 function MessageUnsent(body, xmppTo, msgID, convID) {
-    this.body = body;
-    this.xmppTo = xmppTo;
-    this.msgID = msgID;
-    this.convID = convID;
-};
+   this.body = body;
+   this.xmppTo = xmppTo;
+   this.msgID = msgID;
+   this.convID = convID;
+}
 
 //#region "timer for reconnect"
 window.app.reconnectTimer = {};
 window.app.intervalToWaitBetweenChecks = 15000;
 function reconnectIfRequired() {
-    if (window.app.xmppConn && window.app.xmppConn.conn && !window.app.xmppConn.conn.connected && !window.app.XMPPConnecting) {
-        window.app.xmppHandlerInstance.connect(window.app.xmppHandlerInstance.userId, window.app.xmppHandlerInstance.password, window.app.xmppHandlerInstance.connectCallback);
-    }
-    window.app.startReconnectTimer();
+   if (window.app.xmppConn && window.app.xmppConn.conn && !window.app.xmppConn.conn.connected && !window.app.XMPPConnecting) {
+      window.app.xmppHandlerInstance.connect(window.app.xmppHandlerInstance.userId, window.app.xmppHandlerInstance.password, window.app.xmppHandlerInstance.connectCallback);
+   }
+   window.app.startReconnectTimer();
 }
 window.app.startReconnectTimer = function () {
-    clearTimeout(window.app.reconnectTimer);
-    window.app.reconnectTimer = setTimeout(reconnectIfRequired, window.app.intervalToWaitBetweenChecks);
+   clearTimeout(window.app.reconnectTimer);
+   window.app.reconnectTimer = setTimeout(reconnectIfRequired, window.app.intervalToWaitBetweenChecks);
 };
 
 window.app.xmppHandlerInstance = {};
@@ -80,9 +82,9 @@ $(function () {
       }
    });
 
-   $(document).bind('updateUnreadConvsNr', function (ev, data) {      
-         getNumberOfConversationsWithUnreadMessages();
-      });
+   $(document).bind('updateUnreadConvsNr', function (ev, data) {
+      getNumberOfConversationsWithUnreadMessages();
+   });
 });
 
 //#region Receive message
@@ -171,10 +173,10 @@ window.app.XMPPhandler = function XMPPhandler() {
    this.connectCallback = function (status) {
       var needReconnect = false;
       if (status === Strophe.Status.CONNECTED) {
-          //window.app.logDebugOnServer("XMPP connected");         
+         //window.app.logDebugOnServer("XMPP connected");         
          window.app.XMPPConnecting = false;
          window.app.xmppConn.connection = window.app.xmppConn.conn;
-         window.app.xmppConn.connection.addHandler(window.app.xmppConn.handle_infoquery, null, "iq", null,null);
+         window.app.xmppConn.connection.addHandler(window.app.xmppConn.handle_infoquery, null, "iq", null, null);
          window.app.xmppConn.connection.addHandler(window.app.xmppConn.handle_message, null, "message", null, null);
          var domain = Strophe.getDomainFromJid(window.app.xmppConn.connection.jid);
          //window.app.xmppConn.send_ping(domain);
@@ -185,18 +187,18 @@ window.app.XMPPhandler = function XMPPhandler() {
       } else if (status === Strophe.Status.CONNECTING) {
          //window.app.logDebugOnServer("XMPP connecting...");         
       } else if (status === Strophe.Status.AUTHENTICATING) {
-        // window.app.logDebugOnServer("XMPP authenticating...");         
+         // window.app.logDebugOnServer("XMPP authenticating...");         
       } else if (status === Strophe.Status.DISCONNECTED) {
          //window.app.logDebugOnServer("XMPP disconnected");        
          needReconnect = true;
-      } else if (status === Strophe.Status.CONNFAIL) {         
+      } else if (status === Strophe.Status.CONNFAIL) {
          window.app.logDebugOnServer("XMPP connection fail");
          window.app.xmppConn.conn.disconnect();
       } else if (status === Strophe.Status.AUTHFAIL) {
-         window.app.logDebugOnServer("XMPP authentication failed");         
+         window.app.logDebugOnServer("XMPP authentication failed");
          window.app.xmppConn.conn.disconnect();
       } else if (status === Strophe.Status.ERROR) {
-         window.app.logDebugOnServer("XMPP status error");         
+         window.app.logDebugOnServer("XMPP status error");
          window.app.xmppConn.conn.disconnect();
       }
       if (needReconnect) {
@@ -204,10 +206,10 @@ window.app.XMPPhandler = function XMPPhandler() {
       }
    };
    this.sendMessagesInQueue = function () {
-       while (window.app.unsentMsgQueue.length > 0) {
-           var unsentMsg = window.app.unsentMsgQueue.shift();
-           window.app.xmppConn.send_message(unsentMsg.body, unsentMsg.xmppTo, unsentMsg.msgID, unsentMsg.convID);
-       }
+      while (window.app.unsentMsgQueue.length > 0) {
+         var unsentMsg = window.app.unsentMsgQueue.shift();
+         window.app.xmppConn.send_message(unsentMsg.body, unsentMsg.xmppTo, unsentMsg.msgID, unsentMsg.convID);
+      }
    };
    this.connect = function (userid, password) {
       window.app.logDebugOnServer("XMPP connecting with user [" + userid + "]");
@@ -219,7 +221,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       self.userid = userid;
       self.password = password;
       window.app.xmppConn = this;
-      
+
       self.conn.connect(userid, password, self.connectCallback);
    };
    this.disconnect = function () {
@@ -227,7 +229,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       //DA based on http://stackoverflow.com/questions/5198410/disconnect-strophe-connection-on-page-unload
       self.conn.sync = true; // Switch to using synchronous requests since this is typically called onUnload.
       self.conn.flush();
-      self.conn.disconnect();     
+      self.conn.disconnect();
    };
    this.send_ping = function (to) {
       var ping = $iq({
@@ -244,10 +246,10 @@ window.app.XMPPhandler = function XMPPhandler() {
       this.connection.send(presence);
    };
    this.enableCarbons = function (to) {
-      var enCarbons = $iq({         
+      var enCarbons = $iq({
          type: "set",
-         id: "enableCarbons"         
-      }).c("enable", { xmlns: "urn:xmpp:carbons:1" });     
+         id: "enableCarbons"
+      }).c("enable", { xmlns: "urn:xmpp:carbons:1" });
       this.connection.send(enCarbons);
    };
    this.getInfo = function (to) {
@@ -266,59 +268,56 @@ window.app.XMPPhandler = function XMPPhandler() {
       */
       var self = this;
       var message_body = "<msg>" +
-                                    " <from>" + from +  "</from>" +
+                                    " <from>" + from + "</from>" +
                                     " <to>" + to + "</to>" +
                                     " <datesent>" + dateSent + "</datesent>" +
                                      "<convID>" + convID + "</convID>" +
                                     " <body>" + Strophe.xmlescape(message) + "</body>" +
                                     " <staff>" + toStaff.toString() + "</staff>" +
-                                    " <sms>" + isSmsBased.toString() +"</sms>" +
+                                    " <sms>" + isSmsBased.toString() + "</sms>" +
                                 " </msg>";
       self.send_message(message_body, xmppTo, msgID, convID);
    };
    this.send_message = function (body, xmppTo, msgID, convID) {
-       var self = this;
-       var replymsg = $msg({
-           from: window.app.selfXmppAddress,
-           to: xmppTo,
-           "type": "chat"
-       }).c("body").t(body);
-       replymsg.up();
-       replymsg.c("subject").t("internal_packet");
+      var self = this;
+      var replymsg = $msg({
+         from: window.app.selfXmppAddress,
+         to: xmppTo,
+         "type": "chat"
+      }).c("body").t(body);
+      replymsg.up();
+      replymsg.c("subject").t("internal_packet");
 
-       if (window.app.xmppConn.conn.authenticated) {
-           window.app.xmppConn.conn.send(replymsg);
-           // trigger a document event to signal that the message was succesfully sent
-           $(document).trigger('msgSent', {
-               msgID: msgID,
-               convID: convID
-           });
-       } else {
-           var unsentMessage = new MessageUnsent(body, xmppTo, msgID, convID);
-           window.app.unsentMsgQueue.push(unsentMessage);
-           //force synch connect 
-           if (!window.app.XMPPConnecting) {
-               window.app.XMPPConnecting = true;
-               window.app.xmppHandlerInstance.connect(window.app.xmppHandlerInstance.userid, window.app.xmppHandlerInstance.password, self.connectCallback);               
-           }
-       }
+      if (window.app.xmppConn.conn.authenticated) {
+         window.app.xmppConn.conn.send(replymsg);
+         // trigger a document event to signal that the message was successfully sent
+         $(document).trigger('msgSent', {
+            msgID: msgID,
+            convID: convID
+         });
+      } else {
+         var unsentMessage = new MessageUnsent(body, xmppTo, msgID, convID);
+         window.app.unsentMsgQueue.push(unsentMessage);
+         //force synch connect 
+         if (!window.app.XMPPConnecting) {
+            window.app.XMPPConnecting = true;
+            window.app.xmppHandlerInstance.connect(window.app.xmppHandlerInstance.userid, window.app.xmppHandlerInstance.password, self.connectCallback);
+         }
+      }
 
    };
-   this.handle_infoquery = function (iq) {      
+   this.handle_infoquery = function (iq) {
       var currentIq = $(iq);
-      if (currentIq.attr("id") === window.app.getFeaturesIQID)
-      {
+      if (currentIq.attr("id") === window.app.getFeaturesIQID) {
          window.app.xmppConn.enableCarbons(currentIq.attr("from"));
       }
-      if (currentIq.attr("type") === "result")
-      {         
+      if (currentIq.attr("type") === "result") {
          //TODO establish if relevant
       }
-      if (currentIq.attr("type") === "error")
-      {
+      if (currentIq.attr("type") === "error") {
          //TODO what now?
          window.app.logDebugOnServer("XMPP info query error, ");
-      }     
+      }
       return true;
    };
    this.handle_message = function (message) {

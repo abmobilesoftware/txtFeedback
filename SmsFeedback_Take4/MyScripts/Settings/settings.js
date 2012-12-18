@@ -57,7 +57,7 @@ window.app.getDataForWorkingPoints = function () {
          Name: trim($('input[name="Name"]', this).val()),
          Description: trim($('input[name="Description"]', this).val()),
          NrOfSentSmsThisMonth: 15,
-         WelcomeMessage: trim($('input[name="WelcomeMessage"]', this).val())         
+         WelcomeMessage: trim($('input[name="WelcomeMessage"]', this).val())
       };
       data.push(row);
    });
@@ -121,10 +121,10 @@ window.app.SettingsArea = function () {
       eventToTriggerOnSelect: 'switchSetting',
       menuCollection: new window.app.MenuCollection({ url: '/Settings/GetMenuItems' }),
       afterInitializeFunction: function () {
-          //by default open ChangePassword scren   
-          $(".liItem21").addClass("menuItemSelected");
-          $("ul.item20").css("display", "block");
-          window.app.showChangePassword();
+         //by default open ChangePassword scren   
+         $(".liItem21").addClass("menuItemSelected");
+         $("ul.item20").css("display", "block");
+         window.app.showChangePassword();
       }
    });
    $(document).bind("switchSetting", function (event, menuId) {

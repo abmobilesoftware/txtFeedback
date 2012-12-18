@@ -34,12 +34,12 @@ function resetMessagesViewToInitialState(msgView) {
 }
 
 function refreshConversationList(convView, msgView) {
-      convView.getConversations();
+   convView.getConversations();
       resetMessagesViewToInitialState(msgView);
 }
 
 function messageSuccessfullySent(msgView, msgID, convID) {
-    msgView.messagesView.messageSuccessfullySent(msgID, convID);
+   msgView.messagesView.messageSuccessfullySent(msgID, convID);
 }
 
 function resizeTriggered() {
@@ -66,13 +66,13 @@ function resizeTriggered() {
    else {
       $('.container_12').height(contentWindowHeight);
       $('#scrollablemessagebox').height(contentWindowHeight - factor);
-      $('#scrollableconversations').height($('#messagesArea').height() + 8);      
+      $('#scrollableconversations').height($('#messagesArea').height() + 8);
    }
 }
 function InitializeGUI() {
    "use strict";
-    var self = this;
-    if (window.Prototype) {
+   var self = this;
+   if (window.Prototype) {
       delete Object.prototype.toJSON;
       delete Array.prototype.toJSON;
       delete String.prototype.toJSON;
@@ -90,16 +90,16 @@ function InitializeGUI() {
    this.tagsArea = TagsArea();
    this.msgView = new MessagesArea(self.convView, self.tagsArea, self.wpsArea);
 
-    //get the initial working points   
+   //get the initial working points   
    this.wpsView.getWorkingPoints(function () {
       self.convView.getConversations();
    });
-    
+
    window.app.nrOfUnreadConvs = 0;
    //get the initial conversations
    window.app.requestIndex = 0; //make sure the first time we update from external sources
-   
-   $(document).bind('msgReceived', function (ev, data) {      
+
+   $(document).bind('msgReceived', function (ev, data) {
       newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, data.readStatus, data.isSmsBased);
    });
 
@@ -111,7 +111,7 @@ function InitializeGUI() {
       resetMessagesViewToInitialState(self.msgView);
    });
     $(document).bind('msgSent', function (ev, data) {
-       messageSuccessfullySent(self.msgView, data.msgID, data.convID);
+      messageSuccessfullySent(self.msgView, data.msgID, data.convID);
    });
 
    //DA IE8 doesn't support addEventListener so we use attachEvent
@@ -134,11 +134,11 @@ $(document).ready(function () {
    });
    window.app = window.app || {};
 
-   var culture = $(".currentCulture").val().substring(0,2).toLowerCase();
+   var culture = $(".currentCulture").val().substring(0, 2).toLowerCase();
    if (culture === "en") {
-       window.app.calendarCulture = "en-GB";
+      window.app.calendarCulture = "en-GB";
    } else {
-       window.app.calendarCulture = culture;
+      window.app.calendarCulture = culture;
    }
 
 

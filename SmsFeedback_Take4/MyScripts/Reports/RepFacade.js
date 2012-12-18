@@ -49,23 +49,23 @@ function InitializeGUI() {
    else {
       window.addEventListener("resize", resizeTriggered, false);
    }
-   
+
    $(window).smartresize(function () {
-       updateChartsDimensions();
+      updateChartsDimensions();
    });
    resizeTriggered();
 }
 
 $(document).ready(function () {
-    var culture = $(".currentCulture").val().substring(0, 2).toLowerCase();
-    if (culture === "en") {
-        window.app.calendarCulture = "en-GB";
-    } else {
-        window.app.calendarCulture = culture;
-    }
-         
-    window.app.reportsPage = new ReportsArea();
-    $(document).bind("resize", resizeTriggered);
+   var culture = $(".currentCulture").val().substring(0, 2).toLowerCase();
+   if (culture === "en") {
+      window.app.calendarCulture = "en-GB";
+   } else {
+      window.app.calendarCulture = culture;
+   }
+
+   window.app.reportsPage = new ReportsArea();
+   $(document).bind("resize", resizeTriggered);
 });
 
 
