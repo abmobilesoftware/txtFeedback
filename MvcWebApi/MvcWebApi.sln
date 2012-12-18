@@ -83,6 +83,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bolt2", "bolt2\bolt2.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "supporthu", "supporthu\supporthu.csproj", "{FF27C017-A5B8-4EDD-8313-274314E1C293}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testFeature", "testFeature\testFeature.csproj", "{08FD09D5-7A0E-4F0F-9C38-5691EDFE0EE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -253,6 +255,10 @@ Global
 		{FF27C017-A5B8-4EDD-8313-274314E1C293}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF27C017-A5B8-4EDD-8313-274314E1C293}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF27C017-A5B8-4EDD-8313-274314E1C293}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08FD09D5-7A0E-4F0F-9C38-5691EDFE0EE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08FD09D5-7A0E-4F0F-9C38-5691EDFE0EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08FD09D5-7A0E-4F0F-9C38-5691EDFE0EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08FD09D5-7A0E-4F0F-9C38-5691EDFE0EE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
