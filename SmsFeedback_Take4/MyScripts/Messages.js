@@ -40,6 +40,16 @@ var gDateDisplayPattern = 'DD, MM d, yy';
 var timer; //this will be responsible for triggering the "mark conversation as read event"
 var timer_is_on = 0;
 
+//#region UUID generator, rfc4122 compliant, details http://www.ietf.org/rfc/rfc4122.txt
+function generateUUID() {
+   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+   });
+   return uuid;
+}
+//#endregion
+
 //#region Mark Conversation as Read function
 function markConversationAsRead() {
    $(gSelectedElement).removeClass("unreadconversation");
@@ -104,6 +114,27 @@ function convertDateTimeStringToObject(dateTimeString) {
        });
    resultedDateTime.setHours(extractHours, extractMinutes, extractSeconds);
    return resultedDateTime;
+}
+
+function getMessagePositionInRepository(convID, msgID) {
+   var messagePosition = -1;
+   if (window.app.globalMessagesRep[convID] != null && window.app.globalMessagesRep[convID] != undefined) {
+      for (var i = 0; i < window.app.globalMessagesRep[convID].models.length; ++i) {
+         var currentModel = window.app.globalMessagesRep[convID].models[i];
+         if (currentModel.attributes.Id === msgID) {
+            return i;
+         }
+      }
+   }
+   return messagePosition;
+}
+
+function setMessageSentStatus(convID, msgID, sentStatus) {
+   var messagePosition = getMessagePositionInRepository(convID, msgID);
+   var msgSent = window.app.globalMessagesRep[convID].at(messagePosition);
+   if (msgSent != null) {
+      msgSent.set("WasSuccessfullySent", sentStatus);
+   }
 }
 //#endregion
 
@@ -342,11 +373,10 @@ function MessagesArea(convView, tagsArea, wpsArea) {
 
    $("#replyBtn").click(function () {
       var inputBox = $("#limitedtextarea");
-      window.app.receivedMsgID++;
       var msgContent = inputBox.val();
       //reset the input form
       $("#replyToMessageForm")[0].reset();
-      window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, window.app.receivedMsgID, self.wpsArea.wpPoolView.phoneNumbersPool);
+      window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, generateUUID(), self.wpsArea.wpPoolView.phoneNumbersPool);
    });
 
    $("#limitedtextarea").keydown(function (event) {
@@ -494,7 +524,8 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             "appendMessage",
             "appendMessageToDiv",
             "resetViewToDefault",
-            "newMessageReceived");// to solve the this issue
+            "newMessageReceived",
+            "messageSuccessfullySent");// to solve the this issue
          this.messages = new window.app.MessagesList();
          this.messages.bind("reset", this.render);
       },
@@ -608,20 +639,14 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             messagesEl.animate({ scrollTop: messagesEl.prop("scrollHeight") }, 3000);
          }
       },
-      messageSuccessfullySent: function (msgID, convID) {
-         // update the model
-         var messagePosition = 0;
-         if (window.app.globalMessagesRep[convID] != null && window.app.globalMessagesRep[convID] != undefined) {
-            for (var i = 0; i < window.app.globalMessagesRep[convID].models.length; ++i) {
-               var currentModel = window.app.globalMessagesRep[convID].models[i];
-               if (currentModel.attributes.Id === msgID) {
-                  messagePosition = i;
-                  break;
-               }
-            }
-         }
-         var msgSent = window.app.globalMessagesRep[convID].at(messagePosition);
-         msgSent.set("WasSuccessfullySent", true);
+      messageSuccessfullySent: function (message) {
+         var messagePosition = getMessagePositionInRepository(message.convID, message.msgID);
+         if (messagePosition == -1) {
+            this.newMessageReceived(message.fromID, message.convID, message.msgID, message.dateReceived, message.text, message.read, message.isSmsBased);
+            setMessageSentStatus(message.convID, message.msgID, true);            
+         } else {
+            setMessageSentStatus(message.convID, message.msgID, true);
+         }        
       }
    });
    this.messagesView = new MessagesView();
@@ -635,3 +660,4 @@ function limitText(limitField, limitCount, limitNum) {
       limitCount.value = limitNum - limitField.value.length;
    }
 }
+
