@@ -199,15 +199,22 @@ public class Message extends Packet {
         if (receivedElement == null) {
             receivedElement = element.addElement("received");
         }
-        Attribute xmlnsAttr = receivedElement.attribute("xmlns");
-        xmlnsAttr.setValue("urn:xmpp:receipts");
-        Attribute idAttr = receivedElement.attribute("id");
-        idAttr.setValue(receivedID);         
-        
-        receivedElement.add(xmlnsAttr);
-        receivedElement.add(idAttr);
+   
+        receivedElement.addAttribute("xmlns", "urn:xmpp:receipts");
+        receivedElement.addAttribute("id", receivedID);
+    }
+    
+    public void setRequest() {
+    	Element requestElement = element.element("request");
+    	if (requestElement == null) {
+    		requestElement = element.addElement("request");
+    	}    	
+    	requestElement.addAttribute("xmlns", "urn:xmpp:receipts");    	
     }
 
+    public boolean containsRequestTag() {
+    	return (element.element("request") != null) ? true : false;   	
+    }
     
     /**
      * Returns the thread value of this message, an identifier that is used for
