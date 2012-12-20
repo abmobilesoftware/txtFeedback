@@ -25,7 +25,7 @@ window.app.xmppConn = {};
 //#region XMPP constants
 window.app.getFeaturesIQID = "infomobile";
 window.app.xmppServerExtension = "@txtfeedback.net";
-window.app.xmppComponentExtension = "@compdev.txtfeedback.net";
+window.app.xmppComponentExtension = "@devxmpp.txtfeedback.net";
 //#endregion
 
 window.app.messageModeratorAddress = '';
@@ -267,7 +267,7 @@ window.app.XMPPhandler = function XMPPhandler() {
         var self = this;
         //the message was already formatted
         var replymsg = $msg({
-            from: window.app.xmppSuffixedUserToConnectAs,
+            /*from: window.app.xmppSuffixedUserToConnectAs, */
             to: xmppTo,
             "type": "chat"
         }).c("body").t(body);

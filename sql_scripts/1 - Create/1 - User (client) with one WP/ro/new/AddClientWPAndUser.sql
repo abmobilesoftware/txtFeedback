@@ -4,10 +4,10 @@ USE txtfeedback_dev -- choose db
 -- Script for Romania
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = '9999912350';
-DECLARE @WP_ShortID nvarchar(10) = 'testFeature';
-DECLARE @WP_Name nvarchar(40) = 'Test feature';
-DECLARE @Client_Description nvarchar(160) = 'Test feature - Romania';
+DECLARE @Client_TelNumber nvarchar(50) = '9999912351';
+DECLARE @WP_ShortID nvarchar(10) = 'txtlab'; -- go for lowercase
+DECLARE @WP_Name nvarchar(40) = 'Check feature';
+DECLARE @Client_Description nvarchar(160) = 'Check feature - Romania';
 DECLARE @WP_XmppSuffix nvarchar(50) = '@devxmpp.txtfeedback.net';
 DECLARE @WP_WelcomeMessage nvarchar(160) = 'Bine ati venit!';
 
@@ -26,7 +26,7 @@ DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@devxmpp.txtfeedback.net';
 DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Bine ati venit! Pentru orice fel de intrebare legata de modul de functionare al sistemului nostru folositi acest chat.';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'testing';
+DECLARE @U_RegularUserName varchar(30) = 'txtlab';
 DECLARE @U_ReqularUserPassword nvarchar(128) = 'slp+zkspTawT6DHk39feb0fmO6c=';
 DECLARE @U_RegularPasswordSalt nvarchar(128) = 'Zo0XKKcM7YyDoz7r+Rf0AQ==';
 DECLARE @U_XmppUser varchar(30) = 'testing@txtfeedback.net';
@@ -184,8 +184,8 @@ INSERT INTO SubscriptionDetails (BillingDay, SubscriptionSMS, RemainingSMS, Spen
 	VALUES (@SD_BillingDay, @SD_SubscriptionSMS, @SD_RemainingSMS, @SD_SpendingLimit, @SD_WarningLimit, @SD_RemainingAccount, @SD_CurrencySymbol);
 DECLARE @SD_Id int;
 SET @SD_Id = (SELECT TOP 1 Id FROM SubscriptionDetails ORDER BY Id DESC);
-INSERT INTO Companies (Name, Description, Address, NrOfTrainingHoursDelivered, SubscriptionDetails_Id)
-	 VALUES (@U_CompanyName, @C_Description, @C_Address, @C_NrOfTrainingHoursDelivered, @SD_Id);
+INSERT INTO Companies (Name, Description, Address, SubscriptionDetails_Id)
+	 VALUES (@U_CompanyName, @C_Description, @C_Address, @SD_Id);
 END
 IF (SELECT COUNT(*) FROM [dbo].[Tags] WHERE ([dbo].[Tags].[Name] = @TagPositive) AND ([dbo].[Tags].[CompanyName] = @U_CompanyName) ) = 0 
 INSERT INTO dbo.Tags(Name, [Description], CompanyName) VALUES (@TagPositive, @TagDescription, @U_CompanyName);

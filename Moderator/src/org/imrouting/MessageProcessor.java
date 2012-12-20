@@ -29,6 +29,7 @@ public class MessageProcessor {
 	}
 	
 	public void processInternalPacket(Message message) {
+		System.out.println("Received message = " + message.toXML());
 		try {
 			TxtPacket internalPacket = new TxtPacket(message.getBody());
 			if (message.getType().equals(Message.Type.ClientMsgDeliveryReceipt)) {

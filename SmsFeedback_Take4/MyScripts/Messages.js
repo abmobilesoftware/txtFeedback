@@ -165,7 +165,7 @@ window.app.Message = Backbone.Model.extend({
       else {
          dir = "to";
       }
-      if (data.Id > 0) data.WasSuccessfullySent = true;
+      if (!isNaN(data.Id)) data.WasSuccessfullySent = true;
       data.Direction = dir;
       return data;
    },

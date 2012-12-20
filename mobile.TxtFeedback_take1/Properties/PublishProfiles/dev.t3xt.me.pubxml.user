@@ -5,7 +5,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
+    <LastUsedBuildConfiguration>Debug</LastUsedBuildConfiguration>
     <LastUsedPlatform>Any CPU</LastUsedPlatform>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAALiIHPXM1H0mZ3D8ziRIVKAAAAAACAAAAAAAQZgAAAAEAACAAAAB7v05gCATpnoqN0cTzF3ia2w+nYyUDxGny55V21SJbXQAAAAAOgAAAAAIAACAAAACE/jSgTogA0DJYDq96klB6ViYPRgXzGx05Uu2JxLwpLyAAAACLlQqkxU9pjVgad+uZxJWlv9qUp5Mai4IjVTRQAZCw50AAAADIkpGEyxToAoyR2ir1edLIUlrRwtUOyaSz5MJy3ifQzaKa9G0joVXctysNgft+HcFfbbybH4GNPvJaSTivFMU3</EncryptedPassword>
@@ -15,7 +15,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/07/2012 10:21:11</publishTime>
     </File>
     <File Include="bin/de/mobile.TxtFeedback_take1.resources.dll">
-      <publishTime>12/17/2012 14:59:46</publishTime>
+      <publishTime>12/19/2012 12:15:32</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>11/07/2012 10:21:10</publishTime>
@@ -27,16 +27,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/07/2012 10:21:11</publishTime>
     </File>
     <File Include="bin/mobile.TxtFeedback_take1.dll">
-      <publishTime>12/17/2012 14:59:45</publishTime>
+      <publishTime>12/19/2012 12:15:32</publishTime>
+    </File>
+    <File Include="bin/mobile.TxtFeedback_take1.pdb">
+      <publishTime>12/19/2012 12:15:31</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>07/17/2012 09:44:05</publishTime>
     </File>
     <File Include="bin/ro/mobile.TxtFeedback_take1.resources.dll">
-      <publishTime>12/17/2012 14:59:46</publishTime>
+      <publishTime>12/19/2012 12:15:32</publishTime>
     </File>
     <File Include="bin/SmsFeedback_EFModels.dll">
-      <publishTime>12/17/2012 14:59:42</publishTime>
+      <publishTime>12/17/2012 17:17:58</publishTime>
+    </File>
+    <File Include="bin/SmsFeedback_EFModels.pdb">
+      <publishTime>12/17/2012 17:17:58</publishTime>
     </File>
     <File Include="bin/System.Net.Http.dll">
       <publishTime>07/10/2012 21:52:12</publishTime>
@@ -345,7 +351,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/07/2012 10:21:10</publishTime>
     </File>
     <File Include="MyScripts/Home.js">
-      <publishTime>11/29/2012 15:32:58</publishTime>
+      <publishTime>12/18/2012 11:14:10</publishTime>
     </File>
     <File Include="MyScripts/strophe.js">
       <publishTime>11/30/2012 16:40:01</publishTime>
@@ -357,7 +363,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/07/2012 10:21:10</publishTime>
     </File>
     <File Include="MyScripts/XMPP.js">
-      <publishTime>11/30/2012 16:31:31</publishTime>
+      <publishTime>12/19/2012 13:29:10</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>11/07/2012 10:21:10</publishTime>
@@ -498,7 +504,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/07/2012 10:21:10</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/17/2012 14:59:49</publishTime>
+      <publishTime>12/19/2012 13:29:43</publishTime>
     </File>
   </ItemGroup>
 </Project>

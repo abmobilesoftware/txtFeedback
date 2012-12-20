@@ -242,10 +242,9 @@ window.app.XMPPhandler = function XMPPhandler() {
       //<request xmlns='urn:xmpp:receipts'/>
 
       var replymsg = $msg({
-         from: window.app.selfXmppAddress,
          to: message.xmppTo,
          "type": "chat",
-         id: message.msgID
+         "id": message.msgID
       }).c("body").t(message.body);
       replymsg.up();
       replymsg.c("subject").t("internal_packet");
