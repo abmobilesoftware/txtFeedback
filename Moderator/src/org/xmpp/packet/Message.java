@@ -204,30 +204,26 @@ public class Message extends Packet {
         receivedElement.addAttribute("id", receivedID);
     }
     
-    public void setRequest() {
+    public void setRequest(String ackDestination) {
     	Element requestElement = element.element("request");
     	if (requestElement == null) {
     		requestElement = element.addElement("request");
     	}    	
-    	requestElement.addAttribute("xmlns", "urn:xmpp:receipts");    	
+    	requestElement.addAttribute("xmlns", "urn:xmpp:receipts");
+    	requestElement.addAttribute("ackDest", ackDestination);
     }
 
     public boolean containsRequestTag() {
     	return (element.element("request") != null) ? true : false;   	
     }
     
-    /**
-     * Returns the thread value of this message, an identifier that is used for
-     * tracking a conversation thread ("instant messaging session")
-     * between two entities. If the thread is not set, <tt>null</tt> will be
-     * returned.
-     *
-     * @return the thread value.
-     */
     public String getReceivedID() {
         return element.element("received").attributeValue("id");
     }
     
+    public String getAckDestination() {
+        return element.element("received").attributeValue("ackDest");
+    }
     
     /**
      * Returns the thread value of this message, an identifier that is used for
@@ -359,8 +355,14 @@ public class Message extends Packet {
          */
         headline,
         
+        /**
+         * Message received by the component.
+         */
         ServerMsgDeliveryReceipt,
         
+        /**
+         * Message received by the client.
+         */
         ClientMsgDeliveryReceipt,
 
         /**
