@@ -8,6 +8,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import log.Log;
 import log.LogEntryType;
@@ -81,28 +82,34 @@ public class TxtFeedbackModerator implements Component {
 		}
 	}
 	
-	private void sendMessage(String iFrom, String iBody, String iSubject, Message.Type iType, String iTo, String receivedID, boolean askForAck) {
+	/*
+	 * Parameters: 
+	 * 		- askForAck: 1.TRUE (internal message) - ackDest - filled in, ackID - null
+	 * 					 2.FALSE (acknowledge message) - askDest - null, ackID - filled in 				 
+	 */	
+	private void sendMessage(String iTo, String iBody, String iSubject, String iMsgID, Message.Type iType, boolean askForAck, String iAckID, String iAckDest) {
 		try {
 			Message lResponseMessage = new Message();
-			lResponseMessage.setType(iType);
+			lResponseMessage.setTo(iTo);
 			if (iBody != null) {
 				lResponseMessage.setBody(iBody);
 			}
 			if (iSubject != null ) {
 				lResponseMessage.setSubject(iSubject);
+			}			
+			lResponseMessage.setType(iType);
+			if (iMsgID != null) {
+				lResponseMessage.setID(iMsgID);
 			}
-			lResponseMessage.setTo(iTo);
-			
-			String[] split = iFrom.split("@");
-			String from = String.format("%s@%s.%s",split[0],Main.SUBDOMAIN,Main.DOMAIN);
-			lResponseMessage.setFrom(from);//split[0] + "@"+ Main.SUBDOMAIN+ "." + Main.DOMAIN);
 			
 			if (askForAck) {
-				lResponseMessage.setRequest();
-				// TODO : Set ID
+				if (iAckDest != null) {
+					lResponseMessage.setRequest(iAckDest);
+				}
 			} else {
-				if (receivedID != null) {
-					lResponseMessage.setReceivedID(receivedID);
+				if (iAckID != null) {
+					lResponseMessage.setReceivedID(iAckID);
+					lResponseMessage.setID(iAckID);
 				}				
 			}
 			
@@ -112,12 +119,29 @@ public class TxtFeedbackModerator implements Component {
 		}
 	}
 	
-	public void sendInternalMessage(String iBody,String iFrom, String iTo) {
-		sendMessage(iFrom, iBody, Constants.INTERNAL_PACKET, Type.chat, iTo, null, true);
+	/*
+	 * Send a text message (sms or IM) inside the system
+	 * Parameters:
+	 * 	- ackDest : the recipient intended to receive the acknowledge for this message. 
+	 *  Obs: askForAck - true
+	 */
+	public void sendInternalMessage(String iBody, String iTo, String iMsgID, String ackDest) {
+		sendMessage(iTo, iBody, Constants.INTERNAL_PACKET, iMsgID, Type.chat, true, null, ackDest);
 	}
 	
-	public void sendAcknowledgeMessage(String msgID, String iBody, String iFrom, String iTo, Message.Type msgType) {
-		sendMessage(iFrom, iBody, null, msgType, iTo, msgID, false);
+	/*
+	 * Send an acknowledge stanza.
+	 * Parameters: 
+	 *   - iAckID - is the id of the received message
+	 *   - iMsgType - two possible values: ServerMsgDeliveryReceipt or ClientMsgDeliveryReceipt 
+	 * Format:
+	 * <message from='sender' id='random_id' to='iTo' type='ServerMsgDeliveryReceipt'>
+	 * 	<received xmlns='urn:xmpp:receipts' id='iAckID' />
+	 * </message> 
+	 */
+	public void sendAcknowledgeMessage(String iTo, Message.Type iMsgType, String iSubject, String iAckID) {
+		UUID uuid = UUID.randomUUID();
+		sendMessage(iTo, null, iSubject, uuid.toString(), iMsgType, false, iAckID, null);
 	}
 	
 	public void initialize(JID iJid, ComponentManager iComponentManager)
