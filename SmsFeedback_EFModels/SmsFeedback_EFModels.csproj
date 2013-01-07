@@ -97,6 +97,7 @@
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -137,6 +138,9 @@
     <Compile Include="InvoiceDetails.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="InvoiceDetailsTemplate.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Membership.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -157,6 +161,7 @@
     <Compile Include="NonEFGenerated\Contact.cs" />
     <Compile Include="NonEFGenerated\Invoice.cs" />
     <Compile Include="NonEFGenerated\InvoiceDetails.cs" />
+    <Compile Include="NonEFGenerated\SubscriptionDetail.cs" />
     <Compile Include="Profile.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

@@ -31,6 +31,8 @@ namespace SmsFeedback_EFModels
         public string VATID { get; set; }
         public int SubscriptionDetailsID { get; set; }
         public int Contact_Id { get; set; }
+        public string Bank { get; set; }
+        public string BankAccount { get; set; }
     
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<User> Users { get; set; }

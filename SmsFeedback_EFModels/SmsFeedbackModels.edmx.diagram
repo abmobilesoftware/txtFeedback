@@ -18,7 +18,7 @@
         <AssociationConnector Association="smsfeedbackModel.FK_CompanyTag" />
         <AssociationConnector Association="smsfeedbackModel.ConversationMessage" />
         <EntityTypeShape EntityType="smsfeedbackModel.Application" Width="1.5" PointX="3.875" PointY="9.75" />
-        <EntityTypeShape EntityType="smsfeedbackModel.Membership" Width="1.5" PointX="3.875" PointY="12.75" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Membership" Width="1.875" PointX="3.875" PointY="12.75" />
         <EntityTypeShape EntityType="smsfeedbackModel.Profile" Width="1.5" PointX="11.625" PointY="9.5" />
         <AssociationConnector Association="smsfeedbackModel.MembershipApplication" />
         <AssociationConnector Association="smsfeedbackModel.RoleApplication" />
@@ -29,7 +29,7 @@
         <AssociationConnector Association="smsfeedbackModel.CompanyConversation" />
         <EntityTypeShape EntityType="smsfeedbackModel.Client" Width="1.5" PointX="19.25" PointY="3.5" IsExpanded="true" />
         <AssociationConnector Association="smsfeedbackModel.FK_ConversationClient" />
-        <EntityTypeShape EntityType="smsfeedbackModel.ConversationTag" Width="1.5" PointX="17.125" PointY="11.375" />
+        <EntityTypeShape EntityType="smsfeedbackModel.ConversationTag" Width="1.5" PointX="18.625" PointY="11.75" />
         <AssociationConnector Association="smsfeedbackModel.FK_ConversationConversationTags" />
         <AssociationConnector Association="smsfeedbackModel.FK_TagConversationTags" />
         <AssociationConnector Association="smsfeedbackModel.UsersInRoles" />
@@ -49,16 +49,19 @@
         <AssociationConnector Association="smsfeedbackModel.ConversationHistoryMessage" />
         <AssociationConnector Association="smsfeedbackModel.UserXmppConnection" />
         <AssociationConnector Association="smsfeedbackModel.MessageXmppConnection" />
-        <EntityTypeShape EntityType="smsfeedbackModel.InvoiceDetails" Width="1.5" PointX="17.25" PointY="14.875" />
-        <EntityTypeShape EntityType="smsfeedbackModel.Invoice" Width="1.5" PointX="15.125" PointY="11.125" />
+        <EntityTypeShape EntityType="smsfeedbackModel.InvoiceDetails" Width="1.5" PointX="19.625" PointY="14.875" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Invoice" Width="1.875" PointX="15.75" PointY="12.75" />
         <AssociationConnector Association="smsfeedbackModel.FK_CompanyInvoice" />
         <AssociationConnector Association="smsfeedbackModel.FK_InvoiceInvoiceDetails" />
-        <EntityTypeShape EntityType="smsfeedbackModel.SubscriptionDetail" Width="2.25" PointX="12.125" PointY="12.75" />
+        <EntityTypeShape EntityType="smsfeedbackModel.SubscriptionDetail" Width="2.25" PointX="11.25" PointY="12.75" />
         <AssociationConnector Association="smsfeedbackModel.FK_CompanySubscriptionDetails" />
-        <EntityTypeShape EntityType="smsfeedbackModel.Contact" Width="1.5" PointX="8.25" PointY="14.625" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Contact" Width="1.5" PointX="7.625" PointY="14.75" />
         <AssociationConnector Association="smsfeedbackModel.FK_SubscriptionDetailPrimaryContact" />
         <AssociationConnector Association="smsfeedbackModel.FK_SubscriptionDetailSecondaryContact" />
         <AssociationConnector Association="smsfeedbackModel.FK_CompanyContact" />
+        <EntityTypeShape EntityType="smsfeedbackModel.InvoiceDetailsTemplate" Width="2.25" PointX="13.75" PointY="18.375" />
+        <AssociationConnector Association="smsfeedbackModel.FK_SubscriptionDetailInvoiceDetailsTemplate" />
+        <AssociationConnector Association="smsfeedbackModel.FK_SubscriptionDetailInvoiceDetailsTemplate1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 
 namespace SmsFeedback_EFModels
 {
@@ -80,25 +81,43 @@ namespace SmsFeedback_EFModels
          }
       }
       #endregion
+      #region Currencies
+      public IEnumerable<SelectListItem> Currencies { 
+         get {
+            SelectListItem[] currencies = new[] {
+               new SelectListItem { Value = "RON", Text = "Romanian Leu" },
+               new SelectListItem { Value = "EUR", Text = "Euro" },
+               new SelectListItem { Value = "USD", Text = "US Dollar" }
+            };
+            return currencies;
+         } }
+      #endregion
    }
    #region Validation
    public class Invoice_Validation
    {
+      [Required]
+      public string CompanyName { get; set; }
+
       [DisplayName("Invoice Number")]
       public int InvoiceNumber { get; set; }
 
-      [DisplayName("Name/Notes")]
+      [DisplayName("Invoice name")]
       [Required]
       public string Notes { get; set; }
 
-      [DisplayName("Proposal Details")]
-      public string ProposalDetails { get; set; }
+      [DisplayName("Details")]
+      [Required]
+      public string ProposalDetails { get; set; }     
 
       [DisplayName("Created")]
       public DateTime DateCreated { get; set; }
 
       [DisplayName("Due Date")]
       public DateTime DueDate { get; set; }
+
+      [Required]
+      public string Currency { get; set; }
 
       [DisplayName("Advance Payment Tax")]
       [Range(0.00, 100.0, ErrorMessage = "Value must be a % between 0 and 100")]

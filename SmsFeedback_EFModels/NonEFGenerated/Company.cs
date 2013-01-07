@@ -23,16 +23,21 @@ namespace SmsFeedback_EFModels
       public string Description { get; set; }
       [Required]
       public string Address { get; set; }      
-      [DisplayName("TaxID")]
+      [DisplayName("Tax Id")]
       [Required]
       public string VATID { get; set; }
-      [DisplayName("RegistrationID")]
+      [DisplayName("Registration Id")]
       public string RegistrationNumber { get; set; }
-      [Required]
+      [DisplayName("Postal Code")]
       public string PostalCode { get; set; }
       [Required]
-      public string City { get; set; }      
-      
+      public string City { get; set; }
+      [DisplayName("Bank")]
+      [Required]
+      public string Bank { get; set; }
+      [DisplayName("Bank Account")]
+      [Required]
+      public string BankAccount { get; set; }
    }
    #endregion
 }

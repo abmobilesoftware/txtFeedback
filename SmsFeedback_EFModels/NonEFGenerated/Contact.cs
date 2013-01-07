@@ -21,6 +21,7 @@ namespace SmsFeedback_EFModels
       [Required]
       public string Surname { get; set; }            
       [RegularExpression(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*", ErrorMessage = "Wrong email format")]
+      [Required]
       public string Email { get; set; }
    }
    #endregion
