@@ -15,6 +15,7 @@ namespace SmsFeedback_Take4.Controllers
       #region "member variables and properties"
       private EFInteraction mEFInterface = new EFInteraction();
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+      smsfeedbackEntities context = new smsfeedbackEntities();
 
       private AggregateSmsRepository mSmsRepository;
       private AggregateSmsRepository SMSRepository
@@ -29,11 +30,10 @@ namespace SmsFeedback_Take4.Controllers
 
       public JsonResult FindMatchingTags(string term)
       {
-         smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
          var userId = User.Identity.Name;
          try
          {
-            return Json(mEFInterface.FindMatchingTagsForUser(term, userId, lContextPerRequest), JsonRequestBehavior.AllowGet);
+            return Json(mEFInterface.FindMatchingTagsForUser(term, userId, context), JsonRequestBehavior.AllowGet);
          }
          catch (Exception ex)
          {
@@ -51,8 +51,7 @@ namespace SmsFeedback_Take4.Controllers
          }
          try
          {
-            smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-            return Json(SMSRepository.GetTagsForConversation(conversationID, lContextPerRequest), JsonRequestBehavior.AllowGet);
+            return Json(SMSRepository.GetTagsForConversation(conversationID, context), JsonRequestBehavior.AllowGet);
          }
          catch (Exception ex)
          {
@@ -64,9 +63,8 @@ namespace SmsFeedback_Take4.Controllers
       {
          try
          {
-            smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
             var userId = User.Identity.Name;
-            return Json(SMSRepository.GetSpecialTags(userId, lContextPerRequest), JsonRequestBehavior.AllowGet);
+            return Json(SMSRepository.GetSpecialTags(userId, context), JsonRequestBehavior.AllowGet);
          }
          catch (Exception ex)
          {
@@ -79,13 +77,12 @@ namespace SmsFeedback_Take4.Controllers
       {
          //check if the tag is already defined - if not, add it to our tag db. Then add the tag to this conversation
          var defaultTagDescription = "default description";
-         var userId = User.Identity.Name;
-         smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+         var userId = User.Identity.Name;         
          try
          {
 
-            var tag = mEFInterface.AddTagToDB(tagName, defaultTagDescription, userId, lContextPerRequest);
-            mEFInterface.AddTagToConversation(tag, convID, lContextPerRequest);
+            var tag = mEFInterface.AddTagToDB(tagName, defaultTagDescription, userId, context);
+            mEFInterface.AddTagToConversation(tag, convID, context);
             return Json("Added successfully", JsonRequestBehavior.AllowGet);
 
          }
@@ -98,11 +95,10 @@ namespace SmsFeedback_Take4.Controllers
 
       public JsonResult RemoveTagFromConversation(string tagName, string convID)
       {
-         smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
          try
          {
 
-            mEFInterface.RemoveTagFromConversation(tagName, convID, lContextPerRequest);
+            mEFInterface.RemoveTagFromConversation(tagName, convID, context);
             return Json("Removed successfully", JsonRequestBehavior.AllowGet);
 
          }
@@ -113,5 +109,11 @@ namespace SmsFeedback_Take4.Controllers
          }
 
       }
+      protected override void Dispose(bool disposing)
+      {
+         context.Dispose();
+         base.Dispose(disposing);
+      }
+
    }
 }

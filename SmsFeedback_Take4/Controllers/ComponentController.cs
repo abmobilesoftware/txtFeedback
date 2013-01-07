@@ -16,19 +16,20 @@ namespace SmsFeedback_Take4.Controllers
     public class ComponentController : Controller
     {
         private EFInteraction mEFInterface = new EFInteraction();
+        smsfeedbackEntities context= new smsfeedbackEntities();
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private AggregateSmsRepository mSmsRepository;
         private AggregateSmsRepository SMSRepository
         {
-            get
-            {
-                if (mSmsRepository == null)
-                    /*if (User.Identity.Name.Length > 0) 
-                        mSmsRepository = AggregateSmsRepository.GetInstance(User.Identity.Name);
-                    else*/
-                        mSmsRepository = AggregateSmsRepository.GetInstance("ando"); // for testing
-                return mSmsRepository;
-            }
+           get
+           {
+              if (mSmsRepository == null)
+                 /*if (User.Identity.Name.Length > 0) 
+                     mSmsRepository = AggregateSmsRepository.GetInstance(User.Identity.Name);
+                 else*/
+                 mSmsRepository = AggregateSmsRepository.GetInstance("ando"); // for testing
+              return mSmsRepository;
+           }
         }
 
         /*
@@ -232,8 +233,8 @@ namespace SmsFeedback_Take4.Controllers
             try
             {
                 // get the previous from message to compute the response time
-                smsfeedbackEntities lContextPerRequest = getContext();
-                var previousConv = mEFInterface.GetLatestConversationDetails(convId, lContextPerRequest);
+
+               var previousConv = mEFInterface.GetLatestConversationDetails(convId, context);
                 String prevConvFrom = Constants.NO_LAST_FROM;
                 DateTime prevConvUpdateTime = DateTime.MaxValue;
                 if (previousConv != null)
@@ -252,18 +253,18 @@ namespace SmsFeedback_Take4.Controllers
                         if (direction.Equals(Constants.DIRECTION_OUT))
                         {
                            return SendSmsMessageAndUpdateDb(from, to, convId,
-                                text, xmppUser, lContextPerRequest,
+                                text, xmppUser, context,
                                 prevConvFrom, prevConvUpdateTime);
                         }
                         else
                         {
-                           return SaveIncommingMessage(from, to, convId, text, lContextPerRequest);
+                           return SaveIncommingMessage(from, to, convId, text, context);
                         }
                     }
                     else
                     {
                         return SaveImMessageInDb(from, to, convId,
-                            text, xmppUser, lContextPerRequest,
+                            text, xmppUser, context,
                             prevConvFrom, prevConvUpdateTime, direction);
                     }
                 }
@@ -280,11 +281,7 @@ namespace SmsFeedback_Take4.Controllers
             }
             return Json("error", JsonRequestBehavior.AllowGet);            
         }
-
-        private static smsfeedbackEntities getContext()
-        {
-            return new smsfeedbackEntities(); 
-        }
+        
 
         private JsonResult SaveImMessageInDb(
            String from, String to, String convId, String text, String xmppUser, smsfeedbackEntities lContextPerRequest,
@@ -314,6 +311,7 @@ namespace SmsFeedback_Take4.Controllers
             });
             return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
         }
+
         private JsonResult SaveIncommingMessage(
            String from, String to, String convId, String text, smsfeedbackEntities lContextPerRequest)
         {
@@ -353,5 +351,12 @@ namespace SmsFeedback_Take4.Controllers
             return direction;
         }
       
+       protected override void Dispose(bool disposing)
+        {
+           context.Dispose();
+           base.Dispose(disposing);
+        }
+      
     }
+
 }
