@@ -24,11 +24,6 @@
 //#endregion
 window.app = window.app || {};
 window.app.globalMessagesRep = {};
-/*
-when receiving messages it is important that each message is associated an unique id (js wise)
-so we start from a certain id and each time we receive/send a message, we increment the id
-*/
-window.app.receivedMsgID = -12345;
 
 var gSelectedMessage = null;
 var gSelectedMessageItem = null;
@@ -156,7 +151,7 @@ window.app.Message = Backbone.Model.extend({
    parse: function (data, xhc) {
       //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
       //in the TimeReceived property we have the same info coded as ticks, so we replace the TimeReceived value with a value build from the ticks value      
-      data.TimeReceived = (new Date(Date.UTC(data.Year, data.Month - 1, data.Day, data.Hours, data.Minutes, data.Seconds)));
+      data.TimeReceived = new Date(Date.UTC(data.Year, data.Month - 1, data.Day, data.Hours, data.Minutes, data.Seconds));
       //we have to determine the direction
       var dir = cleanupPhoneNumber(data.From) + "-" + cleanupPhoneNumber(data.To);
       if (dir === data.ConvID) {
@@ -183,67 +178,7 @@ window.app.MessagesList = Backbone.Collection.extend({
 });
 //#endregion
 
-//#region Receive message
-//TODO DA move this somewhere else :)
-window.app.handleIncommingMessage = function (msgContent, isIncomming) {
-   window.app.receivedMsgID++;
-   var xmlDoc;
-   if (window.DOMParser) {
-      var parser = new DOMParser();
-      xmlDoc = parser.parseFromString(msgContent, "text/xml");
-   }
-   else {
-      xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
-      xmlDoc.async = false;
-      xmlDoc.loadXML(msgContent);
-   }
-   var xmlMsgToBeDecoded = xmlDoc.getElementsByTagName("msg")[0];
-   if (xmlMsgToBeDecoded !== undefined) {
-      var rawFromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
-      var rawToID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
-      var toID = cleanupPhoneNumber(rawToID);
-      var fromID = cleanupPhoneNumber(rawFromID);
-      var extension;
-      /*
-      DA: the following line seems weird and it actually is :)
-      Right now a Working Point XMPP address is shortID@moderator.txtfeedback.net
-      In order not to hard code the @ prefix we try to retrieve it from SuffixDictionary
-      The issue is that the WP's address might be the from address or the to address (depending on different factors)
-      But for sure the WP is either the to or the from -> we will find it in the suffix dictionary
-      To avoid complicated logic we test both from and to in the suffix dictionary and one of them will hit :)
-      */
-      extension = window.app.workingPointsSuffixDictionary[toID] || window.app.workingPointsSuffixDictionary[fromID];
-      //decide if we are dealing with a message coming from another WorkingPoint
-      var isFromWorkingPoint = isWorkingPoint(rawFromID, extension);
-      var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
-      var isSmsBasedAsString = xmlMsgToBeDecoded.getElementsByTagName('sms')[0].textContent;
-      var isSmsBased = false;
-      if (isSmsBasedAsString === "true") {
-         isSmsBased = true;
-      }
-      var convID;
-      if (isFromWorkingPoint && isIncomming) {
-         convID = buildConversationID(fromID, toID);
-      } else {
-         convID = xmlMsgToBeDecoded.getElementsByTagName("convID")[0].textContent;
-      }
 
-      var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
-      var readStatus = false; //one "freshly received" message is always unread
-      window.app.receivedMsgID++;
-      $(document).trigger('msgReceived', {
-         fromID: fromID,
-         toID: toID,
-         convID: convID,
-         msgID: window.app.receivedMsgID,
-         dateReceived: dateReceived,
-         text: newText,
-         readStatus: readStatus,
-         isSmsBased: isSmsBased
-      });
-   }
-};
-//#endregion
 
 //#region Send message
 window.app.sendMessageToClient = function (text, conversationID, selectedConv, msgID, wpPool) {
@@ -402,28 +337,22 @@ function MessagesArea(convView, tagsArea, wpsArea) {
       messageTemplate: _.template($('#message-template').html()),
       initialize: function () {
          _.bindAll(this, 'render', 'updateView');
-         this.model.on("change", this.updateView);
+         //this.model.on("change", this.updateView);
          this.model.on("change:WasSuccessfullySent", this.render);
          return this.render;
       },
       render: function () {
          this.$el.html(this.messageTemplate(this.model.toJSON()));
          var direction = "messagefrom";
-         var arrowInnerMenuLeft = "arrowInnerLeft";
-         var extraMenuWrapperSide = "extraMenuWrapperLeft";
+            var arrowInnerMenuLeft = "arrowInnerLeft";            
          if (this.model.attributes.Direction === "to") {
             direction = "messageto";
-            arrowInnerMenuLeft = "arrowInnerRight";
-            extraMenuWrapperSide = "extraMenuWrapperRight";
+               arrowInnerMenuLeft = "arrowInnerRight";               
          }
          this.$el.addClass("message");
          this.$el.addClass(direction);
 
-         $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
-         $(".extraMenuWrapper", this.$el).addClass(extraMenuWrapperSide);
-
-         var sendEmail = $("div.sendEmailButton img", this.$el);
-         //setTooltipOnElement(sendEmail, sendEmail.attr('tooltiptitle'),'dark');
+            $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);                      
 
          var messageId = this.model.get("Id");
          var messageModel = this.model;
@@ -598,7 +527,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             this.appendMessageToDiv(msg, true, true);
          }
       },
-      newMessageReceived: function (fromID, convID, msgID, dateReceived, text, read, isSmsBased) {
+        newMessageReceived: function (fromID, convID, msgID, dateReceived, text, read, isSmsBased) {           
          var newMsg = new window.app.Message({
             Id: msgID,
             From: fromID,
@@ -607,7 +536,8 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             ClientDisplayName: fromID,
             ClientIsSupportBot: false,
             Read: read,
-            IsSmsBased: isSmsBased
+              IsSmsBased: isSmsBased,
+              TimeReceived: dateReceived
          });
          //decide if this is a from or to message
          var fromTo = getFromToFromConversation(convID);
@@ -616,14 +546,12 @@ function MessagesArea(convView, tagsArea, wpsArea) {
          if (!comparePhoneNumbers(fromID, from)) {
             direction = "to";
          }
-         newMsg.set("Direction", direction);
-         //we receive the date as RFC 822 string - we need to convert it to a valid Date
-         newMsg.set("TimeReceived", new Date(Date.parse(dateReceived)));
+            newMsg.set("Direction", direction);                        
          //we add the message only if are in correct conversation
          if (window.app.globalMessagesRep[convID] !== undefined) {
             window.app.globalMessagesRep[convID].add(newMsg);
-         }
-      },
+            }           
+           },
       appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
          var msgView = new MessageView({ model: msg });
          var item = msgView.render().el;

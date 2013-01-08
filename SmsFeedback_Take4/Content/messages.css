@@ -160,15 +160,7 @@ div.actionButtons {
    -webkit-border-radius: 3px;
    -moz-border-radius: 3px;
    border-radius: 3px;
-   background: #00A4E4;
-   background: -webkit-gradient(linear, 0 0, 0 bottom, from(#00A4E4), to(#009de2));
-   background: -webkit-linear-gradient(#00A4E4, #009de2);
-   background: -moz-linear-gradient(#00A4E4, #009de2);
-   background: -ms-linear-gradient(#00A4E4, #009de2);
-   background: -o-linear-gradient(#00A4E4, #009de2);
-   background: linear-gradient(#00A4E4, #009de2);
-   -pie-background: linear-gradient(#00A4E4, #009de2);
-   behavior: url(/PIE.htc);
+   background: #00A4E4;   
 }
 
 #messagesbox span {   
@@ -193,15 +185,7 @@ div.actionButtons {
    -webkit-border-radius: 3px;
    -moz-border-radius: 3px;
    border-radius: 3px;
-   background: #92c942;
-   background: -webkit-gradient(linear, 0 0, 0 bottom, from(#92c942), to(#8ac53d));
-   background: -webkit-linear-gradient(#92c942, #8ac53d);
-   background: -moz-linear-gradient(#92c942, #8ac53d);
-   background: -ms-linear-gradient(#92c942, #8ac53d);
-   background: -o-linear-gradient(#92c942, #8ac53d);
-   background: linear-gradient(#92c942, #8ac53d);
-   -pie-background: linear-gradient(#92c942, #8ac53d);
-   behavior: url(/PIE.htc);
+   background: #92c942;  
 }
 
 .messageto::after {
@@ -452,15 +436,16 @@ div.messageMenu {
     padding-left: 10px;
     position: relative;
     top: 5px;
-    width:20px;
+    width: 20px;
+    height: 1px;
 }
 
 .check {
-    display: none;
+    visibility:hidden;
     height: 11px;
 }
 
 .checkSent {
-    display: block;
+    visibility:visible;
     height: 11px;
 }

@@ -21,6 +21,7 @@
 
 window.app = window.app || {};
 window.app.calendarCulture = "en-GB";
+window.app.appStartTime = "";
 
 function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus, isSmsBased) {
    //the conversations window expects that the toID be a "name" and not a telephone number
@@ -28,9 +29,13 @@ function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, d
    msgView.messagesView.newMessageReceived(fromID, convID, msgID, dateReceived, text, readStatus, isSmsBased);
 }
 
+function resetMessagesViewToInitialState(msgView) {
+   msgView.messagesView.resetViewToDefault();
+}
+
 function refreshConversationList(convView, msgView) {
    convView.getConversations();
-   msgView.messagesView.resetViewToDefault();
+      resetMessagesViewToInitialState(msgView);
 }
 
 function messageSuccessfullySent(msgView, message) {
@@ -72,6 +77,8 @@ function InitializeGUI() {
       delete Array.prototype.toJSON;
       delete String.prototype.toJSON;
    }
+   //make a note of the starting time - we'll use this for "delayed sent messages"    
+    window.app.appStartTime = new Date();    
    //initialize the filters area
    this.filterArea = new FilterArea();
 
@@ -100,11 +107,22 @@ function InitializeGUI() {
       refreshConversationList(self.convView, self.msgView);
    });
 
-   $(document).bind('msgSent', function (ev, data) {
+   $(document).bind('selectedConvDeleted', function (ev, data) {
+      resetMessagesViewToInitialState(self.msgView);
+   });
+    $(document).bind('msgSent', function (ev, data) {
       messageSuccessfullySent(self.msgView, data.message);
    });
 
-   window.addEventListener("resize", resizeTriggered, false);
+   //DA IE8 doesn't support addEventListener so we use attachEvent
+   //source http://stackoverflow.com/questions/9769868/addeventlistener-not-working-in-ie8
+   if (!window.addEventListener) {
+      window.attachEvent("resize", resizeTriggered);      
+   }
+   else {
+      window.addEventListener("resize", resizeTriggered, false);
+   }
+   
    resizeTriggered();
    window.app.startReconnectTimer();
 }

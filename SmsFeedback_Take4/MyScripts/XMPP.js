@@ -21,6 +21,11 @@ window.app = window.app || {};
 window.app.xmppConn = {};
 window.app.getFeaturesIQID = "info14";
 window.app.selfXmppAddress = "";
+/*
+when receiving messages it is important that each message is associated an unique id (js wise)
+so we start from a certain id and each time we receive/send a message, we increment the id
+*/
+window.app.receivedMsgID = 12345;
 
 window.app.separatorForUnsentMessages = "@@";
 window.app.unsentMsgQueue = [];
@@ -28,25 +33,43 @@ window.app.toBeSentMsgQueue = [];
 window.app.XMPPConnecting = false;
 
 //#region Helpers
-function getToBeSentMsg(msgID, convID) {
-   for (var i = 0; i < window.app.toBeSentMsgQueue; ++i) {
-      if (window.app.toBeSentMsgQueue[i].msgID == msgID && window.app.toBeSentMsgQueue[i].convID == convID) {
+function getMsg(msgID) {
+   for (var i = 0; i < window.app.toBeSentMsgQueue.length; ++i) {
+      if (window.app.toBeSentMsgQueue[i].msgID == msgID) {
          return window.app.toBeSentMsgQueue[i];
+      }
+   }
+   for (var j = 0; j < window.app.unsentMsgQueue.length; ++j) {
+      if (window.app.unsentMsgQueue[j].msgID == msgID) {
+         return window.app.unsentMsgQueue[j];
       }
    }
    return null;
 }
 
-function removeToBeSentMsgById(msgID, convID) {
-   var toBeRemovedMsgPos = -1;
-   for (var i = 0; i < window.app.toBeSentMsgQueue; ++i) {
+function removeToBeSentMsgById(msgID) {
+   var toBeRemovedMsgPos1 = -1;
+   var toBeRemovedMsgPos2 = -1;
+   for (var i = 0; i < window.app.toBeSentMsgQueue.length; ++i) {
       if (window.app.toBeSentMsgQueue[i].msgID == msgID && window.app.toBeSentMsgQueue[i].convID == convID) {
-         toBeRemovedMsgPos = i;
+         toBeRemovedMsgPos1 = i;
          break;
       }
    }
-   if (toBeRemovedMsgPos != -1) {
-      window.app.toBeSentMsgQueue.splice(toBeRemovedMsgPos, 1);
+   for (var j = 0; j < window.app.unsentMsgQueue.length; ++j) {
+      if (window.app.unsentMsgQueue[j].msgID == msgID) {
+         toBeRemovedMsgPos2 = j;
+      }
+   }
+
+   if (toBeRemovedMsgPos1 != -1) {
+      window.app.toBeSentMsgQueue.splice(toBeRemovedMsgPos1, 1);
+      return true;
+   } else {
+      return false;
+   }
+   if (toBeRemovedMsgPos2 != -1) {
+      window.app.toBeSentMsgQueue.splice(toBeRemovedMsgPos2, 1);
       return true;
    } else {
       return false;
@@ -120,6 +143,80 @@ $(function () {
    });
 });
 
+//#region Receive message
+//TODO DA move this somewhere else :)
+window.app.handleIncommingMessage = function (msgContent, isIncomming) {
+   window.app.receivedMsgID++;
+   var xmlDoc;
+   if (window.DOMParser) {
+      var parser = new DOMParser();
+      xmlDoc = parser.parseFromString(msgContent, "text/xml");
+   }
+   else {
+      xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+      xmlDoc.async = false;
+      xmlDoc.loadXML(msgContent);
+   }
+   var xmlMsgToBeDecoded = xmlDoc.getElementsByTagName("msg")[0];
+   if (xmlMsgToBeDecoded !== undefined) {
+      //DA we have received a new message - so update the nr of unread conversations (this is generic)
+      $(document).trigger('updateUnreadConvsNr');
+      //DA now determine if we are in the Conversations tab so that we need to display the message
+      if (window.app.isInConversationsTab != undefined && window.app.isInConversationsTab === true)
+      {
+         var rawFromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
+         var rawToID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
+         var toID = cleanupPhoneNumber(rawToID);
+         var fromID = cleanupPhoneNumber(rawFromID);
+         var extension;
+         /*
+         DA: the following line seems weird and it actually is :)
+         Right now a Working Point XMPP address is shortID@moderator.txtfeedback.net
+         In order not to hard code the @ prefix we try to retrieve it from SuffixDictionary
+         The issue is that the WP's address might be the from address or the to address (depending on different factors)
+         But for sure the WP is either the to or the from -> we will find it in the suffix dictionary
+         To avoid complicated logic we test both from and to in the suffix dictionary and one of them will hit :)
+         */
+         extension = window.app.workingPointsSuffixDictionary[toID] || window.app.workingPointsSuffixDictionary[fromID];
+         //decide if we are dealing with a message coming from another WorkingPoint
+         var isFromWorkingPoint = isWorkingPoint(rawFromID, extension);
+         var dateReceived = xmlMsgToBeDecoded.getElementsByTagName('datesent')[0].textContent;
+         var isSmsBasedAsString = xmlMsgToBeDecoded.getElementsByTagName('sms')[0].textContent;
+         var isSmsBased = false;
+         if (isSmsBasedAsString === "true") {
+            isSmsBased = true;
+         }
+         var convID;
+         if (isFromWorkingPoint && isIncomming) {
+            convID = buildConversationID(fromID, toID);
+         } else {
+            convID = xmlMsgToBeDecoded.getElementsByTagName("convID")[0].textContent;
+         }
+
+         var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
+         var readStatus = false; //one "freshly received" message is always unread
+         window.app.receivedMsgID++;
+         //DA the received time should be in UTC time
+         var asDateObject = new Date(Date.parse(dateReceived));
+         //Although now the time is shown in the correct timezone, we have to actually add timezone difference 
+         var milisecondsInMinute = 60000;
+         var localOffset = window.app.appStartTime.getTimezoneOffset() * milisecondsInMinute;
+         //a negative return value from getTimezoneOffset() indicates that the current location is ahead of UTC, while a positive value indicates that the location is behind UTC.
+         asDateObject = new Date(asDateObject.getTime() - localOffset);         
+         $(document).trigger('msgReceived', {
+            fromID: fromID,
+            toID: toID,
+            convID: convID,
+            msgID: window.app.receivedMsgID,
+            dateReceived: asDateObject,
+            text: newText,
+            readStatus: readStatus,
+            isSmsBased: isSmsBased
+         });         
+      }
+   }
+};
+//#endregion
 window.app.XMPPhandler = function XMPPhandler() {
    this.userid = null;
    this.password = null;
@@ -242,9 +339,9 @@ window.app.XMPPhandler = function XMPPhandler() {
       //<request xmlns='urn:xmpp:receipts'/>
 
       var replymsg = $msg({
+         id: message.msgID,
          to: message.xmppTo,
-         "type": "chat",
-         "id": message.msgID
+         type: "chat"         
       }).c("body").t(message.body);
       replymsg.up();
       replymsg.c("subject").t("internal_packet");
@@ -252,8 +349,7 @@ window.app.XMPPhandler = function XMPPhandler() {
       replymsg.c("request", { xmlns: "urn:xmpp:receipts" })
 
       if (window.app.xmppConn.conn.authenticated) {
-         var toBeSentMsg = new MessageUnsent(message.body, message.xmppTo, message.msgID, message.convID);
-         window.app.toBeSentMsgQueue.push(toBeSentMsg);
+         window.app.toBeSentMsgQueue.push(message);
          window.app.xmppConn.conn.send(replymsg);         
       } else {
          var unsentMessage = new MessageUnsent(message.body, message.xmppTo, message.msgID, message.convID);
@@ -298,17 +394,18 @@ window.app.XMPPhandler = function XMPPhandler() {
          // server acknowledge message received
          // search in toBeSent queue for the message with messageId
          var messageId = $(message).children("received").attr("id");
-         var messageConvId = $(message).children("body").text();
-         var serverAckMsg = getToBeSentMsg(messageId, messageConvId);
-         $(document).trigger('serverAck', {
-            message: serverAckMsg,
-         });
-         removeToBeSentMsg(messageId, messageConvId);
+         var serverAckMsg = getMsg(messageId);
+         // UPGRADE UI
+         //$(document).trigger('serverAck', {
+         //   message: serverAckMsg,
+         //});
+         removeToBeSentMsg(messageId);
       } else if ($(message).attr("type") === "ClientMsgDeliveryReceipt") {
          var msgID = $(message).children("received").attr("id");
-         $(document).trigger('clientAck', {
-            msgID: msgID
-         });
+         // UPGRADE UI
+         //$(document).trigger('clientAck', {
+         //   msgID: msgID
+         //});
       } else if ($(message).attr("type") === "result") {
          //TODO result relevant to us?
       } else if ($(message).attr("type") === "chat") {
@@ -321,10 +418,12 @@ window.app.XMPPhandler = function XMPPhandler() {
                }
             }
          }
-         else {
+         else {            
             //incommingMSG
-            var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
-            if (window.app.handleIncommingMessage !== undefined) {
+            //DA check if we are dealing with a delayed message or not - if yes - disregard the message
+            if ($(message).children("delay").length === 0) {
+               //according to http://xmpp.org/extensions/xep-0160.html#flow if we are dealing with a offline message we will have a delay child
+               var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
                window.app.handleIncommingMessage(incommingMsg, true);
             }
             $(document).trigger('updateUnreadConvsNr');            
