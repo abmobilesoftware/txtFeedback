@@ -217,6 +217,31 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
    }
 };
 //#endregion
+
+         var newText = xmlMsgToBeDecoded.getElementsByTagName("body")[0].textContent;
+         var readStatus = false; //one "freshly received" message is always unread
+         window.app.receivedMsgID++;
+         //DA the received time should be in UTC time
+         var asDateObject = new Date(Date.parse(dateReceived));
+         //Although now the time is shown in the correct timezone, we have to actually add timezone difference 
+         var milisecondsInMinute = 60000;
+         var localOffset = window.app.appStartTime.getTimezoneOffset() * milisecondsInMinute;
+         //a negative return value from getTimezoneOffset() indicates that the current location is ahead of UTC, while a positive value indicates that the location is behind UTC.
+         asDateObject = new Date(asDateObject.getTime() - localOffset);         
+         $(document).trigger('msgReceived', {
+            fromID: fromID,
+            toID: toID,
+            convID: convID,
+            msgID: window.app.receivedMsgID,
+            dateReceived: asDateObject,
+            text: newText,
+            readStatus: readStatus,
+            isSmsBased: isSmsBased
+         });         
+      }
+   }
+};
+//#endregion
 window.app.XMPPhandler = function XMPPhandler() {
    this.userid = null;
    this.password = null;
@@ -426,7 +451,7 @@ window.app.XMPPhandler = function XMPPhandler() {
                var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
                window.app.handleIncommingMessage(incommingMsg, true);
             }
-            $(document).trigger('updateUnreadConvsNr');            
+           
          }
       } else if ($(message).attr("type") === "error") {
          var error = message.getElementsByTagName("error")[0];

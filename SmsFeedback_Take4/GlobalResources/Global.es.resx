@@ -644,7 +644,7 @@
     <value>Número de conversaciones con mensajes no leídos</value>
   </data>
   <data name="tooltipReplyBtn" xml:space="preserve">
-    <value>Enviar respuesta al cliente</value>
+    <value>Enviar respuesta al cliente (Shift + Enter)</value>
   </data>
   <data name="tooltipSendEmailImg" xml:space="preserve">
     <value>Enviar como correo electrónico</value>

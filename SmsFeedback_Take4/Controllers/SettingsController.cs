@@ -18,6 +18,7 @@ namespace SmsFeedback_Take4.Controllers
    public class SettingsController : BaseController
     {      
       private const string cRoleForConfigurators = "WorkingPointsConfigurator";
+      smsfeedbackEntities context = new smsfeedbackEntities();
 
       private AggregateSmsRepository mSmsRepository;
       private AggregateSmsRepository SMSRepository
@@ -103,8 +104,7 @@ namespace SmsFeedback_Take4.Controllers
       private ActionResult GetDefineWorkingPointsFormInternal()
       {
          var user = User.Identity.Name;          
-         smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();         
-         return View(SMSRepository.GetWorkingPointsPerUser(user, lContextPerRequest));
+         return View(SMSRepository.GetWorkingPointsPerUser(user, context));
       }
 
       [CustomAuthorizeAtribute(Roles = cRoleForConfigurators)]
@@ -114,14 +114,20 @@ namespace SmsFeedback_Take4.Controllers
          if (ModelState.IsValid)
          {
             var user = User.Identity.Name;
-            smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-            mEFInterface.SaveWpsForUser(user, wps, lContextPerRequest);
+            mEFInterface.SaveWpsForUser(user, wps, context);
             //ModelState.AddModelError("", Resources.Global.loginUnsuccessfulDetails);
             ViewData["saveMessage"] = Resources.Global.settingWpConfigSavedSuccessfuly;           
          }
          return GetDefineWorkingPointsFormInternal();
       }
+
        #endregion
+      protected override void Dispose(bool disposing)
+      {
+         context.Dispose();
+         base.Dispose(disposing);
+      }
+
     }
    
 }

@@ -13,6 +13,8 @@ namespace SmsFeedback_Take4.Controllers
    {
       #region "member variables"
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+      smsfeedbackEntities context = new smsfeedbackEntities();
+
       private EFInteraction mEFInterface = new EFInteraction();
       #endregion
 
@@ -24,13 +26,10 @@ namespace SmsFeedback_Take4.Controllers
             if (HttpContext.Request.IsAjaxRequest())
             {
                var userId = User.Identity.Name;
-               smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-               using (lContextPerRequest)
-               {
-                  var connectionDetails = mEFInterface.GetXmppConnectionDetailsPerUser(userId, lContextPerRequest);
-                  Response.BufferOutput = true;
-                  return Json(connectionDetails, JsonRequestBehavior.AllowGet);   
-               }
+               var connectionDetails = mEFInterface.GetXmppConnectionDetailsPerUser(userId, context);
+               Response.BufferOutput = true;
+               return Json(connectionDetails, JsonRequestBehavior.AllowGet);   
+               
             }
          }
          catch (Exception ex)
@@ -42,5 +41,12 @@ namespace SmsFeedback_Take4.Controllers
          Response.BufferOutput = true;
          return null;
       }
+      
+      protected override void Dispose(bool disposing)
+      {
+         context.Dispose();
+         base.Dispose(disposing);
+      }
+
    }
 }

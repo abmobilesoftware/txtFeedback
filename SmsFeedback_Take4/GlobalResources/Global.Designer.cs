@@ -1852,7 +1852,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Send reply to customer.
+        ///   Looks up a localized string similar to Send reply to customer (Shift + Enter).
         /// </summary>
         public static string tooltipReplyBtn {
             get {

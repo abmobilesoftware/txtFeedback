@@ -91,7 +91,7 @@ window.app.MessagesArea = function () {
            var fromTo = getFromToFromConversation(self.currentConversationId);
            var from = fromTo[0];
            var to = fromTo[1];
-           //TODO should be RFC822 format
+           //TODO should be RFC822 format           
            var timeSent = new Date();
            $(document).trigger('msgReceived', {
                fromID: from,
@@ -295,6 +295,7 @@ $(function () {
              messageSuccessfullySent(window.app.msgView.messagesView, data.msgID, data.convID);
          });
 
+         //DA unfortunately Opera does not implement correctly onUnload - so this will not be triggered when closing opera
          $(window).unload(function () {            
             window.app.saveLoginDetails();
             window.app.disconnectXMPP();

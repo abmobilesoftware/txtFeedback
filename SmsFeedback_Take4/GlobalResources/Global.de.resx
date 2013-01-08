@@ -126,6 +126,12 @@
   <data name="addATagLabel" xml:space="preserve">
     <value>Schlagwort hinzufügen</value>
   </data>
+  <data name="confirmDeleteConversation" xml:space="preserve">
+    <value>Are you sure you want to delete the conversation with user</value>
+  </data>
+  <data name="confirmDeleteMessage" xml:space="preserve">
+    <value>Are you sure you want to delete message</value>
+  </data>
   <data name="dateLabel" xml:space="preserve">
     <value>Datum:</value>
   </data>
@@ -260,6 +266,9 @@
   </data>
   <data name="RepDay" xml:space="preserve">
     <value>Tag</value>
+  </data>
+  <data name="RepExportToExcel" xml:space="preserve">
+    <value>Export to Excel</value>
   </data>
   <data name="RepIncomingOutgoingChartTitle" xml:space="preserve">
     <value>Eingehende und Ausgehende Nachrichten</value>
@@ -396,6 +405,15 @@
   <data name="RepTagsPerConversationUnit" xml:space="preserve">
     <value>Schlagwörter/Unterhaltung</value>
   </data>
+  <data name="RepTooltipPosNegFeedbackActivity" xml:space="preserve">
+    <value>Aktivität der positiven und negativen Schlagwörter</value>
+  </data>
+  <data name="RepTooltipPosNegFeedbackEvolution" xml:space="preserve">
+    <value>Entwicklung des positiven und negativen Feedbacks</value>
+  </data>
+  <data name="RepTooltipPosNegFeedbackTransitions" xml:space="preserve">
+    <value>Positive und negative Übergänge</value>
+  </data>
   <data name="RepTotalNoOfClients" xml:space="preserve">
     <value>Anzahl der Kunden, die Feedback gegeben haben</value>
   </data>
@@ -516,6 +534,10 @@
   <data name="settingsConfigureWpTelNumberError" xml:space="preserve">
     <value>Telefonnummer darf nicht leer sein.</value>
   </data>
+  <data name="settingsConfigureWpWelcomeMsgError" xml:space="preserve">
+    <value>Working point welcome message should not be empty</value>
+    <comment>Settings:</comment>
+  </data>
   <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
     <value>Bestätigung der neuen Passwort</value>
   </data>
@@ -546,8 +568,15 @@
   <data name="settingsErrorWpTelNumberLength" xml:space="preserve">
     <value>Telefonnummer des Arbeitspunkts soll von 8 bis 50 Zeichen lang sein.</value>
   </data>
+  <data name="settingsErrorWpWelcomeLength" xml:space="preserve">
+    <value>Welcome message should be between 10 and 160 characters long</value>
+    <comment>Settings:</comment>
+  </data>
   <data name="settingsMaxOutboundSmsHeader" xml:space="preserve">
     <value>Maximale ausgehende SMS</value>
+  </data>
+  <data name="settingsMaxOutboundSmsHeaderTooltip" xml:space="preserve">
+    <value>The maximum number of SMS that can be sent from this working point in one month</value>
   </data>
   <data name="settingsNewPasswordLabel" xml:space="preserve">
     <value>Neues Passwort</value>
@@ -560,6 +589,13 @@
   </data>
   <data name="settingsPrivacy" xml:space="preserve">
     <value>Datenschutz</value>
+  </data>
+  <data name="settingsShortIDHeader" xml:space="preserve">
+    <value>Short ID</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsShortIDHeaderTooltip" xml:space="preserve">
+    <value>The working point's short identifier</value>
   </data>
   <data name="settingsTelNoHeader" xml:space="preserve">
     <value>Telefonnummer</value>
@@ -594,11 +630,30 @@
   <data name="settingsWpTelNoHeaderTooltip" xml:space="preserve">
     <value>Rufnummer für diese Filiale</value>
   </data>
+  <data name="settingsWpWelcomeMessageHeader" xml:space="preserve">
+    <value>Welcome message</value>
+    <comment>Settings:</comment>
+  </data>
+  <data name="settingsWpWelcomeMessageHeaderTooltip" xml:space="preserve">
+    <value>The greeting message on the mobile website</value>
+  </data>
   <data name="settingUserPreferences" xml:space="preserve">
     <value>Benutzereinstellungen</value>
   </data>
   <data name="settingWpConfigSavedSuccessfuly" xml:space="preserve">
     <value>Die Konfiguration der Filiale wurde erfolgreicht gewchselt</value>
+  </data>
+  <data name="shareOnFacebook" xml:space="preserve">
+    <value>Share on Facebook</value>
+  </data>
+  <data name="shareOnLinkedin" xml:space="preserve">
+    <value>Share on Linkedin</value>
+  </data>
+  <data name="shareOnLinkedinTitle" xml:space="preserve">
+    <value>Feedback received via Txtfeedback</value>
+  </data>
+  <data name="shareOnTwitter" xml:space="preserve">
+    <value>Share on Twitter</value>
   </data>
   <data name="starredLabel" xml:space="preserve">
     <value>Favoriten</value>
@@ -627,8 +682,14 @@
   <data name="thumbsUpTooltip" xml:space="preserve">
     <value>Die Unterhaltung als positiven Feedback markieren</value>
   </data>
+  <data name="TitleLogOn" xml:space="preserve">
+    <value>Anmelden</value>
+  </data>
   <data name="toDate" xml:space="preserve">
     <value>Letzte Aktualisierung</value>
+  </data>
+  <data name="tooltipDeleteConversation" xml:space="preserve">
+    <value>Delete conversation DE</value>
   </data>
   <data name="tooltipIncludeDateInFilter" xml:space="preserve">
     <value>Datenfilterung an/abschalten</value>
@@ -652,7 +713,7 @@
     <value>Anzahl der Unterhaltungen mit ungelesene Nachrichten</value>
   </data>
   <data name="tooltipReplyBtn" xml:space="preserve">
-    <value>Antwort an Kunde senden</value>
+    <value>Antwort an Kunde senden (Shift + Enter)</value>
   </data>
   <data name="tooltipSendEmailImg" xml:space="preserve">
     <value>Als E-mail versenden</value>
@@ -668,67 +729,6 @@
   </data>
   <data name="welcomeMessage" xml:space="preserve">
     <value>Willkommen</value>
-  </data>
-  <data name="RepTooltipPosNegFeedbackActivity" xml:space="preserve">
-    <value>Aktivität der positiven und negativen Schlagwörter</value>
-  </data>
-  <data name="RepTooltipPosNegFeedbackEvolution" xml:space="preserve">
-    <value>Entwicklung des positiven und negativen Feedbacks</value>
-  </data>
-  <data name="RepTooltipPosNegFeedbackTransitions" xml:space="preserve">
-    <value>Positive und negative Übergänge</value>
-  </data>
-  <data name="TitleLogOn" xml:space="preserve">
-    <value>Anmelden</value>
-  </data>
-  <data name="settingsConfigureWpWelcomeMsgError" xml:space="preserve">
-    <value>Working point welcome message should not be empty</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="settingsErrorWpWelcomeLength" xml:space="preserve">
-    <value>Welcome message should be between 10 and 160 characters long</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="settingsShortIDHeader" xml:space="preserve">
-    <value>Short ID</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="settingsWpWelcomeMessageHeader" xml:space="preserve">
-    <value>Welcome message</value>
-    <comment>Settings:</comment>
-  </data>
-  <data name="settingsMaxOutboundSmsHeaderTooltip" xml:space="preserve">
-    <value>The maximum number of SMS that can be sent from this working point in one month</value>
-  </data>
-  <data name="settingsShortIDHeaderTooltip" xml:space="preserve">
-    <value>The working point's short identifier</value>
-  </data>
-  <data name="settingsWpWelcomeMessageHeaderTooltip" xml:space="preserve">
-    <value>The greeting message on the mobile website</value>
-  </data>
-  <data name="RepExportToExcel" xml:space="preserve">
-    <value>Export to Excel</value>
-  </data>
-  <data name="tooltipDeleteConversation" xml:space="preserve">
-    <value>Delete conversation DE</value>
-  </data>
-  <data name="confirmDeleteConversation" xml:space="preserve">
-    <value>Are you sure you want to delete the conversation with user</value>
-  </data>
-  <data name="confirmDeleteMessage" xml:space="preserve">
-    <value>Are you sure you want to delete message</value>
-  </data>
-  <data name="shareOnFacebook" xml:space="preserve">
-    <value>Share on Facebook</value>
-  </data>
-  <data name="shareOnLinkedin" xml:space="preserve">
-    <value>Share on Linkedin</value>
-  </data>
-  <data name="shareOnTwitter" xml:space="preserve">
-    <value>Share on Twitter</value>
-  </data>
-  <data name="shareOnLinkedinTitle" xml:space="preserve">
-    <value>Feedback received via Txtfeedback</value>
   </data>
   <data name="deleteMessage" xml:space="preserve">
     <value>Delete message</value>

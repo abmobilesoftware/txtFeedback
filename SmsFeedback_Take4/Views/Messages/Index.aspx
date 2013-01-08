@@ -73,19 +73,19 @@
    </script>
    <script type="text/template" id="conversation-template">
             {% if (IsSmsBased) { %}
-               <img class="isSms" src="<%: Url.Content("~/Content/images/SMS-24x24.png") %>"/>
+               <img class="isSms" src="<%: Url.Content("~/Content/images/sms.png") %>"/>
              {% } %}
 
             <div class="leftLiDiv convColumn">
                 {% if (Read) { %}
-                        <embed src="<%: Url.Content("~/Content/images/check-grey.svg") %>" type="image/svg+xml" class="images conversationImageRead" />
+                        <img src="<%: Url.Content("~/Content/images/check-grey.png") %>" class="images conversationImageRead" height="28" width="40" />
                 {% } else {
                         var fromTo = getFromToFromConversation(ConvID);
                         if (comparePhoneNumbers(fromTo[0],From)) {
                         %}
-                            <embed src="<%: Url.Content("~/Content/images/exclamation-blue.svg") %>" type="image/svg+xml" class="images conversationImageUnread" />
+                            <img src="<%: Url.Content("~/Content/images/exclamation-blue.png") %>" class="images conversationImageUnread" height="28" width="40" />
                         {% } else { %}
-                            <embed src="<%: Url.Content("~/Content/images/exclamation-green.svg") %>" type="image/svg+xml" class="images conversationImageUnread" />
+                            <embed src="<%: Url.Content("~/Content/images/exclamation-green.png") %>" class="images conversationImageUnread" height="28" width="40" />
                         {% }    
                 }  %}
             </div>
@@ -118,9 +118,9 @@
        
                 <div class="conversationStarIcon ignoreElementOnSelection">
                     {% if (Starred) { %}
-                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected_orange.svg") %>" class="conversationStarIconImg" />
+                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected_orange.svg") %>" class="conversationStarIconImg" height="33" width="33"/>
                     {% } else { %}
-                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star.svg") %>" class="conversationStarIconImg" /> 
+                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star.svg") %>" class="conversationStarIconImg" height="33" width="33"/> 
                     {% } %}
                 </div>
             </div>                         
@@ -131,8 +131,8 @@
          <span class="textMessageContent">{{ Text }} </span> 
          <div class="clear"></div>
          {% 
-            var dateComponents = TimeReceived.toString().split(" ");
-            var time = dateComponents[4];               
+            var dateComponents = TimeReceived.toTimeString().split(" ");
+            var time = dateComponents[0];               
             var displayPattern = 'DD, MM d, yy';
             if (window.app.calendarCulture == "ro") displayPattern = 'DD, d MM, yy';       
             var timeReceivedLocal = $.datepicker.formatDate(displayPattern, TimeReceived, 
@@ -180,16 +180,7 @@
       </div>
       
       <div class="clear"></div>
-      <div <% if ((bool)ViewData["messageOrganizer"]) { %> class="extramenuExtended" <% } else { %> class="extramenu" <% } %> hoverID="{{ Id }}">
-       <div class="extraMenuWrapper"></div>  
-       <div class="innerExtraMenu">
-            <div class="actionButtons sendEmailButton">
-               <img tooltiptitle="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/mail.png") %>" />
-            </div>            
-            <div class="clear"></div>                       
-       </div>               
-        
-      </div>        
+      </div>
    </script>
    <script type="text/javascript">
       $(function () {

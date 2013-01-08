@@ -26,7 +26,7 @@
     <UpgradeBackupLocation />
     <TargetFrameworkProfile />
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
-    <JSLintSkip>\MyScripts\Minified\contact.js|\MyScripts\Minified\Conversations.js|\MyScripts\Minified\ConversationTags.js|\MyScripts\Minified\Facade.js|\MyScripts\Minified\Filtering.js|\MyScripts\Minified\Messages.js|\MyScripts\Minified\Utilities.js|\MyScripts\Minified\WorkingPoints.js|\MyScripts\Minified\XMPP.js|\MyScripts\Minified\Settings\SettingsFacade.js|\Scripts\jquery-1.6.2-vsdoc.js|\Scripts\jquery-1.6.2.js|\Scripts\jquery-1.6.2.min.js|\Scripts\jquery-ui-1.8.11.js|\Scripts\jquery-ui-1.8.11.min.js|\Scripts\jquery-ui-vertical-buttonset.js|\Scripts\jquery.cookie.js|\Scripts\jquery.json-2.3.min.js|\Scripts\jquery.qtip-1.0.0-rc3.min.js|\Scripts\jquery.simplemodal.js|\Scripts\jquery.tagsinput.js|\Scripts\jquery.ui.datepicker-de.js|\Scripts\jquery.ui.datepicker-en-GB.js|\Scripts\jquery.ui.datepicker-es.js|\Scripts\jquery.ui.datepicker-ro.js|\Scripts\jquery.unobtrusive-ajax.js|\Scripts\jquery.unobtrusive-ajax.min.js|\Scripts\jquery.validate-vsdoc.js|\Scripts\jquery.validate.js|\Scripts\jquery.validate.min.js|\Scripts\jquery.validate.unobtrusive.js|\Scripts\jquery.validate.unobtrusive.min.js|\Scripts\MicrosoftAjax.debug.js|\Scripts\MicrosoftAjax.js|\Scripts\MicrosoftMvcAjax.debug.js|\Scripts\MicrosoftMvcAjax.js|\Scripts\MicrosoftMvcValidation.debug.js|\Scripts\MicrosoftMvcValidation.js|\Scripts\modernizr-2.0.6-development-only.js|\Scripts\persist-min.js|\Scripts\spin.js|\Scripts\splitter.js|\Scripts\underscore.js|\Scripts\backbone.js|\Scripts\Minified\CollapsibleLists.js|\Scripts\Minified\jquery.cookie.js|\Scripts\Minified\jquery.simplemodal.js|\Scripts\Minified\jquery.tagsinput.js|\Scripts\Minified\jquery.ui.datepicker-de.js|\Scripts\Minified\jquery.ui.datepicker-en-GB.js|\Scripts\Minified\jquery.ui.datepicker-ro.js|\Scripts\Minified\spin.js|\MyScripts\Base\Minified\BaseLeftSideMenu.js|\MyScripts\Reports\Minified\DateHelper.js|\MyScripts\Reports\Minified\FirstArea.js|\MyScripts\Reports\Minified\GlobalVariables.js|\MyScripts\Reports\Minified\RepFacade.js|\MyScripts\Reports\Minified\Reports.js|\MyScripts\Reports\Minified\SecondArea.js|\MyScripts\Reports\Minified\ThirdArea.js|\QUnit\ControllerTest.js|\QUnit\ConversationsTest.js|\QUnit\FilteringTest.js|\QUnit\MessagesTests.js|\QUnit\UtilitiesTests.js|\QUnit\TagsTests.js|\QUnit\WorkingPointsTests.js|\Nexmo\nexmoTest.js|\Scripts\CollapsibleLists.js|\MyScripts\Settings\Minified\settings.js|\MyScripts\Settings\Minified\SettingsFacade.js|\Scripts\strophe\strophe.js|\Content\Minified\contact.css|\Content\Minified\conversations.css|\Content\Minified\filtersStrip.css|\Content\Minified\grid.css|\Content\Minified\jquery.tagsinput.css|\Content\Minified\layout.css|\Content\Minified\messages.css|\Content\Minified\nav.css|\Content\Minified\phonenumbers.css|\Content\Minified\reset.css|\Content\Minified\Site.css|\Content\Minified\tags.css|\Content\Minified\text.css|\Content\css\Minified\areaDefinitions.css|\Content\css\Minified\reports.css|\Content\css\Minified\settings.css|\Scripts\strophe\|\MyScripts\Reports\Minified\Json2Csv.js</JSLintSkip>
+    <JSLintSkip>\MyScripts\Minified\contact.js|\MyScripts\Minified\Conversations.js|\MyScripts\Minified\ConversationTags.js|\MyScripts\Minified\Facade.js|\MyScripts\Minified\Filtering.js|\MyScripts\Minified\Messages.js|\MyScripts\Minified\Utilities.js|\MyScripts\Minified\WorkingPoints.js|\MyScripts\Minified\XMPP.js|\MyScripts\Minified\Settings\SettingsFacade.js|\Scripts\jquery-1.6.2-vsdoc.js|\Scripts\jquery-1.6.2.js|\Scripts\jquery-1.6.2.min.js|\Scripts\jquery-ui-1.8.11.js|\Scripts\jquery-ui-1.8.11.min.js|\Scripts\jquery-ui-vertical-buttonset.js|\Scripts\jquery.cookie.js|\Scripts\jquery.json-2.3.min.js|\Scripts\jquery.qtip-1.0.0-rc3.min.js|\Scripts\jquery.simplemodal.js|\Scripts\jquery.tagsinput.js|\Scripts\jquery.ui.datepicker-de.js|\Scripts\jquery.ui.datepicker-en-GB.js|\Scripts\jquery.ui.datepicker-es.js|\Scripts\jquery.ui.datepicker-ro.js|\Scripts\jquery.unobtrusive-ajax.js|\Scripts\jquery.unobtrusive-ajax.min.js|\Scripts\jquery.validate-vsdoc.js|\Scripts\jquery.validate.js|\Scripts\jquery.validate.min.js|\Scripts\jquery.validate.unobtrusive.js|\Scripts\jquery.validate.unobtrusive.min.js|\Scripts\MicrosoftAjax.debug.js|\Scripts\MicrosoftAjax.js|\Scripts\MicrosoftMvcAjax.debug.js|\Scripts\MicrosoftMvcAjax.js|\Scripts\MicrosoftMvcValidation.debug.js|\Scripts\MicrosoftMvcValidation.js|\Scripts\modernizr-2.0.6-development-only.js|\Scripts\persist-min.js|\Scripts\spin.js|\Scripts\splitter.js|\Scripts\underscore.js|\Scripts\backbone.js|\Scripts\Minified\CollapsibleLists.js|\Scripts\Minified\jquery.cookie.js|\Scripts\Minified\jquery.simplemodal.js|\Scripts\Minified\jquery.tagsinput.js|\Scripts\Minified\jquery.ui.datepicker-de.js|\Scripts\Minified\jquery.ui.datepicker-en-GB.js|\Scripts\Minified\jquery.ui.datepicker-ro.js|\Scripts\Minified\spin.js|\MyScripts\Base\Minified\BaseLeftSideMenu.js|\MyScripts\Reports\Minified\DateHelper.js|\MyScripts\Reports\Minified\FirstArea.js|\MyScripts\Reports\Minified\GlobalVariables.js|\MyScripts\Reports\Minified\RepFacade.js|\MyScripts\Reports\Minified\Reports.js|\MyScripts\Reports\Minified\SecondArea.js|\MyScripts\Reports\Minified\ThirdArea.js|\QUnit\ControllerTest.js|\QUnit\ConversationsTest.js|\QUnit\FilteringTest.js|\QUnit\MessagesTests.js|\QUnit\UtilitiesTests.js|\QUnit\TagsTests.js|\QUnit\WorkingPointsTests.js|\Nexmo\nexmoTest.js|\Scripts\CollapsibleLists.js|\MyScripts\Settings\Minified\settings.js|\MyScripts\Settings\Minified\SettingsFacade.js|\Scripts\strophe\strophe.js|\Content\Minified\contact.css|\Content\Minified\conversations.css|\Content\Minified\filtersStrip.css|\Content\Minified\grid.css|\Content\Minified\jquery.tagsinput.css|\Content\Minified\layout.css|\Content\Minified\messages.css|\Content\Minified\nav.css|\Content\Minified\phonenumbers.css|\Content\Minified\reset.css|\Content\Minified\Site.css|\Content\Minified\tags.css|\Content\Minified\text.css|\Content\css\Minified\areaDefinitions.css|\Content\css\Minified\reports.css|\Content\css\Minified\settings.css|\Scripts\strophe\Minified\strophe.js</JSLintSkip>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,9 +55,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ExternalReferences\blowery.Web.HttpCompress.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.6.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
       <SpecificVersion>False</SpecificVersion>
@@ -167,7 +167,6 @@
     <Compile Include="Controllers\EmailSendController.cs" />
     <Compile Include="Controllers\ErrorLogController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
@@ -263,6 +262,7 @@
     <Content Include="Content\grid.css" />
     <Content Include="Content\images\06-web-2.png" />
     <Content Include="Content\images\06-web-2_225.png" />
+    <Content Include="Content\images\check-grey.png" />
     <Content Include="Content\images\check-grey.svg" />
     <Content Include="Content\images\check-white.svg" />
     <Content Include="Content\images\checkbox_checked.png" />
@@ -290,7 +290,9 @@
     <Content Include="Content\images\De_flag_16.png" />
     <Content Include="Content\images\em16x16.png" />
     <Content Include="Content\images\Excel-25.png" />
+    <Content Include="Content\images\exclamation-blue.png" />
     <Content Include="Content\images\exclamation-blue.svg" />
+    <Content Include="Content\images\exclamation-green.png" />
     <Content Include="Content\images\exclamation-green.svg" />
     <Content Include="Content\images\exclamation-orange.svg" />
     <Content Include="Content\images\exclamationMark.jpg" />
@@ -313,12 +315,15 @@
     <Content Include="Content\images\question-green.svg" />
     <Content Include="Content\images\question-orange.svg" />
     <Content Include="Content\images\Ro_flag_16.png" />
+    <Content Include="Content\images\smiley-h.png" />
     <Content Include="Content\images\Smiley-Happy-32.png" />
     <Content Include="Content\images\Smiley-Happy-32_20.png" />
+    <Content Include="Content\images\smiley-s.png" />
     <Content Include="Content\images\Smiley-Sad-32.png" />
     <Content Include="Content\images\Smiley-Sad-32_20.png" />
     <Content Include="Content\images\SMS-128x128.png" />
     <Content Include="Content\images\SMS-24x24.png" />
+    <Content Include="Content\images\sms.png" />
     <Content Include="Content\images\Spain_flag.png" />
     <Content Include="Content\images\Spain_flag_16.png" />
     <Content Include="Content\images\star-selected_orange.svg" />
@@ -527,8 +532,6 @@
     <Content Include="Views\Account\ChangePasswordSuccess.aspx" />
     <Content Include="Views\Account\LogOn.aspx" />
     <Content Include="Views\Account\Register.aspx" />
-    <Content Include="Views\Home\About.aspx" />
-    <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\LogOnUserControl.ascx" />
     <Content Include="Views\Shared\Site.Master" />

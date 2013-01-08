@@ -15,6 +15,7 @@ namespace SmsFeedback_Take4.Controllers
     public class MessagesController : BaseController
     {
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        smsfeedbackEntities context = new smsfeedbackEntities();
         private const string cMessageOrganizer = "MessageOrganizer";
         private AggregateSmsRepository mSmsRepository;
         private AggregateSmsRepository SMSRepository
@@ -42,10 +43,9 @@ namespace SmsFeedback_Take4.Controllers
             {
                 if (HttpContext.Request.IsAjaxRequest())
                 {
-                    var userId = User.Identity.Name;
-                    smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+                    var userId = User.Identity.Name;                   
 
-                    var workingPoints = SMSRepository.GetWorkingPointsPerUser(userId, lContextPerRequest);
+                    var workingPoints = SMSRepository.GetWorkingPointsPerUser(userId, context);
                     return Json(workingPoints, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -73,8 +73,7 @@ namespace SmsFeedback_Take4.Controllers
             try
             {
                 logger.Debug(String.Format("Show messages for conversation: {0}", conversationId));
-                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-                return Json(SMSRepository.GetMessagesForConversation(conversationId, lContextPerRequest), JsonRequestBehavior.AllowGet);
+                return Json(SMSRepository.GetMessagesForConversation(conversationId, context), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -99,9 +98,7 @@ namespace SmsFeedback_Take4.Controllers
                 return Json(new Error(Constants.NULL_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
             }
             logger.InfoFormat("Marking conversation [{0}] as read", conversationId);
-            smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-
-            var conv = mEFInterface.MarkConversationAsRead(conversationId, lContextPerRequest);
+            var conv = mEFInterface.MarkConversationAsRead(conversationId, context);
             if (conv != null)
             {
                 return Json("Update successful", JsonRequestBehavior.AllowGet);
@@ -129,8 +126,7 @@ namespace SmsFeedback_Take4.Controllers
             if (newStarredStatus.HasValue)
             {
                 logger.InfoFormat("Changing starred status for conversation [{0}] to {1}", conversationId, ((bool)newStarredStatus ? "True" : "False"));
-                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-                var conv = mEFInterface.UpdateStarredStatusForConversation(conversationId, newStarredStatus.Value, lContextPerRequest);
+                var conv = mEFInterface.UpdateStarredStatusForConversation(conversationId, newStarredStatus.Value, context);
                 if (conv != null)
                 {
                     return Json("Update successful", JsonRequestBehavior.AllowGet);
@@ -155,13 +151,12 @@ namespace SmsFeedback_Take4.Controllers
                 logger.DebugFormat("performUpdateBefore: {0}", performUpdateBefore.HasValue ? performUpdateBefore.Value.ToString() : "null");
                 if (HttpContext.Request.IsAjaxRequest())
                 {
-                    var userId = User.Identity.Name;
-                    smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+                    var userId = User.Identity.Name;                    
                     if (performUpdateBefore.HasValue && performUpdateBefore.Value == true)
                     {
-                        SMSRepository.UpdateConversationsFromExternalSources(null, null, userId, lContextPerRequest);
+                        SMSRepository.UpdateConversationsFromExternalSources(null, null, userId, context);
                     }
-                    var lUnreadMsg = new KeyValuePair<string, int>("unreadConvs", SMSRepository.NrOfUnreadConversations(userId, lContextPerRequest));
+                    var lUnreadMsg = new KeyValuePair<string, int>("unreadConvs", SMSRepository.NrOfUnreadConversations(userId, context));
                     return Json(lUnreadMsg, JsonRequestBehavior.AllowGet);
                 }
                 return null;
@@ -235,20 +230,31 @@ namespace SmsFeedback_Take4.Controllers
                         var dateInfo = endDate.Split('-');
                         endDateAsDate = new DateTime(Int32.Parse(dateInfo[2]), Int32.Parse(dateInfo[1]), Int32.Parse(dateInfo[0]));
                         if (endDateAsDate.Value.Date == DateTime.Now.Date) endDateAsDate = null;
-                    }
-                    smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+                    }                    
                     bool retrieveOnlyUnreadConversations = false;
                     if (onlyUnread.HasValue && onlyUnread.Value == true) retrieveOnlyUnreadConversations = true;
                     //decide if we want to update from external sources or not
                     var updateFromExternalSources = DecideIfUpdateFromExternalSourcesIsRequired(requestIndex);
                     if (!popUpSupport)
                     {
-                        var conversations = SMSRepository.GetConversationsForNumbers(onlyFavorites, tags, workingPointsNumbers, startDateAsDate, endDateAsDate, retrieveOnlyUnreadConversations, skip, top, null, userId, updateFromExternalSources, lContextPerRequest);
+                        var conversations = SMSRepository.GetConversationsForNumbers(
+                           onlyFavorites, 
+                           tags, 
+                           workingPointsNumbers, 
+                           startDateAsDate, 
+                           endDateAsDate, 
+                           retrieveOnlyUnreadConversations, 
+                           skip, 
+                           top, 
+                           null, 
+                           userId, 
+                           updateFromExternalSources, 
+                           context);
                         return Json(conversations, JsonRequestBehavior.AllowGet);
                     }
                     else
                     {
-                        var conversations = SMSRepository.GetSupportConversationsForWorkingPoints(userId, workingPointsNumbers, skip, top, lContextPerRequest);
+                        var conversations = SMSRepository.GetSupportConversationsForWorkingPoints(userId, workingPointsNumbers, skip, top, context);
                         return Json(conversations, JsonRequestBehavior.AllowGet);
                     }
                 }
@@ -265,31 +271,6 @@ namespace SmsFeedback_Take4.Controllers
             return requestIndex % 5 == 0;
         }
 
-        //public JsonResult MessageReceived(String from, String to, String convId, String text, string receivedTime, bool readStatus)
-        //{
-        //   logger.Debug(String.Format("Message received: from: {0}, to: {1}, convId: {2}, text: {3}, receivedTime: {4}, readStatus: {5}", from, to, convId, text, receivedTime.ToString(), readStatus.ToString()));
-        //   if (HttpContext.Request.IsAjaxRequest())
-        //   {
-        //      try
-        //      {
-        //         String conversationId = ConversationUtilities.BuildConversationIDFromFromAndTo(from, to);
-        //         DateTime receivedTimeAsDate = Utilities.Rfc822DateTime.Parse(receivedTime);
-        //         smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-
-        //         AddMessageAndUpdateConversation(from, to, convId, text, readStatus, receivedTimeAsDate, lContextPerRequest);
-        //         //I should return the sent time (if successful)              
-        //         String response = "received successfully"; //TODO should be a class
-        //         return Json(response, JsonRequestBehavior.AllowGet);
-
-        //      }
-        //      catch (Exception ex)
-        //      {
-        //         logger.Error("MessageReceived error", ex);
-        //      }
-        //   }
-        //   return null;
-        //}
-
         public JsonResult AddAnEventInConversationHistory(String conversationId, String eventType)
         {
             if (conversationId == null)
@@ -305,9 +286,8 @@ namespace SmsFeedback_Take4.Controllers
             }
             
             try
-            {
-                smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-                mEFInterface.AddAnEventInConversationHistory(conversationId, eventType, lContextPerRequest);
+            {                
+                mEFInterface.AddAnEventInConversationHistory(conversationId, eventType, context);
                 return Json("Successfully added", JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -335,9 +315,8 @@ namespace SmsFeedback_Take4.Controllers
             try
             {
                 if (HttpContext.User.IsInRole(cMessageOrganizer))
-                {
-                    smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-                    string queryResult = mEFInterface.DeleteMessage(messageText, convId, timeReceived.ToUniversalTime(), lContextPerRequest);
+                {                    
+                    string queryResult = mEFInterface.DeleteMessage(messageText, convId, timeReceived.ToUniversalTime(), context);
                     if (queryResult.Equals("last message"))
                     {
                         return Json("lastMessage", JsonRequestBehavior.AllowGet);
@@ -378,9 +357,8 @@ namespace SmsFeedback_Take4.Controllers
             try
             {
                 if (HttpContext.User.IsInRole(cMessageOrganizer))
-                {
-                    smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-                    mEFInterface.DeleteConversation(convId, lContextPerRequest);
+                {                    
+                    mEFInterface.DeleteConversation(convId, context);
                     return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
                 }
                 return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);
@@ -410,9 +388,8 @@ namespace SmsFeedback_Take4.Controllers
             try
             {
                 if (HttpContext.User.IsInRole(cMessageOrganizer))
-                {
-                    smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-                    mEFInterface.UpdateConversationText(convId, newText, newTextReceivedDateUTC, lContextPerRequest);
+                {                    
+                    mEFInterface.UpdateConversationText(convId, newText, newTextReceivedDateUTC, context);
                     return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
                 }
                 return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);
@@ -422,6 +399,12 @@ namespace SmsFeedback_Take4.Controllers
                 logger.Error("UpdateConversation " + ex.Message);
                 return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);
             }
+        }
+        
+       protected override void Dispose(bool disposing)
+        {
+           context.Dispose();
+           base.Dispose(disposing);
         }
     }
 }

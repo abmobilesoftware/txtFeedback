@@ -20,7 +20,7 @@
 //#endregion
 window.app = window.app || {};
 window.app.selectedConversation = {};
-
+window.app.isInConversationsTab = true;
 
 //#region Constants
 window.app.defaultNrOfConversationsToDisplay = 10;
@@ -146,7 +146,8 @@ $(function () {
             var conversationElement = $(this).parents(".conversation");
             var id = conversationElement.attr("conversationId");
             var user = id.split("-")[0];
-
+               //DA if we deleted the selected conversation reset the messagesView
+                var convIsSelected = (gSelectedConversationID === id);
             $("#convOverlay").show();
             if (confirm($("#confirmDeleteConversation").val() + " \"" + user + "\" ?")) {
                var target = document.getElementById('scrollableconversations');
@@ -154,17 +155,23 @@ $(function () {
                $.getJSON('Messages/DeleteConversation',
                        { convId: id },
                        function (data) {
-                          if (data === "success") {
-                             $(conversationElement).remove();
-                             deleteConvSpinner.stop();
-                             $("#convOverlay").hide();
+                               if (data === "success") {                                 
+                                  $(conversationElement).remove();
+                                  deleteConvSpinner.stop();
+                                  $("#convOverlay").hide();                                 
+                                  if (convIsSelected) {
+                                     $(document).trigger('selectedConvDeleted');
+                                     gSelectedConversationID = null;
+                                     gSelectedElement = null;
+                                  }
                           }
                        });
             } else {
                $("#convOverlay").hide();
             }
          });
-         //#endregion
+           //#endregion
+            
          return this;
       },
       updateFavouritesIcon: function () {
@@ -183,8 +190,7 @@ $(function () {
 
 function ConversationArea(filterArea, workingPointsArea) {
    "use strict";
-   var self = this;
-
+    var self = this;   
    var opts = {
       lines: 13, // The number of lines to draw
       length: 7, // The length of each line

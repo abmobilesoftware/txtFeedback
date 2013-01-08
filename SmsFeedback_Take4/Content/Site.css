@@ -186,6 +186,16 @@ ul#menu {
          color: #fff;
       }
 
+    ul#menu li .currentMenuItem {
+   background-color: #183540 !important;
+   background-image: linear-gradient(top, #183540 26%, #183540 82%) !important;
+   background-image: -o-linear-gradient(top, #183540 26%, #183540 82%) !important;
+   background-image: -moz-linear-gradient(top, #183540 26%, #183540 82%) !important;
+   background-image: -webkit-linear-gradient(top, #183540 26%, #183540 82%) !important;
+   background-image: -ms-linear-gradient(top, #183540 26%, #183540 82%) !important;
+   background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, #183540), color-stop(0.82, #183540) ) !important;
+   color: white !important;
+}
       ul#menu li a {
          padding: 14px 20px 12.5px;
          font-weight: bold;
@@ -204,16 +214,7 @@ ul#menu {
          -moz-border-radius: 3px 3px 0 0;
       }
 
-.currentMenuItem {
-   background-color: #A2B4BD !important;
-   background-image: linear-gradient(top, #183540 26%, #183540 82%) !important;
-   background-image: -o-linear-gradient(top, #183540 26%, #183540 82%) !important;
-   background-image: -moz-linear-gradient(top, #183540 26%, #183540 82%) !important;
-   background-image: -webkit-linear-gradient(top, #183540 26%, #183540 82%) !important;
-   background-image: -ms-linear-gradient(top, #183540 26%, #183540 82%) !important;
-   background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, #183540), color-stop(0.82, #183540) ) !important;
-   color: white !important;
-}
+
 
 ul#menu li a:hover {
    background-color: #fff;
