@@ -49,6 +49,7 @@ namespace SmsFeedback_Take4.Models
          string consistentWP = ConversationUtilities.CleanUpPhoneNumber(workingPointsNumber);
          if (tags != null && tags.Count() != 0)
          {
+            //TODO DA could optimize to use FIND for working points
             convs = from wp in dbContext.WorkingPoints
                     where (wp.TelNumber == consistentWP)
                     select (from c in wp.Conversations
@@ -74,6 +75,7 @@ namespace SmsFeedback_Take4.Models
          }
          else
          {
+            //TODO DA could optimize to use FIND for working points
             convs = from wp in dbContext.WorkingPoints
                     where (wp.TelNumber == consistentWP )
                     select (from c in wp.Conversations
@@ -149,11 +151,12 @@ namespace SmsFeedback_Take4.Models
          }
       }
 
-      public IEnumerable<SmsMessage> GetSupportConversationsForWorkingPoints(string userName,
-                                                                  string[] workingPointsNumbers,
-                                                                  int skip,
-                                                                  int top,
-                                                                  smsfeedbackEntities dbContext)
+      public IEnumerable<SmsMessage> GetSupportConversationsForWorkingPoints(
+         string userName,
+         string[] workingPointsNumbers,
+         int skip,
+         int top,
+         smsfeedbackEntities dbContext)
       {
           // the convention is that if workingPoints number is empty then we retrieve all the conversations
           List<SmsFeedback_EFModels.WorkingPoint> wps = new List<SmsFeedback_EFModels.WorkingPoint>();
@@ -256,18 +259,15 @@ namespace SmsFeedback_Take4.Models
       public System.Collections.Generic.IEnumerable<ConvTag> GetTagsForConversation(string convID, smsfeedbackEntities dbContext)
       {
          logger.Info("Call made");
-         var res = from conv in dbContext.Conversations
-                   where conv.ConvId == convID
-                   select (from convTag in conv.ConversationTags
-                           select new ConvTag() { CompanyName = convTag.Tag.CompanyName, Name = convTag.Tag.Name, Description = convTag.Tag.Description });
-         if (res != null && res.Count() > 0)
+         var conv = dbContext.Conversations.Find(convID);
+         if (conv != null)
          {
-            return res.First();
+            return from convTag in conv.ConversationTags select new ConvTag() { CompanyName = convTag.Tag.CompanyName, Name = convTag.Tag.Name, Description = convTag.Tag.Description };
          }
          else
          {
             return null;
-         }
+         }        
       }
 
       internal System.Collections.Generic.IEnumerable<ConvTag> GetSpecialTags(String userId,smsfeedbackEntities dbContext)

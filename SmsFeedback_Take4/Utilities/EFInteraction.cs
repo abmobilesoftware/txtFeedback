@@ -24,7 +24,7 @@ namespace SmsFeedback_Take4.Utilities
         public IEnumerable<string> FindMatchingTagsForUser(string queryString, string userName, smsfeedbackEntities dbContext)
         {
             logger.Info("Call made");
-            //get the company name
+            //get the company name           
             var companyNames = from u in dbContext.Users where u.UserName == userName select u.Company_Name;
             var companyName = companyNames.First();
             return FindMatchingTagsForCompany(queryString, companyName, dbContext);
@@ -62,115 +62,117 @@ namespace SmsFeedback_Take4.Utilities
             stateToEvent.Add(Constants.NEGATIVE, Constants.NEG_ADD_EVENT);
             stateToEvent.Add(Constants.NEUTER, Constants.NOE);
 
-            var conversation = (from conv in dbContext.Conversations where conv.ConvId == conversationId select conv).First();
-            // get the last message of the conversation
-            var message = (from msg in conversation.Messages where (msg.From != conversation.WorkingPoint_TelNumber) select msg).OrderByDescending(m => m.TimeReceived);
-            try
+            var conversation = dbContext.Conversations.Find(conversationId);
+            if (conversation != null)
             {
-                // in normal conditions this condition should be always true
-                if (message.Count() > 0)
-                {
-                    var convEvents = (from convEvent in conversation.ConversationEvents select convEvent).OrderByDescending(c => c.Date);
-                    // more than one event were added 
-                    if (convEvents.Count() > 1)
-                    {
+               // get the last received message of the conversation
+               var message = (from msg in conversation.Messages where (msg.From != conversation.WorkingPoint_TelNumber) select msg).OrderByDescending(m => m.TimeReceived);
+               try
+               {
+                  // in normal conditions this condition should be always true
+                  if (message.Count() > 0)
+                  {
+                     var convEvents = (from convEvent in conversation.ConversationEvents select convEvent).OrderByDescending(c => c.Date);
+                     // more than one event were added 
+                     if (convEvents.Count() > 1)
+                     {
                         // test if at least one new message had arrived since the last event was added
                         if (convEvents.First().Message.Id < message.First().Id)
                         {
-                            if (convEvents.First().EventTypeName.Equals(Constants.NOE))
-                            {
-                                var eventName = convEvents.First().EventTypeName;
-                                convEvents.First().EventTypeName = convEvents.ElementAt(1).EventTypeName;
-                                convEvents.ElementAt(1).EventTypeName = eventName;
-                                dbContext.SaveChanges();
-                            }
-                            addEventInConversationHistory(conversationId,
-                                conversation.LastSequence,
-                                eventTable[eventStateValue[convEvents.First().EventTypeName] + "-" + eventType],
-                                DateTime.Now.ToUniversalTime(),
-                                message.First().Id,
-                                dbContext);
+                           if (convEvents.First().EventTypeName.Equals(Constants.NOE))
+                           {
+                              var eventName = convEvents.First().EventTypeName;
+                              convEvents.First().EventTypeName = convEvents.ElementAt(1).EventTypeName;
+                              convEvents.ElementAt(1).EventTypeName = eventName;
+                              dbContext.SaveChanges();
+                           }
+                           AddEventInConversationHistory(conversationId,
+                               conversation.LastSequence,
+                               eventTable[eventStateValue[convEvents.First().EventTypeName] + "-" + eventType],
+                               DateTime.Now.ToUniversalTime(),
+                               message.First().Id,
+                               dbContext);
                         }
                         // no new message arrived
                         else if (convEvents.First().Message.Id == message.First().Id)
                         {
-                            ConversationHistory convEvent = convEvents.First();
-                            convEvent.EventTypeName = eventTable[eventStateValue[convEvents.ElementAt(1).EventTypeName] + "-" + eventType];
-                            dbContext.SaveChanges();
+                           ConversationHistory convEvent = convEvents.First();
+                           convEvent.EventTypeName = eventTable[eventStateValue[convEvents.ElementAt(1).EventTypeName] + "-" + eventType];
+                           dbContext.SaveChanges();
                         }
-                    }
-                    else if (convEvents.Count() == 1)
-                    {
+                     }
+                     else if (convEvents.Count() == 1)
+                     {
                         // test if at least one new message had arrived since the last event was added
                         if (convEvents.First().Message.Id < message.First().Id)
                         {
-                            addEventInConversationHistory(conversationId,
-                                conversation.LastSequence,
-                                eventTable[eventStateValue[convEvents.First().EventTypeName] + "-" + eventType],
-                                DateTime.Now.ToUniversalTime(),
-                                message.First().Id,
-                                dbContext);
+                           AddEventInConversationHistory(conversationId,
+                               conversation.LastSequence,
+                               eventTable[eventStateValue[convEvents.First().EventTypeName] + "-" + eventType],
+                               DateTime.Now.ToUniversalTime(),
+                               message.First().Id,
+                               dbContext);
                         }
                         // no new message arrived
                         else if (convEvents.First().Message.Id == message.First().Id)
                         {
-                            var currentEvent = eventTable[eventStateValue[convEvents.First().EventTypeName] + "-" + eventType];
-                            if (!(currentEvent.Equals(Constants.POS_REMOVE_EVENT) || currentEvent.Equals(Constants.NEG_REMOVE_EVENT)))
-                            {
-                                var eventTransformed = Constants.POS_ADD_EVENT;
-                                if (currentEvent.Equals(Constants.POS_TO_NEG_EVENT))
-                                {
-                                    eventTransformed = Constants.NEG_ADD_EVENT;
-                                }
-                                else if (currentEvent.Equals(Constants.NEG_TO_POS_EVENT))
-                                {
-                                    eventTransformed = Constants.POS_ADD_EVENT;
-                                }
-                                else
-                                {
-                                    eventTransformed = currentEvent;
-                                }
-                                ConversationHistory convEvent = convEvents.First();
-                                convEvent.EventTypeName = eventTransformed;
-                                dbContext.SaveChanges();
-                            }
-                            else
-                            {
-                                dbContext.ConversationHistories.Remove(convEvents.First());                                
-                                dbContext.SaveChanges();
-                            }
+                           var currentEvent = eventTable[eventStateValue[convEvents.First().EventTypeName] + "-" + eventType];
+                           if (!(currentEvent.Equals(Constants.POS_REMOVE_EVENT) || currentEvent.Equals(Constants.NEG_REMOVE_EVENT)))
+                           {
+                              var eventTransformed = Constants.POS_ADD_EVENT;
+                              if (currentEvent.Equals(Constants.POS_TO_NEG_EVENT))
+                              {
+                                 eventTransformed = Constants.NEG_ADD_EVENT;
+                              }
+                              else if (currentEvent.Equals(Constants.NEG_TO_POS_EVENT))
+                              {
+                                 eventTransformed = Constants.POS_ADD_EVENT;
+                              }
+                              else
+                              {
+                                 eventTransformed = currentEvent;
+                              }
+                              ConversationHistory convEvent = convEvents.First();
+                              convEvent.EventTypeName = eventTransformed;
+                              dbContext.SaveChanges();
+                           }
+                           else
+                           {
+                              dbContext.ConversationHistories.Remove(convEvents.First());
+                              dbContext.SaveChanges();
+                           }
                         }
 
-                    }
-                    // there's no event for this conversation, add the first event
-                    else
-                    {
-                        addEventInConversationHistory(conversationId,
+                     }
+                     // there's no event for this conversation, add the first event
+                     else
+                     {
+                        AddEventInConversationHistory(conversationId,
                                 conversation.LastSequence,
                                 stateToEvent[eventType],
                                 DateTime.Now.ToUniversalTime(),
                                 message.First().Id,
                                 dbContext);
-                    }
-                }
+                     }
+                  }
+               }
+               catch (Exception ex)
+               {
+                  logger.Error("Error occurred in AddAnEventInConversationHistory", ex);
+               }
             }
-            catch (Exception ex)
-            {
-                logger.Error("Error occurred in AddAnEventInConversationHistory", ex);
-            }
-
         }
 
         public string DeleteMessage(String messageText, String convId, DateTime receivedDate, smsfeedbackEntities dbContext)
         {
-            // disinfect input
-            messageText = messageText.Trim();
+           // sanitize input            
             convId = convId.Trim();
-            var conversations = from conv in dbContext.Conversations where conv.ConvId.Equals(convId) select conv;
-            if (conversations.Count() > 0)                
-            {
-                Conversation firstConversation = conversations.First();
-                var messages = from message in firstConversation.Messages where (Math.Abs(message.TimeReceived.Ticks - receivedDate.Ticks) < 10000000 && message.Text.Trim().Equals(messageText)) select message;
+           //TODO DA - there should be no trim on the text (???)
+            messageText = messageText.Trim();
+            var conv = dbContext.Conversations.Find(convId);
+            if (conv != null)                
+            {                
+                var messages = from message in conv.Messages where (Math.Abs(message.TimeReceived.Ticks - receivedDate.Ticks) < 10000000 && message.Text.Trim().Equals(messageText)) select message;
                 if (messages.Count() > 0)
                 {
                     Message firstMessage = messages.First();
@@ -183,7 +185,7 @@ namespace SmsFeedback_Take4.Utilities
                     }
                     dbContext.Messages.Remove(messages.First());
                     dbContext.SaveChanges();
-                    if ((firstMessage.TimeReceived.Ticks - firstConversation.TimeUpdated.Ticks) < 10000000 && firstConversation.Text.Trim().Equals(firstMessage.Text.Trim()))
+                    if ((firstMessage.TimeReceived.Ticks - conv.TimeUpdated.Ticks) < 10000000 && conv.Text.Trim().Equals(firstMessage.Text.Trim()))
                     {
                         return "last message";
                     }
@@ -199,26 +201,25 @@ namespace SmsFeedback_Take4.Utilities
 
         public void DeleteConversation(String convId, smsfeedbackEntities dbContext)
         {
-            // desinfect input
-            convId = convId.Trim();
-            var conversations = from conversation in dbContext.Conversations where conversation.ConvId == convId select conversation;
-            if (conversations.Count() > 0)
-            {
-                var conversation = conversations.First();
-                List<ConversationTag> tagsForConversation = (from tag in conversation.ConversationTags select tag).ToList();
+            // sanitize input
+            convId = convId.Trim();            
+            var conv = dbContext.Conversations.Find(convId);
+            if (conv != null)
+            {                
+                List<ConversationTag> tagsForConversation = (from tag in conv.ConversationTags select tag).ToList();
                 foreach (var tag in tagsForConversation)
                 {
                     dbContext.ConversationTags.Remove(tag);
                     dbContext.SaveChanges();
                 }
 
-                List<Message> messagesForConversation = (from msg in conversation.Messages select msg).ToList();
+                List<Message> messagesForConversation = (from msg in conv.Messages select msg).ToList();
                 foreach (var message in messagesForConversation)
                 {
                     DeleteMessage(message.Text, message.ConversationId, message.TimeReceived, dbContext); 
                 }
 
-                dbContext.Conversations.Remove(conversation);
+                dbContext.Conversations.Remove(conv);
                 dbContext.SaveChanges();
             }            
         }
@@ -237,7 +238,7 @@ namespace SmsFeedback_Take4.Utilities
             }
         }
 
-        private void addEventInConversationHistory(string iConversationId, int iSequence, string iEventTypeName, DateTime iEventDate, int iMessageId, smsfeedbackEntities dbContext)
+        private void AddEventInConversationHistory(string iConversationId, int iSequence, string iEventTypeName, DateTime iEventDate, int iMessageId, smsfeedbackEntities dbContext)
         {
             var conversationEvent = new ConversationHistory()
             {
@@ -257,7 +258,7 @@ namespace SmsFeedback_Take4.Utilities
         /// <param name="queryString"> the string sequence to look for</param>
         /// <param name="companyName"> the company to whom these tags belong to</param>
         /// <returns></returns>
-        public IEnumerable<string> FindMatchingTagsForCompany(string queryString, string companyName, smsfeedbackEntities dbContext)
+        private IEnumerable<string> FindMatchingTagsForCompany(string queryString, string companyName, smsfeedbackEntities dbContext)
         {
             logger.Info("Call made");
             var tags = from tag in dbContext.Tags where (tag.CompanyName == companyName && tag.Name.Contains(queryString)) select tag.Name;
@@ -278,17 +279,16 @@ namespace SmsFeedback_Take4.Utilities
         {
             logger.Info("Call made");
             try
-            {
-                var conversations = from c in dbContext.Conversations where c.ConvId == conversationId select c;
-                string convId = CONVERSATION_NOT_MODIFIED;
+            {                
+                var conv = dbContext.Conversations.Find(conversationId);                
                 var updateDateToInsert = updateTime.HasValue ? updateTime.Value.ToString() : "null";
-                if (conversations.Count() > 0)
+                if (conv != null)
                 {
-                    return UpdateExistingConversation(sender, conversationId, text, readStatus, updateTime, dbContext, conversations, convId, updateDateToInsert);
+                    return UpdateExistingConversation(sender, text, readStatus, updateTime, dbContext, conv, updateDateToInsert);
                 }
                 else
                 {
-                    return AddNewConversation(sender, addressee, conversationId, text, readStatus, updateTime, isSmsBased, dbContext, ref conversations, ref convId, updateDateToInsert);
+                    return AddNewConversation(sender, addressee, conversationId, text, readStatus, updateTime, isSmsBased, dbContext, updateDateToInsert);
                 }
             }
             catch (Exception ex)
@@ -298,15 +298,24 @@ namespace SmsFeedback_Take4.Utilities
             }
         }
 
-        private static string AddNewConversation(String sender, String addressee, String conversationId, String text, Boolean readStatus, DateTime? updateTime, bool isSmsBased, smsfeedbackEntities dbContext, ref IQueryable<Conversation> conversations, ref string convId, string updateDateToInsert)
+        private static string AddNewConversation(
+           String from, 
+           String to, 
+           String conversationId, 
+           String text, 
+           Boolean readStatus, 
+           DateTime? updateTime, 
+           bool isSmsBased, 
+           smsfeedbackEntities dbContext,            
+           string updateDateToInsert)
         {
-            logger.InfoFormat("Add new conversation: [{0}] with read: {1}, updateTime: {2}, text: [{3}], from: [{4}]", conversationId, readStatus.ToString(), updateDateToInsert, text, sender);
+            logger.InfoFormat("Add new conversation: [{0}] with read: {1}, updateTime: {2}, text: [{3}], from: [{4}]", conversationId, readStatus.ToString(), updateDateToInsert, text, from);
             // Check if the client of this coversation it's in db. 
-            Client clientForThisConversation = GetClientByName(sender, dbContext);
+            Client clientForThisConversation = GetClientByName(from, dbContext);
             IEnumerable<SmsFeedback_EFModels.WorkingPoint> workingPointIDs;
             if (isSmsBased)
             {
-                string consistentWP = ConversationUtilities.CleanUpPhoneNumber(addressee);
+                string consistentWP = ConversationUtilities.CleanUpPhoneNumber(to);
                 workingPointIDs = from wp in dbContext.WorkingPoints where wp.TelNumber == consistentWP select wp;
             }
             else
@@ -324,7 +333,7 @@ namespace SmsFeedback_Take4.Utilities
                     Text = text,
                     Read = readStatus,
                     TimeUpdated = updateTime.Value,
-                    From = sender,
+                    From = from,
                     WorkingPoint = wpId,
                     StartTime = updateTime.Value,
                     IsSmsBased = isSmsBased,
@@ -360,11 +369,16 @@ namespace SmsFeedback_Take4.Utilities
             return clientToBeAddedInDb;
         }
 
-        private string UpdateExistingConversation(String sender, String conversationId, String text, Boolean readStatus, DateTime? updateTime, smsfeedbackEntities dbContext, IQueryable<Conversation> conversations, string convId, string updateDateToInsert)
+        private string UpdateExistingConversation(
+           String sender,           
+           String text, 
+           Boolean readStatus, 
+           DateTime? updateTime, 
+           smsfeedbackEntities dbContext, 
+           Conversation currentConversation, 
+           string updateDateToInsert)
         {
-            logger.InfoFormat("Updating conversation: [{0}] with read: {1}, updateTime: {2},  text: {3}, from {4}", conversationId, readStatus.ToString(), updateDateToInsert, text, sender);
-            var currentConversation = conversations.First();
-            convId = currentConversation.ConvId;
+            logger.InfoFormat("Updating conversation: [{0}] with read: {1}, updateTime: {2},  text: {3}, from {4}", currentConversation.ConvId, readStatus.ToString(), updateDateToInsert, text, sender);                        
             /*
              * since twilio returns (messages >= the latest message) it could be that the latest message is returned again - the only difference is that now "read" is false
              * so make sure that something changed, besides "read"
@@ -395,17 +409,13 @@ namespace SmsFeedback_Take4.Utilities
             {
                 return JsonReturnMessages.DUPLICATE_MESSAGE;
             }
-
-
-
         }
 
         public Conversation MarkConversationAsRead(string convID, smsfeedbackEntities dbContext)
-        {
-            var conversations = from c in dbContext.Conversations where c.ConvId == convID select c;
-            if (conversations.Count() > 0)
-            {
-                var conv = conversations.First();
+        {            
+            var conv = dbContext.Conversations.Find(convID);
+            if (conv != null)
+            {                
                 conv.Read = true;
                 dbContext.SaveChanges();
                 return conv;
@@ -416,11 +426,10 @@ namespace SmsFeedback_Take4.Utilities
         }
 
         public Conversation UpdateStarredStatusForConversation(string convID, bool newStarredStatus, smsfeedbackEntities dbContext)
-        {
-            var conversations = from c in dbContext.Conversations where c.ConvId == convID select c;
-            if (conversations.Count() > 0)
-            {
-                var conv = conversations.First();
+        {            
+            var conv = dbContext.Conversations.Find(convID);
+            if (conv != null)
+            {                
                 conv.Starred = newStarredStatus;
                 dbContext.SaveChanges();
                 return conv;
@@ -516,11 +525,10 @@ namespace SmsFeedback_Take4.Utilities
         }
 
         public void IncrementNumberOfSentSms(String wpID, smsfeedbackEntities dbContext)
-        {
-            var wps = from wp in dbContext.WorkingPoints where wp.TelNumber == wpID select wp;
-            if (wps.Count() == 1)
-            {
-                var wp = wps.First();
+        {            
+            var wp = dbContext.WorkingPoints.Find(wpID);
+            if (wp != null)
+            {                
                 wp.SentSms += 1;
                 dbContext.SaveChanges();
             }
@@ -539,6 +547,7 @@ namespace SmsFeedback_Take4.Utilities
             try
             {
                 //don't add the same tag twice (since the Name is not unique)
+               //TODO issue if tag is found for another company!!!
                 var tags = from t in dbContext.Tags where t.Name == tagName select t;
                 if (tags.Count() == 0)
                 {
@@ -575,10 +584,9 @@ namespace SmsFeedback_Take4.Utilities
             logger.Info("Call made");
             try
             {
-                var convs = from c in dbContext.Conversations where c.ConvId == convID select c;
-                if (convs.Count() > 0)
-                {
-                    var conv = convs.First();
+               var conv = dbContext.Conversations.Find(convID);
+                if (conv != null)
+                {                    
                     var convTag = new SmsFeedback_EFModels.ConversationTag() { ConversationConvId = convID, TagCompanyName = tag.CompanyName, TagName = tag.Name, DateAdded = DateTime.UtcNow };
                     conv.ConversationTags.Add(convTag);
                     dbContext.SaveChanges();
@@ -595,22 +603,15 @@ namespace SmsFeedback_Take4.Utilities
             logger.Info("Call made");
             try
             {
-                var convs = from c in dbContext.Conversations where c.ConvId == convID select c;
-                if (convs.Count() > 0)
-                {
-                    var conv = convs.First();
-                    var tags = from t in conv.ConversationTags where t.TagName == tagName select t;
+               var conv = dbContext.Conversations.Find(convID);
+                if (conv != null)
+                {                    
+                    var tags = from t in conv.ConversationTags where t.TagName == tagName select t;                    
                     if (tags.Count() == 1)
                     {
                         conv.ConversationTags.Remove(tags.First());
                         dbContext.SaveChanges();
-                    }
-                    //var tags = from t in dbContext.Tags where t.Name == tagName select t;
-                    //if (tags.Count() > 0)
-                    //{
-                    //   convs.First().Tags.Remove(tags.First());
-                    //   dbContext.SaveChanges();
-                    //}
+                    }                    
                 }
             }
             catch (Exception ex)
@@ -619,12 +620,12 @@ namespace SmsFeedback_Take4.Utilities
             }
         }
 
-        public bool IsConversationFavourite(string convID, smsfeedbackEntities dbContext)
+        private bool IsConversationFavourite(string convID, smsfeedbackEntities dbContext)
         {
             try
             {
-                var conv = from c in dbContext.Conversations where c.ConvId == convID select c.Starred;
-                if (conv.Count() > 0) { return conv.First(); }
+               var conv = dbContext.Conversations.Find(convID);
+                if (conv != null) { return conv.Starred; }
                 else
                 {
                     //this conversationID was not found in our db - for sure it's not a favourite
@@ -643,11 +644,8 @@ namespace SmsFeedback_Take4.Utilities
             //TODO: error handling & sanity checks
             //if the conversation is marked as "favourite" then all the messages will be "favorite"
             var isConvFavourite = IsConversationFavourite(convID, dbContext);
-            var msgs = from conv in dbContext.Conversations
-                       where conv.ConvId == convID
-                       select
-                          (from msg in conv.Messages
-                           select new SmsMessage()
+            var msgs = dbContext.Conversations.Find(convID).Messages.Select( msg =>
+                            new SmsMessage()
                            {
                                From = msg.From,
                                To = msg.To,
@@ -667,7 +665,7 @@ namespace SmsFeedback_Take4.Utilities
                            });
             if (msgs.Count() > 0)
             {
-                return msgs.First().OrderBy(x => x.TimeReceived);
+                return msgs.OrderBy(x => x.TimeReceived);
             }
             else
             {
@@ -689,9 +687,8 @@ namespace SmsFeedback_Take4.Utilities
 
         public Conversation GetLatestConversationDetails(string convId, smsfeedbackEntities dbContext)
         {
-            var conv = (from c in dbContext.Conversations where c.ConvId == convId select c);
-            if (conv.Count() > 0) return conv.First();
-            else return null;
+           var conv = dbContext.Conversations.Find(convId);
+           return conv;
         }
 
         public IEnumerable<SmsFeedback_EFModels.WorkingPoint> GetWorkingPointsForAUser(String scope, String userName, smsfeedbackEntities dbContext)
@@ -719,12 +716,13 @@ namespace SmsFeedback_Take4.Utilities
                 var usr = users.First();
                 foreach (Models.WorkingPoint wp in wps)
                 {
-                    var newWp = from w in usr.WorkingPoints where w.TelNumber == wp.TelNumber select w;
-                    if (newWp.Count() == 1)
+                   var newWP = dbContext.WorkingPoints.Find(wp.TelNumber);
+                    //var newWp = from w in usr.WorkingPoints where w.TelNumber == wp.TelNumber select w;
+                    if (newWP != null)
                     {
-                        newWp.First().Name = wp.Name;
-                        newWp.First().Description = wp.Description;
-                        newWp.First().WelcomeMessage = wp.WelcomeMessage;
+                        newWP.Name = wp.Name;
+                        newWP.Description = wp.Description;
+                        newWP.WelcomeMessage = wp.WelcomeMessage;
                     }
                 }
                 dbContext.SaveChanges();
