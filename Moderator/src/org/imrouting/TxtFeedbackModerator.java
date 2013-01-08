@@ -67,9 +67,7 @@ public class TxtFeedbackModerator implements Component {
 		if (iReceivedPacket instanceof Message) {
 			final Message lReceivedMessage = (Message) iReceivedPacket;
 			if (lReceivedMessage.getSubject() != null) {
-				if (lReceivedMessage.getSubject().equals(Constants.INTERNAL_PACKET)) {
-					mp.processInternalPacket(lReceivedMessage);					
-				}
+				mp.processInternalPacket(lReceivedMessage);			
 			}			
 		} else if (iReceivedPacket instanceof Presence) {
 			Presence lPresence = (Presence) iReceivedPacket;
@@ -96,8 +94,10 @@ public class TxtFeedbackModerator implements Component {
 			}
 			if (iSubject != null ) {
 				lResponseMessage.setSubject(iSubject);
+			}	
+			if (iType != null) {
+				lResponseMessage.setType(iType);
 			}			
-			lResponseMessage.setType(iType);
 			if (iMsgID != null) {
 				lResponseMessage.setID(iMsgID);
 			}
@@ -139,9 +139,9 @@ public class TxtFeedbackModerator implements Component {
 	 * 	<received xmlns='urn:xmpp:receipts' id='iAckID' />
 	 * </message> 
 	 */
-	public void sendAcknowledgeMessage(String iTo, Message.Type iMsgType, String iSubject, String iAckID) {
+	public void sendAcknowledgeMessage(String iTo, String iSubject, String iAckID) {
 		UUID uuid = UUID.randomUUID();
-		sendMessage(iTo, null, iSubject, uuid.toString(), iMsgType, false, iAckID, null);
+		sendMessage(iTo, null, iSubject, uuid.toString(), null, false, iAckID, null);
 	}
 	
 	public void initialize(JID iJid, ComponentManager iComponentManager)
