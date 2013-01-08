@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <LastUsedBuildConfiguration>Debug</LastUsedBuildConfiguration>
+    <LastUsedPlatform>Any CPU</LastUsedPlatform>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAALiIHPXM1H0mZ3D8ziRIVKAAAAAACAAAAAAAQZgAAAAEAACAAAAAR6/jgt8x0bkaWZY1uY5UJkC1o4lJxS+73xlaUyjT2iQAAAAAOgAAAAAIAACAAAADdba8cA9gUDZlS44L2CpUeLlQbo5KgIAr97VzNT0ZE5CAAAADDDVvaOuXBwzNqiDi+V56Da/mQhcXzMRBKgUqj28XMe0AAAAAqcbOHZll4FLEYi5DjH1R5ZUMdAtz8MdYu+zkI3zwECQqu7O/UBUGgMC8m4CJOstCYf0avEbIqleVyt3pEuFY6</EncryptedPassword>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>11/07/2012 10:21:06</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>11/07/2012 10:21:01</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>11/07/2012 10:21:05</publishTime>
+    </File>
+    <File Include="bin/mirus.dll">
+      <publishTime>12/20/2012 14:19:19</publishTime>
+    </File>
+    <File Include="bin/mirus.pdb">
+      <publishTime>12/20/2012 14:19:19</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>11/07/2012 10:21:06</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>11/07/2012 10:21:04</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>11/07/2012 10:21:05</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>11/07/2012 10:21:05</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>11/07/2012 10:21:05</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>11/07/2012 10:21:02</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>11/07/2012 10:21:04</publishTime>
+    </File>
+    <File Include="bin/System.Web.Providers.dll">
+      <publishTime>11/07/2012 10:21:03</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>11/07/2012 10:21:03</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>11/07/2012 10:21:05</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>11/07/2012 10:21:05</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>11/07/2012 10:21:05</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>11/07/2012 10:21:06</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>12/20/2012 14:17:51</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>12/20/2012 14:17:51</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>12/20/2012 14:17:51</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>12/20/2012 14:17:51</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>12/20/2012 14:19:21</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
