@@ -40,12 +40,22 @@ window.app.unsentMsgQueue = [];
 window.app.XMPPConnecting = false;
 //#endregion
 
+//#region UUID generator, rfc4122 compliant, details http://www.ietf.org/rfc/rfc4122.txt
+function generateUUID() {
+   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+   });
+   return uuid;
+}
+//#endregion
+
 function MessageUnsent(body, xmppTo, msgID, convID) {
     this.body = body;
     this.xmppTo = xmppTo;
     this.msgID = msgID;
     this.convID = convID;
-};
+}
 
 //#region "timer for reconnect"
 window.app.reconnectTimer = {};
@@ -153,7 +163,9 @@ window.app.XMPPhandler = function XMPPhandler() {
             var domain = Strophe.getDomainFromJid(window.app.xmppConn.conn.jid);
             window.app.xmppConn.send_initial_presence(domain);
             //DA after we are connected sent any potentially unsent messages
-            window.app.xmppConn.sendMessagesInQueue();
+         window.app.xmppConn.sendMessagesInQueue();
+         //DA on Opera the onUnload event is not triggered when closing the window - so make sure the connected user saved
+         window.app.saveLoginDetails();
         } else if (status === Strophe.Status.REGIFAIL) {
             window.app.logErrorOnServer("XMPP registration failed");
         } else if (status === Strophe.Status.REGISTER) {
@@ -263,34 +275,54 @@ window.app.XMPPhandler = function XMPPhandler() {
         }).c("query", { xmlns: "http://jabber.org/protocol/disco#info" });
         this.connection.send(reqInfo);
     };
+   /*
+      Send acknowledge message to component (xmppTo)
+      Parameters:
+         - ackDest - the real destination of the acknowledge message
+         - ackID - the id of the acknowledged message
+   */
+    this.sendAckMessage = function (msgID, xmppTo, ackID, ackDest) {
+       var self = this;
+       var replymsg = $msg({
+          id: msgID,
+          to: xmppTo,
+          type: "ClientMsgDeliveryReceipt"
+       });
+       replymsg.c("received", { xmlns: "urn:xmpp:receipts", id: ackID, ackDest: ackDest});
+       //DA - when sending make sure that we are connected
+       window.app.xmppConn.conn.send(replymsg);
+    };
     this.send_message = function (body, xmppTo, msgID, convID) {
-        var self = this;
-        //the message was already formatted
-        var replymsg = $msg({
-            /*from: window.app.xmppSuffixedUserToConnectAs, */
-            to: xmppTo,
-            "type": "chat"
-        }).c("body").t(body);
-        replymsg.up();
-        replymsg.c("subject").t("internal_packet");
-        //DA - when sending make sure that we are connected
-        if (window.app.xmppConn.conn.authenticated) {
-            window.app.xmppConn.conn.send(replymsg);
-            $(document).trigger('msgSent', {
-                msgID: msgID,
-                convID: convID
-            });
-        }
-        else {
-            var msgUnsent = new MessageUnsent(body, xmppTo, msgID, convID);
-            window.app.unsentMsgQueue.push(msgUnsent);
-            //force synch connect 
-            if (!window.app.XMPPConnecting) {
-                window.app.XMPPConnecting = true;
-                window.app.xmppHandlerInstance.connect(window.app.xmppSuffixedUserToConnectAs, window.app.xmppPasswordForUser, self.connectCallback);
-            }
-        }
-    },
+       var self = this;
+       //the message was already formatted
+       var replymsg = $msg({
+          /*from: window.app.xmppSuffixedUserToConnectAs, */
+          id: msgID,
+          to: xmppTo,
+          "type": "chat"
+       }).c("body").t(body);
+       replymsg.up();
+       replymsg.c("subject").t("internal_packet");
+       replymsg.up();
+       replymsg.c("request", {xmlns: "urn:xmpp:receipts"});
+       //DA - when sending make sure that we are connected
+       if (window.app.xmppConn.conn.authenticated) {
+          window.app.xmppConn.conn.send(replymsg);
+          $(document).trigger('msgSent', {
+             msgID: msgID,
+             convID: convID
+          });
+       }
+       else {
+          var msgUnsent = new MessageUnsent(body, xmppTo, msgID, convID);
+          window.app.unsentMsgQueue.push(msgUnsent);
+          //force synch connect 
+          if (!window.app.XMPPConnecting) {
+             window.app.XMPPConnecting = true;
+             window.app.xmppHandlerInstance.connect(window.app.xmppSuffixedUserToConnectAs, window.app.xmppPasswordForUser, self.connectCallback);
+          }
+       }
+    };
     this.send_reply = function (from, to, dateSent, convID, message, xmppTo, msgID) {
         var self = this;
         var message_body = "<msg>" +
@@ -333,8 +365,11 @@ window.app.XMPPhandler = function XMPPhandler() {
             var messages = $(message).children("body").text();
             this.displayMessagesForConversation(messages);
         } else if ($(message).attr("type") === "result") {
-            //var x = $(message).children("body").text();
-
+           //var x = $(message).children("body").text();
+        } else if ($(message).attr("type") === "ServerMsgDeliveryReceipt") {
+           // TODO: Upgrade UI
+        } else if ($(message).attr("type") === "ClientMsgDeliveryReceipt") {
+           // TODO: Upgrade UI
         } else if ($(message).attr("type") === "chat") {
             //if we are dealing with a forwarded message then the body tag will be non zero
             if ($(message).children("sent").attr("xmlns") === "urn:xmpp:carbons:1") {
@@ -347,8 +382,13 @@ window.app.XMPPhandler = function XMPPhandler() {
             }
             else {
                 //incommingMSG
-                var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
-                window.app.handleIncommingMessage(incommingMsg, true);
+               var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
+               window.app.handleIncommingMessage(incommingMsg, true);
+               var fromAddr = $(message).attr("from");
+               this.sendAckMessage(generateUUID(),
+                                    $(message).attr("from"),
+                                    $(message).attr("id"),
+                                    $(message).children("request").attr("ackDest"));
             }
         } else if ($(message).attr("type") === "error") {
             var error = message.getElementsByTagName("error")[0];
