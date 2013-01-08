@@ -1276,6 +1276,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Billing Settings.
+        /// </summary>
+        public static string settingsCompanyBillingMenuName {
+            get {
+                return ResourceManager.GetString("settingsCompanyBillingMenuName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Company.
+        /// </summary>
+        public static string settingsCompanyMenuName {
+            get {
+                return ResourceManager.GetString("settingsCompanyMenuName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string settingsConfigureWpDescription {

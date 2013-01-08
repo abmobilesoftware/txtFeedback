@@ -838,10 +838,13 @@
   <data name="deleteMessage" xml:space="preserve">
     <value>Delete message</value>
   </data>
-  <data name="deleteMessage" xml:space="preserve">
-    <value>Delete message</value>
-  </data>
   <data name="tooltipCheckMessageSent" xml:space="preserve">
     <value>Message sent</value>
+  </data>
+  <data name="settingsCompanyBillingMenuName" xml:space="preserve">
+    <value>Billing Settings</value>
+  </data>
+  <data name="settingsCompanyMenuName" xml:space="preserve">
+    <value>Company</value>
   </data>
 </root>

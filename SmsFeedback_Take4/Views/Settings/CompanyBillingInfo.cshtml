@@ -1,0 +1,236 @@
+﻿@model SmsFeedback_EFModels.SubscriptionDetail
+@{
+   ViewBag.Title = "CompanyBillingInfo";
+}
+
+<legend id="wpConfigLegend">CompanyBillingInfo</legend>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm())
+{
+   @Html.ValidationSummary(true)
+   <fieldset>
+      @Html.HiddenFor(model => model.Id)
+
+      @if (Model != null)
+      {   <text>
+         @Html.HiddenFor(model => model.PrimaryContact_Id)
+         </text>
+      }
+      @if (Model != null && Model.PrimaryContact != null)
+      {   <text>
+         @Html.HiddenFor(model => model.PrimaryContact.Id)
+         </text>
+      }
+
+      @if (Model != null)
+      {   <text>
+         @Html.HiddenFor(model => model.SecondaryContact_Id)
+         </text>
+      }
+
+      @if (Model != null && Model.SecondaryContact != null)
+      {   <text>
+         @Html.HiddenFor(model => model.SecondaryContact.Id)
+         </text>
+      }
+
+      @if (Model != null)
+      {   <text>
+         @Html.HiddenFor(model => model.MonthlySubscriptionTemplate_InvoiceDetailsTemplateID)
+         </text>
+      }
+
+      @if (Model != null && Model.MonthlySubscriptionTemplate != null)
+      {   <text>
+         @Html.HiddenFor(model => model.MonthlySubscriptionTemplate.InvoiceDetailsTemplateID)
+         </text>
+      }
+
+      @if (Model != null)
+      {   <text>
+         @Html.HiddenFor(model => model.MonthlyExtraSMSCharge_InvoiceDetailsTemplateID)
+         </text>
+      }
+
+      @if (Model != null && Model.ExtraSMSCostsDetails != null)
+      {   <text>
+         @Html.HiddenFor(model => model.ExtraSMSCostsDetails.InvoiceDetailsTemplateID)
+         </text>
+      }
+
+      <table class="billedSettings">
+         <tr>
+            <td colspan="2" class="settingsSeparator">
+               <h2>Activity</h2>
+            </td>
+         </tr>
+         <tr>
+            <td width="50%">
+               <div class="settingsEntry">
+                  @Html.LabelFor(model => model.RemainingSMS)
+
+                  <div class="settingsField">
+                     @Html.DisplayFor(model => model.RemainingSMS)
+                     @Html.ValidationMessageFor(model => model.RemainingSMS)
+                  </div>
+               </div>
+            </td>
+            <td>
+               <div class="settingsEntry">
+                  @Html.LabelFor(model => model.SpentThisMonth)
+
+                  <div class="settingsField">
+                     @Html.DisplayFor(model => model.SpentThisMonth)
+                     @Html.ValidationMessageFor(model => model.SpentThisMonth)
+                  </div>
+               </div>
+            </td>
+         </tr>
+         <tr>
+            <td width="50%">
+               <div class="settingsEntry">
+                  @Html.LabelFor(model => model.ExtraAddedCreditThisMonth)
+
+                  <div class="settingsField">
+                     @Html.DisplayFor(model => model.ExtraAddedCreditThisMonth)
+                     @Html.ValidationMessageFor(model => model.ExtraAddedCreditThisMonth)
+                  </div>
+               </div>
+            </td>
+            <td>
+               <div class="settingsEntry">
+                  @Html.LabelFor(model => model.RemainingCreditFromPreviousMonth)
+
+                  <div class="settingsField">
+                     @Html.DisplayFor(model => model.RemainingCreditFromPreviousMonth)
+                     @Html.ValidationMessageFor(model => model.RemainingCreditFromPreviousMonth)
+                  </div>
+               </div>
+            </td>
+         </tr>
+         <tr>
+            <td colspan="2" class="settingsSeparator">
+               <h2>Notifications</h2>
+            </td>
+         </tr>
+         <tr>
+
+            <td width="50%">
+               <div class="settingsEntry">
+                  @Html.LabelFor(model => model.SpendingLimit)
+                  <div class="settingsField">
+                     @Html.DisplayFor(model => model.SpendingLimit)
+                     @Html.ValidationMessageFor(model => model.SpendingLimit)
+                  </div>
+               </div>
+            </td>
+            <td>
+               <div class="settingsEntry">
+                  @Html.LabelFor(model => model.WarningLimit)
+
+                  <div class="settingsField">
+                     @Html.EditorFor(model => model.WarningLimit)
+                     @Html.ValidationMessageFor(model => model.WarningLimit)
+                  </div>
+               </div>
+            </td>
+         </tr>
+         <tr>
+            <td width="50%">
+               <p>Primary Contact</p>
+               <div class="settingsEntry">
+                  @Html.LabelFor(model => model.PrimaryContact.Name)
+                  <div class="settingsField">
+                     @Html.EditorFor(model => model.PrimaryContact.Name)
+                     @Html.ValidationMessageFor(model => model.PrimaryContact.Name)
+                  </div>
+               </div>
+               <div class="settingsEntry">
+                  @Html.LabelFor(model => model.PrimaryContact.Surname)
+                  <div class="settingsField">
+                     @Html.EditorFor(model => model.PrimaryContact.Surname)
+                     @Html.ValidationMessageFor(model => model.PrimaryContact.Surname)
+                  </div>
+               </div>
+               <div class="settingsEntry">
+                  @Html.LabelFor(model => model.PrimaryContact.Email)
+                  <div class="settingsField">
+                     @Html.EditorFor(model => model.PrimaryContact.Email)
+                     @Html.ValidationMessageFor(model => model.PrimaryContact.Email)
+                  </div>
+               </div>
+            </td>
+            <td>
+               <p>Secondary Contact</p>
+               <div class="settingsEntry">
+                  @Html.LabelFor(model => model.SecondaryContact.Name)
+                  <div class="settingsField">
+                     @Html.EditorFor(model => model.SecondaryContact.Name)
+                     @Html.ValidationMessageFor(model => model.SecondaryContact.Name)
+                  </div>
+               </div>
+               <div class="settingsEntry">
+                  @Html.LabelFor(model => model.SecondaryContact.Surname)
+                  <div class="settingsField">
+                     @Html.EditorFor(model => model.SecondaryContact.Surname)
+                     @Html.ValidationMessageFor(model => model.SecondaryContact.Surname)
+                  </div>
+               </div>
+               <div class="settingsEntry">
+                  @Html.LabelFor(model => model.SecondaryContact.Email)
+                  <div class="settingsField">
+                     @Html.EditorFor(model => model.SecondaryContact.Email)
+                     @Html.ValidationMessageFor(model => model.SecondaryContact.Email)
+                  </div>
+               </div>
+            </td>
+         </tr>
+         <tr>
+            <td colspan="2" class="settingsSeparator">
+               <h2>Subscription Info</h2>
+            </td>
+         </tr>
+         <tr>
+            <td width="50%">
+               <div class="settingsEntry">
+                  @Html.LabelFor(model => model.SubscriptionSMS)
+
+                  <div class="settingsField">
+                     @Html.DisplayFor(model => model.SubscriptionSMS)
+                     @Html.ValidationMessageFor(model => model.SubscriptionSMS)
+                  </div>
+               </div>
+            </td>
+            <td></td>
+         </tr>
+         <tr>
+            <td width="50%">
+               <div class="settingsEntry">
+                  @Html.LabelFor(model => model.BillingDay)
+
+                  <div class="settingsField">
+                     @Html.DisplayFor(model => model.BillingDay)
+                     @Html.ValidationMessageFor(model => model.BillingDay)
+                  </div>
+               </div>
+            </td>
+            <td>
+               <div class="settingsEntry">
+                  @Html.LabelFor(model => model.DefaultCurrency)
+
+                  <div class="settingsField">
+                     @Html.DisplayFor(model => model.DefaultCurrency)
+                     @Html.ValidationMessageFor(model => model.DefaultCurrency)
+                  </div>
+               </div>
+            </td>
+         </tr>
+      </table>
+      <p>
+          <input type="submit" id="btnSaveWorkingPoints" class="btnSaveChanges" value="@Resources.Global.saveBtnCaption" />
+      </p>
+   </fieldset>
+}

@@ -30,7 +30,7 @@ color: white;*/
    margin: 0px;
 }
 
-#changePasswordContainer .editor-label {
+#changePasswordContainer .settingsEntry {
    margin: 0;
    font-size: 15px;
    line-height: 1.3em;
@@ -128,4 +128,21 @@ color: white;*/
 
  .limitedColWidth {
     width: 100px;
+ }
+
+ .billedSettings {
+    
+ }
+
+ .settingsEntry {
+    margin: 7px 0px 7px 10px;
+ }
+
+ .settingsField {
+    margin: 7px 0px 7px 20px;
+    width: 80%;
+ }
+
+ .settingsSeparator {
+    border: 1px solid #BBB;
  }

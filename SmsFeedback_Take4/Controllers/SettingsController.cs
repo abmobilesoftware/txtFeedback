@@ -18,6 +18,8 @@ namespace SmsFeedback_Take4.Controllers
    public class SettingsController : BaseController
     {      
       private const string cRoleForConfigurators = "WorkingPointsConfigurator";
+      private const string cCompanyConfigurators = "CompanyConfigurator";
+
       smsfeedbackEntities context = new smsfeedbackEntities();
 
       private AggregateSmsRepository mSmsRepository;
@@ -49,6 +51,12 @@ namespace SmsFeedback_Take4.Controllers
               reportsMenuItems.Add(new ReportsMenuItem(30, Resources.Global.settingsWpMenuName, false, 0));
               reportsMenuItems.Add(new ReportsMenuItem(31, Resources.Global.settingsWpDefineWpsMenu, true, 30));              
            };
+           if (HttpContext.User.IsInRole(cCompanyConfigurators))
+           {
+              reportsMenuItems.Add(new ReportsMenuItem(40, Resources.Global.settingsCompanyMenuName, false, 0));
+              reportsMenuItems.Add(new ReportsMenuItem(41, Resources.Global.settingsCompanyBillingMenuName, true, 40));
+           }
+
            return Json(reportsMenuItems, JsonRequestBehavior.AllowGet);           
         }
         #region Change password
@@ -120,8 +128,30 @@ namespace SmsFeedback_Take4.Controllers
          }
          return GetDefineWorkingPointsFormInternal();
       }
-
        #endregion
+
+      #region "Billing info"
+      [CustomAuthorizeAtribute(Roles = cCompanyConfigurators)]
+      public ActionResult CompanyBillingInfo()
+      {
+         var userName = User.Identity.Name;
+         var user = (from u in context.Users where u.UserName == userName select u).FirstOrDefault();
+         return View(user.Company.SubscriptionDetail); 
+      }
+      
+      [CustomAuthorizeAtribute(Roles = cCompanyConfigurators)]
+      [HttpPost]
+      [ValidateInput(false)]
+      public ActionResult CompanyBillingInfo(SubscriptionDetail details)
+      {
+         if (ModelState.IsValid)
+         {                        
+            ViewData["saveMessage"] = Resources.Global.settingWpConfigSavedSuccessfuly;
+         }
+         return View(details);
+      }
+      #endregion
+
       protected override void Dispose(bool disposing)
       {
          context.Dispose();

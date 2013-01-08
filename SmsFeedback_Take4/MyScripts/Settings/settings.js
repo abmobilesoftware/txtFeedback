@@ -114,6 +114,22 @@ window.app.configureWorkingPoints = function () {
       }
    });
 };
+
+window.app.configureBillingInfo = function () {
+   "use strict";
+   $.ajax({
+      url: "Settings/CompanyBillingInfo",
+      cache: false,
+      success: function (data) {
+         $('#rightColumn').html(data);
+         //$('#btnSaveWorkingPoints').live('click', window.app.saveWorkingPoints);
+         window.app.localForSetting.setTooltipsOnHeaders();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+         $('#rightColumn').html(jqXHR);
+      }
+   });
+}
 window.app.SettingsArea = function () {
    "use strict";
    var settingsMenu = new window.app.MenuView({
@@ -134,6 +150,9 @@ window.app.SettingsArea = function () {
             break;
          case '31':
             window.app.configureWorkingPoints();
+            break;
+         case '41':
+            window.app.configureBillingInfo();
             break;
          default:
       }
