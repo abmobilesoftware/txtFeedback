@@ -42,19 +42,19 @@ namespace SmsFeedback_Take4.Controllers
         public JsonResult GetMenuItems()
         {
            List<ReportsMenuItem> reportsMenuItems = new List<ReportsMenuItem> {
-               new ReportsMenuItem(1, Resources.Global.settingUserPreferences, false, 0),
-               new ReportsMenuItem(20, Resources.Global.settingsPrivacy, false, 0),
-               new ReportsMenuItem(21, Resources.Global.settingsChangePassword, true, 20),
+               new ReportsMenuItem(1, Resources.Global.settingUserPreferences, false, 0, "","UserPreferences"),
+               new ReportsMenuItem(20, Resources.Global.settingsPrivacy, false, 0, "","Privacy"),
+               new ReportsMenuItem(21, Resources.Global.settingsChangePassword, true, 20, "ConfigurePassword","ChangePassword"),
            };
            if (HttpContext.User.IsInRole(cRoleForConfigurators))
            {
-              reportsMenuItems.Add(new ReportsMenuItem(30, Resources.Global.settingsWpMenuName, false, 0));
-              reportsMenuItems.Add(new ReportsMenuItem(31, Resources.Global.settingsWpDefineWpsMenu, true, 30));              
+              reportsMenuItems.Add(new ReportsMenuItem(30, Resources.Global.settingsWpMenuName, false, 0, "",""));
+              reportsMenuItems.Add(new ReportsMenuItem(31, Resources.Global.settingsWpDefineWpsMenu, true, 30, "ConfigureWorkingPoints","WorkingPoints"));              
            };
            if (HttpContext.User.IsInRole(cCompanyConfigurators))
            {
-              reportsMenuItems.Add(new ReportsMenuItem(40, Resources.Global.settingsCompanyMenuName, false, 0));
-              reportsMenuItems.Add(new ReportsMenuItem(41, Resources.Global.settingsCompanyBillingMenuName, true, 40));
+              reportsMenuItems.Add(new ReportsMenuItem(40, Resources.Global.settingsCompanyMenuName, false, 0, "",""));
+              reportsMenuItems.Add(new ReportsMenuItem(41, Resources.Global.settingsCompanyBillingMenuName, true, 40, "ConfigureCompanyBillingInfo","BillingInfo"));
            }
 
            return Json(reportsMenuItems, JsonRequestBehavior.AllowGet);           

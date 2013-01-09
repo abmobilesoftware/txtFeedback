@@ -1293,11 +1293,15 @@ namespace SmsFeedback_Take4.Controllers
 
         public JsonResult GetReportsMenuItems()
         {
-            ReportsMenuItem[] reportsMenuItems = new ReportsMenuItem[] { new ReportsMenuItem(1, Resources.Global.RepConversations, false, 0), new ReportsMenuItem(2, Resources.Global.RepOverview, true, 1), 
-                                                                         new ReportsMenuItem(3, Resources.Global.RepIncomingVsOutgoing, true, 1), new ReportsMenuItem(4, Resources.Global.RepPositiveAndNegative, true, 1),
-                                                                         new ReportsMenuItem(5, Resources.Global.RepTags, true, 1), new ReportsMenuItem(6, Resources.Global.RepClients, false, 0), new ReportsMenuItem(7, Resources.Global.RepNewVsReturning, true, 6), 
-                                                                        };
-            // new ReportsMenuItem(7, Resources.Global.RepNewVsReturning , true, 5)
+            ReportsMenuItem[] reportsMenuItems = new ReportsMenuItem[] {
+               new ReportsMenuItem(1, Resources.Global.RepConversations, false, 0, "getReportById", "Conversations"),
+               new ReportsMenuItem(2, Resources.Global.RepOverview, true, 1, "getReportById","Overview"), 
+               new ReportsMenuItem(3, Resources.Global.RepIncomingVsOutgoing, true, 1,"getReportById","IncomingVsOutgoing"),
+               new ReportsMenuItem(4, Resources.Global.RepPositiveAndNegative, true, 1, "getReportById","PositiveAndNegative"),
+               new ReportsMenuItem(5, Resources.Global.RepTags, true, 1, "getReportById","TagsOverview"),
+               new ReportsMenuItem(6, Resources.Global.RepClients, false, 0, "getReportById","Clients"),
+               new ReportsMenuItem(7, Resources.Global.RepNewVsReturning, true, 6,"getReportById","NewVsReturning")};
+            
             return Json(reportsMenuItems, JsonRequestBehavior.AllowGet);
         }
 
