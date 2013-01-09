@@ -270,8 +270,8 @@ var ReportsArea = function () {
       self.changeReportingInterval();
    });
 
-   $(document).bind("switchReport", function (event, menuId) {
-      self.loadReport(menuId);
+   $(document).bind("switchReport", function (event, menuOptions) {
+      self.loadReport(menuOptions.menuId);
    });
 
    this.redrawContent = function () {
