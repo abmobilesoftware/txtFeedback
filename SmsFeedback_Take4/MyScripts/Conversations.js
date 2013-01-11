@@ -61,7 +61,7 @@ window.app.ConversationsList = Backbone.Collection.extend({
    model: window.app.Conversation,
    convID: null,
    url: function () {
-      return "Messages/ConversationsList";
+      return "Conversations/ConversationsList";
    }
 });
 //#endregion
@@ -134,7 +134,7 @@ $(function () {
             var starredStatus = selfConvView.model.get("Starred");
             selfConvView.model.set("Starred", !starredStatus);
             var id = $(this).parents(".conversation").attr("conversationId");
-            $.getJSON('Messages/ChangeStarredStatusForConversation',
+            $.getJSON('Conversations/ChangeStarredStatusForConversation',
                     { conversationId: id, newStarredStatus: !starredStatus },
                     function (data) {
                        //conversation starred status changed                            
@@ -152,7 +152,7 @@ $(function () {
             if (confirm($("#confirmDeleteConversation").val() + " \"" + user + "\" ?")) {
                var target = document.getElementById('scrollableconversations');
                deleteConvSpinner.spin(target);
-               $.getJSON('Messages/DeleteConversation',
+               $.getJSON('Conversations/DeleteConversation',
                        { convId: id },
                        function (data) {
                                if (data === "success") {                                 
@@ -340,7 +340,7 @@ function ConversationArea(filterArea, workingPointsArea) {
          //add these "old" conversations to the end
          var selfConversationsView = this;
          $.ajax({
-            url: "Messages/ConversationsList",
+            url: "Conversations/ConversationsList",
             data: options,
             traditional: true,
             success: function (data, textStatus, jqXHR) {

@@ -263,7 +263,7 @@ function TagsArea() {
          }
       },
       sendEventToServer: function (eventType) {
-         $.getJSON('Messages/AddAnEventInConversationHistory',
+         $.getJSON('Conversations/AddAnEventInConversationHistory',
                        { conversationId: gSelectedConversationID, eventType: eventType },
                        function (data) {
                           //conversation starred status changed                            

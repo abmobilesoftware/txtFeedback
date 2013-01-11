@@ -84,7 +84,7 @@ function setCheckboxState(checkbox, state)
 }
 
 window.app.updateNrOfUnreadConversations = function (performUpdateBefore) {
-   $.getJSON(window.app.domainName + '/Messages/NrOfUnreadConversations',
+   $.getJSON(window.app.domainName + '/Conversations/NrOfUnreadConversations',
    { performUpdateBefore: performUpdateBefore },
    function (data) {
       if (data !== null) {

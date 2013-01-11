@@ -363,7 +363,7 @@ var ReportsArea = function () {
    };
 
    this.loadWorkingPoints = function () {
-      $.getJSON(window.app.domainName + '/Messages/WorkingPointsPerUser',
+      $.getJSON(window.app.domainName + '/WorkingPoints/WorkingPointsPerUser',
              {},
              function (data) {
                 var workingPointsSelectorContent = "<option value='Global'>Global</option>";

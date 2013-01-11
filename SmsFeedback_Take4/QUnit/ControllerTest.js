@@ -132,7 +132,7 @@ $(function () {
       filterOptions.requestIndex = 0;
       filterOptions.popUpSupport = false;
 
-      var validUrlLocationForConversationsList = "/ro-RO/Messages/ConversationsList";
+      var validUrlLocationForConversationsList = "/ro-RO/Conversations/ConversationsList";
       $.ajax({
          url: validUrlLocationForConversationsList,
          data: filterOptions,
@@ -154,7 +154,7 @@ $(function () {
       });
    });
    asyncTest("Messages/WorkingPointsPerUser_loggedInUser_ReturnsAtLeast1Wp",4, function () {
-      var validUrlForWpList = "/ro-Ro/Messages/WorkingPointsPerUser";
+      var validUrlForWpList = "/ro-Ro/WorkingPoints/WorkingPointsPerUser";
       $.ajax({
          url: validUrlForWpList,
          success: function (data) {
@@ -172,7 +172,7 @@ $(function () {
       });
    });
    asyncTest("Messages/ChangeStarredStatusForConversation_nullConvId_JsonWithErrorMessageIsReturned",1, function () {
-      var validUrlForChangeStarredStatus = "/ro-RO/Messages/ChangeStarredStatusForConversation";
+      var validUrlForChangeStarredStatus = "/ro-RO/Conversations/ChangeStarredStatusForConversation";
       var nullConvIdValue = null;
       var validStarredStatus = true;
       $.ajax({
@@ -192,7 +192,7 @@ $(function () {
       });
    });
    asyncTest("Messages/ChangeStarredStatusForConversation_noParamsPassed_JsonWithErrorMessageIsReturned", 1, function () {
-      var validUrlForChangeStarredStatus = "/ro-RO/Messages/ChangeStarredStatusForConversation";
+      var validUrlForChangeStarredStatus = "/ro-RO/Conversations/ChangeStarredStatusForConversation";
       
       $.ajax({
          url: validUrlForChangeStarredStatus,      
@@ -207,7 +207,7 @@ $(function () {
       });
    });
    asyncTest("Messages/ChangeStarredStatusForConversation_nullStarredStatusPassed_JsonWithErrorMessageIsReturned", 1, function () {
-      var validUrlForChangeStarredStatus = "/ro-RO/Messages/ChangeStarredStatusForConversation";
+      var validUrlForChangeStarredStatus = "/ro-RO/Conversations/ChangeStarredStatusForConversation";
       var nullStarredStatus = null;
       $.ajax({
          url: validUrlForChangeStarredStatus,

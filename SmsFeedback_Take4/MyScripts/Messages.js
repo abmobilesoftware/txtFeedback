@@ -41,7 +41,7 @@ function markConversationAsRead() {
    $(gSelectedElement).addClass("readconversation");
    window.app.selectedConversation.set({ "Read": true });
    //call the server to mark the conversation as read
-   $.getJSON('Messages/MarkConversationAsRead',
+   $.getJSON('Conversations/MarkConversationAsRead',
                { conversationId: gSelectedConversationID },
                function (data) {
                   //conversation marked as read
@@ -376,7 +376,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                            var lastMessageDate = convertDateTimeStringToObject($($(previousItem).find(".timeReceived")[0]).html());
                            // update the conversation
                            $.ajax({
-                              url: "Messages/UpdateConversation",
+                              url: "Conversations/UpdateConversation",
                               data: { 'convId': msgConvId, 'newText': lastMessage, 'newTextReceivedDate': lastMessageDate.toUTCString() },
                               success: function (data) {
                                  $(gSelectedElement).find(".spanClassText").find("span").html(lastMessage);

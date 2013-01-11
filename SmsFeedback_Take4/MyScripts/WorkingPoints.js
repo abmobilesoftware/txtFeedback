@@ -57,7 +57,7 @@ window.app.WorkingPoint = Backbone.Model.extend({
 window.app.WorkingPointPool = Backbone.Collection.extend({
    model: window.app.WorkingPoint,
    url: function () {
-      return window.app.domainName + "/Messages/WorkingPointsPerUser";
+      return window.app.domainName + "/WorkingPoints/WorkingPointsPerUser";
    },
    getWorkingPointXmppAddress: function (id) {
       //the ID could be the telNumber or the shortID

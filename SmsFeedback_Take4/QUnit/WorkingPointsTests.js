@@ -19,6 +19,7 @@
       setup: function () {
          var wp = new app.WorkingPoint({ TelNumber: "0745432345" });
          this.wpView = new app.WorkingPointView({ model: wp });
+         this.wpView.render();
       },
       teardown: function () {
       }
@@ -44,13 +45,14 @@
       this.wpView.selectedChanged();
       deepEqual(this.wpView.model.get('CheckedStatus'), true, "You can always enable a working point");
    });
-   //test("selectedChanged_clickCheckboxAndNrOfCheckedWPoints>=2_modelIsUpdated", 1, function () {
-   //   app.nrOfCheckedWorkingPoints = 2;
-   //   var event = $.Event("click .wpSelectorIcon");
-   //   var initialValue = this.wpView.model.get('CheckedStatus');
-   //   $(this.wpView).trigger(event);
-   //   deepEqual(this.wpView.model.get('CheckedStatus'), !initialValue, "When clicking on the checkbutton the model is updated");
-   //});
+   test("selectedChanged_clickCheckboxAndNrOfCheckedWPoints>=2_modelIsUpdated", 1, function () {
+      app.nrOfCheckedWorkingPoints = 2;      
+      var event = $.Event("click .wpSelectorIcon");
+      var initialValue = this.wpView.model.get('CheckedStatus');
+      //$(this.wpView).trigger(event);
+      $(".wpSelectorIcon", this.wpView.$el).click();
+      deepEqual(this.wpView.model.get('CheckedStatus'), !initialValue, "When clicking on the checkbutton the model is updated");
+   });
 
    module("WorkingPoints", {
       setup: function () {
