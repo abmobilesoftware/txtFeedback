@@ -167,6 +167,7 @@
     <Compile Include="Controllers\EmailSendController.cs" />
     <Compile Include="Controllers\ErrorLogController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
@@ -498,9 +499,7 @@
     <Content Include="Views\EmailSend\GetFeedbackForm.aspx" />
     <Content Include="Views\EmailSend\Index.ascx" />
     <Content Include="Views\Help\Index.aspx" />
-    <Content Include="Views\Messages\Index.aspx" />
-    <Content Include="Views\Messages\MyMessages.ascx" />
-    <Content Include="Views\Messages\TstView.ascx" />
+    <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\NexmoTest\Index.aspx" />
     <Content Include="Views\Reports\Index.aspx" />
     <Content Include="Views\Settings\ChangePasswordSuccess.aspx" />
@@ -545,6 +544,7 @@
     <Folder Include="MyScripts\Minified\Base\" />
     <Folder Include="MyScripts\Minified\css\" />
     <Folder Include="Scripts\datepicker\" />
+    <Folder Include="Views\Messages\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>

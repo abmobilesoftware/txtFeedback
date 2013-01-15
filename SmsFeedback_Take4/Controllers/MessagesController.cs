@@ -30,12 +30,12 @@ namespace SmsFeedback_Take4.Controllers
         }
 
         private EFInteraction mEFInterface = new EFInteraction();
-        public ActionResult Index()
-        {
-            ViewData["currentCulture"] = getCurrentCulture();
-            ViewData["messageOrganizer"] = HttpContext.User.IsInRole(cMessageOrganizer);
-            return View();
-        }
+        //public ActionResult Index()
+        //{
+        //    ViewData["currentCulture"] = getCurrentCulture();
+        //    ViewData["messageOrganizer"] = HttpContext.User.IsInRole(cMessageOrganizer);
+        //    return View();
+        //}
         
         public JsonResult MessagesList(string conversationId)
         {

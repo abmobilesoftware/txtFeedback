@@ -73,8 +73,13 @@
    <script type="text/javascript">
     
    </script>
-   <div class="page">
+   <div class="page">        
+      
       <header>
+        <%-- <div id="notificationArea">
+            <span id="notificationText">You are approaching your spending limit for this month - make sure your limit or credit are high enough for normal operation</span>
+            <button id="notificationAck" onclick="$('#notificationArea').hide(); resizeTriggered();">Dismiss</button>
+         </div>--%>
          <div id="title">
             <%: Url.ImageLink(Url.Content("~/Content/images/06-web-2_225.png"),"home","Index","Messages", "engaging your customers in conversations",null,"logo") %>
          </div>
@@ -93,7 +98,7 @@
          <nav>
             <ul id="menu">
                <li>
-                  <%: Html.MenuLink(Resources.Global.tabMessages, "Index", "Messages", Resources.Global.tooltipNrOfConvsWithUnreadMsgs)%></li>
+                  <%: Html.MenuLink(Resources.Global.tabMessages, "Index", "Home", Resources.Global.tooltipNrOfConvsWithUnreadMsgs)%></li>
                <li>
                   <%: Html.MenuLink(Resources.Global.tabReports, "Index", "Reports")%></li>
                <li>
@@ -103,11 +108,15 @@
             </ul>                
              
          </nav>
+         
         
+         
       </header>
+     
       <div class="clear"></div>
       <div class="container_12">
          <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        
          <footer>
          </footer>
       </div>
