@@ -32,6 +32,7 @@ namespace SmsFeedback_EFModels
         public string XmppConnectionXmppUser { get; set; }
         public string ExternalID { get; set; }
         public string Price { get; set; }
+        public bool ClientAcknowledge { get; set; }
     
         public virtual Conversation Conversation { get; set; }
         public virtual ICollection<ConversationHistory> ConversationHistories { get; set; }

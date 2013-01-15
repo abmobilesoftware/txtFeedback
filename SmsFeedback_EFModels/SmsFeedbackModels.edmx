@@ -344,6 +344,7 @@
           <Property Name="XmppConnectionXmppUser" Type="nvarchar" MaxLength="100" />
           <Property Name="ExternalID" Type="nvarchar" MaxLength="60" />
           <Property Name="Price" Type="nvarchar" MaxLength="100" />
+          <Property Name="ClientAcknowledge" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Profiles">
           <Key>
@@ -382,6 +383,7 @@
           <Property Name="MonthlyExtraSMSCharge_InvoiceDetailsTemplateID" Type="int" />
           <Property Name="ExtraAddedCreditThisMonth" Type="decimal" Nullable="false" Precision="15" Scale="5" />
           <Property Name="RemainingCreditFromPreviousMonth" Type="decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="TimeStamp" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Tags">
           <Key>
@@ -1080,6 +1082,7 @@
               <Summary>Price of this message</Summary>
             </Documentation>
           </Property>
+          <Property Type="Boolean" Name="ClientAcknowledge" Nullable="false" />
           </EntityType>
         <EntityType Name="WorkingPoint">
           <Key>
@@ -1643,6 +1646,7 @@
             </Documentation>
           </Property>
           <Property Type="Decimal" Name="RemainingCreditFromPreviousMonth" Nullable="false" Precision="15" Scale="5" />
+          <Property Type="Binary" Name="TimeStamp" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
         </EntityType>
         <Association Name="FK_CompanySubscriptionDetails">
           <End Type="smsfeedbackModel.SubscriptionDetail" Role="SubscriptionDetail" Multiplicity="1" />
@@ -1767,6 +1771,7 @@
     <EntitySetMapping Name="Messages">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Message)">
         <MappingFragment StoreEntitySet="Messages">
+                <ScalarProperty Name="ClientAcknowledge" ColumnName="ClientAcknowledge" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="ExternalID" ColumnName="ExternalID" />
                 <ScalarProperty Name="IsSmsBased" ColumnName="IsSmsBased" />
@@ -2038,6 +2043,7 @@
           <EntitySetMapping Name="SubscriptionDetails">
             <EntityTypeMapping TypeName="smsfeedbackModel.SubscriptionDetail">
               <MappingFragment StoreEntitySet="SubscriptionDetails">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
                 <ScalarProperty Name="RemainingCreditFromPreviousMonth" ColumnName="RemainingCreditFromPreviousMonth" />
                 <ScalarProperty Name="SpentThisMonth" ColumnName="SpentThisMonth" />
                 <ScalarProperty Name="ExtraAddedCreditThisMonth" ColumnName="ExtraAddedCreditThisMonth" />
