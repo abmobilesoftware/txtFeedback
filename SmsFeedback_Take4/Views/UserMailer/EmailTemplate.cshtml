@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "EmailTemplate";
+    Layout = "~/Views/UserMailer/_Layout.cshtml";
+}
+
+<h4>@Resources.Global.sendEmailStartingText [ @ViewData["From"]  ]</h4>
+ <br />
+     @if(!String.IsNullOrEmpty((string)ViewData["Location"])) {
+         <h4> Location: @ViewData["Location"] </h4>
+      }
+    @ViewData["Content"] 
+<br/>
