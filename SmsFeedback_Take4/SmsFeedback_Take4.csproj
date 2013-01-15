@@ -187,6 +187,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Global.de.resx</DependentUpon>
     </Compile>
+    <Compile Include="Mailers\WarningMailer.cs" />
     <Compile Include="Models\BusinessObjects\ConvTag.cs" />
     <Compile Include="Models\BusinessObjects\WorkingPointConfModel.cs" />
     <Compile Include="Models\Helpers\ChartValue.cs" />
@@ -508,6 +509,7 @@
     <Content Include="Views\Settings\GetDefineWorkingPointsForm.aspx" />
     <Content Include="Views\Settings\Index.aspx" />
     <Content Include="Views\Shared\Unauthorized.aspx" />
+    <Content Include="Views\UserMailer\WarningEmail.aspx" />
     <Content Include="Views\UserMailer\Welcome.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -575,6 +577,9 @@
     <None Include="Properties\PublishProfiles\dev_release.txtfeedback.net.pubxml" />
     <None Include="Properties\PublishProfiles\product_release.txtfeedback.net.pubxml" />
     <Content Include="Views\Settings\CompanyBillingInfo.cshtml" />
+    <Content Include="Views\WarningMailer\_Layout.cshtml" />
+    <Content Include="Views\WarningMailer\WarningEmail.cshtml" />
+    <Content Include="Views\WarningMailer\SpendingLimitReachedEmail.cshtml" />
     <None Include="Web.Debug_demo.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
