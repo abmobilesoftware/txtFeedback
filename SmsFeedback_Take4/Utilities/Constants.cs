@@ -47,5 +47,6 @@ namespace SmsFeedback_Take4.Utilities
         public const string EXCEPTION = "exception";
         public const string INVALID_DIRECTION = "invalid direction";
         public const string OP_FAILED = "failed";
+        public const string CANNOT_SEND_SMS = "CannotSendSMS";
     }
 }

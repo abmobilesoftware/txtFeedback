@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using SmsFeedback_EFModels;
 using SmsFeedback_Take4.Models;
+using System.Globalization;
+using Mvc.Mailer;
 
 namespace SmsFeedback_Take4.Utilities
 {
@@ -265,7 +267,7 @@ namespace SmsFeedback_Take4.Utilities
             return tags;
         }
 
-        public string UpdateAddConversation(
+        public string UpdateOrAddConversation(
                                             String sender,
                                             String addressee,
                                             String conversationId,
@@ -524,14 +526,55 @@ namespace SmsFeedback_Take4.Utilities
             }
         }
 
-        public void IncrementNumberOfSentSms(String wpID, smsfeedbackEntities dbContext)
+        public SmsFeedback_EFModels.SubscriptionDetail UpdateSMSstatusForCompany(String wpID, String price, smsfeedbackEntities dbContext)
         {            
             var wp = dbContext.WorkingPoints.Find(wpID);
             if (wp != null)
-            {                
-                wp.SentSms += 1;
-                dbContext.SaveChanges();
+            {               
+               var sd = wp.Users.FirstOrDefault().Company.SubscriptionDetail;
+               UpdateSMSForSubscription(price, sd, dbContext);
+               return sd;
             }
+            return null;
+        }
+
+        public void UpdateSMSForSubscription(String price, SubscriptionDetail sd, smsfeedbackEntities dbContext)
+        {
+           /**
+            *RemainingSMS - if still > 0 decrease
+            *SpentAmount - increase with price only if RemainingSMS == 0           
+            */
+           bool saveFailed = true;
+           do
+           {
+              saveFailed = false;
+              try
+              {
+                 if (sd.RemainingSMS > 0)
+                 {
+                    sd.RemainingSMS = sd.RemainingSMS - 1;
+                 }
+                 else
+                 {
+                    decimal priceAsDecimal = 0;
+                    try
+                     {
+                        priceAsDecimal = Decimal.Parse(price, CultureInfo.InvariantCulture);
+                     }
+                    catch(Exception ex)
+                    {
+                       logger.ErrorFormat("Price not a valid decimal. ErrorType: {0}, ErrorMessage: {1}",ex.GetType().ToString(), ex.Message);
+                    }
+                    sd.SpentThisMonth += priceAsDecimal;
+                 }
+                 dbContext.SaveChanges();
+              }
+              catch (System.Data.Entity.Infrastructure.DbUpdateConcurrencyException ex)
+              {
+                 saveFailed = true;
+                 ex.Entries.Single().Reload();
+              }
+           } while (saveFailed);                   
         }
 
         public XmppConn GetXmppConnectionDetailsPerUser(string userName, smsfeedbackEntities dbContext)
@@ -730,12 +773,12 @@ namespace SmsFeedback_Take4.Utilities
 
         }
 
-        public String UpdateDb(
+        public String MarkMessageActivityInDB(
            String from, String to, String conversationId, String text, Boolean readStatus,
            DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, String XmppUser,  
            String price, String externalID, String direction, smsfeedbackEntities dbContext)
         {
-            string updateAddConversationResult = UpdateAddConversation(from, to, conversationId, text, readStatus, updateTime, isSmsBased, dbContext);
+            string updateAddConversationResult = UpdateOrAddConversation(from, to, conversationId, text, readStatus, updateTime, isSmsBased, dbContext);
             string addMessageResult = updateAddConversationResult;
             if (updateAddConversationResult.Equals(JsonReturnMessages.OP_SUCCESSFUL))
             {
@@ -746,7 +789,31 @@ namespace SmsFeedback_Take4.Utilities
             }
            //we added the message - now if SMS based, mark this 
             if (addMessageResult.Equals(JsonReturnMessages.OP_SUCCESSFUL) && isSmsBased && (direction == Constants.DIRECTION_OUT)) {
-               IncrementNumberOfSentSms(from, dbContext); }
+               var sd = UpdateSMSstatusForCompany(from,price, dbContext); 
+               //if required emit warnings
+               bool warningsRequired = sd.WarningsRequired();
+               if (warningsRequired && sd != null)
+               {
+                  var mailer = new SmsFeedback_Take4.Mailers.WarningMailer();
+                  var companyName = sd.Companies.FirstOrDefault().Name;
+                  if (sd.CanSendSMS)
+                  {
+                     //we need to send warnings
+                     System.Net.Mail.MailMessage msgPrimary = mailer.WarningEmail(sd, sd.PrimaryContact.Email, sd.PrimaryContact.Name, sd.PrimaryContact.Surname);
+                     msgPrimary.Send();
+                     System.Net.Mail.MailMessage msgSecondary = mailer.WarningEmail(sd, sd.PrimaryContact.Email, sd.SecondaryContact.Name, sd.SecondaryContact.Surname);
+                     msgSecondary.Send();
+                  }
+                  else
+                  {
+                     //we need to send SpendingLimit reached emails
+                     System.Net.Mail.MailMessage msgPrimary = mailer.SpendingLimitReachedEmail(sd, sd.PrimaryContact.Email, sd.PrimaryContact.Name, sd.PrimaryContact.Surname);
+                     msgPrimary.Send();
+                     System.Net.Mail.MailMessage msgSecondary = mailer.SpendingLimitReachedEmail(sd, sd.PrimaryContact.Email, sd.SecondaryContact.Name, sd.SecondaryContact.Surname);
+                     msgSecondary.Send();
+                  }                                                      
+               }
+            }
             return addMessageResult;
         }
 
