@@ -215,7 +215,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Mailers\IUserMailer.cs" />
     <Compile Include="Mailers\UserMailer.cs" />
     <Compile Include="Models\BusinessObjects\AccountModels.cs" />
     <Compile Include="Models\BusinessObjects\WorkingPoint.cs" />
@@ -509,8 +508,6 @@
     <Content Include="Views\Settings\GetDefineWorkingPointsForm.aspx" />
     <Content Include="Views\Settings\Index.aspx" />
     <Content Include="Views\Shared\Unauthorized.aspx" />
-    <Content Include="Views\UserMailer\WarningEmail.aspx" />
-    <Content Include="Views\UserMailer\Welcome.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -569,7 +566,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\PublishProfiles\cluj.info.pubxml" />
-    <Content Include="Views\UserMailer\_Layout.Master" />
     <Content Include="Scripts\jquery.cookie.js" />
     <None Include="Properties\PublishProfiles\demo_debug.txtfeedback.net.pubxml" />
     <None Include="Properties\PublishProfiles\demo_release.txtfeedback.net.pubxml" />
@@ -580,6 +576,8 @@
     <Content Include="Views\WarningMailer\_Layout.cshtml" />
     <Content Include="Views\WarningMailer\WarningEmail.cshtml" />
     <Content Include="Views\WarningMailer\SpendingLimitReachedEmail.cshtml" />
+    <Content Include="Views\UserMailer\_Layout.cshtml" />
+    <Content Include="Views\UserMailer\EmailTemplate.cshtml" />
     <None Include="Web.Debug_demo.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
