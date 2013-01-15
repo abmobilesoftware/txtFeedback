@@ -36,17 +36,21 @@ namespace SmsFeedback_Take4.Models
 
       public void SendMessage(string from, string to, string message, Action<MessageStatus> callback)
       {
-         StaticSendMessage(from, to, message, callback);
+         var result = StaticSendMessage(from, to, message);
+         callback(result);
+         
+      }
+      public MessageStatus SendMessage(string from, string to, string message)
+      {
+         return StaticSendMessage(from, to, message);
       }
 
-      public static void StaticSendMessage(string from, string to, string message, Action<MessageStatus> callback)
+      public static MessageStatus StaticSendMessage(string from, string to, string message)
       {
          var textModel = new TextRequestModel { Text = message };
          var username = "5546d7a3";
          var password = "48e9a393";
-         //var from = "4915706100037"; 
-         //var to = "4915706100034";
-
+         
          var requestModel = RequestModelBuilder.Create(username, password, from, to, textModel);
          var nexmo = new Nexmo_CSharp_lib.Nexmo();
          JsonResponseModel responseModel = nexmo.Send(requestModel, ResponseObjectType.Json) as JsonResponseModel;
@@ -54,9 +58,9 @@ namespace SmsFeedback_Take4.Models
          var status = msg.Status;
          var sent = msg.Status.Equals("Success", StringComparison.InvariantCultureIgnoreCase) ? true : false;
          var sentDate = DateTime.Now.ToUniversalTime();
-         //dragos: atm, when sending the message via nexmo we don't receive the sent date (or created date) so we use the current datestamp of the server (UTC format)        
+         //DA: atm, when sending the message via nexmo we don't receive the sent date (or created date) so we use the current datestamp of the server (UTC format)        
          var response = new MessageStatus() { MessageSent = sent, DateSent = sentDate, Status = status, ExternalID=msg.MessageId,Price=msg.MessagePrice };
-         callback(response);
+         return response;
       }
    }
 }

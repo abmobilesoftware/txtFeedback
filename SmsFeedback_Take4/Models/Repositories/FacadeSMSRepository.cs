@@ -171,20 +171,22 @@ namespace SmsFeedback_Take4.Models
                var canSend = company.SubscriptionDetail.CanSendSMS;
                if (canSend)
                {
+                  MessageStatus response;
                   switch (wp.Provider)
                   {
                      case TWILIO_PROVIDER:
                         logger.Info("Sending message via twilio");
-                        mTwilioRep.SendMessage(fromWp, to, message, callbackOnSuccess);
+                        response = mTwilioRep.SendMessage(fromWp, to, message);
                         break;
                      case NEXMO_PROVIDER:
                         logger.Info("Sending message via nexmo");
-                        mNexmoRep.SendMessage(fromWp, to, message, callbackOnSuccess);
+                        response = mNexmoRep.SendMessage(fromWp, to, message);
                         break;
                      default:
                         logger.ErrorFormat("Invalid provider for number: {0}", fromWp);
                         break;
                   }
+                  //TODO DA use the response
                   return true;
                }
                else

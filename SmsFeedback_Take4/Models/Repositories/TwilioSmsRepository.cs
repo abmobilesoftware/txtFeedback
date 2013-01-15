@@ -51,7 +51,13 @@ namespace SmsFeedback_Take4.Models
               logger.DebugFormat("Sent message with id: {0}", msg.Sid );
               var responce = new MessageStatus() {DateSent= sentMessage.DateCreated, MessageSent= true, Status=sentMessage.Status, ExternalID=sentMessage.Sid, Price = sentMessage.Price.ToString() };
               callback(responce);
-           });           
+           });             
+      }
+
+      public MessageStatus SendMessage(string from, string to, string message)
+      {
+         //TODO DA make it Synchronous
+         return null;
       }
 
       public IEnumerable<SmsMessage> GetMessagesForConversation(string convID,bool isConvFavourite)

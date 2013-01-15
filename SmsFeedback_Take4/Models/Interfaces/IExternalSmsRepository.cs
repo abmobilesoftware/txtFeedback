@@ -17,7 +17,16 @@ namespace SmsFeedback_Take4.Models
                                                                                           DateTime? lastUpdate,
                                                                                           String userName);
       System.Collections.Generic.IEnumerable<SmsMessage> GetMessagesForConversation(string convID, bool isConvFavourite);
+      /// <summary>
+      /// Async function
+      /// </summary>
+      /// <param name="from"></param>
+      /// <param name="to"></param>
+      /// <param name="message"></param>
+      /// <param name="callback"></param>
       void SendMessage(string from, string to, string message, Action<MessageStatus> callback);
+
+      MessageStatus SendMessage(string from, string to, string message);
    }
      
 }
