@@ -109,7 +109,6 @@ public class TxtFeedbackModerator implements Component {
 			} else {
 				if (iAckID != null) {
 					lResponseMessage.setReceivedID(iAckID);
-					lResponseMessage.setID(iAckID);
 				}				
 			}
 			

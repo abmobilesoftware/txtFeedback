@@ -33,7 +33,8 @@ public class RestControllerGateway {
 	//private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
 	private String RESTSaveMessage = "http://dev.txtfeedback.net/Component/SaveMessage";
 	private String RESTParametersTest = "http://dev.txtfeedback.net/Component/GetParametersTest";
-	
+	private String RESTUpdateClientAcknowledge = "http://dev.txtfeedback.net/Component/UpdateMessageClientAcknowledgeField";
+	//private String RESTUpdateClientAcknowledge = "http://localhost:4631/Component/UpdateMessageClientAcknowledgeField";
 	/* REST resources for nexmo
 	private String RESTGetHandlersForMessageURL = "http://demo.txtfeedback.net/Component/GetHandlerForMessage";
 	private String RESTDomain = "http://rest.txtfeedback.net/";
@@ -121,6 +122,19 @@ public class RestControllerGateway {
 		return wp;	
 	}
 	
+	public boolean updateMessageClientAcknowledgeField(int msgID, boolean clientAcknowledge) {
+		Hashtable<String, String> params = new Hashtable<String, String>();
+		params.put("msgID", Integer.toString(msgID));
+		params.put("clientAcknowledge", String.valueOf(clientAcknowledge));
+		String requestResult = getResourceAsString(RESTUpdateClientAcknowledge, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
+		if (requestResult != null) {
+			String result = requestResult.toString();
+			if (result.equals("success")) return true;
+			else return false;			
+		}		
+		return false;
+	}
+	
 	// Method used just for testing purposes
 	public void sendParameters() {
 		Hashtable<String, String> params = new Hashtable<String, String>();
@@ -130,7 +144,7 @@ public class RestControllerGateway {
 		String result = getResourceAsString(RESTParametersTest, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);		
 	}
 	
-	public boolean saveMessage(String from, String to, String convId, String text, String xmppUser, boolean isSms) throws RESTException {
+	public int saveMessage(String from, String to, String convId, String text, String xmppUser, boolean isSms) throws RESTException {
 		
 		try {
 			Hashtable<String, String> params = new Hashtable<String, String>();
@@ -140,13 +154,10 @@ public class RestControllerGateway {
 			params.put("text", URLEncoder.encode(text, "UTF-8"));
 			params.put("xmppUser", xmppUser);
 			params.put("isSms", String.valueOf(isSms));
+		
+			String restCallResponse = getResourceAsString(RESTSaveMessage, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
+			return Integer.parseInt(restCallResponse.substring(1, restCallResponse.length()-1)); 
 			
-			String restCallResponse = getResourceAsString(RESTSaveMessage, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);		
-			if (restCallResponse.equals("{success}")) {
-				return true;
-			} else {
-				return false;
-			}
 		} catch (UnsupportedEncodingException e) {
 			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 			throw new RESTException();

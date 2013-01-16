@@ -198,8 +198,7 @@ public class Message extends Packet {
         }
         if (receivedElement == null) {
             receivedElement = element.addElement("received");
-        }
-   
+        }   
         receivedElement.addAttribute("xmlns", "urn:xmpp:receipts");
         receivedElement.addAttribute("id", receivedID);
     }
@@ -222,7 +221,7 @@ public class Message extends Packet {
     }
     
     public String getAckDestination() {
-        return element.element("received").attributeValue("ackDest");
+        return element.element("received").attributeValue("ackdest");
     }
     
     /**

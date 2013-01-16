@@ -39,11 +39,11 @@ public class MessageProcessor {
 		try {
 			if (message.getSubject().equals(Constants.CLIENT_ACK)) {
 				// For this message update WasReceivedByClient state in DB 
-				//String ackId = message.getReceivedID();
-				//String[] ackIds = ackId.split("##");
-				// TODO update message with ID = ackIds[1]
-				//String ackDest = message.getAckDestination();
-				moderator.sendAcknowledgeMessage(message.getBody(), "ClientMsgDeliveryReceipt", message.getID());				
+				String ackId = message.getReceivedID();  // ackId = PACKET_ID**DB_ID
+				String[] ackIds = ackId.split("##");
+												
+				moderator.sendAcknowledgeMessage(message.getAckDestination(), "ClientMsgDeliveryReceipt", ackIds[0]);
+				restGtw.updateMessageClientAcknowledgeField(Integer.parseInt(ackIds[1]), true);
 			} else if (message.getSubject().equals(Constants.INTERNAL_PACKET)) {
 				TxtPacket internalPacket = new TxtPacket(message.getBody());
 				//DA since the date coming from the Javascript client is unreliable we use the server side time as reference
@@ -76,6 +76,7 @@ public class MessageProcessor {
 		long t1, t2, t3, t4;
 		try {
 			String[] fromTo = internalPacket.getConversationId().split("-");
+			int msgID; // the id of the message inserted in DB
 			if (!Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()).equals(fromTo[1])) {
 				//this is the case when we have staff site to staff site communication
 				StringBuilder reversedConvIdSb = new StringBuilder();
@@ -83,7 +84,7 @@ public class MessageProcessor {
 				reversedConvIdSb.append("-");
 				reversedConvIdSb.append(fromTo[0]);
 				t1 = System.currentTimeMillis();
-				restGtw.saveMessage(
+				msgID = restGtw.saveMessage(
 					internalPacket.getFromAddress(), 
 					internalPacket.getToAddress(), 
 					internalPacket.getConversationId(),
@@ -102,7 +103,7 @@ public class MessageProcessor {
 			} else {
 				
 				t1 = System.currentTimeMillis();
-				restGtw.saveMessage(
+				msgID = restGtw.saveMessage(
 						internalPacket.getFromAddress(), 
 						internalPacket.getToAddress(), 
 						internalPacket.getConversationId(),
@@ -113,18 +114,20 @@ public class MessageProcessor {
 				System.out.println(receivedPacket.getID() + " SAVE: " +  (t2 - t1));
 			}
 			t3 = System.currentTimeMillis();
-			//moderator.sendAcknowledgeMessage(iPacket.getFrom().toBareJID(), Constants.SERVER_ACK, iPacket.getID());
+			moderator.sendAcknowledgeMessage(iPacket.getFrom().toBareJID(), Constants.SERVER_ACK, iPacket.getID());
 			t4 = System.currentTimeMillis();
 			
 			t1 = System.currentTimeMillis();			
 			ArrayList<Agent> handlers = restGtw.getHandlersForMessage(Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()), internalPacket.getConversationId(), false);
 			t2 = System.currentTimeMillis();
 			System.out.println("\"" + receivedPacket.getID() + "\", \"GET HANDLERS\", \"" + (t2 - t1) + "\", \"" + (t4 - t3) + "\"");
+			
+			String computedID = iPacket.getID() + "##" + String.valueOf(msgID); // PACKET_ID**DB_ID
 			for (int i=0; i<handlers.size(); ++i) {
 				//String from = internalPacket.getFromAddress();
 				String to = handlers.get(i).getUser();
 				moderator.sendInternalMessage(internalPacket.toXML(), to, 
-						iPacket.getID(), internalPacket.getFromAddress());			
+						computedID, internalPacket.getFromAddress());			
 			}			
 			System.out.println(iPacket.getID() + " OUT TO STAFF - " + System.currentTimeMillis());
 		} catch (RESTException e) {
@@ -145,7 +148,8 @@ public class MessageProcessor {
 		System.out.println(iPacket.getID() + " IN: TO CLIENT " + System.currentTimeMillis());
 		final Message receivedPacket = iPacket;
 		try {
-			restGtw.saveMessage(
+			int msgID = -1;
+			msgID = restGtw.saveMessage(
 					internalPacket.getFromAddress(),
 					internalPacket.getToAddress(),
 					internalPacket.getConversationId(), 
@@ -157,10 +161,10 @@ public class MessageProcessor {
 			//String computedId = iPacket.getID() + "##" + "dbID";
 			// Send acknowledge to staff
 			long t1, t2;
-			/*t1 = System.currentTimeMillis();
+			t1 = System.currentTimeMillis();
 			moderator.sendAcknowledgeMessage(iPacket.getFrom().toString(), Constants.SERVER_ACK, iPacket.getID());
 			t2 = System.currentTimeMillis();
-			System.out.println("\"ACK2\", \"" +  (t2 - t1) + "\"");*/
+			System.out.println("\"ACK2\", \"" +  (t2 - t1) + "\"");
 			 
 			/* send both temporary and db id - the db id will be used on callback 
 			* to mark that the message was successfully received
@@ -168,7 +172,8 @@ public class MessageProcessor {
 			*/
 			
 			/* TODO: replace with computedId. The current ID it's used to trace the message */
-			moderator.sendInternalMessage(iPacket.getBody(), internalPacket.getToAddress(), receivedPacket.getID(), internalPacket.getFromAddress());
+			String computedId = iPacket.getID() + "##" + msgID;
+			moderator.sendInternalMessage(iPacket.getBody(), internalPacket.getToAddress(), computedId, iPacket.getFrom().toBareJID());
 			System.out.println(iPacket.getID() + " OUT: TO CLIENT " + System.currentTimeMillis());
 		} catch (RESTException e) {
 				Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
