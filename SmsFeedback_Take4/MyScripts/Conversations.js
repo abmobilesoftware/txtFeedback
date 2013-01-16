@@ -500,4 +500,7 @@ function ConversationArea(filterArea, workingPointsArea) {
 
 
    this.convsView = new ConversationsView();
+   $(document).bind('conversationSelected', function (ev, data) {
+      self.convsView.convsList.get(data.convID);
+   });
 }
