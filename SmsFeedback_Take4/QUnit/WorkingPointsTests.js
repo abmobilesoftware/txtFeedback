@@ -10,7 +10,7 @@
       ok(wp.has("XMPPsuffix"), "XMPPsuffix should be present");
       ok(wp.has("XMPPaddress"), "XMPPaddress should be present");
       //based on http://stackoverflow.com/questions/126100/how-to-efficiently-count-the-number-of-keys-properties-of-an-object-in-javascrip
-      ok(Object.keys(wp.attributes).length == 7, "If you add more properties - they should be accounted for");
+      ok(Object.keys(wp.attributes).length === 7, "If you add more properties - they should be accounted for");
 
       deepEqual(wp.get('CheckedStatus'), true, "By default a number should be checked");
    });
@@ -63,10 +63,10 @@
       teardown: function () { }
    });
    test("constructor_allMemberVariablesAreProperlyInitialized", function () {
-      ok(typeof (this.wpArea.wpPoolView) != undefined, "The WpPoolView should be exposed to the outside world");
-      ok(typeof (this.wpArea.checkedPhoneNumbers) != undefined, "The checked phone numbers should be exposed");
-      ok(typeof (this.wpArea.wpPoolView.getWorkingPoints) != undefined, "getWorkingPoints should be exposed");
-      ok(typeof (this.wpArea.wpPoolView.phoneNumbersPool) != undefined, "we should have a collection of wps");
+      ok(typeof (this.wpArea.wpPoolView) !== undefined, "The WpPoolView should be exposed to the outside world");
+      ok(typeof (this.wpArea.checkedPhoneNumbers) !== undefined, "The checked phone numbers should be exposed");
+      ok(typeof (this.wpArea.wpPoolView.getWorkingPoints) !== undefined, "getWorkingPoints should be exposed");
+      ok(typeof (this.wpArea.wpPoolView.phoneNumbersPool) !== undefined, "we should have a collection of wps");
     
    });
 
