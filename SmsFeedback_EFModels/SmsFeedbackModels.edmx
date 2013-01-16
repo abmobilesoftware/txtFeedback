@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
@@ -344,6 +344,7 @@
           <Property Name="XmppConnectionXmppUser" Type="nvarchar" MaxLength="100" />
           <Property Name="ExternalID" Type="nvarchar" MaxLength="60" />
           <Property Name="Price" Type="nvarchar" MaxLength="100" />
+          <Property Name="ClientAcknowledge" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Profiles">
           <Key>
@@ -1080,6 +1081,7 @@
               <Summary>Price of this message</Summary>
             </Documentation>
           </Property>
+          <Property Type="Boolean" Name="ClientAcknowledge" Nullable="false" />
           </EntityType>
         <EntityType Name="WorkingPoint">
           <Key>
@@ -1173,7 +1175,7 @@
           <Property Type="String" Name="Notes" Nullable="true" MaxLength="500" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Invoices" Relationship="smsfeedbackModel.FK_CompanyInvoice" FromRole="Company" ToRole="Invoice" />
           <Property Type="String" Name="VATID" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Type="Int32" Name="SubscriptionDetailsID" Nullable="false" />
+          <Property Name="SubscriptionDetailsID" Nullable="false" Type="Int32" />
           <NavigationProperty Name="SubscriptionDetail" Relationship="smsfeedbackModel.FK_CompanySubscriptionDetails" FromRole="Company" ToRole="SubscriptionDetail" />
           <Property Type="Int32" Name="Contact_Id" Nullable="false" />
           <NavigationProperty Name="Contact" Relationship="smsfeedbackModel.FK_CompanyContact" FromRole="Company" ToRole="Contact" />
@@ -1635,14 +1637,14 @@
           </Property>
           <Property Type="Int32" Name="MonthlySubscriptionTemplate_InvoiceDetailsTemplateID" />
           <Property Type="Int32" Name="MonthlyExtraSMSCharge_InvoiceDetailsTemplateID" />
-          <NavigationProperty Name="MonthlySubscriptionTemplate" Relationship="smsfeedbackModel.FK_SubscriptionDetailInvoiceDetailsTemplate" FromRole="SubscriptionDetail" ToRole="InvoiceDetailsTemplate" />
-          <NavigationProperty Name="ExtraSMSCostsDetails" Relationship="smsfeedbackModel.FK_SubscriptionDetailInvoiceDetailsTemplate1" FromRole="SubscriptionDetail" ToRole="InvoiceDetailsTemplate" />
           <Property Type="Decimal" Name="ExtraAddedCreditThisMonth" Nullable="false" Precision="15" Scale="5" DefaultValue="0" >
             <Documentation>
               <LongDescription>If you went over your spending limit this month you can purchase ExtraCredit - this will be billed</LongDescription>
             </Documentation>
           </Property>
           <Property Type="Decimal" Name="RemainingCreditFromPreviousMonth" Nullable="false" Precision="15" Scale="5" />
+          <NavigationProperty Name="InvoiceDetailsTemplate" Relationship="smsfeedbackModel.FK_SubscriptionDetailInvoiceDetailsTemplate" FromRole="SubscriptionDetail" ToRole="InvoiceDetailsTemplate" />
+          <NavigationProperty Name="InvoiceDetailsTemplate1" Relationship="smsfeedbackModel.FK_SubscriptionDetailInvoiceDetailsTemplate1" FromRole="SubscriptionDetail" ToRole="InvoiceDetailsTemplate" />
         </EntityType>
         <Association Name="FK_CompanySubscriptionDetails">
           <End Type="smsfeedbackModel.SubscriptionDetail" Role="SubscriptionDetail" Multiplicity="1" />
@@ -1751,8 +1753,7 @@
     <EntitySetMapping Name="Conversations">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Conversation)">
         <MappingFragment StoreEntitySet="Conversations">
-                <ScalarProperty Name="IsSmsBased" ColumnName="IsSmsBased" />
-                <ScalarProperty Name="ConvId" ColumnName="ConvId" />
+          <ScalarProperty Name="ConvId" ColumnName="ConvId" />
           <ScalarProperty Name="Text" ColumnName="Text" />
           <ScalarProperty Name="Read" ColumnName="Read" />
           <ScalarProperty Name="TimeUpdated" ColumnName="TimeUpdated" />
@@ -1761,16 +1762,14 @@
           <ScalarProperty Name="StartTime" ColumnName="StartTime" />
           <ScalarProperty Name="WorkingPoint_TelNumber" ColumnName="WorkingPoint_TelNumber" />
           <ScalarProperty Name="LastSequence" ColumnName="LastSequence" />
+          <ScalarProperty Name="IsSmsBased" ColumnName="IsSmsBased" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Messages">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Message)">
         <MappingFragment StoreEntitySet="Messages">
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="ExternalID" ColumnName="ExternalID" />
-                <ScalarProperty Name="IsSmsBased" ColumnName="IsSmsBased" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="From" ColumnName="From" />
           <ScalarProperty Name="To" ColumnName="To" />
           <ScalarProperty Name="Text" ColumnName="Text" />
@@ -1778,17 +1777,18 @@
           <ScalarProperty Name="Read" ColumnName="Read" />
           <ScalarProperty Name="ConversationId" ColumnName="ConversationId" />
           <ScalarProperty Name="ResponseTime" ColumnName="ResponseTime" />
+          <ScalarProperty Name="IsSmsBased" ColumnName="IsSmsBased" />
           <ScalarProperty Name="XmppConnectionXmppUser" ColumnName="XmppConnectionXmppUser" />
+          <ScalarProperty Name="ExternalID" ColumnName="ExternalID" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ClientAcknowledge" ColumnName="ClientAcknowledge" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="WorkingPoints">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.WorkingPoint)">
         <MappingFragment StoreEntitySet="WorkingPoints">
-          <ScalarProperty Name="Language" ColumnName="Language" />
-                <ScalarProperty Name="OutsideOfficeHoursMessage" ColumnName="OutsideOfficeHoursMessage" />
-                <ScalarProperty Name="BusyMessage" ColumnName="BusyMessage" />
-                <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
+          <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Provider" ColumnName="Provider" />
@@ -1798,6 +1798,9 @@
           <ScalarProperty Name="ShortID" ColumnName="ShortID" />
           <ScalarProperty Name="WelcomeMessage" ColumnName="WelcomeMessage" />
           <ScalarProperty Name="XMPPsuffix" ColumnName="XMPPsuffix" />
+          <ScalarProperty Name="BusyMessage" ColumnName="BusyMessage" />
+          <ScalarProperty Name="OutsideOfficeHoursMessage" ColumnName="OutsideOfficeHoursMessage" />
+          <ScalarProperty Name="Language" ColumnName="Language" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1844,18 +1847,18 @@
     <EntitySetMapping Name="Companies">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Company)">
         <MappingFragment StoreEntitySet="Companies">
-                <ScalarProperty Name="BankAccount" ColumnName="BankAccount" />
-                <ScalarProperty Name="Bank" ColumnName="Bank" />
-                <ScalarProperty Name="Contact_Id" ColumnName="Contact_Id" />
                 <ScalarProperty Name="SubscriptionDetailsID" ColumnName="SubscriptionDetails_Id" />
-                <ScalarProperty Name="VATID" ColumnName="VATID" />
-                <ScalarProperty Name="RegistrationNumber" ColumnName="RegistrationNumber" />
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="RegistrationNumber" ColumnName="RegistrationNumber" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="VATID" ColumnName="VATID" />
+          <ScalarProperty Name="Contact_Id" ColumnName="Contact_Id" />
+          <ScalarProperty Name="Bank" ColumnName="Bank" />
+          <ScalarProperty Name="BankAccount" ColumnName="BankAccount" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1972,6 +1975,69 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="InvoiceDetails">
+      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.InvoiceDetails)">
+        <MappingFragment StoreEntitySet="InvoiceDetails">
+          <ScalarProperty Name="InvoiceDetailsID" ColumnName="InvoiceDetailsID" />
+          <ScalarProperty Name="Article" ColumnName="Article" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="InvoiceInvoiceId" ColumnName="InvoiceInvoiceId" />
+          <ScalarProperty Name="VAT" ColumnName="VAT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Invoices">
+      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Invoice)">
+        <MappingFragment StoreEntitySet="Invoices">
+          <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="ProposalDetails" ColumnName="ProposalDetails" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+          <ScalarProperty Name="AdvancePaymentTax" ColumnName="AdvancePaymentTax" />
+          <ScalarProperty Name="Paid" ColumnName="Paid" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="AutoGenerated" ColumnName="AutoGenerated" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubscriptionDetails">
+      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.SubscriptionDetail)">
+        <MappingFragment StoreEntitySet="SubscriptionDetails">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BillingDay" ColumnName="BillingDay" />
+          <ScalarProperty Name="SubscriptionSMS" ColumnName="SubscriptionSMS" />
+          <ScalarProperty Name="RemainingSMS" ColumnName="RemainingSMS" />
+          <ScalarProperty Name="SpendingLimit" ColumnName="SpendingLimit" />
+          <ScalarProperty Name="WarningLimit" ColumnName="WarningLimit" />
+          <ScalarProperty Name="SpentThisMonth" ColumnName="SpentThisMonth" />
+          <ScalarProperty Name="PrimaryContact_Id" ColumnName="PrimaryContact_Id" />
+          <ScalarProperty Name="SecondaryContact_Id" ColumnName="SecondaryContact_Id" />
+          <ScalarProperty Name="DefaultCurrency" ColumnName="DefaultCurrency" />
+          <ScalarProperty Name="MonthlySubscriptionTemplate_InvoiceDetailsTemplateID" ColumnName="MonthlySubscriptionTemplate_InvoiceDetailsTemplateID" />
+          <ScalarProperty Name="MonthlyExtraSMSCharge_InvoiceDetailsTemplateID" ColumnName="MonthlyExtraSMSCharge_InvoiceDetailsTemplateID" />
+          <ScalarProperty Name="ExtraAddedCreditThisMonth" ColumnName="ExtraAddedCreditThisMonth" />
+          <ScalarProperty Name="RemainingCreditFromPreviousMonth" ColumnName="RemainingCreditFromPreviousMonth" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Contacts">
+      <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Contact)">
+        <MappingFragment StoreEntitySet="Contacts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Landline" ColumnName="Landline" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="UsersForWorkingPoints" TypeName="smsfeedbackModel.UsersForWorkingPoints" StoreEntitySet="UsersForWorkingPoints">
       <EndProperty Name="User">
         <ScalarProperty Name="UserId" ColumnName="Users_UserId" />
@@ -2004,69 +2070,6 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
-          <EntitySetMapping Name="InvoiceDetails">
-            <EntityTypeMapping TypeName="smsfeedbackModel.InvoiceDetails">
-              <MappingFragment StoreEntitySet="InvoiceDetails">
-                <ScalarProperty Name="VAT" ColumnName="VAT" />
-                <ScalarProperty Name="InvoiceInvoiceId" ColumnName="InvoiceInvoiceId" />
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Article" ColumnName="Article" />
-                <ScalarProperty Name="InvoiceDetailsID" ColumnName="InvoiceDetailsID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Invoices">
-            <EntityTypeMapping TypeName="smsfeedbackModel.Invoice">
-              <MappingFragment StoreEntitySet="Invoices">
-                <ScalarProperty Name="AutoGenerated" ColumnName="AutoGenerated" />
-                <ScalarProperty Name="Currency" ColumnName="Currency" />
-                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="Paid" ColumnName="Paid" />
-                <ScalarProperty Name="AdvancePaymentTax" ColumnName="AdvancePaymentTax" />
-                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-                <ScalarProperty Name="ProposalDetails" ColumnName="ProposalDetails" />
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SubscriptionDetails">
-            <EntityTypeMapping TypeName="smsfeedbackModel.SubscriptionDetail">
-              <MappingFragment StoreEntitySet="SubscriptionDetails">
-                <ScalarProperty Name="RemainingCreditFromPreviousMonth" ColumnName="RemainingCreditFromPreviousMonth" />
-                <ScalarProperty Name="SpentThisMonth" ColumnName="SpentThisMonth" />
-                <ScalarProperty Name="ExtraAddedCreditThisMonth" ColumnName="ExtraAddedCreditThisMonth" />
-                <ScalarProperty Name="MonthlyExtraSMSCharge_InvoiceDetailsTemplateID" ColumnName="MonthlyExtraSMSCharge_InvoiceDetailsTemplateID" />
-                <ScalarProperty Name="MonthlySubscriptionTemplate_InvoiceDetailsTemplateID" ColumnName="MonthlySubscriptionTemplate_InvoiceDetailsTemplateID" />
-                <ScalarProperty Name="DefaultCurrency" ColumnName="DefaultCurrency" />
-                <ScalarProperty Name="SecondaryContact_Id" ColumnName="SecondaryContact_Id" />
-                <ScalarProperty Name="PrimaryContact_Id" ColumnName="PrimaryContact_Id" />
-                <ScalarProperty Name="WarningLimit" ColumnName="WarningLimit" />
-                <ScalarProperty Name="SpendingLimit" ColumnName="SpendingLimit" />
-                <ScalarProperty Name="RemainingSMS" ColumnName="RemainingSMS" />
-                <ScalarProperty Name="SubscriptionSMS" ColumnName="SubscriptionSMS" />
-                <ScalarProperty Name="BillingDay" ColumnName="BillingDay" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Contacts">
-            <EntityTypeMapping TypeName="smsfeedbackModel.Contact">
-              <MappingFragment StoreEntitySet="Contacts">
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="Landline" ColumnName="Landline" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="InvoiceDetailsTemplates">
             <EntityTypeMapping TypeName="smsfeedbackModel.InvoiceDetailsTemplate">
               <MappingFragment StoreEntitySet="InvoiceDetailsTemplate">
@@ -2078,7 +2081,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          </EntityContainerMapping>
+  </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
