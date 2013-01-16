@@ -161,6 +161,7 @@
     <Content Include="Content\images\ajax-loader.png" />
     <Content Include="Content\images\check-black.svg" />
     <Content Include="Content\images\check-green.svg" />
+    <Content Include="Content\images\doubleCheck.png" />
     <Content Include="Content\images\icons-18-black.png" />
     <Content Include="Content\images\icons-18-white.png" />
     <Content Include="Content\images\icons-36-black.png" />
@@ -170,6 +171,7 @@
     <Content Include="Content\images\logo1.png" />
     <Content Include="Content\images\logo-square-24.png" />
     <Content Include="Content\images\logo-square-128.png" />
+    <Content Include="Content\images\singleCheck.png" />
     <Content Include="Content\jquery.mobile-1.2.0.css" />
     <Content Include="Content\jquery.mobile-1.2.0.min.css" />
     <Content Include="Content\jquery.mobile.structure-1.1.0.css" />

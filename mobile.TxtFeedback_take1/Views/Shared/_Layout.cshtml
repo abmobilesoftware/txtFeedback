@@ -16,15 +16,17 @@
       <div class="textMessage">
          <span>{{ Text }} </span> 
           <div class="clear"></div>
-       
-       <span class="timeReceived"></span>
-       {% if (Direction == "to") { %}
-            <div class="sendAndReceivedChecks">
-                <img src="/Content/images/check-black.svg" class="check singleCheck singleCheckNo{{ Id }}" />
-                <img src="/Content/images/check-black.svg" class="check doubleCheck doubleCheckNo{{ Id }}" />
-            </div>    
-       {% } %}
+          <span class="timeReceived"></span>
       </div>      
+      {% if (Direction == "to") { %}
+         <div class="sendAndReceivedChecks">
+             {% if (ClientAcknowledge) { %}
+                <img src="/Content/images/doubleCheck.png" class="check" />
+             {%  } else if (WasSuccessfullySent) { %}             
+                <img src="/Content/images/singleCheck.png" class="check" />            
+             {% } %}
+         </div>    
+       {% } %}
       <div class="clear"></div>      
    </script>
    <div data-role="page" data-theme="b">

@@ -12,13 +12,58 @@ window.app = window.app || {};
 window.app.globalMessagesRep = {};
 window.app.msgView = {};
 
+//#region Helpers
+function getMessagePositionInRepository(convID, msgID) {
+   var messagePosition = -1;
+   if (window.app.globalMessagesRep[convID] != null && window.app.globalMessagesRep[convID] != undefined) {
+      for (var i = 0; i < window.app.globalMessagesRep[convID].models.length; ++i) {
+         var currentModel = window.app.globalMessagesRep[convID].models[i];
+         if (currentModel.attributes.Id === msgID) {
+            return i;
+         }
+      }
+   }
+   return messagePosition;
+}
+
+function setMsgWasSuccessfullySentValue(convID, msgID, sentStatus) {
+   var messagePosition = getMessagePositionInRepository(convID, msgID);
+   var msgSent = window.app.globalMessagesRep[convID].at(messagePosition);
+   if (msgSent != null) {
+      msgSent.set("WasSuccessfullySent", sentStatus);
+   }
+}
+
+function setMsgClientAcknowledgeValue(convID, msgID, clientAcknowledge) {
+   var messagePosition = getMessagePositionInRepository(convID, msgID);
+   var msgSent = window.app.globalMessagesRep[convID].at(messagePosition);
+   if (msgSent != null) {
+      msgSent.set("ClientAcknowledge", clientAcknowledge);
+   }
+}
+//#endregion
+
+//#region UUID generator, rfc4122 compliant, details http://www.ietf.org/rfc/rfc4122.txt
+function generateUUID() {
+   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+   });
+   return uuid;
+}
+//#endregion
+
 function newMessageReceivedGUI(msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
    //the conversations window expects that the toID be a "name" and not a telephone number   
    msgView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
 }
 
-function messageSuccessfullySent(msgView, msgID, convID) {
-    msgView.messageSuccessfullySent(msgID, convID);
+function messageSuccessfullySent(msgView, message) {
+    msgView.messageSuccessfullySent(message);
+}
+
+function acknowledgeFromClient(msgView, message) {
+   msgView.acknowledgeFromClient(message);
 }
 //#region Message model
 window.app.Message = Backbone.Model.extend({
@@ -31,7 +76,8 @@ window.app.Message = Backbone.Model.extend({
       Direction: "from",
       Read: false,
       Starred: false,
-      WasSuccessfullySent: false
+      WasSuccessfullySent: false,
+      ClientAcknowledge: false
    },
    parse: function (data, xhc) {
       //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
@@ -79,11 +125,11 @@ window.app.MessagesArea = function () {
       sendMessageToClient();
    });
 
-   var id = 189542; //this should be unique
+   var id;
    var sendMessageToClient = function () {
        var inputBox = $("#replyText");
        if ($.trim($("#replyText").val()).length > 0) {
-          id++;
+          id = generateUUID();
            //add it to the visual list
            //I should set values to all the properties
            var msgContent = inputBox.val();
@@ -122,8 +168,9 @@ window.app.MessagesArea = function () {
       tagName: "div",
       messageTemplate: _.template($('#message-template').html()),
       initialize: function () {
-         _.bindAll(this, 'render', 'updateView');
-         this.model.on("change", this.updateView);
+         _.bindAll(this, 'render');
+         this.model.on("change:WasSuccessfullySent", this.render);
+         this.model.on("change:ClientAcknowledge", this.render);         
          return this.render;
       },
       render: function () {
@@ -131,26 +178,17 @@ window.app.MessagesArea = function () {
          var direction = "messagefrom";
          var arrowInnerMenuLeft = "arrowInnerLeft";
          var extraMenuWrapperSide = "extraMenuWrapperLeft";
-         //var arrowExtraMenu="arrowExtraMenuFrom";
-         //var arrowInnerExtraMenu = "arrowInnerExtraMenuFrom";
          if (this.model.attributes.Direction === "to") {
             direction = "messageto";
             arrowInnerMenuLeft = "arrowInnerRight";
-            extraMenuWrapperSide = "extraMenuWrapperRight";
-            //arrowInnerExtraMenu = "arrowInnerExtraMenuTo";
+            extraMenuWrapperSide = "extraMenuWrapperRight";         
          }
          this.$el.addClass("message");
          this.$el.addClass(direction);
-
-         //$(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
-         //$(".extraMenuWrapper", this.$el).addClass(extraMenuWrapperSide);
-
-         //var sendEmail = $("div.sendEmailButton img", this.$el);
+         
+         var messageId = this.model.get("Id");         
          return this;
-      },
-      updateView: function () {
-         return this;
-      }
+      }      
    });
 
    //we fade in when we first load a conversation, afterwards we just render - no fade in
@@ -262,18 +300,11 @@ window.app.MessagesArea = function () {
          }        
          $(this.el).append("<div class='clear'></div>");
       },
-      messageSuccessfullySent: function (msgID, convID) {
-          var messagePosition = 0;
-          for (var i = 0; i < window.app.globalMessagesRep[convID].models.length; ++i) {
-              var currentModel = window.app.globalMessagesRep[convID].models[i];
-              if (currentModel.attributes.Id == msgID) {
-                  messagePosition = i;
-              }
-          }
-          var msgSent = window.app.globalMessagesRep[convID].at(messagePosition);
-          msgSent.set("WasSuccessfullySent", true);
-          // update the view
-          $(".singleCheckNo" + msgID).css("visibility", "visible");
+      messageSuccessfullySent: function (message) {
+         setMsgWasSuccessfullySentValue(message.convID, message.msgID, true);         
+      },
+      acknowledgeFromClient: function (message) {
+         setMsgClientAcknowledgeValue(message.convID, message.msgID, true);
       }
    });
    this.messagesView = new MessagesView();
@@ -291,8 +322,12 @@ $(function () {
             newMessageReceivedGUI(window.app.msgView.messagesView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
          });
 
-         $(document).bind('msgSent', function (ev, data) {
-             messageSuccessfullySent(window.app.msgView.messagesView, data.msgID, data.convID);
+         $(document).bind('serverAcknowledge', function (ev, data) {
+             messageSuccessfullySent(window.app.msgView.messagesView, data.message);
+         });
+
+         $(document).bind('clientAcknowledge', function (ev, data) {
+            acknowledgeFromClient(window.app.msgView.messagesView, data.message);
          });
 
          //DA unfortunately Opera does not implement correctly onUnload - so this will not be triggered when closing opera
