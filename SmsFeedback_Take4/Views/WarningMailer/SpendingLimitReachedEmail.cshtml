@@ -1,0 +1,26 @@
+﻿@model SmsFeedback_EFModels.SubscriptionDetail
+
+@{
+    ViewBag.Title = "SpendingLimitReachedEmail";
+    Layout = "~/Views/WarningMailer/_Layout.cshtml";
+}
+
+<h4>Dear @ViewBag.DearSir, </h4>
+The monthly spending limit of @Model.SpendingLimit @Model.DefaultCurrency for your company, @ViewBag.CompanyName, has been reached.
+<br />
+Without increasing the spending limit or buying extra credit you will not be able to send any more SMS messages until the next billing day (which is on @ViewBag.ResetDate).
+<br />
+At the time of this email you have spent @Model.SpentThisMonth @Model.DefaultCurrency this month (of which @Model.Credit @Model.DefaultCurrency were credit).
+<br />
+<br />
+If you would like to be able to send additional SMS until then next billing day:
+<ol>
+   <li>
+      <a href="mailto:contact@txtfeedback.net?subject=Buy Additional Credit">Buy additional credit</a> 
+   </li>
+   <li>
+      <a href="mailto:contact@txtfeedback.net?subject=Increase Spending Limit">Increase your spending limit</a> for your company by talking to the TxtFeedback representatives .
+   </li>
+</ol>
+<br />
+Thank you!

@@ -17,6 +17,7 @@
 /*global SecondArea */
 //#endregion
 window.app = window.app || {};
+window.reports = window.reports || {};
 window.app.dateFormatForDatePicker = 'dd/mm/yy';
 
 _.templateSettings = {
@@ -240,6 +241,7 @@ var ReportsContentArea = Backbone.View.extend({
    }
 });
 
+window.app.leftSideMenus = {}; //this will hold the FriendlyName <-> Action correspondence 
 var ReportsArea = function () {
    "use strict";
    var self = this;
@@ -250,13 +252,61 @@ var ReportsArea = function () {
       el: $("#leftColumn"),
       eventToTriggerOnSelect: 'switchReport',
       menuCollection: new window.app.MenuCollection({ url: '/Reports/getReportsMenuItems' }),
-      afterInitializeFunction: function () {
-         // mark the first opened report
-         $(".liItem2").addClass("menuItemSelected");
-         $("ul.item1").css("display", "block");
+      afterInitializeFunction: function (menuItems) {
+         _(menuItems.models).each(function (menuItemModel) {
+            //DA the idea is to correctly connect an route to an action -> we need this "actions map"
+            if (menuItemModel.get("parent") != 0) {
+               window.app.leftSideMenus[menuItemModel.get("FriendlyName")] = {
+                  id: menuItemModel.get("itemId"),
+                  action: menuItemModel.get("Action")
+               };
+            }
+         });
+         //#region Routing
+         var ReportsRooter = Backbone.Router.extend({
+            routes: {
+               '': 'defaultCall',
+               ":menu": "goToMenu"
+            },
+            goToMenu: function (menuOption) {
+               //call the appropriate function
+               var action = window.app.leftSideMenus[menuOption];
+               if (action !== undefined) {
+                  //DA the reports are a bit different from settings
+                  //all the reports call the same function, with a different report ID
+                  var id = action.id;
+                  self.loadReport(id);                  
+                     //DA this is some fucked up code :)
+                     //is should MenuView instance
+                     //we operate directly on the DOM (we should not do this)
+                     var liItem = ".liItem" + action.id;
+                     if (!$(liItem).hasClass("menuItemSelected")) {
+                        $(liItem).parents(".collapsibleList").find(".menuItemSelected").removeClass("menuItemSelected")
+                        $(liItem).addClass("menuItemSelected");
+                        //make sure the parent is expanded
+                        //this follows the logic that the parent is 10, 20, 30 and the leafs are 11,12 .. 21, 22
+                        var parentID = Math.floor(action.id / 10) * 10;
+                        var parentUlItem = "ul.item" + parentID;
+                        $(parentUlItem).css("display", "block");
+                     }                  
+               }
+               else {
+                  //DA this means that we don't have access to that function -> go with the default call
+                  this.defaultCall();
+               }
+            },
+            defaultCall: function () {
+               // mark the first opened report
+               $(".liItem11").addClass("menuItemSelected");
+               $("ul.item10").css("display", "block");               
+               window.reports.router.navigate('/ConversationsOverview', { trigger: true });
+            }
+         });
+         window.reports.router = new ReportsRooter();
+         Backbone.history.start();
+         //#endregion
       }
    });
-
 
    // initializing rightColumn
    var reportsContent;
@@ -270,8 +320,9 @@ var ReportsArea = function () {
       self.changeReportingInterval();
    });
 
-   $(document).bind("switchReport", function (event, menuId) {
-      self.loadReport(menuId);
+   $(document).bind("switchReport", function (event, menuOptions) {
+      //self.loadReport(menuOptions.menuId);
+      window.reports.router.navigate('/' + menuOptions.menuNavigation, { trigger: true });
    });
 
    this.redrawContent = function () {
@@ -312,7 +363,7 @@ var ReportsArea = function () {
    };
 
    this.loadWorkingPoints = function () {
-      $.getJSON(window.app.domainName + '/Messages/WorkingPointsPerUser',
+      $.getJSON(window.app.domainName + '/WorkingPoints/WorkingPointsPerUser',
              {},
              function (data) {
                 var workingPointsSelectorContent = "<option value='Global'>Global</option>";
@@ -331,8 +382,6 @@ var ReportsArea = function () {
              }
           );
    };
-
-   this.loadReport(2);
 
    // initial setup of the page
    $("#overlay").hide();

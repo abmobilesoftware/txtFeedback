@@ -51,7 +51,7 @@ function markConversationAsRead() {
    $(gSelectedElement).addClass("readconversation");
    window.app.selectedConversation.set({ "Read": true });
    //call the server to mark the conversation as read
-   $.getJSON('Messages/MarkConversationAsRead',
+   $.getJSON('Conversations/MarkConversationAsRead',
                { conversationId: gSelectedConversationID },
                function (data) {
                   //conversation marked as read
@@ -192,6 +192,101 @@ window.app.MessagesList = Backbone.Collection.extend({
 //#endregion
 
 
+//#region MessageView
+window.app.MessageView = Backbone.View.extend({
+   model: window.app.Message,
+   tagName: "div",   
+   events: { "click div.deleteMessage": "deleteMessage" },
+   initialize: function () {
+      this.messageTemplate= _.template($('#message-template').html()),
+      _.bindAll(this, 'render', 'updateView','deleteMessage');
+      this.model.on("change", this.updateView);
+      this.model.on("change:WasSuccessfullySent", this.render);
+      return this.render;
+   },   
+   render: function () {
+      this.$el.html(this.messageTemplate(this.model.toJSON()));
+      var direction = "messagefrom";
+      var arrowInnerMenuLeft = "arrowInnerLeft";
+      if (this.model.attributes.Direction === "to") {
+         direction = "messageto";
+         arrowInnerMenuLeft = "arrowInnerRight";
+      }
+      this.$el.addClass("message");
+      this.$el.addClass(direction);
+
+      $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
+
+      var messageId = this.model.get("Id");
+      var messageModel = this.model;
+      var sentCheckIcon = $($(this.$el).find(".singleCheckNo" + messageId));
+      var helperDiv = $(this.$el).find("div.messageMenu")[0];
+      $(sentCheckIcon).hide();
+
+      $(this.$el).hover(function () {
+         $(helperDiv).css("visibility", "visible");
+         if (sentCheckIcon !== null) {
+            $(sentCheckIcon).show();
+         }
+         if (window.app.calendarCulture === "ro") {
+            gDateDisplayPattern = 'DD, d MM, yy';
+         }
+         gSelectedMessage = messageModel.get("Text");
+         gDateOfSelectedMessage = messageModel.get("TimeReceived");
+         gSelectedMessageItem = $(this);
+         if (helperDiv !== null) {
+            $(helperDiv).fadeIn(100);
+            $(helperDiv).show();
+         }         
+      }, function () {
+         if (helperDiv !== null) {
+            $(helperDiv).hide();
+         }
+         if (sentCheckIcon != null) {
+            $(sentCheckIcon).hide();
+         }
+      });    
+      return this;
+   },
+   deleteMessage: function (e) {
+      e.preventDefault();
+      var msgText = this.model.get("Text");
+      var msgConvId = this.model.get("ConvID");
+      var msgTimeRcv = this.model.get("TimeReceived");
+      var domElement = this.$el;
+      if (confirm($("#confirmDeleteMessage").val() + " \"" + msgText + "\" ?")) {
+         $.ajax({
+            url: "Messages/DeleteMessage",
+            data: { 'messageText': msgText, 'convId': msgConvId, 'timeReceived': msgTimeRcv.toUTCString() },
+            success: function (data) {
+               if (data === "success") {
+                  deleteMessage(domElement, msgText, msgTimeRcv, msgConvId);
+               } else if (data === "lastMessage") {
+                  var previousItem = $(domElement).prev();
+                  deleteMessage(domElement, msgText, msgTimeRcv, msgConvId);
+                  if (previousItem.length !== 0) {
+                     var lastMessage = $($(previousItem).find(".textMessage").find("span")).html().trim();
+                     var lastMessageDate = convertDateTimeStringToObject($($(previousItem).find(".timeReceived")[0]).html());
+                     // update the conversation
+                     $.ajax({
+                        url: "Conversations/UpdateConversation",
+                        data: { 'convId': msgConvId, 'newText': lastMessage, 'newTextReceivedDate': lastMessageDate.toUTCString() },
+                        success: function (data) {
+                           $(gSelectedElement).find(".spanClassText").find("span").html(lastMessage);
+                        }
+                     });
+                  }
+               }
+            }
+         });
+      }
+   },
+   updateView: function () {
+      return this;
+   }
+});
+//#endregion
+
 
 //#region Send message
 window.app.sendMessageToClient = function (text, conversationID, selectedConv, msgID, wpPool) {
@@ -312,9 +407,11 @@ function MessagesArea(convView, tagsArea, wpsArea) {
          resetTimer();
          var convId = ui.selected.getAttribute("conversationid");
          gSelectedConversationID = convId;
+
          window.app.selectedConversation = self.convView.convsList.get(convId);
-         self.messagesView.getMessages(convId);
-         self.tagsArea.getTags(convId);
+         $(document).trigger("conversationSelected", {convID:convId});
+         //self.messagesView.getMessages(convId);
+         //self.tagsArea.getTags(convId);
       },
       cancel: ".ignoreElementOnSelection"
    });
@@ -344,81 +441,10 @@ function MessagesArea(convView, tagsArea, wpsArea) {
       escape: /\{%-([\s\S]+?)%\}/g
    }; // escape HTML: {%- <script> %} prints &lt
 
-   var MessageView = Backbone.View.extend({
-      model: window.app.Message,
-      tagName: "div",
-      messageTemplate: _.template($('#message-template').html()),
-      initialize: function () {
-         _.bindAll(this, 'render');
-         //this.model.on("change", this.updateView);
-         this.model.on("change:WasSuccessfullySent", this.render);
          this.model.on("change:ClientAcknowledge", this.render);
-         return this.render;
-      },
-      render: function () {
          var messageModel = this.model; // offers access to model in deleteMessage function
 
-         this.$el.html(this.messageTemplate(this.model.toJSON()));
-         var direction = "messagefrom";
-         var arrowInnerMenuLeft = "arrowInnerLeft";
-         if (this.model.attributes.Direction === "to") {
-            direction = "messageto";
-            arrowInnerMenuLeft = "arrowInnerRight";
-         }
-         this.$el.addClass("message");
-         this.$el.addClass(direction);
-         $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
-
-         var checkIconEl = $($(this.$el).find(".checkNo" + this.model.get("Id")));
-         var messageMenuEl = $(this.$el).find("div.messageMenu")[0];
-         var messageEl = this.$el;
-         // first state
-         $(checkIconEl).hide();
-         $(messageMenuEl).hide();
-
-         $(this.$el).hover(function () {
-            $(messageMenuEl).fadeIn(100);
-            $(messageMenuEl).show();
-            $(checkIconEl).show();            
-         }, function () {
-            $(messageMenuEl).hide();
-            $(checkIconEl).hide();
-         });
-         $('div.deleteMessage', this.$el).bind("click", function (e) {
-            e.preventDefault();
-            var msgText = messageModel.get("Text");
-            var msgConvId = messageModel.get("ConvID");
-            var msgTimeRcv = messageModel.get("TimeReceived");
-            if (confirm($("#confirmDeleteMessage").val() + " \"" + msgText + "\" ?")) {
-               $.ajax({
-                  url: "Messages/DeleteMessage",
-                  data: { 'messageText': msgText, 'convId': msgConvId, 'timeReceived': msgTimeRcv.toUTCString() },
-                  success: function (data) {
-                     if (data === "success") {
-                        deleteMessage(messageEl, msgText, msgTimeRcv, msgConvId);
-                     } else if (data === "lastMessage") {
-                        var previousItem = $(messageEl).prev();
-                        deleteMessage(messageEl, msgText, msgTimeRcv, msgConvId);
-                        if (previousItem.length != 0) {
-                           var lastMessage = $($(previousItem).find(".textMessage").find("span")).html().trim();
-                           var lastMessageDate = convertDateTimeStringToObject($($(previousItem).find(".timeReceived")[0]).html());
-                           // update the conversation
-                           $.ajax({
-                              url: "Messages/UpdateConversation",
-                              data: { 'convId': msgConvId, 'newText': lastMessage, 'newTextReceivedDate': lastMessageDate.toUTCString() },
-                              success: function (data) {
-                                 $(gSelectedElement).find(".spanClassText").find("span").html(lastMessage);
-                              }
-                           });
-                        }
-                     }
-                  }
-               });
-            }
-         });
-         return this;
-      }
-   });
+   
 
    var opts = {
       lines: 13, // The number of lines to draw
@@ -549,7 +575,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
          }
       },
       appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
-         var msgView = new MessageView({ model: msg });
+         var msgView = new window.app.MessageView({ model: msg });
          var item = msgView.render().el;
          $(this.el).append(item);
          // Messages from db have positive IDs and recently sent messages have negative messages
@@ -572,6 +598,10 @@ function MessagesArea(convView, tagsArea, wpsArea) {
       }
    });
    this.messagesView = new MessagesView();
+
+   $(document).bind('conversationSelected', function (ev, data) {
+      self.messagesView.getMessages(data.convID);
+   });
    // The attachment of the handler for this type of event is done only once
 }
 

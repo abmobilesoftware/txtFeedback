@@ -57,7 +57,7 @@ window.app.WorkingPoint = Backbone.Model.extend({
 window.app.WorkingPointPool = Backbone.Collection.extend({
    model: window.app.WorkingPoint,
    url: function () {
-      return window.app.domainName + "/Messages/WorkingPointsPerUser";
+      return window.app.domainName + "/WorkingPoints/WorkingPointsPerUser";
    },
    getWorkingPointXmppAddress: function (id) {
       //the ID could be the telNumber or the shortID
@@ -80,63 +80,55 @@ window.app.nrOfCheckedWorkingPoints = 0;
 //#endregion
 
 //#region WorkingPointView
-//for reasons I don't know yet WorkingPointView has to be inside document.ready
-$(function () {
-   window.app = window.app || {};
+_.templateSettings = {
+   interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
+   evaluate: /\{%([\s\S]+?)%\}/g,   // excute code: {% code_to_execute %}
+   escape: /\{%-([\s\S]+?)%\}/g
+}; // excape HTML: {%- <script> %} prints &lt
 
-   /*_.templateSettings = {
-   interpolate: /\{\{(.+?)\}\}/g
-};*/
-
-   _.templateSettings = {
-      interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
-      evaluate: /\{%([\s\S]+?)%\}/g,   // excute code: {% code_to_execute %}
-      escape: /\{%-([\s\S]+?)%\}/g
-   }; // excape HTML: {%- <script> %} prints &lt
-
-   window.app.WorkingPointView = Backbone.View.extend({
-      model: window.app.WorkingPoint,
-      tagName: "span",
-      phoneNumberTemplate: _.template($('#phoneNumber-template').html()),
-      events: {
-         "click .wpSelectorIcon": "selectedChanged"
-      },
-      initialize: function () {
-         _.bindAll(this, 'render', 'selectedChanged');
-         this.model.bind('destroy', this.unrender, this);
-         return this.render;
-      },
-      render: function () {
-         this.$el.html(this.phoneNumberTemplate(this.model.toJSON()));
-         this.$el.addClass("phoneNumber");
-         this.$el.addClass("phoneNumberSelected");
-         var selectWp = $("img", this.$el);
-         setTooltipOnElement(selectWp, selectWp.attr('tooltiptitle'), 'light');
-         return this;
-      },
-      unrender: function () {
-         this.$el.remove();
-      },
-      selectedChanged: function () {
-         //you can enable whenever you want and you can disable when you have at least 2 wps enabled
-         if ((window.app.nrOfCheckedWorkingPoints >= 2) || !this.model.attributes.CheckedStatus) {
-            //changing the checked status will trigger an event in the wpArea
-            this.model.set('CheckedStatus', !this.model.get('CheckedStatus'));
-            //change the visual status
-            var checkboxImg = $("img", this.$el);
-            if (this.model.get('CheckedStatus') === true) {
-               this.$el.removeClass('phoneNumberUnselected');
-               this.$el.addClass('phoneNumberSelected');
-               setCheckboxState(checkboxImg, true);
-            }
-            else {
-               this.$el.removeClass('phoneNumberSelected');
-               this.$el.addClass('phoneNumberUnselected');
-               setCheckboxState(checkboxImg, false);
-            }
+window.app.WorkingPointView = Backbone.View.extend({
+   model: window.app.WorkingPoint,
+   tagName: "span",     
+   events: {
+      "click .wpSelectorIcon": "selectedChanged"
+   },
+   initialize: function () {
+      _.bindAll(this, 'render', 'selectedChanged', 'unrender');
+      this.model.bind('destroy', this.unrender);
+      return this.render;
+   },
+   render: function () {
+      //DA we instantiate the template only when required (after the DOM has been loaded)
+      this.phoneNumberTemplate = _.template($('#phoneNumber-template').html());
+      this.$el.html(this.phoneNumberTemplate(this.model.toJSON()));
+      this.$el.addClass("phoneNumber");
+      this.$el.addClass("phoneNumberSelected");
+      var selectWp = $("img", this.$el);
+      setTooltipOnElement(selectWp, selectWp.attr('tooltiptitle'), 'light');
+      return this;
+   },
+   unrender: function () {
+      this.$el.remove();
+   },
+   selectedChanged: function () {
+      //you can enable whenever you want and you can disable when you have at least 2 wps enabled
+      if ((window.app.nrOfCheckedWorkingPoints >= 2) || !this.model.attributes.CheckedStatus) {
+         //changing the checked status will trigger an event in the wpArea
+         this.model.set('CheckedStatus', !this.model.get('CheckedStatus'));
+         //change the visual status
+         var checkboxImg = $("img", this.$el);
+         if (this.model.get('CheckedStatus') === true) {
+            this.$el.removeClass('phoneNumberUnselected');
+            this.$el.addClass('phoneNumberSelected');
+            setCheckboxState(checkboxImg, true);
+         }
+         else {
+            this.$el.removeClass('phoneNumberSelected');
+            this.$el.addClass('phoneNumberUnselected');
+            setCheckboxState(checkboxImg, false);
          }
       }
-   });
+   }
 });
 //#endregion
 
@@ -169,7 +161,7 @@ window.app.WorkingPointsArea = function () {
    var spinner = new Spinner(opts);
 
    var WpPoolArea = Backbone.View.extend({
-      el: $("#phoneNumbersPool"),
+      el: $("#leftColumn"),
       initialize: function () {
          _.bindAll(this,
             'render',
@@ -184,7 +176,7 @@ window.app.WorkingPointsArea = function () {
          //#region reset internal variables
          window.app.nrOfCheckedWorkingPoints = 0;
          //#endregion
-         var target = document.getElementById('phoneNumbersPool');
+         var target = document.getElementById('leftColumn');
          spinner.spin(target);
          this.phoneNumbersPool.fetch({
             success: function () {

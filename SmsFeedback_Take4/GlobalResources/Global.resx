@@ -846,4 +846,10 @@
     <value>Message received</value>
     <comment>Messages: Mark a message as received</comment>
   </data>
+  <data name="settingsCompanyBillingMenuName" xml:space="preserve">
+    <value>Billing Settings</value>
+  </data>
+  <data name="settingsCompanyMenuName" xml:space="preserve">
+    <value>Company</value>
+  </data>
 </root>

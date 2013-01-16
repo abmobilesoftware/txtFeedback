@@ -15,8 +15,8 @@
 /*global trim */
 //#endregion
 window.app = window.app || {};
-
-window.app.showChangePassword = function () {
+window.settings = window.settings|| {};
+window.settings.ConfigurePassword = function () {
    "use strict";
    $.ajax({
       url: "Settings/GetChangePasswordForm",
@@ -36,6 +36,7 @@ window.app.showChangePassword = function () {
                success: function (data) {
                   $('#rightColumn').html(data);
                   //$('th').each(function () { setTooltipOnElement(this, this.attr('tooltiptitle'), 'light'); });
+                  resizeTriggered();
                },
                error: function (jqXHR, textStatus, errorThrown) {
                   $('#rightColumn').html(jqXHR);
@@ -93,13 +94,14 @@ window.app.saveWorkingPoints = function (e) {
       success: function (data) {
          $('#rightColumn').html(data);
          window.app.localForSetting.setTooltipsOnHeaders();
+         resizeTriggered();
       },
       error: function (jqXHR, textStatus, errorThrown) {
          $('#rightColumn').html(jqXHR);
       }
    });
 };
-window.app.configureWorkingPoints = function () {
+window.settings.ConfigureWorkingPoints = function () {
    "use strict";
    $.ajax({
       url: "Settings/GetDefineWorkingPointsForm",
@@ -108,35 +110,99 @@ window.app.configureWorkingPoints = function () {
          $('#rightColumn').html(data);
          $('#btnSaveWorkingPoints').live('click', window.app.saveWorkingPoints);
          window.app.localForSetting.setTooltipsOnHeaders();
+         resizeTriggered();
       },
       error: function (jqXHR, textStatus, errorThrown) {
          $('#rightColumn').html(jqXHR);
       }
    });
 };
+
+window.settings.ConfigureCompanyBillingInfo = function () {
+   "use strict";
+   $.ajax({
+      url: "Settings/CompanyBillingInfo",
+      cache: false,
+      success: function (data) {
+         $('#rightColumn').html(data);
+         //$('#btnSaveWorkingPoints').live('click', window.app.saveWorkingPoints);
+         window.app.localForSetting.setTooltipsOnHeaders();
+         resizeTriggered();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+         $('#rightColumn').html(jqXHR);
+      }
+   });
+}
+
+/*DA the convention is that the name of the javascript function is the ReportsMenuItem Action property
+* this way we ensure that the correct function is called
+*/
+window.app.leftSideMenus = {}; //this will hold the FriendlyName <-> Action correspondence 
 window.app.SettingsArea = function () {
    "use strict";
+   //DA the MenuView is defined in BaseLeftSideMenu.js
    var settingsMenu = new window.app.MenuView({
       el: $("#leftColumn"),
       eventToTriggerOnSelect: 'switchSetting',
       menuCollection: new window.app.MenuCollection({ url: '/Settings/GetMenuItems' }),
-      afterInitializeFunction: function () {
-         //by default open ChangePassword scren   
-         $(".liItem21").addClass("menuItemSelected");
-         $("ul.item20").css("display", "block");
-         window.app.showChangePassword();
+      afterInitializeFunction: function (menuItems) {         
+         //initialize the routing
+         _(menuItems.models).each(function (menuItemModel) {
+            //DA the idea is to correctly connect an route to an action -> we need this "actions map"
+            if (menuItemModel.get("parent") != 0) {
+               window.app.leftSideMenus[menuItemModel.get("FriendlyName")] = {
+                  id: menuItemModel.get("itemId"),
+                  action: menuItemModel.get("Action")
+               };
+            }
+         });
+         //#region Routing
+         var SettingsRouter = Backbone.Router.extend({
+            routes: {
+               '': 'defaultCall',
+               ":menu": "goToMenu"
+            },
+            goToMenu: function (menuOption) {
+               //call the appropriate function
+               var action = window.app.leftSideMenus[menuOption];
+               if (action !== undefined) {
+                  var fn = window.settings[action.action];
+                  if (typeof fn === 'function') {
+                     fn();
+                     //DA this is some fucked up code :)
+                     //is should MenuView instance
+                     //we operate directly on the DOM (we should not do this)
+                     var liItem = ".liItem" + action.id;
+                     if (!$(liItem).hasClass("menuItemSelected")) {
+                        $(liItem).parents(".collapsibleList").find(".menuItemSelected").removeClass("menuItemSelected")
+                        $(liItem).addClass("menuItemSelected");
+                        //make sure the parent is expanded
+                        //this follows the logic that the parent is 10, 20, 30 and the leafs are 11,12 .. 21, 22
+                        var parentID = Math.floor(action.id / 10) * 10;
+                        var parentUlItem = "ul.item" + parentID;
+                        $(parentUlItem).css("display", "block");
+                     }                     
+                  }
+               }
+               else {
+                  //DA this means that we don't have access to that function -> go with the default call
+                  this.defaultCall();
+               }              
+            },
+            defaultCall: function () {
+               $(".liItem21").addClass("menuItemSelected");
+               $("ul.item20").css("display", "block");
+               window.settings.router.navigate('/ChangePassword', { trigger: true });
+            }
+         });
+         window.settings.router = new SettingsRouter();
+         Backbone.history.start();
+         //#endregion
       }
    });
-   $(document).bind("switchSetting", function (event, menuId) {
-      switch (menuId) {
-         case '21':
-            window.app.showChangePassword();
-            break;
-         case '31':
-            window.app.configureWorkingPoints();
-            break;
-         default:
-      }
+   //TODO DA model the menu via a backbone model
+   $(document).bind("switchSetting", function (event, menuOptions) {
+      window.settings.router.navigate('/' + menuOptions.menuNavigation, { trigger: true });
    });
 };
-

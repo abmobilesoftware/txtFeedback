@@ -61,7 +61,7 @@ window.app.ConversationsList = Backbone.Collection.extend({
    model: window.app.Conversation,
    convID: null,
    url: function () {
-      return "Messages/ConversationsList";
+      return "Conversations/ConversationsList";
    }
 });
 //#endregion
@@ -134,7 +134,7 @@ $(function () {
             var starredStatus = selfConvView.model.get("Starred");
             selfConvView.model.set("Starred", !starredStatus);
             var id = $(this).parents(".conversation").attr("conversationId");
-            $.getJSON('Messages/ChangeStarredStatusForConversation',
+            $.getJSON('Conversations/ChangeStarredStatusForConversation',
                     { conversationId: id, newStarredStatus: !starredStatus },
                     function (data) {
                        //conversation starred status changed                            
@@ -152,7 +152,7 @@ $(function () {
             if (confirm($("#confirmDeleteConversation").val() + " \"" + user + "\" ?")) {
                var target = document.getElementById('scrollableconversations');
                deleteConvSpinner.spin(target);
-               $.getJSON('Messages/DeleteConversation',
+               $.getJSON('Conversations/DeleteConversation',
                        { convId: id },
                        function (data) {
                                if (data === "success") {                                 
@@ -340,7 +340,7 @@ function ConversationArea(filterArea, workingPointsArea) {
          //add these "old" conversations to the end
          var selfConversationsView = this;
          $.ajax({
-            url: "Messages/ConversationsList",
+            url: "Conversations/ConversationsList",
             data: options,
             traditional: true,
             success: function (data, textStatus, jqXHR) {
@@ -393,7 +393,7 @@ function ConversationArea(filterArea, workingPointsArea) {
             newElementIsSelected = false;
          }
          var item = this.addConversationNoEffect(conv, addConversationAsNewElement);
-         var timer = 300;
+         var timer = 500;
          //if the element that was updated was selected - reflect this on the new element
          if (newElementIsSelected) {
             // make a distinction between the selected status of a normal conv and a support conversation
@@ -406,7 +406,8 @@ function ConversationArea(filterArea, workingPointsArea) {
             resetTimer();
             startTimer(3000);
          }
-         $(item).hide().fadeIn(timer).fadeOut(timer).fadeIn(timer).fadeOut(timer).fadeIn(timer).fadeOut(timer).fadeIn(timer);
+         $(item).hide().fadeIn(timer);
+         //$(item).hide().fadeIn(timer).fadeOut(timer).fadeIn(timer).fadeOut(timer).fadeIn(timer).fadeOut(timer).fadeIn(timer);
       },
       addConversationBasicEffect: function (conv, addConversationAsNewElement) {
          if (addConversationAsNewElement === null) {
@@ -499,4 +500,7 @@ function ConversationArea(filterArea, workingPointsArea) {
 
 
    this.convsView = new ConversationsView();
+   $(document).bind('conversationSelected', function (ev, data) {
+      self.convsView.convsList.get(data.convID);
+   });
 }

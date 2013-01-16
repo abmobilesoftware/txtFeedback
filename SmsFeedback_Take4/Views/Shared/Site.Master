@@ -45,7 +45,7 @@
    <script src="<%: Url.Content("~/Scripts/underscore.js") %>" type="application/javascript"></script>-->
    <script src="<%: Url.Content("~/Scripts/persist-min.js") %>" type="application/javascript"></script>
 
-
+    
    
     <% if (Html.IsReleaseBuild())      { %>
       <script src="<%: Url.Content("~/Scripts/Strophe/Minified/strophe.js") %>" type="application/javascript"></script> 
@@ -64,13 +64,18 @@
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.simplemodal.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/contact.js") %>" type="application/javascript"></script>     
       <% } %>         
+
+   <asp:ContentPlaceHolder ID="IncludesArea" runat="server" />
 </head>
 <body>
-   <script type="text/javascript">
-    
-   </script>
-   <div class="page">
+    <asp:ContentPlaceHolder ID="TemplatesArea" runat="server" />
+   <div class="page">        
+      
       <header>
+        <%-- <div id="notificationArea">
+            <span id="notificationText">You are approaching your spending limit for this month - make sure your limit or credit are high enough for normal operation</span>
+            <button id="notificationAck" onclick="$('#notificationArea').hide(); resizeTriggered();">Dismiss</button>
+         </div>--%>
          <div id="title">
             <%: Url.ImageLink(Url.Content("~/Content/images/06-web-2_225.png"),"home","Index","Messages", "engaging your customers in conversations",null,"logo") %>
          </div>
@@ -89,7 +94,7 @@
          <nav>
             <ul id="menu">
                <li>
-                  <%: Html.MenuLink(Resources.Global.tabMessages, "Index", "Messages", Resources.Global.tooltipNrOfConvsWithUnreadMsgs)%></li>
+                  <%: Html.MenuLink(Resources.Global.tabMessages, "Index", "Home", Resources.Global.tooltipNrOfConvsWithUnreadMsgs)%></li>
                <li>
                   <%: Html.MenuLink(Resources.Global.tabReports, "Index", "Reports")%></li>
                <li>
@@ -99,11 +104,20 @@
             </ul>                
              
          </nav>
-        
-      </header>
+         
+      </header>     
       <div class="clear"></div>
       <div class="container_12">
-         <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+          <div id="settingsMenuBar" class="headerArea">
+             <asp:ContentPlaceHolder ID="FilterArea" runat="server" />
+          </div>
+         <div class="clear"></div>
+           <div id="leftColumn" class="wordwrap tagsPhoneNumbers grid_2 leftSideArea">
+              <asp:ContentPlaceHolder ID="LeftSideArea" runat="server" />
+           </div>
+           <div id="rightColumn" class="rightColumn grid_11">
+              <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+           </div>
          <footer>
          </footer>
       </div>

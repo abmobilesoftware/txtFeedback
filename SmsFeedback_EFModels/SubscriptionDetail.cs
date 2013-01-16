@@ -34,6 +34,7 @@ namespace SmsFeedback_EFModels
         public Nullable<int> MonthlyExtraSMSCharge_InvoiceDetailsTemplateID { get; set; }
         public decimal ExtraAddedCreditThisMonth { get; set; }
         public decimal RemainingCreditFromPreviousMonth { get; set; }
+        public byte[] TimeStamp { get; set; }
     
         public virtual ICollection<Company> Companies { get; set; }
         public virtual Contact PrimaryContact { get; set; }

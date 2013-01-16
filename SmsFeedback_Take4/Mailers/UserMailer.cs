@@ -7,7 +7,7 @@ using System.Net.Mail;
 
 namespace SmsFeedback_Take4.Mailers
 { 
-    public class UserMailer : MailerBase, IUserMailer     
+    public class UserMailer : MailerBase     
 	{
 		public UserMailer():
 			base()
@@ -23,9 +23,9 @@ namespace SmsFeedback_Take4.Mailers
          ViewData["From"] = from;
          ViewData["Content"] = content;
          ViewData["Location"] = location;
-			PopulateBody(mailMessage, viewName: "Welcome");
+			PopulateBody(mailMessage, viewName: "EmailTemplate");
 			return mailMessage;
 		}
-       		
+      
 	}
 }

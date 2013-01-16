@@ -383,6 +383,7 @@
           <Property Name="MonthlyExtraSMSCharge_InvoiceDetailsTemplateID" Type="int" />
           <Property Name="ExtraAddedCreditThisMonth" Type="decimal" Nullable="false" Precision="15" Scale="5" />
           <Property Name="RemainingCreditFromPreviousMonth" Type="decimal" Nullable="false" Precision="15" Scale="5" />
+          <Property Name="TimeStamp" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Tags">
           <Key>
@@ -1643,7 +1644,7 @@
             </Documentation>
           </Property>
           <Property Type="Decimal" Name="RemainingCreditFromPreviousMonth" Nullable="false" Precision="15" Scale="5" />
-          <NavigationProperty Name="InvoiceDetailsTemplate" Relationship="smsfeedbackModel.FK_SubscriptionDetailInvoiceDetailsTemplate" FromRole="SubscriptionDetail" ToRole="InvoiceDetailsTemplate" />
+          <Property Type="Binary" Name="TimeStamp" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="InvoiceDetailsTemplate1" Relationship="smsfeedbackModel.FK_SubscriptionDetailInvoiceDetailsTemplate1" FromRole="SubscriptionDetail" ToRole="InvoiceDetailsTemplate" />
         </EntityType>
         <Association Name="FK_CompanySubscriptionDetails">
@@ -1769,6 +1770,7 @@
     <EntitySetMapping Name="Messages">
       <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.Message)">
         <MappingFragment StoreEntitySet="Messages">
+                <ScalarProperty Name="ClientAcknowledge" ColumnName="ClientAcknowledge" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="From" ColumnName="From" />
           <ScalarProperty Name="To" ColumnName="To" />
@@ -2070,6 +2072,7 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
           <EntitySetMapping Name="InvoiceDetailsTemplates">
             <EntityTypeMapping TypeName="smsfeedbackModel.InvoiceDetailsTemplate">
               <MappingFragment StoreEntitySet="InvoiceDetailsTemplate">

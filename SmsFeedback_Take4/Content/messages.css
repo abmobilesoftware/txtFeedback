@@ -25,7 +25,7 @@
    background-image: -webkit-linear-gradient(top, rgb(240,248,250) 26%, rgb(245,248,250) 65%);
    background-image: -ms-linear-gradient(top, rgb(240,248,250) 26%, rgb(245,248,250) 65%);
    background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, rgb(240,248,250)), color-stop(0.65, rgb(245,248,250)) );
-   margin-top: 7px;
+   /*margin-top: 7px;*/
    padding-bottom: 4px;
 }
 
@@ -444,3 +444,17 @@ input[name="countdown"] {
 /* End single & double check icons */
 
 
+
+}
+
+.grid_convs {
+   width:38%;
+   display: inline;
+   float: left;
+   margin-right: 0.5%
+}
+.grid_messages {
+   width:61.0%;
+   display: inline;
+   float: left;
+   /*margin-right: 0.5%*/

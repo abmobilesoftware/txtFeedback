@@ -140,8 +140,12 @@ function TagsArea() {
                    //tag added to conversation (or not? )                   
                 }
         );
-         var tagType = self.specialTagsPool.where({ Name: tagValue, IsDefault: true })[0].get("TagType");
-         self.toggleHands(tagType);
+         var spTags = self.specialTagsPool.where({ Name: tagValue, IsDefault: true });
+         if (spTags.length > 0) {
+            var associatedSpecialTag = spTags[0];
+            var tagType = associatedSpecialTag.get("TagType");
+            self.toggleHands(tagType);
+         }
       },
       onRemoveTag: function (tagValue) {
          //remove tag from cache
@@ -160,8 +164,12 @@ function TagsArea() {
                    //tag removed from conversation (or not? )
                 }
         );
-         var tagType = self.specialTagsPool.where({ Name: tagValue, IsDefault: true })[0].get("TagType");
-         self.turnHandOff(tagType);
+         var spTags = self.specialTagsPool.where({ Name: tagValue, IsDefault: true });
+         if (spTags.length > 0) {
+            var associatedSpecialTag = spTags[0];
+            var tagType = associatedSpecialTag.get("TagType");
+            self.turnHandOff(tagType);
+         }        
       },
       getTags: function (convId) {
          //$('#tagsPool').html('');
@@ -263,7 +271,7 @@ function TagsArea() {
          }
       },
       sendEventToServer: function (eventType) {
-         $.getJSON('Messages/AddAnEventInConversationHistory',
+         $.getJSON('Conversations/AddAnEventInConversationHistory',
                        { conversationId: gSelectedConversationID, eventType: eventType },
                        function (data) {
                           //conversation starred status changed                            
@@ -273,6 +281,9 @@ function TagsArea() {
    });
 
    var tagsView = new TagsPoolView();
+   $(document).bind('conversationSelected', function (ev, data) {
+      tagsView.getTags(data.convID);
+   });
    return tagsView;
 }
 

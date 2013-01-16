@@ -84,7 +84,7 @@ function setCheckboxState(checkbox, state)
 }
 
 window.app.updateNrOfUnreadConversations = function (performUpdateBefore) {
-   $.getJSON(window.app.domainName + '/Messages/NrOfUnreadConversations',
+   $.getJSON(window.app.domainName + '/Conversations/NrOfUnreadConversations',
    { performUpdateBefore: performUpdateBefore },
    function (data) {
       if (data !== null) {
@@ -92,6 +92,48 @@ window.app.updateNrOfUnreadConversations = function (performUpdateBefore) {
       }
    });
 };
+
+function resizeTriggered() {
+   "use strict";
+   //pick the highest between window size (- header) and messagesArea
+   //var padding = 5;
+   //var msgAreaMarginTop = 10;
+   var filterStripHeigh = $(".headerArea").outerHeight();
+   var window_height = window.innerHeight;
+   //var messagesAreaHeight = $('#messagesArea').height();
+   var headerHeight = $('header').outerHeight();
+   var contentWindowHeight = window_height - headerHeight;// - (2 * padding) - filterStripHeigh;
+   
+   var marginTop = parseInt($('#rightColumn').css('margin-top'));
+   var marginBottom = parseInt($('#rightColumn').css('margin-bottom'));
+   var rightAreaCandidateHeight = contentWindowHeight - filterStripHeigh - marginTop - marginBottom;
+   var rightAreaHeight = $('#rightColumn').outerHeight();
+   var contentContaier = $('.container_12');
+   if (rightAreaCandidateHeight > rightAreaHeight) {
+      contentContaier.height(contentWindowHeight);
+      $('#rightColumn').height(rightAreaCandidateHeight);
+      $('#leftColumn').height(contentWindowHeight - filterStripHeigh);
+      $('#scrollableconversations').height(rightAreaCandidateHeight);
+      $('#scrollablemessagebox').height(rightAreaCandidateHeight - 135);
+   } else {
+      contentContaier.height(rightAreaHeight + filterStripHeigh + marginTop + marginBottom);
+      $('#leftColumn').height(rightAreaHeight + marginTop + marginBottom);
+   } 
+   $('.page').height(headerHeight + contentContaier.height());
+   $('body').height(headerHeight + contentContaier.height());
+   $('html').height(headerHeight + contentContaier.height());
+}
+
+$(function () {
+   //DA IE8 doesn't support addEventListener so we use attachEvent
+   //source http://stackoverflow.com/questions/9769868/addeventlistener-not-working-in-ie8
+   if (!window.addEventListener) {
+      window.attachEvent("resize", resizeTriggered);
+   }
+   else {
+      window.addEventListener("resize", resizeTriggered, false);
+   }
+})
 
 //#region Store/restore the nr of convs with unread messages when navigating between pages
 $(function () {

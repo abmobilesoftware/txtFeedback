@@ -76,9 +76,13 @@ ul.item1 {
    color: white;
 }
 
-.rightColumn {
-    background: #a0b2bb;    
+.rightColumn { 
     color: #000000;     
     margin: 0px 0px 0px 0.0%;
     display: table;
+    border-radius: 10px;
+   -moz-border-radius: 10px;
+   -webkit-border-radius: 10px;
+    margin-top: 8px;
+    margin-bottom:5px;
 }

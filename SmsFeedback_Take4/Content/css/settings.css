@@ -16,12 +16,9 @@
 color: white;*/
 }
 
-#rightColumn {
-    border-radius: 10px;
-   -moz-border-radius: 10px;
-   -webkit-border-radius: 10px;
-   margin-top:8px;
-   width: 84.3%;
+#rightColumn {      
+    /*background: #a0b2bb;*/
+    background: #f5f8fa;;
 }
 
 #changePasswordContainer .editor-field{
@@ -30,7 +27,7 @@ color: white;*/
    margin: 0px;
 }
 
-#changePasswordContainer .editor-label {
+#changePasswordContainer .settingsEntry {
    margin: 0;
    font-size: 15px;
    line-height: 1.3em;
@@ -128,4 +125,21 @@ color: white;*/
 
  .limitedColWidth {
     width: 100px;
+ }
+
+ .billedSettings {
+    
+ }
+
+ .settingsEntry {
+    margin: 7px 0px 7px 10px;
+ }
+
+ .settingsField {
+    margin: 7px 0px 7px 20px;
+    width: 80%;
+ }
+
+ .settingsSeparator {
+    border: 1px solid #BBB;
  }
