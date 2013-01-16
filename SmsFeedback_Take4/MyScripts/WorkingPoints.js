@@ -169,7 +169,7 @@ window.app.WorkingPointsArea = function () {
    var spinner = new Spinner(opts);
 
    var WpPoolArea = Backbone.View.extend({
-      el: $("#phoneNumbersPool"),
+      el: $("#leftColumn"),
       initialize: function () {
          _.bindAll(this,
             'render',
@@ -184,7 +184,7 @@ window.app.WorkingPointsArea = function () {
          //#region reset internal variables
          window.app.nrOfCheckedWorkingPoints = 0;
          //#endregion
-         var target = document.getElementById('phoneNumbersPool');
+         var target = document.getElementById('leftColumn');
          spinner.spin(target);
          this.phoneNumbersPool.fetch({
             success: function () {

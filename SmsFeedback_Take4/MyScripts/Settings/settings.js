@@ -36,6 +36,7 @@ window.settings.ConfigurePassword = function () {
                success: function (data) {
                   $('#rightColumn').html(data);
                   //$('th').each(function () { setTooltipOnElement(this, this.attr('tooltiptitle'), 'light'); });
+                  resizeTriggered();
                },
                error: function (jqXHR, textStatus, errorThrown) {
                   $('#rightColumn').html(jqXHR);
@@ -93,6 +94,7 @@ window.app.saveWorkingPoints = function (e) {
       success: function (data) {
          $('#rightColumn').html(data);
          window.app.localForSetting.setTooltipsOnHeaders();
+         resizeTriggered();
       },
       error: function (jqXHR, textStatus, errorThrown) {
          $('#rightColumn').html(jqXHR);
@@ -108,6 +110,7 @@ window.settings.ConfigureWorkingPoints = function () {
          $('#rightColumn').html(data);
          $('#btnSaveWorkingPoints').live('click', window.app.saveWorkingPoints);
          window.app.localForSetting.setTooltipsOnHeaders();
+         resizeTriggered();
       },
       error: function (jqXHR, textStatus, errorThrown) {
          $('#rightColumn').html(jqXHR);
@@ -124,6 +127,7 @@ window.settings.ConfigureCompanyBillingInfo = function () {
          $('#rightColumn').html(data);
          //$('#btnSaveWorkingPoints').live('click', window.app.saveWorkingPoints);
          window.app.localForSetting.setTooltipsOnHeaders();
+         resizeTriggered();
       },
       error: function (jqXHR, textStatus, errorThrown) {
          $('#rightColumn').html(jqXHR);

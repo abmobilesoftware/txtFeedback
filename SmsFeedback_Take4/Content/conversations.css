@@ -67,7 +67,7 @@ img.conversationHeaderImg {
     text-decoration: none;
     white-space: normal;
     background-color: #808080;
-    width: 100%;
+    /*width: 100%;*/
     border-style: solid;
     text-align: center;
     display: none;
@@ -98,7 +98,7 @@ img.conversationHeaderImg {
 }
 
 #conversationsArea {
-    margin-top: 7px;
+    /*margin-top: 7px;*/
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;

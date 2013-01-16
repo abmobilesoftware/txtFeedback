@@ -16,12 +16,9 @@
 color: white;*/
 }
 
-#rightColumn {
-    border-radius: 10px;
-   -moz-border-radius: 10px;
-   -webkit-border-radius: 10px;
-   margin-top:8px;
-   width: 84.3%;
+#rightColumn {      
+    /*background: #a0b2bb;*/
+    background: #f5f8fa;;
 }
 
 #changePasswordContainer .editor-field{

@@ -42,33 +42,8 @@ function messageSuccessfullySent(msgView, msgID, convID) {
    msgView.messagesView.messageSuccessfullySent(msgID, convID);
 }
 
-function resizeTriggered() {
-   //pick the highest between window size (- header) and messagesArea
-   var paddingTop = 5;
-   var paddingBottom = 4;
-   var msgAreaMarginTop = 10;
-   var filterStripHeigh = 45;
-   var window_height = window.innerHeight;
-   var messagesAreaHeight = $('#messagesArea').height();
-   var headerPaddingTop = 5;
-   var headerHeight = $('header').height() + headerPaddingTop;
-   var contentWindowHeight = window_height - headerHeight - (paddingTop + paddingBottom) - filterStripHeigh;
-   var msgAreaCalculatedHeight = messagesAreaHeight + msgAreaMarginTop;
-   //TODO determine this factor
-   var factor = 140;
-   var minHeight = 400; //px
-   if (contentWindowHeight <= msgAreaCalculatedHeight) {
-      $('.container_12').height(msgAreaCalculatedHeight);
-      $('#scrollablemessagebox').height(minHeight);
-      $('#scrollableconversations').height($('#messagesArea').height() + 8);
-      //$('#conversationsArea').height(msgAreaCalculatedHeight - msgAreaMarginTop);
-   }
-   else {
-      $('.container_12').height(contentWindowHeight);
-      $('#scrollablemessagebox').height(contentWindowHeight - factor);
-      $('#scrollableconversations').height($('#messagesArea').height() + 8);
-   }
-}
+
+
 function InitializeGUI() {
    "use strict";
    var self = this;
@@ -114,15 +89,6 @@ function InitializeGUI() {
       messageSuccessfullySent(self.msgView, data.msgID, data.convID);
    });
 
-   //DA IE8 doesn't support addEventListener so we use attachEvent
-   //source http://stackoverflow.com/questions/9769868/addeventlistener-not-working-in-ie8
-   if (!window.addEventListener) {
-      window.attachEvent("resize", resizeTriggered);      
-   }
-   else {
-      window.addEventListener("resize", resizeTriggered, false);
-   }
-   
    resizeTriggered();
    window.app.startReconnectTimer();
 }

@@ -4,7 +4,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
    <%: Resources.Global.settingsPageTitle %>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="IncludesArea" runat="server">
    <% if (Html.IsReleaseBuild())
       { %>
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/css/Minified/settings.css") %>" />
@@ -23,10 +23,6 @@
    <script type="text/javascript" src=<%: Url.UpdatedResourceLink("~/MyScripts/Settings/settings.js") %>></script>
    <script type="text/javascript" src=<%: Url.UpdatedResourceLink("~/MyScripts/Settings/SettingsFacade.js") %>></script>   
    <% } %>
- 
-   <div id="settingsMenuBar" class="headerArea">
-   </div>
-   <div class="clear"></div>
-   <div id="leftColumn" class="wordwrap tagsPhoneNumbers grid_2 leftSideArea"></div>
-   <div id="rightColumn" class="rightColumn grid_11"></div>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 </asp:Content>

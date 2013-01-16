@@ -4,7 +4,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
    <%: Resources.Global.messagesPageTitle %>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server" ContentType="text/xml">    
+<asp:Content ID="Content2" ContentPlaceHolderID="IncludesArea" runat="server">
    <% if (Html.IsReleaseBuild())      { %>
   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/phonenumbers.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/messages.css") %>" />
@@ -55,8 +55,8 @@
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/ConversationTags.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Facade.js")%>" type="application/javascript"></script>         
    <% } %>
-   
-   
+ </asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="TemplatesArea" runat="server">
    <script type="text/template" id="tag-template">       
 		<span class="tag"  >
 			<span>{{ Name }}</span>
@@ -182,14 +182,10 @@
       <div class="clear"></div>
       </div>
    </script>
-   <script type="text/javascript">
-      $(function () {
-         var newGUI = new InitializeGUI();
-      });
-   </script>
-   
-   <div id="filtersStrip" class="headerArea">
-       <div class="grid_4_custom filterStripElement">
+</asp:Content>
+
+<asp:Content ID="Content4" ContentPlaceHolderID="FilterArea" runat="server">
+    <div class="grid_4_custom filterStripElement">
             <div id="supportFilterArea" class="filterLabel">
                 <img id="includeSupportInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeSupportFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                    src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
@@ -208,26 +204,7 @@
                    src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
                 <span style="vertical-align: middle">
                    <%: Resources.Global.readLabel %></span>
-           </div>
-           <!--
-           <div id="dateFilterArea">
-            <div id="dateLabel" class="filterLabel">
-               <img tooltiptitle="<%: Resources.Global.tooltipIncludeDateInFilter %>" id="includeDateInFilter" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
-                  src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
-               <span style="vertical-align: middle">
-                  <%: Resources.Global.dateLabel %></span>
-            </div>
-            <div id="datePickersArea">
-               <input type="dateTimePicker" id="startDateTimePicker" class="filterDate filterInputBox"
-                  value="<%: Resources.Global.fromDate %>"> </input>
-               <input type="dateTimePicker" id="endDateTimePicker" class="filterDate filterInputBox"
-                  value="<%: Resources.Global.toDate %>"> </input>
-            </div>
-         </div>
-           -->
-         
-         
-         
+           </div>           
       </div>
       <div class="grid_6 filterStripElement tagFilterArea">
          <div id="tagsLabel" class="filterLabel">
@@ -241,11 +218,16 @@
             <input type="hidden" value="<%: Resources.Global.addATagLabel %>" class="filterLabel"/>
          </div>        
       </div>
-   </div>
-   <div class="clear"></div>
-   <div id="phoneNumbersPool" class="wordwrap tagsPhoneNumbers grid_2 leftSideArea">
-   </div>
-   <div id="conversationsArea" class="grid_4">
+</asp:Content>
+
+<asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server" ContentType="text/xml">      
+   <script type="text/javascript">
+      $(function () {
+         var newGUI = new InitializeGUI();
+      });
+   </script>
+    
+   <div id="conversationsArea" class="grid_convs">
       <div id="scrollableconversations" class="conversationbox scrollablebox">
          <div id="conversations" class="conversationbox">
          </div>
@@ -255,7 +237,7 @@
       </div>
        <div id="convOverlay"></div> 
    </div>
-   <div id="messagesArea" class="grid_6">
+   <div id="messagesArea" class="grid_messages">
       <div id="scrollablemessagebox" class="messagesboxcontainerclass scrollablebox">
          <div id="messagesbox" class="messagesboxclass">
             <span id="noConversationsLoaded"><%: Resources.Global.lblNoConversationSelected%></span>
@@ -290,13 +272,15 @@
          <div id="replyButtonArea">
             <button tooltiptitle="<%: Resources.Global.tooltipReplyBtn %>" id="replyBtn"> <%: Resources.Global.sendButton %></button>
          </div>
-         <input type="hidden" value="<%: ViewData["currentCulture"] %>" class="currentCulture" />
-         <input type="hidden" value="<%: Resources.Global.lblNoConversationSelected %>" id="noConversationSelectedMessage" />
-         <input type="hidden" value="<%: Resources.Global.messagesAddTagPlaceHolder %>" id="messagesAddTagPlaceHolderMessage" />
-         <input type="hidden" value="<%: Resources.Global.messagesRemoveTagPlaceHolder %>" id="messagesRemoveTagPlaceHolderMessage" />
-         <input type="hidden" value="<%: Resources.Global.filteringAddFilterTag %>" id="filteringAddFilterTagMessage" />     
-         <input type="hidden" value="<%: Resources.Global.confirmDeleteMessage %>" id="confirmDeleteMessage" />
-         <input type="hidden" value="<%: Resources.Global.confirmDeleteConversation %>" id="confirmDeleteConversation" />
+        
       </div>
    </div>
+   <input type="hidden" value="<%: ViewData["currentCulture"] %>" class="currentCulture" />
+   <input type="hidden" value="<%: Resources.Global.lblNoConversationSelected %>" id="noConversationSelectedMessage" />
+   <input type="hidden" value="<%: Resources.Global.messagesAddTagPlaceHolder %>" id="messagesAddTagPlaceHolderMessage" />
+   <input type="hidden" value="<%: Resources.Global.messagesRemoveTagPlaceHolder %>"
+      id="messagesRemoveTagPlaceHolderMessage" />
+   <input type="hidden" value="<%: Resources.Global.filteringAddFilterTag %>" id="filteringAddFilterTagMessage" />
+   <input type="hidden" value="<%: Resources.Global.confirmDeleteMessage %>" id="confirmDeleteMessage" />
+   <input type="hidden" value="<%: Resources.Global.confirmDeleteConversation %>" id="confirmDeleteConversation" />
 </asp:Content>
