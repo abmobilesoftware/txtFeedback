@@ -393,7 +393,7 @@ function ConversationArea(filterArea, workingPointsArea) {
             newElementIsSelected = false;
          }
          var item = this.addConversationNoEffect(conv, addConversationAsNewElement);
-         var timer = 300;
+         var timer = 500;
          //if the element that was updated was selected - reflect this on the new element
          if (newElementIsSelected) {
             // make a distinction between the selected status of a normal conv and a support conversation
@@ -406,7 +406,8 @@ function ConversationArea(filterArea, workingPointsArea) {
             resetTimer();
             startTimer(3000);
          }
-         $(item).hide().fadeIn(timer).fadeOut(timer).fadeIn(timer).fadeOut(timer).fadeIn(timer).fadeOut(timer).fadeIn(timer);
+         $(item).hide().fadeIn(timer);
+         //$(item).hide().fadeIn(timer).fadeOut(timer).fadeIn(timer).fadeOut(timer).fadeIn(timer).fadeOut(timer).fadeIn(timer);
       },
       addConversationBasicEffect: function (conv, addConversationAsNewElement) {
          if (addConversationAsNewElement === null) {
