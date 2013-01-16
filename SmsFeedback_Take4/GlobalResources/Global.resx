@@ -838,10 +838,12 @@
   <data name="deleteMessage" xml:space="preserve">
     <value>Delete message</value>
   </data>
-  <data name="deleteMessage" xml:space="preserve">
-    <value>Delete message</value>
-  </data>
   <data name="tooltipCheckMessageSent" xml:space="preserve">
     <value>Message sent</value>
+    <comment>Messages: Mark a message as sent</comment>
+  </data>
+  <data name="tooltipCheckMessageReceived" xml:space="preserve">
+    <value>Message received</value>
+    <comment>Messages: Mark a message as received</comment>
   </data>
 </root>

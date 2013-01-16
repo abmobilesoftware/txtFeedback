@@ -427,25 +427,20 @@ input[name="countdown"] {
     opacity: 1;
 }
 
-div.messageMenu {
-    visibility: hidden;
-}
-
+/* Single & double check icons*/
 .sendAndReceivedChecks {
     float: right;
+    width: 35px;
+    height: 1px;
     padding-left: 10px;
     position: relative;
-    top: 5px;
-    width: 20px;
-    height: 1px;
+    top: 5px;    
 }
 
 .check {
-    visibility:hidden;
-    height: 11px;
+   position: relative;
+   bottom: 9px;    
 }
+/* End single & double check icons */
 
-.checkSent {
-    visibility:visible;
-    height: 11px;
-}
+

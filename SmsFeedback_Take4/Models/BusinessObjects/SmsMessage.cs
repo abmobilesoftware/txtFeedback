@@ -22,6 +22,7 @@ namespace SmsFeedback_Take4.Models
          string convID, 
          string clientDisplayName,
          bool clientIsSupportBot,
+         bool clientAcknowledge = false,
          int day = 0,
          int month = 0,
          int year = 0,
@@ -45,6 +46,7 @@ namespace SmsFeedback_Take4.Models
          Seconds = seconds;
          ClientDisplayName = clientDisplayName;
          ClientIsSupportBot = clientIsSupportBot;
+         ClientAcknowledge = clientAcknowledge;
          IsSmsBased = isSmsBased;
       }
       public int Id { get; set; }
@@ -64,5 +66,6 @@ namespace SmsFeedback_Take4.Models
       public string ClientDisplayName { get; set; }
       public bool ClientIsSupportBot { get; set; }
       public bool IsSmsBased { get; set; }
+      public bool ClientAcknowledge { get; set; }
    }
 }

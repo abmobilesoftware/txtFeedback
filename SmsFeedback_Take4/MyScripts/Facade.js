@@ -35,11 +35,15 @@ function resetMessagesViewToInitialState(msgView) {
 
 function refreshConversationList(convView, msgView) {
    convView.getConversations();
-      resetMessagesViewToInitialState(msgView);
+   resetMessagesViewToInitialState(msgView);
 }
 
 function messageSuccessfullySent(msgView, message) {
    msgView.messagesView.messageSuccessfullySent(message);
+}
+
+function acknowledgeFromClient(msgView, message) {
+   msgView.messagesView.setAcknowledgeFromClient(message);   
 }
 
 function resizeTriggered() {
@@ -78,7 +82,7 @@ function InitializeGUI() {
       delete String.prototype.toJSON;
    }
    //make a note of the starting time - we'll use this for "delayed sent messages"    
-    window.app.appStartTime = new Date();    
+   window.app.appStartTime = new Date();
    //initialize the filters area
    this.filterArea = new FilterArea();
 
@@ -102,27 +106,29 @@ function InitializeGUI() {
    $(document).bind('msgReceived', function (ev, data) {
       newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, data.readStatus, data.isSmsBased);
    });
-
    $(document).bind('refreshConversationList', function (ev, data) {
       refreshConversationList(self.convView, self.msgView);
    });
-
    $(document).bind('selectedConvDeleted', function (ev, data) {
       resetMessagesViewToInitialState(self.msgView);
    });
-    $(document).bind('msgSent', function (ev, data) {
+   $(document).bind('serverAcknowledge', function (ev, data) {
       messageSuccessfullySent(self.msgView, data.message);
    });
+   $(document).bind('clientAcknowledge', function (ev, data) {
+      acknowledgeFromClient(self.msgView, data.message);
+   });
+
 
    //DA IE8 doesn't support addEventListener so we use attachEvent
    //source http://stackoverflow.com/questions/9769868/addeventlistener-not-working-in-ie8
    if (!window.addEventListener) {
-      window.attachEvent("resize", resizeTriggered);      
+      window.attachEvent("resize", resizeTriggered);
    }
    else {
       window.addEventListener("resize", resizeTriggered, false);
    }
-   
+
    resizeTriggered();
    window.app.startReconnectTimer();
 }
