@@ -96,17 +96,18 @@ $(function () {
 
    window.app.WorkingPointView = Backbone.View.extend({
       model: window.app.WorkingPoint,
-      tagName: "span",
-      phoneNumberTemplate: _.template($('#phoneNumber-template').html()),
+      tagName: "span",     
       events: {
          "click .wpSelectorIcon": "selectedChanged"
       },
       initialize: function () {
-         _.bindAll(this, 'render', 'selectedChanged');
-         this.model.bind('destroy', this.unrender, this);
+         _.bindAll(this, 'render', 'selectedChanged', 'unrender');
+         this.model.bind('destroy', this.unrender);
          return this.render;
       },
       render: function () {
+         //DA we instantiate the template only when required (after the DOM has been loaded)
+         this.phoneNumberTemplate = _.template($('#phoneNumber-template').html());
          this.$el.html(this.phoneNumberTemplate(this.model.toJSON()));
          this.$el.addClass("phoneNumber");
          this.$el.addClass("phoneNumberSelected");
