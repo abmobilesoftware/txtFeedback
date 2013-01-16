@@ -22,7 +22,9 @@
          this.wpView.render();
       },
       teardown: function () {
+         this.wpView.remove();
       }
+
    });
    test("selectedChanged_ifNrOfCheckedWPointsIs>=2_modelIsUpdated", 1, function () {
       //$(this.wpView.render().el).trigger("click .wpSelectorIcon");
