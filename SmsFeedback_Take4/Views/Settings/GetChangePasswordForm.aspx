@@ -1,9 +1,8 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<SmsFeedback_Take4.Models.ChangePasswordModel>" %>
 
 <!DOCTYPE html>
-
-<div id="changePasswordContainer">
-    <h2><%: Resources.Global.settingsChangePasswordTitle %></h2>   
+<legend id="wpConfigLegend"><%: Resources.Global.settingsChangePasswordTitle %></legend>
+<div id="changePasswordContainer">    
     <p>
         <%: String.Format(Resources.Global.settingsDescriptionPrefix, Membership.MinRequiredPasswordLength) %>.
     </p>
