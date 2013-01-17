@@ -46,8 +46,6 @@ function acknowledgeFromClient(msgView, message) {
    msgView.messagesView.setAcknowledgeFromClient(message);   
 }
 
-
-
 function InitializeGUI() {
    "use strict";
    var self = this;

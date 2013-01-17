@@ -202,9 +202,12 @@ window.app.MessageView = Backbone.View.extend({
       _.bindAll(this, 'render', 'updateView','deleteMessage');
       this.model.on("change", this.updateView);
       this.model.on("change:WasSuccessfullySent", this.render);
+      this.model.on("change:ClientAcknowledge", this.render);
       return this.render;
    },   
    render: function () {
+      var messageModel = this.model; // offers access to model in deleteMessage function
+
       this.$el.html(this.messageTemplate(this.model.toJSON()));
       var direction = "messagefrom";
       var arrowInnerMenuLeft = "arrowInnerLeft";
@@ -217,53 +220,38 @@ window.app.MessageView = Backbone.View.extend({
 
       $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
 
-      var messageId = this.model.get("Id");
-      var messageModel = this.model;
-      var sentCheckIcon = $($(this.$el).find(".singleCheckNo" + messageId));
-      var helperDiv = $(this.$el).find("div.messageMenu")[0];
-      $(sentCheckIcon).hide();
+      var checkIconEl = $($(this.$el).find(".checkNo" + this.model.get("Id")));
+      var messageMenuEl = $(this.$el).find("div.messageMenu")[0];
+      var messageEl = this.$el;
+      // first state
+      $(checkIconEl).hide();
+      $(messageMenuEl).hide();
 
       $(this.$el).hover(function () {
-         $(helperDiv).css("visibility", "visible");
-         if (sentCheckIcon !== null) {
-            $(sentCheckIcon).show();
-         }
-         if (window.app.calendarCulture === "ro") {
-            gDateDisplayPattern = 'DD, d MM, yy';
-         }
-         gSelectedMessage = messageModel.get("Text");
-         gDateOfSelectedMessage = messageModel.get("TimeReceived");
-         gSelectedMessageItem = $(this);
-         if (helperDiv !== null) {
-            $(helperDiv).fadeIn(100);
-            $(helperDiv).show();
-         }         
+         $(messageMenuEl).fadeIn(100);
+         $(messageMenuEl).show();
+         $(checkIconEl).show();
       }, function () {
-         if (helperDiv !== null) {
-            $(helperDiv).hide();
-         }
-         if (sentCheckIcon != null) {
-            $(sentCheckIcon).hide();
-         }
-      });    
+         $(messageMenuEl).hide();
+         $(checkIconEl).hide();
+      });
       return this;
    },
    deleteMessage: function (e) {
       e.preventDefault();
-      var msgText = this.model.get("Text");
-      var msgConvId = this.model.get("ConvID");
-      var msgTimeRcv = this.model.get("TimeReceived");
-      var domElement = this.$el;
+      var msgText = messageModel.get("Text");
+      var msgConvId = messageModel.get("ConvID");
+      var msgTimeRcv = messageModel.get("TimeReceived");
       if (confirm($("#confirmDeleteMessage").val() + " \"" + msgText + "\" ?")) {
          $.ajax({
             url: "Messages/DeleteMessage",
             data: { 'messageText': msgText, 'convId': msgConvId, 'timeReceived': msgTimeRcv.toUTCString() },
             success: function (data) {
                if (data === "success") {
-                  deleteMessage(domElement, msgText, msgTimeRcv, msgConvId);
+                  deleteMessage(messageEl, msgText, msgTimeRcv, msgConvId);
                } else if (data === "lastMessage") {
-                  var previousItem = $(domElement).prev();
-                  deleteMessage(domElement, msgText, msgTimeRcv, msgConvId);
+                  var previousItem = $(messageEl).prev();
+                  deleteMessage(messageEl, msgText, msgTimeRcv, msgConvId);
                   if (previousItem.length !== 0) {
                      var lastMessage = $($(previousItem).find(".textMessage").find("span")).html().trim();
                      var lastMessageDate = convertDateTimeStringToObject($($(previousItem).find(".timeReceived")[0]).html());
@@ -440,11 +428,6 @@ function MessagesArea(convView, tagsArea, wpsArea) {
       evaluate: /\{%([\s\S]+?)%\}/g,   // execute code: {% code_to_execute %}
       escape: /\{%-([\s\S]+?)%\}/g
    }; // escape HTML: {%- <script> %} prints &lt
-
-         this.model.on("change:ClientAcknowledge", this.render);
-         var messageModel = this.model; // offers access to model in deleteMessage function
-
-   
 
    var opts = {
       lines: 13, // The number of lines to draw

@@ -297,7 +297,20 @@ namespace SmsFeedback_Take4.Controllers
             }
             //maybe delegate the result to the UpdateDB function
             //or interpret the result and return an appropriate message
-            int result = mEFInterface.MarkMessageActivityInDB(from, to, convId, text, readStatus, DateTime.UtcNow, prevConvFrom, prevConvUpdateTime, false, xmppUserToBeSaved, null, null, direction, lContextPerRequest);
+            int result = mEFInterface.MarkMessageActivityInDB(from,
+               to,
+               convId,
+               text,
+               readStatus,
+               DateTime.UtcNow,
+               prevConvFrom,
+               prevConvUpdateTime,
+               false,
+               xmppUserToBeSaved,
+               null,
+               null,
+               direction,
+               lContextPerRequest);
             return Json(result.ToString(), JsonRequestBehavior.AllowGet);
         }
        

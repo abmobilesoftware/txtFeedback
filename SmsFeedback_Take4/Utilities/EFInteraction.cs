@@ -781,8 +781,7 @@ namespace SmsFeedback_Take4.Utilities
 
         }
 
-        public String MarkMessageActivityInDB(
-        public int UpdateDb(
+        public int MarkMessageActivityInDB(        
            String from, String to, String conversationId, String text, Boolean readStatus,
            DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, String XmppUser,  
            String price, String externalID, String direction, smsfeedbackEntities dbContext)
@@ -824,7 +823,7 @@ namespace SmsFeedback_Take4.Utilities
                   }                                                      
                }
             }
-            return newInsertedMessageID
+            return newInsertedMessageID;
         }
 
         public void updateMsgClientAckField(int msgID, bool clientAcknowledge, smsfeedbackEntities dbContext)
