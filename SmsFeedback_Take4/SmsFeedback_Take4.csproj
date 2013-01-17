@@ -291,6 +291,7 @@
     <Content Include="Content\images\De_flag.png" />
     <Content Include="Content\images\De_flag_16.png" />
     <Content Include="Content\images\em16x16.png" />
+    <Content Include="Content\images\error2_24.png" />
     <Content Include="Content\images\Excel-25.png" />
     <Content Include="Content\images\exclamation-blue.png" />
     <Content Include="Content\images\exclamation-blue.svg" />
@@ -351,6 +352,7 @@
     <Content Include="Content\images\tw16x16.png" />
     <Content Include="Content\images\Uk_flag.png" />
     <Content Include="Content\images\Uk_flag_16.png" />
+    <Content Include="Content\images\Warning_24.png" />
     <Content Include="Content\jquery.tagsinput.css" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\messages.css" />

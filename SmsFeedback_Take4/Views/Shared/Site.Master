@@ -70,14 +70,21 @@
    <asp:ContentPlaceHolder ID="IncludesArea" runat="server" />
 </head>
 <body>
+   <script type="text/template" id="notifyAreaTemplate">       
+              {% if (!IsError) { %}
+                  <img class="notificationIcon" src="<%: Url.Content("~/Content/images/warning_24.png") %>" width="24" height="24"/>             
+               {% } else { %}
+                  <img class="notificationIcon" src="<%: Url.Content("~/Content/images/error2_24.png") %>" width="24" height="24"/>
+              {% } %}
+            <span id="notificationText">{{ Message}}</span>            
+            <button id="notificationAck" class="notificationBtn">Dismiss</button>      
+            <button id="takeAction" class="notificationBtn">Solve</button>
+   </script>
     <asp:ContentPlaceHolder ID="TemplatesArea" runat="server" />
    <div class="page">        
       
       <header>
-        <%-- <div id="notificationArea">
-            <span id="notificationText">You are approaching your spending limit for this month - make sure your limit or credit are high enough for normal operation</span>
-            <button id="notificationAck" onclick="$('#notificationArea').hide(); resizeTriggered();">Dismiss</button>
-         </div>--%>
+        
          <div id="title">
             <%: Url.ImageLink(Url.Content("~/Content/images/06-web-2_225.png"),"home","Index","Messages", "engaging your customers in conversations",null,"logo") %>
          </div>

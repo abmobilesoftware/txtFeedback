@@ -133,7 +133,7 @@ $(function () {
    else {
       window.addEventListener("resize", resizeTriggered, false);
    }
-})
+});
 
 //#region Store/restore the nr of convs with unread messages when navigating between pages
 $(function () {
@@ -216,5 +216,71 @@ $(function () {
 $(function () {
    var nrOfConvsWithUnreadMessages = $("#msgTabcount");
    setTooltipOnElement(nrOfConvsWithUnreadMessages, nrOfConvsWithUnreadMessages.attr('tooltiptitle'), 'light');
+});
+//#endregion
+
+//#region Notification Area
+
+window.app.NotifyAreaModel = Backbone.Model.extend({
+   defaults: {
+      Message: "You are approaching your spending limit for this month - make sure your limit or credit are high enough for normal operation",
+      SolveAction: function () {
+       
+      },
+      Visible: false,
+      IsError: true
+   }   
+});
+
+_.templateSettings = {
+   interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
+   evaluate: /\{%([\s\S]+?)%\}/g,   // execute code: {% code_to_execute %}
+   escape: /\{%-([\s\S]+?)%\}/g
+};
+
+window.app.NotifyAreaView = Backbone.View.extend({
+   model: window.app.NotifyAreaModel,
+   tagName: 'div',
+   events: {
+      "click #takeAction": "callAction",
+      "click #notificationAck": "hide",
+   },
+   initialize: function () {
+      this.template = _.template($('#notifyAreaTemplate').html());
+      _.bindAll(this, 'render', 'callAction', 'hide');
+      return this.render;
+   },
+   render: function () {
+      this.$el.html(this.template(this.model.toJSON()));
+      this.$el.addClass('notificationArea');
+      if (!this.model.get('Visible')) {
+         this.$el.hide();
+      }
+      return this;
+   },
+   callAction: function () {
+      //DA here we should have actions like "mailto:contact@txtfeedback.net"
+      var fn = this.model.get("SolveAction");
+      fn();
+   },
+   show: function (message, solveAction, isError) {
+      this.model.set("Visible", true);
+      //this.model.set("Message", message);
+      //this.model.set("SolveAction", solveAction);
+      this.$el.show();
+      resizeTriggered();
+   },
+   hide: function () {
+      this.model.set("Visible", false);
+      this.$el.hide();
+      resizeTriggered();
+   }
+});
+
+$(function () {
+   var m = new window.app.NotifyAreaModel();
+   window.app.NotifyArea = new window.app.NotifyAreaView({model:m});
+   $('header').prepend(window.app.NotifyArea.render().$el);
+   //window.app.NotifyArea.show();
 });
 //#endregion
