@@ -139,13 +139,12 @@
             </td>
          </tr>
          <tr>
-            <td width="50%">
-               <p>Primary Contact</p>
+            <td width="50%" class="contactDetails">
+               <h3>Primary Contact</h3>
                <div class="settingsEntry">
                   @Html.LabelFor(model => model.PrimaryContact.Name)
                   <div class="settingsField">
-                     @Html.EditorFor(model => model.PrimaryContact.Name)
-                     @Html.ValidationMessageFor(model => model.PrimaryContact.Name)
+                     @Html.EditorFor(model => model.PrimaryContact.Name) @Html.ValidationMessageFor(model => model.PrimaryContact.Name)
                   </div>
                </div>
                <div class="settingsEntry">
@@ -163,8 +162,8 @@
                   </div>
                </div>
             </td>
-            <td>
-               <p>Secondary Contact</p>
+            <td class="contactDetails">
+               <h3>Secondary Contact</h3>
                <div class="settingsEntry">
                   @Html.LabelFor(model => model.SecondaryContact.Name)
                   <div class="settingsField">
