@@ -254,19 +254,29 @@ textarea {
    /*min-height: 4em;*/
 }
 
-input[type="text"], input[type="password"] {
-   border: 1px solid #ccc;
-   /*padding: 2px;*/
-   /*background-color: #ebebeb !important;*/
-   background-color: white !important;
-   /*font-size: 1.2em;*/
-   color: #444;
-   width: 100%;
-   font-size: 1.1em;
-   border-radius: 3px;
-   -moz-border-radius: 3px;
-   -webkit-border-radius: 3px;
+input[type="text"], input[type="password"] {   
+    padding: 2px;
+    font-size: 16px;
+    color: #5b5b5b;
+    letter-spacing: -0.01em;
+    text-shadow: 0px 1px 0px #fff;
+    outline: none;
+    background: -webkit-gradient(linear, left top, left bottom, from(#e0e0e0), to(#ffffff));
+    background: -moz-linear-gradient(top,  #e0e0e0,  #ffffff);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid #717171;
+    margin-right: 20px;
+    -webkit-box-shadow: 1px 1px 0px #efefef;
+    -moz-box-shadow: 1px 1px 0px #efefef;
+    box-shadow:  1px 1px 0px #efefef;
+    width:100%;
 }
+
+input[type="text"]:focus { -webkit-box-shadow: 0px 0px 5px #007eff; -moz-box-shadow: 0px 0px 5px #007eff; box-shadow: 0px 0px 5px #007eff; }
+
+
 
 select {
    border: 1px solid #ccc;
@@ -276,8 +286,8 @@ select {
 }
 
 input[type="submit"] {
-   font-size: 1.2em;
-   padding: 5px;
+   font-size: 1.1em;
+   padding: 2px 2px;
 }
 
 /* TABLE

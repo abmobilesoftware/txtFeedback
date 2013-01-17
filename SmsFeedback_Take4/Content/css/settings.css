@@ -101,7 +101,8 @@ color: white;*/
 
 #wpConfigLegend {
    width: auto !important;
-   margin: 40px 0px 10px 40px;
+   /*margin: 40px 0px 10px 40px;*/
+   margin: 10px 0px 10px 20px
 }
 
 #wpConfigErrors {   
@@ -132,7 +133,10 @@ color: white;*/
  }
 
  .settingsEntry {
-    margin: 7px 0px 7px 10px;
+    margin: 17px 0px 17px 20px;
+ }
+ .settingsEntry label {
+    font-weight: bold;
  }
 
  .settingsField {
@@ -142,4 +146,18 @@ color: white;*/
 
  .settingsSeparator {
     border: 1px solid #BBB;
+    background-color:#183540;    
+ }
+
+ .billedSettings h2 {
+    padding: 0 0 5px 20px;
+    color: white;
+ }
+ .billedSettings h3 {
+    padding: 0 0 5px 10px;
+ }
+
+ .contactDetails
+ {
+    border: 1px solid grey;
  }
