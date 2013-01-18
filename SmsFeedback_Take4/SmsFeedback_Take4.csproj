@@ -255,6 +255,7 @@
     <Content Include="Content\css\jq_ui_themes\dot-luv\images\ui-icons_9ccdfc_256x240.png" />
     <Content Include="Content\css\jq_ui_themes\dot-luv\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\css\jq_ui_themes\dot-luv\jquery-ui-1.8.23.custom.css" />
+    <Content Include="Content\css\metro-ui-light.css" />
     <Content Include="Content\css\Minified\areaDefinitions.css" />
     <Content Include="Content\css\Minified\reports.css" />
     <Content Include="Content\css\Minified\settings.css" />
