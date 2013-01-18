@@ -13,6 +13,7 @@
 /*global _ */
 /*global Spinner */
 /*global trim */
+/*global resizeTriggered */
 //#endregion
 window.app = window.app || {};
 window.settings = window.settings|| {};
@@ -125,7 +126,22 @@ window.settings.ConfigureCompanyBillingInfo = function () {
       cache: false,
       success: function (data) {
          $('#rightColumn').html(data);
-         //$('#btnSaveWorkingPoints').live('click', window.app.saveWorkingPoints);
+         $("#WarningLimit").attr("readonly", true);
+         var maxValue = $('#SpendingLimit').val();
+         var minValue = 0;
+         var stepvalue = maxValue / 100;
+         var defaultValue = $("#WarningLimit").val();
+         $("#slider-range-max").slider({
+            range: "max",
+            min: minValue,
+            max: maxValue,
+            step: stepvalue,
+            value: defaultValue,
+            slide: function (event, ui) {
+               $("#WarningLimit").val(ui.value);
+            }
+         });
+         $('#saveBillingInfo').live('click', window.app.saveBillingInfo);
          window.app.localForSetting.setTooltipsOnHeaders();
          resizeTriggered();
       },
@@ -133,7 +149,28 @@ window.settings.ConfigureCompanyBillingInfo = function () {
          $('#rightColumn').html(jqXHR);
       }
    });
-}
+};
+
+window.app.saveBillingInfo = function (e) {
+   "use strict";
+   e.preventDefault();
+   var serializedInfo = $('#rightColumn form').serialize();
+   $.ajax({
+      url: 'Settings/CompanyBillingInfo',
+      data: serializedInfo,
+      type: 'post',
+      cache: false,
+      dataType: 'html',      
+      success: function (data) {
+         $('#rightColumn').html(data);
+         window.app.localForSetting.setTooltipsOnHeaders();
+         resizeTriggered();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+         $('#rightColumn').html(jqXHR);
+      }
+   });
+};
 
 /*DA the convention is that the name of the javascript function is the ReportsMenuItem Action property
 * this way we ensure that the correct function is called
@@ -175,7 +212,7 @@ window.app.SettingsArea = function () {
                      //we operate directly on the DOM (we should not do this)
                      var liItem = ".liItem" + action.id;
                      if (!$(liItem).hasClass("menuItemSelected")) {
-                        $(liItem).parents(".collapsibleList").find(".menuItemSelected").removeClass("menuItemSelected")
+                        $(liItem).parents(".collapsibleList").find(".menuItemSelected").removeClass("menuItemSelected");
                         $(liItem).addClass("menuItemSelected");
                         //make sure the parent is expanded
                         //this follows the logic that the parent is 10, 20, 30 and the leafs are 11,12 .. 21, 22

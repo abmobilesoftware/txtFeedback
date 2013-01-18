@@ -140,13 +140,12 @@ namespace SmsFeedback_Take4.Controllers
       }
       
       [CustomAuthorizeAtribute(Roles = cCompanyConfigurators)]
-      [HttpPost]
-      [ValidateInput(false)]
+      [HttpPost]      
       public ActionResult CompanyBillingInfo(SubscriptionDetail details)
       {
          if (ModelState.IsValid)
          {                        
-            ViewData["saveMessage"] = Resources.Global.settingWpConfigSavedSuccessfuly;
+            ViewBag.SaveMessage = Resources.Global.settingWpConfigSavedSuccessfuly;
          }
          return View(details);
       }
