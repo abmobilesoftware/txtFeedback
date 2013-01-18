@@ -76,6 +76,7 @@ color: white;*/
    font-weight: bold;
    font-size: 16px;
    cursor: pointer;
+   float:right;
 }
 
 #changePasswordSucceededContainer {
@@ -93,10 +94,6 @@ color: white;*/
 
 #workingPointsConfig td{
    padding-right: 10px;
-}
-
-#btnSaveWorkingPoints {
-   float: right;
 }
 
 #wpConfigLegend {
@@ -160,4 +157,9 @@ color: white;*/
  .contactDetails
  {
     border: 1px solid grey;
+ }
+
+ #slider-range-max {
+    width: 80%;
+    margin-left: 20px;
  }
