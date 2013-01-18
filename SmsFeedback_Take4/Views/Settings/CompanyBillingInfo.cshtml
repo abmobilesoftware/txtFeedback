@@ -42,6 +42,11 @@
          @Html.HiddenFor(model => model.MonthlySubscriptionTemplate_InvoiceDetailsTemplateID)
          </text>
       }
+      @if (Model != null)
+      {   <text>
+         @Html.HiddenFor(model => model.SpendingLimit)
+         </text>
+      }
 
       @if (Model != null && Model.MonthlySubscriptionTemplate != null)
       {   <text>
@@ -61,6 +66,21 @@
          </text>
       }
 
+       @if (Model != null)
+      {   <text>
+         @Html.HiddenFor(model => model.BillingDay)
+         </text>
+      }
+       @if (Model != null)
+      {   <text>
+         @Html.HiddenFor(model => model.DefaultCurrency)
+         </text>
+      }
+       @if (Model != null)
+      {   <text>
+         @Html.HiddenFor(model => model.SubscriptionSMS)
+         </text>
+      }
       <table class="billedSettings">
          <tr>
             <td colspan="2" class="settingsSeparator">
@@ -135,6 +155,7 @@
                      @Html.EditorFor(model => model.WarningLimit)
                      @Html.ValidationMessageFor(model => model.WarningLimit)
                   </div>
+                  <div id="slider-range-max"></div>
                </div>
             </td>
          </tr>
@@ -229,7 +250,15 @@
          </tr>
       </table>
       <p>
-          <input type="submit" id="btnSaveWorkingPoints" class="btnSaveChanges" value="@Resources.Global.saveBtnCaption" />
+          <input type="submit" id="saveBillingInfo" class="btnSaveChanges" value="@Resources.Global.saveBtnCaption" />
       </p>
+     
    </fieldset>
+ 
+    if (ViewBag.SaveMessage != null)
+	{
+		 <div id="wpSaveResult">
+         <span>@ViewBag.SaveMessage</span>
+		</div>
+	}
 }
