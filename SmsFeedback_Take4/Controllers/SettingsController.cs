@@ -136,6 +136,8 @@ namespace SmsFeedback_Take4.Controllers
       {
          var userName = User.Identity.Name;
          var user = (from u in context.Users where u.UserName == userName select u).FirstOrDefault();
+         context.Entry(user.Company.SubscriptionDetail).Reference(u => u.PrimaryContact).Load();
+         context.Entry(user.Company.SubscriptionDetail).Reference(u => u.SecondaryContact).Load();
          return View(user.Company.SubscriptionDetail); 
       }
       
@@ -144,9 +146,26 @@ namespace SmsFeedback_Take4.Controllers
       public ActionResult CompanyBillingInfo(SubscriptionDetail details)
       {
          if (ModelState.IsValid)
-         {                        
+         {         
+               
             ViewBag.SaveMessage = Resources.Global.settingWpConfigSavedSuccessfuly;
+            var sd = context.SubscriptionDetails.Find(details.Id);
+            context.Entry(sd).CurrentValues.SetValues(details);
+            var primaryContact = context.Contacts.Find(details.PrimaryContact_Id);
+            if (primaryContact != null)
+            {
+               context.Entry(primaryContact).CurrentValues.SetValues(details.PrimaryContact);
+            }
+            //in case they are pointing to same contact            
+            var secondaryContact = context.Contacts.Find(details.SecondaryContact_Id);
+            
+            if (secondaryContact != null)
+            {
+               context.Entry(secondaryContact).CurrentValues.SetValues(details.SecondaryContact);
+            }
+            context.SaveChanges();
          }
+        
          return View(details);
       }
       #endregion
