@@ -16,12 +16,15 @@ namespace SmsFeedback_EFModels
    public class Contact_Validation
    {
       //TODO add error messages
-      [Required]
+      [Display(Name="contact_Name", ResourceType=typeof(Resources.EntitySpecific))]
+      [Required(ErrorMessageResourceName="contact_NameRequired", ErrorMessageResourceType=typeof(Resources.EntitySpecific))]
       public string Name { get; set; }
-      [Required]
-      public string Surname { get; set; }            
-      [RegularExpression(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*", ErrorMessage = "Wrong email format")]
-      [Required]
+      [Required(ErrorMessageResourceName = "contact_SurnameRequired", ErrorMessageResourceType = typeof(Resources.EntitySpecific))]
+      [Display(Name = "contact_Surname", ResourceType = typeof(Resources.EntitySpecific))]
+      public string Surname { get; set; }
+      [Display(Name = "contact_Email", ResourceType = typeof(Resources.EntitySpecific))]
+      [RegularExpression(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*", ErrorMessageResourceName = "contact_EmailFormatIncorrect", ErrorMessageResourceType=typeof(Resources.EntitySpecific))]
+      [Required(ErrorMessageResourceName = "contact_EmailRequired", ErrorMessageResourceType = typeof(Resources.EntitySpecific))]
       public string Email { get; set; }
    }
    #endregion

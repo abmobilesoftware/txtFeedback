@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Resources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -165,22 +166,30 @@ namespace SmsFeedback_EFModels
    #region Validation
    public class SubscriptionDetail_Validation
    {
-      [DisplayName("Billing day")]
+      [Display(Name= "sd_BillingDay", ResourceType=typeof(Resources.EntitySpecific) )]
       [Required]
       [RegularExpression(@"\b([1-9]|1[0-9]|2[0-5])\b", ErrorMessage = "Invalid day: must be between 1 and 25")]
       public int BillingDay { get; set; }
-      [DisplayName("SMS' included")]
+      [Display(Name= "sd_SubscriptionSMS", ResourceType = typeof(Resources.EntitySpecific))]
       [Required]
       public int SubscriptionSMS { get; set; }
-      [DisplayName("Spending Limit")]      
+      [Display(Name= "sd_SpendingLimit", ResourceType = typeof(Resources.EntitySpecific))]
       [Required]
       public int SpendingLimit { get; set; }
-      [DisplayName("Warning Limit")]
+      [Display(Name= "sd_WarningLimit", ResourceType = typeof(Resources.EntitySpecific))]
       [Required]
       public int WarningLimit { get; set; }
-      [DisplayName("Default currency")]
+      [Display(Name= "sd_DefaultCurrency", ResourceType = typeof(Resources.EntitySpecific))]
       [Required]
       public string DefaultCurrency { get; set; }
+      [Display(Name= "sd_RemainingSMS", ResourceType = typeof(Resources.EntitySpecific))]
+      public int RemainingSMS { get; set; }
+      [Display(Name= "sd_SpentThisMonth", ResourceType = typeof(Resources.EntitySpecific))]
+      public decimal SpentThisMonth { get; set; }
+      [Display(Name= "sd_ExtraAddedCreditThisMonth", ResourceType = typeof(Resources.EntitySpecific))]
+      public decimal ExtraAddedCreditThisMonth { get; set; }
+      [Display(Name= "sd_RemainingCreditFromPreviousMonth", ResourceType = typeof(Resources.EntitySpecific))]
+      public decimal RemainingCreditFromPreviousMonth { get; set; }
    }
    #endregion
 
