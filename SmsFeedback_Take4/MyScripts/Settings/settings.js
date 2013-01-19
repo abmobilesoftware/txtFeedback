@@ -163,6 +163,22 @@ window.app.saveBillingInfo = function (e) {
       dataType: 'html',      
       success: function (data) {
          $('#rightColumn').html(data);
+         $("#WarningLimit").attr("readonly", true);
+         var maxValue = $('#SpendingLimit').val();
+         var minValue = 0;
+         var stepvalue = maxValue / 100;
+         var defaultValue = $("#WarningLimit").val();
+         $("#slider-range-max").slider({
+            range: "max",
+            min: minValue,
+            max: maxValue,
+            step: stepvalue,
+            value: defaultValue,
+            slide: function (event, ui) {
+               $("#WarningLimit").val(ui.value);
+            }
+         });
+         $('#saveBillingInfo').live('click', window.app.saveBillingInfo);
          window.app.localForSetting.setTooltipsOnHeaders();
          resizeTriggered();
       },
