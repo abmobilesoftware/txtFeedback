@@ -25,8 +25,8 @@ window.settings.ConfigurePassword = function () {
       success: function (data) {
          // create a modal dialog with the data
          $('#rightColumn').html(data);
-
-         $('#btnChangePassword').live('click', function (e) {
+         $('#btnChangePassword').unbind('click');
+         $('#btnChangePassword').bind('click', function (e) {
             e.preventDefault();
             $.ajax({
                url: 'Settings/GetChangePasswordForm',
@@ -109,7 +109,8 @@ window.settings.ConfigureWorkingPoints = function () {
       cache: false,
       success: function (data) {
          $('#rightColumn').html(data);
-         $('#btnSaveWorkingPoints').live('click', window.app.saveWorkingPoints);
+         $('#btnSaveWorkingPoints').unbind('click');
+         $('#btnSaveWorkingPoints').bind('click', window.app.saveWorkingPoints);
          window.app.localForSetting.setTooltipsOnHeaders();
          resizeTriggered();
       },
@@ -119,31 +120,36 @@ window.settings.ConfigureWorkingPoints = function () {
    });
 };
 
+window.app.updateGUIWhenBillingInfoArrived = function (data) {
+   $('#rightColumn').html(data);
+   $("#WarningLimit").attr("readonly", true);
+   var maxValue = $('#SpendingLimit').val();
+   var minValue = 0;
+   var stepvalue = maxValue / 100;
+   var defaultValue = $("#WarningLimit").val();
+   $("#slider-range-max").slider({
+      range: "max",
+      min: minValue,
+      max: maxValue,
+      step: stepvalue,
+      value: defaultValue,
+      slide: function (event, ui) {
+         $("#WarningLimit").val(ui.value);
+      }
+   });
+   $('#saveBillingInfo').unbind('click');
+   $('#saveBillingInfo').bind('click', window.app.saveBillingInfo);
+   window.app.localForSetting.setTooltipsOnHeaders();
+   resizeTriggered();
+};
+
 window.settings.ConfigureCompanyBillingInfo = function () {
    "use strict";
    $.ajax({
       url: "Settings/CompanyBillingInfo",
       cache: false,
       success: function (data) {
-         $('#rightColumn').html(data);
-         $("#WarningLimit").attr("readonly", true);
-         var maxValue = $('#SpendingLimit').val();
-         var minValue = 0;
-         var stepvalue = maxValue / 100;
-         var defaultValue = $("#WarningLimit").val();
-         $("#slider-range-max").slider({
-            range: "max",
-            min: minValue,
-            max: maxValue,
-            step: stepvalue,
-            value: defaultValue,
-            slide: function (event, ui) {
-               $("#WarningLimit").val(ui.value);
-            }
-         });
-         $('#saveBillingInfo').live('click', window.app.saveBillingInfo);
-         window.app.localForSetting.setTooltipsOnHeaders();
-         resizeTriggered();
+         window.app.updateGUIWhenBillingInfoArrived(data);
       },
       error: function (jqXHR, textStatus, errorThrown) {
          $('#rightColumn').html(jqXHR);
@@ -162,25 +168,7 @@ window.app.saveBillingInfo = function (e) {
       cache: false,
       dataType: 'html',      
       success: function (data) {
-         $('#rightColumn').html(data);
-         $("#WarningLimit").attr("readonly", true);
-         var maxValue = $('#SpendingLimit').val();
-         var minValue = 0;
-         var stepvalue = maxValue / 100;
-         var defaultValue = $("#WarningLimit").val();
-         $("#slider-range-max").slider({
-            range: "max",
-            min: minValue,
-            max: maxValue,
-            step: stepvalue,
-            value: defaultValue,
-            slide: function (event, ui) {
-               $("#WarningLimit").val(ui.value);
-            }
-         });
-         $('#saveBillingInfo').live('click', window.app.saveBillingInfo);
-         window.app.localForSetting.setTooltipsOnHeaders();
-         resizeTriggered();
+         window.app.updateGUIWhenBillingInfoArrived(data);
       },
       error: function (jqXHR, textStatus, errorThrown) {
          $('#rightColumn').html(jqXHR);
@@ -203,7 +191,7 @@ window.app.SettingsArea = function () {
          //initialize the routing
          _(menuItems.models).each(function (menuItemModel) {
             //DA the idea is to correctly connect an route to an action -> we need this "actions map"
-            if (menuItemModel.get("parent") != 0) {
+            if (menuItemModel.get("parent") !== 0) {
                window.app.leftSideMenus[menuItemModel.get("FriendlyName")] = {
                   id: menuItemModel.get("itemId"),
                   action: menuItemModel.get("Action")
