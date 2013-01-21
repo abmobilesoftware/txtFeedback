@@ -70,6 +70,36 @@ window.app.defaultMessagesOptions = {
 };
 //#endregion
 
+window.app.sendMessageToClient = function (id, convID) {
+   var inputBox = $("#replyText");
+   if ($.trim($("#replyText").val()).length > 0) {
+      //add it to the visual list
+      //I should set values to all the properties
+      var msgContent = inputBox.val();
+
+      var fromTo = getFromToFromConversation(convID);
+      var from = fromTo[0];
+      var to = fromTo[1];
+      //TODO should be RFC822 format           
+      var timeSent = new Date();
+      $(document).trigger('msgReceived', {
+         fromID: from,
+         toID: to,
+         convID: convID,
+         msgID: id,
+         dateReceived: timeSent,
+         text: msgContent,
+         readStatus: false,
+         messageIsSent: true
+      });
+      //reset the input form
+      inputBox.val('');
+
+      //signal all the other "listeners/agents"
+      window.app.xmppHandlerInstance.send_reply(from, to, timeSent, convID, msgContent, window.app.suffixedMessageModeratorAddress, id);
+   }
+};
+window.app.messageID = 412342;
 window.app.MessagesArea = function () {
    "use strict";
    var self = this;
@@ -77,40 +107,15 @@ window.app.MessagesArea = function () {
    $.extend(this, window.app.defaultMessagesOptions);
 
    $("#reply").click(function () {
-      sendMessageToClient();
+      window.app.sendMessageToClient(window.app.messageID++, self.currentConversationId);
+   });
+   $("#replyText").keydown(function (event) {
+      if (event.which === 13) {
+         event.preventDefault();
+         window.app.sendMessageToClient(window.app.messageID++, self.currentConversationId);
+      }
    });
 
-   var id = 412536; //this should be unique
-   var sendMessageToClient = function () {
-       var inputBox = $("#replyText");
-       if ($.trim($("#replyText").val()).length > 0) {
-           id++;
-           //add it to the visual list
-           //I should set values to all the properties
-           var msgContent = inputBox.val();
-
-           var fromTo = getFromToFromConversation(self.currentConversationId);
-           var from = fromTo[0];
-           var to = fromTo[1];
-           //TODO should be RFC822 format           
-           var timeSent = new Date();
-           $(document).trigger('msgReceived', {
-               fromID: from,
-               toID: to,
-               convID: self.currentConversationId,
-               msgID: id,
-               dateReceived: timeSent,
-               text: msgContent,
-               readStatus: false,
-               messageIsSent: true
-           });
-           //reset the input form
-           inputBox.val('');
-
-           //signal all the other "listeners/agents"
-           window.app.xmppHandlerInstance.send_reply(from, to, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress, id);
-       } 
-   };
 
    _.templateSettings = {
       interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
@@ -199,12 +204,8 @@ window.app.MessagesArea = function () {
             Direction: "from",
             Read: false,
             Starred: false
-         });
-         messages.add(msgWelcome);
-         //var msgTo = new app.Message({ Text: "Do you still have Zuzu milk?", Direction : "to" });
-         //messages.add(msgTo);
-         //var msgFromReply = new app.Message({ Text: "Yes, we will bring more to the aile in 5 minutes" });
-         //messages.add(msgFromReply);        
+         });        
+         messages.add(msgWelcome);                      
       },
       render: function () {
           $("#messagesbox").html('');
@@ -267,7 +268,7 @@ window.app.MessagesArea = function () {
           var messagePosition = 0;
           for (var i = 0; i < window.app.globalMessagesRep[convID].models.length; ++i) {
               var currentModel = window.app.globalMessagesRep[convID].models[i];
-              if (currentModel.attributes.Id == msgID) {
+              if (currentModel.attributes.Id === msgID) {
                   messagePosition = i;
               }
           }
@@ -318,6 +319,7 @@ $(function () {
            $("#footer").css("position", "relative");
        }
    });
+   
 
    $("#replyText").blur(function () {
        $("#footer").css("position", "fixed");
