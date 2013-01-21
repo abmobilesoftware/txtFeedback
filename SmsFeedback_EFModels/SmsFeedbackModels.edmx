@@ -1024,7 +1024,7 @@
             <PropertyRef Name="ConvId" />
           </Key>
           <Property Name="ConvId" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Text" Type="String" Nullable="false" MaxLength="160" Unicode="true" FixedLength="false" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
           <Property Name="Read" Type="Boolean" Nullable="false" />
           <Property Name="TimeUpdated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Type="String" Name="From" MaxLength="100" Unicode="true" FixedLength="false" />
@@ -1057,7 +1057,7 @@
           <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
           <Property Name="From" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="To" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
-          <Property Name="Text" Type="String" Nullable="false" MaxLength="160" Unicode="true" FixedLength="false" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
           <Property Name="TimeReceived" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Read" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Conversation" Relationship="smsfeedbackModel.ConversationMessage" FromRole="Message" ToRole="Conversation" />
