@@ -39,6 +39,7 @@
     <Prefer32Bit>false</Prefer32Bit>
     <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
     <PackageAsSingleFile>false</PackageAsSingleFile>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -292,6 +293,7 @@
     <Content Include="Content\images\delete.ico" />
     <Content Include="Content\images\De_flag.png" />
     <Content Include="Content\images\De_flag_16.png" />
+    <Content Include="Content\images\doubleCheck.png" />
     <Content Include="Content\images\em16x16.png" />
     <Content Include="Content\images\error2_24.png" />
     <Content Include="Content\images\Excel-25.png" />
@@ -320,6 +322,7 @@
     <Content Include="Content\images\question-green.svg" />
     <Content Include="Content\images\question-orange.svg" />
     <Content Include="Content\images\Ro_flag_16.png" />
+    <Content Include="Content\images\singleCheck.png" />
     <Content Include="Content\images\smiley-h.png" />
     <Content Include="Content\images\Smiley-Happy-32.png" />
     <Content Include="Content\images\Smiley-Happy-32_20.png" />
@@ -462,6 +465,7 @@
     <Content Include="QUnit\TagsTests.js" />
     <Content Include="QUnit\UtilitiesTests.js" />
     <Content Include="QUnit\WorkingPointsTests.js" />
+    <Content Include="QUnit\XMPPTests.js" />
     <Content Include="Scripts\backbone.js" />
     <Content Include="Scripts\CollapsibleLists.js" />
     <Content Include="Scripts\flxhr\updateplayer.swf" />

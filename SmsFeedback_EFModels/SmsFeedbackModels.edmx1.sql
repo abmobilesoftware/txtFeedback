@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 10/04/2012 16:50:00
+-- Date Created: 01/10/2013 15:44:23
 -- Generated from EDMX file: D:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_EFModels\SmsFeedbackModels.edmx
 -- --------------------------------------------------
 
@@ -22,9 +22,6 @@ IF OBJECT_ID(N'[dbo].[FK_UsersForWorkingPoints_User]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_UsersForWorkingPoints_WorkingPoint]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[UsersForWorkingPoints] DROP CONSTRAINT [FK_UsersForWorkingPoints_WorkingPoint];
-GO
-IF OBJECT_ID(N'[dbo].[FK_UserXmppConnection]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Users] DROP CONSTRAINT [FK_UserXmppConnection];
 GO
 IF OBJECT_ID(N'[dbo].[FK_CompanyTag]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Tags] DROP CONSTRAINT [FK_CompanyTag];
@@ -53,9 +50,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_WorkingPointConversation]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Conversations] DROP CONSTRAINT [FK_WorkingPointConversation];
 GO
-IF OBJECT_ID(N'[dbo].[FK_UserMessages]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Messages] DROP CONSTRAINT [FK_UserMessages];
-GO
 IF OBJECT_ID(N'[dbo].[FK_ConversationClient]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Conversations] DROP CONSTRAINT [FK_ConversationClient];
 GO
@@ -74,9 +68,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_WorkingPointActivityLogWorkingPoint]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ActivityLogWorkingPoints] DROP CONSTRAINT [FK_WorkingPointActivityLogWorkingPoint];
 GO
-IF OBJECT_ID(N'[dbo].[FK_CompanySubscriptions]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Companies] DROP CONSTRAINT [FK_CompanySubscriptions];
-GO
 IF OBJECT_ID(N'[dbo].[FK_SupportConversationForWorkingPoint1]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[WorkingPoints] DROP CONSTRAINT [FK_SupportConversationForWorkingPoint1];
 GO
@@ -94,6 +85,36 @@ IF OBJECT_ID(N'[dbo].[FK_ConversationToConversationHistory]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_ConversationHistoryMessage]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ConversationHistories] DROP CONSTRAINT [FK_ConversationHistoryMessage];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserXmppConnection]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Users] DROP CONSTRAINT [FK_UserXmppConnection];
+GO
+IF OBJECT_ID(N'[dbo].[FK_MessageXmppConnection]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Messages] DROP CONSTRAINT [FK_MessageXmppConnection];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CompanyInvoice]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Invoices] DROP CONSTRAINT [FK_CompanyInvoice];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvoiceInvoiceDetails]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvoiceDetails] DROP CONSTRAINT [FK_InvoiceInvoiceDetails];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CompanySubscriptionDetails]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Companies] DROP CONSTRAINT [FK_CompanySubscriptionDetails];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SubscriptionDetailPrimaryContact]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SubscriptionDetails] DROP CONSTRAINT [FK_SubscriptionDetailPrimaryContact];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SubscriptionDetailSecondaryContact]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SubscriptionDetails] DROP CONSTRAINT [FK_SubscriptionDetailSecondaryContact];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CompanyContact]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Companies] DROP CONSTRAINT [FK_CompanyContact];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SubscriptionDetailInvoiceDetailsTemplate]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SubscriptionDetails] DROP CONSTRAINT [FK_SubscriptionDetailInvoiceDetailsTemplate];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SubscriptionDetailInvoiceDetailsTemplate1]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SubscriptionDetails] DROP CONSTRAINT [FK_SubscriptionDetailInvoiceDetailsTemplate1];
 GO
 
 -- --------------------------------------------------
@@ -142,9 +163,6 @@ GO
 IF OBJECT_ID(N'[dbo].[ActivityLogWorkingPoints]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ActivityLogWorkingPoints];
 GO
-IF OBJECT_ID(N'[dbo].[Subscriptions]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Subscriptions];
-GO
 IF OBJECT_ID(N'[dbo].[TagTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[TagTypes];
 GO
@@ -157,8 +175,20 @@ GO
 IF OBJECT_ID(N'[dbo].[ConversationHistories]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ConversationHistories];
 GO
-IF OBJECT_ID(N'[dbo].[Logs]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Logs];
+IF OBJECT_ID(N'[dbo].[InvoiceDetails]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvoiceDetails];
+GO
+IF OBJECT_ID(N'[dbo].[Invoices]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Invoices];
+GO
+IF OBJECT_ID(N'[dbo].[SubscriptionDetails]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SubscriptionDetails];
+GO
+IF OBJECT_ID(N'[dbo].[Contacts]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Contacts];
+GO
+IF OBJECT_ID(N'[dbo].[InvoiceDetailsTemplates]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvoiceDetailsTemplates];
 GO
 IF OBJECT_ID(N'[dbo].[UsersForWorkingPoints]', 'U') IS NOT NULL
     DROP TABLE [dbo].[UsersForWorkingPoints];
@@ -177,7 +207,7 @@ CREATE TABLE [dbo].[Conversations] (
     [Text] nvarchar(160)  NOT NULL,
     [Read] bit  NOT NULL,
     [TimeUpdated] datetime  NOT NULL,
-    [From] nvarchar(max)  NOT NULL,
+    [From] nvarchar(100)  NULL,
     [Starred] bit  NOT NULL,
     [StartTime] datetime  NOT NULL,
     [WorkingPoint_TelNumber] nvarchar(50)  NOT NULL,
@@ -190,14 +220,18 @@ GO
 -- Creating table 'Messages'
 CREATE TABLE [dbo].[Messages] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [From] nvarchar(30)  NOT NULL,
-    [To] nvarchar(30)  NOT NULL,
+    [From] nvarchar(100)  NULL,
+    [To] nvarchar(100)  NULL,
     [Text] nvarchar(160)  NOT NULL,
     [TimeReceived] datetime  NOT NULL,
     [Read] bit  NOT NULL,
     [ConversationId] nvarchar(50)  NOT NULL,
     [ResponseTime] bigint  NULL,
-    [IsSmsBased] bit  NOT NULL
+    [IsSmsBased] bit  NOT NULL,
+    [XmppConnectionXmppUser] nvarchar(100)  NULL,
+    [ExternalID] nvarchar(60)  NULL,
+    [Price] nvarchar(100)  NULL,
+    [ClientAcknowledge] bit  NOT NULL
 );
 GO
 
@@ -209,7 +243,13 @@ CREATE TABLE [dbo].[WorkingPoints] (
     [Provider] nvarchar(50)  NOT NULL,
     [SentSms] int  NOT NULL,
     [MaxNrOfSmsToSend] int  NOT NULL,
-    [SupportConversation] nvarchar(50)  NULL
+    [SupportConversation] nvarchar(50)  NULL,
+    [ShortID] nvarchar(10)  NOT NULL,
+    [WelcomeMessage] nvarchar(160)  NULL,
+    [XMPPsuffix] nvarchar(50)  NOT NULL,
+    [BusyMessage] nvarchar(160)  NULL,
+    [OutsideOfficeHoursMessage] nvarchar(160)  NULL,
+    [Language] nvarchar(10)  NOT NULL
 );
 GO
 
@@ -220,8 +260,8 @@ CREATE TABLE [dbo].[Users] (
     [UserName] nvarchar(50)  NOT NULL,
     [IsAnonymous] bit  NOT NULL,
     [LastActivityDate] datetime  NOT NULL,
-    [XmppConnection_Id] int  NULL,
-    [Company_Name] nvarchar(50)  NULL
+    [Company_Name] nvarchar(50)  NULL,
+    [XmppConnectionXmppUser] nvarchar(100)  NOT NULL
 );
 GO
 
@@ -236,9 +276,8 @@ GO
 
 -- Creating table 'XmppConnections'
 CREATE TABLE [dbo].[XmppConnections] (
-    [XmppUser] nvarchar(max)  NOT NULL,
-    [XmppPassword] nvarchar(max)  NOT NULL,
-    [Id] int  NOT NULL
+    [XmppUser] nvarchar(100)  NOT NULL,
+    [XmppPassword] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -253,10 +292,17 @@ GO
 -- Creating table 'Companies'
 CREATE TABLE [dbo].[Companies] (
     [Name] nvarchar(50)  NOT NULL,
-    [Description] nvarchar(max)  NOT NULL,
-    [Address] nvarchar(max)  NOT NULL,
-    [NrOfTrainingHoursDelivered] int  NOT NULL,
-    [Subscription_Type] nvarchar(50)  NOT NULL
+    [Description] nvarchar(500)  NOT NULL,
+    [Address] nvarchar(500)  NOT NULL,
+    [RegistrationNumber] nvarchar(50)  NULL,
+    [PostalCode] nvarchar(50)  NULL,
+    [City] nvarchar(70)  NOT NULL,
+    [Notes] nvarchar(500)  NULL,
+    [VATID] nvarchar(50)  NOT NULL,
+    [SubscriptionDetailsID] int  NOT NULL,
+    [Contact_Id] int  NOT NULL,
+    [Bank] nvarchar(50)  NULL,
+    [BankAccount] nvarchar(70)  NULL
 );
 GO
 
@@ -330,16 +376,6 @@ CREATE TABLE [dbo].[ActivityLogWorkingPoints] (
 );
 GO
 
--- Creating table 'Subscriptions'
-CREATE TABLE [dbo].[Subscriptions] (
-    [Type] nvarchar(50)  NOT NULL,
-    [NrOfWorkingPoints] int  NOT NULL,
-    [SmsPerWorkingPoint] int  NOT NULL,
-    [NrOfUsers] int  NOT NULL,
-    [NrOfHoursOfTraining] nvarchar(max)  NOT NULL
-);
-GO
-
 -- Creating table 'TagTypes'
 CREATE TABLE [dbo].[TagTypes] (
     [Type] nvarchar(50)  NOT NULL
@@ -374,15 +410,72 @@ CREATE TABLE [dbo].[ConversationHistories] (
 );
 GO
 
--- Creating table 'Logs'
-CREATE TABLE [dbo].[Logs] (
+-- Creating table 'InvoiceDetails'
+CREATE TABLE [dbo].[InvoiceDetails] (
+    [InvoiceDetailsID] int IDENTITY(1,1) NOT NULL,
+    [Article] nvarchar(200)  NOT NULL,
+    [Quantity] int  NOT NULL,
+    [Price] decimal(15,5)  NOT NULL,
+    [DateCreated] datetime  NOT NULL,
+    [InvoiceInvoiceId] int  NOT NULL,
+    [VAT] decimal(15,5)  NOT NULL
+);
+GO
+
+-- Creating table 'Invoices'
+CREATE TABLE [dbo].[Invoices] (
+    [InvoiceId] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(50)  NULL,
+    [Notes] nvarchar(500)  NOT NULL,
+    [ProposalDetails] nvarchar(500)  NULL,
+    [DateCreated] datetime  NOT NULL,
+    [DueDate] datetime  NOT NULL,
+    [AdvancePaymentTax] decimal(15,5)  NULL,
+    [Paid] bit  NOT NULL,
+    [CompanyName] nvarchar(50)  NOT NULL,
+    [InvoiceNumber] int  NOT NULL,
+    [Currency] nvarchar(15)  NOT NULL,
+    [AutoGenerated] bit  NOT NULL
+);
+GO
+
+-- Creating table 'SubscriptionDetails'
+CREATE TABLE [dbo].[SubscriptionDetails] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Date] datetime  NOT NULL,
-    [Thread] varchar(255)  NOT NULL,
-    [Level] varchar(50)  NOT NULL,
-    [Logger] varchar(255)  NOT NULL,
-    [Message] varchar(4000)  NOT NULL,
-    [Exception] varchar(2000)  NULL
+    [BillingDay] int  NOT NULL,
+    [SubscriptionSMS] int  NOT NULL,
+    [RemainingSMS] int  NOT NULL,
+    [SpendingLimit] decimal(15,5)  NOT NULL,
+    [WarningLimit] decimal(15,5)  NOT NULL,
+    [SpentThisMonth] decimal(15,5)  NOT NULL,
+    [PrimaryContact_Id] int  NOT NULL,
+    [SecondaryContact_Id] int  NOT NULL,
+    [DefaultCurrency] nvarchar(15)  NOT NULL,
+    [MonthlySubscriptionTemplate_InvoiceDetailsTemplateID] int  NULL,
+    [MonthlyExtraSMSCharge_InvoiceDetailsTemplateID] int  NULL,
+    [ExtraAddedCreditThisMonth] decimal(15,5)  NOT NULL,
+    [RemainingCreditFromPreviousMonth] decimal(15,5)  NOT NULL
+);
+GO
+
+-- Creating table 'Contacts'
+CREATE TABLE [dbo].[Contacts] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(50)  NOT NULL,
+    [Surname] nvarchar(70)  NOT NULL,
+    [Email] nvarchar(50)  NULL,
+    [Mobile] nvarchar(50)  NULL,
+    [Landline] nvarchar(50)  NULL
+);
+GO
+
+-- Creating table 'InvoiceDetailsTemplates'
+CREATE TABLE [dbo].[InvoiceDetailsTemplates] (
+    [InvoiceDetailsTemplateID] int IDENTITY(1,1) NOT NULL,
+    [Article] nvarchar(200)  NOT NULL,
+    [Quantity] int  NOT NULL,
+    [Price] decimal(15,5)  NOT NULL,
+    [VAT] decimal(15,5)  NOT NULL
 );
 GO
 
@@ -434,10 +527,10 @@ ADD CONSTRAINT [PK_Roles]
     PRIMARY KEY CLUSTERED ([RoleId] ASC);
 GO
 
--- Creating primary key on [Id] in table 'XmppConnections'
+-- Creating primary key on [XmppUser] in table 'XmppConnections'
 ALTER TABLE [dbo].[XmppConnections]
 ADD CONSTRAINT [PK_XmppConnections]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
+    PRIMARY KEY CLUSTERED ([XmppUser] ASC);
 GO
 
 -- Creating primary key on [Name], [CompanyName] in table 'Tags'
@@ -488,12 +581,6 @@ ADD CONSTRAINT [PK_ActivityLogWorkingPoints]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Type] in table 'Subscriptions'
-ALTER TABLE [dbo].[Subscriptions]
-ADD CONSTRAINT [PK_Subscriptions]
-    PRIMARY KEY CLUSTERED ([Type] ASC);
-GO
-
 -- Creating primary key on [Type] in table 'TagTypes'
 ALTER TABLE [dbo].[TagTypes]
 ADD CONSTRAINT [PK_TagTypes]
@@ -518,10 +605,34 @@ ADD CONSTRAINT [PK_ConversationHistories]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id], [Date], [Thread], [Level], [Logger], [Message] in table 'Logs'
-ALTER TABLE [dbo].[Logs]
-ADD CONSTRAINT [PK_Logs]
-    PRIMARY KEY CLUSTERED ([Id], [Date], [Thread], [Level], [Logger], [Message] ASC);
+-- Creating primary key on [InvoiceDetailsID] in table 'InvoiceDetails'
+ALTER TABLE [dbo].[InvoiceDetails]
+ADD CONSTRAINT [PK_InvoiceDetails]
+    PRIMARY KEY CLUSTERED ([InvoiceDetailsID] ASC);
+GO
+
+-- Creating primary key on [InvoiceId] in table 'Invoices'
+ALTER TABLE [dbo].[Invoices]
+ADD CONSTRAINT [PK_Invoices]
+    PRIMARY KEY CLUSTERED ([InvoiceId] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SubscriptionDetails'
+ALTER TABLE [dbo].[SubscriptionDetails]
+ADD CONSTRAINT [PK_SubscriptionDetails]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Contacts'
+ALTER TABLE [dbo].[Contacts]
+ADD CONSTRAINT [PK_Contacts]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [InvoiceDetailsTemplateID] in table 'InvoiceDetailsTemplates'
+ALTER TABLE [dbo].[InvoiceDetailsTemplates]
+ADD CONSTRAINT [PK_InvoiceDetailsTemplates]
+    PRIMARY KEY CLUSTERED ([InvoiceDetailsTemplateID] ASC);
 GO
 
 -- Creating primary key on [Users_UserId], [WorkingPoints_TelNumber] in table 'UsersForWorkingPoints'
@@ -561,20 +672,6 @@ ADD CONSTRAINT [FK_UsersForWorkingPoints_WorkingPoint]
 CREATE INDEX [IX_FK_UsersForWorkingPoints_WorkingPoint]
 ON [dbo].[UsersForWorkingPoints]
     ([WorkingPoints_TelNumber]);
-GO
-
--- Creating foreign key on [XmppConnection_Id] in table 'Users'
-ALTER TABLE [dbo].[Users]
-ADD CONSTRAINT [FK_UserXmppConnection]
-    FOREIGN KEY ([XmppConnection_Id])
-    REFERENCES [dbo].[XmppConnections]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_UserXmppConnection'
-CREATE INDEX [IX_FK_UserXmppConnection]
-ON [dbo].[Users]
-    ([XmppConnection_Id]);
 GO
 
 -- Creating foreign key on [CompanyName] in table 'Tags'
@@ -767,20 +864,6 @@ ON [dbo].[ActivityLogWorkingPoints]
     ([WorkingPoint_TelNumber]);
 GO
 
--- Creating foreign key on [Subscription_Type] in table 'Companies'
-ALTER TABLE [dbo].[Companies]
-ADD CONSTRAINT [FK_CompanySubscriptions]
-    FOREIGN KEY ([Subscription_Type])
-    REFERENCES [dbo].[Subscriptions]
-        ([Type])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_CompanySubscriptions'
-CREATE INDEX [IX_FK_CompanySubscriptions]
-ON [dbo].[Companies]
-    ([Subscription_Type]);
-GO
-
 -- Creating foreign key on [SupportConversation] in table 'WorkingPoints'
 ALTER TABLE [dbo].[WorkingPoints]
 ADD CONSTRAINT [FK_SupportConversationForWorkingPoint1]
@@ -858,6 +941,146 @@ ADD CONSTRAINT [FK_ConversationHistoryMessage]
 CREATE INDEX [IX_FK_ConversationHistoryMessage]
 ON [dbo].[ConversationHistories]
     ([MessageId]);
+GO
+
+-- Creating foreign key on [XmppConnectionXmppUser] in table 'Users'
+ALTER TABLE [dbo].[Users]
+ADD CONSTRAINT [FK_UserXmppConnection]
+    FOREIGN KEY ([XmppConnectionXmppUser])
+    REFERENCES [dbo].[XmppConnections]
+        ([XmppUser])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserXmppConnection'
+CREATE INDEX [IX_FK_UserXmppConnection]
+ON [dbo].[Users]
+    ([XmppConnectionXmppUser]);
+GO
+
+-- Creating foreign key on [XmppConnectionXmppUser] in table 'Messages'
+ALTER TABLE [dbo].[Messages]
+ADD CONSTRAINT [FK_MessageXmppConnection]
+    FOREIGN KEY ([XmppConnectionXmppUser])
+    REFERENCES [dbo].[XmppConnections]
+        ([XmppUser])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_MessageXmppConnection'
+CREATE INDEX [IX_FK_MessageXmppConnection]
+ON [dbo].[Messages]
+    ([XmppConnectionXmppUser]);
+GO
+
+-- Creating foreign key on [CompanyName] in table 'Invoices'
+ALTER TABLE [dbo].[Invoices]
+ADD CONSTRAINT [FK_CompanyInvoice]
+    FOREIGN KEY ([CompanyName])
+    REFERENCES [dbo].[Companies]
+        ([Name])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CompanyInvoice'
+CREATE INDEX [IX_FK_CompanyInvoice]
+ON [dbo].[Invoices]
+    ([CompanyName]);
+GO
+
+-- Creating foreign key on [InvoiceInvoiceId] in table 'InvoiceDetails'
+ALTER TABLE [dbo].[InvoiceDetails]
+ADD CONSTRAINT [FK_InvoiceInvoiceDetails]
+    FOREIGN KEY ([InvoiceInvoiceId])
+    REFERENCES [dbo].[Invoices]
+        ([InvoiceId])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvoiceInvoiceDetails'
+CREATE INDEX [IX_FK_InvoiceInvoiceDetails]
+ON [dbo].[InvoiceDetails]
+    ([InvoiceInvoiceId]);
+GO
+
+-- Creating foreign key on [SubscriptionDetailsID] in table 'Companies'
+ALTER TABLE [dbo].[Companies]
+ADD CONSTRAINT [FK_CompanySubscriptionDetails]
+    FOREIGN KEY ([SubscriptionDetailsID])
+    REFERENCES [dbo].[SubscriptionDetails]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CompanySubscriptionDetails'
+CREATE INDEX [IX_FK_CompanySubscriptionDetails]
+ON [dbo].[Companies]
+    ([SubscriptionDetailsID]);
+GO
+
+-- Creating foreign key on [PrimaryContact_Id] in table 'SubscriptionDetails'
+ALTER TABLE [dbo].[SubscriptionDetails]
+ADD CONSTRAINT [FK_SubscriptionDetailPrimaryContact]
+    FOREIGN KEY ([PrimaryContact_Id])
+    REFERENCES [dbo].[Contacts]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SubscriptionDetailPrimaryContact'
+CREATE INDEX [IX_FK_SubscriptionDetailPrimaryContact]
+ON [dbo].[SubscriptionDetails]
+    ([PrimaryContact_Id]);
+GO
+
+-- Creating foreign key on [SecondaryContact_Id] in table 'SubscriptionDetails'
+ALTER TABLE [dbo].[SubscriptionDetails]
+ADD CONSTRAINT [FK_SubscriptionDetailSecondaryContact]
+    FOREIGN KEY ([SecondaryContact_Id])
+    REFERENCES [dbo].[Contacts]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SubscriptionDetailSecondaryContact'
+CREATE INDEX [IX_FK_SubscriptionDetailSecondaryContact]
+ON [dbo].[SubscriptionDetails]
+    ([SecondaryContact_Id]);
+GO
+
+-- Creating foreign key on [Contact_Id] in table 'Companies'
+ALTER TABLE [dbo].[Companies]
+ADD CONSTRAINT [FK_CompanyContact]
+    FOREIGN KEY ([Contact_Id])
+    REFERENCES [dbo].[Contacts]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CompanyContact'
+CREATE INDEX [IX_FK_CompanyContact]
+ON [dbo].[Companies]
+    ([Contact_Id]);
+GO
+
+-- Creating foreign key on [MonthlySubscriptionTemplate_InvoiceDetailsTemplateID] in table 'SubscriptionDetails'
+ALTER TABLE [dbo].[SubscriptionDetails]
+ADD CONSTRAINT [FK_SubscriptionDetailInvoiceDetailsTemplate]
+    FOREIGN KEY ([MonthlySubscriptionTemplate_InvoiceDetailsTemplateID])
+    REFERENCES [dbo].[InvoiceDetailsTemplates]
+        ([InvoiceDetailsTemplateID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SubscriptionDetailInvoiceDetailsTemplate'
+CREATE INDEX [IX_FK_SubscriptionDetailInvoiceDetailsTemplate]
+ON [dbo].[SubscriptionDetails]
+    ([MonthlySubscriptionTemplate_InvoiceDetailsTemplateID]);
+GO
+
+-- Creating foreign key on [MonthlyExtraSMSCharge_InvoiceDetailsTemplateID] in table 'SubscriptionDetails'
+ALTER TABLE [dbo].[SubscriptionDetails]
+ADD CONSTRAINT [FK_SubscriptionDetailInvoiceDetailsTemplate1]
+    FOREIGN KEY ([MonthlyExtraSMSCharge_InvoiceDetailsTemplateID])
+    REFERENCES [dbo].[InvoiceDetailsTemplates]
+        ([InvoiceDetailsTemplateID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SubscriptionDetailInvoiceDetailsTemplate1'
+CREATE INDEX [IX_FK_SubscriptionDetailInvoiceDetailsTemplate1]
+ON [dbo].[SubscriptionDetails]
+    ([MonthlyExtraSMSCharge_InvoiceDetailsTemplateID]);
 GO
 
 -- --------------------------------------------------

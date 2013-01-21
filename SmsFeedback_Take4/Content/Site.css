@@ -58,7 +58,7 @@ p, ul {
 }
 
 
-/* HEADINGS   
+/* HEADINGS
 ----------------------------------------------------------*/
 h1, h2, h3, h4, h5, h6 {
    font-size: 1.5em;
@@ -87,10 +87,10 @@ h5, h6 {
    font-size: 1em;
 }
 
-/* PRIMARY LAYOUT ELEMENTS   
+/* PRIMARY LAYOUT ELEMENTS
 ----------------------------------------------------------*/
 
-/* you can specify a greater or lesser percentage for the 
+/* you can specify a greater or lesser percentage for the
 page width. Or, you can specify an exact pixel width. */
 .page {
    width: 100%;
@@ -162,7 +162,7 @@ footer, #footer {
    -moz-border-radius: 0 0 4px 4px;
 }
 
-/* TAB MENU   
+/* TAB MENU
 ----------------------------------------------------------*/
 ul#menu {
    border-bottom: 1px #5C87B2 solid;
@@ -231,7 +231,7 @@ ul#menu li.selected a {
    color: #000;
 }
 
-/* FORM LAYOUT ELEMENTS   
+/* FORM LAYOUT ELEMENTS
 ----------------------------------------------------------*/
 
 fieldset {
@@ -294,23 +294,22 @@ input[type="submit"] {
 ----------------------------------------------------------*/
 /* temporary disabled
 table {
-   border: solid 1px #e8eef4;
-   border-collapse: collapse;
+border: solid 1px #e8eef4;
+border-collapse: collapse;
 }
-  
-   table td {
-      padding: 5px;
-      border: solid 1px #e8eef4;
-   }
+table td {
+padding: 5px;
+border: solid 1px #e8eef4;
+}
 
-   table th {
-      padding: 6px 5px;
-      text-align: left;
-      background-color: #e8eef4;
-      border: solid 1px #e8eef4;
-   }
-    */
-/* MISC  
+table th {
+padding: 6px 5px;
+text-align: left;
+background-color: #e8eef4;
+border: solid 1px #e8eef4;
+}
+*/
+/* MISC
 ----------------------------------------------------------*/
 .clear {
    clear: both;
@@ -345,12 +344,12 @@ div#title {
    #logindisplay a:link {
       color: #511df9;
       text-decoration: underline;
-      opacity:  0.5;
+      opacity: 0.5;
    }
 
    #logindisplay a:visited {
       color: #183540;
-      text-decoration: underline;      
+      text-decoration: underline;
    }
 
    #logindisplay a:hover {
@@ -500,8 +499,8 @@ div.statusbarclose {
 #logoContainerOnLogin {
    height: 0px;
    position: relative;
-   right: 450px;  
-   top: 40px;   
+   right: 450px;
+   top: 40px;
 }
    #logoContainerOnLogin img {
       width: 400px;
@@ -527,7 +526,7 @@ div.statusbarclose {
 }
 
 #changeLanguage a {
- opacity:  0.5;        
+ opacity: 0.5;
 }
 .selectedLanguage {
    border-bottom: 1px solid black;
@@ -542,7 +541,7 @@ div.statusbarclose {
    position: relative;
    float:right;
    /*top: 25px;
-   right: 5px;*/
+right: 5px;*/
    padding-top: 15px;
    z-index: 5;
    font-size: 15px;

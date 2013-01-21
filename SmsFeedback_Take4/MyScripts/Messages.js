@@ -35,6 +35,16 @@ var gDateDisplayPattern = 'DD, MM d, yy';
 var timer; //this will be responsible for triggering the "mark conversation as read event"
 var timer_is_on = 0;
 
+//#region UUID generator, rfc4122 compliant, details http://www.ietf.org/rfc/rfc4122.txt
+function generateUUID() {
+   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+   });
+   return uuid;
+}
+//#endregion
+
 //#region Mark Conversation as Read function
 function markConversationAsRead() {
    $(gSelectedElement).removeClass("unreadconversation");
@@ -87,18 +97,51 @@ function deleteMessage(element, messageText, timeReceived, convId) {
 
 //#region Helpers
 function convertDateTimeStringToObject(dateTimeString) {
-   var justTheDate = dateTimeString.substr(0, dateTimeString.length - 10);
-   var justTheTime = dateTimeString.substr(dateTimeString.length - 9, 8);
-   var extractHours = justTheTime.substr(0, 2);
-   var extractMinutes = justTheTime.substr(3, 2);
-   var extractSeconds = justTheTime.substr(6, 2);
-   var resultedDateTime = $.datepicker.parseDate(gDateDisplayPattern, justTheDate,
+   var date = dateTimeString.substr(0, dateTimeString.length - 10);
+   var time = dateTimeString.substr(dateTimeString.length - 9, 8);
+   var hours = time.substr(0, 2);
+   var minutes = time.substr(3, 2);
+   var seconds = time.substr(6, 2);
+   // default date display pattern is 'DD, MM d, yy'
+   if (window.app.calendarCulture === "ro") {
+      gDateDisplayPattern = 'DD, d MM, yy';
+   }
+   var resultedDateTime = $.datepicker.parseDate(gDateDisplayPattern, date,
        {
           dayNamesShort: $.datepicker.regional[window.app.calendarCulture].dayNamesShort, dayNames: $.datepicker.regional[window.app.calendarCulture].dayNames,
           monthNamesShort: $.datepicker.regional[window.app.calendarCulture].monthNamesShort, monthNames: $.datepicker.regional[window.app.calendarCulture].monthNames
        });
-   resultedDateTime.setHours(extractHours, extractMinutes, extractSeconds);
+   resultedDateTime.setHours(hours, minutes, seconds);
    return resultedDateTime;
+}
+
+function getMessagePositionInRepository(convID, msgID) {
+   var messagePosition = -1;
+   if (window.app.globalMessagesRep[convID] != null && window.app.globalMessagesRep[convID] != undefined) {
+      for (var i = 0; i < window.app.globalMessagesRep[convID].models.length; ++i) {
+         var currentModel = window.app.globalMessagesRep[convID].models[i];
+         if (currentModel.attributes.Id === msgID) {
+            return i;
+         }
+      }
+   }
+   return messagePosition;
+}
+
+function setMsgWasSuccessfullySentValue(convID, msgID, sentStatus) {
+   var messagePosition = getMessagePositionInRepository(convID, msgID);
+   var msgSent = window.app.globalMessagesRep[convID].at(messagePosition);
+   if (msgSent != null) {
+      msgSent.set("WasSuccessfullySent", sentStatus);
+   }
+}
+
+function setMsgClientAcknowledgeValue(convID, msgID, clientAcknowledge) {
+   var messagePosition = getMessagePositionInRepository(convID, msgID);
+   var msgSent = window.app.globalMessagesRep[convID].at(messagePosition);
+   if (msgSent != null) {
+      msgSent.set("ClientAcknowledge", clientAcknowledge);
+   }
 }
 //#endregion
 
@@ -115,7 +158,8 @@ window.app.Message = Backbone.Model.extend({
       Read: false,
       Starred: false,
       IsSmsBased: false,
-      WasSuccessfullySent: false
+      WasSuccessfullySent: false,
+      ClientAcknowledge: false
    },
    parse: function (data, xhc) {
       //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
@@ -129,7 +173,7 @@ window.app.Message = Backbone.Model.extend({
       else {
          dir = "to";
       }
-      if (data.Id > 0) data.WasSuccessfullySent = true;
+      if (!isNaN(data.Id)) data.WasSuccessfullySent = true;
       data.Direction = dir;
       return data;
    },
@@ -158,9 +202,12 @@ window.app.MessageView = Backbone.View.extend({
       _.bindAll(this, 'render', 'updateView','deleteMessage');
       this.model.on("change", this.updateView);
       this.model.on("change:WasSuccessfullySent", this.render);
+      this.model.on("change:ClientAcknowledge", this.render);
       return this.render;
    },   
    render: function () {
+      var messageModel = this.model; // offers access to model in deleteMessage function
+
       this.$el.html(this.messageTemplate(this.model.toJSON()));
       var direction = "messagefrom";
       var arrowInnerMenuLeft = "arrowInnerLeft";
@@ -173,53 +220,38 @@ window.app.MessageView = Backbone.View.extend({
 
       $(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
 
-      var messageId = this.model.get("Id");
-      var messageModel = this.model;
-      var sentCheckIcon = $($(this.$el).find(".singleCheckNo" + messageId));
-      var helperDiv = $(this.$el).find("div.messageMenu")[0];
-      $(sentCheckIcon).hide();
+      var checkIconEl = $($(this.$el).find(".checkNo" + this.model.get("Id")));
+      var messageMenuEl = $(this.$el).find("div.messageMenu")[0];
+      var messageEl = this.$el;
+      // first state
+      $(checkIconEl).hide();
+      $(messageMenuEl).hide();
 
       $(this.$el).hover(function () {
-         $(helperDiv).css("visibility", "visible");
-         if (sentCheckIcon !== null) {
-            $(sentCheckIcon).show();
-         }
-         if (window.app.calendarCulture === "ro") {
-            gDateDisplayPattern = 'DD, d MM, yy';
-         }
-         gSelectedMessage = messageModel.get("Text");
-         gDateOfSelectedMessage = messageModel.get("TimeReceived");
-         gSelectedMessageItem = $(this);
-         if (helperDiv !== null) {
-            $(helperDiv).fadeIn(100);
-            $(helperDiv).show();
-         }         
+         $(messageMenuEl).fadeIn(100);
+         $(messageMenuEl).show();
+         $(checkIconEl).show();
       }, function () {
-         if (helperDiv !== null) {
-            $(helperDiv).hide();
-         }
-         if (sentCheckIcon != null) {
-            $(sentCheckIcon).hide();
-         }
-      });    
+         $(messageMenuEl).hide();
+         $(checkIconEl).hide();
+      });
       return this;
    },
    deleteMessage: function (e) {
       e.preventDefault();
-      var msgText = this.model.get("Text");
-      var msgConvId = this.model.get("ConvID");
-      var msgTimeRcv = this.model.get("TimeReceived");
-      var domElement = this.$el;
+      var msgText = messageModel.get("Text");
+      var msgConvId = messageModel.get("ConvID");
+      var msgTimeRcv = messageModel.get("TimeReceived");
       if (confirm($("#confirmDeleteMessage").val() + " \"" + msgText + "\" ?")) {
          $.ajax({
             url: "Messages/DeleteMessage",
             data: { 'messageText': msgText, 'convId': msgConvId, 'timeReceived': msgTimeRcv.toUTCString() },
             success: function (data) {
                if (data === "success") {
-                  deleteMessage(domElement, msgText, msgTimeRcv, msgConvId);
+                  deleteMessage(messageEl, msgText, msgTimeRcv, msgConvId);
                } else if (data === "lastMessage") {
-                  var previousItem = $(domElement).prev();
-                  deleteMessage(domElement, msgText, msgTimeRcv, msgConvId);
+                  var previousItem = $(messageEl).prev();
+                  deleteMessage(messageEl, msgText, msgTimeRcv, msgConvId);
                   if (previousItem.length !== 0) {
                      var lastMessage = $($(previousItem).find(".textMessage").find("span")).html().trim();
                      var lastMessageDate = convertDateTimeStringToObject($($(previousItem).find(".timeReceived")[0]).html());
@@ -374,11 +406,10 @@ function MessagesArea(convView, tagsArea, wpsArea) {
 
    $("#replyBtn").click(function () {
       var inputBox = $("#limitedtextarea");
-      window.app.receivedMsgID++;
       var msgContent = inputBox.val();
       //reset the input form
       $("#replyToMessageForm")[0].reset();
-      window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, window.app.receivedMsgID, self.wpsArea.wpPoolView.phoneNumbersPool);
+      window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, generateUUID(), self.wpsArea.wpPoolView.phoneNumbersPool);
    });
 
    $("#limitedtextarea").keydown(function (event) {
@@ -397,8 +428,6 @@ function MessagesArea(convView, tagsArea, wpsArea) {
       evaluate: /\{%([\s\S]+?)%\}/g,   // execute code: {% code_to_execute %}
       escape: /\{%-([\s\S]+?)%\}/g
    }; // escape HTML: {%- <script> %} prints &lt
-
-   
 
    var opts = {
       lines: 13, // The number of lines to draw
@@ -428,7 +457,9 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             "appendMessage",
             "appendMessageToDiv",
             "resetViewToDefault",
-            "newMessageReceived");// to solve the this issue
+            "newMessageReceived",
+            "messageSuccessfullySent",
+            "setAcknowledgeFromClient");// to solve the this issue
          this.messages = new window.app.MessagesList();
          this.messages.bind("reset", this.render);
       },
@@ -501,7 +532,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             this.appendMessageToDiv(msg, true, true);
          }
       },
-        newMessageReceived: function (fromID, convID, msgID, dateReceived, text, read, isSmsBased) {           
+      newMessageReceived: function (fromID, convID, msgID, dateReceived, text, read, isSmsBased) {
          var newMsg = new window.app.Message({
             Id: msgID,
             From: fromID,
@@ -510,8 +541,8 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             ClientDisplayName: fromID,
             ClientIsSupportBot: false,
             Read: read,
-              IsSmsBased: isSmsBased,
-              TimeReceived: dateReceived
+            IsSmsBased: isSmsBased,
+            TimeReceived: dateReceived
          });
          //decide if this is a from or to message
          var fromTo = getFromToFromConversation(convID);
@@ -520,12 +551,12 @@ function MessagesArea(convView, tagsArea, wpsArea) {
          if (!comparePhoneNumbers(fromID, from)) {
             direction = "to";
          }
-            newMsg.set("Direction", direction);                        
+         newMsg.set("Direction", direction);
          //we add the message only if are in correct conversation
          if (window.app.globalMessagesRep[convID] !== undefined) {
             window.app.globalMessagesRep[convID].add(newMsg);
-            }           
-           },
+         }
+      },
       appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
          var msgView = new window.app.MessageView({ model: msg });
          var item = msgView.render().el;
@@ -541,20 +572,12 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             messagesEl.animate({ scrollTop: messagesEl.prop("scrollHeight") }, 3000);
          }
       },
-      messageSuccessfullySent: function (msgID, convID) {
-         // update the model
-         var messagePosition = 0;
-         if (window.app.globalMessagesRep[convID] !== undefined && window.app.globalMessagesRep[convID] !== undefined) {
-            for (var i = 0; i < window.app.globalMessagesRep[convID].models.length; ++i) {
-               var currentModel = window.app.globalMessagesRep[convID].models[i];
-               if (currentModel.attributes.Id === msgID) {
-                  messagePosition = i;
-                  break;
-               }
-            }
-         }
-         var msgSent = window.app.globalMessagesRep[convID].at(messagePosition);
-         msgSent.set("WasSuccessfullySent", true);
+      /* Change the WasSuccessfullySent attribute */
+      messageSuccessfullySent: function (message) {
+         setMsgWasSuccessfullySentValue(message.convID, message.msgID, true);
+      },
+      setAcknowledgeFromClient: function (message) {
+         setMsgClientAcknowledgeValue(message.convID, message.msgID, true);
       }
    });
    this.messagesView = new MessagesView();
@@ -572,3 +595,4 @@ function limitText(limitField, limitCount, limitNum) {
       limitCount.value = limitNum - limitField.value.length;
    }
 }
+

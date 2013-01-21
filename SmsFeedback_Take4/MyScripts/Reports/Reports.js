@@ -134,7 +134,7 @@ var ReportsContentArea = Backbone.View.extend({
          window.app.thirdArea.drawArea();
          //window.app.areas.push(window.app.thirdArea);
          window.app.areas[uniqueId] = window.app.thirdArea;
-        } else if (section === "#InfoBox") {
+      } else if (section === "#InfoBox") {
          window.app.secondArea = new SecondArea(resources);
          window.app.secondArea.drawArea();
          //window.app.areas.push(window.app.secondArea);

@@ -731,4 +731,8 @@
   <data name="tooltipCheckMessageSent" xml:space="preserve">
     <value>Message sent</value>
   </data>
+  <data name="tooltipCheckMessageReceived" xml:space="preserve">
+    <value>Message received</value>
+    <comment>Messages: Mark message as received</comment>
+  </data>
 </root>

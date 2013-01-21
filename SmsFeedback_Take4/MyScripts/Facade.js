@@ -35,14 +35,16 @@ function resetMessagesViewToInitialState(msgView) {
 
 function refreshConversationList(convView, msgView) {
    convView.getConversations();
-      resetMessagesViewToInitialState(msgView);
+   resetMessagesViewToInitialState(msgView);
 }
 
-function messageSuccessfullySent(msgView, msgID, convID) {
-   msgView.messagesView.messageSuccessfullySent(msgID, convID);
+function messageSuccessfullySent(msgView, message) {
+   msgView.messagesView.messageSuccessfullySent(message);
 }
 
-
+function acknowledgeFromClient(msgView, message) {
+   msgView.messagesView.setAcknowledgeFromClient(message);   
+}
 
 function InitializeGUI() {
    "use strict";
@@ -53,7 +55,7 @@ function InitializeGUI() {
       delete String.prototype.toJSON;
    }
    //make a note of the starting time - we'll use this for "delayed sent messages"    
-    window.app.appStartTime = new Date();    
+   window.app.appStartTime = new Date();
    //initialize the filters area
    this.filterArea = new FilterArea();
 
@@ -77,17 +79,19 @@ function InitializeGUI() {
    $(document).bind('msgReceived', function (ev, data) {
       newMessageReceivedGUI(self.convView, self.msgView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, data.readStatus, data.isSmsBased);
    });
-
    $(document).bind('refreshConversationList', function (ev, data) {
       refreshConversationList(self.convView, self.msgView);
    });
-
    $(document).bind('selectedConvDeleted', function (ev, data) {
       resetMessagesViewToInitialState(self.msgView);
    });
-    $(document).bind('msgSent', function (ev, data) {
-      messageSuccessfullySent(self.msgView, data.msgID, data.convID);
+   $(document).bind('serverAcknowledge', function (ev, data) {
+      messageSuccessfullySent(self.msgView, data.message);
    });
+   $(document).bind('clientAcknowledge', function (ev, data) {
+      acknowledgeFromClient(self.msgView, data.message);
+   });
+
 
    resizeTriggered();
    window.app.startReconnectTimer();
@@ -106,8 +110,6 @@ $(document).ready(function () {
    } else {
       window.app.calendarCulture = culture;
    }
-
-
 });
 
 

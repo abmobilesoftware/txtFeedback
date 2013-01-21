@@ -39,7 +39,7 @@ namespace SmsFeedback_EFModels
         public virtual ICollection<Company> Companies { get; set; }
         public virtual Contact PrimaryContact { get; set; }
         public virtual Contact SecondaryContact { get; set; }
-        public virtual InvoiceDetailsTemplate MonthlySubscriptionTemplate { get; set; }
-        public virtual InvoiceDetailsTemplate ExtraSMSCostsDetails { get; set; }
+        public virtual InvoiceDetailsTemplate InvoiceDetailsTemplate { get; set; }
+        public virtual InvoiceDetailsTemplate InvoiceDetailsTemplate1 { get; set; }
     }
 }

@@ -202,6 +202,7 @@ namespace SmsFeedback_Take4.Utilities
             return "not executed";
         }
 
+        #region Conversations
         public void DeleteConversation(String convId, smsfeedbackEntities dbContext)
         {
             // sanitize input
@@ -226,8 +227,9 @@ namespace SmsFeedback_Take4.Utilities
                 dbContext.SaveChanges();
             }            
         }
-
-        public void UpdateConversationText(string convId, string newText, DateTime newTextDateReceived, smsfeedbackEntities dbContext)
+       
+       // TODO: Merge UpdateConversationText with UpdateAddConversation       
+       public void UpdateConversationText(string convId, string newText, DateTime newTextDateReceived, smsfeedbackEntities dbContext)
         {
             convId = convId.Trim();
             newText = newText.Trim();
@@ -240,8 +242,8 @@ namespace SmsFeedback_Take4.Utilities
                 dbContext.SaveChanges();
             }
         }
-
-        private void AddEventInConversationHistory(string iConversationId, int iSequence, string iEventTypeName, DateTime iEventDate, int iMessageId, smsfeedbackEntities dbContext)
+       
+       private void AddEventInConversationHistory(string iConversationId, int iSequence, string iEventTypeName, DateTime iEventDate, int iMessageId, smsfeedbackEntities dbContext)
         {
             var conversationEvent = new ConversationHistory()
             {
@@ -254,20 +256,7 @@ namespace SmsFeedback_Take4.Utilities
             dbContext.ConversationHistories.Add(conversationEvent);
             dbContext.SaveChanges();
         }
-
-        /// <summary>
-        /// Return all tags containing a certain string
-        /// </summary>
-        /// <param name="queryString"> the string sequence to look for</param>
-        /// <param name="companyName"> the company to whom these tags belong to</param>
-        /// <returns></returns>
-        private IEnumerable<string> FindMatchingTagsForCompany(string queryString, string companyName, smsfeedbackEntities dbContext)
-        {
-            logger.Info("Call made");
-            var tags = from tag in dbContext.Tags where (tag.CompanyName == companyName && tag.Name.Contains(queryString)) select tag.Name;
-            return tags;
-        }
-
+        
         public string UpdateOrAddConversation(
                                             String sender,
                                             String addressee,
@@ -280,76 +269,272 @@ namespace SmsFeedback_Take4.Utilities
                                             bool markConversationAsRead = false
                                             )
         {
-            logger.Info("Call made");
-            try
-            {                
-                var conv = dbContext.Conversations.Find(conversationId);                
-                var updateDateToInsert = updateTime.HasValue ? updateTime.Value.ToString() : "null";
-                if (conv != null)
-                {
-                    return UpdateExistingConversation(sender, text, readStatus, updateTime, dbContext, conv, updateDateToInsert);
-                }
-                else
-                {
-                    return AddNewConversation(sender, addressee, conversationId, text, readStatus, updateTime, isSmsBased, dbContext, updateDateToInsert);
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.Error("Error occurred in AddMessageAndUpdateConversation", ex);
-                return CONVERSATION_NOT_MODIFIED;
-            }
+           logger.Info("Call made");
+           try
+           {
+              var conv = dbContext.Conversations.Find(conversationId);
+              var updateDateToInsert = updateTime.HasValue ? updateTime.Value.ToString() : "null";
+              if (conv != null)
+              {
+                 return UpdateExistingConversation(sender, text, readStatus, updateTime, dbContext, conv, updateDateToInsert);
+              }
+              else
+              {
+                 return AddNewConversation(sender, addressee, conversationId, text, readStatus, updateTime, isSmsBased, dbContext, updateDateToInsert);
+              }
+           }
+           catch (Exception ex)
+           {
+              logger.Error("Error occurred in AddMessageAndUpdateConversation", ex);
+              return CONVERSATION_NOT_MODIFIED;
+           }
         }
 
         private static string AddNewConversation(
-           String from, 
-           String to, 
-           String conversationId, 
-           String text, 
-           Boolean readStatus, 
-           DateTime? updateTime, 
-           bool isSmsBased, 
-           smsfeedbackEntities dbContext,            
+            String from,
+            String to,
+            String conversationId,
+            String text,
+            Boolean readStatus,
+            DateTime? updateTime,
+            bool isSmsBased,
+            smsfeedbackEntities dbContext,
+            string updateDateToInsert)
+        {
+           logger.InfoFormat("Add new conversation: [{0}] with read: {1}, updateTime: {2}, text: [{3}], from: [{4}]", conversationId, readStatus.ToString(), updateDateToInsert, text, from);
+           // Check if the client of this coversation it's in db. 
+           Client clientForThisConversation = GetClientByName(from, dbContext);
+           IEnumerable<SmsFeedback_EFModels.WorkingPoint> workingPointIDs;
+           if (isSmsBased)
+           {
+              string consistentWP = ConversationUtilities.CleanUpPhoneNumber(to);
+              workingPointIDs = from wp in dbContext.WorkingPoints where wp.TelNumber == consistentWP select wp;
+           }
+           else
+           {
+              string workingPointShortId = ConversationUtilities.GetFromAndToFromConversationID(conversationId)[1];
+              workingPointIDs = from wp in dbContext.WorkingPoints where wp.ShortID == workingPointShortId select wp;
+           }
+           if (workingPointIDs != null && workingPointIDs.Count() > 0)
+           {
+              var wpId = workingPointIDs.First();
+              //if we add a new conversation then we the start time will be the update time of the first message
+              dbContext.Conversations.Add(new Conversation
+              {
+                 ConvId = conversationId,
+                 Text = text,
+                 Read = readStatus,
+                 TimeUpdated = updateTime.Value,
+                 From = from,
+                 WorkingPoint = wpId,
+                 StartTime = updateTime.Value,
+                 IsSmsBased = isSmsBased,
+                 Client = clientForThisConversation
+              });
+              dbContext.SaveChanges();
+              return JsonReturnMessages.OP_SUCCESSFUL;
+           }
+           else
+           {
+              return JsonReturnMessages.INVALID_WPID;
+           }
+        }
+
+        private string UpdateExistingConversation(
+           String sender,
+           String text,
+           Boolean readStatus,
+           DateTime? updateTime,
+           smsfeedbackEntities dbContext,
+           Conversation currentConversation,
            string updateDateToInsert)
         {
-            logger.InfoFormat("Add new conversation: [{0}] with read: {1}, updateTime: {2}, text: [{3}], from: [{4}]", conversationId, readStatus.ToString(), updateDateToInsert, text, from);
-            // Check if the client of this coversation it's in db. 
-            Client clientForThisConversation = GetClientByName(from, dbContext);
-            IEnumerable<SmsFeedback_EFModels.WorkingPoint> workingPointIDs;
-            if (isSmsBased)
-            {
-                string consistentWP = ConversationUtilities.CleanUpPhoneNumber(to);
-                workingPointIDs = from wp in dbContext.WorkingPoints where wp.TelNumber == consistentWP select wp;
-            }
-            else
-            {
-                string workingPointShortId = ConversationUtilities.GetFromAndToFromConversationID(conversationId)[1];
-                workingPointIDs = from wp in dbContext.WorkingPoints where wp.ShortID == workingPointShortId select wp;
-            }
-            if (workingPointIDs != null && workingPointIDs.Count() > 0)
-            {
-                var wpId = workingPointIDs.First();
-                //if we add a new conversation then we the start time will be the update time of the first message
-                dbContext.Conversations.Add(new Conversation
-                {
-                    ConvId = conversationId,
-                    Text = text,
-                    Read = readStatus,
-                    TimeUpdated = updateTime.Value,
-                    From = from,
-                    WorkingPoint = wpId,
-                    StartTime = updateTime.Value,
-                    IsSmsBased = isSmsBased,
-                    Client = clientForThisConversation
-                });
-                dbContext.SaveChanges();
-                return JsonReturnMessages.OP_SUCCESSFUL;
-            }
-            else
-            {
-                return JsonReturnMessages.INVALID_WPID;
-            }
+           logger.InfoFormat("Updating conversation: [{0}] with read: {1}, updateTime: {2},  text: {3}, from {4}", currentConversation.ConvId, readStatus.ToString(), updateDateToInsert, text, sender);
+           /*
+            * since twilio returns (messages >= the latest message) it could be that the latest message is returned again - the only difference is that now "read" is false
+            * so make sure that something changed, besides "read"
+            */
+           bool differentMsgBody = currentConversation.Text != text;
+           bool differentMsgDate = (updateTime.HasValue && updateTime.Value != currentConversation.TimeUpdated);
+           bool newMessage = differentMsgBody && differentMsgDate;
+
+           if (newMessage)
+           {
+              //updateTime for when marking a conversation as read will be "null"
+              if (updateTime.HasValue) currentConversation.TimeUpdated = updateTime.Value;
+              if (!string.IsNullOrEmpty(text)) currentConversation.Text = text;
+              currentConversation.From = sender;
+              currentConversation.Read = readStatus;
+              try
+              {
+                 dbContext.SaveChanges();
+              }
+              catch (Exception e)
+              {
+                 logger.Error(e.Message);
+                 return JsonReturnMessages.EXCEPTION;
+              }
+              return JsonReturnMessages.OP_SUCCESSFUL;
+           }
+           else
+           {
+              return JsonReturnMessages.DUPLICATE_MESSAGE;
+           }
         }
+
+        public Conversation UpdateStarredStatusForConversation(string convID, bool newStarredStatus, smsfeedbackEntities dbContext)
+        {
+           var conv = dbContext.Conversations.Find(convID);
+           if (conv != null)
+           {
+              conv.Starred = newStarredStatus;
+              dbContext.SaveChanges();
+              return conv;
+           }
+           //if there was no conversation associated to this convID 
+           logger.ErrorFormat("No conversation with id {0} found", convID);
+           return null;
+        }
+
+        public void AddTagToConversation(string tagName, string convID, smsfeedbackEntities dbContext)
+        {
+           var tags = from t in dbContext.Tags where t.Name == tagName select t;
+           if (tags.Count() > 0)
+           {
+              AddTagToConversation(tags.First(), convID, dbContext);
+           }
+        }
+
+        public void AddTagToConversation(Tag tag, string convID, smsfeedbackEntities dbContext)
+        {
+           logger.Info("Call made");
+           try
+           {
+              var conv = dbContext.Conversations.Find(convID);
+              if (conv != null)
+              {
+                 var convTag = new SmsFeedback_EFModels.ConversationTag() { ConversationConvId = convID, TagCompanyName = tag.CompanyName, TagName = tag.Name, DateAdded = DateTime.UtcNow };
+                 conv.ConversationTags.Add(convTag);
+                 dbContext.SaveChanges();
+              }
+           }
+           catch (Exception ex)
+           {
+              logger.Error("Error in AddTagToConversation", ex);
+           }
+        }
+
+        public void RemoveTagFromConversation(string tagName, string convID, smsfeedbackEntities dbContext)
+        {
+           logger.Info("Call made");
+           try
+           {
+              var conv = dbContext.Conversations.Find(convID);
+              if (conv != null)
+              {
+                 var tags = from t in conv.ConversationTags where t.TagName == tagName select t;
+                 if (tags.Count() == 1)
+                 {
+                    conv.ConversationTags.Remove(tags.First());
+                    dbContext.SaveChanges();
+                 }
+              }
+           }
+           catch (Exception ex)
+           {
+              logger.Error("Error in RemoveTagFromConversation", ex);
+           }
+        }
+
+        private bool IsConversationFavourite(string convID, smsfeedbackEntities dbContext)
+        {
+           try
+           {
+              var conv = dbContext.Conversations.Find(convID);
+              if (conv != null) { return conv.Starred; }
+              else
+              {
+                 //this conversationID was not found in our db - for sure it's not a favourite
+                 return false;
+              }
+           }
+           catch (Exception ex)
+           {
+              logger.Error("IsConversationFavourite error", ex);
+              return false;
+           }
+        }
+
+        public Conversation GetLatestConversationDetails(string convId, smsfeedbackEntities dbContext)
+        {
+           var conv = dbContext.Conversations.Find(convId);
+           return conv;
+        }
+
+        public IEnumerable<SmsMessage> GetMessagesForConversation(string convID, smsfeedbackEntities dbContext)
+        {
+           //TODO: error handling & sanity checks
+           //if the conversation is marked as "favourite" then all the messages will be "favorite"
+           var isConvFavourite = IsConversationFavourite(convID, dbContext);
+           var msgs = dbContext.Conversations.Find(convID).Messages.Select(msg =>
+                           new SmsMessage()
+                           {
+                              From = msg.From,
+                              To = msg.To,
+                              ConvID = msg.ConversationId,
+                              Read = msg.Read,
+                              Id = msg.Id,
+                              Starred = isConvFavourite,
+                              Text = msg.Text,
+                              TimeReceived = msg.TimeReceived,
+                              Day = msg.TimeReceived.Day,
+                              Month = msg.TimeReceived.Month,
+                              Year = msg.TimeReceived.Year,
+                              Hours = msg.TimeReceived.Hour,
+                              Minutes = msg.TimeReceived.Minute,
+                              Seconds = msg.TimeReceived.Second,
+                              IsSmsBased = msg.IsSmsBased,
+                              ClientDisplayName = msg.Conversation.Client.DisplayName,
+                              ClientAcknowledge = msg.ClientAcknowledge                              
+                           });
+           if (msgs.Count() > 0)
+           {
+              return msgs.OrderBy(x => x.TimeReceived);
+           }
+           else
+           {
+              return new SmsMessage[] { };
+           }
+        }
+
+        public Conversation MarkConversationAsRead(string convID, smsfeedbackEntities dbContext)
+        {
+           var conv = dbContext.Conversations.Find(convID);
+           if (conv != null)
+           {
+              conv.Read = true;
+              dbContext.SaveChanges();
+              return conv;
+           }
+           //if there was no conversation associated to this convID 
+           logger.ErrorFormat("No conversation with id {0} found", convID);
+           return null;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Return all tags containing a certain string
+        /// </summary>
+        /// <param name="queryString"> the string sequence to look for</param>
+        /// <param name="companyName"> the company to whom these tags belong to</param>
+        /// <returns></returns>
+        private IEnumerable<string> FindMatchingTagsForCompany(string queryString, string companyName, smsfeedbackEntities dbContext)
+        {
+            logger.Info("Call made");
+            var tags = from tag in dbContext.Tags where (tag.CompanyName == companyName && tag.Name.Contains(queryString)) select tag.Name;
+            return tags;
+        }       
 
         private static Client GetClientByName(String sender, smsfeedbackEntities dbContext)
         {
@@ -370,78 +555,9 @@ namespace SmsFeedback_Take4.Utilities
             }
             else clientToBeAddedInDb = clients.First();
             return clientToBeAddedInDb;
-        }
+        }      
 
-        private string UpdateExistingConversation(
-           String sender,           
-           String text, 
-           Boolean readStatus, 
-           DateTime? updateTime, 
-           smsfeedbackEntities dbContext, 
-           Conversation currentConversation, 
-           string updateDateToInsert)
-        {
-            logger.InfoFormat("Updating conversation: [{0}] with read: {1}, updateTime: {2},  text: {3}, from {4}", currentConversation.ConvId, readStatus.ToString(), updateDateToInsert, text, sender);                        
-            /*
-             * since twilio returns (messages >= the latest message) it could be that the latest message is returned again - the only difference is that now "read" is false
-             * so make sure that something changed, besides "read"
-             */
-            bool differentMsgBody = currentConversation.Text != text;
-            bool differentMsgDate = (updateTime.HasValue && updateTime.Value != currentConversation.TimeUpdated);
-            bool newMessage = differentMsgBody && differentMsgDate;
-
-            if (newMessage)
-            {
-                //updateTime for when marking a conversation as read will be "null"
-                if (updateTime.HasValue) currentConversation.TimeUpdated = updateTime.Value;
-                if (!string.IsNullOrEmpty(text)) currentConversation.Text = text;
-                currentConversation.From = sender;
-                currentConversation.Read = readStatus;
-                try
-                {
-                    dbContext.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    logger.Error(e.Message);
-                    return JsonReturnMessages.EXCEPTION;
-                }
-                return JsonReturnMessages.OP_SUCCESSFUL;
-            }
-            else
-            {
-                return JsonReturnMessages.DUPLICATE_MESSAGE;
-            }
-        }
-
-        public Conversation MarkConversationAsRead(string convID, smsfeedbackEntities dbContext)
-        {            
-            var conv = dbContext.Conversations.Find(convID);
-            if (conv != null)
-            {                
-                conv.Read = true;
-                dbContext.SaveChanges();
-                return conv;
-            }
-            //if there was no conversation associated to this convID 
-            logger.ErrorFormat("No conversation with id {0} found", convID);
-            return null;
-        }
-
-        public Conversation UpdateStarredStatusForConversation(string convID, bool newStarredStatus, smsfeedbackEntities dbContext)
-        {            
-            var conv = dbContext.Conversations.Find(convID);
-            if (conv != null)
-            {                
-                conv.Starred = newStarredStatus;
-                dbContext.SaveChanges();
-                return conv;
-            }
-            //if there was no conversation associated to this convID 
-            logger.ErrorFormat("No conversation with id {0} found", convID);
-            return null;
-        }
-       /// <summary>
+        /// <summary>
        /// Adds a message in the db - if outgoing computes response time
        /// </summary>
        /// <param name="from"></param>
@@ -458,8 +574,8 @@ namespace SmsFeedback_Take4.Utilities
        /// <param name="price"></param>
        /// <param name="externalID"></param>
        /// <param name="dbContext"></param>
-       /// <returns></returns>
-        public String AddMessage(
+       /// <returns>The ID of the inserted message</returns>
+        public int AddMessage(
            String from, String to, String conversationId, String text,
            Boolean readStatus, DateTime updateTime, ConversationUtilities.Direction direction, String prevConvFrom, DateTime prevConvUpdateTime,
            bool isSmsBased, String XmppUser, String price, String externalID,
@@ -516,14 +632,14 @@ namespace SmsFeedback_Take4.Utilities
                 if (!XmppUser.Equals(Constants.DONT_ADD_XMPP_USER)) msg.XmppConnectionXmppUser = XmppUser;
                 dbContext.Messages.Add(msg);
                 dbContext.SaveChanges();
-                return JsonReturnMessages.OP_SUCCESSFUL;
+                return msg.Id;
             }
             catch (Exception ex)
             {
                 logger.Error("Error occurred in AddMessage", ex);
                 Console.WriteLine("AddMessage Error = " + ex.Message);
                 Console.WriteLine("AddMessage Error stack = " + ex.StackTrace + "||| & source " + ex.Source);
-                return ex.ToString();
+                return -1;
             }
         }
 
@@ -613,109 +729,7 @@ namespace SmsFeedback_Take4.Utilities
                 return null;
             }
         }
-
-        public void AddTagToConversation(string tagName, string convID, smsfeedbackEntities dbContext)
-        {
-            var tags = from t in dbContext.Tags where t.Name == tagName select t;
-            if (tags.Count() > 0)
-            {
-                AddTagToConversation(tags.First(), convID, dbContext);
-            }
-        }
-
-        public void AddTagToConversation(Tag tag, string convID, smsfeedbackEntities dbContext)
-        {
-            logger.Info("Call made");
-            try
-            {
-               var conv = dbContext.Conversations.Find(convID);
-                if (conv != null)
-                {                    
-                    var convTag = new SmsFeedback_EFModels.ConversationTag() { ConversationConvId = convID, TagCompanyName = tag.CompanyName, TagName = tag.Name, DateAdded = DateTime.UtcNow };
-                    conv.ConversationTags.Add(convTag);
-                    dbContext.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.Error("Error in AddTagToConversation", ex);
-            }
-        }
-
-        public void RemoveTagFromConversation(string tagName, string convID, smsfeedbackEntities dbContext)
-        {
-            logger.Info("Call made");
-            try
-            {
-               var conv = dbContext.Conversations.Find(convID);
-                if (conv != null)
-                {                    
-                    var tags = from t in conv.ConversationTags where t.TagName == tagName select t;                    
-                    if (tags.Count() == 1)
-                    {
-                        conv.ConversationTags.Remove(tags.First());
-                        dbContext.SaveChanges();
-                    }                    
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.Error("Error in RemoveTagFromConversation", ex);
-            }
-        }
-
-        private bool IsConversationFavourite(string convID, smsfeedbackEntities dbContext)
-        {
-            try
-            {
-               var conv = dbContext.Conversations.Find(convID);
-                if (conv != null) { return conv.Starred; }
-                else
-                {
-                    //this conversationID was not found in our db - for sure it's not a favourite
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.Error("IsConversationFavourite error", ex);
-                return false;
-            }
-        }
-
-        public IEnumerable<SmsMessage> GetMessagesForConversation(string convID, smsfeedbackEntities dbContext)
-        {
-            //TODO: error handling & sanity checks
-            //if the conversation is marked as "favourite" then all the messages will be "favorite"
-            var isConvFavourite = IsConversationFavourite(convID, dbContext);
-            var msgs = dbContext.Conversations.Find(convID).Messages.Select( msg =>
-                            new SmsMessage()
-                           {
-                               From = msg.From,
-                               To = msg.To,
-                               ConvID = msg.ConversationId,
-                               Read = msg.Read,
-                               Id = msg.Id,
-                               Starred = isConvFavourite,
-                               Text = msg.Text,
-                               TimeReceived = msg.TimeReceived,
-                               Day = msg.TimeReceived.Day,
-                               Month = msg.TimeReceived.Month,
-                               Year = msg.TimeReceived.Year,
-                               Hours = msg.TimeReceived.Hour,
-                               Minutes = msg.TimeReceived.Minute,
-                               Seconds = msg.TimeReceived.Second,
-                               IsSmsBased = msg.IsSmsBased
-                           });
-            if (msgs.Count() > 0)
-            {
-                return msgs.OrderBy(x => x.TimeReceived);
-            }
-            else
-            {
-                return new SmsMessage[] { };
-            }
-        }
+               
         public string GetNameForWorkingPoint(string wpTelNumberOrShortID, smsfeedbackEntities dbContext)
         {
             var wpName = from wp in dbContext.WorkingPoints where ((wp.TelNumber == wpTelNumberOrShortID) || (wp.ShortID == wpTelNumberOrShortID))  select wp.Name;
@@ -727,12 +741,6 @@ namespace SmsFeedback_Take4.Utilities
             {
                 return "";
             }
-        }
-
-        public Conversation GetLatestConversationDetails(string convId, smsfeedbackEntities dbContext)
-        {
-           var conv = dbContext.Conversations.Find(convId);
-           return conv;
         }
 
         public IEnumerable<SmsFeedback_EFModels.WorkingPoint> GetWorkingPointsForAUser(String scope, String userName, smsfeedbackEntities dbContext)
@@ -774,22 +782,23 @@ namespace SmsFeedback_Take4.Utilities
 
         }
 
-        public String MarkMessageActivityInDB(
+        public int MarkMessageActivityInDB(        
            String from, String to, String conversationId, String text, Boolean readStatus,
            DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, String XmppUser,  
            String price, String externalID, String direction, smsfeedbackEntities dbContext)
         {
             string updateAddConversationResult = UpdateOrAddConversation(from, to, conversationId, text, readStatus, updateTime, isSmsBased, dbContext);
             string addMessageResult = updateAddConversationResult;
+            int newInsertedMessageID = -1;
             if (updateAddConversationResult.Equals(JsonReturnMessages.OP_SUCCESSFUL))
             {
                //compute direction and 
                ConversationUtilities.Direction dir = ConversationUtilities.Direction.from;
                if(direction == Constants.DIRECTION_OUT) { dir = ConversationUtilities.Direction.to;}
-               addMessageResult = AddMessage(from, to, conversationId, text, readStatus, updateTime,dir, prevConvFrom, prevConvUpdateTime, isSmsBased, XmppUser, price, externalID, dbContext);
+               newInsertedMessageID = AddMessage(from, to, conversationId, text, readStatus, updateTime,dir, prevConvFrom, prevConvUpdateTime, isSmsBased, XmppUser, price, externalID, dbContext);
             }
            //we added the message - now if SMS based, mark this 
-            if (addMessageResult.Equals(JsonReturnMessages.OP_SUCCESSFUL) && isSmsBased && (direction == Constants.DIRECTION_OUT)) {
+            if ((newInsertedMessageID > 0) && isSmsBased && (direction == Constants.DIRECTION_OUT)) {
                var sd = UpdateSMSstatusForCompany(from,price, dbContext); 
                //if required emit warnings
                bool warningsRequired = sd.WarningsRequired();
@@ -815,7 +824,7 @@ namespace SmsFeedback_Take4.Utilities
                   }                                                      
                }
             }
-            return addMessageResult;
+            return newInsertedMessageID;
         }
 
         public SubscriptionSmsStatus GetCompanySubscriptionSMSStatus(string loggedInUser, smsfeedbackEntities dbContext)
@@ -847,5 +856,15 @@ namespace SmsFeedback_Take4.Utilities
            logger.ErrorFormat("Invalid user id: {0}", loggedInUser);
            return null;
         }
+        public void updateMsgClientAckField(int msgID, bool clientAcknowledge, smsfeedbackEntities dbContext)
+        {
+           var message = dbContext.Messages.Find(msgID);
+           if (message != null)
+           {
+              message.ClientAcknowledge = clientAcknowledge;
+              dbContext.SaveChanges();
+           }
+        }
+
     }
 }

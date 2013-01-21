@@ -282,7 +282,7 @@ namespace SmsFeedback_Take4.Controllers
             return Json("error", JsonRequestBehavior.AllowGet);            
         }
         
-
+       /* returns the id of the new inserted message */
         private JsonResult SaveImMessageInDb(
            String from, String to, String convId, String text, String xmppUser, smsfeedbackEntities lContextPerRequest,
            String prevConvFrom, DateTime prevConvUpdateTime, string direction)
@@ -297,8 +297,21 @@ namespace SmsFeedback_Take4.Controllers
             }
             //maybe delegate the result to the UpdateDB function
             //or interpret the result and return an appropriate message
-            String result = mEFInterface.MarkMessageActivityInDB(from, to, convId, text, readStatus, DateTime.UtcNow, prevConvFrom, prevConvUpdateTime, false, xmppUserToBeSaved, null, null, direction, lContextPerRequest);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            int result = mEFInterface.MarkMessageActivityInDB(from,
+               to,
+               convId,
+               text,
+               readStatus,
+               DateTime.UtcNow,
+               prevConvFrom,
+               prevConvUpdateTime,
+               false,
+               xmppUserToBeSaved,
+               null,
+               null,
+               direction,
+               lContextPerRequest);
+            return Json(result.ToString(), JsonRequestBehavior.AllowGet);
         }
        
         private JsonResult SendSmsMessageAndUpdateDb(
@@ -334,7 +347,7 @@ namespace SmsFeedback_Take4.Controllers
         private JsonResult SaveIncommingMessage(
            String from, String to, String convId, String text, smsfeedbackEntities lContextPerRequest)
         {
-           String result = mEFInterface.MarkMessageActivityInDB(from, to, convId, text, false, DateTime.UtcNow, null, DateTime.UtcNow, true, Constants.DONT_ADD_XMPP_USER, null, null, Constants.DIRECTION_IN, lContextPerRequest);
+           int result = mEFInterface.MarkMessageActivityInDB(from, to, convId, text, false, DateTime.UtcNow, null, DateTime.UtcNow, true, Constants.DONT_ADD_XMPP_USER, null, null, Constants.DIRECTION_IN, lContextPerRequest);
            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -368,6 +381,20 @@ namespace SmsFeedback_Take4.Controllers
                 else direction = Constants.DIRECTION_INVALID;            
             }
             return direction;
+        }
+
+        public JsonResult UpdateMessageClientAcknowledgeField(int msgID, bool clientAcknowledge)
+        {
+           try
+           {
+              smsfeedbackEntities dbContext = new smsfeedbackEntities();
+              mEFInterface.updateMsgClientAckField(msgID, clientAcknowledge, dbContext);
+              return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
+           }
+           catch (Exception e)
+           {
+              return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);
+           }
         }
       
        protected override void Dispose(bool disposing)

@@ -14,22 +14,52 @@
 /*global Spinner */
 /*global buildConversationID */
 /*global cleanupPhoneNumber */
-/*global clearTimeout */
 /*global setTimeout */
 //#endregion
 window.app = window.app || {};
 window.app.xmppConn = {};
 window.app.getFeaturesIQID = "info14";
 window.app.selfXmppAddress = "";
+window.app.tempMsgQueue = [];
 /*
 when receiving messages it is important that each message is associated an unique id (js wise)
 so we start from a certain id and each time we receive/send a message, we increment the id
 */
 window.app.receivedMsgID = 12345;
 
-window.app.separatorForUnsentMessages = "@@";
-window.app.unsentMsgQueue = [];
-window.app.XMPPConnecting = false;
+//#region Helpers
+function getMessage(msgID) {
+   for (var j = 0; j < window.app.tempMsgQueue.length; ++j) {
+      if (window.app.tempMsgQueue[j].msgID == msgID) {
+         return window.app.tempMsgQueue[j];
+      }
+   }
+   return null;
+}
+
+function removeMessageById(msgID) {
+   for (var j = 0; j < window.app.tempMsgQueue.length; ++j) {
+      if (window.app.tempMsgQueue[j].msgID == msgID) {
+         window.app.tempMsgQueue.splice(j, 1);
+         return true;
+      }
+   }
+   return false;   
+}
+//#endregion
+
+// TODO: Check if Message model from Messages.js can be used 
+function MessageUnsent(body, xmppTo, msgID, convID, from, dateReceived, text, read, isSmsBased) {
+   this.body = body;
+   this.xmppTo = xmppTo;
+   this.msgID = msgID;
+   this.convID = convID;
+   this.from = from;
+   this.dateReceived = dateReceived;
+   this.text = text;
+   this.read = read;
+   this.isSmsBased = isSmsBased;
+}
 
 function getNumberOfConversationsWithUnreadMessages() {
    "use strict";
@@ -43,19 +73,13 @@ window.app.setNrOfUnreadConversationOnTab = function (unreadConvs) {
    $("#msgTabcount").text(toShow);
 };
 
-function MessageUnsent(body, xmppTo, msgID, convID) {
-   this.body = body;
-   this.xmppTo = xmppTo;
-   this.msgID = msgID;
-   this.convID = convID;
-}
-
 //#region "timer for reconnect"
 window.app.reconnectTimer = {};
 window.app.intervalToWaitBetweenChecks = 15000;
 function reconnectIfRequired() {
    if (window.app.xmppConn && window.app.xmppConn.conn && !window.app.xmppConn.conn.connected && !window.app.XMPPConnecting) {
-      window.app.xmppHandlerInstance.connect(window.app.xmppHandlerInstance.userId, window.app.xmppHandlerInstance.password, window.app.xmppHandlerInstance.connectCallback);
+      window.app.XMPPConnecting = true;
+      window.app.xmppHandlerInstance.connect(window.app.xmppConn.userid, window.app.xmppConn.password, window.app.xmppConn.connectCallback);
    }
    window.app.startReconnectTimer();
 }
@@ -63,6 +87,7 @@ window.app.startReconnectTimer = function () {
    clearTimeout(window.app.reconnectTimer);
    window.app.reconnectTimer = setTimeout(reconnectIfRequired, window.app.intervalToWaitBetweenChecks);
 };
+//#endregion
 
 window.app.xmppHandlerInstance = {};
 $(function () {
@@ -106,21 +131,20 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
       //DA we have received a new message - so update the nr of unread conversations (this is generic)
       $(document).trigger('updateUnreadConvsNr');
       //DA now determine if we are in the Conversations tab so that we need to display the message
-      if (window.app.isInConversationsTab != undefined && window.app.isInConversationsTab === true)
-      {
+      if (window.app.isInConversationsTab != undefined && window.app.isInConversationsTab === true) {
          var rawFromID = xmlMsgToBeDecoded.getElementsByTagName('from')[0].textContent;
          var rawToID = xmlMsgToBeDecoded.getElementsByTagName('to')[0].textContent;
          var toID = cleanupPhoneNumber(rawToID);
          var fromID = cleanupPhoneNumber(rawFromID);
          var extension;
          /*
-         DA: the following line seems weird and it actually is :)
-         Right now a Working Point XMPP address is shortID@moderator.txtfeedback.net
-         In order not to hard code the @ prefix we try to retrieve it from SuffixDictionary
-         The issue is that the WP's address might be the from address or the to address (depending on different factors)
-         But for sure the WP is either the to or the from -> we will find it in the suffix dictionary
-         To avoid complicated logic we test both from and to in the suffix dictionary and one of them will hit :)
-         */
+DA: the following line seems weird and it actually is :)
+Right now a Working Point XMPP address is shortID@moderator.txtfeedback.net
+In order not to hard code the @ prefix we try to retrieve it from SuffixDictionary
+The issue is that the WP's address might be the from address or the to address (depending on different factors)
+But for sure the WP is either the to or the from -> we will find it in the suffix dictionary
+To avoid complicated logic we test both from and to in the suffix dictionary and one of them will hit :)
+*/
          extension = window.app.workingPointsSuffixDictionary[toID] || window.app.workingPointsSuffixDictionary[fromID];
          //decide if we are dealing with a message coming from another WorkingPoint
          var isFromWorkingPoint = isWorkingPoint(rawFromID, extension);
@@ -142,11 +166,11 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
          window.app.receivedMsgID++;
          //DA the received time should be in UTC time
          var asDateObject = new Date(Date.parse(dateReceived));
-         //Although now the time is shown in the correct timezone, we have to actually add timezone difference 
+         //Although now the time is shown in the correct timezone, we have to actually add timezone difference
          var milisecondsInMinute = 60000;
          var localOffset = window.app.appStartTime.getTimezoneOffset() * milisecondsInMinute;
          //a negative return value from getTimezoneOffset() indicates that the current location is ahead of UTC, while a positive value indicates that the location is behind UTC.
-         asDateObject = new Date(asDateObject.getTime() - localOffset);         
+         asDateObject = new Date(asDateObject.getTime() - localOffset);
          $(document).trigger('msgReceived', {
             fromID: fromID,
             toID: toID,
@@ -156,7 +180,7 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
             text: newText,
             readStatus: readStatus,
             isSmsBased: isSmsBased
-         });         
+         });
       }
    }
 };
@@ -164,6 +188,7 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
 
 
 window.app.XMPPhandler = function XMPPhandler() {
+   var self = this;
    this.userid = null;
    this.password = null;
    this.conn = null;
@@ -173,8 +198,7 @@ window.app.XMPPhandler = function XMPPhandler() {
    this.connectCallback = function (status) {
       var needReconnect = false;
       if (status === Strophe.Status.CONNECTED) {
-         //window.app.logDebugOnServer("XMPP connected");         
-         window.app.XMPPConnecting = false;
+         //window.app.logDebugOnServer("XMPP connected");
          window.app.xmppConn.connection = window.app.xmppConn.conn;
          window.app.xmppConn.connection.addHandler(window.app.xmppConn.handle_infoquery, null, "iq", null, null);
          window.app.xmppConn.connection.addHandler(window.app.xmppConn.handle_message, null, "message", null, null);
@@ -182,14 +206,14 @@ window.app.XMPPhandler = function XMPPhandler() {
          //window.app.xmppConn.send_ping(domain);
          window.app.xmppConn.send_initial_presence(domain);
          window.app.xmppConn.getInfo(domain);
-         window.app.xmppConn.sendMessagesInQueue();
+
          //self.request_conversations(self.account_number);
       } else if (status === Strophe.Status.CONNECTING) {
-         //window.app.logDebugOnServer("XMPP connecting...");         
+         //window.app.logDebugOnServer("XMPP connecting...");
       } else if (status === Strophe.Status.AUTHENTICATING) {
-         // window.app.logDebugOnServer("XMPP authenticating...");         
+         // window.app.logDebugOnServer("XMPP authenticating...");
       } else if (status === Strophe.Status.DISCONNECTED) {
-         //window.app.logDebugOnServer("XMPP disconnected");        
+         //window.app.logDebugOnServer("XMPP disconnected");
          needReconnect = true;
       } else if (status === Strophe.Status.CONNFAIL) {
          window.app.logDebugOnServer("XMPP connection fail");
@@ -203,12 +227,6 @@ window.app.XMPPhandler = function XMPPhandler() {
       }
       if (needReconnect) {
          window.app.xmppConn.connect(window.app.xmppConn.userid, window.app.xmppConn.password, window.app.xmppConn.connectCallback);
-      }
-   };
-   this.sendMessagesInQueue = function () {
-      while (window.app.unsentMsgQueue.length > 0) {
-         var unsentMsg = window.app.unsentMsgQueue.shift();
-         window.app.xmppConn.send_message(unsentMsg.body, unsentMsg.xmppTo, unsentMsg.msgID, unsentMsg.convID);
       }
    };
    this.connect = function (userid, password) {
@@ -260,13 +278,22 @@ window.app.XMPPhandler = function XMPPhandler() {
       }).c("query", { xmlns: "http://jabber.org/protocol/disco#info" });
       this.connection.send(reqInfo);
    };
+   this.sendAckMessage = function (xmppTo, ackID, ackDest) {
+      var self = this;
+      var replymsg = $msg({
+         to: xmppTo
+      }).c("subject").t("ClientMsgDeliveryReceipt");
+      replymsg.up();
+      replymsg.c("received", { xmlns: "urn:xmpp:receipts", id: ackID, ackDest: ackDest });
+      //DA - when sending make sure that we are connected
+      window.app.xmppConn.conn.send(replymsg);
+   };
    this.send_reply = function (from, to, dateSent, convID, message, xmppTo, isSmsBased, toStaff, msgID) {
       /*
-      here we should just build the message from what is handed to us
-      there should be no responsibility regarding the logic of building the content of the message
-      but only regarding the structure (what fields have to be filled in)
+         here we should just build the message from what is handed to us
+         there should be no responsibility regarding the logic of building the content of the message
+         but only regarding the structure (what fields have to be filled in)
       */
-      var self = this;
       var message_body = "<msg>" +
                                     " <from>" + from + "</from>" +
                                     " <to>" + to + "</to>" +
@@ -276,36 +303,33 @@ window.app.XMPPhandler = function XMPPhandler() {
                                     " <staff>" + toStaff.toString() + "</staff>" +
                                     " <sms>" + isSmsBased.toString() + "</sms>" +
                                 " </msg>";
-      self.send_message(message_body, xmppTo, msgID, convID);
+      var messageToBeSent = new MessageUnsent(message_body, xmppTo, msgID, convID, from, dateSent, message, false, false);
+      this.send_message(messageToBeSent);      
    };
-   this.send_message = function (body, xmppTo, msgID, convID) {
+   this.send_message = function (message) {
       var self = this;
       var replymsg = $msg({
-         from: window.app.selfXmppAddress,
-         to: xmppTo,
-         "type": "chat"
-      }).c("body").t(body);
+         id: message.msgID,
+         to: message.xmppTo,
+         type: "chat"
+      }).c("body").t(message.body);
       replymsg.up();
       replymsg.c("subject").t("internal_packet");
+      replymsg.up();
+      replymsg.c("request", { xmlns: "urn:xmpp:receipts" });
 
       if (window.app.xmppConn.conn.authenticated) {
+         window.app.tempMsgQueue.push(message);
          window.app.xmppConn.conn.send(replymsg);
-         // trigger a document event to signal that the message was successfully sent
-         $(document).trigger('msgSent', {
-            msgID: msgID,
-            convID: convID
-         });
       } else {
-         var unsentMessage = new MessageUnsent(body, xmppTo, msgID, convID);
-         window.app.unsentMsgQueue.push(unsentMessage);
          //force synch connect 
          if (!window.app.XMPPConnecting) {
             window.app.XMPPConnecting = true;
             window.app.xmppHandlerInstance.connect(window.app.xmppHandlerInstance.userid, window.app.xmppHandlerInstance.password, self.connectCallback);
          }
       }
-
    };
+
    this.handle_infoquery = function (iq) {
       var currentIq = $(iq);
       if (currentIq.attr("id") === window.app.getFeaturesIQID) {
@@ -334,6 +358,16 @@ window.app.XMPPhandler = function XMPPhandler() {
       } else if ($(message).attr("type") === "getMessagesForConversationResponse") {
          var messages = $(message).children("body").text();
          this.displayMessagesForConversation(messages);
+      } else if ($(message).children("subject").text() === "ServerMsgDeliveryReceipt") {
+         var messageId = $(message).children("received").attr("id");
+         $(document).trigger('serverAcknowledge', {
+            message: getMessage(messageId)
+         });         
+      } else if ($(message).children("subject").text() === "ClientMsgDeliveryReceipt") {
+         var messageId = $(message).children("received").attr("id");
+         $(document).trigger('clientAcknowledge', {
+            message: getMessage(messageId)
+         });
       } else if ($(message).attr("type") === "result") {
          //TODO result relevant to us?
       } else if ($(message).attr("type") === "chat") {
@@ -346,15 +380,22 @@ window.app.XMPPhandler = function XMPPhandler() {
                }
             }
          }
-         else {            
+         else {
             //incommingMSG
             //DA check if we are dealing with a delayed message or not - if yes - disregard the message
             if ($(message).children("delay").length === 0) {
                //according to http://xmpp.org/extensions/xep-0160.html#flow if we are dealing with a offline message we will have a delay child
                var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
                window.app.handleIncommingMessage(incommingMsg, true);
+               self.sendAckMessage($(message).attr("from"),
+                                    $(message).attr("id"),
+                                    $($(message).children("request")[0]).attr("ackDest"));
+            } else {
+               self.sendAckMessage($(message).attr("from"),
+                                    $(message).attr("id"),
+                                    $($(message).children("request")[0]).attr("ackDest"));
             }
-           
+
          }
       } else if ($(message).attr("type") === "error") {
          var error = message.getElementsByTagName("error")[0];
