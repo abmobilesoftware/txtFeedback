@@ -379,3 +379,130 @@ TypeError: document.body.scrollHeight is not a function], context: [Mozilla/5.0 
 2012-10-23 11:06:01,558 DEBUG (LogDebug) (d:\Work\Txtfeedback\Repository Git\txtFeedback\mobile.TxtFeedback_take1\Controllers\ErrorLogController.cs:21)  - Client side debug: [XMPP registering with user [2c0b4bb084ae4eb1a1b6d540434b1686]], context: [Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0]
 2012-10-23 11:06:01,801 DEBUG (LogDebug) (d:\Work\Txtfeedback\Repository Git\txtFeedback\mobile.TxtFeedback_take1\Controllers\ErrorLogController.cs:21)  - Client side debug: [XMPP Register successful], context: [Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0]
 2012-10-23 11:06:03,679 DEBUG (LogDebug) (d:\Work\Txtfeedback\Repository Git\txtFeedback\mobile.TxtFeedback_take1\Controllers\ErrorLogController.cs:21)  - Client side debug: [XMPP connected], context: [Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0]
+2013-01-17 17:36:11,894 DEBUG (LogDebug) (d:\Work\Txtfeedback\Repository Git\txtFeedback\mobile.TxtFeedback_take1\Controllers\ErrorLogController.cs:21)  - Client side debug: [XMPP Register successful], context: [Mozilla/5.0 (Windows NT 6.1; WOW64; rv:18.0) Gecko/20100101 Firefox/18.0]
+2013-01-17 18:21:22,942 ERROR (LogError) (d:\Work\Txtfeedback\Repository Git\txtFeedback\mobile.TxtFeedback_take1\Controllers\ErrorLogController.cs:15)  - Client side error: [Level 3 with message: request id 68.0 error 0 happened], context: [Mozilla/5.0 (Windows NT 6.1; WOW64; rv:18.0) Gecko/20100101 Firefox/18.0]
+2013-01-18 14:59:34,640 ERROR (LogError) (d:\Work\Txtfeedback\Repository Git\txtFeedback\mobile.TxtFeedback_take1\Controllers\ErrorLogController.cs:15)  - Client side error: [Level 3 with message: request id 16.1 error 0 happened], context: [Mozilla/5.0 (Windows NT 6.1; WOW64; rv:18.0) Gecko/20100101 Firefox/18.0]
+2013-01-18 14:59:34,640 ERROR (LogError) (d:\Work\Txtfeedback\Repository Git\txtFeedback\mobile.TxtFeedback_take1\Controllers\ErrorLogController.cs:15)  - Client side error: [Level 3 with message: request id 18.0 error 0 happened], context: [Mozilla/5.0 (Windows NT 6.1; WOW64; rv:18.0) Gecko/20100101 Firefox/18.0]
+2013-01-18 14:59:34,892 ERROR (LogError) (d:\Work\Txtfeedback\Repository Git\txtFeedback\mobile.TxtFeedback_take1\Controllers\ErrorLogController.cs:15)  - Client side error: [http://localhost:16877/MyScripts/strophe.js:2495
+NS_ERROR_FAILURE: Failure], context: [Mozilla/5.0 (Windows NT 6.1; WOW64; rv:18.0) Gecko/20100101 Firefox/18.0]
+2013-01-18 15:19:16,714 ERROR (LogError) (d:\Work\Txtfeedback\Repository Git\txtFeedback\mobile.TxtFeedback_take1\Controllers\ErrorLogController.cs:15)  - Client side error: [Level 3 with message: request id 36.0 error 0 happened], context: [Mozilla/5.0 (Windows NT 6.1; WOW64; rv:18.0) Gecko/20100101 Firefox/18.0]
+2013-01-18 15:33:39,438 ERROR (LogError) (d:\Work\Txtfeedback\Repository Git\txtFeedback\mobile.TxtFeedback_take1\Controllers\ErrorLogController.cs:15)  - Client side error: [Level 4 with message: error: function (message) {
+"use strict";
+
+       
+       if ($(message).attr("type") === "getConversationsResponse") {
+            //this.displayConversationsList(message);
+            window.app.logDebugOnServer("XMPP Conversations list reponse received");
+        } else if ($(message).attr("type") === "sendSmsResponse") {
+            if ($(message).children("body").text() === "error") {
+                $("#quick_replay_text").val("");
+            } else {
+                this.displayConversationsList(message);
+                $("#quick_replay_text").val("");
+            }
+        } else if ($(message).attr("type") === "getMessagesForConversationResponse") {
+            var messages = $(message).children("body").text();
+            this.displayMessagesForConversation(messages);
+        } else if ($(message).attr("type") === "result") {
+           //var x = $(message).children("body").text();
+        } else if ($(message).children("subject").text() === "ServerMsgDeliveryReceipt") {
+           var messageId = $(message).children("received").attr("id");
+           $(document).trigger('serverAcknowledge', {
+              message: getMessage(messageId)
+           });
+        } else if ($(message).children("subject").text() === "ClientMsgDeliveryReceipt") {
+           var messageId = $(message).children("received").attr("id");
+           $(document).trigger('clientAcknowledge', {
+              message: getMessage(messageId)
+           });
+           removeMessageById(messageId);
+        } else if ($(message).attr("type") === "chat") {
+            //if we are dealing with a forwarded message then the body tag will be non zero
+            if ($(message).children("sent").attr("xmlns") === "urn:xmpp:carbons:1") {
+                if (message.getElementsByTagName("body") !== undefined && message.getElementsByTagName("body").length !== 0) {
+                    var carbonMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
+                    window.app.handleIncommingMessage(carbonMsg, false);
+                }
+            }
+            else if ($(message).children("received").attr("xmlns") === "urn:xmpp:carbons:1") {
+            }
+            else {
+               var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
+               window.app.handleIncommingMessage(incommingMsg, true);
+               var fromAddr = $(message).attr("from");
+               self.sendAckMessage($(message).attr("from"),
+                                    $(message).attr("id"),
+                                    $($(message).children("request")[0]).attr("ackDest"));
+            }
+        } else if ($(message).attr("type") === "error") {
+            var error = message.getElementsByTagName("error")[0];
+            if (error !== undefined) {
+                var type = $(error).attr("type");
+                window.app.logDebugOnServer("XMPP error, type [" + type + "]");
+            }
+            //TODO what other messages might there be?
+            window.app.logErrorOnServer("unknown XMPP message type: " + $(message).attr("type"));
+        }
+        return true;
+    } http://localhost:16877/MyScripts/Home.js:304 - TypeError: message is null], context: [Mozilla/5.0 (Windows NT 6.1; WOW64; rv:18.0) Gecko/20100101 Firefox/18.0]
+2013-01-18 15:33:40,143 ERROR (LogError) (d:\Work\Txtfeedback\Repository Git\txtFeedback\mobile.TxtFeedback_take1\Controllers\ErrorLogController.cs:15)  - Client side error: [Level 4 with message: error: function (message) {
+"use strict";
+
+       
+       if ($(message).attr("type") === "getConversationsResponse") {
+            //this.displayConversationsList(message);
+            window.app.logDebugOnServer("XMPP Conversations list reponse received");
+        } else if ($(message).attr("type") === "sendSmsResponse") {
+            if ($(message).children("body").text() === "error") {
+                $("#quick_replay_text").val("");
+            } else {
+                this.displayConversationsList(message);
+                $("#quick_replay_text").val("");
+            }
+        } else if ($(message).attr("type") === "getMessagesForConversationResponse") {
+            var messages = $(message).children("body").text();
+            this.displayMessagesForConversation(messages);
+        } else if ($(message).attr("type") === "result") {
+           //var x = $(message).children("body").text();
+        } else if ($(message).children("subject").text() === "ServerMsgDeliveryReceipt") {
+           var messageId = $(message).children("received").attr("id");
+           $(document).trigger('serverAcknowledge', {
+              message: getMessage(messageId)
+           });
+        } else if ($(message).children("subject").text() === "ClientMsgDeliveryReceipt") {
+           var messageId = $(message).children("received").attr("id");
+           $(document).trigger('clientAcknowledge', {
+              message: getMessage(messageId)
+           });
+           removeMessageById(messageId);
+        } else if ($(message).attr("type") === "chat") {
+            //if we are dealing with a forwarded message then the body tag will be non zero
+            if ($(message).children("sent").attr("xmlns") === "urn:xmpp:carbons:1") {
+                if (message.getElementsByTagName("body") !== undefined && message.getElementsByTagName("body").length !== 0) {
+                    var carbonMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
+                    window.app.handleIncommingMessage(carbonMsg, false);
+                }
+            }
+            else if ($(message).children("received").attr("xmlns") === "urn:xmpp:carbons:1") {
+            }
+            else {
+               var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
+               window.app.handleIncommingMessage(incommingMsg, true);
+               var fromAddr = $(message).attr("from");
+               self.sendAckMessage($(message).attr("from"),
+                                    $(message).attr("id"),
+                                    $($(message).children("request")[0]).attr("ackDest"));
+            }
+        } else if ($(message).attr("type") === "error") {
+            var error = message.getElementsByTagName("error")[0];
+            if (error !== undefined) {
+                var type = $(error).attr("type");
+                window.app.logDebugOnServer("XMPP error, type [" + type + "]");
+            }
+            //TODO what other messages might there be?
+            window.app.logErrorOnServer("unknown XMPP message type: " + $(message).attr("type"));
+        }
+        return true;
+    } http://localhost:16877/MyScripts/Home.js:307 - TypeError: message is null], context: [Mozilla/5.0 (Windows NT 6.1; WOW64; rv:18.0) Gecko/20100101 Firefox/18.0]
+2013-01-18 15:58:06,838 ERROR (LogError) (d:\Work\Txtfeedback\Repository Git\txtFeedback\mobile.TxtFeedback_take1\Controllers\ErrorLogController.cs:15)  - Client side error: [Level 3 with message: request id 39.0 error 0 happened], context: [Mozilla/5.0 (Windows NT 6.1; WOW64; rv:18.0) Gecko/20100101 Firefox/18.0]
+2013-01-18 15:58:07,330 ERROR (LogError) (d:\Work\Txtfeedback\Repository Git\txtFeedback\mobile.TxtFeedback_take1\Controllers\ErrorLogController.cs:15)  - Client side error: [Level 3 with message: request id 57.0 error 0 happened], context: [Mozilla/5.0 (Windows NT 6.1; WOW64; rv:18.0) Gecko/20100101 Firefox/18.0]
