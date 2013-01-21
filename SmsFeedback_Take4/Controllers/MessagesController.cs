@@ -8,6 +8,7 @@ using SmsFeedback_Take4.Models;
 using SmsFeedback_EFModels;
 using Twilio;
 using Newtonsoft.Json;
+using SmsFeedback_Take4.Models.Helpers;
 
 namespace SmsFeedback_Take4.Controllers
 {
@@ -106,6 +107,12 @@ namespace SmsFeedback_Take4.Controllers
                 logger.Error("DeleteMessage " + ex.Message);
                 return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public JsonResult SMSSSubscriptionStatus()
+        {
+           var status = mEFInterface.GetCompanySubscriptionSMSStatus(User.Identity.Name, context);
+           return Json(status, JsonRequestBehavior.AllowGet);
         }
 
        protected override void Dispose(bool disposing)

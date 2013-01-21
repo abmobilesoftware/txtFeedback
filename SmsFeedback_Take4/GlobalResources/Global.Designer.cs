@@ -1699,6 +1699,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have reached the monthly spending limit of {0:0.00} {1} for your company. Purchase credit or raise spending limit to be able to send more SMS until the next billing month (which starts on {2}).
+        /// </summary>
+        public static string subscriptionSpendingReached {
+            get {
+                return ResourceManager.GetString("subscriptionSpendingReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are approaching the monthly spending limit for your company. You have spent {0:0.00} {1} out of the allowed {2:0.00} {1}. Make sure you have enough credits to be able to operate until the next billing month (which starts on {3}).
+        /// </summary>
+        public static string subscriptionWarningReached {
+            get {
+                return ResourceManager.GetString("subscriptionWarningReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Support.
         /// </summary>
         public static string supportLabel {

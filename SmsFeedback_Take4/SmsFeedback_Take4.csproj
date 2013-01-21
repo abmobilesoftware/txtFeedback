@@ -205,6 +205,7 @@
     <Compile Include="Models\Helpers\ReportSection.cs" />
     <Compile Include="Models\Helpers\ReportsMenuItem.cs" />
     <Compile Include="Models\Helpers\ReportResourceOptions.cs" />
+    <Compile Include="Models\Helpers\SubscriptionSmsStatus.cs" />
     <Compile Include="Models\Interfaces\IInternalSMSRepository.cs" />
     <Compile Include="Models\Repositories\EFSmsRepository.cs" />
     <Compile Include="Models\Repositories\FacadeSMSRepository.cs" />

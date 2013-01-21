@@ -847,4 +847,10 @@
   <data name="settingsCompanyMenuName" xml:space="preserve">
     <value>Company</value>
   </data>
+  <data name="subscriptionSpendingReached" xml:space="preserve">
+    <value>You have reached the monthly spending limit of {0:0.00} {1} for your company. Purchase credit or raise spending limit to be able to send more SMS until the next billing month (which starts on {2})</value>
+  </data>
+  <data name="subscriptionWarningReached" xml:space="preserve">
+    <value>You are approaching the monthly spending limit for your company. You have spent {0:0.00} {1} out of the allowed {2:0.00} {1}. Make sure you have enough credits to be able to operate until the next billing month (which starts on {3})</value>
+  </data>
 </root>

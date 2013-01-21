@@ -74,14 +74,18 @@
 </head>
 <body>
    <script type="text/template" id="notifyAreaTemplate">       
+      <div id="notificationMsgArea">
               {% if (!IsError) { %}
                   <img class="notificationIcon" src="<%: Url.Content("~/Content/images/warning_24.png") %>" width="24" height="24"/>             
                {% } else { %}
                   <img class="notificationIcon" src="<%: Url.Content("~/Content/images/error2_24.png") %>" width="24" height="24"/>
               {% } %}
             <span id="notificationText">{{ Message}}</span>            
+      </div>
+      <div id="notificationActionBtns">
             <button id="notificationAck" class="notificationBtn">Dismiss</button>      
             <button id="takeAction" class="notificationBtn">Solve</button>
+      </div>
    </script>
     <asp:ContentPlaceHolder ID="TemplatesArea" runat="server" />
    <div class="page">        

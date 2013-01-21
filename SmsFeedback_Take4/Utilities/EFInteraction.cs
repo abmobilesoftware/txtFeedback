@@ -6,6 +6,7 @@ using SmsFeedback_EFModels;
 using SmsFeedback_Take4.Models;
 using System.Globalization;
 using Mvc.Mailer;
+using SmsFeedback_Take4.Models.Helpers;
 
 namespace SmsFeedback_Take4.Utilities
 {
@@ -817,5 +818,34 @@ namespace SmsFeedback_Take4.Utilities
             return addMessageResult;
         }
 
+        public SubscriptionSmsStatus GetCompanySubscriptionSMSStatus(string loggedInUser, smsfeedbackEntities dbContext)
+        {
+           var user = (from usr in dbContext.Users where usr.UserName == loggedInUser select usr).FirstOrDefault();
+           if (user != null)
+           {
+              Company company = user.Company;
+              var sd = company.SubscriptionDetail;
+              bool warningReached = false;
+              bool spendingReached = false;
+              SubscriptionSmsStatus status = new SubscriptionSmsStatus(false,0,warningReached,spendingReached);
+              bool warningsRequired = sd.WarningsRequired();
+              
+              if (warningsRequired)
+              {
+                 if (sd.CanSendSMS)
+                 {
+                    status.WarningLimitReached = true;
+                    status.WarningLimitReachedMessage = String.Format(Resources.Global.subscriptionWarningReached, sd.SpentThisMonth, sd.DefaultCurrency, sd.SpendingLimit, sd.GetNextBillingDate(DateTime.Now).ToLongDateString());
+                 }
+                 else {
+                    status.SpendingLimitReached = true;
+                    status.SpendingLimitReachedMessage = String.Format(Resources.Global.subscriptionSpendingReached, sd.SpendingLimit, sd.DefaultCurrency, sd.GetNextBillingDate(DateTime.Now).ToLongDateString());
+                 }                 
+              }
+              return status;
+           }
+           logger.ErrorFormat("Invalid user id: {0}", loggedInUser);
+           return null;
+        }
     }
 }

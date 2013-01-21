@@ -93,6 +93,28 @@ window.app.updateNrOfUnreadConversations = function (performUpdateBefore) {
    });
 };
 
+window.app.checkSmsSubscriptionStatus = function () {
+   $.getJSON('Messages/SMSSSubscriptionStatus',
+                  { },
+                  function (data) {
+                     //if error required
+                     if (data.SpendingLimitReached) {
+                        window.app.NotifyArea.show(data.SpendingLimitReachedMessage, function ()
+                        {
+                           window.location.href = "mailto:contact@txtfeedback.net?subject=Increase spending limit or Buy Credit";
+                           
+                        }, true);
+                     }
+                     else if (data.WarningLimitReached) {
+                        window.app.NotifyArea.show(data.WarningLimitReachedMessage, function ()
+                        {
+                           window.location.href = "mailto:contact@txtfeedback.net?subject=Ensure that enough credit is still available";
+                        }, false);
+                     }
+                     //if warning required                                          
+                  }
+          );
+};
 function resizeTriggered() {
    "use strict";
    //pick the highest between window size (- header) and messagesArea
@@ -104,8 +126,8 @@ function resizeTriggered() {
    var headerHeight = $('header').outerHeight();
    var contentWindowHeight = window_height - headerHeight;// - (2 * padding) - filterStripHeigh;
    
-   var marginTop = parseInt($('#rightColumn').css('margin-top'));
-   var marginBottom = parseInt($('#rightColumn').css('margin-bottom'));
+   var marginTop = parseInt($('#rightColumn').css('margin-top'),10);
+   var marginBottom = parseInt($('#rightColumn').css('margin-bottom'),10);
    var rightAreaCandidateHeight = contentWindowHeight - filterStripHeigh - marginTop - marginBottom;
    var rightAreaHeight = $('#rightColumn').outerHeight();
    var contentContaier = $('.container_12');
@@ -224,8 +246,8 @@ $(function () {
 window.app.NotifyAreaModel = Backbone.Model.extend({
    defaults: {
       Message: "You are approaching your spending limit for this month - make sure your limit or credit are high enough for normal operation",
-      SolveAction: function () {
-       
+      SolveAction: function () {         
+         window.location.href = "mailto:contact@txtfeedback.net";
       },
       Visible: false,
       IsError: true
@@ -248,6 +270,7 @@ window.app.NotifyAreaView = Backbone.View.extend({
    initialize: function () {
       this.template = _.template($('#notifyAreaTemplate').html());
       _.bindAll(this, 'render', 'callAction', 'hide');
+      this.model.bind('change', this.render);
       return this.render;
    },
    render: function () {
@@ -265,8 +288,9 @@ window.app.NotifyAreaView = Backbone.View.extend({
    },
    show: function (message, solveAction, isError) {
       this.model.set("Visible", true);
-      //this.model.set("Message", message);
-      //this.model.set("SolveAction", solveAction);
+      this.model.set("Message", message);
+      this.model.set("IsError", isError);
+      this.model.set("SolveAction", solveAction);
       this.$el.show();
       resizeTriggered();
    },
@@ -281,6 +305,7 @@ $(function () {
    var m = new window.app.NotifyAreaModel();
    window.app.NotifyArea = new window.app.NotifyAreaView({model:m});
    $('header').prepend(window.app.NotifyArea.render().$el);
+   window.app.checkSmsSubscriptionStatus();
    //window.app.NotifyArea.show();
 });
 //#endregion
