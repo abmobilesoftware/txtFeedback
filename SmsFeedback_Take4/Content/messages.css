@@ -427,10 +427,6 @@ background: #183540; /* Old browsers */
     opacity: 1;
 }
 
-div.messageMenu {
-    visibility: hidden;
-}
-
 .sendAndReceivedChecks {
     float: right;
     padding-left: 10px;
