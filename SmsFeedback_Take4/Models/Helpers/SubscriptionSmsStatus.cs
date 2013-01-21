@@ -14,10 +14,10 @@ namespace SmsFeedback_Take4.Models.Helpers
       public string WarningLimitReachedMessage { get; set; }
       public string SpendingLimitReachedMessage { get; set; }
       
-      public SubscriptionSmsStatus(bool msgSent, int msgID, bool warningLimitReached, bool spendingLimitReached, string warningMSG = "", string spendingMSG= "")
+      public SubscriptionSmsStatus(int msgID, bool msgSent, bool warningLimitReached, bool spendingLimitReached, string warningMSG = "", string spendingMSG= "")
       {
-         MessageSent = msgSent;
          MessageID = msgID;
+         MessageSent = msgSent;
          WarningLimitReached = warningLimitReached;
          SpendingLimitReached = spendingLimitReached;
          WarningLimitReachedMessage = warningMSG;

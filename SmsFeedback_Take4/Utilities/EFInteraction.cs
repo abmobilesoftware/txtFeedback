@@ -6,6 +6,7 @@ using SmsFeedback_EFModels;
 using SmsFeedback_Take4.Models;
 using System.Globalization;
 using Mvc.Mailer;
+using System.Web.Mvc;
 using SmsFeedback_Take4.Models.Helpers;
 
 namespace SmsFeedback_Take4.Utilities
@@ -782,7 +783,7 @@ namespace SmsFeedback_Take4.Utilities
 
         }
 
-        public int MarkMessageActivityInDB(        
+        public SubscriptionSmsStatus MarkMessageActivityInDB(        
            String from, String to, String conversationId, String text, Boolean readStatus,
            DateTime updateTime, String prevConvFrom, DateTime prevConvUpdateTime, bool isSmsBased, String XmppUser,  
            String price, String externalID, String direction, smsfeedbackEntities dbContext)
@@ -790,6 +791,8 @@ namespace SmsFeedback_Take4.Utilities
             string updateAddConversationResult = UpdateOrAddConversation(from, to, conversationId, text, readStatus, updateTime, isSmsBased, dbContext);
             string addMessageResult = updateAddConversationResult;
             int newInsertedMessageID = -1;
+           bool warningLimitReached = false;
+           bool spendingLimitReached = false;           
             if (updateAddConversationResult.Equals(JsonReturnMessages.OP_SUCCESSFUL))
             {
                //compute direction and 
@@ -808,6 +811,7 @@ namespace SmsFeedback_Take4.Utilities
                   var companyName = sd.Companies.FirstOrDefault().Name;
                   if (sd.CanSendSMS)
                   {
+                     warningLimitReached = true;
                      //we need to send warnings
                      System.Net.Mail.MailMessage msgPrimary = mailer.WarningEmail(sd, sd.PrimaryContact.Email, sd.PrimaryContact.Name, sd.PrimaryContact.Surname);
                      msgPrimary.Send();
@@ -816,6 +820,7 @@ namespace SmsFeedback_Take4.Utilities
                   }
                   else
                   {
+                     spendingLimitReached = true;
                      //we need to send SpendingLimit reached emails
                      System.Net.Mail.MailMessage msgPrimary = mailer.SpendingLimitReachedEmail(sd, sd.PrimaryContact.Email, sd.PrimaryContact.Name, sd.PrimaryContact.Surname);
                      msgPrimary.Send();
@@ -824,7 +829,8 @@ namespace SmsFeedback_Take4.Utilities
                   }                                                      
                }
             }
-            return newInsertedMessageID;
+            SubscriptionSmsStatus messageStatus = new SubscriptionSmsStatus(newInsertedMessageID, !spendingLimitReached, warningLimitReached, spendingLimitReached);
+            return messageStatus;
         }
 
         public SubscriptionSmsStatus GetCompanySubscriptionSMSStatus(string loggedInUser, smsfeedbackEntities dbContext)

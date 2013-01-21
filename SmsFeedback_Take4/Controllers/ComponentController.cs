@@ -297,7 +297,7 @@ namespace SmsFeedback_Take4.Controllers
             }
             //maybe delegate the result to the UpdateDB function
             //or interpret the result and return an appropriate message
-            int result = mEFInterface.MarkMessageActivityInDB(from,
+            SubscriptionSmsStatus messageStatus = mEFInterface.MarkMessageActivityInDB(from,
                to,
                convId,
                text,
@@ -311,44 +311,44 @@ namespace SmsFeedback_Take4.Controllers
                null,
                direction,
                lContextPerRequest);
-            return Json(result.ToString(), JsonRequestBehavior.AllowGet);
+            return Json(messageStatus, JsonRequestBehavior.AllowGet);
         }
        
         private JsonResult SendSmsMessageAndUpdateDb(
            String from, String to, String convId, String text, String xmppUser, smsfeedbackEntities lContextPerRequest, 
            String prevConvFrom, DateTime prevConvUpdateTime)
         {
-
-            var messageCanBeSent = SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgResponse) =>
+            SubscriptionSmsStatus messageStatus = null;
+            //var messageCanBeSent = SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgResponse) =>
+            var status = SMSRepository.SendMessage(from, to, text,lContextPerRequest);
+            if (status != null)
             {
-                mEFInterface.MarkMessageActivityInDB(from, 
-                   to, 
-                   convId, 
-                   text, 
-                   true, 
-                   msgResponse.DateSent, 
-                   prevConvFrom, 
-                   prevConvUpdateTime, 
-                   true, 
-                   xmppUser, 
-                   msgResponse.Price,
-                   msgResponse.ExternalID, 
-                   Constants.DIRECTION_OUT, lContextPerRequest);
-            });
-            if (messageCanBeSent)
+               messageStatus = mEFInterface.MarkMessageActivityInDB(from,
+                      to,
+                      convId,
+                      text,
+                      true,
+                      status.DateSent,
+                      prevConvFrom,
+                      prevConvUpdateTime,
+                      true,
+                      xmppUser,
+                      status.Price,
+                      status.ExternalID,
+                      Constants.DIRECTION_OUT, lContextPerRequest);
+            }
+            else
             {
-               return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
+               messageStatus = new SubscriptionSmsStatus(-1, false, false, false);
             }
-            else {
-               return Json(JsonReturnMessages.CANNOT_SEND_SMS, JsonRequestBehavior.AllowGet);
-            }
+            return Json(messageStatus, JsonRequestBehavior.AllowGet);            
         }
 
         private JsonResult SaveIncommingMessage(
            String from, String to, String convId, String text, smsfeedbackEntities lContextPerRequest)
         {
-           int result = mEFInterface.MarkMessageActivityInDB(from, to, convId, text, false, DateTime.UtcNow, null, DateTime.UtcNow, true, Constants.DONT_ADD_XMPP_USER, null, null, Constants.DIRECTION_IN, lContextPerRequest);
-           return Json(result, JsonRequestBehavior.AllowGet);
+           SubscriptionSmsStatus messageStatus = mEFInterface.MarkMessageActivityInDB(from, to, convId, text, false, DateTime.UtcNow, null, DateTime.UtcNow, true, Constants.DONT_ADD_XMPP_USER, null, null, Constants.DIRECTION_IN, lContextPerRequest);
+           return Json(messageStatus, JsonRequestBehavior.AllowGet);
         }
 
         private static string ComputeDirection(String from, String convId, bool isSms)
