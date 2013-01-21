@@ -213,11 +213,15 @@ function TagsArea() {
       appendTag: function (tag) {
          $('#tags').addTag(tag.get("Name"), { callback: false });
       },
-      turnTheHandOn: function (tagType, element) {
-         var tagName = this.specialTagsPool.where({ TagType: tagType, IsDefault: true })[0].get("Name");
-         if ($("#tags").tagExist(tagName)) {
-            $(element).css("background-position", "24px 0");
-         }
+      turnTheHandOn: function (tagType, element) {         
+         var spTags = self.specialTagsPool.where({ TagType: tagType, IsDefault: true });
+         if (spTags.length > 0) {
+            var associatedSpecialTag = spTags[0];
+            var tagName = associatedSpecialTag.get("Name");
+            if ($("#tags").tagExist(tagName)) {
+               $(element).css("background-position", "24px 0");
+            }
+         }         
       },
       toggleHands: function (tagType) {
          if (tagType === "positiveFeedback") {
