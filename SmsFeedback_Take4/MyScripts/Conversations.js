@@ -171,7 +171,19 @@ $(function () {
             }
          });
            //#endregion
-            
+         
+         //#region Hover on a conversation
+         var deleteConvArea = $(".deleteConv", this.$el);
+         if (deleteConvArea !== undefined)
+         {
+            $(this.$el).hover(function () {
+               $(deleteConvArea).fadeIn(100);
+               $(deleteConvArea).show();            
+            }, function () {
+               $(deleteConvArea).hide();            
+            });
+         }
+         //#endregion
          return this;
       },
       updateFavouritesIcon: function () {
