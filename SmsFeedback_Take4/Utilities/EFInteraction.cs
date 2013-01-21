@@ -842,7 +842,7 @@ namespace SmsFeedback_Take4.Utilities
               var sd = company.SubscriptionDetail;
               bool warningReached = false;
               bool spendingReached = false;
-              SubscriptionSmsStatus status = new SubscriptionSmsStatus(false,0,warningReached,spendingReached);
+              SubscriptionSmsStatus status = new SubscriptionSmsStatus(0,false,warningReached,spendingReached);
               bool warningsRequired = sd.WarningsRequired();
               
               if (warningsRequired)
