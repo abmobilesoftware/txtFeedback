@@ -736,4 +736,28 @@
     <value>Mesaj primit</value>
     <comment>Mesaje: Marcheaza mesajul ca primit</comment>
   </data>
+  <data name="settingsCompanyBillingMenuName" xml:space="preserve">
+    <value>Detalii abonament</value>
+  </data>
+  <data name="settingsCompanyMenuName" xml:space="preserve">
+    <value>Companie</value>
+  </data>
+  <data name="settingsSubscriptionActivity" xml:space="preserve">
+    <value>Activitate (luna curentă)</value>
+  </data>
+  <data name="settingsSubscriptionHeader" xml:space="preserve">
+    <value>Detalii abonament companie</value>
+  </data>
+  <data name="settingsSubscriptionInfo" xml:space="preserve">
+    <value>Informaţii despre abonament</value>
+  </data>
+  <data name="settingsSubscriptionNotifications" xml:space="preserve">
+    <value>Notificări</value>
+  </data>
+  <data name="settingsSubscriptionPrimaryContact" xml:space="preserve">
+    <value>Contact principal</value>
+  </data>
+  <data name="settingsSubscriptionSecondaryContact" xml:space="preserve">
+    <value>Contact secundar</value>
+  </data>
 </root>

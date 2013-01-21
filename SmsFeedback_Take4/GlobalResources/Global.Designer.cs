@@ -1519,6 +1519,60 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Activity (this billing month).
+        /// </summary>
+        public static string settingsSubscriptionActivity {
+            get {
+                return ResourceManager.GetString("settingsSubscriptionActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Company billing info.
+        /// </summary>
+        public static string settingsSubscriptionHeader {
+            get {
+                return ResourceManager.GetString("settingsSubscriptionHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subscription info.
+        /// </summary>
+        public static string settingsSubscriptionInfo {
+            get {
+                return ResourceManager.GetString("settingsSubscriptionInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notifications.
+        /// </summary>
+        public static string settingsSubscriptionNotifications {
+            get {
+                return ResourceManager.GetString("settingsSubscriptionNotifications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Primary contact.
+        /// </summary>
+        public static string settingsSubscriptionPrimaryContact {
+            get {
+                return ResourceManager.GetString("settingsSubscriptionPrimaryContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Secondary contact.
+        /// </summary>
+        public static string settingsSubscriptionSecondaryContact {
+            get {
+                return ResourceManager.GetString("settingsSubscriptionSecondaryContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Telephone no.
         /// </summary>
         public static string settingsTelNoHeader {

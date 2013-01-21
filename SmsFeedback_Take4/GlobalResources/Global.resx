@@ -858,4 +858,22 @@
   <data name="subscriptionWarningReached" xml:space="preserve">
     <value>You are approaching the monthly spending limit for your company. You have spent {0:0.00} {1} out of the allowed {2:0.00} {1}. Make sure you have enough credits to be able to operate until the next billing month (which starts on {3})</value>
   </data>
+  <data name="settingsSubscriptionActivity" xml:space="preserve">
+    <value>Activity (this billing month)</value>
+  </data>
+  <data name="settingsSubscriptionHeader" xml:space="preserve">
+    <value>Company billing info</value>
+  </data>
+  <data name="settingsSubscriptionInfo" xml:space="preserve">
+    <value>Subscription info</value>
+  </data>
+  <data name="settingsSubscriptionNotifications" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="settingsSubscriptionPrimaryContact" xml:space="preserve">
+    <value>Primary contact</value>
+  </data>
+  <data name="settingsSubscriptionSecondaryContact" xml:space="preserve">
+    <value>Secondary contact</value>
+  </data>
 </root>
