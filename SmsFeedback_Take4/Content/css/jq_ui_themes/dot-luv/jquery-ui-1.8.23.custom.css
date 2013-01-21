@@ -58,7 +58,7 @@
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Arial, sans-serif; font-size: 1em; }
 .ui-widget-content { border: 1px solid #000000; background: #111111 url(images/ui-bg_gloss-wave_20_111111_500x100.png) 50% top repeat-x; color: #d9d9d9; }
 .ui-widget-content a { color: #d9d9d9; }
-.ui-widget-header { border: 1px solid #0b3e6f; background: #183540; color: #f6f6f6; font-weight: bold; }
+.ui-widget-header { border: 1px solid #0b3e6f; background: #f6f6f6; color: #f6f6f6; font-weight: bold; }
 .ui-widget-header a { color: #f6f6f6; }
 
 /* Interaction states
