@@ -15,15 +15,14 @@
     <script type="text/template" id="message-template">
       <div class="textMessage">
          <span>{{ Text }} </span> 
-          <div class="clear"></div>
-          <span class="timeReceived"></span>
+          <div class="clear"></div>          
       </div>      
       {% if (Direction == "to") { %}
          <div class="sendAndReceivedChecks">
              {% if (ClientAcknowledge) { %}
-                <img src="/Content/images/doubleCheck.png" class="check" />
+                <img src="/Content/images/doubleCheck.png" class="check" width="34px" height="16px"/>
              {%  } else if (WasSuccessfullySent) { %}             
-                <img src="/Content/images/singleCheck.png" class="check" />            
+                <img src="/Content/images/singleCheck.png" class="check" width="34px" height="16px"/>            
              {% } %}
          </div>    
        {% } %}

@@ -180,13 +180,9 @@ window.app.MessagesArea = function () {
       },
       render: function () {
          this.$el.html(this.messageTemplate(this.model.toJSON()));
-         var direction = "messagefrom";
-         var arrowInnerMenuLeft = "arrowInnerLeft";
-         var extraMenuWrapperSide = "extraMenuWrapperLeft";
+         var direction = "messagefrom";         
          if (this.model.attributes.Direction === "to") {
-            direction = "messageto";
-            arrowInnerMenuLeft = "arrowInnerRight";
-            extraMenuWrapperSide = "extraMenuWrapperRight";         
+            direction = "messageto";            
          }
          this.$el.addClass("message");
          this.$el.addClass(direction);
@@ -215,9 +211,7 @@ window.app.MessagesArea = function () {
       },
       resetViewToDefault: function () {
          var noConversationLoadedMessage = $("#noConversationSelectedMessage").val();
-         $('#messagesbox').html('<span id="noConversationsLoaded">' + noConversationLoadedMessage + '</span>');
-         $("#textareaContainer").addClass("invisible");
-         $("#tagsContainer").addClass("invisible");
+         $('#messagesbox').html('<span id="noConversationsLoaded">' + noConversationLoadedMessage + '</span>');         
          self.currentConversationId = '';
       },
       getMessages: function (conversationId) {
