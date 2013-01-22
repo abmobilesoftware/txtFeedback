@@ -264,8 +264,8 @@
          <div id="replyFormArea">
             <form id="replyToMessageForm">
             <div id="inputTextContainer">
-               <textarea id="limitedtextarea" onkeydown="limitText(this.form.limitedtextarea,this.form.countdown,160);"
-                  onkeyup="limitText(this.form.limitedtextarea,this.form.countdown,160);" dir="ltr"></textarea>
+               <textarea id="limitedtextarea" class="textarea160"
+                   dir="ltr"></textarea>
                <br>
                <div class="clear"></div>
                <span><font size="0.5"><input readonly type="text" name="countdown" size="2" value="160"> </font>

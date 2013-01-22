@@ -408,11 +408,25 @@ function MessagesArea(convView, tagsArea, wpsArea) {
       self.sendMessageTriggered();      
    });
 
-   $("#limitedtextarea").keydown(function (event) {
+   self.limitText = function (limitField, limitCount, limitNum) {
+      if (limitField.val().length > limitNum) {
+         limitField.val(limitField.val().substring(0, limitNum));
+      } else {
+         limitCount.val(limitNum - limitField.val().length);
+      }
+   };
+
+   var countdown = $('input[name="countdown"]');
+   $("#limitedtextarea").keydown(function (event) {      
       if (event.which === 13 && event.shiftKey) {
          event.preventDefault();
-         self.sendMessageTriggered();                  
+         self.sendMessageTriggered();
+         return;
       }
+      self.limitText($(this), countdown, 160);
+   });
+   $("#limitedtextarea").keyup(function (event) {      
+      self.limitText($(this), countdown, 160);
    });
 
    self.sendMessageTriggered = function () {
@@ -609,11 +623,5 @@ function MessagesArea(convView, tagsArea, wpsArea) {
    // The attachment of the handler for this type of event is done only once
 }
 
-function limitText(limitField, limitCount, limitNum) {
-   if (limitField.value.length > limitNum) {
-      limitField.value = limitField.value.substring(0, limitNum);
-   } else {
-      limitCount.value = limitNum - limitField.value.length;
-   }
-}
+
 
