@@ -656,3 +656,41 @@ right: 5px;*/
 #notificationActionBtns {
    float:right;
 }
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px #183540;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #183540; /* Old browsers */
+    background: -moz-linear-gradient(left, #183540 0%, #397596 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#183540), color-stop(100%,#397596)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left, #183540 0%,#397596 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, #183540 0%,#397596 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, #183540 0%,#397596 100%); /* IE10+ */
+    background: linear-gradient(to right, #183540 0%,#397596 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183540', endColorstr='#397596',GradientType=1 ); /* IE6-9 */
+
+    /*-webkit-box-shadow: inset 0 0 6px #183540;*/
+}
+::-webkit-scrollbar-thumb:window-inactive {
+background: #183540; /* Old browsers */
+    background: -moz-linear-gradient(left, #183540 0%, #397596 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#183540), color-stop(100%,#397596)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left, #183540 0%,#397596 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, #183540 0%,#397596 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, #183540 0%,#397596 100%); /* IE10+ */
+    background: linear-gradient(to right, #183540 0%,#397596 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183540', endColorstr='#397596',GradientType=1 ); /* IE6-9 */
+}
