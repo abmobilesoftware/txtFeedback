@@ -438,7 +438,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
          //if can send SMS messages
          if (window.app.canSendSmS) {
             $("#replyToMessageForm")[0].reset();
-            //window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, generateUUID(), self.wpsArea.wpPoolView.phoneNumbersPool);
+            window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, generateUUID(), self.wpsArea.wpPoolView.phoneNumbersPool);
          } else {
             window.app.NotifyArea.show($('#msgMessageNotSent').val(), function () {
                window.location.href = "mailto:contact@txtfeedback.net?subject=Increase spending limit or Buy Credit";
@@ -451,7 +451,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
       else {
          //reset the input form
          $("#replyToMessageForm")[0].reset();
-         //window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, generateUUID(), self.wpsArea.wpPoolView.phoneNumbersPool);
+         window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, generateUUID(), self.wpsArea.wpPoolView.phoneNumbersPool);
       }
       
       

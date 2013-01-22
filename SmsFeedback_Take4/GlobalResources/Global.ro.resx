@@ -730,10 +730,10 @@
     <value>Bine ai venit</value>
   </data>
   <data name="tooltipCheckMessageSent" xml:space="preserve">
-    <value>Mesaj recepţionat de client</value>
+    <value>Mesaj livrat pe serverul TxtFeedback</value>
   </data>
   <data name="tooltipCheckMessageReceived" xml:space="preserve">
-    <value>Mesaj livrat pe serverul TxtFeedback</value>
+    <value>Mesaj receptionat de client</value>
     <comment>Mesaje: Marcheaza mesajul ca primit</comment>
   </data>
   <data name="settingsCompanyBillingMenuName" xml:space="preserve">

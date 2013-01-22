@@ -1870,7 +1870,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Message arrived on the TxtFeedback server.
+        ///   Looks up a localized string similar to Message arrived at customer.
         /// </summary>
         public static string tooltipCheckMessageReceived {
             get {
@@ -1879,7 +1879,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Message arrived at customer.
+        ///   Looks up a localized string similar to Message arrived on the TxtFeedback server.
         /// </summary>
         public static string tooltipCheckMessageSent {
             get {
