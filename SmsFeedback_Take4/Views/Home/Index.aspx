@@ -273,6 +273,7 @@
             </form>
          </div>
          <div id="replyButtonArea">
+            <input type="hidden" value="<%: Resources.Global.errorCannotSendMessage %>" id="msgMessageNotSent"/>
             <button tooltiptitle="<%: Resources.Global.tooltipReplyBtn %>" id="replyBtn"> <%: Resources.Global.sendButton %></button>
          </div>
         
