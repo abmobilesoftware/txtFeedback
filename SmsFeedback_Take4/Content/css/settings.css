@@ -94,6 +94,7 @@ color: white;*/
 
 #workingPointsConfig td{
    padding-right: 10px;
+   vertical-align:top;
 }
 
 #wpConfigLegend {

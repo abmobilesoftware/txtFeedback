@@ -59,7 +59,7 @@ window.app.getDataForWorkingPoints = function () {
          Name: trim($('input[name="Name"]', this).val()),
          Description: trim($('input[name="Description"]', this).val()),
          NrOfSentSmsThisMonth: 15,
-         WelcomeMessage: trim($('input[name="WelcomeMessage"]', this).val())
+         WelcomeMessage: trim($('textarea[name="WelcomeMessage"]', this).val())
       };
       data.push(row);
    });
