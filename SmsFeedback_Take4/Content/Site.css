@@ -602,7 +602,7 @@ right: 5px;*/
 
 
 .notificationArea {
-   display: inline-block;
+   display: block;
    width: 80%;
    left: 9%;
    position: relative;
@@ -622,8 +622,7 @@ right: 5px;*/
    color:white;
    }
 
-.notificationBtn {
-   float:right;
+.notificationBtn {   
    font-size: 16px;
    font-family: 'Source Sans Pro', sans-serif;
    background-color:rgb(24, 53, 64);
@@ -655,5 +654,5 @@ right: 5px;*/
 }
 
 #notificationActionBtns {
-
+   float:right;
 }

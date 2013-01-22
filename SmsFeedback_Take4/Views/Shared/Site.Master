@@ -81,9 +81,10 @@
             <span id="notificationText">{{ Message}}</span>            
       </div>
       <div id="notificationActionBtns">
-            <button id="notificationAck" class="notificationBtn">Dismiss</button>      
             <button id="takeAction" class="notificationBtn">Solve</button>
+            <button id="notificationAck" class="notificationBtn">Dismiss</button>                  
       </div>
+      <div class="clear"></div>
    </script>
     <asp:ContentPlaceHolder ID="TemplatesArea" runat="server" />
    <div class="page">        
