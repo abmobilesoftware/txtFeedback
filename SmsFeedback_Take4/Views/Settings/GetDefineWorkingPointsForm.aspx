@@ -27,8 +27,9 @@
             <td>
                <input name="Description" type="text" maxlength="160" value="<%=wp.Description %>" />
             </td>
-            <td>
-               <input name="WelcomeMessage" type="text" maxlength="160" value="<%= wp.WelcomeMessage %>" />
+            <td>               
+               <textarea name="WelcomeMessage" class="textarea160" rows="3" 
+                   dir="ltr"><%= wp.WelcomeMessage %> </textarea>
             </td>
          </tr>
          <% }; %>
