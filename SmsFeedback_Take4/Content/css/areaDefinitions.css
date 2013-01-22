@@ -74,6 +74,7 @@ ul.item1 {
 
 #leftColumn {
    color: white;
+   overflow: auto;
 }
 
 .rightColumn { 
