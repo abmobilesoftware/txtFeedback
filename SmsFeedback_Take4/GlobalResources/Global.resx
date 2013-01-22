@@ -839,11 +839,11 @@
     <value>Delete message</value>
   </data>
   <data name="tooltipCheckMessageSent" xml:space="preserve">
-    <value>Message sent</value>
+    <value>Message arrived at customer</value>
     <comment>Messages: Mark a message as sent</comment>
   </data>
   <data name="tooltipCheckMessageReceived" xml:space="preserve">
-    <value>Message received</value>
+    <value>Message arrived on the TxtFeedback server</value>
     <comment>Messages: Mark a message as received</comment>
   </data>
   <data name="settingsCompanyBillingMenuName" xml:space="preserve">
@@ -875,5 +875,8 @@
   </data>
   <data name="settingsSubscriptionSecondaryContact" xml:space="preserve">
     <value>Secondary contact</value>
+  </data>
+  <data name="errorCannotSendMessage" xml:space="preserve">
+    <value>Message not sent as subscription included monthly outbound messages have been spent and the spending limit for your company has been reached. Purchase credit or raise spending limit to be able to send more SMS until the next billing month.</value>
   </data>
 </root>

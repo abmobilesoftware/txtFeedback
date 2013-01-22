@@ -124,6 +124,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Message not sent as subscription included monthly outbound messages have been spent and the spending limit for your company has been reached. Purchase credit or raise spending limit to be able to send more SMS until the next billing month..
+        /// </summary>
+        public static string errorCannotSendMessage {
+            get {
+                return ResourceManager.GetString("errorCannotSendMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send us feedback.
         /// </summary>
         public static string feedbackSendUsFeedback {
@@ -1861,7 +1870,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Message received.
+        ///   Looks up a localized string similar to Message arrived on the TxtFeedback server.
         /// </summary>
         public static string tooltipCheckMessageReceived {
             get {
@@ -1870,7 +1879,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Message sent.
+        ///   Looks up a localized string similar to Message arrived at customer.
         /// </summary>
         public static string tooltipCheckMessageSent {
             get {

@@ -404,25 +404,46 @@ function MessagesArea(convView, tagsArea, wpsArea) {
       cancel: ".ignoreElementOnSelection"
    });
 
-   $("#replyBtn").click(function () {
-      var inputBox = $("#limitedtextarea");
-      var msgContent = inputBox.val();
-      //reset the input form
-      $("#replyToMessageForm")[0].reset();
-      window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, generateUUID(), self.wpsArea.wpPoolView.phoneNumbersPool);
+   $("#replyBtn").click(function () {      
+      self.sendMessageTriggered();      
    });
 
    $("#limitedtextarea").keydown(function (event) {
       if (event.which === 13 && event.shiftKey) {
-         var inputBox = $("#limitedtextarea");
-         window.app.receivedMsgID++;
-         var msgContent = inputBox.val();
-         //reset the input form
-         $("#replyToMessageForm")[0].reset();
-         window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, window.app.receivedMsgID, self.wpsArea.wpPoolView.phoneNumbersPool);
          event.preventDefault();
+         self.sendMessageTriggered();                  
       }
    });
+
+   self.sendMessageTriggered = function () {
+      //DA you should not be able to send an SMS message if no credit available (or spending limit reached)
+      var inputBox = $("#limitedtextarea");
+      var msgContent = inputBox.val();
+
+      if (window.app.selectedConversation.get("IsSmsBased")) {
+         //if can send SMS messages
+         if (window.app.canSendSmS) {
+            $("#replyToMessageForm")[0].reset();
+            //window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, generateUUID(), self.wpsArea.wpPoolView.phoneNumbersPool);
+         } else {
+            window.app.NotifyArea.show($('#msgMessageNotSent').val(), function () {
+               window.location.href = "mailto:contact@txtfeedback.net?subject=Increase spending limit or Buy Credit";
+
+            }, true);
+            //alert("Cannot send sms message");
+         }
+
+      }
+      else {
+         //reset the input form
+         $("#replyToMessageForm")[0].reset();
+         //window.app.sendMessageToClient(msgContent, self.currentConversationId, window.app.selectedConversation, generateUUID(), self.wpsArea.wpPoolView.phoneNumbersPool);
+      }
+      
+      
+      
+   };
+   
    _.templateSettings = {
       interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
       evaluate: /\{%([\s\S]+?)%\}/g,   // execute code: {% code_to_execute %}

@@ -93,28 +93,33 @@ window.app.updateNrOfUnreadConversations = function (performUpdateBefore) {
    });
 };
 
+//#region Check Sms Subscription Status and set the canSendSms flag
+window.app.canSendSmS = true;
 window.app.checkSmsSubscriptionStatus = function () {
    $.getJSON('Messages/SMSSSubscriptionStatus',
                   { },
                   function (data) {
                      //if error required
                      if (data.SpendingLimitReached) {
+                        window.app.canSendSmS = false;
                         window.app.NotifyArea.show(data.SpendingLimitReachedMessage, function ()
                         {
                            window.location.href = "mailto:contact@txtfeedback.net?subject=Increase spending limit or Buy Credit";
                            
                         }, true);
                      }
-                     else if (data.WarningLimitReached) {
+                     else if (data.WarningLimitReached) {//if warning required                                          
                         window.app.NotifyArea.show(data.WarningLimitReachedMessage, function ()
                         {
                            window.location.href = "mailto:contact@txtfeedback.net?subject=Ensure that enough credit is still available";
                         }, false);
                      }
-                     //if warning required                                          
+                     
                   }
           );
 };
+//#endregion
+//#region Region resize
 function resizeTriggered() {
    "use strict";
    //pick the highest between window size (- header) and messagesArea
@@ -156,6 +161,7 @@ $(function () {
       window.addEventListener("resize", resizeTriggered, false);
    }
 });
+//#endregion
 
 //#region Store/restore the nr of convs with unread messages when navigating between pages
 $(function () {
