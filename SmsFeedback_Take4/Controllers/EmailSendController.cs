@@ -60,6 +60,7 @@ namespace SmsFeedback_Take4.Controllers
           ViewData["emailSubject"] = subject;
           ViewData["emailTo"] = "support@txtfeedback.net";
           ViewData["url"] = url;
+          ViewData["isFeedbackForm"] = true;
           ViewResult res = View();
           return res;
        }
