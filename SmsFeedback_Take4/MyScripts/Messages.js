@@ -229,10 +229,9 @@ window.app.MessageView = Backbone.View.extend({
 
       $(this.$el).hover(function () {
          $(messageMenuEl).fadeIn(100);
-         $(messageMenuEl).show();
          $(checkIconEl).show();
       }, function () {
-         $(messageMenuEl).hide();
+         $(messageMenuEl).fadeOut(100);         
          $(checkIconEl).hide();
       });
       return this;

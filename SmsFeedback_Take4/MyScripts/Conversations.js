@@ -177,10 +177,9 @@ $(function () {
          if (deleteConvArea !== undefined)
          {
             $(this.$el).hover(function () {
-               $(deleteConvArea).fadeIn(100);
-               $(deleteConvArea).show();            
+               $(deleteConvArea).fadeIn(100);               
             }, function () {
-               $(deleteConvArea).hide();            
+               $(deleteConvArea).fadeOut(100);               
             });
          }
          //#endregion
