@@ -19,7 +19,7 @@
                     <%: Html.LabelFor(m => m.OldPassword) %>
                 </div>
                 <div class="editor-field">
-                    <%: Html.PasswordFor(m => m.OldPassword) %>
+                    <%: Html.PasswordFor(m => m.OldPassword, new { @class = "logInTextBox"}) %>
                     <%: Html.ValidationMessageFor(m => m.OldPassword) %>
                 </div>
                 
@@ -27,7 +27,7 @@
                     <%: Html.LabelFor(m => m.NewPassword) %>
                 </div>
                 <div class="editor-field newPasswordAreaPassw">
-                    <%: Html.PasswordFor(m => m.NewPassword) %>
+                    <%: Html.PasswordFor(m => m.NewPassword, new { @class = "logInTextBox"}) %>
                     <%: Html.ValidationMessageFor(m => m.NewPassword) %>
                 </div>
                 
@@ -35,12 +35,12 @@
                     <%: Html.LabelFor(m => m.ConfirmPassword) %>
                 </div>
                 <div class="editor-field newPasswordAreaPassw">
-                    <%: Html.PasswordFor(m => m.ConfirmPassword) %>
+                    <%: Html.PasswordFor(m => m.ConfirmPassword, new { @class = "logInTextBox"}) %>
                     <%: Html.ValidationMessageFor(m => m.ConfirmPassword) %>
                 </div>
                 
                 <p>
-                    <button id="btnChangePassword" class="btnSaveChanges"><%: Resources.Global.settingsBtnChangePassword %></button> 
+                    <button id="btnChangePassword" class="btnSaveChanges alignLeft"><%: Resources.Global.settingsBtnChangePassword %></button> 
                 </p>
             </fieldset>
         </div>
