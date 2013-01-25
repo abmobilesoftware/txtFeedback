@@ -76,7 +76,15 @@ color: white;*/
    font-weight: bold;
    font-size: 16px;
    cursor: pointer;
-   float:right;
+ 
+}
+
+.alignRight {
+     float:right;
+}
+
+.alignLeft {
+   float:left;
 }
 
 #changePasswordSucceededContainer {

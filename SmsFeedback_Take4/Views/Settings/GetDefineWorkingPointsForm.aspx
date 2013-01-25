@@ -34,7 +34,7 @@
          </tr>
          <% }; %>
       </table>
-      <button id="btnSaveWorkingPoints" class="btnSaveChanges"><%: Resources.Global.saveBtnCaption %></button>
+      <button id="btnSaveWorkingPoints" class="btnSaveChanges alignRight"><%: Resources.Global.saveBtnCaption %></button>
    </fieldset>
    <%: Html.ValidationSummary(false, Resources.Global.settingsWpConfigErrors, new {id= "wpConfigErrors", })%>
    <% if ( ViewData["saveMessage"]!=null ){ %>
