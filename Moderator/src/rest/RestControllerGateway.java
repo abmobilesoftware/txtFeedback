@@ -19,23 +19,28 @@ import org.exceptions.RESTException;
 import org.helpers.Constants;
 import org.helpers.Utilities;
 import org.helpers.json.Agent;
+import org.helpers.json.MessageStatus;
 import org.helpers.json.WorkingPoint;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RestControllerGateway {
-	/* REST resources for dev */ 
-	private String RESTGetHandlersForMessageURL = "http://dev.txtfeedback.net/Component/GetHandlerForMessage";
+	/* REST resources for dev */
+	//private String RESTGetHandlersForMessageURL = "http://dev.txtfeedback.net/Component/GetHandlerForMessage";
+	private String RESTGetHandlersForMessageURL = "http://localhost:4631/Component/GetHandlerForMessage";
 	private String RESTDomain = "http://rest.txtfeedback.net/";
-	private String RESTGetHandlersForMessageURL1 = "http://dev.txtfeedback.net/Component/GetHandlerForMessage1";
+//	private String RESTGetHandlersForMessageURL1 = "http://dev.txtfeedback.net/Component/GetHandlerForMessage1";
+	private String RESTGetHandlersForMessageURL1 = "http://localhost:4631/Component/GetHandlerForMessage1";
 	private String RESTGetWorkingPointForCertainAddress = "http://dev.txtfeedback.net/Component/GetWorkingPointForCertainAddress";
-	//private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
-	private String RESTSaveMessage = "http://dev.txtfeedback.net/Component/SaveMessage";
+	private String RESTSaveMessage = "http://localhost:4631/en-US/Component/SaveMessage";
+	//private String RESTSaveMessage = "http://dev.txtfeedback.net/Component/SaveMessage";
 	private String RESTParametersTest = "http://dev.txtfeedback.net/Component/GetParametersTest";
-	private String RESTUpdateClientAcknowledge = "http://dev.txtfeedback.net/Component/UpdateMessageClientAcknowledgeField";
+//	private String RESTUpdateClientAcknowledge = "http://dev.txtfeedback.net/Component/UpdateMessageClientAcknowledgeField";
+	private String RESTUpdateClientAcknowledge = "http://localhost:4631/Component/UpdateMessageClientAcknowledgeField";
 	//private String RESTUpdateClientAcknowledge = "http://localhost:4631/Component/UpdateMessageClientAcknowledgeField";
-	/* REST resources for nexmo
+	 	 
+	/* REST resources for nexmo 
 	private String RESTGetHandlersForMessageURL = "http://demo.txtfeedback.net/Component/GetHandlerForMessage";
 	private String RESTDomain = "http://rest.txtfeedback.net/";
 	private String RESTGetHandlersForMessageURL1 = "http://demo.txtfeedback.net/Component/GetHandlerForMessage1";
@@ -44,6 +49,7 @@ public class RestControllerGateway {
 	private String RESTSaveMessage = "http://demo.txtfeedback.net/Component/SaveMessage";
 	private String RESTParametersTest = "http://demo.txtfeedback.net/Component/GetParametersTest";
 	*/
+	
 	/* REST resources for product  
 	private String RESTGetHandlersForMessageURL = "http://product.txtfeedback.net/Component/GetHandlerForMessage";
 	private String RESTDomain = "http://rest.txtfeedback.net/";
@@ -133,7 +139,7 @@ public class RestControllerGateway {
 			else return false;			
 		}		
 		return false;
-	}
+	}	
 	
 	// Method used just for testing purposes
 	public void sendParameters() {
@@ -144,8 +150,7 @@ public class RestControllerGateway {
 		String result = getResourceAsString(RESTParametersTest, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);		
 	}
 	
-	public int saveMessage(String from, String to, String convId, String text, String xmppUser, boolean isSms) throws RESTException {
-		
+	public MessageStatus saveMessage(String from, String to, String convId, String text, String xmppUser, boolean isSms) throws RESTException {
 		try {
 			Hashtable<String, String> params = new Hashtable<String, String>();
 			params.put("from", from);
@@ -155,9 +160,17 @@ public class RestControllerGateway {
 			params.put("xmppUser", xmppUser);
 			params.put("isSms", String.valueOf(isSms));
 		
-			String restCallResponse = getResourceAsString(RESTSaveMessage, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
-			return Integer.parseInt(restCallResponse.substring(1, restCallResponse.length()-1)); 
-			
+			JSONObject restResponse = getResourceAsJsonObject(RESTSaveMessage, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
+			MessageStatus msgStatus = null;
+			if (restResponse != null) {
+				msgStatus = new MessageStatus(restResponse.getInt("MessageID"), 
+						restResponse.getBoolean("MessageSent"),
+						restResponse.getBoolean("WarningLimitReached"),
+						restResponse.getBoolean("SpendingLimitReached"),
+						restResponse.getString("Reason"),
+						restResponse.toString());
+			}
+			return msgStatus;			
 		} catch (UnsupportedEncodingException e) {
 			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 			throw new RESTException();
