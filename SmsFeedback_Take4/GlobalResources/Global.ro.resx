@@ -364,7 +364,7 @@
     <value>Feedback pozitiv adăugat</value>
   </data>
   <data name="RepPosFeedbackRemoved" xml:space="preserve">
-    <value>ftp://dragos@89.38.210.7/dragos/txtfeedback.net/wwwroot/wp-content/themes/business-lite/pricing.php</value>
+    <value>Feedback pozitiv înlăturat</value>
   </data>
   <data name="RepPositiveAndNegative" xml:space="preserve">
     <value>Feedback pozitiv și negativ</value>
@@ -733,7 +733,7 @@
     <value>Mesaj livrat pe serverul TxtFeedback</value>
   </data>
   <data name="tooltipCheckMessageReceived" xml:space="preserve">
-    <value>Mesaj receptionat de client</value>
+    <value>Mesaj recepţionat de client</value>
     <comment>Mesaje: Marcheaza mesajul ca primit</comment>
   </data>
   <data name="settingsCompanyBillingMenuName" xml:space="preserve">
