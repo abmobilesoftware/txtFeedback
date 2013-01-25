@@ -11,17 +11,15 @@ namespace SmsFeedback_Take4.Models.Helpers
       public int MessageID { get; set; }
       public bool WarningLimitReached { get; set; }
       public bool SpendingLimitReached { get; set; }
-      public string WarningLimitReachedMessage { get; set; }
-      public string SpendingLimitReachedMessage { get; set; }
+      public String Reason { get; set; }
       
-      public SubscriptionSmsStatus(int msgID, bool msgSent, bool warningLimitReached, bool spendingLimitReached, string warningMSG = "", string spendingMSG= "")
+      public SubscriptionSmsStatus(int msgID, bool msgSent, bool warningLimitReached, bool spendingLimitReached, string reason = "")
       {
          MessageID = msgID;
          MessageSent = msgSent;
          WarningLimitReached = warningLimitReached;
          SpendingLimitReached = spendingLimitReached;
-         WarningLimitReachedMessage = warningMSG;
-         SpendingLimitReachedMessage = spendingMSG;
+         Reason = reason;
       }
    }
 }
