@@ -45,7 +45,8 @@ function FirstArea(iResource, iGranularity, iOptions, iId, iTooltip, iTitle) {
       },
       vAxis: {
          gridlines: { count: 4 }
-      }
+      },
+      backgroundColor: '#F5F8FA'
    };
    options.seriesType = iOptions.seriesType;
    options.colors = iOptions.colors;

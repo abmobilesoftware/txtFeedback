@@ -19,7 +19,7 @@ function ThirdArea(iResource) {
    var self = this;
    var resource = iResource;
    var data = null;
-   var options = {};
+   var options = { backgroundColor: '#F5F8FA' };
    var chart = new google.visualization.PieChart(document.getElementById('comboChart_div'));
 
    this.drawArea = function () {
