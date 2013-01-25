@@ -707,3 +707,7 @@ background: #183540; /* Old browsers */
    border-color: rgba(0, 0, 0, 0.44);
    color: #000;
 }
+
+.logInTextBox {
+   width:100%;
+}

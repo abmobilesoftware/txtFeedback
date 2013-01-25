@@ -28,13 +28,6 @@
 </head>
 
 <body>
-   <script>
-      $(function () {
-         $("#UserName").focus(function () {
-            var x = this;
-         });
-      });
-   </script>
    <img id="bkgImage" src="<%: Url.Content("~/Content/images/loginImage.png") %>"/>
      
     <div id="logOnContainer">   
@@ -57,12 +50,12 @@
                 
 
                 <div class="editor-field">
-                    <%: Html.TextBoxFor(m => m.UserName, new { @placeholder = Resources.Global.lblUserName}) %>
+                    <%: Html.TextBoxFor(m => m.UserName, new { @placeholder = Resources.Global.lblUserName, @class = "logInTextBox"}) %>
                     <%: Html.ValidationMessageFor(m => m.UserName) %>
                 </div>
                 
                 <div class="editor-field">
-                    <%: Html.PasswordFor(m => m.Password,new { @placeholder = Resources.Global.lblPassword}) %>
+                    <%: Html.PasswordFor(m => m.Password,new { @placeholder = Resources.Global.lblPassword, @class = "logInTextBox"}) %>
                     <%: Html.ValidationMessageFor(m => m.Password) %>
                 </div>
                 
