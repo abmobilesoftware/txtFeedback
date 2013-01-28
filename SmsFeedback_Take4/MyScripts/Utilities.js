@@ -135,6 +135,7 @@ function payloadReceived(content, messageId) {
       var msg = $('#messageNotSentReasonUnknown').val();
       if (payload.get("SpendingLimitReached")) {
          //could not sent message as spending limit reached
+         window.app.canSendSmS = false; //make sure that no other messages can be sent
          msg = $('#messageNotSentInsufficientCredits').val();
          window.app.NotifyArea.show(msg, function () {
             window.location.href = "mailto:contact@txtfeedback.net?subject=Increase spending limit or Buy Credit";
