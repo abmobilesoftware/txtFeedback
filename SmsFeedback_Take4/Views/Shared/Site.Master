@@ -81,8 +81,8 @@
             <span id="notificationText">{{ Message}}</span>            
       </div>
       <div id="notificationActionBtns">
-            <button id="takeAction" class="notificationBtn">Solve</button>
-            <button id="notificationAck" class="notificationBtn">Dismiss</button>                  
+            <button id="takeAction" class="notificationBtn"><%: Resources.Global.btnNotificationSolve %></button>
+            <button id="notificationAck" class="notificationBtn"><%: Resources.Global.btnNotificationDismiss %></button>                  
       </div>
       <div class="clear"></div>
    </script>
@@ -92,7 +92,7 @@
       <header>
         
          <div id="title">
-            <%: Url.ImageLink(Url.Content("~/Content/images/06-web-2_225.png"),"home","Index","Messages", "engaging your customers in conversations",null,"logo") %>
+            <%: Url.ImageLink(Url.Content("~/Content/images/06-web-2_225.png"),"home","Index","Home", "engaging your customers in conversations",null,"logo") %>
          </div>
          <div id="logindisplay">
             <% Html.RenderPartial("LogOnUserControl"); %>

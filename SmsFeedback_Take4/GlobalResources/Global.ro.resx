@@ -760,4 +760,34 @@
   <data name="settingsSubscriptionSecondaryContact" xml:space="preserve">
     <value>Contact secundar</value>
   </data>
+  <data name="btnNotificationDismiss" xml:space="preserve">
+    <value>Închide</value>
+  </data>
+  <data name="btnNotificationSolve" xml:space="preserve">
+    <value>Soluţionează</value>
+  </data>
+  <data name="errorCannotSendMessage" xml:space="preserve">
+    <value>Message not sent as subscription included monthly outbound messages have been spent and the spending limit for your company has been reached. Purchase credit or raise spending limit to be able to send more SMS until the next billing month.</value>
+    <comment>Mesajul nu a fost trimis pentru că s-au terminat mesajele incluse în abonament şi limita lunară de buget a fost atinsă. Vă rugăm să cumpăraţi credit sau să ridicaţi limita pentru a putea trimite SMS-uri până la următoarea zi de facturare.</comment>
+  </data>
+  <data name="errorMessageNotSentInsufficientCredits" xml:space="preserve">
+    <value>Unable to send SMS message :(. Reason: insufficient credits. Purchase credit or raise spending limit to be able to send more SMS until the next billing month.</value>
+    <comment>Mesajul nu a fost trimis :(. Motivul: credite insuficiente. Vă rugăm să cumpăraţi credit sau să ridicaţi limita pentru a putea trimite SMS-uri până la următoarea zi de facturare.</comment>
+  </data>
+  <data name="errorMessageNotSentReasonUnknown" xml:space="preserve">
+    <value>Unable to send SMS message :(. Reason: unknown. For more details contact the TxtFeedback team by clicking on the Solve button.</value>
+    <comment>Mesajul nu a fost trimis :(. Motivul: necunoscut. Pentru detalii vă rugam să contactaţi echipa TxtFeedback apasând butonul "Soluţionează"</comment>
+  </data>
+  <data name="subscriptionSpendingReached" xml:space="preserve">
+    <value>You have reached the monthly spending limit of {0:0.00} {1} for your company. Purchase credit or raise spending limit to be able to send more SMS until the next billing month (which starts on {2})</value>
+    <comment>Aţi atins limita bugetului lunar de {0:0.00} {1}.  Vă rugăm să cumpăraţi credit sau să ridicaţi limita pentru a putea trimite SMS-uri până la următoarea zi de facturare (ce va fi în {2} ) .</comment>
+  </data>
+  <data name="subscriptionWarningReached" xml:space="preserve">
+    <value>You are approaching the monthly spending limit for your company. You have spent {0:0.00} {1} out of the allowed {2:0.00} {1}. Make sure you have enough credits to be able to operate until the next billing month (which starts on {3})</value>
+    <comment>Vă apropiaţi de limita bugetului lunar pentru compania dumneavoastră. Aţi cheltuit {0:0.00} {1} din maximul de {2:0.00} {1}. Asiguraţi-vă că aveţi suficiente credite pentru a putea trimite SMS-uri până la următoarea zi de facturare (ce va fi în {3})</comment>
+  </data>
+  <data name="warningMessageSentSpendingLimitReached" xml:space="preserve">
+    <value>You have reached the monthly spending limit  for your company. Purchase credit or raise spending limit to be able to send more SMS until the next billing month.</value>
+    <comment>Aţi atins limita bugetului lunar. Vă rugăm să cumpăraţi credit sau să ridicaţi limita pentru a putea trimite SMS-uri până la următoarea zi de facturare.</comment>
+  </data>
 </root>

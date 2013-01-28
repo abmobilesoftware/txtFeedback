@@ -88,6 +88,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dismiss.
+        /// </summary>
+        public static string btnNotificationDismiss {
+            get {
+                return ResourceManager.GetString("btnNotificationDismiss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solve.
+        /// </summary>
+        public static string btnNotificationSolve {
+            get {
+                return ResourceManager.GetString("btnNotificationSolve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete the conversation with user.
         /// </summary>
         public static string confirmDeleteConversation {
@@ -2019,6 +2037,15 @@ namespace Resources {
         public static string tooltipWpImg {
             get {
                 return ResourceManager.GetString("tooltipWpImg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have reached the monthly spending limit  for your company. Purchase credit or raise spending limit to be able to send more SMS until the next billing month..
+        /// </summary>
+        public static string warningMessageSentSpendingLimitReached {
+            get {
+                return ResourceManager.GetString("warningMessageSentSpendingLimitReached", resourceCulture);
             }
         }
         

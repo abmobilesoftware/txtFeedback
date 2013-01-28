@@ -289,5 +289,5 @@
    <input type="hidden" value="<%: Resources.Global.confirmDeleteConversation %>" id="confirmDeleteConversation" />
    <input type="hidden" value="<%: Resources.Global.errorMessageNotSentReasonUnknown %>" id="messageNotSentReasonUnknown" />
    <input type="hidden" value="<%: Resources.Global.errorMessageNotSentInsufficientCredits %>" id="messageNotSentInsufficientCredits" />
-   <input type="hidden" value="<%: Resources.Global.subscriptionSpendingReached %>" id="messageSentSpendingLimitReached" />
+   <input type="hidden" value="<%: Resources.Global.warningMessageSentSpendingLimitReached %>" id="messageSentSpendingLimitReached" />
 </asp:Content>
