@@ -12,6 +12,8 @@ namespace SmsFeedback_Take4.Models.Helpers
       public bool WarningLimitReached { get; set; }
       public bool SpendingLimitReached { get; set; }
       public String Reason { get; set; }
+      public String WarningLimitReachedMessage { get; set; }
+      public String SpendingLimitReachedMessage { get; set; }
       
       public SubscriptionSmsStatus(int msgID, bool msgSent, bool warningLimitReached, bool spendingLimitReached, string reason = "")
       {
