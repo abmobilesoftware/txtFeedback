@@ -364,10 +364,15 @@ window.app.XMPPhandler = function XMPPhandler() {
             message: getMessage(messageId)
          });         
       } else if ($(message).children("subject").text() === "ClientMsgDeliveryReceipt") {
-         var messageId = $(message).children("received").attr("id");
-         $(document).trigger('clientAcknowledge', {
-            message: getMessage(messageId)
-         });
+         var messageId = $(message).children("received").attr("id");        
+         if ($(message).children("payload").length == 1) {
+            var payload = $(message).children("payload").text();
+            $(document).trigger('smsPayloadReceived', { content: payload, messageId:messageId });
+         } else {
+            $(document).trigger('clientAcknowledge', {
+               message: getMessage(messageId)
+            });
+         }
       } else if ($(message).attr("type") === "result") {
          //TODO result relevant to us?
       } else if ($(message).attr("type") === "chat") {

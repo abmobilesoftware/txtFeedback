@@ -287,4 +287,7 @@
    <input type="hidden" value="<%: Resources.Global.filteringAddFilterTag %>" id="filteringAddFilterTagMessage" />
    <input type="hidden" value="<%: Resources.Global.confirmDeleteMessage %>" id="confirmDeleteMessage" />
    <input type="hidden" value="<%: Resources.Global.confirmDeleteConversation %>" id="confirmDeleteConversation" />
+   <input type="hidden" value="<%: Resources.Global.errorMessageNotSentReasonUnknown %>" id="messageNotSentReasonUnknown" />
+   <input type="hidden" value="<%: Resources.Global.errorMessageNotSentInsufficientCredits %>" id="messageNotSentInsufficientCredits" />
+   <input type="hidden" value="<%: Resources.Global.subscriptionSpendingReached %>" id="messageSentSpendingLimitReached" />
 </asp:Content>

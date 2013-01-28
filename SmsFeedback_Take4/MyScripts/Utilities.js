@@ -119,6 +119,44 @@ window.app.checkSmsSubscriptionStatus = function () {
           );
 };
 //#endregion
+
+window.app.Payload = Backbone.Model.extend({
+   defaults: {      
+      SpendingLimitReached: false,
+      WarningLimitReached: false,
+      MessageID: 0,      
+      MessageSent: false,
+      Reason: "",
+   }
+});
+function payloadReceived(content, messageId) {
+   var payload = new window.app.Payload(jQuery.parseJSON(content));
+   if (!payload.get("MessageSent")) {
+      var msg = $('#messageNotSentReasonUnknown').val();
+      if (payload.get("SpendingLimitReached")) {
+         //could not sent message as spending limit reached
+         msg = $('#messageNotSentInsufficientCredits').val();
+         window.app.NotifyArea.show(msg, function () {
+            window.location.href = "mailto:contact@txtfeedback.net?subject=Increase spending limit or Buy Credit";
+         }, true);
+      } else {
+         window.app.NotifyArea.show(msg, function () {
+            window.location.href = "mailto:contact@txtfeedback.net?subject=Unable to deliver message with id " + payload.get("MessageID");
+         }, true);         
+      }
+   } else {
+      if (payload.get("SpendingLimitReached")) {
+         var errorMsg = $('#messageSentSpendingLimitReached').val();
+         window.app.NotifyArea.show(errorMsg, function () {
+            window.location.href = "mailto:contact@txtfeedback.net?subject=Increase spending limit or Buy Credit";
+         }, false);
+      }
+      $(document).trigger('clientAcknowledge', {
+         message: getMessage(messageId)
+      });
+   }
+}
+
 //#region Region resize
 function resizeTriggered() {
    "use strict";
@@ -156,10 +194,15 @@ $(function () {
    //source http://stackoverflow.com/questions/9769868/addeventlistener-not-working-in-ie8
    if (!window.addEventListener) {
       window.attachEvent("resize", resizeTriggered);
+     
    }
    else {
       window.addEventListener("resize", resizeTriggered, false);
+      window.addEventListener("smsPayloadReceived", payloadReceived, false);
    }
+   $(document).bind('smsPayloadReceived', function (ev, data) {
+      payloadReceived(data.content, data.messageId);
+   });
 });
 //#endregion
 

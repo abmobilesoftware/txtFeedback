@@ -133,6 +133,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to send SMS message :(. Reason: insufficient credits. Purchase credit or raise spending limit to be able to send more SMS until the next billing month..
+        /// </summary>
+        public static string errorMessageNotSentInsufficientCredits {
+            get {
+                return ResourceManager.GetString("errorMessageNotSentInsufficientCredits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to send SMS message :(. Reason: unknown. For more details contact the TxtFeedback team by clicking on the Solve button..
+        /// </summary>
+        public static string errorMessageNotSentReasonUnknown {
+            get {
+                return ResourceManager.GetString("errorMessageNotSentReasonUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send us feedback.
         /// </summary>
         public static string feedbackSendUsFeedback {

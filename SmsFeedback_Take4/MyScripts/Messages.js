@@ -237,7 +237,7 @@ window.app.MessageView = Backbone.View.extend({
       return this;
    },
    deleteMessage: function (e) {
-      var messageModel = this.model     
+      var messageModel = this.model;
       var messageEl = this.$el;
       e.preventDefault();
       var msgText = messageModel.get("Text");

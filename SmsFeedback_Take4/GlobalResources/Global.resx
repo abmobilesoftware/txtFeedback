@@ -879,4 +879,10 @@
   <data name="errorCannotSendMessage" xml:space="preserve">
     <value>Message not sent as subscription included monthly outbound messages have been spent and the spending limit for your company has been reached. Purchase credit or raise spending limit to be able to send more SMS until the next billing month.</value>
   </data>
+  <data name="errorMessageNotSentInsufficientCredits" xml:space="preserve">
+    <value>Unable to send SMS message :(. Reason: insufficient credits. Purchase credit or raise spending limit to be able to send more SMS until the next billing month.</value>
+  </data>
+  <data name="errorMessageNotSentReasonUnknown" xml:space="preserve">
+    <value>Unable to send SMS message :(. Reason: unknown. For more details contact the TxtFeedback team by clicking on the Solve button.</value>
+  </data>
 </root>
