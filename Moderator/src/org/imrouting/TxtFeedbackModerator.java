@@ -118,6 +118,21 @@ public class TxtFeedbackModerator implements Component {
 		}
 	}
 	
+	private void sendMessage(String iTo, String iSubject, String iMsgID, String iAckID, String iPayload) {
+		try {
+			Message lResponseMessage = new Message();
+			lResponseMessage.setTo(iTo);
+			lResponseMessage.setID(iMsgID);
+			lResponseMessage.setSubject(iSubject);
+			lResponseMessage.setReceivedID(iAckID);
+			lResponseMessage.setPayload(iPayload);
+			mMgr.sendPacket(this, lResponseMessage);
+			
+		} catch (Exception e) {
+			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+		}
+	}
+	
 	/*
 	 * Send a text message (sms or IM) inside the system
 	 * Parameters:
@@ -139,8 +154,11 @@ public class TxtFeedbackModerator implements Component {
 	 * </message> 
 	 */
 	public void sendAcknowledgeMessage(String iTo, String iSubject, String iAckID) {
-		UUID uuid = UUID.randomUUID();
-		sendMessage(iTo, null, iSubject, uuid.toString(), null, false, iAckID, null);
+		sendMessage(iTo, null, iSubject, UUID.randomUUID().toString(), null, false, iAckID, null);
+	}
+	
+	public void sendSmsAcknowledgeMessage(String iTo, String iSubject, String iAckID, String iPayload) {
+		sendMessage(iTo, iSubject, UUID.randomUUID().toString(), iAckID, iPayload);
 	}
 	
 	public void initialize(JID iJid, ComponentManager iComponentManager)

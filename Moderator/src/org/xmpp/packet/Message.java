@@ -144,6 +144,28 @@ public class Message extends Packet {
         }
         subjectElement.setText(subject);
     }
+    
+    /**
+     * Sets the subject of this message.
+     *
+     * @param subject the subject.
+     */
+    public void setPayload(String payload) {
+        Element payloadElement = element.element("payload");
+        // If subject is null, clear the subject.
+        if (payload == null && payloadElement != null) {
+            element.remove(payloadElement);
+            return;
+        }
+        // Do nothing if the new subject is null
+        if (payload == null) {
+            return;
+        }
+        if (payloadElement == null) {
+            payloadElement = element.addElement("payload");
+        }
+        payloadElement.setText(payload);
+    }
 
     /**
      * Returns the body of this message or <tt>null</tt> if there is no body.

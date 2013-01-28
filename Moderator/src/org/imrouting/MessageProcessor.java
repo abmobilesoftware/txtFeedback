@@ -17,6 +17,7 @@ import org.helpers.Constants;
 import org.helpers.TxtPacket;
 import org.helpers.Utilities;
 import org.helpers.json.Agent;
+import org.helpers.json.MessageStatus;
 import org.xmpp.packet.Message;
 
 import rest.RestControllerGateway;
@@ -76,7 +77,7 @@ public class MessageProcessor {
 		long t1, t2, t3, t4;
 		try {
 			String[] fromTo = internalPacket.getConversationId().split("-");
-			int msgID; // the id of the message inserted in DB
+			MessageStatus msgStatus; 
 			if (!Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()).equals(fromTo[1])) {
 				//this is the case when we have staff site to staff site communication
 				StringBuilder reversedConvIdSb = new StringBuilder();
@@ -84,7 +85,7 @@ public class MessageProcessor {
 				reversedConvIdSb.append("-");
 				reversedConvIdSb.append(fromTo[0]);
 				t1 = System.currentTimeMillis();
-				msgID = restGtw.saveMessage(
+				msgStatus = restGtw.saveMessage(
 					internalPacket.getFromAddress(), 
 					internalPacket.getToAddress(), 
 					internalPacket.getConversationId(),
@@ -103,7 +104,7 @@ public class MessageProcessor {
 			} else {
 				
 				t1 = System.currentTimeMillis();
-				msgID = restGtw.saveMessage(
+				msgStatus = restGtw.saveMessage(
 						internalPacket.getFromAddress(), 
 						internalPacket.getToAddress(), 
 						internalPacket.getConversationId(),
@@ -122,7 +123,7 @@ public class MessageProcessor {
 			t2 = System.currentTimeMillis();
 			System.out.println("\"" + receivedPacket.getID() + "\", \"GET HANDLERS\", \"" + (t2 - t1) + "\", \"" + (t4 - t3) + "\"");
 			
-			String computedID = iPacket.getID() + "##" + String.valueOf(msgID); // PACKET_ID**DB_ID
+			String computedID = iPacket.getID() + "##" + String.valueOf(msgStatus.getMessageID()); // PACKET_ID**DB_ID
 			for (int i=0; i<handlers.size(); ++i) {
 				//String from = internalPacket.getFromAddress();
 				String to = handlers.get(i).getUser();
@@ -148,8 +149,8 @@ public class MessageProcessor {
 		System.out.println(iPacket.getID() + " IN: TO CLIENT " + System.currentTimeMillis());
 		final Message receivedPacket = iPacket;
 		try {
-			int msgID = -1;
-			msgID = restGtw.saveMessage(
+			MessageStatus msgStatus;
+			msgStatus = restGtw.saveMessage(
 					internalPacket.getFromAddress(),
 					internalPacket.getToAddress(),
 					internalPacket.getConversationId(), 
@@ -172,7 +173,7 @@ public class MessageProcessor {
 			*/
 			
 			/* TODO: replace with computedId. The current ID it's used to trace the message */
-			String computedId = iPacket.getID() + "##" + msgID;
+			String computedId = iPacket.getID() + "##" + msgStatus.getMessageID();
 			moderator.sendInternalMessage(iPacket.getBody(), internalPacket.getToAddress(), computedId, iPacket.getFrom().toBareJID());
 			System.out.println(iPacket.getID() + " OUT: TO CLIENT " + System.currentTimeMillis());
 		} catch (RESTException e) {
@@ -223,6 +224,7 @@ public class MessageProcessor {
 	private void sendSmsMessageToClient(Message iPacket, TxtPacket internalPacket) {
 		final Message receivedPacket = iPacket;
 		try {
+			MessageStatus msgStatus = 
 			restGtw.saveMessage(
 			 		internalPacket.getFromAddress(), 
 					internalPacket.getToAddress(), 
@@ -230,6 +232,9 @@ public class MessageProcessor {
 					internalPacket.getBody(), 
 					iPacket.getFrom().toBareJID(),
 					true);
+			moderator.sendAcknowledgeMessage(iPacket.getFrom().toString(), Constants.SERVER_ACK, iPacket.getID());
+			moderator.sendSmsAcknowledgeMessage(iPacket.getFrom().toString(), Constants.CLIENT_ACK, iPacket.getID(), msgStatus.getJsonFormat());
+			restGtw.updateMessageClientAcknowledgeField(msgStatus.getMessageID(), true);
 		} catch (RESTException e) {
 			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
 			Runnable task = new Runnable() {
