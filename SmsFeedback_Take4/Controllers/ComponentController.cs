@@ -251,10 +251,10 @@ namespace SmsFeedback_Take4.Controllers
                     if (isSms)
                     {
                         if (direction.Equals(Constants.DIRECTION_OUT))
-                        {
-                           return SendSmsMessageAndUpdateDb(from, to, convId,
+                        {                           
+                            return SendSmsMessageAndUpdateDb(from, to, convId,
                                 text, xmppUser, context,
-                                prevConvFrom, prevConvUpdateTime);
+                                prevConvFrom, prevConvUpdateTime);                                                                              
                         }
                         else
                         {
@@ -318,11 +318,15 @@ namespace SmsFeedback_Take4.Controllers
            String from, String to, String convId, String text, String xmppUser, smsfeedbackEntities lContextPerRequest, 
            String prevConvFrom, DateTime prevConvUpdateTime)
         {
-            SubscriptionSmsStatus messageStatus = null;
+            SubscriptionSmsStatus messageStatus = new SubscriptionSmsStatus(-1, false, false, false);
             //var messageCanBeSent = SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgResponse) =>
             var status = SMSRepository.SendMessage(from, to, text,lContextPerRequest);
-            if (status != null)
-            {
+           //status will tell you if message was sent or not
+            
+           //the rest should come later....
+            if (status != null) // null stands for  - could not sent SMS - no credit
+            {          
+               //the idea is that a message can be sent but somewhere on Nexmo/Twilio there was a problem....
                messageStatus = mEFInterface.MarkMessageActivityInDB(from,
                       to,
                       convId,
@@ -336,11 +340,23 @@ namespace SmsFeedback_Take4.Controllers
                       status.Price,
                       status.ExternalID,
                       Constants.DIRECTION_OUT, lContextPerRequest);
-            }
-            else
-            {
-               messageStatus = new SubscriptionSmsStatus(-1, false, false, false);
-            }
+               messageStatus.MessageSent = status.MessageSent != null ? true : false;
+            }           
+            
+
+            //messageStatus = mEFInterface.MarkMessageActivityInDB(from,
+            //           to,
+            //           convId,
+            //           text,
+            //           true,
+            //           new DateTime(2013,1,1,10,10,10,100),
+            //           prevConvFrom,
+            //           prevConvUpdateTime,
+            //           true,
+            //           xmppUser,
+            //           "10",
+            //           "115",
+            //           Constants.DIRECTION_OUT, lContextPerRequest);
             return Json(messageStatus, JsonRequestBehavior.AllowGet);            
         }
 
