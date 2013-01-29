@@ -271,7 +271,7 @@
     <value>Zi</value>
   </data>
   <data name="RepExportToExcel" xml:space="preserve">
-    <value>Export către Excel</value>
+    <value>Export către CSV</value>
   </data>
   <data name="RepIncomingOutgoingChartTitle" xml:space="preserve">
     <value>Mesaje recepţionate şi trimise</value>

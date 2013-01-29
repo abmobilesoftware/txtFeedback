@@ -805,7 +805,7 @@
     <comment>Settings:</comment>
   </data>
   <data name="RepExportToExcel" xml:space="preserve">
-    <value>Export to Excel</value>
+    <value>Export to CSV</value>
     <comment>Reports: Export to Excel</comment>
   </data>
   <data name="tooltipDeleteConversation" xml:space="preserve">

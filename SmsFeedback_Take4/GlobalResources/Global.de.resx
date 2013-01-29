@@ -268,7 +268,7 @@
     <value>Tag</value>
   </data>
   <data name="RepExportToExcel" xml:space="preserve">
-    <value>Export to Excel</value>
+    <value>Export to CSV</value>
   </data>
   <data name="RepIncomingOutgoingChartTitle" xml:space="preserve">
     <value>Eingehende und Ausgehende Nachrichten</value>
