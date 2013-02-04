@@ -709,11 +709,11 @@ namespace SmsFeedback_Take4.Utilities
             {
                 //don't add the same tag twice (since the Name is not unique)
                //TODO issue if tag is found for another company!!!
-                var tags = from t in dbContext.Tags where t.Name == tagName select t;
+               var companies = from u in dbContext.Users where u.UserName == userName select u.Company;
+               var companyName = companies.First().Name;
+                var tags = from t in dbContext.Tags where t.Name == tagName && t.Company.Name == companyName select t;
                 if (tags.Count() == 0)
                 {
-                    var companies = from u in dbContext.Users where u.UserName == userName select u.Company;
-                    var companyName = companies.First().Name;
                     var newTag = new Tag() { Name = tagName, Description = tagDescription, CompanyName = companyName };
                     dbContext.Tags.Add(newTag);
                     dbContext.SaveChanges();
