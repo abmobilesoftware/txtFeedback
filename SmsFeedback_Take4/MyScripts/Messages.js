@@ -143,6 +143,13 @@ function setMsgClientAcknowledgeValue(convID, msgID, clientAcknowledge) {
       msgSent.set("ClientAcknowledge", clientAcknowledge);
    }
 }
+
+/* IE toGMTString() returns a date like Thu 25 jan 2013 15:12:10 UTC. To properly pass the date to .NET server 
+ the UTC string must be replaced with GMT
+*/
+function fixIEDateString(dateString) {
+   return dateString.replace("UTC", "GMT");
+}
 //#endregion
 
 //#region Message model
@@ -228,6 +235,8 @@ window.app.MessageView = Backbone.View.extend({
       $(messageMenuEl).hide();
 
       $(this.$el).hover(function () {
+         gSelectedMessage = messageModel.get("Text");
+         gSelectedConversationID = messageModel.get("ConvID");
          $(messageMenuEl).fadeIn(100);
          $(checkIconEl).show();
       }, function () {
@@ -246,7 +255,7 @@ window.app.MessageView = Backbone.View.extend({
       if (confirm($("#confirmDeleteMessage").val() + " \"" + msgText + "\" ?")) {
          $.ajax({
             url: "Messages/DeleteMessage",
-            data: { 'messageText': msgText, 'convId': msgConvId, 'timeReceived': msgTimeRcv.toUTCString() },
+            data: { 'messageText': msgText, 'convId': msgConvId, 'timeReceived': fixIEDateString(msgTimeRcv.toGMTString()) },
             success: function (data) {
                if (data === "success") {
                   deleteMessage(messageEl, msgText, msgTimeRcv, msgConvId);
