@@ -815,7 +815,7 @@ namespace SmsFeedback_Take4.Utilities
                      //we need to send warnings
                      System.Net.Mail.MailMessage msgPrimary = mailer.WarningEmail(sd, sd.PrimaryContact.Email, sd.PrimaryContact.Name, sd.PrimaryContact.Surname);
                      msgPrimary.Send();
-                     System.Net.Mail.MailMessage msgSecondary = mailer.WarningEmail(sd, sd.PrimaryContact.Email, sd.SecondaryContact.Name, sd.SecondaryContact.Surname);
+                     System.Net.Mail.MailMessage msgSecondary = mailer.WarningEmail(sd, sd.SecondaryContact.Email, sd.SecondaryContact.Name, sd.SecondaryContact.Surname);
                      msgSecondary.Send();
                   }
                   else
