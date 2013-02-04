@@ -27,17 +27,6 @@ function FirstArea(iResource, iGranularity, iOptions, iId, iTooltip, iTitle) {
    var tooltip = iTooltip;
    var title = iTitle;
 
-   $(".exportBtn").qtip({
-      content: $(".exportBtn").attr('tooltiptitle'),
-      position: {
-         corner: {
-            target: 'leftMiddle',
-            tooltip: 'rightMiddle'
-         }
-      },
-      style: 'dark'
-   });
-
    var options = {
       animation: {
          duration: 1000,

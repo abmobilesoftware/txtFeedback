@@ -142,7 +142,7 @@ var ReportsContentArea = Backbone.View.extend({
       }
    },
    setupEnvironment: function (displayTooltip) {
-      //$("#granularitySelector").show();
+      // Hover tooltip
       if (displayTooltip) {
          var infoBoxElement = $(".chartAreaTitle");
          infoBoxElement.qtip({
@@ -156,6 +156,17 @@ var ReportsContentArea = Backbone.View.extend({
             style: 'dark'
          });
       }
+      $(".exportBtn").qtip({
+         content: $(".exportBtn").attr('tooltiptitle'),
+         position: {
+            corner: {
+               target: 'leftMiddle',
+               tooltip: 'rightMiddle'
+            }
+         },
+         style: 'dark'
+      });
+
       $(".chartAreaTitle").click(function (event) {
          event.preventDefault();
          var sectionId = $(this).attr("sectionId");
