@@ -264,6 +264,9 @@ var ReportsArea = function () {
       eventToTriggerOnSelect: 'switchReport',
       menuCollection: new window.app.MenuCollection({ url: '/Reports/getReportsMenuItems' }),
       afterInitializeFunction: function (menuItems) {
+         var workingPointEl = "<select id='workingPointSelector'></select>";
+         $(this.el).prepend(workingPointEl);
+
          _(menuItems.models).each(function (menuItemModel) {
             //DA the idea is to correctly connect an route to an action -> we need this "actions map"
             if (menuItemModel.get("parent") != 0) {
@@ -311,12 +314,12 @@ var ReportsArea = function () {
                $(".liItem11").addClass("menuItemSelected");
                $("ul.item10").css("display", "block");               
                window.reports.router.navigate('/ConversationsOverview', { trigger: true });
-            }
+            }            
          });
          window.reports.router = new ReportsRooter();
          Backbone.history.start();
          //#endregion
-      }
+      }       
    });
 
    // initializing rightColumn
