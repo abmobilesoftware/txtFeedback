@@ -1402,6 +1402,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The current password is required.
+        /// </summary>
+        public static string settingsCurrentPasswordFieldRequired {
+            get {
+                return ResourceManager.GetString("settingsCurrentPasswordFieldRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current password.
         /// </summary>
         public static string settingsCurrentPasswordLabel {
@@ -1506,6 +1515,15 @@ namespace Resources {
         public static string settingsMaxOutboundSmsHeaderTooltip {
             get {
                 return ResourceManager.GetString("settingsMaxOutboundSmsHeaderTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The new password is required.
+        /// </summary>
+        public static string settingsNewPasswordFieldRequired {
+            get {
+                return ResourceManager.GetString("settingsNewPasswordFieldRequired", resourceCulture);
             }
         }
         

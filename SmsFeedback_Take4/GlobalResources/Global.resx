@@ -894,4 +894,10 @@
   <data name="warningMessageSentSpendingLimitReached" xml:space="preserve">
     <value>You have reached the monthly spending limit  for your company. Purchase credit or raise spending limit to be able to send more SMS until the next billing month.</value>
   </data>
+  <data name="settingsCurrentPasswordFieldRequired" xml:space="preserve">
+    <value>The current password is required</value>
+  </data>
+  <data name="settingsNewPasswordFieldRequired" xml:space="preserve">
+    <value>The new password is required</value>
+  </data>
 </root>

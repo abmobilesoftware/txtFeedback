@@ -150,6 +150,10 @@
         </div>
    </script>
 </asp:Content>
+<asp:Content ID="Content5" ContentPlaceHolderID="LeftSideArea" runat="server">
+   <select id='workingPointSelector'></select>
+</asp:Content>
+
 <asp:Content ID="Content4" ContentPlaceHolderID="MainContent" runat="server">
    <script type="text/javascript">
       $(function () {

@@ -264,10 +264,7 @@ var ReportsArea = function () {
       eventToTriggerOnSelect: 'switchReport',
       menuCollection: new window.app.MenuCollection({ url: '/Reports/getReportsMenuItems' }),
       afterInitializeFunction: function (menuItems) {
-         var workingPointEl = "<select id='workingPointSelector'></select>";
-         $(this.el).prepend(workingPointEl);
-
-         _(menuItems.models).each(function (menuItemModel) {
+          _(menuItems.models).each(function (menuItemModel) {
             //DA the idea is to correctly connect an route to an action -> we need this "actions map"
             if (menuItemModel.get("parent") != 0) {
                window.app.leftSideMenus[menuItemModel.get("FriendlyName")] = {
