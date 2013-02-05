@@ -20,7 +20,7 @@
                 </div>
                 <div class="editor-field">
                     <%: Html.PasswordFor(m => m.OldPassword, new { @class = "logInTextBox"}) %>
-                    <%: Html.ValidationMessageFor(m => m.OldPassword) %>
+                    <%: Html.ValidationMessageFor(m => m.OldPassword, Resources.Global.settingsCurrentPasswordFieldRequired) %>
                 </div>
                 
                 <div id="newPasswordAreaLabelStart" class="editor-label newPasswordAreaLabel">
@@ -28,7 +28,7 @@
                 </div>
                 <div class="editor-field newPasswordAreaPassw">
                     <%: Html.PasswordFor(m => m.NewPassword, new { @class = "logInTextBox"}) %>
-                    <%: Html.ValidationMessageFor(m => m.NewPassword) %>
+                    <%: Html.ValidationMessageFor(m => m.NewPassword, Resources.Global.settingsNewPasswordFieldRequired) %>
                 </div>
                 
                 <div class="editor-label newPasswordAreaLabel">
@@ -36,7 +36,7 @@
                 </div>
                 <div class="editor-field newPasswordAreaPassw">
                     <%: Html.PasswordFor(m => m.ConfirmPassword, new { @class = "logInTextBox"}) %>
-                    <%: Html.ValidationMessageFor(m => m.ConfirmPassword) %>
+                    <%: Html.ValidationMessageFor(m => m.ConfirmPassword, Resources.Global.settingsErrorNewPasswordsDontMatch) %>
                 </div>
                 
                 <p>

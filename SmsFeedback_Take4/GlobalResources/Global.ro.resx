@@ -790,4 +790,10 @@
     <value>You have reached the monthly spending limit  for your company. Purchase credit or raise spending limit to be able to send more SMS until the next billing month.</value>
     <comment>Aţi atins limita bugetului lunar. Vă rugăm să cumpăraţi credit sau să ridicaţi limita pentru a putea trimite SMS-uri până la următoarea zi de facturare.</comment>
   </data>
+  <data name="settingsCurrentPasswordFieldRequired" xml:space="preserve">
+    <value>Parola curenta este obligatorie</value>
+  </data>
+  <data name="settingsNewPasswordFieldRequired" xml:space="preserve">
+    <value>Parola noua este obligatorie</value>
+  </data>
 </root>

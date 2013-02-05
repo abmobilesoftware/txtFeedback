@@ -740,4 +740,10 @@
     <value>Message received</value>
     <comment>Messages: Mark message as received</comment>
   </data>
+  <data name="settingsCurrentPasswordFieldRequired" xml:space="preserve">
+    <value>The current password is required</value>
+  </data>
+  <data name="settingsNewPasswordFieldRequired" xml:space="preserve">
+    <value>The new password is required</value>
+  </data>
 </root>
