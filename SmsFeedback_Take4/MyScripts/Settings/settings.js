@@ -16,18 +16,23 @@
 /*global resizeTriggered */
 //#endregion
 window.app = window.app || {};
-window.settings = window.settings|| {};
+window.settings = window.settings || {};
+function setupForm(formData, sendButton, sendButtonAction) {
+   $('#rightColumn').html(formData);
+   $('#rightColumn form').submit(function () {
+      return false;
+   });
+   $(sendButton).unbind('click');
+   $(sendButton).bind('click', sendButtonAction);
+}
+
 window.settings.ConfigurePassword = function () {
    "use strict";
    $.ajax({
       url: "Settings/GetChangePasswordForm",
       cache: false,
       success: function (data) {
-         // create a modal dialog with the data
-         $('#rightColumn').html(data);
-         $('#btnChangePassword').unbind('click');
-         $('#btnChangePassword').bind('click', function (e) {
-            e.preventDefault();
+         setupForm(data, '#btnChangePassword', function () {
             $.ajax({
                url: 'Settings/GetChangePasswordForm',
                data: $('#rightColumn form').serialize(),
@@ -93,7 +98,7 @@ window.app.saveWorkingPoints = function (e) {
       dataType: 'html',
       contentType: 'application/json; charset=utf-8',
       success: function (data) {
-         $('#rightColumn').html(data);
+         setupForm(data, '#btnSaveWorkingPoints', window.app.saveWorkingPoints);
          window.app.localForSetting.setTooltipsOnHeaders();
          resizeTriggered();
       },
@@ -108,9 +113,7 @@ window.settings.ConfigureWorkingPoints = function () {
       url: "Settings/GetDefineWorkingPointsForm",
       cache: false,
       success: function (data) {
-         $('#rightColumn').html(data);
-         $('#btnSaveWorkingPoints').unbind('click');
-         $('#btnSaveWorkingPoints').bind('click', window.app.saveWorkingPoints);
+         setupForm(data, '#btnSaveWorkingPoints', window.app.saveWorkingPoints);
          window.app.localForSetting.setTooltipsOnHeaders();
          resizeTriggered();
       },
