@@ -152,12 +152,12 @@ window.app.MessagesArea = function () {
    $.extend(this, window.app.defaultMessagesOptions);
 
    $("#reply").click(function () {
-      window.app.sendMessageToClient(window.app.messageID++, self.currentConversationId);
+      window.app.sendMessageToClient(++window.app.messageID, self.currentConversationId);
    });
    $("#replyText").keydown(function (event) {
       if (event.which === 13) {
          event.preventDefault();
-         window.app.sendMessageToClient(window.app.messageID++, self.currentConversationId);
+         window.app.sendMessageToClient(++window.app.messageID, self.currentConversationId);
       }
    });
 
@@ -274,7 +274,7 @@ window.app.MessagesArea = function () {
          //we add the message only if are in correct conversation
          if (window.app.globalMessagesRep[convID] !== undefined) {
             window.app.globalMessagesRep[convID].add(newMsg);
-         }
+         }         
       },
       appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
          var msgView = new MessageView({ model: msg });
@@ -318,7 +318,7 @@ $(function () {
          });
 
          $(document).bind('serverAcknowledge', function (ev, data) {
-             messageSuccessfullySent(window.app.msgView.messagesView, data.message);
+            messageSuccessfullySent(window.app.msgView.messagesView, data.message);
          });
 
          $(document).bind('clientAcknowledge', function (ev, data) {
