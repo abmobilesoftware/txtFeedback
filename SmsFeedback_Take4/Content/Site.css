@@ -282,9 +282,10 @@ select {
    border: 1px solid #ccc;
    padding: 2px;
    font-size: 1.2em;
-   color: #444;
+   color: #fff;
    width: 96%;
    margin-left: 2%;
+   background: #333;
 }
 
 input[type="submit"] {
