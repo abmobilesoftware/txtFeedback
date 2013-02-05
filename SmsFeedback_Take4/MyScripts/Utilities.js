@@ -159,8 +159,11 @@ function payloadReceived(content, messageId) {
 }
 
 //#region Region resize
+window.app.resizeInProgress = false
 function resizeTriggered() {
    "use strict";
+   if (!window.app.resizeInProgress) {
+      window.app.resizeInProgress = true;
    //pick the highest between window size (- header) and messagesArea
    //var padding = 5;
    //var msgAreaMarginTop = 10;
@@ -173,21 +176,28 @@ function resizeTriggered() {
    var marginTop = parseInt($('#rightColumn').css('margin-top'),10);
    var marginBottom = parseInt($('#rightColumn').css('margin-bottom'),10);
    var rightAreaCandidateHeight = contentWindowHeight - filterStripHeigh - marginTop - marginBottom;
+   //first make sure we have a valid right side heigt
+   $('#rightColumn').height('auto');
    var rightAreaHeight = $('#rightColumn').outerHeight();
-   var contentContaier = $('.container_12');
+   var contentContainer = $('.container_12');
+   //we need to set a fixed height for the conversations area and messages area to ensure that scrolling is enabled
    if (rightAreaCandidateHeight > rightAreaHeight) {
-      contentContaier.height(contentWindowHeight);
+      contentContainer.height(contentWindowHeight);
       $('#rightColumn').height(rightAreaCandidateHeight);
       $('#leftColumn').height(contentWindowHeight - filterStripHeigh);
       $('#scrollableconversations').height(rightAreaCandidateHeight);
       $('#scrollablemessagebox').height(rightAreaCandidateHeight - 135);
-   } else {
-      contentContaier.height(rightAreaHeight + filterStripHeigh + marginTop + marginBottom);
+   } else {      
+      contentContainer.height(rightAreaHeight + filterStripHeigh + marginTop + marginBottom);
       $('#leftColumn').height(rightAreaHeight + marginTop + marginBottom);
+      $('#scrollableconversations').height(rightAreaHeight);
+      $('#scrollablemessagebox').height(rightAreaHeight - 135);
    } 
-   $('.page').height(headerHeight + contentContaier.height());
-   $('body').height(headerHeight + contentContaier.height());
-   $('html').height(headerHeight + contentContaier.height());
+   $('.page').height(headerHeight + contentContainer.height());
+   $('body').height(headerHeight + contentContainer.height());
+   $('html').height(headerHeight + contentContainer.height());
+   window.app.resizeInProgress = false;
+   }
 }
 
 $(function () {
@@ -355,7 +365,6 @@ $(function () {
    var m = new window.app.NotifyAreaModel();
    window.app.NotifyArea = new window.app.NotifyAreaView({model:m});
    $('header').prepend(window.app.NotifyArea.render().$el);
-   window.app.checkSmsSubscriptionStatus();
-   //window.app.NotifyArea.show();
+   window.app.checkSmsSubscriptionStatus();  
 });
 //#endregion
