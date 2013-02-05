@@ -176,10 +176,10 @@ html, body
 
 .sendAndReceivedChecks {
     float: right;
-    width: 34px;   
-    position:absolute;
+    /*width: 34px;*/   
+    /*position:absolute;
     bottom: 0px;
-    right: 0px;
+    right: 0px;*/
 }
 
 .check {
