@@ -142,11 +142,12 @@ color: white;*/
     margin: 17px 0px 17px 20px;
  }
  .settingsEntry label {
-    font-weight: bold;
+    font-weight: bold;    
+    
  }
 
  .settingsField {
-    margin: 7px 0px 7px 20px;
+    margin: 7px 0px 7px 0px;
     width: 80%;
  }
 
