@@ -26,29 +26,31 @@ function setupForm(formData, sendButton, sendButtonAction) {
    $(sendButton).bind('click', sendButtonAction);
 }
 
+window.app.changePassword = function () {
+   $.ajax({
+      url: 'Settings/GetChangePasswordForm',
+      data: $('#rightColumn form').serialize(),
+      type: 'post',
+      cache: true,
+      dataType: 'html',
+      success: function (data) {
+         $('#rightColumn').html(data);
+         setupForm(data, '#btnChangePassword', window.app.changePassword);
+         resizeTriggered();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+         $('#rightColumn').html(jqXHR);
+      }
+   });
+};
+
 window.settings.ConfigurePassword = function () {
    "use strict";
    $.ajax({
       url: "Settings/GetChangePasswordForm",
       cache: false,
       success: function (data) {
-         setupForm(data, '#btnChangePassword', function () {
-            $.ajax({
-               url: 'Settings/GetChangePasswordForm',
-               data: $('#rightColumn form').serialize(),
-               type: 'post',
-               cache: true,
-               dataType: 'html',
-               success: function (data) {
-                  $('#rightColumn').html(data);
-                  //$('th').each(function () { setTooltipOnElement(this, this.attr('tooltiptitle'), 'light'); });
-                  resizeTriggered();
-               },
-               error: function (jqXHR, textStatus, errorThrown) {
-                  $('#rightColumn').html(jqXHR);
-               }
-            });
-         });
+         setupForm(data, '#btnChangePassword', window.app.changePassword);
       }
    });
 };
