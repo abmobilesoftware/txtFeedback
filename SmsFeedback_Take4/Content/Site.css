@@ -234,8 +234,7 @@ ul#menu li.selected a {
 /* FORM LAYOUT ELEMENTS
 ----------------------------------------------------------*/
 
-fieldset {
-   padding: 5px 20px 5px 20px;
+fieldset {  
    margin: 0px;
 }
 
@@ -713,4 +712,8 @@ background: #183540; /* Old browsers */
 
 .logInTextBox {
    width:100%;
+}
+
+#rightColumn form {
+   margin: 5px 20px 5px 20px;
 }
