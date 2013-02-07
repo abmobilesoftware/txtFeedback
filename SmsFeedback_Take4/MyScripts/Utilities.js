@@ -186,12 +186,12 @@ function resizeTriggered() {
       $('#rightColumn').height(rightAreaCandidateHeight);
       $('#leftColumn').height(contentWindowHeight - filterStripHeigh);
       $('#scrollableconversations').height(rightAreaCandidateHeight);
-      $('#scrollablemessagebox').height(rightAreaCandidateHeight - 135);
+      $('#scrollablemessagebox').height(rightAreaCandidateHeight - 133);
    } else {      
       contentContainer.height(rightAreaHeight + filterStripHeigh + marginTop + marginBottom);
       $('#leftColumn').height(rightAreaHeight + marginTop + marginBottom);
       $('#scrollableconversations').height(rightAreaHeight);
-      $('#scrollablemessagebox').height(rightAreaHeight - 135);
+      $('#scrollablemessagebox').height(rightAreaHeight - 133);
    } 
    $('.page').height(headerHeight + contentContainer.height());
    $('body').height(headerHeight + contentContainer.height());
