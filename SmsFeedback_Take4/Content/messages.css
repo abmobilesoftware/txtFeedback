@@ -427,3 +427,7 @@ input[name="countdown"] {
    bottom: 9px;    
 }
 /* End single & double check icons */
+
+.rightColumn form {   
+   margin: 0px !important;
+}
