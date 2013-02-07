@@ -1,47 +1,47 @@
 SET XACT_ABORT ON
 BEGIN TRAN
-USE txtfeedback_nexmo -- choose db 
+USE txtfeedback_production -- choose db 
 -- Script for Canada
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = '123';
-DECLARE @WP_ShortID nvarchar(10) = 'dragostest';
-DECLARE @WP_Name nvarchar(40) = 'datest';
-DECLARE @Client_Description nvarchar(160) = 'demoClient';
-DECLARE @WP_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to the demo!';
+DECLARE @Client_TelNumber nvarchar(50) = '9999912352';
+DECLARE @WP_ShortID nvarchar(10) = 'eurogsm';
+DECLARE @WP_Name nvarchar(40) = 'Euro gsm';
+DECLARE @Client_Description nvarchar(160) = 'Euro gsm user';
+DECLARE @WP_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Bine aþi venit la Euro GSM!';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'ANameThatDoesNotExist'; -- details in less used section
-DECLARE @C_ContactName nvarchar(50) = 'companyContactName';
-DECLARE @C_ContactSurname nvarchar(50) = 'companyContactSurname';
-DECLARE @C_ContactEmail nvarchar(50) = 'company@company.com';
-DECLARE @C_VATID nvarchar(50) = 'thisIsADemoID';
+DECLARE @U_CompanyName nvarchar(50) = 'EuroGSM'; -- details in less used section
+DECLARE @C_ContactName nvarchar(50) = 'Sebastian';
+DECLARE @C_ContactSurname nvarchar(50) = 'Sabo';
+DECLARE @C_ContactEmail nvarchar(50) = 'sebastian.sabo@telefoane-mobile.ro';
+DECLARE @C_VATID nvarchar(50) = 'EuroGSMVATID';
 DECLARE @C_RegistrationNumber nvarchar(50) = NULL;
 -- SubscriptionDetails
-DECLARE @S_PrimaryContact_Name nvarchar(50) = 'primary'; 
-DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'primarySurname';
-DECLARE @S_PrimaryContact_Email nvarchar(50) = 'primary@primary.com';
-DECLARE @S_SecondaryContact_Name nvarchar(50) = 'secondary'; 
-DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'secondarySurname';
-DECLARE @S_SecondaryContact_Email nvarchar(50) = 'secondary@secondary.com';
+DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Sebastian'; 
+DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Sabo';
+DECLARE @S_PrimaryContact_Email nvarchar(50) = 'sebastian.sabo@telefoane-mobile.ro';
+DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Sebastian'; 
+DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Sabo';
+DECLARE @S_SecondaryContact_Email nvarchar(50) = 'sebastian.sabo@telefoane-mobile.ro';
 
 
 -- Support working point
-DECLARE @WP_Support_TelNumber nvarchar(50) = '12898437378';
-DECLARE @WP_Support_ShortID nvarchar(10) = 'supportca';
-DECLARE @WP_Support_Name nvarchar(40) = 'CA support';
-DECLARE @WP_Support_Description nvarchar(120)= 'Support for Canada!';
-DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
-DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback! Use this chat to clarify any/every question about TxtFeedback';
+DECLARE @WP_Support_TelNumber nvarchar(50) = '2220000100';
+DECLARE @WP_Support_ShortID nvarchar(10) = 'supportro';
+DECLARE @WP_Support_Name nvarchar(40) = 'RO support';
+DECLARE @WP_Support_Description nvarchar(120)= 'Support for Romania';
+DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
+DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Bine aþi venit la TxtFeedback! Pentru orice fel de întrebare legatã de modul de funcþionare al sistemului nostru folosiþi acest chat.';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'demoMan';
-DECLARE @U_ReqularUserPassword nvarchar(128) = 'kZBaOwPi152rk60ZUjl+kR6e9g4=';
-DECLARE @U_RegularPasswordSalt nvarchar(128) = 'nUy0wV6Bpg26r1Cq3ARxcA==';
-DECLARE @U_XmppUser varchar(30) = 'coffeeclubpr@txtfeedback.net';
-DECLARE @U_XmppPassword varchar(30) = '123456';
-DECLARE @U_RegularUserEmail nvarchar(256) = 'esport@mail.com';
+DECLARE @U_RegularUserName varchar(30) = 'eurogsm';
+DECLARE @U_ReqularUserPassword nvarchar(128) = '6nPKeOV6Ye8gIsGxkomc4r7evtM=';
+DECLARE @U_RegularPasswordSalt nvarchar(128) = '9hvZUClKM4m1ZC8a4K5xCQ==';
+DECLARE @U_XmppUser varchar(30) = 'eurogsm@txtfeedback.net';
+DECLARE @U_XmppPassword varchar(30) = '.KURXdjCo';
+DECLARE @U_RegularUserEmail nvarchar(256) = 'sebastian.sabo@telefoane-mobile.ro';
 -- END Important fields
 
 -- Less used
@@ -77,8 +77,8 @@ DECLARE @S_SubscriptionSMS int = 20;
 -- Tags
 DECLARE @TagDescription nvarchar(200) = 'default tag';
 -- English version
-DECLARE @TagPositive nvarchar(50) = 'Positive feedback';
-DECLARE @TagNegative nvarchar(50) = 'Negative feedback';
+DECLARE @TagPositive nvarchar(50) = 'Feedback pozitiv';
+DECLARE @TagNegative nvarchar(50) = 'Feedback negativ';
 -- German version
 --DECLARE @TagPositive nvarchar(50) = 'Positives feedback';
 --DECLARE @TagNegative nvarchar(50) = 'Negatives feedback';
@@ -138,7 +138,7 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@Client_TelNumber, @WP_Description, @WP_Name, 
 		@WP_Provider, @WP_SmsSent, @WP_MaxNrOfSmsToSend, @WP_ShortID, 
 		@WP_XmppSuffix, @WP_WelcomeMessage, @WP_BusyMessage,
-		@WP_OutsideOfficeHoursMessage, @WP_Language_US);
+		@WP_OutsideOfficeHoursMessage, @WP_Language_RO);
 		
 IF (SELECT COUNT(*) FROM [dbo].[WorkingPoints] WHERE [dbo].[WorkingPoints].[TelNumber] = @WP_Support_TelNumber) = 0 
 INSERT INTO WorkingPoints(TelNumber, Description, Name, 
@@ -147,7 +147,7 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@WP_Support_TelNumber, @WP_Support_Description, @WP_Support_Name, 
 		@WP_Support_Provider, @WP_Support_SentSms, @WP_Support_MaxNrOfSms, @WP_Support_ShortID, 
 		@WP_Support_XmppSuffix, @WP_Support_WelcomeMessage, @WP_Support_BusyMessage,
-		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_US);
+		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_RO);
 
 -- Welcome conversation Support - WP. 
 INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
