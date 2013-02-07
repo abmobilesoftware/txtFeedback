@@ -1,18 +1,18 @@
 SET XACT_ABORT ON
 BEGIN TRAN
-USE txtfeedback_nexmo -- choose db 
+USE txtfeedback_production -- choose db 
 -- Script for Romania
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = '9999912349';
-DECLARE @WP_ShortID nvarchar(10) = 'carr2';
-DECLARE @WP_Name nvarchar(40) = 'Carrefour 2';
-DECLARE @Client_Description nvarchar(160) = 'Carrefour 2 - Romania';
-DECLARE @WP_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Bine ati venit!';
+DECLARE @Client_TelNumber nvarchar(50) = '9999912353';
+DECLARE @WP_ShortID nvarchar(10) = 'mirus';
+DECLARE @WP_Name nvarchar(40) = 'Mirus Supermarket';
+DECLARE @Client_Description nvarchar(160) = 'Mirus Supermarket';
+DECLARE @WP_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Bine ati venit la Mirus Supermarket!';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'Carrefour'; -- details in less used section
+DECLARE @U_CompanyName nvarchar(50) = 'Mirus'; -- details in less used section
 
 -- Subscription
 DECLARE @C_Subscription_Type nvarchar(50) = 'Free'; -- details in less used section
@@ -22,15 +22,15 @@ DECLARE @WP_Support_TelNumber nvarchar(50) = '2220000100';
 DECLARE @WP_Support_ShortID nvarchar(10) = 'supportro';
 DECLARE @WP_Support_Name nvarchar(40) = 'RO support';
 DECLARE @WP_Support_Description nvarchar(120)= 'Support for Romania';
-DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
+DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
 DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Bine ati venit! Pentru orice fel de intrebare legata de modul de functionare al sistemului nostru folositi acest chat.';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'augusta.tepes_man';
-DECLARE @U_ReqularUserPassword nvarchar(128) = '0R4BYtcYLkiHbySVYtfbnsIhFP4=';
-DECLARE @U_RegularPasswordSalt nvarchar(128) = 'bKhsSxdhLlowvkAw3Hd9ww==';
-DECLARE @U_XmppUser varchar(30) = 'carrefour2@txtfeedback.net';
-DECLARE @U_XmppPassword varchar(30) = 'D|wcy*p:j';
+DECLARE @U_RegularUserName varchar(30) = 'bogdan.mirus';
+DECLARE @U_ReqularUserPassword nvarchar(128) = 'z+w34h8N5nf6vwkSwX8dX2qou2Y=';
+DECLARE @U_RegularPasswordSalt nvarchar(128) = 'oJPUZLg+500uttiPg1abmA==';
+DECLARE @U_XmppUser varchar(30) = 'mirus@txtfeedback.net';
+DECLARE @U_XmppPassword varchar(30) = '`>"pSzN]R';
 DECLARE @U_RegularUserEmail nvarchar(256) = 'no@email.ro';
 -- END Important fields
 

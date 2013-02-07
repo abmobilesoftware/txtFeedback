@@ -14,8 +14,16 @@ namespace SmsFeedback_Take4.Controllers
     [CustomAuthorizeAtribute]
     public class ReportsController : BaseController
     {
+       private const int cConvsMenuContainerID = 10;
+       private const int cConvsOverviewMenuID = 11;
+       private const int cConvsIncomingVsOutgoingID = 12;
+       private const int cConvsPosVsNegID = 13;
+       private const int cConvsTagsOverviewID = 14;
+       private const int cClientsOverviewID = 20;
+       private const int cClientsNewVsReturningID = 21;
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private EFInteraction mEFInterface = new EFInteraction();
+        smsfeedbackEntities context = new smsfeedbackEntities();
 
         public ActionResult Index()
         {
@@ -33,8 +41,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
                 Dictionary<DateTime, ChartValue> resultInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 foreach (var wp in workingPoints)
                 {
@@ -105,8 +112,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
                 Dictionary<DateTime, ChartValue> resultIncomingInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultOutgoingInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 foreach (var wp in workingPoints)
@@ -195,8 +201,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
                 Dictionary<DateTime, ChartValue> resultNewClientsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultReturningClientsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
@@ -296,8 +301,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
                 var tagsHash = GetNoOfConversationsByTags(intervalStart, intervalEnd, iGranularity, scope);
 
@@ -342,9 +346,8 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
                 Dictionary<DateTime, ChartValue> resultPositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultRemovePositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
@@ -522,9 +525,8 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
                 Dictionary<DateTime, ChartValue> resultPositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 int posFeedback = 0;
@@ -729,9 +731,8 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
                 Dictionary<DateTime, ChartValue> resultPosToNegTransitionsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultNegToPosTransitionsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 foreach (var wp in workingPoints)
@@ -867,9 +868,8 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
                 var totalNoOfSms = ComputeTotalNoOfSms(intervalStart, intervalEnd, workingPoints);
 
                 return Json(new RepInfoBox(totalNoOfSms, Resources.Global.RepSmsUnit), JsonRequestBehavior.AllowGet);
@@ -889,8 +889,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
                 var incomingNoOfSms = ComputeNoOfIncomingSms(intervalStart, intervalEnd, workingPoints);
                 return Json(new RepInfoBox(incomingNoOfSms, Resources.Global.RepSmsUnit), JsonRequestBehavior.AllowGet);
@@ -910,8 +909,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
                 var outgoingNoOfSms = ComputeNoOfOutgoingSms(intervalStart, intervalEnd, workingPoints);
                 return Json(new RepInfoBox(outgoingNoOfSms, Resources.Global.RepSmsUnit), JsonRequestBehavior.AllowGet);
@@ -931,8 +929,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
                 var totalNoOfSms = ComputeTotalNoOfSms(intervalStart, intervalEnd, workingPoints);
                 TimeSpan interval = intervalEnd - intervalStart;
@@ -956,8 +953,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
                 int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
                 int noOfIncomingMessages = ComputeNoOfIncomingSms(intervalStart, intervalEnd, workingPoints);
@@ -981,8 +977,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
                 int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
                 int noOfOutgoingMessages = ComputeNoOfOutgoingSms(intervalStart, intervalEnd, workingPoints);
@@ -1049,8 +1044,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
                 var noOfConversations = 0;
                 var noOfTags = 0;
@@ -1091,8 +1085,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
                 int noOfNewClients = 0;
                 foreach (var wp in workingPoints)
@@ -1116,8 +1109,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
                 int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
                 return Json(new RepInfoBox(noOfClients, Resources.Global.RepClients), JsonRequestBehavior.AllowGet);
@@ -1137,8 +1129,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
                 int noOfReturningClients = 0;
                 foreach (var wp in workingPoints)
@@ -1167,8 +1158,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
                 int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
                 int noOfMessages = ComputeTotalNoOfSms(intervalStart, intervalEnd, workingPoints);
@@ -1192,8 +1182,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
                 long totalResponseTime = 0;
                 var counter = 0;
@@ -1243,8 +1232,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
                 var incomingNoOfSms = ComputeNoOfIncomingSms(intervalStart, intervalEnd, workingPoints);
                 var outgoingNoOfSms = ComputeNoOfOutgoingSms(intervalStart, intervalEnd, workingPoints);
@@ -1274,8 +1262,7 @@ namespace SmsFeedback_Take4.Controllers
 
             KeyAndCount posToNegTransitions = new KeyAndCount(Constants.POS_TO_NEG_EVENT, 0);
             KeyAndCount negToPosTransitions = new KeyAndCount(Constants.NEG_TO_POS_EVENT, 0);
-            smsfeedbackEntities dbContext = new smsfeedbackEntities();
-            IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+            IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
             foreach (var wp in workingPoints)
             {
                 foreach (var conv in wp.Conversations)
@@ -1313,18 +1300,22 @@ namespace SmsFeedback_Take4.Controllers
 
         public JsonResult GetReportsMenuItems()
         {
-            ReportsMenuItem[] reportsMenuItems = new ReportsMenuItem[] { new ReportsMenuItem(1, Resources.Global.RepConversations, false, 0), new ReportsMenuItem(2, Resources.Global.RepOverview, true, 1), 
-                                                                         new ReportsMenuItem(3, Resources.Global.RepIncomingVsOutgoing, true, 1), new ReportsMenuItem(4, Resources.Global.RepPositiveAndNegative, true, 1),
-                                                                         new ReportsMenuItem(5, Resources.Global.RepTags, true, 1), new ReportsMenuItem(6, Resources.Global.RepClients, false, 0), new ReportsMenuItem(7, Resources.Global.RepNewVsReturning, true, 6), 
-                                                                        };
-            // new ReportsMenuItem(7, Resources.Global.RepNewVsReturning , true, 5)
+            ReportsMenuItem[] reportsMenuItems = new ReportsMenuItem[] {
+               new ReportsMenuItem(cConvsMenuContainerID, Resources.Global.RepConversations, false, 0, "getReportById", "Conversations"),
+               new ReportsMenuItem(cConvsOverviewMenuID, Resources.Global.RepOverview, true, cConvsMenuContainerID, "getReportById","ConversationsOverview"), 
+               new ReportsMenuItem(cConvsIncomingVsOutgoingID, Resources.Global.RepIncomingVsOutgoing, true, cConvsMenuContainerID,"getReportById","ConversationsIncomingVsOutgoing"),
+               new ReportsMenuItem(cConvsPosVsNegID, Resources.Global.RepPositiveAndNegative, true, cConvsMenuContainerID, "getReportById","ConversationsPositiveAndNegative"),
+               new ReportsMenuItem(cConvsTagsOverviewID, Resources.Global.RepTags, true, cConvsMenuContainerID, "getReportById","ConversationsTagsOverview"),
+               new ReportsMenuItem(cClientsOverviewID, Resources.Global.RepClients, false, 0, "getReportById","Clients"),
+               new ReportsMenuItem(cClientsNewVsReturningID, Resources.Global.RepNewVsReturning, true, cClientsOverviewID,"getReportById","CustomersNewVsReturning")};
+            
             return Json(reportsMenuItems, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetReportById(int reportId)
         {
             var hashTable = new Dictionary<int, Report>();
-            var report2 = new Report(2, Resources.Global.RepOverview, "Global", new ReportSection[] { 
+            var report2 = new Report(cConvsOverviewMenuID, Resources.Global.RepOverview, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
                                                                                                                                                             new ReportResource(Resources.Global.RepOverviewChartTitle, iSource: "/Reports/GetTotalNoOfSmsChartSource") 
                                                                                                                                                           }),
@@ -1339,7 +1330,7 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetIncomingOutgoingThirdArea") 
                                                                                                                                                           }),
                                                                                     });
-            var report3 = new Report(3, Resources.Global.RepIncomingVsOutgoing, "Global", new ReportSection[] { 
+            var report3 = new Report(cConvsIncomingVsOutgoingID, Resources.Global.RepIncomingVsOutgoing, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
                                                                                                                                                             new ReportResource(Resources.Global.RepIncomingOutgoingChartTitle, iSource: "/Reports/GetIncomingOutgoingSmsChartSource") 
                                                                                                                                                           }),
@@ -1354,7 +1345,7 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetIncomingOutgoingThirdArea") 
                                                                                                                                                           }),
                                                                                     });
-            var report4 = new Report(4, Resources.Global.RepPositiveAndNegativeTitle, "Global", new ReportSection[] { 
+            var report4 = new Report(cConvsPosVsNegID, Resources.Global.RepPositiveAndNegativeTitle, "Global", new ReportSection[] { 
                                                                                         
                                                                                         new ReportSection("PrimaryChartArea", true, iUniqueId:"1", iResources: new ReportResource[] { 
                                                                                                                                                             new ReportResource(Resources.Global.RepPositiveNegativeEvolutionChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackEvolution, iSource: "/Reports/GetPosAndNegTagEvolution")                                                                                                                                                                                                                                                     
@@ -1377,7 +1368,7 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
                                                                                                                                                           }),
                                                                                     });
-            var report5 = new Report(5, Resources.Global.RepTags, "Global", new ReportSection[] { 
+            var report5 = new Report(cConvsTagsOverviewID, Resources.Global.RepTags, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
                                                                                                                                                             new ReportResource(Resources.Global.RepNoOfConversationsByTagsChartTitle, iSource: "/Reports/GetNoOfConversationsByTagsChartSource", iOptions: new ReportResourceOptions(iSeriesType : Constants.BARS_CHART_STYLE)) 
                                                                                                                                                             
@@ -1391,7 +1382,7 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                             new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
                                                                                                                                                           }),
                                                                                     });
-            var report7 = new Report(7, Resources.Global.RepNewVsReturning, "Global", new ReportSection[] { 
+            var report7 = new Report(cClientsNewVsReturningID, Resources.Global.RepNewVsReturning, "Global", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
                                                                                                                                                             new ReportResource(Resources.Global.RepNewReturningClientsChartTitle, iSource: "/Reports/GetNewVsReturningClientsChartSource") 
                                                                                                                                                           }),
@@ -1418,11 +1409,11 @@ namespace SmsFeedback_Take4.Controllers
                                                                                                                                                           }),
                                                                                     });
              */
-            hashTable.Add(2, report2);
-            hashTable.Add(3, report3);
-            hashTable.Add(4, report4);
-            hashTable.Add(5, report5);
-            hashTable.Add(7, report7);
+            hashTable.Add(cConvsOverviewMenuID, report2);
+            hashTable.Add(cConvsIncomingVsOutgoingID, report3);
+            hashTable.Add(cConvsPosVsNegID, report4);
+            hashTable.Add(cConvsTagsOverviewID, report5);
+            hashTable.Add(cClientsNewVsReturningID, report7);
             //hashTable.Add(7, report7);
 
             return Json(hashTable[reportId], JsonRequestBehavior.AllowGet);
@@ -1435,13 +1426,13 @@ namespace SmsFeedback_Take4.Controllers
             var hashTable = new Dictionary<String, RepDataRow>();
             var keyPrefix = "row";
 
-            int[] incomingSmsGlobal = new int[31] { 17, 15, 16, 15, 17, 16, 14, 13, 14, 15, 16, 17, 15, 14, 11, 13, 16, 15, 14, 13, 13, 12, 11, 12, 13, 14, 15, 16, 15, 16, 14 };
+            int[] incomingSmsGlobal = new int[31] { 17, 15, 16, 15, 17, 16, 14, 13, 14, 15, 16, 17, 15, 14, cConvsOverviewMenuID, 13, 16, 15, 14, 13, 13, 12, cConvsOverviewMenuID, 12, 13, 14, 15, 16, 15, 16, 14 };
             int[] incomingSmsWP1 = new int[31] { 18, 19, 21, 22, 21, 18, 16, 19, 20, 21, 23, 25, 26, 27, 27, 29, 28, 27, 25, 24, 23, 20, 19, 19, 21, 23, 24, 27, 30, 31, 32 };
-            int[] incomingSmsWP2 = new int[31] { 23, 19, 18, 17, 15, 12, 11, 9, 8, 7, 11, 10, 11, 13, 15, 16, 17, 17, 19, 18, 23, 25, 24, 23, 20, 19, 19, 21, 23, 24, 27 };
+            int[] incomingSmsWP2 = new int[31] { 23, 19, 18, 17, 15, 12, cConvsOverviewMenuID, 9, 8, 7, cConvsOverviewMenuID, cConvsMenuContainerID, cConvsOverviewMenuID, 13, 15, 16, 17, 17, 19, 18, 23, 25, 24, 23, 20, 19, 19, 21, 23, 24, 27 };
 
-            int[] outgoingSmsGlobal = new int[31] { 15, 14, 15, 15, 14, 15, 13, 12, 13, 14, 15, 16, 14, 13, 10, 12, 15, 14, 13, 12, 12, 11, 10, 11, 12, 13, 14, 15, 14, 15, 13 };
+            int[] outgoingSmsGlobal = new int[31] { 15, 14, 15, 15, 14, 15, 13, 12, 13, 14, 15, 16, 14, 13, cConvsMenuContainerID, 12, 15, 14, 13, 12, 12, cConvsOverviewMenuID, cConvsMenuContainerID, 11, 12, 13, 14, 15, 14, 15, 13 };
             int[] outgoingSmsWP1 = new int[31] { 17, 18, 20, 21, 20, 17, 15, 18, 19, 18, 17, 16, 15, 14, 13, 15, 14, 11, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13 };
-            int[] outgoingSmsWP2 = new int[31] { 22, 18, 17, 16, 14, 11, 10, 8, 7, 6, 10, 9, 10, 12, 14, 15, 16, 16, 18, 17, 22, 24, 23, 22, 19, 18, 18, 20, 22, 23, 26 };
+            int[] outgoingSmsWP2 = new int[31] { 22, 18, 17, 16, 14, 11, cConvsMenuContainerID, 8, 7, 6, 10, 9, 10, 12, 14, 15, 16, 16, 18, 17, 22, 24, 23, 22, 19, 18, 18, 20, 22, 23, 26 };
 
             int[] incoming = incomingSmsWP2;
             int[] outgoing = outgoingSmsWP2;
@@ -1490,8 +1481,7 @@ namespace SmsFeedback_Take4.Controllers
         {
             try
             {
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, dbContext);
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
                 var tagsHash = new Dictionary<String, int>();
                 foreach (var wp in workingPoints)
@@ -1710,6 +1700,13 @@ namespace SmsFeedback_Take4.Controllers
         }
 
         #endregion
+        
+       protected override void Dispose(bool disposing)
+        {
+           context.Dispose();
+           base.Dispose(disposing);
+        }
+
     }
 
     class EventCounter

@@ -9,7 +9,7 @@
         <div class='contact-message' style='display: none'></div>
         <form action='#' style='display:none'>
             <label for='contact-email'><%: Resources.Global.sendEmailTo %></label>
-            <input type='text' id='contact-email' class='contact-input' name='email' tabindex='1001' value="<%: ViewData["emailTo"]%>" />
+            <input type='text' id='contact-email' class='contact-input' name='email' tabindex='1001' value="<%: ViewData["emailTo"]%>"  readOnly="<%: (ViewData["isFeedbackForm"] != null && (bool)ViewData["isFeedbackForm"] == true)? true : false %>"/>
             <label for='contact-subject'><%: Resources.Global.sendEmailSubject %></label>
             <input type='text' id='contact-subject' class='contact-input' name='subject' value='<%: ViewData["emailSubject"]%>'
                 tabindex='1002' > </input>

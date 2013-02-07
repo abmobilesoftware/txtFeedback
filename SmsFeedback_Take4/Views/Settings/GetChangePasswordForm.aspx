@@ -1,9 +1,8 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<SmsFeedback_Take4.Models.ChangePasswordModel>" %>
 
 <!DOCTYPE html>
-
-<div id="changePasswordContainer">
-    <h2><%: Resources.Global.settingsChangePasswordTitle %></h2>   
+<legend id="wpConfigLegend"><%: Resources.Global.settingsChangePasswordTitle %></legend>
+<div id="changePasswordContainer">    
     <p>
         <%: String.Format(Resources.Global.settingsDescriptionPrefix, Membership.MinRequiredPasswordLength) %>.
     </p>
@@ -20,28 +19,28 @@
                     <%: Html.LabelFor(m => m.OldPassword) %>
                 </div>
                 <div class="editor-field">
-                    <%: Html.PasswordFor(m => m.OldPassword) %>
-                    <%: Html.ValidationMessageFor(m => m.OldPassword) %>
+                    <%: Html.PasswordFor(m => m.OldPassword, new { @class = "logInTextBox"}) %>
+                    <%: Html.ValidationMessageFor(m => m.OldPassword, Resources.Global.settingsCurrentPasswordFieldRequired) %>
                 </div>
                 
                 <div id="newPasswordAreaLabelStart" class="editor-label newPasswordAreaLabel">
                     <%: Html.LabelFor(m => m.NewPassword) %>
                 </div>
                 <div class="editor-field newPasswordAreaPassw">
-                    <%: Html.PasswordFor(m => m.NewPassword) %>
-                    <%: Html.ValidationMessageFor(m => m.NewPassword) %>
+                    <%: Html.PasswordFor(m => m.NewPassword, new { @class = "logInTextBox"}) %>
+                    <%: Html.ValidationMessageFor(m => m.NewPassword, Resources.Global.settingsNewPasswordFieldRequired) %>
                 </div>
                 
                 <div class="editor-label newPasswordAreaLabel">
                     <%: Html.LabelFor(m => m.ConfirmPassword) %>
                 </div>
                 <div class="editor-field newPasswordAreaPassw">
-                    <%: Html.PasswordFor(m => m.ConfirmPassword) %>
-                    <%: Html.ValidationMessageFor(m => m.ConfirmPassword) %>
+                    <%: Html.PasswordFor(m => m.ConfirmPassword, new { @class = "logInTextBox"}) %>
+                    <%: Html.ValidationMessageFor(m => m.ConfirmPassword, Resources.Global.settingsErrorNewPasswordsDontMatch) %>
                 </div>
                 
                 <p>
-                    <button id="btnChangePassword" class="btnSaveChanges"><%: Resources.Global.settingsBtnChangePassword %></button> 
+                    <button id="btnChangePassword" class="btnSaveChanges alignLeft"><%: Resources.Global.settingsBtnChangePassword %></button> 
                 </p>
             </fieldset>
         </div>

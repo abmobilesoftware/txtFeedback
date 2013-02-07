@@ -25,7 +25,7 @@
    background-image: -webkit-linear-gradient(top, rgb(240,248,250) 26%, rgb(245,248,250) 65%);
    background-image: -ms-linear-gradient(top, rgb(240,248,250) 26%, rgb(245,248,250) 65%);
    background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, rgb(240,248,250)), color-stop(0.65, rgb(245,248,250)) );
-   margin-top: 7px;
+   /*margin-top: 7px;*/
    padding-bottom: 4px;
 }
 
@@ -38,9 +38,9 @@
    overflow-x: hidden;
    width: 100%;
     /*border-width: 0px 0px 2px 0px;
-   border-style:  normal;
-   border-color:  black;   
-   margin-bottom: 3px;*/
+border-style: normal;
+border-color: black;
+margin-bottom: 3px;*/
 }
 
 .messagesboxcontainerclass {
@@ -91,19 +91,19 @@ span.timeReceived {
 
 .messagefrom::after {
    content:"";
-	position:absolute;
-	bottom:-10px; /* value = - border-top-width - border-bottom-width */
-	left:20px; /* controls horizontal position */
-	border-width:10px 10px 0 0px; /* vary these values to change the angle of the vertex */
-	border-style:solid;
-	border-color:#00A4E4 transparent; 
+position:absolute;
+bottom:-10px; /* value = - border-top-width - border-bottom-width */
+left:20px; /* controls horizontal position */
+border-width:10px 10px 0 0px; /* vary these values to change the angle of the vertex */
+border-style:solid;
+border-color:#00A4E4 transparent;
     /* reduce the damage in FF3.0 */
-   display:block; 
+   display:block;
    width:0;
 }
 
 div.extramenu, div.extramenuExtended {
-   /*width:  50%;*/
+   /*width: 50%;*/
    float: left;
    z-index: 1;
    color: transparent;
@@ -121,14 +121,14 @@ div.innerExtraMenu {
    border-radius: 3px;
    -moz-border-radius: 3px;
    -webkit-border-radius: 3px;
-   background: #f7941d; /* Old browsers */   
+   background: #f7941d; /* Old browsers */
    z-index: 100;
    position:relative;
    top: -27px;
   
 }
 div.actionButtons {
-   /*margin:  0px;*/
+   /*margin: 0px;*/
    padding: 6.5px;
    float: right;
   }
@@ -136,7 +136,7 @@ div.actionButtons {
       cursor: pointer;
    }
 
-#messagesbox .message {   
+#messagesbox .message {
    width: 75%;
    margin: 4px 4px 10px 4px;
    padding: 1px 4px 1px 4px;
@@ -160,12 +160,12 @@ div.actionButtons {
    -webkit-border-radius: 3px;
    -moz-border-radius: 3px;
    border-radius: 3px;
-   background: #00A4E4;   
+   background: #00A4E4;
 }
 
-#messagesbox span {   
-   font-size:  14px;
-   line-height: 1.3em;   
+#messagesbox span {
+   font-size: 14px;
+   line-height: 1.3em;
 }
 
 #messagesbox span.textMessageContent {
@@ -173,10 +173,10 @@ div.actionButtons {
 }
 
 #noConversationsLoaded {
- width: 100%;   
- margin-top: 100px;  
- text-align: center;   
- display: inline-block;  
+ width: 100%;
+ margin-top: 100px;
+ text-align: center;
+ display: inline-block;
  font-size: 1.5em;
 }
 
@@ -185,19 +185,19 @@ div.actionButtons {
    -webkit-border-radius: 3px;
    -moz-border-radius: 3px;
    border-radius: 3px;
-   background: #92c942;  
+   background: #92c942;
 }
 
 .messageto::after {
    content:"";
-	position:absolute;
-	bottom:-10px; /* value = - border-top-width - border-bottom-width */
-	right:20px; /* controls horizontal position */
-	border-width:10px 0 0 10px; /* vary these values to change the angle of the vertex */
-	border-style:solid;
-	border-color:#92c942 transparent; 
+position:absolute;
+bottom:-10px; /* value = - border-top-width - border-bottom-width */
+right:20px; /* controls horizontal position */
+border-width:10px 0 0 10px; /* vary these values to change the angle of the vertex */
+border-style:solid;
+border-color:#92c942 transparent;
     /* reduce the damage in FF3.0 */
-   display:block; 
+   display:block;
    width:0;
 }
 
@@ -254,7 +254,7 @@ div.actionButtons {
    color: white;
    font-weight: bold;
    padding: 0px;
-   font-size: 1.5em;   
+   font-size: 1.5em;
    cursor: pointer;
 }
 
@@ -311,50 +311,14 @@ input[name="countdown"] {
    margin-right: -168px;
    padding-left: 10px;
    float: left;
-   position: relative; 
+   position: relative;
 }
 
 #tagContainerForSpinner {
    width: 100%;
 }
 
-/* Let's get this party started */
-::-webkit-scrollbar {
-    width: 12px;
-}
- 
-/* Track */
-::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px #183540; 
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-    background: #183540; /* Old browsers */
-    background: -moz-linear-gradient(left, #183540 0%, #397596 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#183540), color-stop(100%,#397596)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(left, #183540 0%,#397596 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(left, #183540 0%,#397596 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(left, #183540 0%,#397596 100%); /* IE10+ */
-    background: linear-gradient(to right, #183540 0%,#397596 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183540', endColorstr='#397596',GradientType=1 ); /* IE6-9 */
 
-    /*-webkit-box-shadow: inset 0 0 6px #183540;*/ 
-}
-::-webkit-scrollbar-thumb:window-inactive {
-	background: #183540; /* Old browsers */
-    background: -moz-linear-gradient(left, #183540 0%, #397596 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#183540), color-stop(100%,#397596)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(left, #183540 0%,#397596 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(left, #183540 0%,#397596 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(left, #183540 0%,#397596 100%); /* IE10+ */
-    background: linear-gradient(to right, #183540 0%,#397596 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183540', endColorstr='#397596',GradientType=1 ); /* IE6-9 */
-}
 .extraMenuWrapperLeft
  {
     width: 50%;
@@ -405,7 +369,7 @@ input[name="countdown"] {
     float: left;
     margin-left: 4px;
     position: relative;
-    top: 6px;    
+    top: 6px;
 }
 
 #messagesbox div.deleteMessage {
@@ -427,6 +391,43 @@ input[name="countdown"] {
     opacity: 1;
 }
 
-div.messageMenu {
-    visibility: hidden;
+.sendAndReceivedChecks {
+    float: right;
+    padding-left: 10px;
+    position: relative;
+    top: 5px;
+    width:20px;
+}
+
+.grid_convs {
+   width:38%;
+   display: inline;
+   float: left;
+   margin-right: 0.5%
+}
+.grid_messages {
+   width:61.0%;
+   display: inline;
+   float: left;
+   /*margin-right: 0.5%*/
+}
+
+/* Single & double check icons*/
+.sendAndReceivedChecks {
+    float: right;
+    width: 35px;
+    height: 1px;
+    padding-left: 10px;
+    position: relative;
+    top: 5px;    
+}
+
+.check {
+   position: relative;
+   bottom: 9px;    
+}
+/* End single & double check icons */
+
+.rightColumn form {   
+   margin: 0px !important;
 }

@@ -88,6 +88,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dismiss.
+        /// </summary>
+        public static string btnNotificationDismiss {
+            get {
+                return ResourceManager.GetString("btnNotificationDismiss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solve.
+        /// </summary>
+        public static string btnNotificationSolve {
+            get {
+                return ResourceManager.GetString("btnNotificationSolve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete the conversation with user.
         /// </summary>
         public static string confirmDeleteConversation {
@@ -120,6 +138,33 @@ namespace Resources {
         public static string deleteMessage {
             get {
                 return ResourceManager.GetString("deleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message not sent as subscription included monthly outbound messages have been spent and the spending limit for your company has been reached. Purchase credit or raise spending limit to be able to send more SMS until the next billing month..
+        /// </summary>
+        public static string errorCannotSendMessage {
+            get {
+                return ResourceManager.GetString("errorCannotSendMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to send SMS message :(. Reason: insufficient credits. Purchase credit or raise spending limit to be able to send more SMS until the next billing month..
+        /// </summary>
+        public static string errorMessageNotSentInsufficientCredits {
+            get {
+                return ResourceManager.GetString("errorMessageNotSentInsufficientCredits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to send SMS message :(. Reason: unknown. For more details contact the TxtFeedback team by clicking on the Solve button..
+        /// </summary>
+        public static string errorMessageNotSentReasonUnknown {
+            get {
+                return ResourceManager.GetString("errorMessageNotSentReasonUnknown", resourceCulture);
             }
         }
         
@@ -520,7 +565,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Export to Excel.
+        ///   Looks up a localized string similar to Export to CSV.
         /// </summary>
         public static string RepExportToExcel {
             get {
@@ -1276,6 +1321,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Billing Settings.
+        /// </summary>
+        public static string settingsCompanyBillingMenuName {
+            get {
+                return ResourceManager.GetString("settingsCompanyBillingMenuName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Company.
+        /// </summary>
+        public static string settingsCompanyMenuName {
+            get {
+                return ResourceManager.GetString("settingsCompanyMenuName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string settingsConfigureWpDescription {
@@ -1335,6 +1398,15 @@ namespace Resources {
         public static string settingsConfirmNewPasswordLabel {
             get {
                 return ResourceManager.GetString("settingsConfirmNewPasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The current password is required.
+        /// </summary>
+        public static string settingsCurrentPasswordFieldRequired {
+            get {
+                return ResourceManager.GetString("settingsCurrentPasswordFieldRequired", resourceCulture);
             }
         }
         
@@ -1447,6 +1519,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The new password is required.
+        /// </summary>
+        public static string settingsNewPasswordFieldRequired {
+            get {
+                return ResourceManager.GetString("settingsNewPasswordFieldRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New password.
         /// </summary>
         public static string settingsNewPasswordLabel {
@@ -1497,6 +1578,60 @@ namespace Resources {
         public static string settingsShortIDHeaderTooltip {
             get {
                 return ResourceManager.GetString("settingsShortIDHeaderTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Activity (this billing month).
+        /// </summary>
+        public static string settingsSubscriptionActivity {
+            get {
+                return ResourceManager.GetString("settingsSubscriptionActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Company billing info.
+        /// </summary>
+        public static string settingsSubscriptionHeader {
+            get {
+                return ResourceManager.GetString("settingsSubscriptionHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subscription info.
+        /// </summary>
+        public static string settingsSubscriptionInfo {
+            get {
+                return ResourceManager.GetString("settingsSubscriptionInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notifications.
+        /// </summary>
+        public static string settingsSubscriptionNotifications {
+            get {
+                return ResourceManager.GetString("settingsSubscriptionNotifications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Primary contact.
+        /// </summary>
+        public static string settingsSubscriptionPrimaryContact {
+            get {
+                return ResourceManager.GetString("settingsSubscriptionPrimaryContact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Secondary contact.
+        /// </summary>
+        public static string settingsSubscriptionSecondaryContact {
+            get {
+                return ResourceManager.GetString("settingsSubscriptionSecondaryContact", resourceCulture);
             }
         }
         
@@ -1681,6 +1816,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have reached the monthly spending limit of {0:0.00} {1} for your company. Purchase credit or raise spending limit to be able to send more SMS until the next billing month (which starts on {2}).
+        /// </summary>
+        public static string subscriptionSpendingReached {
+            get {
+                return ResourceManager.GetString("subscriptionSpendingReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are approaching the monthly spending limit for your company. You have spent {0:0.00} {1} out of the allowed {2:0.00} {1}. Make sure you have enough credits to be able to operate until the next billing month (which starts on {3}).
+        /// </summary>
+        public static string subscriptionWarningReached {
+            get {
+                return ResourceManager.GetString("subscriptionWarningReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Support.
         /// </summary>
         public static string supportLabel {
@@ -1767,6 +1920,24 @@ namespace Resources {
         public static string toDate {
             get {
                 return ResourceManager.GetString("toDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message arrived at customer.
+        /// </summary>
+        public static string tooltipCheckMessageReceived {
+            get {
+                return ResourceManager.GetString("tooltipCheckMessageReceived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message arrived on the TxtFeedback server.
+        /// </summary>
+        public static string tooltipCheckMessageSent {
+            get {
+                return ResourceManager.GetString("tooltipCheckMessageSent", resourceCulture);
             }
         }
         
@@ -1884,6 +2055,15 @@ namespace Resources {
         public static string tooltipWpImg {
             get {
                 return ResourceManager.GetString("tooltipWpImg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have reached the monthly spending limit  for your company. Purchase credit or raise spending limit to be able to send more SMS until the next billing month..
+        /// </summary>
+        public static string warningMessageSentSpendingLimitReached {
+            get {
+                return ResourceManager.GetString("warningMessageSentSpendingLimitReached", resourceCulture);
             }
         }
         

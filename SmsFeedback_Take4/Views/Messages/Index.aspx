@@ -85,7 +85,7 @@
                         %}
                             <img src="<%: Url.Content("~/Content/images/exclamation-blue.png") %>" class="images conversationImageUnread" height="28" width="40" />
                         {% } else { %}
-                            <embed src="<%: Url.Content("~/Content/images/exclamation-green.png") %>" class="images conversationImageUnread" height="28" width="40" />
+                            <img src="<%: Url.Content("~/Content/images/exclamation-green.png") %>" class="images conversationImageUnread" height="28" width="40" />
                         {% }    
                 }  %}
             </div>
@@ -141,7 +141,17 @@
             var timeReceivedLocal = timeReceivedLocal + " " + time;
        %}
             <input type="hidden" value="<%: Resources.Global.shareOnLinkedinTitle %>" id="linkedInTitle"/>
-            <span class="timeReceived">{{ timeReceivedLocal }} </span>      
+            {% if (Direction == "to") { %}
+                <div class="sendAndReceivedChecks">
+                     {% if (ClientAcknowledge) { %}
+                        <img title="<%: Resources.Global.tooltipCheckMessageReceived %>" src="/Content/images/doubleCheck.png" class="check checkNo{{ Id }}" />
+                     {%  } else if (WasSuccessfullySent) { %}             
+                        <img title="<%: Resources.Global.tooltipCheckMessageSent %>" src="/Content/images/singleCheck.png" class="check checkNo{{ Id }}" />            
+                     {% } %}                   
+                </div>    
+            {% } %}
+            <span class="timeReceived">{{ timeReceivedLocal }} </span>  
+           
        {%
             var encodedImgUrl = encodeURIComponent("http://txtfeedback.net/wp-content/uploads/2012/07/txtfeedback_logo_small.png");
             var encodedUrl = encodeURIComponent("http://localhost:4631/ro-RO");
@@ -150,9 +160,7 @@
             var encodedText = encodeURIComponent(Text);
             var encodedTitle = encodeURIComponent($("#linkedInTitle").val());
        %}
-            <div class="messageMenu">
-                
-            
+            <div class="messageMenu">           
                 <div class="msgButtons sendEmailButton">
                     <img title="<%: Resources.Global.tooltipSendEmailImg %>" src="<%: Url.Content("~/Content/images/em16x16.png") %>" />
                 </div>

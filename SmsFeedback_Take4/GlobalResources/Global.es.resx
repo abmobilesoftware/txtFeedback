@@ -702,7 +702,7 @@
     <value>The greeting message on the mobile website</value>
   </data>
   <data name="RepExportToExcel" xml:space="preserve">
-    <value>Export to Excel</value>
+    <value>Export to CSV</value>
   </data>
   <data name="tooltipDeleteConversation" xml:space="preserve">
     <value>Delete conversation ES</value>
@@ -724,5 +724,21 @@
   </data>
   <data name="shareOnLinkedinTitle" xml:space="preserve">
     <value>Feedback received via Txtfeedback</value>
+  </data>
+  <data name="deleteMessage" xml:space="preserve">
+    <value>Delete message</value>
+  </data>
+  <data name="tooltipCheckMessageSent" xml:space="preserve">
+    <value>Message sent</value>
+  </data>
+  <data name="tooltipCheckMessageReceived" xml:space="preserve">
+    <value>Message received</value>
+    <comment>Messages: Mark message as received</comment>
+  </data>
+  <data name="settingsCurrentPasswordFieldRequired" xml:space="preserve">
+    <value>The current password is required</value>
+  </data>
+  <data name="settingsNewPasswordFieldRequired" xml:space="preserve">
+    <value>The new password is required</value>
   </data>
 </root>

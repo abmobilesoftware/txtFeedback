@@ -29,7 +29,7 @@ namespace SmsFeedback_Take4.Controllers
          else
          {
             //if already logged in redirect to start page
-            return RedirectToAction("Index", "Messages");
+            return RedirectToAction("Index", "Home");
          }
       }
 
@@ -80,7 +80,7 @@ namespace SmsFeedback_Take4.Controllers
                }
                else
                {
-                  return RedirectToAction("Index", "Messages");
+                  return RedirectToAction("Index", "Home");
                }
             }
             else
@@ -125,7 +125,7 @@ namespace SmsFeedback_Take4.Controllers
             if (createStatus == MembershipCreateStatus.Success)
             {
                FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
-               return RedirectToAction("Index", "Messages");
+               return RedirectToAction("Index", "Home");
             }
             else
             {

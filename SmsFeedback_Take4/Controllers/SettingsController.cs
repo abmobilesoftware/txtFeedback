@@ -18,6 +18,9 @@ namespace SmsFeedback_Take4.Controllers
    public class SettingsController : BaseController
     {      
       private const string cRoleForConfigurators = "WorkingPointsConfigurator";
+      private const string cCompanyConfigurators = "CompanyConfigurator";
+
+      smsfeedbackEntities context = new smsfeedbackEntities();
 
       private AggregateSmsRepository mSmsRepository;
       private AggregateSmsRepository SMSRepository
@@ -39,15 +42,21 @@ namespace SmsFeedback_Take4.Controllers
         public JsonResult GetMenuItems()
         {
            List<ReportsMenuItem> reportsMenuItems = new List<ReportsMenuItem> {
-               new ReportsMenuItem(1, Resources.Global.settingUserPreferences, false, 0),
-               new ReportsMenuItem(20, Resources.Global.settingsPrivacy, false, 0),
-               new ReportsMenuItem(21, Resources.Global.settingsChangePassword, true, 20),
+               new ReportsMenuItem(1, Resources.Global.settingUserPreferences, false, 0, "","UserPreferences"),
+               new ReportsMenuItem(20, Resources.Global.settingsPrivacy, false, 0, "","Privacy"),
+               new ReportsMenuItem(21, Resources.Global.settingsChangePassword, true, 20, "ConfigurePassword","ChangePassword"),
            };
            if (HttpContext.User.IsInRole(cRoleForConfigurators))
            {
-              reportsMenuItems.Add(new ReportsMenuItem(30, Resources.Global.settingsWpMenuName, false, 0));
-              reportsMenuItems.Add(new ReportsMenuItem(31, Resources.Global.settingsWpDefineWpsMenu, true, 30));              
+              reportsMenuItems.Add(new ReportsMenuItem(30, Resources.Global.settingsWpMenuName, false, 0, "",""));
+              reportsMenuItems.Add(new ReportsMenuItem(31, Resources.Global.settingsWpDefineWpsMenu, true, 30, "ConfigureWorkingPoints","WorkingPoints"));              
            };
+           if (HttpContext.User.IsInRole(cCompanyConfigurators))
+           {
+              reportsMenuItems.Add(new ReportsMenuItem(40, Resources.Global.settingsCompanyMenuName, false, 0, "",""));
+              reportsMenuItems.Add(new ReportsMenuItem(41, Resources.Global.settingsCompanyBillingMenuName, true, 40, "ConfigureCompanyBillingInfo","BillingInfo"));
+           }
+
            return Json(reportsMenuItems, JsonRequestBehavior.AllowGet);           
         }
         #region Change password
@@ -103,8 +112,7 @@ namespace SmsFeedback_Take4.Controllers
       private ActionResult GetDefineWorkingPointsFormInternal()
       {
          var user = User.Identity.Name;          
-         smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();         
-         return View(SMSRepository.GetWorkingPointsPerUser(user, lContextPerRequest));
+         return View(SMSRepository.GetWorkingPointsPerUser(user, context));
       }
 
       [CustomAuthorizeAtribute(Roles = cRoleForConfigurators)]
@@ -114,14 +122,60 @@ namespace SmsFeedback_Take4.Controllers
          if (ModelState.IsValid)
          {
             var user = User.Identity.Name;
-            smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-            mEFInterface.SaveWpsForUser(user, wps, lContextPerRequest);
+            mEFInterface.SaveWpsForUser(user, wps, context);
             //ModelState.AddModelError("", Resources.Global.loginUnsuccessfulDetails);
             ViewData["saveMessage"] = Resources.Global.settingWpConfigSavedSuccessfuly;           
          }
          return GetDefineWorkingPointsFormInternal();
       }
        #endregion
+
+      #region "Billing info"
+      [CustomAuthorizeAtribute(Roles = cCompanyConfigurators)]
+      public ActionResult CompanyBillingInfo()
+      {
+         var userName = User.Identity.Name;
+         var user = (from u in context.Users where u.UserName == userName select u).FirstOrDefault();
+         context.Entry(user.Company.SubscriptionDetail).Reference(u => u.PrimaryContact).Load();
+         context.Entry(user.Company.SubscriptionDetail).Reference(u => u.SecondaryContact).Load();
+         return View(user.Company.SubscriptionDetail); 
+      }
+      
+      [CustomAuthorizeAtribute(Roles = cCompanyConfigurators)]
+      [HttpPost]      
+      public ActionResult CompanyBillingInfo(SubscriptionDetail details)
+      {
+         if (ModelState.IsValid)
+         {         
+               
+            ViewBag.SaveMessage = Resources.Global.settingWpConfigSavedSuccessfuly;
+            var sd = context.SubscriptionDetails.Find(details.Id);
+            context.Entry(sd).CurrentValues.SetValues(details);
+            var primaryContact = context.Contacts.Find(details.PrimaryContact_Id);
+            if (primaryContact != null)
+            {
+               context.Entry(primaryContact).CurrentValues.SetValues(details.PrimaryContact);
+            }
+            //in case they are pointing to same contact            
+            var secondaryContact = context.Contacts.Find(details.SecondaryContact_Id);
+            
+            if (secondaryContact != null)
+            {
+               context.Entry(secondaryContact).CurrentValues.SetValues(details.SecondaryContact);
+            }
+            context.SaveChanges();
+         }
+        
+         return View(details);
+      }
+      #endregion
+
+      protected override void Dispose(bool disposing)
+      {
+         context.Dispose();
+         base.Dispose(disposing);
+      }
+
     }
    
 }

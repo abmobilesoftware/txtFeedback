@@ -15,13 +15,8 @@ namespace SmsFeedback_Take4.Controllers
     {
        #region Private members and properties
        private static readonly log4net.ILog loggerEmailForm = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-       
-       private IUserMailer _mailer = new UserMailer();
-       public IUserMailer Mailer
-       {
-          get { return _mailer; }
-          set { _mailer = value; }
-       }
+
+       UserMailer _mailer = new UserMailer();      
        #endregion
 
        public ActionResult Index()
@@ -65,6 +60,7 @@ namespace SmsFeedback_Take4.Controllers
           ViewData["emailSubject"] = subject;
           ViewData["emailTo"] = "support@txtfeedback.net";
           ViewData["url"] = url;
+          ViewData["isFeedbackForm"] = true;
           ViewResult res = View();
           return res;
        }
@@ -73,18 +69,36 @@ namespace SmsFeedback_Take4.Controllers
        public ActionResult SendEmail(FormCollection formData)
         {
           //get the email address
-           string email = formData["email"];
+          string email = formData["email"];
           string message = formData["message"];
           string subject = formData["subject"];
           string from = this.User.Identity.Name;
-          bool isFeedbackForm = Boolean.Parse(formData["isFeedbackForm"]);
-          System.Net.Mail.MailMessage msg = Mailer.SendMessageContent(email, subject, message, from, formData["url"]);
-          //msg.From = new System.Net.Mail.MailAddress(System.Web.Security.Membership.GetUser(this.User.Identity.Name).Email);
-          msg.Send();
+          bool isFeedbackForm = Boolean.Parse(formData["isFeedbackForm"]);          
+          System.Net.Mail.MailMessage msg = _mailer.SendMessageContent(email, subject, message, from, formData["url"]);          
+          msg.Send();          
           string msgSentAcknoledgement = Resources.Global.sendEmailEmailSentSuccessfuly;
           if (isFeedbackForm) msgSentAcknoledgement = Resources.Global.sendFeedbackFeedbackSentSuccessfully;
           return Json(msgSentAcknoledgement);
         }
 
+      [HttpGet]
+       public void SendWarningEmail(string emailAddress)
+       {
+          var mailer = new WarningMailer();
+          var sd = new SubscriptionDetail() { BillingDay = 1, DefaultCurrency = "EUR", SpentThisMonth = 2, SpendingLimit= 3 };
+          sd.Companies.Add(new Company() { Name = "Ab Mobile Apps" });
+          var msg = mailer.WarningEmail(sd, emailAddress, "Dragos", "Andronic");
+          msg.Send();
+      } 
+      
+      [HttpGet]
+      public void SendSpendingLimitReachedEmail(string emailAddress)
+      {
+         var mailer = new WarningMailer();
+         var sd = new SubscriptionDetail() { BillingDay = 1, DefaultCurrency = "EUR", SpentThisMonth = 2, SpendingLimit = 3 };
+         sd.Companies.Add(new Company() { Name = "Ab Mobile Apps" });
+         var msg = mailer.SpendingLimitReachedEmail(sd, emailAddress, "Dragos", "Andronic");
+         msg.Send();
+      }
     }
 }

@@ -62,7 +62,7 @@
 
 .chartArea, #tableArea {
     padding:10px;
-    background: #fff;
+    background: #F5F8FA;
     border-radius: 10px;
     margin: 10px;
     padding: 10px;  
@@ -125,7 +125,7 @@ div.radioBtnWrapper.active {
 
 
 .chart_div {
-    width: 93%;
+    width: 91%;
     height: 350px;    
     display:inline;
     float:left;

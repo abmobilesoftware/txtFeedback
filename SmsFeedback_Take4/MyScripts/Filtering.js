@@ -30,23 +30,23 @@ window.app.defaultFilteringOptions = {
 };
 
 function Filter(iElement, iValue) {
-    var elementName = iElement;
-    var behindVariable = iValue;
-    
-    this.getElementName = function () {
-       return elementName;
-    };
-    this.getBehindVariable = function () {
-       return behindVariable;
-    };
+   var elementName = iElement;
+   var behindVariable = iValue;
+
+   this.getElementName = function () {
+      return elementName;
+   };
+   this.getBehindVariable = function () {
+      return behindVariable;
+   };
 }
 
 function FilterArea() {
    "use strict";
    var self = this;
    $.extend(this, window.app.defaultFilteringOptions);
-    
-    // List of filters and filter operations
+
+   // List of filters and filter operations
    var filtersList = [];
    var tagsFilter = new Filter("#includeTagsInFilter", "self.tagFilteringEnabled");
    var unreadFilter = new Filter("#includeUnreadInFilter", "self.unreadFilteringEnabled");
@@ -65,7 +65,7 @@ function FilterArea() {
          setCheckboxState($(filtersList[i].getElementName()), eval(filtersList[i].getBehindVariable()));
       }
    };
-    
+
    this.deactivateFilter = function (filter) {
       var behindVariableValue = eval(filter.getBehindVariable());
       if (behindVariableValue === true) {
@@ -84,7 +84,7 @@ function FilterArea() {
       setCheckboxState($(filter.getElementName()), eval(filter.getBehindVariable()));
    };
 
-    //#region Tags
+   //#region Tags
    var placeholderMessage = $('#filteringAddFilterTagMessage').val();
    var removeTagValue = $('#messagesRemoveTagPlaceHolderMessage').val();
    window.app.removeTagTitle = removeTagValue;
@@ -100,7 +100,7 @@ function FilterArea() {
             $(document).trigger('refreshConversationList');
          }
       },
-      'onRemoveTag': function(tagValue) {
+      'onRemoveTag': function (tagValue) {
          var delimiter = ',';
          self.tagsForFiltering = $("#filterTag").val().split(delimiter);
          //if there are no tags the split will return [""] and this will be sent to the server
@@ -111,140 +111,140 @@ function FilterArea() {
          if (self.tagFilteringEnabled) {
             $(document).trigger('refreshConversationList');
          }
-      },      
+      },
       'defaultText': placeholderMessage,
       'placeholder': placeholderMessage,
       'interactve': true,
-      'placeholderColor' : '#666666'   
-   });  
+      'placeholderColor': '#666666'
+   });
 
    $("#includeTagsInFilter").bind('click', function () {
       if (!self.tagFilteringEnabled) { self.deactivateFilter(supportFilter); }
-       self.toggleFilter(tagsFilter);
+      self.toggleFilter(tagsFilter);
       //trigger filtering if required
       if (self.tagsForFiltering.length !== 0) {
          $(document).trigger('refreshConversationList');
       }
    });
-    //#endregion
+   //#endregion
 
-    //#region Date
+   //#region Date
 
-    /*
-   this.previousStartDate = "";
-   this.defaultStartDate = this.startDate;
-   var startDatePicker = $("#startDateTimePicker");
-   if (startDatePicker.length !== 0)
-   {     
-      //TODO add option to specify which language to use (according to selected language)
-      startDatePicker.datepicker({
-          changeMonth: true,
-          numberOfMonths: 3,
-          dateFormat: app.dateFormatForDatePicker,
-         onClose: function (dateText, inst) {
-            //compare the new value with the previous value
-            //if changed and date filtering is checked, trigger refreshConversationList
-            if (self.previousStartDate !== dateText) {
-               //the date has been modified
-               self.previousStartDate = dateText;
-               self.startDate = dateText;
-               if (self.dateFilteringEnabled) {
-                  $(document).trigger('refreshConversationList');
-               }
-            }
-
-         }         
-      });
-      
-      this.previousStartDate = $.datepicker.formatDate(app.dateFormatForDatePicker, startDatePicker.datepicker("getDate"));
-      this.defaultStartDate = $.datepicker.formatDate(app.dateFormatForDatePicker, startDatePicker.datepicker("getDate"));
-   }    
-   var endDatePicker = $("#endDateTimePicker");
-   this.previousEndDate = "";
-   this.defaultEndDate = this.endDate;
-   if (endDatePicker.length !== 0)   {
-       endDatePicker.datepicker({
+   /*
+  this.previousStartDate = "";
+  this.defaultStartDate = this.startDate;
+  var startDatePicker = $("#startDateTimePicker");
+  if (startDatePicker.length !== 0)
+  {     
+     //TODO add option to specify which language to use (according to selected language)
+     startDatePicker.datepicker({
          changeMonth: true,
          numberOfMonths: 3,
          dateFormat: app.dateFormatForDatePicker,
-         onClose: function (dateText, inst) {
-            //compare the new value with the previous value
-            //if changed and date filtering is checked, trigger refreshConversationList
-            if (self.previousEndDate !== dateText) {
-               //the date has been modified
-               self.previousEndDate = dateText;
-               self.endDate = dateText;
-               if (self.dateFilteringEnabled) {
-                  $(document).trigger('refreshConversationList');
-               }
-            }
+        onClose: function (dateText, inst) {
+           //compare the new value with the previous value
+           //if changed and date filtering is checked, trigger refreshConversationList
+           if (self.previousStartDate !== dateText) {
+              //the date has been modified
+              self.previousStartDate = dateText;
+              self.startDate = dateText;
+              if (self.dateFilteringEnabled) {
+                 $(document).trigger('refreshConversationList');
+              }
+           }
 
-         }         
-      });
-      
-      var fromTranslation = $("#startDateTimePicker").val();
-      var toTranslation = $("#endDateTimePicker").val();
-      
-      // Setup the calendar culture
-      $.datepicker.regional[window.app.calendarCulture].dateFormat = window.app.dateFormatForDatePicker;
-      var culture = $.datepicker.regional[window.app.calendarCulture];
-      $("#startDateTimePicker").datepicker("option", culture);
-      $("#endDateTimePicker").datepicker("option", culture);
+        }         
+     });
+     
+     this.previousStartDate = $.datepicker.formatDate(app.dateFormatForDatePicker, startDatePicker.datepicker("getDate"));
+     this.defaultStartDate = $.datepicker.formatDate(app.dateFormatForDatePicker, startDatePicker.datepicker("getDate"));
+  }    
+  var endDatePicker = $("#endDateTimePicker");
+  this.previousEndDate = "";
+  this.defaultEndDate = this.endDate;
+  if (endDatePicker.length !== 0)   {
+      endDatePicker.datepicker({
+        changeMonth: true,
+        numberOfMonths: 3,
+        dateFormat: app.dateFormatForDatePicker,
+        onClose: function (dateText, inst) {
+           //compare the new value with the previous value
+           //if changed and date filtering is checked, trigger refreshConversationList
+           if (self.previousEndDate !== dateText) {
+              //the date has been modified
+              self.previousEndDate = dateText;
+              self.endDate = dateText;
+              if (self.dateFilteringEnabled) {
+                 $(document).trigger('refreshConversationList');
+              }
+           }
 
-      $("#startDateTimePicker").val(fromTranslation);
-      $("#endDateTimePicker").val(toTranslation);
+        }         
+     });
+     
+     var fromTranslation = $("#startDateTimePicker").val();
+     var toTranslation = $("#endDateTimePicker").val();
+     
+     // Setup the calendar culture
+     $.datepicker.regional[window.app.calendarCulture].dateFormat = window.app.dateFormatForDatePicker;
+     var culture = $.datepicker.regional[window.app.calendarCulture];
+     $("#startDateTimePicker").datepicker("option", culture);
+     $("#endDateTimePicker").datepicker("option", culture);
 
-      
-      this.previousEndDate = $.datepicker.formatDate(app.dateFormatForDatePicker, endDatePicker.datepicker("getDate"))
-      this.defaultEndDate = $.datepicker.formatDate(app.dateFormatForDatePicker, endDatePicker.datepicker("getDate"));
-   }
+     $("#startDateTimePicker").val(fromTranslation);
+     $("#endDateTimePicker").val(toTranslation);
 
-   
-   $("#includeDateInFilter").bind('click', function () {
-      //set internal state
-      self.dateFilteringEnabled = !self.dateFilteringEnabled;     
-      //change checkbox state
-      setCheckboxState($(this), self.dateFilteringEnabled);
+     
+     this.previousEndDate = $.datepicker.formatDate(app.dateFormatForDatePicker, endDatePicker.datepicker("getDate"))
+     this.defaultEndDate = $.datepicker.formatDate(app.dateFormatForDatePicker, endDatePicker.datepicker("getDate"));
+  }
 
-      //get the values for start/end date
-      var startDatePicker = $("#startDateTimePicker");
-      var newStartDate = $.datepicker.formatDate(app.dateFormatForDatePicker, startDatePicker.datepicker("getDate"));
-      var endDatePicker = $("#endDateTimePicker");
-      var newEndDate = $.datepicker.formatDate(app.dateFormatForDatePicker, endDatePicker.datepicker("getDate"));
-      //trigger filtering if required
-      if (self.defaultStartDate !== newStartDate || self.defaultEndDate !== newEndDate) {
-         self.startDate = newStartDate;
-         self.endDate = newEndDate;
-         $(document).trigger('refreshConversationList');
-      }
-   });
-   */
+  
+  $("#includeDateInFilter").bind('click', function () {
+     //set internal state
+     self.dateFilteringEnabled = !self.dateFilteringEnabled;     
+     //change checkbox state
+     setCheckboxState($(this), self.dateFilteringEnabled);
+
+     //get the values for start/end date
+     var startDatePicker = $("#startDateTimePicker");
+     var newStartDate = $.datepicker.formatDate(app.dateFormatForDatePicker, startDatePicker.datepicker("getDate"));
+     var endDatePicker = $("#endDateTimePicker");
+     var newEndDate = $.datepicker.formatDate(app.dateFormatForDatePicker, endDatePicker.datepicker("getDate"));
+     //trigger filtering if required
+     if (self.defaultStartDate !== newStartDate || self.defaultEndDate !== newEndDate) {
+        self.startDate = newStartDate;
+        self.endDate = newEndDate;
+        $(document).trigger('refreshConversationList');
+     }
+  });
+  */
 
    //#endregion
 
    //#region Starred
    $("#includeStarredInFilter").bind('click', function () {
       if (!self.starredFilteringEnabled) { self.deactivateFilter(supportFilter); }
-       self.toggleFilter(starredFilter);
-       $(document).trigger('refreshConversationList');     
+      self.toggleFilter(starredFilter);
+      $(document).trigger('refreshConversationList');
    });
    //#endregion
 
    //#region Unread
    $("#includeUnreadInFilter").bind('click', function () {
       if (!self.unreadFilteringEnabled) { self.deactivateFilter(supportFilter); }
-       self.toggleFilter(unreadFilter);
-       $(document).trigger('refreshConversationList');
+      self.toggleFilter(unreadFilter);
+      $(document).trigger('refreshConversationList');
    });
    //#endregion
 
-    //#region Support
+   //#region Support
    $("#includeSupportInFilter").bind('click', function () {
       if (!self.supportFilteringEnabled) { self.deactivateFilters(); }
-       self.toggleFilter(supportFilter);
-       $(document).trigger('refreshConversationList');
+      self.toggleFilter(supportFilter);
+      $(document).trigger('refreshConversationList');
    });
-    //#endregion
+   //#endregion
 
    //#region IsFilteringEnabled
    this.IsFilteringEnabled = function () {

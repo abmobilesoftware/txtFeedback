@@ -6,4 +6,6 @@ public class Constants {
 	public static final String APPLICATION_JSON = "application/json";
 	public static final String DIRECTION_IN = "IN";
 	public static final String DIRECTION_OUT = "OUT";
+	public static final String CLIENT_ACK = "ClientMsgDeliveryReceipt";
+	public static final String SERVER_ACK = "ServerMsgDeliveryReceipt";
 }

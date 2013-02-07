@@ -84,7 +84,7 @@ function setCheckboxState(checkbox, state)
 }
 
 window.app.updateNrOfUnreadConversations = function (performUpdateBefore) {
-   $.getJSON(window.app.domainName + '/Messages/NrOfUnreadConversations',
+   $.getJSON(window.app.domainName + '/Conversations/NrOfUnreadConversations',
    { performUpdateBefore: performUpdateBefore },
    function (data) {
       if (data !== null) {
@@ -92,6 +92,130 @@ window.app.updateNrOfUnreadConversations = function (performUpdateBefore) {
       }
    });
 };
+
+//#region Check Sms Subscription Status and set the canSendSms flag
+window.app.canSendSmS = true;
+window.app.checkSmsSubscriptionStatus = function () {
+   $.getJSON('Messages/SMSSSubscriptionStatus',
+                  { },
+                  function (data) {
+                     //if error required
+                     if (data.SpendingLimitReached) {
+                        window.app.canSendSmS = false;
+                        window.app.NotifyArea.show(data.SpendingLimitReachedMessage, function ()
+                        {
+                           window.location.href = "mailto:contact@txtfeedback.net?subject=Increase spending limit or Buy Credit";
+                           
+                        }, true);
+                     }
+                     else if (data.WarningLimitReached) {//if warning required                                          
+                        window.app.NotifyArea.show(data.WarningLimitReachedMessage, function ()
+                        {
+                           window.location.href = "mailto:contact@txtfeedback.net?subject=Ensure that enough credit is still available";
+                        }, false);
+                     }
+                     
+                  }
+          );
+};
+//#endregion
+
+window.app.Payload = Backbone.Model.extend({
+   defaults: {      
+      SpendingLimitReached: false,
+      WarningLimitReached: false,
+      MessageID: 0,      
+      MessageSent: false,
+      Reason: "",
+   }
+});
+function payloadReceived(content, messageId) {
+   var payload = new window.app.Payload(jQuery.parseJSON(content));
+   if (!payload.get("MessageSent")) {
+      var msg = $('#messageNotSentReasonUnknown').val();
+      if (payload.get("SpendingLimitReached")) {
+         //could not sent message as spending limit reached
+         window.app.canSendSmS = false; //make sure that no other messages can be sent
+         msg = $('#messageNotSentInsufficientCredits').val();
+         window.app.NotifyArea.show(msg, function () {
+            window.location.href = "mailto:contact@txtfeedback.net?subject=Increase spending limit or Buy Credit";
+         }, true);
+      } else {
+         window.app.NotifyArea.show(msg, function () {
+            window.location.href = "mailto:contact@txtfeedback.net?subject=Unable to deliver message with id " + payload.get("MessageID");
+         }, true);         
+      }
+   } else {
+      if (payload.get("SpendingLimitReached")) {
+         var errorMsg = $('#messageSentSpendingLimitReached').val();
+         window.app.NotifyArea.show(errorMsg, function () {
+            window.location.href = "mailto:contact@txtfeedback.net?subject=Increase spending limit or Buy Credit";
+         }, false);
+      }
+      $(document).trigger('clientAcknowledge', {
+         message: getMessage(messageId)
+      });
+   }
+}
+
+//#region Region resize
+window.app.resizeInProgress = false
+function resizeTriggered() {
+   "use strict";
+   if (!window.app.resizeInProgress) {
+      window.app.resizeInProgress = true;
+   //pick the highest between window size (- header) and messagesArea
+   //var padding = 5;
+   //var msgAreaMarginTop = 10;
+   var filterStripHeigh = $(".headerArea").outerHeight();
+   var window_height = window.innerHeight;
+   //var messagesAreaHeight = $('#messagesArea').height();
+   var headerHeight = $('header').outerHeight();
+   var contentWindowHeight = window_height - headerHeight;// - (2 * padding) - filterStripHeigh;
+   
+   var marginTop = parseInt($('#rightColumn').css('margin-top'),10);
+   var marginBottom = parseInt($('#rightColumn').css('margin-bottom'),10);
+   var rightAreaCandidateHeight = contentWindowHeight - filterStripHeigh - marginTop - marginBottom;
+   //first make sure we have a valid right side heigt
+   $('#rightColumn').height('auto');
+   var rightAreaHeight = $('#rightColumn').outerHeight();
+   var contentContainer = $('.container_12');
+   //we need to set a fixed height for the conversations area and messages area to ensure that scrolling is enabled
+   if (rightAreaCandidateHeight > rightAreaHeight) {
+      contentContainer.height(contentWindowHeight);
+      $('#rightColumn').height(rightAreaCandidateHeight);
+      $('#leftColumn').height(contentWindowHeight - filterStripHeigh);
+      $('#scrollableconversations').height(rightAreaCandidateHeight);
+      $('#scrollablemessagebox').height(rightAreaCandidateHeight - 133);
+   } else {      
+      contentContainer.height(rightAreaHeight + filterStripHeigh + marginTop + marginBottom);
+      $('#leftColumn').height(rightAreaHeight + marginTop + marginBottom);
+      $('#scrollableconversations').height(rightAreaHeight);
+      $('#scrollablemessagebox').height(rightAreaHeight - 133);
+   } 
+   $('.page').height(headerHeight + contentContainer.height());
+   $('body').height(headerHeight + contentContainer.height());
+   $('html').height(headerHeight + contentContainer.height());
+   window.app.resizeInProgress = false;
+   }
+}
+
+$(function () {
+   //DA IE8 doesn't support addEventListener so we use attachEvent
+   //source http://stackoverflow.com/questions/9769868/addeventlistener-not-working-in-ie8
+   if (!window.addEventListener) {
+      window.attachEvent("resize", resizeTriggered);
+     
+   }
+   else {
+      window.addEventListener("resize", resizeTriggered, false);
+      window.addEventListener("smsPayloadReceived", payloadReceived, false);
+   }
+   $(document).bind('smsPayloadReceived', function (ev, data) {
+      payloadReceived(data.content, data.messageId);
+   });
+});
+//#endregion
 
 //#region Store/restore the nr of convs with unread messages when navigating between pages
 $(function () {
@@ -174,5 +298,73 @@ $(function () {
 $(function () {
    var nrOfConvsWithUnreadMessages = $("#msgTabcount");
    setTooltipOnElement(nrOfConvsWithUnreadMessages, nrOfConvsWithUnreadMessages.attr('tooltiptitle'), 'light');
+});
+//#endregion
+
+//#region Notification Area
+
+window.app.NotifyAreaModel = Backbone.Model.extend({
+   defaults: {
+      Message: "You are approaching your spending limit for this month - make sure your limit or credit are high enough for normal operation",
+      SolveAction: function () {         
+         window.location.href = "mailto:contact@txtfeedback.net";
+      },
+      Visible: false,
+      IsError: true
+   }   
+});
+
+_.templateSettings = {
+   interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
+   evaluate: /\{%([\s\S]+?)%\}/g,   // execute code: {% code_to_execute %}
+   escape: /\{%-([\s\S]+?)%\}/g
+};
+
+window.app.NotifyAreaView = Backbone.View.extend({
+   model: window.app.NotifyAreaModel,
+   tagName: 'div',
+   events: {
+      "click #takeAction": "callAction",
+      "click #notificationAck": "hide",
+   },
+   initialize: function () {
+      this.template = _.template($('#notifyAreaTemplate').html());
+      _.bindAll(this, 'render', 'callAction', 'hide');
+      this.model.bind('change', this.render);
+      return this.render;
+   },
+   render: function () {
+      this.$el.html(this.template(this.model.toJSON()));
+      this.$el.addClass('notificationArea');
+      if (!this.model.get('Visible')) {
+         this.$el.hide();
+      }
+      return this;
+   },
+   callAction: function () {
+      //DA here we should have actions like "mailto:contact@txtfeedback.net"
+      var fn = this.model.get("SolveAction");
+      fn();
+   },
+   show: function (message, solveAction, isError) {
+      this.model.set("Visible", true);
+      this.model.set("Message", message);
+      this.model.set("IsError", isError);
+      this.model.set("SolveAction", solveAction);
+      this.$el.show();
+      resizeTriggered();
+   },
+   hide: function () {
+      this.model.set("Visible", false);
+      this.$el.hide();
+      resizeTriggered();
+   }
+});
+
+$(function () {
+   var m = new window.app.NotifyAreaModel();
+   window.app.NotifyArea = new window.app.NotifyAreaView({model:m});
+   $('header').prepend(window.app.NotifyArea.render().$el);
+   window.app.checkSmsSubscriptionStatus();  
 });
 //#endregion

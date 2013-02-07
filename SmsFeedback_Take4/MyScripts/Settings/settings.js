@@ -13,35 +13,44 @@
 /*global _ */
 /*global Spinner */
 /*global trim */
+/*global resizeTriggered */
 //#endregion
 window.app = window.app || {};
+window.settings = window.settings || {};
+function setupForm(formData, sendButton, sendButtonAction) {
+   $('#rightColumn').html(formData);
+   $('#rightColumn form').submit(function () {
+      return false;
+   });
+   $(sendButton).unbind('click');
+   $(sendButton).bind('click', sendButtonAction);
+}
 
-window.app.showChangePassword = function () {
+window.app.changePassword = function () {
+   $.ajax({
+      url: 'Settings/GetChangePasswordForm',
+      data: $('#rightColumn form').serialize(),
+      type: 'post',
+      cache: true,
+      dataType: 'html',
+      success: function (data) {
+         $('#rightColumn').html(data);
+         setupForm(data, '#btnChangePassword', window.app.changePassword);
+         resizeTriggered();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+         $('#rightColumn').html(jqXHR);
+      }
+   });
+};
+
+window.settings.ConfigurePassword = function () {
    "use strict";
    $.ajax({
       url: "Settings/GetChangePasswordForm",
       cache: false,
       success: function (data) {
-         // create a modal dialog with the data
-         $('#rightColumn').html(data);
-
-         $('#btnChangePassword').live('click', function (e) {
-            e.preventDefault();
-            $.ajax({
-               url: 'Settings/GetChangePasswordForm',
-               data: $('#rightColumn form').serialize(),
-               type: 'post',
-               cache: true,
-               dataType: 'html',
-               success: function (data) {
-                  $('#rightColumn').html(data);
-                  //$('th').each(function () { setTooltipOnElement(this, this.attr('tooltiptitle'), 'light'); });
-               },
-               error: function (jqXHR, textStatus, errorThrown) {
-                  $('#rightColumn').html(jqXHR);
-               }
-            });
-         });
+         setupForm(data, '#btnChangePassword', window.app.changePassword);
       }
    });
 };
@@ -57,7 +66,7 @@ window.app.getDataForWorkingPoints = function () {
          Name: trim($('input[name="Name"]', this).val()),
          Description: trim($('input[name="Description"]', this).val()),
          NrOfSentSmsThisMonth: 15,
-         WelcomeMessage: trim($('input[name="WelcomeMessage"]', this).val())         
+         WelcomeMessage: trim($('textarea[name="WelcomeMessage"]', this).val())
       };
       data.push(row);
    });
@@ -91,52 +100,155 @@ window.app.saveWorkingPoints = function (e) {
       dataType: 'html',
       contentType: 'application/json; charset=utf-8',
       success: function (data) {
-         $('#rightColumn').html(data);
+         setupForm(data, '#btnSaveWorkingPoints', window.app.saveWorkingPoints);
          window.app.localForSetting.setTooltipsOnHeaders();
+         resizeTriggered();
       },
       error: function (jqXHR, textStatus, errorThrown) {
          $('#rightColumn').html(jqXHR);
       }
    });
 };
-window.app.configureWorkingPoints = function () {
+window.settings.ConfigureWorkingPoints = function () {
    "use strict";
    $.ajax({
       url: "Settings/GetDefineWorkingPointsForm",
       cache: false,
       success: function (data) {
-         $('#rightColumn').html(data);
-         $('#btnSaveWorkingPoints').live('click', window.app.saveWorkingPoints);
+         setupForm(data, '#btnSaveWorkingPoints', window.app.saveWorkingPoints);
          window.app.localForSetting.setTooltipsOnHeaders();
+         resizeTriggered();
       },
       error: function (jqXHR, textStatus, errorThrown) {
          $('#rightColumn').html(jqXHR);
       }
    });
 };
-window.app.SettingsArea = function () {
-   "use strict";
-   var settingsMenu = new window.app.MenuView({
-      el: $("#leftColumn"),
-      eventToTriggerOnSelect: 'switchSetting',
-      menuCollection: new window.app.MenuCollection({ url: '/Settings/GetMenuItems' }),
-      afterInitializeFunction: function () {
-          //by default open ChangePassword scren   
-          $(".liItem21").addClass("menuItemSelected");
-          $("ul.item20").css("display", "block");
-          window.app.showChangePassword();
+
+window.app.updateGUIWhenBillingInfoArrived = function (data) {
+   $('#rightColumn').html(data);
+   $("#WarningLimit").attr("readonly", true);
+   var maxValue = parseFloat($('#SpendingLimit').val());
+   var minValue = 0;
+   var stepvalue = maxValue / 100;
+   var defaultValue = parseFloat($("#WarningLimit").val());
+   $("#slider-range-max").slider({
+      range: "max",
+      min: minValue,
+      max: maxValue,
+      step: stepvalue,
+      value: defaultValue,
+      slide: function (event, ui) {
+         $("#WarningLimit").val(ui.value);
       }
    });
-   $(document).bind("switchSetting", function (event, menuId) {
-      switch (menuId) {
-         case '21':
-            window.app.showChangePassword();
-            break;
-         case '31':
-            window.app.configureWorkingPoints();
-            break;
-         default:
+   $('#saveBillingInfo').unbind('click');
+   $('#saveBillingInfo').bind('click', window.app.saveBillingInfo);
+   window.app.localForSetting.setTooltipsOnHeaders();
+   resizeTriggered();
+};
+
+window.settings.ConfigureCompanyBillingInfo = function () {
+   "use strict";
+   $.ajax({
+      url: "Settings/CompanyBillingInfo",
+      cache: false,
+      success: function (data) {
+         window.app.updateGUIWhenBillingInfoArrived(data);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+         $('#rightColumn').html(jqXHR);
       }
    });
 };
 
+window.app.saveBillingInfo = function (e) {
+   "use strict";
+   e.preventDefault();
+   var serializedInfo = $('#rightColumn form').serialize();
+   $.ajax({
+      url: 'Settings/CompanyBillingInfo',
+      data: serializedInfo,
+      type: 'post',
+      cache: false,
+      dataType: 'html',      
+      success: function (data) {
+         window.app.updateGUIWhenBillingInfoArrived(data);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+         $('#rightColumn').html(jqXHR);
+      }
+   });
+};
+
+/*DA the convention is that the name of the javascript function is the ReportsMenuItem Action property
+* this way we ensure that the correct function is called
+*/
+window.app.leftSideMenus = {}; //this will hold the FriendlyName <-> Action correspondence 
+window.app.SettingsArea = function () {
+   "use strict";
+   //DA the MenuView is defined in BaseLeftSideMenu.js
+   var settingsMenu = new window.app.MenuView({
+      el: $("#leftColumn"),
+      eventToTriggerOnSelect: 'switchSetting',
+      menuCollection: new window.app.MenuCollection({ url: '/Settings/GetMenuItems' }),
+      afterInitializeFunction: function (menuItems) {         
+         //initialize the routing
+         _(menuItems.models).each(function (menuItemModel) {
+            //DA the idea is to correctly connect an route to an action -> we need this "actions map"
+            if (menuItemModel.get("parent") !== 0) {
+               window.app.leftSideMenus[menuItemModel.get("FriendlyName")] = {
+                  id: menuItemModel.get("itemId"),
+                  action: menuItemModel.get("Action")
+               };
+            }
+         });
+         //#region Routing
+         var SettingsRouter = Backbone.Router.extend({
+            routes: {
+               '': 'defaultCall',
+               ":menu": "goToMenu"
+            },
+            goToMenu: function (menuOption) {
+               //call the appropriate function
+               var action = window.app.leftSideMenus[menuOption];
+               if (action !== undefined) {
+                  var fn = window.settings[action.action];
+                  if (typeof fn === 'function') {
+                     fn();
+                     //DA this is some fucked up code :)
+                     //is should MenuView instance
+                     //we operate directly on the DOM (we should not do this)
+                     var liItem = ".liItem" + action.id;
+                     if (!$(liItem).hasClass("menuItemSelected")) {
+                        $(liItem).parents(".collapsibleList").find(".menuItemSelected").removeClass("menuItemSelected");
+                        $(liItem).addClass("menuItemSelected");
+                        //make sure the parent is expanded
+                        //this follows the logic that the parent is 10, 20, 30 and the leafs are 11,12 .. 21, 22
+                        var parentID = Math.floor(action.id / 10) * 10;
+                        var parentUlItem = "ul.item" + parentID;
+                        $(parentUlItem).css("display", "block");
+                     }                     
+                  }
+               }
+               else {
+                  //DA this means that we don't have access to that function -> go with the default call
+                  this.defaultCall();
+               }              
+            },
+            defaultCall: function () {
+               $(".liItem21").addClass("menuItemSelected");
+               $("ul.item20").css("display", "block");
+               window.settings.router.navigate('/ChangePassword', { trigger: true });
+            }
+         });
+         window.settings.router = new SettingsRouter();
+         Backbone.history.start();
+         //#endregion
+      }
+   });
+   //TODO DA model the menu via a backbone model
+   $(document).bind("switchSetting", function (event, menuOptions) {
+      window.settings.router.navigate('/' + menuOptions.menuNavigation, { trigger: true });
+   });
+};

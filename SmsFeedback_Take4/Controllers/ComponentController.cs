@@ -16,19 +16,20 @@ namespace SmsFeedback_Take4.Controllers
     public class ComponentController : Controller
     {
         private EFInteraction mEFInterface = new EFInteraction();
+        smsfeedbackEntities context= new smsfeedbackEntities();
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private AggregateSmsRepository mSmsRepository;
         private AggregateSmsRepository SMSRepository
         {
-            get
-            {
-                if (mSmsRepository == null)
-                    /*if (User.Identity.Name.Length > 0) 
-                        mSmsRepository = AggregateSmsRepository.GetInstance(User.Identity.Name);
-                    else*/
-                        mSmsRepository = AggregateSmsRepository.GetInstance("ando"); // for testing
-                return mSmsRepository;
-            }
+           get
+           {
+              if (mSmsRepository == null)
+                 /*if (User.Identity.Name.Length > 0) 
+                     mSmsRepository = AggregateSmsRepository.GetInstance(User.Identity.Name);
+                 else*/
+                 mSmsRepository = AggregateSmsRepository.GetInstance("ando"); // for testing
+              return mSmsRepository;
+           }
         }
 
         /*
@@ -232,8 +233,8 @@ namespace SmsFeedback_Take4.Controllers
             try
             {
                 // get the previous from message to compute the response time
-                smsfeedbackEntities lContextPerRequest = getContext();
-                var previousConv = mEFInterface.GetLatestConversationDetails(convId, lContextPerRequest);
+
+               var previousConv = mEFInterface.GetLatestConversationDetails(convId, context);
                 String prevConvFrom = Constants.NO_LAST_FROM;
                 DateTime prevConvUpdateTime = DateTime.MaxValue;
                 if (previousConv != null)
@@ -250,20 +251,20 @@ namespace SmsFeedback_Take4.Controllers
                     if (isSms)
                     {
                         if (direction.Equals(Constants.DIRECTION_OUT))
-                        {
-                           return SendSmsMessageAndUpdateDb(from, to, convId,
-                                text, xmppUser, lContextPerRequest,
-                                prevConvFrom, prevConvUpdateTime);
+                        {                           
+                            return SendSmsMessageAndUpdateDb(from, to, convId,
+                                text, xmppUser, context,
+                                prevConvFrom, prevConvUpdateTime);                                                                              
                         }
                         else
                         {
-                           return SaveIncommingMessage(from, to, convId, text, lContextPerRequest);
+                           return SaveIncommingMessage(from, to, convId, text, context);
                         }
                     }
                     else
                     {
                         return SaveImMessageInDb(from, to, convId,
-                            text, xmppUser, lContextPerRequest,
+                            text, xmppUser, context,
                             prevConvFrom, prevConvUpdateTime, direction);
                     }
                 }
@@ -280,12 +281,8 @@ namespace SmsFeedback_Take4.Controllers
             }
             return Json("error", JsonRequestBehavior.AllowGet);            
         }
-
-        private static smsfeedbackEntities getContext()
-        {
-            return new smsfeedbackEntities(); 
-        }
-
+        
+       /* returns the id of the new inserted message */
         private JsonResult SaveImMessageInDb(
            String from, String to, String convId, String text, String xmppUser, smsfeedbackEntities lContextPerRequest,
            String prevConvFrom, DateTime prevConvUpdateTime, string direction)
@@ -300,25 +297,74 @@ namespace SmsFeedback_Take4.Controllers
             }
             //maybe delegate the result to the UpdateDB function
             //or interpret the result and return an appropriate message
-            String result = mEFInterface.UpdateDb(from, to, convId, text, readStatus, DateTime.UtcNow, prevConvFrom, prevConvUpdateTime, false, xmppUserToBeSaved, null, null, direction, lContextPerRequest);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            SubscriptionSmsStatus messageStatus = mEFInterface.MarkMessageActivityInDB(from,
+               to,
+               convId,
+               text,
+               readStatus,
+               DateTime.UtcNow,
+               prevConvFrom,
+               prevConvUpdateTime,
+               false,
+               xmppUserToBeSaved,
+               null,
+               null,
+               direction,
+               lContextPerRequest);
+            return Json(messageStatus, JsonRequestBehavior.AllowGet);
         }
-
+       
         private JsonResult SendSmsMessageAndUpdateDb(
            String from, String to, String convId, String text, String xmppUser, smsfeedbackEntities lContextPerRequest, 
            String prevConvFrom, DateTime prevConvUpdateTime)
         {
-            SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgResponse) =>
-            {
-                mEFInterface.UpdateDb(from, to, convId, text, true, msgResponse.DateSent, prevConvFrom, prevConvUpdateTime, true, xmppUser, msgResponse.Price, msgResponse.ExternalID, Constants.DIRECTION_OUT, lContextPerRequest);
-            });
-            return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
+            SubscriptionSmsStatus messageStatus = new SubscriptionSmsStatus(-1, false, false, false);
+            //var messageCanBeSent = SMSRepository.SendMessage(from, to, text, lContextPerRequest, (msgResponse) =>
+            var status = SMSRepository.SendMessage(from, to, text,lContextPerRequest);
+           //status will tell you if message was sent or not
+            
+           //the rest should come later....
+            if (status != null) // null stands for  - could not sent SMS - no credit
+            {          
+               //the idea is that a message can be sent but somewhere on Nexmo/Twilio there was a problem....
+               messageStatus = mEFInterface.MarkMessageActivityInDB(from,
+                      to,
+                      convId,
+                      text,
+                      true,
+                      status.DateSent,
+                      prevConvFrom,
+                      prevConvUpdateTime,
+                      true,
+                      xmppUser,
+                      status.Price,
+                      status.ExternalID,
+                      Constants.DIRECTION_OUT, lContextPerRequest);
+               messageStatus.MessageSent = status.MessageSent != null ? true : false;
+            }           
+            
+
+            //messageStatus = mEFInterface.MarkMessageActivityInDB(from,
+            //           to,
+            //           convId,
+            //           text,
+            //           true,
+            //           new DateTime(2013,1,1,10,10,10,100),
+            //           prevConvFrom,
+            //           prevConvUpdateTime,
+            //           true,
+            //           xmppUser,
+            //           "10",
+            //           "115",
+            //           Constants.DIRECTION_OUT, lContextPerRequest);
+            return Json(messageStatus, JsonRequestBehavior.AllowGet);            
         }
+
         private JsonResult SaveIncommingMessage(
            String from, String to, String convId, String text, smsfeedbackEntities lContextPerRequest)
         {
-           String result = mEFInterface.UpdateDb(from, to, convId, text, false, DateTime.UtcNow, null, DateTime.UtcNow, true, Constants.DONT_ADD_XMPP_USER, null, null, Constants.DIRECTION_IN, lContextPerRequest);
-           return Json(result, JsonRequestBehavior.AllowGet);
+           SubscriptionSmsStatus messageStatus = mEFInterface.MarkMessageActivityInDB(from, to, convId, text, false, DateTime.UtcNow, null, DateTime.UtcNow, true, Constants.DONT_ADD_XMPP_USER, null, null, Constants.DIRECTION_IN, lContextPerRequest);
+           return Json(messageStatus, JsonRequestBehavior.AllowGet);
         }
 
         private static string ComputeDirection(String from, String convId, bool isSms)
@@ -352,6 +398,27 @@ namespace SmsFeedback_Take4.Controllers
             }
             return direction;
         }
+
+        public JsonResult UpdateMessageClientAcknowledgeField(int msgID, bool clientAcknowledge)
+        {
+           try
+           {
+              smsfeedbackEntities dbContext = new smsfeedbackEntities();
+              mEFInterface.updateMsgClientAckField(msgID, clientAcknowledge, dbContext);
+              return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
+           }
+           catch (Exception e)
+           {
+              return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);
+           }
+        }
+      
+       protected override void Dispose(bool disposing)
+        {
+           context.Dispose();
+           base.Dispose(disposing);
+        }
       
     }
+
 }

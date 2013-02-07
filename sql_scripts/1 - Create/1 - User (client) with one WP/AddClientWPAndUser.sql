@@ -4,34 +4,44 @@ USE txtfeedback_production -- choose db
 -- Script for Canada
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = '61477751378';
-DECLARE @WP_ShortID nvarchar(10) = 'ccpr';
-DECLARE @WP_Name nvarchar(40) = 'Coffee Club Park Road';
-DECLARE @Client_Description nvarchar(160) = 'Coffee Club Park Road';
+DECLARE @Client_TelNumber nvarchar(50) = '9999912352';
+DECLARE @WP_ShortID nvarchar(10) = 'eurogsm';
+DECLARE @WP_Name nvarchar(40) = 'Euro gsm';
+DECLARE @Client_Description nvarchar(160) = 'Euro gsm user';
 DECLARE @WP_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to Coffee Club Toowong!';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Bine aþi venit la Euro GSM!';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'Coffee Club'; -- details in less used section
+DECLARE @U_CompanyName nvarchar(50) = 'EuroGSM'; -- details in less used section
+DECLARE @C_ContactName nvarchar(50) = 'Sebastian';
+DECLARE @C_ContactSurname nvarchar(50) = 'Sabo';
+DECLARE @C_ContactEmail nvarchar(50) = 'sebastian.sabo@telefoane-mobile.ro';
+DECLARE @C_VATID nvarchar(50) = 'EuroGSMVATID';
+DECLARE @C_RegistrationNumber nvarchar(50) = NULL;
+-- SubscriptionDetails
+DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Sebastian'; 
+DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Sabo';
+DECLARE @S_PrimaryContact_Email nvarchar(50) = 'sebastian.sabo@telefoane-mobile.ro';
+DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Sebastian'; 
+DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Sabo';
+DECLARE @S_SecondaryContact_Email nvarchar(50) = 'sebastian.sabo@telefoane-mobile.ro';
 
--- Subscription
-DECLARE @C_Subscription_Type nvarchar(50) = 'Free'; -- details in less used section
 
 -- Support working point
-DECLARE @WP_Support_TelNumber nvarchar(50) = '12898437378';
-DECLARE @WP_Support_ShortID nvarchar(10) = 'supportca';
-DECLARE @WP_Support_Name nvarchar(40) = 'CA support';
-DECLARE @WP_Support_Description nvarchar(120)= 'Support for Canada!';
+DECLARE @WP_Support_TelNumber nvarchar(50) = '2220000100';
+DECLARE @WP_Support_ShortID nvarchar(10) = 'supportro';
+DECLARE @WP_Support_Name nvarchar(40) = 'RO support';
+DECLARE @WP_Support_Description nvarchar(120)= 'Support for Romania';
 DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback!';
+DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Bine aþi venit la TxtFeedback! Pentru orice fel de întrebare legatã de modul de funcþionare al sistemului nostru folosiþi acest chat.';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'staff.coffeeClubPR';
-DECLARE @U_ReqularUserPassword nvarchar(128) = '9/bsBgt7T/Te9o/lU/d1EMUiuo0=';
-DECLARE @U_RegularPasswordSalt nvarchar(128) = 'nK289YAG0WLWys5tS0P2AA==';
-DECLARE @U_XmppUser varchar(30) = 'coffeeclubpr@txtfeedback.net';
-DECLARE @U_XmppPassword varchar(30) = '123456';
-DECLARE @U_RegularUserEmail nvarchar(256) = 'esport@mail.com';
+DECLARE @U_RegularUserName varchar(30) = 'eurogsm';
+DECLARE @U_ReqularUserPassword nvarchar(128) = '6nPKeOV6Ye8gIsGxkomc4r7evtM=';
+DECLARE @U_RegularPasswordSalt nvarchar(128) = '9hvZUClKM4m1ZC8a4K5xCQ==';
+DECLARE @U_XmppUser varchar(30) = 'eurogsm@txtfeedback.net';
+DECLARE @U_XmppPassword varchar(30) = '.KURXdjCo';
+DECLARE @U_RegularUserEmail nvarchar(256) = 'sebastian.sabo@telefoane-mobile.ro';
 -- END Important fields
 
 -- Less used
@@ -57,18 +67,18 @@ DECLARE @WP_Support_OutsideOfficeHoursMessage nvarchar(160) = 'Outside of office
 -- Company
 DECLARE @C_Description nvarchar(max) = 'new company';
 DECLARE @C_Address nvarchar(max) = 'company address';
-DECLARE @C_NrOfTrainingHoursDelivered int = 12;
--- Subscriptions 
-DECLARE @S_NrOfWorkingPoints int = 2;
-DECLARE @S_SmsPerWorkingPoint int = 30;
-DECLARE @S_NrOfUsers int = 2;
-DECLARE @S_NrOfHoursOfTraining nvarchar(max) = 12;
+DECLARE @C_City nvarchar(50) = 'company city';
+
+-- Subscription details 
+DECLARE @S_SpendingLimit decimal = 10.0;
+DECLARE @S_WarningLimit decimal = @S_SpendingLimit * 9 /10;
+DECLARE @S_SubscriptionSMS int = 20;
 
 -- Tags
 DECLARE @TagDescription nvarchar(200) = 'default tag';
 -- English version
-DECLARE @TagPositive nvarchar(50) = 'Positive feedback';
-DECLARE @TagNegative nvarchar(50) = 'Negative feedback';
+DECLARE @TagPositive nvarchar(50) = 'Feedback pozitiv';
+DECLARE @TagNegative nvarchar(50) = 'Feedback negativ';
 -- German version
 --DECLARE @TagPositive nvarchar(50) = 'Positives feedback';
 --DECLARE @TagNegative nvarchar(50) = 'Negatives feedback';
@@ -128,7 +138,7 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@Client_TelNumber, @WP_Description, @WP_Name, 
 		@WP_Provider, @WP_SmsSent, @WP_MaxNrOfSmsToSend, @WP_ShortID, 
 		@WP_XmppSuffix, @WP_WelcomeMessage, @WP_BusyMessage,
-		@WP_OutsideOfficeHoursMessage, @WP_Language_US);
+		@WP_OutsideOfficeHoursMessage, @WP_Language_RO);
 		
 IF (SELECT COUNT(*) FROM [dbo].[WorkingPoints] WHERE [dbo].[WorkingPoints].[TelNumber] = @WP_Support_TelNumber) = 0 
 INSERT INTO WorkingPoints(TelNumber, Description, Name, 
@@ -137,17 +147,17 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@WP_Support_TelNumber, @WP_Support_Description, @WP_Support_Name, 
 		@WP_Support_Provider, @WP_Support_SentSms, @WP_Support_MaxNrOfSms, @WP_Support_ShortID, 
 		@WP_Support_XmppSuffix, @WP_Support_WelcomeMessage, @WP_Support_BusyMessage,
-		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_US);
+		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_RO);
 
 -- Welcome conversation Support - WP. 
 INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
 		[From], Starred, StartTime, WorkingPoint_TelNumber, 
-		Client_TelNumber, IsSmsBased) VALUES (@WP_ConvIdSupportToWP, @WP_WelcomeMessage,
+		Client_TelNumber, IsSmsBased) VALUES (@WP_ConvIdSupportToWP, @WP_Support_WelcomeMessage,
 		@WP_Read, @WP_TimeReceived, @WP_Support_ShortID, @WP_Starred, @WP_TimeReceived, 
 		@Client_TelNumber, @WP_Support_ShortID, @isSmsBased_IM);
 		
 INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId, XmppConnectionXmppUser)
-		VALUES (@WP_Support_XmppAddress, @WP_XmppAddress, @WP_WelcomeMessage,
+		VALUES (@WP_Support_XmppAddress, @WP_XmppAddress, @WP_Support_WelcomeMessage,
 		@WP_TimeReceived, @WP_Read, @WP_ConvIdSupportToWP, NULL);
 		
 UPDATE WorkingPoints SET SupportConversation = @WP_ConvIdSupportToWP WHERE TelNumber = @Client_TelNumber;
@@ -155,12 +165,12 @@ UPDATE WorkingPoints SET SupportConversation = @WP_ConvIdSupportToWP WHERE TelNu
 -- Welcome conversation WP - Support
 INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
 		[From], Starred, StartTime, WorkingPoint_TelNumber, 
-		Client_TelNumber, IsSmsBased) VALUES (@WP_ConvIdWPToSupport, @WP_WelcomeMessage,
+		Client_TelNumber, IsSmsBased) VALUES (@WP_ConvIdWPToSupport, @WP_Support_WelcomeMessage,
 		@WP_Read, @WP_TimeReceived, @WP_ShortID, @WP_Starred, @WP_TimeReceived, 
 		@WP_Support_TelNumber, @WP_ShortID, @isSmsBased_IM);
 		
 INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId, XmppConnectionXmppUser)
-		VALUES (@WP_XmppAddress, @WP_Support_XmppAddress, @WP_WelcomeMessage,
+		VALUES (@WP_XmppAddress, @WP_Support_XmppAddress, @WP_Support_WelcomeMessage,
 		@WP_TimeReceived, @WP_Read, @WP_ConvIdWPToSupport, NULL);
 
 DECLARE @U_ApplicationId uniqueidentifier = (SELECT TOP 1 ApplicationId FROM dbo.Applications); 
@@ -169,15 +179,38 @@ DECLARE @U_ApplicationId uniqueidentifier = (SELECT TOP 1 ApplicationId FROM dbo
 IF (SELECT COUNT(*) FROM [dbo].[XmppConnections] WHERE [dbo].[XmppConnections].[XmppUser] = @U_XmppUser) = 0 
 INSERT INTO XmppConnections (XmppUser, XmppPassword) VALUES (@U_XmppUser, @U_XmppPassword)
 
--- Check for subscriptions
-IF (SELECT COUNT(*) FROM [dbo].[Subscriptions] WHERE [dbo].[Subscriptions].[Type] = @C_Subscription_Type) = 0 
-INSERT INTO Subscriptions (Type, NrOfWorkingPoints, SmsPerWorkingPoint, NrOfUsers, NrOfHoursOfTraining)
-	 VALUES (@C_Subscription_Type, @S_NrOfWorkingPoints, @S_SmsPerWorkingPoint, @S_NrOfUsers, @S_NrOfHoursOfTraining);
-
 -- Check the company
 IF (SELECT COUNT(*) FROM [dbo].[Companies] WHERE [dbo].[Companies].[Name] = @U_CompanyName) = 0 
-INSERT INTO Companies (Name, Description, Address, NrOfTrainingHoursDelivered, Subscription_Type)
-	 VALUES (@U_CompanyName, @C_Description, @C_Address, @C_NrOfTrainingHoursDelivered, @C_Subscription_Type);
+BEGIN
+--we don't have the company so
+--Check for primary contact (we don't reuse the contact, but create a new one
+DECLARE @id_primaryContact int = 0;
+INSERT INTO Contacts ([Name],[Surname],[Email],[Landline],[Mobile])
+VALUES (@S_PrimaryContact_Name,@S_PrimaryContact_Surname,@S_PrimaryContact_Email,NULL,NULL) SET @id_primaryContact = SCOPE_IDENTITY();
+--Check for secondary contact
+DECLARE @id_secondaryContact int = 0;
+INSERT INTO Contacts ([Name],[Surname],[Email],[Landline],[Mobile])
+VALUES (@S_SecondaryContact_Name,@S_SecondaryContact_Surname,@S_SecondaryContact_Email,NULL,NULL) SET @id_secondaryContact = SCOPE_IDENTITY();
+--Check for SubscriptionTemplate ID
+DECLARE @id_invoiceSubscriptionTemplateID int = NULL;
+--Check for ExtraCreditTemplate ID
+DECLARE @id_invoiceExtraCreditTemplateID int = NULL;
+--Add the subscription details
+
+DECLARE @subscriptionDetailsId int = 0;
+INSERT INTO SubscriptionDetails ([BillingDay],[SubscriptionSMS] ,[RemainingSMS] , [SpendingLimit],[WarningLimit],[SpentThisMonth],[DefaultCurrency] ,[PrimaryContact_Id] ,[SecondaryContact_Id] ,[MonthlySubscriptionTemplate_InvoiceDetailsTemplateID] ,[MonthlyExtraSMSCharge_InvoiceDetailsTemplateID] ,
+[ExtraAddedCreditThisMonth],[RemainingCreditFromPreviousMonth]) 
+VALUES (DATENAME(d, GETDATE()), @S_SubscriptionSMS, @S_SubscriptionSMS, @S_SpendingLimit, @S_WarningLimit, 0, 'EUR',  @id_primaryContact, @id_secondaryContact,@id_invoiceSubscriptionTemplateID,@id_invoiceExtraCreditTemplateID,0,0) SET @subscriptionDetailsId = SCOPE_IDENTITY();
+
+--add the company contact details
+DECLARE @id_companyContact int = 0;
+INSERT INTO Contacts ([Name],[Surname],[Email],[Landline],[Mobile])
+VALUES (@C_ContactName, @C_ContactSurname,@C_ContactEmail,NULL,NULL) SET @id_companyContact = SCOPE_IDENTITY();
+--add the company 
+
+INSERT INTO Companies ([Name], [Description], [Address], [City], [VATID], [RegistrationNumber], [SubscriptionDetails_Id], [Contact_Id])
+	 VALUES (@U_CompanyName, @C_Description, @C_Address, @C_City, @C_VATID,@C_RegistrationNumber, @subscriptionDetailsId, @id_companyContact);
+END
 		
 IF (SELECT COUNT(*) FROM [dbo].[Tags] WHERE ([dbo].[Tags].[Name] = @TagPositive) AND ([dbo].[Tags].[CompanyName] = @U_CompanyName) ) = 0 
 INSERT INTO dbo.Tags(Name, [Description], CompanyName) VALUES (@TagPositive, @TagDescription, @U_CompanyName);

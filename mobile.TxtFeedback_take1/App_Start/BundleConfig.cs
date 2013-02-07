@@ -21,6 +21,7 @@ namespace mobile.TxtFeedback_take1
                      "~/Scripts/backbone*",
                      "~/MyScripts/strophe.js",
                      "~/Scripts/persist-min.js",
+                     "~/Scripts/json2.js",
                      "~/MyScripts/strophe.register.js",
                      "~/Scripts/jQuery.ui.datepicker.js", 
                      "~/Scripts/jquery.ui.datepicker.mobile.js",

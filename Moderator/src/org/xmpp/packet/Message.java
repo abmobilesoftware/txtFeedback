@@ -20,6 +20,7 @@
 
 package org.xmpp.packet;
 
+import org.dom4j.Attribute;
 import org.dom4j.Element;
 
 import java.util.Iterator;
@@ -143,6 +144,28 @@ public class Message extends Packet {
         }
         subjectElement.setText(subject);
     }
+    
+    /**
+     * Sets the subject of this message.
+     *
+     * @param subject the subject.
+     */
+    public void setPayload(String payload) {
+        Element payloadElement = element.element("payload");
+        // If subject is null, clear the subject.
+        if (payload == null && payloadElement != null) {
+            element.remove(payloadElement);
+            return;
+        }
+        // Do nothing if the new subject is null
+        if (payload == null) {
+            return;
+        }
+        if (payloadElement == null) {
+            payloadElement = element.addElement("payload");
+        }
+        payloadElement.setText(payload);
+    }
 
     /**
      * Returns the body of this message or <tt>null</tt> if there is no body.
@@ -176,7 +199,53 @@ public class Message extends Packet {
         }
         bodyElement.setText(body);
     }
+    
+    /**
+     * Sets the receive tag of this message.
+     *
+     * @param receivedID the ID of the message.
+     */
+    public void setReceivedID(String receivedID) {
+        Element receivedElement = element.element("received");
+        // If body is null, clear the body.
+        if (receivedID == null) {
+            if (receivedElement != null) {
+                element.remove(receivedElement);
+            }
+            return;
+        }
+        // Do nothing if the new body is null
+        if (receivedID == null) {
+            return;
+        }
+        if (receivedElement == null) {
+            receivedElement = element.addElement("received");
+        }   
+        receivedElement.addAttribute("xmlns", "urn:xmpp:receipts");
+        receivedElement.addAttribute("id", receivedID);
+    }
+    
+    public void setRequest(String ackDestination) {
+    	Element requestElement = element.element("request");
+    	if (requestElement == null) {
+    		requestElement = element.addElement("request");
+    	}    	
+    	requestElement.addAttribute("xmlns", "urn:xmpp:receipts");
+    	requestElement.addAttribute("ackDest", ackDestination);
+    }
 
+    public boolean containsRequestTag() {
+    	return (element.element("request") != null) ? true : false;   	
+    }
+    
+    public String getReceivedID() {
+        return element.element("received").attributeValue("id");
+    }
+    
+    public String getAckDestination() {
+        return element.element("received").attributeValue("ackdest");
+    }
+    
     /**
      * Returns the thread value of this message, an identifier that is used for
      * tracking a conversation thread ("instant messaging session")
@@ -306,6 +375,16 @@ public class Message extends Packet {
          * Text message to be displayed in scrolling marquee displays.
          */
         headline,
+        
+        /**
+         * Message received by the component.
+         */
+        ServerMsgDeliveryReceipt,
+        
+        /**
+         * Message received by the client.
+         */
+        ClientMsgDeliveryReceipt,
 
         /**
          * Indicates a messaging error.

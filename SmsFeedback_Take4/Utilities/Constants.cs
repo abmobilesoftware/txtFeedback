@@ -37,7 +37,7 @@ namespace SmsFeedback_Take4.Utilities
         public const string DIRECTION_IN = "IN";
         public const string DIRECTION_INVALID = "INVALID_DIRECTION";
         public const string NO_LAST_FROM = "no previous from";
-        public const string DONT_ADD_XMPP_USER = "don't add xmpp user";
+        public const string DONT_ADD_XMPP_USER = "don't add xmpp user";       
     }
     public class JsonReturnMessages
     {
@@ -47,5 +47,6 @@ namespace SmsFeedback_Take4.Utilities
         public const string EXCEPTION = "exception";
         public const string INVALID_DIRECTION = "invalid direction";
         public const string OP_FAILED = "failed";
+        public const string CANNOT_SEND_SMS = "CannotSendSMS";
     }
 }

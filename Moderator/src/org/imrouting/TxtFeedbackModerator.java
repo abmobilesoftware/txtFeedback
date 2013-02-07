@@ -8,6 +8,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import log.Log;
 import log.LogEntryType;
@@ -66,9 +67,7 @@ public class TxtFeedbackModerator implements Component {
 		if (iReceivedPacket instanceof Message) {
 			final Message lReceivedMessage = (Message) iReceivedPacket;
 			if (lReceivedMessage.getSubject() != null) {
-				if (lReceivedMessage.getSubject().equals(Constants.INTERNAL_PACKET)) {
-					mp.processInternalPacket(lReceivedMessage);					
-				}
+				mp.processInternalPacket(lReceivedMessage);			
 			}			
 		} else if (iReceivedPacket instanceof Presence) {
 			Presence lPresence = (Presence) iReceivedPacket;
@@ -81,16 +80,37 @@ public class TxtFeedbackModerator implements Component {
 		}
 	}
 	
-	private void sendMessage(String iFrom, String iBody, String iSubject, Message.Type iType, String iTo) {
+	/*
+	 * Parameters: 
+	 * 		- askForAck: 1.TRUE (internal message) - ackDest - filled in, ackID - null
+	 * 					 2.FALSE (acknowledge message) - askDest - null, ackID - filled in 				 
+	 */	
+	private void sendMessage(String iTo, String iBody, String iSubject, String iMsgID, Message.Type iType, boolean askForAck, String iAckID, String iAckDest) {
 		try {
 			Message lResponseMessage = new Message();
-			lResponseMessage.setType(iType);
-			lResponseMessage.setBody(iBody);
-			lResponseMessage.setSubject(iSubject);
 			lResponseMessage.setTo(iTo);
-			String[] split = iFrom.split("@");
-			String from = String.format("%s@%s.%s",split[0],Main.SUBDOMAIN,Main.DOMAIN);
-			lResponseMessage.setFrom(from);//split[0] + "@"+ Main.SUBDOMAIN+ "." + Main.DOMAIN);
+			if (iBody != null) {
+				lResponseMessage.setBody(iBody);
+			}
+			if (iSubject != null ) {
+				lResponseMessage.setSubject(iSubject);
+			}	
+			if (iType != null) {
+				lResponseMessage.setType(iType);
+			}			
+			if (iMsgID != null) {
+				lResponseMessage.setID(iMsgID);
+			}
+			
+			if (askForAck) {
+				if (iAckDest != null) {
+					lResponseMessage.setRequest(iAckDest);
+				}
+			} else {
+				if (iAckID != null) {
+					lResponseMessage.setReceivedID(iAckID);
+				}				
+			}
 			
 			mMgr.sendPacket(this, lResponseMessage);			
 		} catch (Exception e) {
@@ -98,8 +118,47 @@ public class TxtFeedbackModerator implements Component {
 		}
 	}
 	
-	public void sendInternalMessage(String iBody,String iFrom, String iTo) {
-		sendMessage(iFrom, iBody, Constants.INTERNAL_PACKET, Type.chat, iTo);
+	private void sendMessage(String iTo, String iSubject, String iMsgID, String iAckID, String iPayload) {
+		try {
+			Message lResponseMessage = new Message();
+			lResponseMessage.setTo(iTo);
+			lResponseMessage.setID(iMsgID);
+			lResponseMessage.setSubject(iSubject);
+			lResponseMessage.setReceivedID(iAckID);
+			lResponseMessage.setPayload(iPayload);
+			mMgr.sendPacket(this, lResponseMessage);
+			
+		} catch (Exception e) {
+			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+		}
+	}
+	
+	/*
+	 * Send a text message (sms or IM) inside the system
+	 * Parameters:
+	 * 	- ackDest : the recipient intended to receive the acknowledge for this message. 
+	 *  Obs: askForAck - true
+	 */
+	public void sendInternalMessage(String iBody, String iTo, String iMsgID, String ackDest) {
+		sendMessage(iTo, iBody, Constants.INTERNAL_PACKET, iMsgID, Type.chat, true, null, ackDest);
+	}
+	
+	/*
+	 * Send an acknowledge stanza.
+	 * Parameters: 
+	 *   - iAckID - is the id of the received message
+	 *   - iMsgType - two possible values: ServerMsgDeliveryReceipt or ClientMsgDeliveryReceipt 
+	 * Format:
+	 * <message from='sender' id='random_id' to='iTo' type='ServerMsgDeliveryReceipt'>
+	 * 	<received xmlns='urn:xmpp:receipts' id='iAckID' />
+	 * </message> 
+	 */
+	public void sendAcknowledgeMessage(String iTo, String iSubject, String iAckID) {
+		sendMessage(iTo, null, iSubject, UUID.randomUUID().toString(), null, false, iAckID, null);
+	}
+	
+	public void sendSmsAcknowledgeMessage(String iTo, String iSubject, String iAckID, String iPayload) {
+		sendMessage(iTo, iSubject, UUID.randomUUID().toString(), iAckID, iPayload);
 	}
 	
 	public void initialize(JID iJid, ComponentManager iComponentManager)

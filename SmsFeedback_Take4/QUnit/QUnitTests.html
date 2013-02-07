@@ -16,14 +16,17 @@
    <script src="/QUnit/UtilitiesTests.js"></script>
    
    <!--the template is required so that I don't get any complaints from WorkingPointView-->
-   <script type="text/template" id="phoneNumber-template">       
-		<span></span>
+  <script type="text/template" id="phoneNumber-template">       
+		<span >
+            <img tooltiptitle="" src="" class="wpItem wpSelectorIcon deletePhoneNumberIconSelected" />		
+			<span class="wpItem" >{{ Name }}</span>						
+		</span>
    </script>
    <script src="/Scripts/spin.js" type="text/javascript"></script>
    <script src="/Scripts/jquery.cookie.js" type="text/javascript"></script>
    <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
    <script src="http://documentcloud.github.com/underscore/underscore.js"></script>
-   <script src="http://documentcloud.github.com/backbone/backbone.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
    <script src="../MyScripts/WorkingPoints.js"></script>
    <script src="/QUnit/WorkingPointsTests.js"></script>
 
@@ -48,5 +51,9 @@
 
    <script src="../MyScripts/ConversationTags.js"></script>
    <script src="TagsTests.js"></script>
+
+   <!-- Test XMPP -->
+   <script src="../MyScripts/XMPP.js"></script>
+   <script src="XMPPTests.js"></script>
 </body>
 </html>

@@ -26,10 +26,8 @@ namespace SmsFeedback_Take4.Nexmo
         {
            if (HttpContext.Request.IsAjaxRequest())
            {
-              SmsFeedback_Take4.Models.NexmoSmsRepository.StaticSendMessage(from, to, msgText, response => {
-                 
-              });
-              return Json("success", JsonRequestBehavior.AllowGet);
+              var response = SmsFeedback_Take4.Models.NexmoSmsRepository.StaticSendMessage(from, to, msgText);
+              return Json(response.Status, JsonRequestBehavior.AllowGet);
            }
            return Json("Ajax requests only",JsonRequestBehavior.AllowGet);
         }

@@ -26,8 +26,13 @@ window.app.MenuItemModel = Backbone.Model.extend({
       itemId: 1,
       itemName: "Conversation",
       leaf: false,
-      parent: 1
-   }
+      parent: 1,
+      Action: "Action",
+      callbackFunction: "",
+      FriendlyName: "",
+      selected: false,
+   },
+   idAttribute: "itemId"
 });
 
 window.app.MenuCollection = Backbone.Collection.extend({
@@ -40,6 +45,22 @@ window.app.MenuCollection = Backbone.Collection.extend({
 window.app.MenuItemView = Backbone.View.extend({
    tagName: 'li',
    model: window.app.MenuItemModel,
+   events: {
+      "click": "menuSelected"
+   },
+   menuSelected: function () {
+      //DA due to the way we build the list, when clicking the child, the parent will also be called 
+      //so make sure the parent does not trigger any events (besides the collapsing defined in collapsible list)
+      if (this.model.get("parent") != 0) {
+         this.$el.parents(".collapsibleList").find(".menuItemSelected").removeClass("menuItemSelected");
+         this.$el.addClass("menuItemSelected");
+         $(document).trigger(this.model.get("callbackFunction"),{
+            menuId: this.model.get("itemId"),
+            menuNavigation: this.model.get("FriendlyName"),
+            menuAction: this.model.get("Action"),
+         });
+      }      
+   },
    initialize: function () {
       _.bindAll(this, 'render');
    },
@@ -62,8 +83,8 @@ window.app.MenuItemView = Backbone.View.extend({
 window.app.MenuView = Backbone.View.extend({
    el: $("#leftColumn"),
    eventToTriggerOnSelect: "defaultEventName",
-   initialize: function(options) {
-       _.bindAll(this, 'render','afterInitializeFunction');      
+   initialize: function (options) {
+      _.bindAll(this, 'render', 'afterInitializeFunction');
       var self = this;
       self.eventToTriggerOnSelect = options.eventToTriggerOnSelect;
       self.afterInitializeFunction = options.afterInitializeFunction;
@@ -71,8 +92,8 @@ window.app.MenuView = Backbone.View.extend({
 
       this.menuItems.fetch({
          success: function () {
-             self.render();
-             self.afterInitializeFunction();
+            self.render();
+            self.afterInitializeFunction(self.menuItems);
          }
       });
    },
@@ -80,6 +101,7 @@ window.app.MenuView = Backbone.View.extend({
       var self = this;
       $(this.el).append("<ul class='primaryList collapsibleList'></ul>");
       _(this.menuItems.models).each(function (menuItemModel) {
+         menuItemModel.set("callbackFunction",self.eventToTriggerOnSelect);
          var menuItemView = new window.app.MenuItemView({ model: menuItemModel });
          if (!menuItemModel.get("leaf")) {
             if (menuItemModel.get("parent") === 0) {
@@ -95,14 +117,15 @@ window.app.MenuView = Backbone.View.extend({
       });
 
       // open report functionality
-      $(".innerLi").click(function () {
-         $(this).parents(".collapsibleList").find(".menuItemSelected").removeClass("menuItemSelected");
-         $(this).addClass("menuItemSelected");
-         $(document).trigger(self.eventToTriggerOnSelect, $(this).attr("menuId"));
-      });
+      //$(".innerLi").click(function () {
+      //   $(this).parents(".collapsibleList").find(".menuItemSelected").removeClass("menuItemSelected");
+      //   $(this).addClass("menuItemSelected");
+      //   $(document).trigger(self.eventToTriggerOnSelect, $(this).attr("menuId"));
+      //});
+
       // apply collapsible functionality to list
       CollapsibleLists.apply();
-     
+
    },
    afterInitializeFunction: function () { }
 });

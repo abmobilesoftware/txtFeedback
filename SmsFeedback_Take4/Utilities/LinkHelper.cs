@@ -21,7 +21,7 @@ namespace System.Web.Mvc.Html
       {
          string currentAction = htmlHelper.ViewContext.RouteData.GetRequiredString("action");
          string currentController = htmlHelper.ViewContext.RouteData.GetRequiredString("controller");
-         if (controllerName == "Messages" && actionName=="Index")
+         if (controllerName == "Home" && actionName=="Index")
          {
             return MenuLinkForMessages(htmlHelper, linkText, actionName, controllerName, tooltip);
            }

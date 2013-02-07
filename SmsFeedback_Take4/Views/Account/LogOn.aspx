@@ -22,18 +22,12 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Site.css") %>" />
    <% } %>
 
+   <link rel="stylesheet" type="text/css" media="all" href="../../Content/css/metro-ui-light.css" />
    <script src="<%: Url.Content("~/Scripts/jquery-1.6.2.min.js") %>" charset="charset="UTF-8" type="text/javascript"></script>
     <title> <%: Resources.Global.TitleLogOn %></title>
 </head>
 
 <body>
-   <script>
-      $(function () {
-         $("#UserName").focus(function () {
-            var x = this;
-         });
-      });
-   </script>
    <img id="bkgImage" src="<%: Url.Content("~/Content/images/loginImage.png") %>"/>
      
     <div id="logOnContainer">   
@@ -56,12 +50,12 @@
                 
 
                 <div class="editor-field">
-                    <%: Html.TextBoxFor(m => m.UserName, new { @placeholder = Resources.Global.lblUserName}) %>
+                    <%: Html.TextBoxFor(m => m.UserName, new { @placeholder = Resources.Global.lblUserName, @class = "logInTextBox"}) %>
                     <%: Html.ValidationMessageFor(m => m.UserName) %>
                 </div>
                 
                 <div class="editor-field">
-                    <%: Html.PasswordFor(m => m.Password,new { @placeholder = Resources.Global.lblPassword}) %>
+                    <%: Html.PasswordFor(m => m.Password,new { @placeholder = Resources.Global.lblPassword, @class = "logInTextBox"}) %>
                     <%: Html.ValidationMessageFor(m => m.Password) %>
                 </div>
                 

@@ -137,7 +137,7 @@ namespace SmsFeedback_Take4.Models
       {
          foreach (SmsMessage sms in twilioConversationsForNumbers)
          {
-            mEFInterface.UpdateAddConversation(sms.From, sms.To, sms.ConvID, sms.Text, sms.Read, sms.TimeReceived, true, dbContext);
+            mEFInterface.UpdateOrAddConversation(sms.From, sms.To, sms.ConvID, sms.Text, sms.Read, sms.TimeReceived, true, dbContext);
          }
       }
 
@@ -153,32 +153,111 @@ namespace SmsFeedback_Take4.Models
          return mEFRep.GetTagsForConversation(convID,dbContext);
       }
 
-      public void SendMessage(string fromWp, string to, string message, smsfeedbackEntities dbContext, Action<MessageStatus> callback)
-      {
+      public bool SendMessage(string fromWp, string to, string message, smsfeedbackEntities dbContext, Action<MessageStatus> callbackOnSuccess)
+      {         
          //get the provider and send the message using the correct network
-         var providers = from wp in dbContext.WorkingPoints where wp.TelNumber == fromWp select wp.Provider;
-         if (providers.Count() == 1)
+         var wp = dbContext.WorkingPoints.Find(fromWp);
+         if (wp != null)
          {
-            var provider = providers.First();
-            switch (provider)
+            //DA first check if we have enough credit         
+            var usr = wp.Users.FirstOrDefault();//we assume all the users belong to the same company - so any user would do
+            if (usr != null)
             {
-               case TWILIO_PROVIDER:
-                  logger.Info("Sending message via twilio");
-                  mTwilioRep.SendMessage(fromWp, to, message, callback);
-                  break;
-               case NEXMO_PROVIDER:
-                  logger.Info("Sending message via nexmo");
-                  mNexmoRep.SendMessage(fromWp, to, message,callback);                  
-                  break;
-               default:
-                  logger.ErrorFormat("Invalid provider for number: {0}", fromWp);
-                  break;
+               var company = usr.Company;
+               /** 
+                * We can send an SMS if we either:
+                * 1. have remaining SMS is our subscription
+                * 2. have credit for sending 1 more SMS 
+               */
+               var canSend = company.SubscriptionDetail.CanSendSMS;
+               if (canSend)
+               {                  
+                  switch (wp.Provider)
+                  {
+                     case TWILIO_PROVIDER:
+                        logger.Info("Sending message via twilio");
+                        mTwilioRep.SendMessage(fromWp, to, message, callbackOnSuccess);
+                        break;
+                     case NEXMO_PROVIDER:
+                        logger.Info("Sending message via nexmo");
+                        mNexmoRep.SendMessage(fromWp, to, message, callbackOnSuccess);
+                        break;
+                     default:
+                        logger.ErrorFormat("Invalid provider for number: {0}", fromWp);
+                        break;
+                  }
+                  //TODO DA use the response
+                  return true;
+               }
+               else
+               {
+                  //we either have no remaining sms, no extra credit and has reached his spending limit
+                  return false;
+               }
             }
+            else 
+            {
+               //something went wrong with finding the user
+               return false;
+            }            
          }
          else
          {
             logger.ErrorFormat("Number: {0} is not a valid working point", fromWp);
-         }                           
+            return false;
+         }
+      }
+      public MessageStatus SendMessage(string fromWp, string to, string message, smsfeedbackEntities dbContext) {
+         //get the provider and send the message using the correct network
+         var wp = dbContext.WorkingPoints.Find(fromWp);
+         if (wp != null)
+         {
+            //DA first check if we have enough credit         
+            var usr = wp.Users.FirstOrDefault();//we assume all the users belong to the same company - so any user would do
+            if (usr != null)
+            {
+               var company = usr.Company;
+               /** 
+                * We can send an SMS if we either:
+                * 1. have remaining SMS is our subscription
+                * 2. have credit for sending 1 more SMS 
+               */
+               var canSend = company.SubscriptionDetail.CanSendSMS;
+               if (canSend)
+               {
+                  MessageStatus response;
+                  switch (wp.Provider)
+                  {
+                     case TWILIO_PROVIDER:
+                        logger.Info("Sending message via twilio");
+                        return mTwilioRep.SendMessage(fromWp, to, message);
+                        break;
+                     case NEXMO_PROVIDER:
+                        logger.Info("Sending message via nexmo");
+                        return mNexmoRep.SendMessage(fromWp, to, message);                        
+                     default:
+                        logger.ErrorFormat("Invalid provider for number: {0}", fromWp);
+                        break;
+                  }
+                  return null;
+               }
+               else
+               {
+                  //we either have no remaining sms, no extra credit and has reached his spending limit
+                  return null;
+               }
+            }
+            else 
+            {
+               //something went wrong with finding the user
+               return null;
+            }            
+         }
+         else
+         {
+            logger.ErrorFormat("Number: {0} is not a valid working point", fromWp);
+            return null;
+         }
       }
 
       public System.Collections.Generic.IEnumerable<WorkingPoint> GetWorkingPointsPerUser(String userName, smsfeedbackEntities dbContext)

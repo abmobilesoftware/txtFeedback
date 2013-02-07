@@ -1,11 +1,12 @@
-﻿var validConvID = "12898437378-12898437378";
+﻿//var validConvID = "12898437378-12898437378";
+var validConvID = "16783694507-12152401393"; // for nexmo db
 
 $(function () {
-   module("MessagesController")   
+   module("MessagesController");
    asyncTest("Messages/MessagesList_validConvID_dataIsReturnedWithRequiredFields", 9, function () {
       var validUrlLocationForMessagesList = "/ro-RO/Messages/MessagesList";
       //we have to be logged in for this to work, otherwise we would receive back the LogOn dialog
-      $.ajax({         
+      $.ajax({
          url: validUrlLocationForMessagesList,
          data: { "conversationId": validConvID },
          success: function (data) {
@@ -27,7 +28,7 @@ $(function () {
             ok(false, xhr.responseText);
             start();
          }
-      })   
+      });
    });
    asyncTest("Messages/MessagesList_validConvIDUppercaseParamSpec_dataIsReturnedWithRequiredFields", 9, function () {
       var validUrlLocationForMessagesList = "/ro-RO/Messages/MessagesList";
@@ -54,7 +55,7 @@ $(function () {
             ok(false, xhr.responseText);
             start();
          }
-      })
+      });
    });
    asyncTest("Messages/MessagesList_validConvIDLowercaseParamSpec_dataIsReturnedWithRequiredFields", 9, function () {
       var validUrlLocationForMessagesList = "/ro-RO/Messages/MessagesList";
@@ -81,7 +82,7 @@ $(function () {
             ok(false, xhr.responseText);
             start();
          }
-      })
+      });
    });
    asyncTest("Messages/MessagesList_nullConvID_JsonWithErrorMessageShouldBeReturned", 1, function () {
       var nullConvID = null;
@@ -92,14 +93,14 @@ $(function () {
          data: { "conversationId": nullConvID },
          success: function (data) {
             var msg = data;
-            ok($(msg).attr("error") == "NullConvId", "The convId is null, json with message describing the error should be returned");
+            ok($(msg).attr("error") === "NullConvId", "The convId is null, json with message describing the error should be returned");
             start();
          },
          error: function (xhr, ajaxOptions, thrownError) {
             ok(false, xhr.responseText);
             start();
          }
-      })
+      });
    });
    asyncTest("Messages/MessagesList_invalidConvID_emptyArrayIsReturned",1, function () {
       var invalidConvID = "000000000000";
@@ -109,14 +110,14 @@ $(function () {
          url: validUrlLocationForMessagesList,
          data: { "conversationId": invalidConvID },
          success: function (data) {
-            ok(data.length == 0, "Null result received");
+            ok(data.length === 0, "Null result received");
             start();
          },
          error: function (xhr, ajaxOptions, thrownError) {
             ok(false, xhr.responseText);
             start();
          }
-      })
+      });
    });
    asyncTest("Messages/ConversationsList_widestOptionsPossible_dataIsReturned",7, function () {
       var filterOptions = {};
@@ -131,7 +132,7 @@ $(function () {
       filterOptions.requestIndex = 0;
       filterOptions.popUpSupport = false;
 
-      var validUrlLocationForConversationsList = "/ro-RO/Messages/ConversationsList";
+      var validUrlLocationForConversationsList = "/ro-RO/Conversations/ConversationsList";
       $.ajax({
          url: validUrlLocationForConversationsList,
          data: filterOptions,
@@ -150,10 +151,10 @@ $(function () {
             ok(false, xhr.responseText);
             start();
          }
-      })
+      });
    });
    asyncTest("Messages/WorkingPointsPerUser_loggedInUser_ReturnsAtLeast1Wp",4, function () {
-      var validUrlForWpList = "/ro-Ro/Messages/WorkingPointsPerUser";
+      var validUrlForWpList = "/ro-Ro/WorkingPoints/WorkingPointsPerUser";
       $.ajax({
          url: validUrlForWpList,
          success: function (data) {
@@ -171,7 +172,7 @@ $(function () {
       });
    });
    asyncTest("Messages/ChangeStarredStatusForConversation_nullConvId_JsonWithErrorMessageIsReturned",1, function () {
-      var validUrlForChangeStarredStatus = "/ro-RO/Messages/ChangeStarredStatusForConversation";
+      var validUrlForChangeStarredStatus = "/ro-RO/Conversations/ChangeStarredStatusForConversation";
       var nullConvIdValue = null;
       var validStarredStatus = true;
       $.ajax({
@@ -181,7 +182,7 @@ $(function () {
             "newStarredStatus": validStarredStatus
          },
          success: function (data) {
-            ok($(data).attr("error") == "NullConvId", "Json with error message: NullConvId");
+            ok($(data).attr("error") === "NullConvId", "Json with error message: NullConvId");
             start();
          },
          error: function (xhr, ajaxOptions, thrownError) {
@@ -191,12 +192,12 @@ $(function () {
       });
    });
    asyncTest("Messages/ChangeStarredStatusForConversation_noParamsPassed_JsonWithErrorMessageIsReturned", 1, function () {
-      var validUrlForChangeStarredStatus = "/ro-RO/Messages/ChangeStarredStatusForConversation";
+      var validUrlForChangeStarredStatus = "/ro-RO/Conversations/ChangeStarredStatusForConversation";
       
       $.ajax({
          url: validUrlForChangeStarredStatus,      
          success: function (data) {
-             ok($(data).attr("error") == "noConvIdPassed", "Json with error message: noConvIdPassed");             
+             ok($(data).attr("error") === "noConvIdPassed", "Json with error message: noConvIdPassed");             
             start();
          },
          error: function (xhr, ajaxOptions, thrownError) {
@@ -206,7 +207,7 @@ $(function () {
       });
    });
    asyncTest("Messages/ChangeStarredStatusForConversation_nullStarredStatusPassed_JsonWithErrorMessageIsReturned", 1, function () {
-      var validUrlForChangeStarredStatus = "/ro-RO/Messages/ChangeStarredStatusForConversation";
+      var validUrlForChangeStarredStatus = "/ro-RO/Conversations/ChangeStarredStatusForConversation";
       var nullStarredStatus = null;
       $.ajax({
          url: validUrlForChangeStarredStatus,
@@ -215,7 +216,7 @@ $(function () {
             newStarredStatus: nullStarredStatus
          },
          success: function (data) {
-            ok($(data).attr("error") == "nullStarredStatus", "Json with error message: nullStarredStatus");
+            ok($(data).attr("error") === "nullStarredStatus", "Json with error message: nullStarredStatus");
             start();
          },
          error: function (xhr, ajaxOptions, thrownError) {
@@ -231,7 +232,7 @@ $(function () {
          url: validUrlForMarkAsRead,
          data: { conversationId: nullConvId },
          success: function (data) {
-             ok($(data).attr("error") == "NullConvId", "Json with error message: NullConvId");
+             ok($(data).attr("error") === "NullConvId", "Json with error message: NullConvId");
             start();
          },
          error: function (xhr, ajaxOptions, thrownError) {

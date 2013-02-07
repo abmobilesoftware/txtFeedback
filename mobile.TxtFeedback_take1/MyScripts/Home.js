@@ -12,10 +12,58 @@ window.app = window.app || {};
 window.app.globalMessagesRep = {};
 window.app.msgView = {};
 
+//#region Helpers
+function getMessagePositionInRepository(convID, msgID) {
+   var messagePosition = -1;
+   if (window.app.globalMessagesRep[convID] != null && window.app.globalMessagesRep[convID] != undefined) {
+      for (var i = 0; i < window.app.globalMessagesRep[convID].models.length; ++i) {
+         var currentModel = window.app.globalMessagesRep[convID].models[i];
+         if (currentModel.attributes.Id === msgID) {
+            return i;
+         }
+      }
+   }
+   return messagePosition;
+}
+
+function setMsgWasSuccessfullySentValue(convID, msgID, sentStatus) {
+   var messagePosition = getMessagePositionInRepository(convID, msgID);
+   var msgSent = window.app.globalMessagesRep[convID].at(messagePosition);
+   if (msgSent != null) {
+      msgSent.set("WasSuccessfullySent", sentStatus);
+   }
+}
+
+function setMsgClientAcknowledgeValue(convID, msgID, clientAcknowledge) {
+   var messagePosition = getMessagePositionInRepository(convID, msgID);
+   var msgSent = window.app.globalMessagesRep[convID].at(messagePosition);
+   if (msgSent != null) {
+      msgSent.set("ClientAcknowledge", clientAcknowledge);
+   }
+}
+//#endregion
+
+//#region UUID generator, rfc4122 compliant, details http://www.ietf.org/rfc/rfc4122.txt
+function generateUUID() {
+   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+   });
+   return uuid;
+}
+//#endregion
 
 function newMessageReceivedGUI(msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus) {
    //the conversations window expects that the toID be a "name" and not a telephone number   
    msgView.newMessageReceived(fromID, convID, msgID, dateReceived, text);
+}
+
+function messageSuccessfullySent(msgView, message) {
+    msgView.messageSuccessfullySent(message);
+}
+
+function acknowledgeFromClient(msgView, message) {
+   msgView.acknowledgeFromClient(message);
 }
 //#region Message model
 window.app.Message = Backbone.Model.extend({
@@ -27,7 +75,9 @@ window.app.Message = Backbone.Model.extend({
       ConvID: window.app.defaultConversationID,
       Direction: "from",
       Read: false,
-      Starred: false
+      Starred: false,
+      WasSuccessfullySent: false,
+      ClientAcknowledge: false
    },
    parse: function (data, xhc) {
       //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
@@ -65,6 +115,36 @@ window.app.defaultMessagesOptions = {
 };
 //#endregion
 
+window.app.sendMessageToClient = function (id, convID) {
+   var inputBox = $("#replyText");
+   if ($.trim($("#replyText").val()).length > 0) {
+      //add it to the visual list
+      //I should set values to all the properties
+      var msgContent = inputBox.val();
+
+      var fromTo = getFromToFromConversation(convID);
+      var from = fromTo[0];
+      var to = fromTo[1];
+      //TODO should be RFC822 format           
+      var timeSent = new Date();
+      $(document).trigger('msgReceived', {
+         fromID: from,
+         toID: to,
+         convID: convID,
+         msgID: id,
+         dateReceived: timeSent,
+         text: msgContent,
+         readStatus: false,
+         messageIsSent: true
+      });
+      //reset the input form
+      inputBox.val('');
+
+      //signal all the other "listeners/agents"
+      window.app.xmppHandlerInstance.send_reply(from, to, timeSent, convID, msgContent, window.app.suffixedMessageModeratorAddress, id);
+   }
+};
+window.app.messageID = 412342;
 window.app.MessagesArea = function () {
    "use strict";
    var self = this;
@@ -72,40 +152,15 @@ window.app.MessagesArea = function () {
    $.extend(this, window.app.defaultMessagesOptions);
 
    $("#reply").click(function () {
-      sendMessageToClient();
+      window.app.sendMessageToClient(++window.app.messageID, self.currentConversationId);
+   });
+   $("#replyText").keydown(function (event) {
+      if (event.which === 13) {
+         event.preventDefault();
+         window.app.sendMessageToClient(++window.app.messageID, self.currentConversationId);
+      }
    });
 
-   var id = 412536; //this should be unique
-   var sendMessageToClient = function () {
-       var inputBox = $("#replyText");
-       if ($.trim($("#replyText").val()).length > 0) {
-           id++;
-           //add it to the visual list
-           //I should set values to all the properties
-           var msgContent = inputBox.val();
-
-           var fromTo = getFromToFromConversation(self.currentConversationId);
-           var from = fromTo[0];
-           var to = fromTo[1];
-           //TODO should be RFC822 format           
-           var timeSent = new Date();
-           $(document).trigger('msgReceived', {
-               fromID: from,
-               toID: to,
-               convID: self.currentConversationId,
-               msgID: id,
-               dateReceived: timeSent,
-               text: msgContent,
-               readStatus: false,
-               messageIsSent: true
-           });
-           //reset the input form
-           inputBox.val('');
-
-           //signal all the other "listeners/agents"
-           window.app.xmppHandlerInstance.send_reply(from, to, timeSent, self.currentConversationId, msgContent, window.app.suffixedMessageModeratorAddress);
-       } 
-   };
 
    _.templateSettings = {
       interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
@@ -118,35 +173,23 @@ window.app.MessagesArea = function () {
       tagName: "div",
       messageTemplate: _.template($('#message-template').html()),
       initialize: function () {
-         _.bindAll(this, 'render', 'updateView');
-         this.model.on("change", this.updateView);
+         _.bindAll(this, 'render');
+         this.model.on("change:WasSuccessfullySent", this.render);
+         this.model.on("change:ClientAcknowledge", this.render);         
          return this.render;
       },
       render: function () {
          this.$el.html(this.messageTemplate(this.model.toJSON()));
-         var direction = "messagefrom";
-         var arrowInnerMenuLeft = "arrowInnerLeft";
-         var extraMenuWrapperSide = "extraMenuWrapperLeft";
-         //var arrowExtraMenu="arrowExtraMenuFrom";
-         //var arrowInnerExtraMenu = "arrowInnerExtraMenuFrom";
+         var direction = "messagefrom";         
          if (this.model.attributes.Direction === "to") {
-            direction = "messageto";
-            arrowInnerMenuLeft = "arrowInnerRight";
-            extraMenuWrapperSide = "extraMenuWrapperRight";
-            //arrowInnerExtraMenu = "arrowInnerExtraMenuTo";
+            direction = "messageto";            
          }
          this.$el.addClass("message");
          this.$el.addClass(direction);
-
-         //$(".innerExtraMenu", this.$el).addClass(arrowInnerMenuLeft);
-         //$(".extraMenuWrapper", this.$el).addClass(extraMenuWrapperSide);
-
-         //var sendEmail = $("div.sendEmailButton img", this.$el);
+         
+         var messageId = this.model.get("Id");         
          return this;
-      },
-      updateView: function () {
-         return this;
-      }
+      }      
    });
 
    //we fade in when we first load a conversation, afterwards we just render - no fade in
@@ -168,9 +211,7 @@ window.app.MessagesArea = function () {
       },
       resetViewToDefault: function () {
          var noConversationLoadedMessage = $("#noConversationSelectedMessage").val();
-         $('#messagesbox').html('<span id="noConversationsLoaded">' + noConversationLoadedMessage + '</span>');
-         $("#textareaContainer").addClass("invisible");
-         $("#tagsContainer").addClass("invisible");
+         $('#messagesbox').html('<span id="noConversationsLoaded">' + noConversationLoadedMessage + '</span>');         
          self.currentConversationId = '';
       },
       getMessages: function (conversationId) {
@@ -194,12 +235,8 @@ window.app.MessagesArea = function () {
             Direction: "from",
             Read: false,
             Starred: false
-         });
-         messages.add(msgWelcome);
-         //var msgTo = new app.Message({ Text: "Do you still have Zuzu milk?", Direction : "to" });
-         //messages.add(msgTo);
-         //var msgFromReply = new app.Message({ Text: "Yes, we will bring more to the aile in 5 minutes" });
-         //messages.add(msgFromReply);        
+         });        
+         messages.add(msgWelcome);                      
       },
       render: function () {
           $("#messagesbox").html('');
@@ -237,25 +274,32 @@ window.app.MessagesArea = function () {
          //we add the message only if are in correct conversation
          if (window.app.globalMessagesRep[convID] !== undefined) {
             window.app.globalMessagesRep[convID].add(newMsg);
-         }
+         }         
       },
       appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
          var msgView = new MessageView({ model: msg });
          var item = msgView.render().el;
          $(".debug").empty();
          $(this.el).append(item);
-         if (performFadeIn) {
-            $(item).hide().fadeIn("2000");
-         }
+         //if (performFadeIn) {
+           // $(item).hide().fadeIn("2000");
+         //}
+         if (msg.get("WasSuccessfullySent"))
+             $(".singleCheckNo" + msg.get("Id")).css("visibility", "visible");
          
          var magicNumber = 50;
          var bodyHeight = $(window).height() - 2 * $(".ui-header").height() - magicNumber;
          var contentHeight = $("#contentArea").height();
-         // $(".debug").append("body = " + bodyHeight + " -- contentHeight = " + contentHeight + " -- document scroll = " + (document.body.scrollHeight + 200));
-          if (contentHeight > bodyHeight) {
+         if (contentHeight > bodyHeight) {
             $(document).scrollTop(document.body.scrollHeight - $(".ui-footer").height());
-          }        
-          $(this.el).append("<div class='clear'></div>");
+         }        
+         $(this.el).append("<div class='clear'></div>");
+      },
+      messageSuccessfullySent: function (message) {
+         setMsgWasSuccessfullySentValue(message.convID, message.msgID, true);         
+      },
+      acknowledgeFromClient: function (message) {
+         setMsgClientAcknowledgeValue(message.convID, message.msgID, true);
       }
    });
    this.messagesView = new MessagesView();
@@ -271,6 +315,14 @@ $(function () {
 
          $(document).bind('msgReceived', function (ev, data) {
             newMessageReceivedGUI(window.app.msgView.messagesView, data.fromID, data.toID, data.convID, data.msgID, data.dateReceived, data.text, false);
+         });
+
+         $(document).bind('serverAcknowledge', function (ev, data) {
+            messageSuccessfullySent(window.app.msgView.messagesView, data.message);
+         });
+
+         $(document).bind('clientAcknowledge', function (ev, data) {
+            acknowledgeFromClient(window.app.msgView.messagesView, data.message);
          });
 
          //DA unfortunately Opera does not implement correctly onUnload - so this will not be triggered when closing opera
@@ -295,6 +347,7 @@ $(function () {
            $("#footer").css("position", "relative");
        }
    });
+   
 
    $("#replyText").blur(function () {
        $("#footer").css("position", "fixed");
