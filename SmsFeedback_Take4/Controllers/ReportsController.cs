@@ -5,8 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SmsFeedback_Take4.Models.Helpers;
-using SmsFeedback_Take4.Utilities;
 using SmsFeedback_EFModels;
+using System.Linq.Expressions;
+using LinqKit;
+using SmsFeedback_Take4.Utilities;
 
 
 namespace SmsFeedback_Take4.Controllers
@@ -14,13 +16,13 @@ namespace SmsFeedback_Take4.Controllers
     [CustomAuthorizeAtribute]
     public class ReportsController : BaseController
     {
-       private const int cConvsMenuContainerID = 10;
-       private const int cConvsOverviewMenuID = 11;
-       private const int cConvsIncomingVsOutgoingID = 12;
-       private const int cConvsPosVsNegID = 13;
-       private const int cConvsTagsOverviewID = 14;
-       private const int cClientsOverviewID = 20;
-       private const int cClientsNewVsReturningID = 21;
+        private const int cConvsMenuContainerID = 10;
+        private const int cConvsOverviewMenuID = 11;
+        private const int cConvsIncomingVsOutgoingID = 12;
+        private const int cConvsPosVsNegID = 13;
+        private const int cConvsTagsOverviewID = 14;
+        private const int cClientsOverviewID = 20;
+        private const int cClientsNewVsReturningID = 21;
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private EFInteraction mEFInterface = new EFInteraction();
         smsfeedbackEntities context = new smsfeedbackEntities();
@@ -136,7 +138,7 @@ namespace SmsFeedback_Take4.Controllers
                         else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
                         {
                             var msgsTo = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.To == wp.TelNumber || msg.To.StartsWith(wp.ShortID))) group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g select new { date = g.Key, count = g.Count() };
-                            var msgsFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.From == wp.TelNumber ||msg.From.StartsWith(wp.ShortID))) group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g select new { date = g.Key, count = g.Count() };
+                            var msgsFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.From == wp.TelNumber || msg.From.StartsWith(wp.ShortID))) group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g select new { date = g.Key, count = g.Count() };
                             foreach (var entry in msgsTo)
                             {
                                 var monthDateTime = new DateTime(entry.date.Year, entry.date.Month, 1);
@@ -157,8 +159,8 @@ namespace SmsFeedback_Take4.Controllers
                         }
                         else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
                         {
-                           var msgsTo = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.To == wp.TelNumber || msg.To.StartsWith(wp.ShortID))) group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g select new { date = g.Key, count = g.Count() };
-                           var msgsFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.From == wp.TelNumber || msg.From.StartsWith(wp.ShortID))) group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g select new { date = g.Key, count = g.Count() };
+                            var msgsTo = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.To == wp.TelNumber || msg.To.StartsWith(wp.ShortID))) group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g select new { date = g.Key, count = g.Count() };
+                            var msgsFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.From == wp.TelNumber || msg.From.StartsWith(wp.ShortID))) group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g select new { date = g.Key, count = g.Count() };
                             foreach (var entry in msgsTo)
                             {
                                 var weekDateTime = entry.date.firstDayOfTheWeek;
@@ -346,7 +348,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                
+
                 IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
                 Dictionary<DateTime, ChartValue> resultPositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
@@ -420,7 +422,7 @@ namespace SmsFeedback_Take4.Controllers
                                             else
                                                 resultPositiveTagsInterval[monthDateTime].value += convEvent.count;
                                         }
-                                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT)) 
+                                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
                                         {
                                             if (DateTime.Compare(monthDateTime, intervalStart) < 0)
                                                 resultNegativeTagsInterval[intervalStart].value += convEvent.count;
@@ -439,7 +441,7 @@ namespace SmsFeedback_Take4.Controllers
                                             if (DateTime.Compare(monthDateTime, intervalStart) < 0)
                                                 resultRemoveNegativeTagsInterval[intervalStart].value -= convEvent.count;
                                             else
-                                                resultRemoveNegativeTagsInterval[monthDateTime].value -= convEvent.count;                                            
+                                                resultRemoveNegativeTagsInterval[monthDateTime].value -= convEvent.count;
                                         }
                                     }
                                 }
@@ -469,7 +471,7 @@ namespace SmsFeedback_Take4.Controllers
                                             else
                                                 resultPositiveTagsInterval[weekDateTime].value += convEvent.count;
                                         }
-                                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT)) 
+                                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
                                         {
                                             if (DateTime.Compare(weekDateTime, intervalStart) < 0)
                                                 resultNegativeTagsInterval[intervalStart].value += convEvent.count;
@@ -525,7 +527,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                
+
                 IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
                 Dictionary<DateTime, ChartValue> resultPositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
@@ -713,7 +715,7 @@ namespace SmsFeedback_Take4.Controllers
                 RepChartData chartSource = new RepChartData(new RepDataColumn[] { 
                     new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), 
                     new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPositiveFeedback), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegativeFeedback) }, 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegativeFeedback) },
                     PrepareJson(content, Resources.Global.RepConversationsUnit));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
@@ -731,7 +733,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                
+
                 IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
                 Dictionary<DateTime, ChartValue> resultPosToNegTransitionsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultNegToPosTransitionsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
@@ -846,7 +848,7 @@ namespace SmsFeedback_Take4.Controllers
                 RepChartData chartSource = new RepChartData(new RepDataColumn[] { 
                     new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), 
                     new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegToPosFeedback), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosToNegFeedback) }, 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosToNegFeedback) },
                     PrepareJson(content, Resources.Global.RepConversationsUnit));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
@@ -868,7 +870,7 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                
+
                 IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
                 var totalNoOfSms = ComputeTotalNoOfSms(intervalStart, intervalEnd, workingPoints);
 
@@ -1111,7 +1113,8 @@ namespace SmsFeedback_Take4.Controllers
 
                 IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
-                int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
+                Int32 noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints, new smsfeedbackEntities());
+                //int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
                 return Json(new RepInfoBox(noOfClients, Resources.Global.RepClients), JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -1160,7 +1163,8 @@ namespace SmsFeedback_Take4.Controllers
 
                 IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
 
-                int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
+                //int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
+                Int32 noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints, new smsfeedbackEntities());
                 int noOfMessages = ComputeTotalNoOfSms(intervalStart, intervalEnd, workingPoints);
 
                 RepInfoBox result = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
@@ -1270,12 +1274,12 @@ namespace SmsFeedback_Take4.Controllers
                     if (!conv.Client.isSupportClient)
                     {
                         IEnumerable<KeyAndCount> convEvents = from convEvent in conv.ConversationEvents
-                                         where ((convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
-                                         convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
-                                         (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
-                                         group convEvent by new { eventType = convEvent.EventTypeName }
-                                             into g
-                                             select new KeyAndCount(g.Key.eventType, g.Count());
+                                                              where ((convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
+                                                              convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
+                                                              (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
+                                                              group convEvent by new { eventType = convEvent.EventTypeName }
+                                                                  into g
+                                                                  select new KeyAndCount(g.Key.eventType, g.Count());
                         foreach (var eventType in convEvents)
                         {
                             if (eventType.key.Equals(Constants.POS_TO_NEG_EVENT))
@@ -1308,7 +1312,7 @@ namespace SmsFeedback_Take4.Controllers
                new ReportsMenuItem(cConvsTagsOverviewID, Resources.Global.RepTags, true, cConvsMenuContainerID, "getReportById","ConversationsTagsOverview"),
                new ReportsMenuItem(cClientsOverviewID, Resources.Global.RepClients, false, 0, "getReportById","Clients"),
                new ReportsMenuItem(cClientsNewVsReturningID, Resources.Global.RepNewVsReturning, true, cClientsOverviewID,"getReportById","CustomersNewVsReturning")};
-            
+
             return Json(reportsMenuItems, JsonRequestBehavior.AllowGet);
         }
 
@@ -1498,11 +1502,11 @@ namespace SmsFeedback_Take4.Controllers
                                 TagType tagType = null;
                                 if (tagTagType != null)
                                     tagType = tagTagType.TagType;
-                                
+
                                 if (tagType != null)
                                     if (tagType.Type == Constants.POSITIVE_FEEDBACK || tagType.Type == Constants.NEGATIVE_FEEDBACK)
                                         tagNotPosOrNeg = false;
-                                
+
                                 if (tagNotPosOrNeg)
                                 {
                                     if (tagsHash.ContainsKey(convTag.Tag.Name))
@@ -1567,13 +1571,13 @@ namespace SmsFeedback_Take4.Controllers
             {
                 foreach (var conv in wp.Conversations)
                 {
-                    totalNoOfSms += (from msg in conv.Messages where (msg.TimeReceived >= iIntervalStart & msg.TimeReceived <= iIntervalEnd) select msg).Count();
+                    totalNoOfSms += (from msg in conv.Messages where (msg.TimeReceived >= iIntervalStart && msg.TimeReceived <= iIntervalEnd) select msg).Count();
                 }
             }
             return totalNoOfSms;
         }
 
-        private int ComputeTotalNoOfClients(DateTime iIntervalStart, DateTime intervalEnd, IEnumerable<WorkingPoint> iWorkingPoints)
+        public int ComputeTotalNoOfClients(DateTime iIntervalStart, DateTime intervalEnd, IEnumerable<WorkingPoint> iWorkingPoints)
         {
             int noOfClients = 0;
             foreach (var wp in iWorkingPoints)
@@ -1587,6 +1591,45 @@ namespace SmsFeedback_Take4.Controllers
             }
             return noOfClients;
         }
+
+        // Increment no 1         
+        public Int32 ComputeTotalNoOfClients(DateTime iIntervalStart, DateTime iIntervalEnd, IEnumerable<WorkingPoint> iWorkingPoints, smsfeedbackEntities dbContext)
+        {
+            WorkingPoint firstWorkingPoint = iWorkingPoints.First();
+            IEnumerable<Message> eligibleMsgs = from msg in dbContext.Messages
+                                                where msg.TimeReceived >= iIntervalStart && msg.TimeReceived <= iIntervalEnd
+                                                select msg;
+            IEnumerable<Message> eligibleMsgsFiltered = new LinkedList<Message>();
+            foreach (WorkingPoint wp in iWorkingPoints)
+            {
+                eligibleMsgsFiltered = eligibleMsgsFiltered.Union(eligibleMsgs.Where(message => message.ConversationId.Contains(wp.TelNumber) || message.ConversationId.Contains(wp.ShortID)));                
+            }
+
+            var noOfClients = eligibleMsgsFiltered.GroupBy(message => message.ConversationId).Count();
+            return noOfClients;
+        }
+        
+
+        /* Increment no 2, I want to see the SQL statement generated by the LINQ statement 
+        public Int32 ComputeTotalNoOfClients(DateTime iIntervalStart, DateTime iIntervalEnd, IEnumerable<WorkingPoint> iWorkingPoints, smsfeedbackEntities dbContext)
+        {
+            var whereClause = PredicateBuilder.True<Message>();
+            whereClause = whereClause.And(msg => msg.TimeReceived >= iIntervalStart);
+            whereClause = whereClause.And(msg => msg.TimeReceived <= iIntervalEnd);
+            foreach (WorkingPoint wp in iWorkingPoints)
+            {
+                var innerClause = PredicateBuilder.False<Message>();
+                string wpTelNumber = "%" + wp.TelNumber;
+                string wpShortID = "%" + wp.ShortID;
+                innerClause = innerClause.Or(msg => msg.ConversationId.Contains(wpTelNumber));
+                innerClause = innerClause.Or(msg => msg.ConversationId.Contains(wpShortID));
+                whereClause = whereClause.And(innerClause.Expand()); 
+                //whereClause.And(msg => msg.ConversationId.Contains(wp.TelNumber));              
+            }            
+            var msgs = from msg in dbContext.Messages.AsExpandable().Where(whereClause) select msg;
+            Int32 noOfClients = msgs.GroupBy(msg => msg.ConversationId).Count();
+            return noOfClients;
+        }*/
 
         public int ComputeNoOfIncomingSms(DateTime iIntervalStart, DateTime iIntervalEnd, IEnumerable<WorkingPoint> iWorkingPoints)
         {
@@ -1700,11 +1743,11 @@ namespace SmsFeedback_Take4.Controllers
         }
 
         #endregion
-        
-       protected override void Dispose(bool disposing)
+
+        protected override void Dispose(bool disposing)
         {
-           context.Dispose();
-           base.Dispose(disposing);
+            context.Dispose();
+            base.Dispose(disposing);
         }
 
     }
