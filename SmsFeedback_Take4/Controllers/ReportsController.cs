@@ -136,6 +136,131 @@ namespace SmsFeedback_Take4.Controllers
 
         }
 
+        public JsonResult GetReportOverviewDataV2(String iIntervalStart, String iIntervalEnd, String iGranularity, String scope)
+        {
+            try
+            {
+                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
+                Dictionary<DateTime, ChartValue> resultInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                smsfeedbackEntities dbContext = new smsfeedbackEntities();
+                IEnumerable<Message> msgs = new LinkedList<Message>();
+                foreach (var wp in workingPoints)
+                {
+                    var conversations = from conv in wp.Conversations select conv;
+                    foreach (var conv in conversations)
+                    {
+
+                        if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+                        {
+                            var convMsgs = from msg in conv.Messages
+                                           where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd)
+                                           select msg;
+                            msgs = msgs.Union(convMsgs);
+                            var msgsToFrom = from msg in convMsgs
+                                             group msg by msg.TimeReceived.Date into g
+                                             select new { date = g.Key, count = g.Count() };
+                            foreach (var entry in msgsToFrom)
+                                resultInterval[entry.date].value += entry.count;
+
+                        }
+                        else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
+                        {
+                            var convMsgs = from msg in conv.Messages
+                                           where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd)
+                                           select msg;
+                            msgs = msgs.Union(convMsgs);
+                            var msgsToFrom = from msg in convMsgs
+                                             group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g
+                                             select new { date = g.Key, count = g.Count() };
+                            foreach (var entry in msgsToFrom)
+                            {
+                                var monthDateTime = new DateTime(entry.date.Year, entry.date.Month, 1);
+                                if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                    resultInterval[intervalStart].value += entry.count;
+                                else
+                                    resultInterval[monthDateTime].value += entry.count;
+                            }
+                        }
+                        else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
+                        {
+                            var convMsgs = from msg in conv.Messages
+                                           where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd)
+                                           select msg;
+                            msgs = msgs.Union(convMsgs);
+                            var msgsToFrom = from msg in convMsgs
+                                             group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g
+                                             select new { date = g.Key, count = g.Count() };
+                            foreach (var entry in msgsToFrom)
+                            {
+                                var firstDayOfTheWeek = entry.date.firstDayOfTheWeek;
+                                if (DateTime.Compare(firstDayOfTheWeek, intervalStart) < 0)
+                                    resultInterval[intervalStart].value += entry.count;
+                                else
+                                    resultInterval[firstDayOfTheWeek].value += entry.count;
+                            }
+                        }
+
+                    }
+                }
+
+                TimeSpan interval = intervalEnd - intervalStart;
+                Int32 noOfClients = msgs.GroupBy(msg => msg.ConversationId).Count();
+                Int32 totalNoOfMsgs = 0;
+                long totalResponseTime = 0;
+                var counter = 0;
+                foreach (var msg in msgs)
+                {
+                    ++totalNoOfMsgs;
+                    if (msg.ResponseTime.HasValue)
+                    {
+                        totalResponseTime += msg.ResponseTime.Value;
+                        ++counter;
+                    }
+                }
+
+                TimeSpan avgResponseTime = (counter == 0) ? new TimeSpan(0) :
+                    avgResponseTime = new TimeSpan((long)(totalResponseTime / counter));
+
+                // Build the result
+                List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
+                content.Add(resultInterval);
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepTotalSmsChart) }, PrepareJson(content, Resources.Global.RepSmsUnit));
+                LinkedList<RepChartData> repChartDataArray = new LinkedList<RepChartData>();
+                repChartDataArray.AddLast(chartSource);
+                RepChartDataArray firstArea = new RepChartDataArray(repChartDataArray);
+
+                RepInfoBox IbTotalNoOfSms = new RepInfoBox(totalNoOfMsgs, Resources.Global.RepSmsUnit);
+                RepInfoBox IbAvgNoOfSmsPerDay = (interval.TotalDays == 0) ? new RepInfoBox(totalNoOfMsgs, Resources.Global.RepSmsPerDayUnit) :
+                    new RepInfoBox(Math.Round(totalNoOfMsgs / interval.TotalDays, 2), Resources.Global.RepSmsPerDayUnit);
+                RepInfoBox IbTotalNoOfClients = new RepInfoBox(noOfClients, Resources.Global.RepClients);
+                RepInfoBox IbAvgNoOfSmsPerClient = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
+                    new RepInfoBox(Math.Round((double)totalNoOfMsgs / noOfClients, 2), Resources.Global.RepSmsPerClient);
+                RepInfoBox IbAvgResponseTime = (avgResponseTime.TotalMinutes < 1) ? new RepInfoBox(Math.Round(avgResponseTime.TotalSeconds, 2), Resources.Global.RepSecondsUnit)
+                    : new RepInfoBox(Math.Round(avgResponseTime.TotalMinutes, 2), Resources.Global.RepMinutesUnit);
+                LinkedList<RepInfoBox> repInfoBoxArray = new LinkedList<RepInfoBox>();
+                repInfoBoxArray.AddLast(IbTotalNoOfSms);
+                repInfoBoxArray.AddLast(IbAvgNoOfSmsPerDay);
+                repInfoBoxArray.AddLast(IbTotalNoOfClients);
+                repInfoBoxArray.AddLast(IbAvgNoOfSmsPerClient);
+                repInfoBoxArray.AddLast(IbAvgResponseTime);
+                RepInfoBoxArray secondArea = new RepInfoBoxArray(repInfoBoxArray);
+
+                ReportData repData = new ReportData(firstArea, secondArea);
+
+                return Json(repData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                logger.Error("GetReportOverviewData", e);
+            }
+            return Json("Request failed", JsonRequestBehavior.AllowGet);
+
+        }
+
         #region First area chart sources
 
         public JsonResult GetTotalNoOfSmsChartSource(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
