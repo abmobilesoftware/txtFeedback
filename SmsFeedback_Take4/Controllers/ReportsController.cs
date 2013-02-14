@@ -1547,85 +1547,74 @@ namespace SmsFeedback_Take4.Controllers
         public JsonResult GetReportById(int reportId)
         {
             var hashTable = new Dictionary<int, Report>();
-            var report2 = new Report(cConvsOverviewMenuID, Resources.Global.RepOverview, "Global", new ReportSection[] { 
+            var report2 = new Report(cConvsOverviewMenuID, Resources.Global.RepOverview, "Global", "/Reports/GetReportOverviewData", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepOverviewChartTitle, iSource: "/Reports/GetTotalNoOfSmsChartSource") 
+                                                                                                                                                            new ReportResource(Resources.Global.RepOverviewChartTitle) 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "/Reports/GetTotalNoOfSmsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfSmsPerDay, iSource: "/Reports/GetAvgNoOfSmsPerDayInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfSmsPerClient, iSource: "/Reports/GetAvgNoOfSmsPerClientInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgResponseTime, iSource: "/Reports/GetAvgResponseTimeInfo")
-                                                                                                                                                }),
-                                                                                        new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetIncomingOutgoingThirdArea") 
-                                                                                                                                                          }),
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfSmsPerDay),
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfSmsPerClient),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgResponseTime)
+                                                                                                                                                })                                                                                        
                                                                                     });
-            var report3 = new Report(cConvsIncomingVsOutgoingID, Resources.Global.RepIncomingVsOutgoing, "Global", new ReportSection[] { 
+            var report3 = new Report(cConvsIncomingVsOutgoingID, Resources.Global.RepIncomingVsOutgoing, "Global", "/Reports/GetReportOverviewData", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepIncomingOutgoingChartTitle, iSource: "/Reports/GetIncomingOutgoingSmsChartSource") 
+                                                                                                                                                            new ReportResource(Resources.Global.RepIncomingOutgoingChartTitle) 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfIncomingSms, iSource: "/Reports/GetIncomingSmsInfo"),  
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfOutgoingSms, iSource: "/Reports/GetOutgoingSmsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfIncomingSmsPerConversation, iSource: "/Reports/GetAvgNoOfIncomingSmsPerClientInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfOutgoingSmsPerConversation, iSource: "/Reports/GetAvgNoOfOutgoingSmsPerClientInfo")
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfIncomingSms),  
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfOutgoingSms),
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfIncomingSmsPerConversation),
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfOutgoingSmsPerConversation)
                                                                                                                                                 }),
                                                                                         new ReportSection("SecondaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetIncomingOutgoingThirdArea") 
+                                                                                                                                                            new ReportResource(Resources.Global.RepIncomingOutgoingChartTitle) 
                                                                                                                                                           }),
                                                                                     });
-            var report4 = new Report(cConvsPosVsNegID, Resources.Global.RepPositiveAndNegativeTitle, "Global", new ReportSection[] { 
+            var report4 = new Report(cConvsPosVsNegID, Resources.Global.RepPositiveAndNegativeTitle, "Global", "/Reports/GetReportOverviewData", new ReportSection[] { 
                                                                                         
                                                                                         new ReportSection("PrimaryChartArea", true, iUniqueId:"1", iResources: new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeEvolutionChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackEvolution, iSource: "/Reports/GetPosAndNegTagEvolution")                                                                                                                                                                                                                                                     
+                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeEvolutionChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackEvolution)                                                                                                                                                                                                                                                     
                                                                                                                                                             }),
                                                                                         new ReportSection("PrimaryChartArea", true, iUniqueId: "2", iSectionId: "7",  iResources: new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeTransitionsChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackTransitions, iSource: "/Reports/GetPosNegTransitions") 
+                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeTransitionsChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackTransitions) 
                                                                                                                                                             }),
                                                                                         new ReportSection("SecondaryChartArea", true, iUniqueId: "3", iSectionId: "7", iResources: new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeTransitionsChartTitle, iSource: "/Reports/GetPosNegTransitionsThirdArea") 
+                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeTransitionsChartTitle) 
                                                                                                                                                           }),
                                                                                         new ReportSection("PrimaryChartArea", true, iUniqueId: "4", iResources: new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeActivityChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackActivity, iSource: "/Reports/GetPosAndNegTagActivity", iOptions: new ReportResourceOptions(iColors: new List<String>{"#3366cc", "#dc3912", "#667189", "#b48479"})) 
+                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeActivityChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackActivity, iOptions: new ReportResourceOptions(iColors: new List<String>{"#3366cc", "#dc3912", "#667189", "#b48479"})) 
                                                                                                                                                                                                                                                                                                                         
                                                                                                                                                             }),
                                                                                         new ReportSection("InfoBox", false, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepMostUsedTag, iSource: "/Reports/GetMostUsedTagsInfo"),     
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfTagsPerConversation, iSource: "/Reports/GetAvgNoOfTagsPerConversationInfo")
-                                                                                                                                                }),
-                                                                                        new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
-                                                                                                                                                          }),
+                                                                                                                                                    new ReportResource(Resources.Global.RepMostUsedTag),     
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfTagsPerConversation)
+                                                                                                                                                })
+                          
                                                                                     });
-            var report5 = new Report(cConvsTagsOverviewID, Resources.Global.RepTags, "Global", new ReportSection[] { 
+            var report5 = new Report(cConvsTagsOverviewID, Resources.Global.RepTags, "Global", "/Reports/GetReportOverviewData", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepNoOfConversationsByTagsChartTitle, iSource: "/Reports/GetNoOfConversationsByTagsChartSource", iOptions: new ReportResourceOptions(iSeriesType : Constants.BARS_CHART_STYLE)) 
+                                                                                                                                                            new ReportResource(Resources.Global.RepNoOfConversationsByTagsChartTitle, iOptions: new ReportResourceOptions(iSeriesType : Constants.BARS_CHART_STYLE)) 
                                                                                                                                                             
                                                                                                                                                              
                                                                                                                                                             }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepMostUsedTag, iSource: "/Reports/GetMostUsedTagsInfo"),     
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfTagsPerConversation, iSource: "/Reports/GetAvgNoOfTagsPerConversationInfo")
-                                                                                                                                                }),
-                                                                                        new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
-                                                                                                                                                          }),
+                                                                                                                                                    new ReportResource(Resources.Global.RepMostUsedTag),     
+                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfTagsPerConversation)
+                                                                                                                                                })
                                                                                     });
-            var report7 = new Report(cClientsNewVsReturningID, Resources.Global.RepNewVsReturning, "Global", new ReportSection[] { 
+            var report7 = new Report(cClientsNewVsReturningID, Resources.Global.RepNewVsReturning, "Global", "/Reports/GetReportOverviewData", new ReportSection[] { 
                                                                                         new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepNewReturningClientsChartTitle, iSource: "/Reports/GetNewVsReturningClientsChartSource") 
+                                                                                                                                                            new ReportResource(Resources.Global.RepNewReturningClientsChartTitle) 
                                                                                                                                                           }),
                                                                                         new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfNewClients, iSource: "/Reports/GetNoOfNewClientsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfReturningClients, iSource: "/Reports/GetNoOfReturningClientsInfo")
-                                                                                                                                                }),
-                                                                                        new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
-                                                                                                                                                          }),
+                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients),
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfNewClients),
+                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfReturningClients)
+                                                                                                                                                })
                                                                                     });
 
             /* out

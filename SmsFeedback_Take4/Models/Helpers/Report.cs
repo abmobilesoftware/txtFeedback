@@ -11,13 +11,15 @@ namespace SmsFeedback_Take4.Models.Helpers
         public string title;
         public string scope;
         public IEnumerable<ReportSection> sections;
+        public string source;
 
-        public Report(int iReportId, string iTitle, string iScope, IEnumerable<ReportSection> iSections)
+        public Report(int iReportId, string iTitle, string iScope, String iSource, IEnumerable<ReportSection> iSections)
         {
             reportId = iReportId;
             title = iTitle;
             scope = iScope;
-            sections = iSections;
+            source = iSource;
+            sections = iSections;            
         }
     }
 }
