@@ -59,12 +59,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
+      <HintPath>..\..\..\..\..\Tools\EntityFramework.Profiler-v2.0-Build-2133\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.6.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ExternalReferences\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="JWT">
       <HintPath>..\packages\JWT.1.2\lib\3.5\JWT.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqKit">
+      <HintPath>..\packages\LinqKit.1.0\lib\35\LinqKit.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>References\log4net.dll</HintPath>
@@ -195,13 +201,16 @@
     <Compile Include="Models\Helpers\ChartValue.cs" />
     <Compile Include="Models\Helpers\Agent.cs" />
     <Compile Include="Models\Helpers\MsgHandlers.cs" />
+    <Compile Include="Models\Helpers\RepChartDataArray.cs" />
     <Compile Include="Models\Helpers\RepDataColumn.cs" />
     <Compile Include="Models\Helpers\RepChartData.cs" />
     <Compile Include="Models\Helpers\RepDataRow.cs" />
     <Compile Include="Models\Helpers\RepDataRowCell.cs" />
     <Compile Include="Models\Helpers\Error.cs" />
     <Compile Include="Models\Helpers\RepInfoBox.cs" />
+    <Compile Include="Models\Helpers\RepInfoBoxArray.cs" />
     <Compile Include="Models\Helpers\Report.cs" />
+    <Compile Include="Models\Helpers\ReportData.cs" />
     <Compile Include="Models\Helpers\ReportResource.cs" />
     <Compile Include="Models\Helpers\ReportSection.cs" />
     <Compile Include="Models\Helpers\ReportsMenuItem.cs" />
@@ -444,6 +453,7 @@
     <Content Include="MyScripts\Reports\Minified\Reports.js" />
     <Content Include="MyScripts\Reports\Minified\SecondArea.js" />
     <Content Include="MyScripts\Reports\Minified\ThirdArea.js" />
+    <Content Include="MyScripts\Reports\ReportLoader.js" />
     <Content Include="MyScripts\Reports\SecondArea.js" />
     <Content Include="MyScripts\Reports\ThirdArea.js" />
     <Content Include="MyScripts\Reports\RepFacade.js" />
