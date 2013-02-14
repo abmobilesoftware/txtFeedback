@@ -4,44 +4,44 @@ USE txtfeedback_production -- choose db
 -- Script for Canada
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = '9999912352';
-DECLARE @WP_ShortID nvarchar(10) = 'eurogsm';
-DECLARE @WP_Name nvarchar(40) = 'Euro gsm';
-DECLARE @Client_Description nvarchar(160) = 'Euro gsm user';
+DECLARE @Client_TelNumber nvarchar(50) = '27877460935';
+DECLARE @WP_ShortID nvarchar(10) = 'tcoffee';
+DECLARE @WP_Name nvarchar(40) = 'Truth coffee';
+DECLARE @Client_Description nvarchar(160) = 'Truth coffee';
 DECLARE @WP_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Bine aþi venit la Euro GSM!';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to Truth coffee. How did you find our coffee?';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'EuroGSM'; -- details in less used section
-DECLARE @C_ContactName nvarchar(50) = 'Sebastian';
-DECLARE @C_ContactSurname nvarchar(50) = 'Sabo';
-DECLARE @C_ContactEmail nvarchar(50) = 'sebastian.sabo@telefoane-mobile.ro';
-DECLARE @C_VATID nvarchar(50) = 'EuroGSMVATID';
+DECLARE @U_CompanyName nvarchar(50) = 'Truth coffee'; -- details in less used section
+DECLARE @C_ContactName nvarchar(50) = 'David';
+DECLARE @C_ContactSurname nvarchar(50) = 'Donde';
+DECLARE @C_ContactEmail nvarchar(50) = 'david@truthcoffee.com';
+DECLARE @C_VATID nvarchar(50) = 'TruthCoffeVATID';
 DECLARE @C_RegistrationNumber nvarchar(50) = NULL;
 -- SubscriptionDetails
-DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Sebastian'; 
-DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Sabo';
-DECLARE @S_PrimaryContact_Email nvarchar(50) = 'sebastian.sabo@telefoane-mobile.ro';
-DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Sebastian'; 
-DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Sabo';
-DECLARE @S_SecondaryContact_Email nvarchar(50) = 'sebastian.sabo@telefoane-mobile.ro';
+DECLARE @S_PrimaryContact_Name nvarchar(50) = 'David'; 
+DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Donde';
+DECLARE @S_PrimaryContact_Email nvarchar(50) = 'david@truthcoffee.com';
+DECLARE @S_SecondaryContact_Name nvarchar(50) = 'David'; 
+DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Donde';
+DECLARE @S_SecondaryContact_Email nvarchar(50) = 'david@truthcoffee.com';
 
 
 -- Support working point
 DECLARE @WP_Support_TelNumber nvarchar(50) = '2220000100';
-DECLARE @WP_Support_ShortID nvarchar(10) = 'supportro';
-DECLARE @WP_Support_Name nvarchar(40) = 'RO support';
-DECLARE @WP_Support_Description nvarchar(120)= 'Support for Romania';
+DECLARE @WP_Support_ShortID nvarchar(10) = 'supportrop';
+DECLARE @WP_Support_Name nvarchar(40) = 'TxtFeedback support';
+DECLARE @WP_Support_Description nvarchar(120)= 'Support for SouthAffrica';
 DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Bine aþi venit la TxtFeedback! Pentru orice fel de întrebare legatã de modul de funcþionare al sistemului nostru folosiþi acest chat.';
+DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback. Use this chat to clarify every & any question you might have about TxtFeedback';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'eurogsm';
-DECLARE @U_ReqularUserPassword nvarchar(128) = '6nPKeOV6Ye8gIsGxkomc4r7evtM=';
-DECLARE @U_RegularPasswordSalt nvarchar(128) = '9hvZUClKM4m1ZC8a4K5xCQ==';
-DECLARE @U_XmppUser varchar(30) = 'eurogsm@txtfeedback.net';
-DECLARE @U_XmppPassword varchar(30) = '.KURXdjCo';
-DECLARE @U_RegularUserEmail nvarchar(256) = 'sebastian.sabo@telefoane-mobile.ro';
+DECLARE @U_RegularUserName varchar(30) = 'david.donde';
+DECLARE @U_ReqularUserPassword nvarchar(128) = 'XmvfaqU+aRfwesAwc0ALbOmo0k0=';
+DECLARE @U_RegularPasswordSalt nvarchar(128) = '73DvrrHwyrfOJNGEaaZXrQ==';
+DECLARE @U_XmppUser varchar(30) = 'tcoffe1@txtfeedback.net';
+DECLARE @U_XmppPassword varchar(30) = '7<a}B<4Aq';
+DECLARE @U_RegularUserEmail nvarchar(256) = 'david@truthcoffee.com';
 -- END Important fields
 
 -- Less used
@@ -77,8 +77,8 @@ DECLARE @S_SubscriptionSMS int = 20;
 -- Tags
 DECLARE @TagDescription nvarchar(200) = 'default tag';
 -- English version
-DECLARE @TagPositive nvarchar(50) = 'Feedback pozitiv';
-DECLARE @TagNegative nvarchar(50) = 'Feedback negativ';
+DECLARE @TagPositive nvarchar(50) = 'Positive feedback';
+DECLARE @TagNegative nvarchar(50) = 'Negative feedback';
 -- German version
 --DECLARE @TagPositive nvarchar(50) = 'Positives feedback';
 --DECLARE @TagNegative nvarchar(50) = 'Negatives feedback';
@@ -138,7 +138,7 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@Client_TelNumber, @WP_Description, @WP_Name, 
 		@WP_Provider, @WP_SmsSent, @WP_MaxNrOfSmsToSend, @WP_ShortID, 
 		@WP_XmppSuffix, @WP_WelcomeMessage, @WP_BusyMessage,
-		@WP_OutsideOfficeHoursMessage, @WP_Language_RO);
+		@WP_OutsideOfficeHoursMessage, @WP_Language_US);
 		
 IF (SELECT COUNT(*) FROM [dbo].[WorkingPoints] WHERE [dbo].[WorkingPoints].[TelNumber] = @WP_Support_TelNumber) = 0 
 INSERT INTO WorkingPoints(TelNumber, Description, Name, 
@@ -147,7 +147,7 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@WP_Support_TelNumber, @WP_Support_Description, @WP_Support_Name, 
 		@WP_Support_Provider, @WP_Support_SentSms, @WP_Support_MaxNrOfSms, @WP_Support_ShortID, 
 		@WP_Support_XmppSuffix, @WP_Support_WelcomeMessage, @WP_Support_BusyMessage,
-		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_RO);
+		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_US);
 
 -- Welcome conversation Support - WP. 
 INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
