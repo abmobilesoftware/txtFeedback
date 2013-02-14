@@ -20,10 +20,10 @@ function SecondArea(iData) {
    var self = this;
    // enable tooltips
 
-   this.drawArea = function () {
+   this.drawArea = function (areaSource) {
       $("#infoBoxArea").empty();
       for (var i = 0; i < data.length; ++i) {
-         this.buildInfoBox(data[i].name, data[i].source, data[i].tooltip);
+          this.fillInfoBox(data[i].name, data[i].tooltip, areaSource[i]);
       }
       $("#infoBoxArea").append("<div class='clear'></div>");
 
@@ -52,23 +52,6 @@ function SecondArea(iData) {
               name: 'light'
           }
       });*/
-   };
-
-   this.buildInfoBox = function (name, resource, tooltip) {
-      var jsonData = $.ajax({
-         data: {
-            iIntervalStart: window.app.dateHelper.transformDate(window.app.startDate),
-            iIntervalEnd: window.app.dateHelper.transformDate(window.app.endDate),
-            culture: window.app.calendarCulture,
-            scope: window.app.currentWorkingPoint
-         },
-         url: window.app.domainName + resource,
-         dataType: "json",
-         async: false,
-         success: function (data) {
-            self.fillInfoBox(name, tooltip, data);
-         }
-      }).responseText;
    };
 
    this.fillInfoBox = function (name, tooltip, data) {

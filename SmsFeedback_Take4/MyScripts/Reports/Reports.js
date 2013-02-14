@@ -92,31 +92,13 @@ var ReportsContentArea = Backbone.View.extend({
       this.render();
    },
    render: function () {
-      this.transition = new Transition();
-      this.transition.startTransition();
-
-      var template = _.template($("#report-template").html(), this.model.toJSON());
-      // Load the compiled HTML into the Backbone "el"
-      $(this.el).html(template);
-      $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
-      var displayTooltip = false;
-      for (var k = 0; k < this.model.get("sections").length; ++k) {
-         if (this.model.get("sections")[k].visibility) {
-            // TODO: Naming refactoring
-            this.renderSection("#" + this.model.get("sections")[k].identifier,
-               this.model.get("sections")[k].uniqueId,
-               this.model.get("sections")[k].sectionId,
-               this.model.get("sections")[k].resources);
-
-            if (this.model.get("sections")[k].resources[0].tooltip !== "no tooltip") { displayTooltip = true; }
-         }
-      }
-
-      this.setupEnvironment(displayTooltip);
-
-      this.transition.endTransition();
-      // resize event is triggered here, because after populating the divs with content the page height will change
-      $(document).trigger("resize");
+       var transition = new Transition();
+       var template = _.template($("#report-template").html(), this.model.toJSON());
+       // Load the compiled HTML into the Backbone "el"
+       $(this.el).html(template);
+       var reportData = new ReportLoader("/Reports/GetReportOverviewData", "day", this.model);
+       reportData.drawArea();
+       transition.endTransition();
    },
    renderSection: function (section, uniqueId, sectionId, resources) {
       var parameters = resources[0];

@@ -70,6 +70,8 @@
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/Json2Csv.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/FirstArea.js") %>"
       type="application/javascript"></script>
+    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/ReportLoader.js") %>"
+      type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/SecondArea.js") %>"
       type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Reports/ThirdArea.js") %>"
