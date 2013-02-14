@@ -169,14 +169,15 @@ namespace SmsFeedback_Take4.Utilities
 
         public string DeleteMessage(String messageText, String convId, DateTime receivedDate, smsfeedbackEntities dbContext)
         {
-           // sanitize input            
-            convId = convId.Trim();
+           convId = convId.Trim();
            //TODO DA - there should be no trim on the text (???)
             messageText = messageText.Trim();
             var conv = dbContext.Conversations.Find(convId);
+            // 108000000000 nanoseconds = 3 min. ReceivedDate has loss of precision
+            var MAX_INTERVAL = 180000000000;
             if (conv != null)                
             {                
-                var messages = from message in conv.Messages where (Math.Abs(message.TimeReceived.Ticks - receivedDate.Ticks) < 10000000 && message.Text.Trim().Equals(messageText)) select message;
+                var messages = from message in conv.Messages where (Math.Abs(message.TimeReceived.Ticks - receivedDate.Ticks) < MAX_INTERVAL && message.Text.Trim().Equals(messageText)) select message;
                 if (messages.Count() > 0)
                 {
                     Message firstMessage = messages.First();
@@ -189,7 +190,7 @@ namespace SmsFeedback_Take4.Utilities
                     }
                     dbContext.Messages.Remove(messages.First());
                     dbContext.SaveChanges();
-                    if ((firstMessage.TimeReceived.Ticks - conv.TimeUpdated.Ticks) < 10000000 && conv.Text.Trim().Equals(firstMessage.Text.Trim()))
+                    if ((firstMessage.TimeReceived.Ticks - conv.TimeUpdated.Ticks) < MAX_INTERVAL && conv.Text.Trim().Equals(firstMessage.Text.Trim()))
                     {
                         return "last message";
                     }
