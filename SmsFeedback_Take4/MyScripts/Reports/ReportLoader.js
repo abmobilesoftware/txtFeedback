@@ -17,9 +17,8 @@
 //#endregion
 window.app = window.app || {};
 
-function ReportLoader(iResource, iGranularity, iModel) {
+function ReportLoader(iGranularity, iModel) {
     var self = this;
-    var resource = iResource;
     var granularity = iGranularity;
     var chart = null;
     var data = null;
@@ -28,8 +27,11 @@ function ReportLoader(iResource, iGranularity, iModel) {
     var secondAreaId = "#InfoBox";
     var thirdAreaId = "#SecondaryChartArea";
     var model = iModel;
-   
+    var transition = null;
+
     this.drawArea = function () {
+       transition = new Transition();
+       transition.startTransition();
        var jsonData = $.ajax({
             data: {
                 iIntervalStart: window.app.dateHelper.transformDate(window.app.startDate),
@@ -37,7 +39,7 @@ function ReportLoader(iResource, iGranularity, iModel) {
                 iGranularity: granularity,
                 scope: window.app.currentWorkingPoint
             },
-            url: window.app.domainName + resource,
+            url: window.app.domainName + model.get("source"),
             dataType: "json",
             async: false,
             success: function (data) {                
@@ -58,6 +60,7 @@ function ReportLoader(iResource, iGranularity, iModel) {
                    data);                
             }
         }
+        transition.endTransition();
     }
 
     function renderSection(section, uniqueId, sectionId, resources, data) {

@@ -70,7 +70,7 @@ var Transition = function () {
       left: 'auto' // Left position relative to parent in px
    };
    var spinner = new Spinner(opts);
-   var target = document.getElementById('chartArea');
+   var target = document.getElementById('rightColumn');
 
    this.startTransition = function () {
       spinner.spin(target);
@@ -91,14 +91,12 @@ var ReportsContentArea = Backbone.View.extend({
       window.app.areas = [];
       this.render();
    },
-   render: function () {
-       var transition = new Transition();
+   render: function () {      
        var template = _.template($("#report-template").html(), this.model.toJSON());
        // Load the compiled HTML into the Backbone "el"
        $(this.el).html(template);
-       var reportData = new ReportLoader("/Reports/GetReportOverviewData", "day", this.model);
-       reportData.drawArea();
-       transition.endTransition();
+       var reportData = new ReportLoader("day", this.model);
+       reportData.drawArea();       
    },
    renderSection: function (section, uniqueId, sectionId, resources) {
       var parameters = resources[0];
