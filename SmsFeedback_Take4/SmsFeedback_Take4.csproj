@@ -88,6 +88,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Nuget.Core.1.0.1120.104\lib\net40\NuGet.Core.dll</HintPath>
     </Reference>
+    <Reference Include="OneApi">
+      <HintPath>..\ExternalReferences\OneApi.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.103.1\lib\net4\RestSharp.dll</HintPath>
     </Reference>
@@ -208,6 +211,7 @@
     <Compile Include="Models\Helpers\ReportResourceOptions.cs" />
     <Compile Include="Models\Helpers\SubscriptionSmsStatus.cs" />
     <Compile Include="Models\Interfaces\IInternalSMSRepository.cs" />
+    <Compile Include="Models\Repositories\CompatelSmsRepository.cs" />
     <Compile Include="Models\Repositories\EFSmsRepository.cs" />
     <Compile Include="Models\Repositories\FacadeSMSRepository.cs" />
     <Compile Include="Models\Interfaces\IExternalSmsRepository.cs" />
