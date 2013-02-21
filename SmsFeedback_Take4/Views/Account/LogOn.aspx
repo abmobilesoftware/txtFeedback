@@ -28,7 +28,7 @@
 </head>
 
 <body>
-   <img id="bkgImage" src="<%: Url.Content("~/Content/images/loginImage.png") %>"/>
+   <img id="bkgImage" src="<%: Url.Content("~/Content/images/loginImage.jpg") %>"/>
      
     <div id="logOnContainer">   
   

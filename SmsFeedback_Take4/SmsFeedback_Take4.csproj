@@ -313,6 +313,7 @@
     <Content Include="Content\images\help_16x16.png" />
     <Content Include="Content\images\in16x16.png" />
     <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\images\loginImage.jpg" />
     <Content Include="Content\images\loginImage.png" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\logo1.png" />
