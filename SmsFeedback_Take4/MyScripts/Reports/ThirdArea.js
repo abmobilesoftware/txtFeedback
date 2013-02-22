@@ -15,30 +15,17 @@
 /*global google */
 //#endregion
 
-function ThirdArea(iResource) {
+function ThirdArea() {
    var self = this;
-   var resource = iResource;
    var data = null;
    var options = { backgroundColor: '#F5F8FA' };
    var chart = new google.visualization.PieChart(document.getElementById('comboChart_div'));
 
-   this.drawArea = function () {
-      var jsonData = $.ajax({
-         data: {
-            iIntervalStart: window.app.dateHelper.transformDate(window.app.startDate),
-            iIntervalEnd: window.app.dateHelper.transformDate(window.app.endDate),
-            culture: window.app.calendarCulture,
-            scope: window.app.currentWorkingPoint
-         },
-         url: window.app.domainName + resource,
-         dataType: "json",
-         async: false,
-         success: function (data) {
-            self.buildTable(data);
-            self.drawChart(data);
-         }
-      }).responseText;
-   };
+   this.load = function(data) 
+   {
+       self.buildTable(data);
+       self.drawChart(data);
+   }
 
    this.drawChart = function (jsonData) {
       // Create our data table out of JSON data loaded from server.

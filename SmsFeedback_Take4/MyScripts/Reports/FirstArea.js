@@ -17,15 +17,11 @@
 //#endregion
 window.app = window.app || {};
 
-function FirstArea(iGranularity, iOptions, iId, iTooltip, iTitle) {
+function FirstArea(sectionModel) {
     var self = this;
-    var granularity = iGranularity;
-    var chart = null;
-    var data = null;
-    var jsonDataReceived = null;
-    var tooltip = iTooltip;
-    var title = iTitle;
-
+    var jsonData = null;
+    var title = sectionModel.title;
+    var chartSource = sectionModel.chartSource;
     var options = {
         animation: {
             duration: 1000,
@@ -36,42 +32,68 @@ function FirstArea(iGranularity, iOptions, iId, iTooltip, iTitle) {
         },
         backgroundColor: '#F5F8FA'
     };
-    options.seriesType = iOptions.seriesType;
-    options.colors = iOptions.colors;
-
-    var identifier = iId;
-
-    // create div in chart_div
-    if (options.seriesType === "area") {
-        chart = new google.visualization.AreaChart(document.getElementById("chart_div" + iId));
-        options.pointSize = 6;
-    } else if (options.seriesType === "bars") {
-        chart = new google.visualization.ComboChart(document.getElementById("chart_div" + iId));
+    if (sectionModel.options != null) {
+        options.seriesType = sectionModel.options.seriesType;
+        options.colors = sectionModel.options.colors;
     }
-   
+    var identifier = sectionModel.id;
+
+    /*
+        "identifier" Used to access a specific granularity selector. 
+        Used on positive & negative feedback report.
+    */
     $(".radioOption" + identifier).change(function (event) {
-        var selectorId = $(this).attr("selectorId");
-        $(this).parents("#granularitySelector" + selectorId).find(".active").removeClass("active");
+        $(this).parents("#granularitySelector" + identifier).find(".active").removeClass("active");
         $(this).parents(".radioBtnWrapper").addClass("active");
 
-        window.app.areas[selectorId].setGranularity($(this).val());
-        window.app.areas[selectorId].drawArea();
+        window.app.areas[identifier].loadWithGranularity($(this).val());        
     });
 
     $(".toCsv" + identifier).click(function () {
-        DownloadJSON2CSV(JSON.stringify(jsonDataReceived), title);
+        DownloadJSON2CSV(JSON.stringify(jsonData), title);
     });
 
-    this.drawChart = function (jsonData) {
+    this.loadWithGranularity = function(granularity) {
+        self = this;
+        var jsonData = $.ajax({
+            data: {
+                iIntervalStart: window.app.dateHelper.transformDate(window.app.startDate),
+                iIntervalEnd: window.app.dateHelper.transformDate(window.app.endDate),
+                iScope: window.app.currentWorkingPoint,
+                iGranularity: granularity
+            },
+            url: window.app.domainName + chartSource,
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                self.load(data);
+            }
+        }).responseText;
+    }
+
+    this.load = function (iData) {
+        $(".granularitySelector").show();
         if (options.seriesType === "bars") {
             // usually combo charts don't require a granularitySelector.
             $(".granularitySelector").hide();
-        } else if (options.seriesType === "area") {
-            $(".granularitySelector").show();
+        } 
+
+        var chart;
+        if (options.seriesType == undefined) {
+            chart = new google.visualization.AreaChart(document.getElementById("chart_div" + identifier));
+            options.pointSize = 6;
+        } else {
+            if (options.seriesType === "area") {
+                chart = new google.visualization.AreaChart(document.getElementById("chart_div" + identifier));
+                options.pointSize = 6;
+            } else if (options.seriesType === "bars") {
+                chart = new google.visualization.ComboChart(document.getElementById("chart_div" + identifier));
+            }
         }
+
         // Create our data table out of JSON data loaded from server.
-        jsonDataReceived = jsonData;
-        data = new google.visualization.DataTable(jsonData);
+        jsonData = iData;
+        var data = new google.visualization.DataTable(jsonData);
         chart.draw(data, options);
     };
 
