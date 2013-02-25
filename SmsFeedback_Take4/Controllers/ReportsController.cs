@@ -52,44 +52,12 @@ namespace SmsFeedback_Take4.Controllers
                 Dictionary<DateTime, ChartValue> resultInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 smsfeedbackEntities dbContext = new smsfeedbackEntities();
                 IEnumerable<Message> msgs = GetMessages(intervalStart, intervalEnd, User.Identity.Name, iScope, dbContext);
-                //IEnumerable<Message> msgs = GetMessages(intervalStart, intervalEnd, workingPoints, dbContext);
 
-                if (iGranularity.Equals(Constants.DAY_GRANULARITY))
-                {
-                    var msgsToFrom = from msg in msgs
-                                     group msg by new { msg.TimeReceived.Date } into g
-                                     select new { date = g.Key, count = g.Count() };
-                    foreach (var entry in msgsToFrom)
-                        resultInterval[entry.date.Date].value = entry.count;
-                }
-                else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
-                {
-                    var msgsToFrom = from msg in msgs
-                                     group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g
-                                     select new { date = g.Key, count = g.Count() };
-                    foreach (var entry in msgsToFrom)
-                    {
-                        var monthDateTime = new DateTime(entry.date.Year, entry.date.Month, 1);
-                        if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                            resultInterval[intervalStart].value += entry.count;
-                        else
-                            resultInterval[monthDateTime].value += entry.count;
-                    }
-                }
-                else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-                {
-                    var msgsToFrom = from msg in msgs
-                                     group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g
-                                     select new { date = g.Key, count = g.Count() };
-                    foreach (var entry in msgsToFrom)
-                    {
-                        var firstDayOfTheWeek = entry.date.firstDayOfTheWeek;
-                        if (DateTime.Compare(firstDayOfTheWeek, intervalStart) < 0)
-                            resultInterval[intervalStart].value += entry.count;
-                        else
-                            resultInterval[firstDayOfTheWeek].value += entry.count;
-                    }
-                }
+                var msgsGrByDay = from msg in msgs
+                                  group msg by new { msg.TimeReceived.Date } into g
+                                  select new { date = g.Key, count = g.Count() };
+                foreach (var entry in msgsGrByDay)
+                    resultInterval[entry.date.Date].value = entry.count;
 
                 TimeSpan interval = intervalEnd - intervalStart;
                 Int32 noOfClients = msgs.GroupBy(msg => msg.ConversationId).Count();
@@ -508,17 +476,19 @@ namespace SmsFeedback_Take4.Controllers
 
             String DEFAULT_TAGS = "defaultTags";
             var dbContext = new smsfeedbackEntities();
-            IEnumerable<ConversationTag> tags = (from u in dbContext.Users
-                                                 where u.UserName.Equals(User.Identity.Name)
-                                                 select (from wp in u.WorkingPoints
-                                                         where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
-                                                         select (from conv in wp.Conversations
-                                                                 where conv.Messages.Where(msg => msg.TimeReceived >= intervalStart &&
-                                                                     msg.TimeReceived <= intervalEnd).Count() > 0
-                                                                 select (from convTag in conv.ConversationTags select convTag)))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
+            var tags = (from u in dbContext.Users
+                        where u.UserName.Equals(User.Identity.Name)
+                        select (from wp in u.WorkingPoints
+                                where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                select (from conv in wp.Conversations
+                                        where conv.Messages.Where(msg => msg.TimeReceived >= intervalStart
+                                            && msg.TimeReceived <= intervalEnd).Count() > 0
+                                        select (from convTag in conv.ConversationTags
+                                                select
+                                                    new { tag = convTag, wp = wp })))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
 
             var tagsGr = from tag in tags
-                         group tag by tag.Tag.TagTagTypes.Count == 0 ? tag.Tag.Name : DEFAULT_TAGS
+                         group tag by tag.tag.Tag.TagTagTypes.Count == 0 ? tag.tag.Tag.Name : DEFAULT_TAGS
                              into g
                              select new { key = g.Key, count = g.Count() };
 
@@ -532,24 +502,22 @@ namespace SmsFeedback_Take4.Controllers
             String mostUsedTag = "none";
             Int32 tagMaxUsage = -1;
 
-            if (tagsGr.Count() > 0)
+            foreach (var tagGr in tagsGr)
             {
-                foreach (var tagGr in tagsGr)
+                if (!tagGr.key.Equals(DEFAULT_TAGS))
                 {
-                    if (!tagGr.key.Equals(DEFAULT_TAGS))
+                    if (tagGr.count > tagMaxUsage)
                     {
-                        if (tagGr.count > tagMaxUsage)
-                        {
-                            tagMaxUsage = tagGr.count;
-                            mostUsedTag = tagGr.key;
-                        }
-                        ++columnCounter;
-                        rowContent.Add(new RepDataRowCell(tagGr.count, tagGr.count + " conversations"));
-                        headerContent.Add(new RepDataColumn(columnCounter.ToString(), "number", tagGr.key.ToString()));
+                        tagMaxUsage = tagGr.count;
+                        mostUsedTag = tagGr.key;
                     }
+                    ++columnCounter;
+                    rowContent.Add(new RepDataRowCell(tagGr.count, tagGr.count + " conversations"));
+                    headerContent.Add(new RepDataColumn(columnCounter.ToString(), "number", tagGr.key.ToString()));
                 }
             }
-            else
+
+            if (rowContent.Count() == 1)
             {
                 rowContent.Add(new RepDataRowCell(0, "No data for this period"));
                 headerContent.Add(new RepDataColumn("15", "number", Resources.Global.RepNoDataToDisplay));
@@ -557,7 +525,16 @@ namespace SmsFeedback_Take4.Controllers
 
             RepChartData chartSource = new RepChartData(headerContent, new RepDataRow[] { new RepDataRow(rowContent) });
             Int32 noOfTags = tags.Count();
-            Int32 noOfConversations = tags.GroupBy(tag => tag.Conversation).Count(); // Check this           
+            string telNumber = "00000000";
+            var noOfConversations = ((from u in dbContext.Users
+                                      where u.UserName.Equals(User.Identity.Name)
+                                      select (from wp in u.WorkingPoints
+                                              select (from conv in wp.Conversations
+                                                      where
+                                                          conv.Messages.Where(msg => msg.TimeReceived >= intervalStart
+                                                          && msg.TimeReceived <= intervalEnd).Count() > 0
+                                                      select conv)))
+                                                      .SelectMany(x => x).SelectMany(x => x)).Count();
             RepInfoBox IbMostUsedTag = new RepInfoBox(mostUsedTag, "");
             RepInfoBox IbAvgNoOfTagsPerConversation = (noOfConversations == 0) ? new RepInfoBox(0, Resources.Global.RepTagsPerConversationUnit) :
                 new RepInfoBox(Math.Round((double)noOfTags / noOfConversations, 2), Resources.Global.RepTagsPerConversationUnit);
@@ -728,7 +705,7 @@ namespace SmsFeedback_Take4.Controllers
                     }
                     else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
                     {
-                        ++negFeedback;                        
+                        ++negFeedback;
                         --posFeedback;
                     }
                     else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
@@ -1101,7 +1078,7 @@ namespace SmsFeedback_Take4.Controllers
 
             Dictionary<DateTime, ChartValue> resultPositiveTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
             Dictionary<DateTime, ChartValue> resultNegativeTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-           
+
             KeyAndCount posToNegTransitions = new KeyAndCount(Constants.POS_TO_NEG_EVENT, 0);
             KeyAndCount negToPosTransitions = new KeyAndCount(Constants.NEG_TO_POS_EVENT, 0);
 
@@ -1142,9 +1119,19 @@ namespace SmsFeedback_Take4.Controllers
             if (iGranularity.Equals(Constants.DAY_GRANULARITY))
             {
                 var convEventsGr = (from convEvent in convEvents
-                                    group convEvent by new { evOccurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName }
+                                    group convEvent by new
+                                    {
+                                        evOccurDate = convEvent.Date.Date,
+                                        eventType = convEvent.EventTypeName
+                                    }
                                         into g
-                                        select new { key = g.Key, count = g.Count(), elements = g.ToList() }).OrderBy(convEventGr => convEventGr.key.evOccurDate);
+                                        select new
+                                        {
+                                            key = g.Key,
+                                            count = g.Count(),
+                                            elements = g.ToList()
+                                        }).OrderBy(convEventGr =>
+                                            convEventGr.key.evOccurDate);
 
                 foreach (var convEvent in convEventsGr)
                 {
@@ -1192,11 +1179,6 @@ namespace SmsFeedback_Take4.Controllers
                         */
                         if (lastEvDate.Equals(DateTime.MinValue))
                         {
-                            for (var i = intervalStart; i <= convEvent.key.evOccurDate.AddDays(-1); i = i.AddDays(1))
-                            {
-                                resultPositiveTagsEvInterval[i].value = prevPosFeedback;
-                                resultNegativeTagsEvInterval[i].value = prevNegFeedback;
-                            }
                             lastEvDate = convEvent.key.evOccurDate;
                             lastPosFeedback = posFeedback;
                             lastNegFeedback = negFeedback;
@@ -1226,36 +1208,28 @@ namespace SmsFeedback_Take4.Controllers
                     {
                         if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
                         {
-                            ++prevPosFeedback;
                             ++posFeedback;
                         }
                         else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
                         {
-                            ++prevNegFeedback;
                             ++negFeedback;
                         }
                         else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
                         {
-                            --prevPosFeedback;
                             --posFeedback;
                         }
                         else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
                         {
-                            --prevNegFeedback;
                             --negFeedback;
                         }
                         else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
                         {
-                            ++prevNegFeedback;
                             ++negFeedback;
-                            --prevPosFeedback;
                             --posFeedback;
                         }
                         else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
                         {
-                            ++prevPosFeedback;
                             ++posFeedback;
-                            --prevNegFeedback;
                             --negFeedback;
                         }
                     }
@@ -1277,44 +1251,53 @@ namespace SmsFeedback_Take4.Controllers
             }
             else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
             {
-               /* var convEventsGr = (from convEvent in convEvents
-                                    group convEvent by new { Month = convEvent.Date.Month, 
-                                        Year = convEvent.Date.Year, 
-                                        eventType = convEvent.EventTypeName }
+                var convEventsGr = (from convEvent in convEvents
+                                    group convEvent by new
+                                    {
+                                        evOccurDate = convEvent.Date,
+                                        eventType = convEvent.EventTypeName
+                                    }
                                         into g
-                                        select new { key = g.Key, count = g.Count(), elements = g.ToList() })
-                                        .OrderBy(convEventGr => convEventGr.key.Month + convEventGr.key.Year);
+                                        select new
+                                        {
+                                            key = g.Key
+                                        })
+                                        .OrderBy(convEvent => convEvent.key.evOccurDate);
 
                 foreach (var convEvent in convEventsGr)
                 {
                     if (convEvent.key.evOccurDate >= intervalStart && convEvent.key.evOccurDate <= intervalEnd)
                     {
+                        var monthDateTime = new DateTime(convEvent.key.evOccurDate.Year, convEvent.key.evOccurDate.Month, 1);
+                        lastPosFeedback = posFeedback;
+                        lastNegFeedback = negFeedback;
+
                         if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
                         {
-                            posFeedback += convEvent.count;
+                            ++posFeedback;
                         }
                         else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
                         {
-                            negFeedback += convEvent.count;
+                            ++negFeedback;
                         }
                         else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
                         {
-                            posFeedback -= convEvent.count;
+                            --posFeedback;
                         }
                         else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
                         {
-                            negFeedback -= convEvent.count;
+                            --negFeedback;
                         }
                         else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
                         {
-                            posFeedback -= convEvent.count;
-                            negFeedback += convEvent.count;
+                            --posFeedback;
+                            ++negFeedback;
                         }
                         else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
                         {
-                            negFeedback -= convEvent.count;
-                            posFeedback += convEvent.count;
-                        }*/
+                            --negFeedback;
+                            ++posFeedback;
+                        }
 
                         /* To achieve: Fill the empty entries -- Obs: Maybe someday i'll figure out a smarter solution
                         * How the chart data look: The evolution chart is continuous. Lets say ch[d1] = x and ch[d6] = y, d1, d6 - dates, d1 < d6
@@ -1329,34 +1312,43 @@ namespace SmsFeedback_Take4.Controllers
                         * Case lastEvDate == null fill the entries between startInterval and lastEvDate - 1 day
                         *      convEvent.key.evOccurDate > lastDate fill the entries between lastEvDate and evOccurDate - 1 day
                         */
-                /*
+
                         if (lastEvDate.Equals(DateTime.MinValue))
                         {
-                            for (var i = intervalStart; i <= convEvent.key.evOccurDate.AddDays(-1); i = i.AddDays(1))
+                            if (monthDateTime > intervalStart)
                             {
-                                resultPositiveTagsEvInterval[i].value = prevPosFeedback;
-                                resultNegativeTagsEvInterval[i].value = prevNegFeedback;
+                                resultPositiveTagsEvInterval[intervalStart].value = lastPosFeedback;
+                                resultNegativeTagsEvInterval[intervalStart].value = lastNegFeedback;
+
+                                var nextMonth = intervalStart.AddMonths(1);
+                                var nextMonthFirst = new DateTime(nextMonth.Year, nextMonth.Month, 1);
+                                for (var i = nextMonthFirst; i < monthDateTime; i=i.AddMonths(1))
+                                {
+                                    resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                                    resultPositiveTagsEvInterval[i].value = lastPosFeedback;
+                                }
                             }
-                            lastEvDate = convEvent.key.evOccurDate;
+                            lastEvDate = monthDateTime;
                             lastPosFeedback = posFeedback;
                             lastNegFeedback = negFeedback;
                         }
                         else
                         {
-                            if (convEvent.key.evOccurDate > lastEvDate)
+                            if (monthDateTime > lastEvDate)
                             {
-                                for (var i = lastEvDate; i <= convEvent.key.evOccurDate.AddDays(-1); i = i.AddDays(1))
+
+                                for (var i = lastEvDate; i < monthDateTime; i=i.AddMonths(1))
                                 {
-                                    resultPositiveTagsEvInterval[i].value = lastPosFeedback;
-                                    resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                                    resultPositiveTagsEvInterval[monthDateTime].value = lastPosFeedback;
+                                    resultNegativeTagsEvInterval[monthDateTime].value = lastNegFeedback;
                                 }
-                                lastEvDate = convEvent.key.evOccurDate;
+                                lastEvDate = monthDateTime;
                                 lastPosFeedback = posFeedback;
                                 lastNegFeedback = negFeedback;
                             }
                             else
                             {
-                                lastEvDate = convEvent.key.evOccurDate;
+                                lastEvDate = monthDateTime;
                                 lastPosFeedback = posFeedback;
                                 lastNegFeedback = negFeedback;
                             }
@@ -1408,16 +1400,168 @@ namespace SmsFeedback_Take4.Controllers
                     lastPosFeedback = prevPosFeedback;
                     lastNegFeedback = prevNegFeedback;
                 }
-                for (var i = lastEvDate; i <= intervalEnd; i = i.AddDays(1))
+                for (var i = lastEvDate; i <= intervalEnd; i = i.AddMonths(1))
                 {
                     resultPositiveTagsEvInterval[i].value = lastPosFeedback;
                     resultNegativeTagsEvInterval[i].value = lastNegFeedback;
                 }
-                 */
+
             }
             else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
             {
+                var convEventsGr = (from convEvent in convEvents
+                                    group convEvent by new
+                                    {
+                                        evOccurDate = convEvent.Date,
+                                        eventType = convEvent.EventTypeName
+                                    }
+                                        into g
+                                        select new
+                                        {
+                                            key = g.Key
+                                        })
+                                        .OrderBy(convEvent => convEvent.key.evOccurDate);
 
+                foreach (var convEvent in convEventsGr)
+                {
+                    if (convEvent.key.evOccurDate >= intervalStart && convEvent.key.evOccurDate <= intervalEnd)
+                    {
+                        var weekDateTime = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.key.evOccurDate);
+                        lastPosFeedback = posFeedback;
+                        lastNegFeedback = negFeedback;
+
+                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                        {
+                            ++posFeedback;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
+                        {
+                            ++negFeedback;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                        {
+                            --posFeedback;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                        {
+                            --negFeedback;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                        {
+                            --posFeedback;
+                            ++negFeedback;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                        {
+                            --negFeedback;
+                            ++posFeedback;
+                        }
+
+                        /* To achieve: Fill the empty entries -- Obs: Maybe someday i'll figure out a smarter solution
+                        * How the chart data look: The evolution chart is continuous. Lets say ch[d1] = x and ch[d6] = y, d1, d6 - dates, d1 < d6
+                        *  x,y = no of positive fdbks, x!=y. The entries ch[d2], ch[d3], .., ch[d5] must have the x value.
+                        *  
+                        * How the events data look: Array<Entry> ordered asc by key.occurDate, Entry = {key, int count}
+                        * Key = {type = {POS_ADD,etc}, DateTime occurDate}. Multiple Entry instances with the same occurDate.
+                        * I convert the events data TO chart data
+                        * 
+                        * Solution: I group the events that occur on the same date. 
+                        * To figure out when I finished to group different types of events for a certain date I use lastEvDate.
+                        * Case lastEvDate == null fill the entries between startInterval and lastEvDate - 1 day
+                        *      convEvent.key.evOccurDate > lastDate fill the entries between lastEvDate and evOccurDate - 1 day
+                        */
+
+                        if (lastEvDate.Equals(DateTime.MinValue))
+                        {
+                            if (weekDateTime > intervalStart)
+                            {
+                                resultPositiveTagsEvInterval[intervalStart].value = lastPosFeedback;
+                                resultNegativeTagsEvInterval[intervalStart].value = lastNegFeedback;
+
+                                var nextWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(intervalStart).AddDays(7);
+                                for (var i = nextWeek; i < weekDateTime; i = i.AddDays(7))
+                                {
+                                    resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                                    resultPositiveTagsEvInterval[i].value = lastPosFeedback;
+                                }
+                            }
+                            lastEvDate = weekDateTime;
+                            lastPosFeedback = posFeedback;
+                            lastNegFeedback = negFeedback;
+                        }
+                        else
+                        {
+                            if (weekDateTime > lastEvDate)
+                            {
+
+                                for (var i = lastEvDate; i < weekDateTime; i=i.AddDays(7))
+                                {
+                                    resultPositiveTagsEvInterval[i].value = lastPosFeedback;
+                                    resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                                }
+                                lastEvDate = weekDateTime;
+                                lastPosFeedback = posFeedback;
+                                lastNegFeedback = negFeedback;
+                            }
+                            else
+                            {
+                                lastEvDate = weekDateTime;
+                                lastPosFeedback = posFeedback;
+                                lastNegFeedback = negFeedback;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                        {
+                            ++prevPosFeedback;
+                            ++posFeedback;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
+                        {
+                            ++prevNegFeedback;
+                            ++negFeedback;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                        {
+                            --prevPosFeedback;
+                            --posFeedback;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                        {
+                            --prevNegFeedback;
+                            --negFeedback;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                        {
+                            ++prevNegFeedback;
+                            ++negFeedback;
+                            --prevPosFeedback;
+                            --posFeedback;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                        {
+                            ++prevPosFeedback;
+                            ++posFeedback;
+                            --prevNegFeedback;
+                            --negFeedback;
+                        }
+                    }
+
+                }
+                if (lastEvDate.Equals(DateTime.MinValue))
+                {
+                    // No events found in interval intervalStart - intervalEnd
+                    lastEvDate = intervalStart;
+                    lastPosFeedback = prevPosFeedback;
+                    lastNegFeedback = prevNegFeedback;
+                }
+                for (var i = lastEvDate; i <= intervalEnd; i = i.AddDays(7))
+                {
+                    resultPositiveTagsEvInterval[i].value = lastPosFeedback;
+                    resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                }
             }
 
             List<Dictionary<DateTime, ChartValue>> evolutionChartContent = new List<Dictionary<DateTime, ChartValue>>();
@@ -1429,38 +1573,7 @@ namespace SmsFeedback_Take4.Controllers
                     new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegativeFeedback) },
                 PrepareJson(evolutionChartContent, Resources.Global.RepConversationsUnit));
 
-            List<Dictionary<DateTime, ChartValue>> activityChartContent = new List<Dictionary<DateTime, ChartValue>>();
-            activityChartContent.Add(resultPositiveTagsInterval);
-            activityChartContent.Add(resultNegativeTagsEvInterval);
-            activityChartContent.Add(resultRemovePositiveTagsInterval);
-            activityChartContent.Add(resultRemoveNegativeTagsInterval);
-            RepChartData activityChartSource = new RepChartData(new RepDataColumn[] { 
-                    new RepDataColumn("16", Constants.STRING_COLUMN_TYPE, "Date"), 
-                    new RepDataColumn("17", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosFeedbackAdded), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegFeedbackAdded),
-                    new RepDataColumn("19", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosFeedbackRemoved), 
-                    new RepDataColumn("20", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegFeedbackRemoved) },
-                PrepareJson(activityChartContent, Resources.Global.RepConversationsUnit));
-
-            List<Dictionary<DateTime, ChartValue>> transitionsChartContent = new List<Dictionary<DateTime, ChartValue>>();
-            transitionsChartContent.Add(resultNegToPosTransitionsInterval);
-            transitionsChartContent.Add(resultPosToNegTransitionsInterval);
-            RepChartData transitionsChartSource = new RepChartData(new RepDataColumn[] { 
-                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegToPosFeedback), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosToNegFeedback) },
-            PrepareJson(transitionsChartContent, Resources.Global.RepConversationsUnit));
-
-            List<RepDataRow> transitionsPieChartContent = new List<RepDataRow>();
-            RepDataRow row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepPosToNegFeedback, Resources.Global.RepPosToNegFeedback), new RepDataRowCell(posToNegTransitions.count, posToNegTransitions.count + " " + Resources.Global.RepPosToNegFeedback) });
-            RepDataRow row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepNegToPosFeedback, Resources.Global.RepNegToPosFeedback), new RepDataRowCell(negToPosTransitions.count, negToPosTransitions.count + " " + Resources.Global.RepNegToPosFeedback) });
-            transitionsPieChartContent.Add(row1);
-            transitionsPieChartContent.Add(row2);
-            RepChartData transitionsPieChartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, Resources.Global.RepTypeTable), new RepDataColumn("18", Constants.STRING_COLUMN_TYPE, Resources.Global.RepValueTable) }, transitionsPieChartContent);
-
-            ReportData repData = new ReportData(new List<RepChartData>() { evolutionChartSource, transitionsChartSource, transitionsPieChartSource, activityChartSource }, null);
-
-            return Json(repData, JsonRequestBehavior.AllowGet);
+            return Json(evolutionChartSource, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetReportClientsData(String iIntervalStart, String iIntervalEnd, String iScope)
@@ -2987,7 +3100,7 @@ namespace SmsFeedback_Take4.Controllers
                                        });
             var report4 = new Report(cConvsPosVsNegID, Resources.Global.RepPositiveAndNegativeTitle, "/Reports/GetReportPosNegData",
                 new ReportSection[] {                                                                                         
-                                        new ReportSection("FirstSection", iDataIndex: 0, iSectionId:"1", iTitle:Resources.Global.RepPositiveNegativeEvolutionChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackEvolution),                                                                                                                                                            
+                                        new ReportSection("FirstSection", iDataIndex: 0, iChartSource:"/Reports/GetReportPosNegEvolutionGr", iSectionId:"1", iTitle:Resources.Global.RepPositiveNegativeEvolutionChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackEvolution),                                                                                                                                                            
                                         new ReportSection("FirstSection", iChartSource:"/Reports/GetReportPosNegTransitionsGr", iDataIndex: 1, iSectionId: "2", iGroupId: "7",  iTitle:Resources.Global.RepPositiveNegativeTransitionsChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackTransitions),
                                         new ReportSection("ThirdSection", iDataIndex: 2, iSectionId: "3", iGroupId: "7", iTitle: Resources.Global.RepPositiveNegativeTransitionsChartTitle),
                                         new ReportSection("FirstSection", iChartSource:"/Reports/GetReportPosNegActivityGr", iDataIndex: 3, iSectionId: "4", iTitle: Resources.Global.RepPositiveNegativeActivityChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackActivity, 
