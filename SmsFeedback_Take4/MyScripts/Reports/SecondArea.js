@@ -30,7 +30,7 @@ function SecondArea(iModel) {
                               "<div class='infoTitle'><div class='infoTitleMiddle'><div class='infoTitleInner'><span class='boxTitle'>" + model.title + "</span></div></div></div>" +
                           "</div>";
 
-      $("#secondSection").prepend(infoBoxString);
+      $("#secondSection").append(infoBoxString);
    };  
 
 }

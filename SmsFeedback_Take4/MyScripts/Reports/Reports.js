@@ -95,19 +95,22 @@ var ReportsContentArea = Backbone.View.extend({
       this.FIRST_SECTION = "FirstSection";
       this.SECOND_SECTION = "SecondSection";
       this.THIRD_SECTION = "ThirdSection";
-      this.transition = new Transition();
-      this.transition.startTransition();
-      this.loadReportData();
-      this.setupEnvironment(false);
+      this.loadReportData();      
    },
    render: function () {      
-       var template = _.template($("#report-template").html(), this.model.toJSON());
-       // Load the compiled HTML into the Backbone "el"
-       $(this.el).html(template);
-       $("#infoBoxArea").empty();
+       
    },
    loadReportData: function () {
        var self = this;
+       window.app.areas = [];
+       var template = _.template($("#report-template").html(), this.model.toJSON());
+       // Load the compiled HTML into the Backbone "el"
+       $(this.el).html(template);
+       $("#secondSection").empty();
+       $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
+       this.transition = new Transition();
+       this.transition.startTransition();
+       
        var jsonData = $.ajax({
            data: {
                iIntervalStart: window.app.dateHelper.transformDate(window.app.startDate),
@@ -118,10 +121,11 @@ var ReportsContentArea = Backbone.View.extend({
            dataType: "json",
            async: false,
            success: function (data) {
-               self.render();
                for (var k = 0; k < self.model.get("sections").length; ++k) {
                    self.renderSection(self.model.get("sections")[k], data);                       
                }
+               $("#secondSection").append("<div class='clear'></div>");
+               self.setupEnvironment(false);
                self.transition.endTransition();
                $(document).trigger("resize");
            }
@@ -132,7 +136,6 @@ var ReportsContentArea = Backbone.View.extend({
        if (model.type === this.FIRST_SECTION) {
            var template = _.template($("#" + model.type).html(), model);
            $("#firstSection").append(template);
-           // TODO: create a report model who can provide the data for more than one chart. Use the same pattern as for InfoBox
            var firstArea = new FirstArea(model);
            firstArea.load(data.charts[model.dataIndex]);
            window.app.areas[model.id] = firstArea;
@@ -142,7 +145,7 @@ var ReportsContentArea = Backbone.View.extend({
            window.app.areas[model.id] = secondArea;
        } else if (model.type === this.THIRD_SECTION) {
            var template = _.template($("#" + model.type).html(), model);
-           $("#thirdSection").append(template);
+           $("#firstSection").append(template);
            var thirdArea = new ThirdArea();
            thirdArea.load(data.charts[model.dataIndex]);
            window.app.areas[model.id] = thirdArea;
