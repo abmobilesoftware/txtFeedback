@@ -49,7 +49,8 @@ function FirstArea(sectionModel) {
         window.app.areas[identifier].loadWithGranularity($(this).val());        
     });
 
-    $(".toCsv" + identifier).click(function () {
+    $(".toCsv" + identifier).click(function (event) {
+        event.preventDefault();
         DownloadJSON2CSV(JSON.stringify(jsonData), title);
     });
 
