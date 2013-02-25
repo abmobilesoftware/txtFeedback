@@ -35,9 +35,10 @@ namespace SmsFeedback_Take4.Models.Helpers
             dataIndex = iDataIndex;
             chartSource = iChartSource;
 
-            Guid guid = Guid.NewGuid();
-            if (id.Equals("-1")) id = ConversationUtilities.RandomNumberGenerator.Next(30).ToString();
-            if (groupId.Equals("-1")) groupId = guid.ToString();
+            Guid groupUUID = Guid.NewGuid();
+            Guid sectionUUID = Guid.NewGuid();
+            if (id.Equals("-1")) id = sectionUUID.ToString();
+            if (groupId.Equals("-1")) groupId = groupUUID.ToString();
         }
     }
 }
