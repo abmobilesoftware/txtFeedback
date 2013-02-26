@@ -93,7 +93,7 @@ window.app.saveWorkingPoints = function (e) {
    e.preventDefault();
    var wps = window.app.getDataForWorkingPoints();
    $.ajax({
-      url: 'Settings/GetDefineWorkingPointsForm',
+      url: 'WorkingPoints/WorkingPointsInfo',
       data: $.toJSON(wps),
       type: 'post',
       cache: false,
@@ -112,7 +112,7 @@ window.app.saveWorkingPoints = function (e) {
 window.settings.ConfigureWorkingPoints = function () {
    "use strict";
    $.ajax({
-      url: "Settings/GetDefineWorkingPointsForm",
+      url: "WorkingPoints/WorkingPointsInfo",
       cache: false,
       success: function (data) {
          setupForm(data, '#btnSaveWorkingPoints', window.app.saveWorkingPoints);

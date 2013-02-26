@@ -16,6 +16,7 @@ namespace SmsFeedback_EFModels
     {
         public WorkingPoint()
         {
+            this.BusyMessageTimer = 5000;
             this.Users = new HashSet<User>();
             this.Conversations = new HashSet<Conversation>();
             this.ActivityLogWorkingPoints = new HashSet<ActivityLogWorkingPoint>();
@@ -34,6 +35,7 @@ namespace SmsFeedback_EFModels
         public string BusyMessage { get; set; }
         public string OutsideOfficeHoursMessage { get; set; }
         public string Language { get; set; }
+        public int BusyMessageTimer { get; set; }
     
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Conversation> Conversations { get; set; }

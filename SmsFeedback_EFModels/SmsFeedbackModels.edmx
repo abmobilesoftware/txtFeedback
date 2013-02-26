@@ -111,6 +111,10 @@
             <End Role="TagTypes" EntitySet="TagTypes" />
             <End Role="TagTagTypes" EntitySet="TagTagTypes" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserCompany" Association="smsfeedbackModel.Store.FK_UserCompany">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
           <AssociationSet Name="FK_UsersForWorkingPoints_User" Association="smsfeedbackModel.Store.FK_UsersForWorkingPoints_User">
             <End Role="Users" EntitySet="Users" />
             <End Role="UsersForWorkingPoints" EntitySet="UsersForWorkingPoints" />
@@ -448,6 +452,7 @@
           <Property Name="BusyMessage" Type="nvarchar" MaxLength="160" />
           <Property Name="OutsideOfficeHoursMessage" Type="nvarchar" MaxLength="160" />
           <Property Name="Language" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="BusyMessageTimer" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="XmppConnections">
           <Key>
@@ -699,6 +704,18 @@
             </Principal>
             <Dependent Role="TagTagTypes">
               <PropertyRef Name="TagTypeType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCompany">
+          <End Role="Companies" Type="smsfeedbackModel.Store.Companies" Multiplicity="0..1" />
+          <End Role="Users" Type="smsfeedbackModel.Store.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Company_Name" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1073,6 +1090,11 @@
                <Property Type="String" Name="BusyMessage" MaxLength="160" FixedLength="false" Unicode="true" />
                <Property Type="String" Name="OutsideOfficeHoursMessage" MaxLength="160" FixedLength="false" Unicode="true" />
                <Property Type="String" Name="Language" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="BusyMessageTimer" Nullable="false" DefaultValue="5000" >
+            <Documentation>
+              <LongDescription>Time to Wait until the busy message appears (in miliseconds)</LongDescription>
+            </Documentation>
+          </Property>
             </EntityType>
             <EntityType Name="User">
                <Key>
@@ -1758,7 +1780,8 @@
                <EntitySetMapping Name="WorkingPoints">
                   <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.WorkingPoint)">
                      <MappingFragment StoreEntitySet="WorkingPoints">
-                        <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="BusyMessageTimer" ColumnName="BusyMessageTimer" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
                         <ScalarProperty Name="OutsideOfficeHoursMessage" ColumnName="OutsideOfficeHoursMessage" />
                         <ScalarProperty Name="BusyMessage" ColumnName="BusyMessage" />
                         <ScalarProperty Name="TelNumber" ColumnName="TelNumber" />

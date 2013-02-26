@@ -460,6 +460,7 @@
     <Content Include="MyScripts\Settings\SettingsFacade.js" />
     <Content Include="MyScripts\WorkingPoints.js" />
     <Content Include="MyScripts\Utilities.js" />
+    <Content Include="MyScripts\WorkingPointsConfigure.js" />
     <Content Include="MyScripts\XMPP.js" />
     <Content Include="Nexmo\nexmoTest.js" />
     <Content Include="QUnit\ControllerTest.js" />
@@ -592,6 +593,8 @@
     <Content Include="Views\WarningMailer\SpendingLimitReachedEmail.cshtml" />
     <Content Include="Views\UserMailer\_Layout.cshtml" />
     <Content Include="Views\UserMailer\EmailTemplate.cshtml" />
+    <Content Include="Views\WorkingPoints\EditWorkingPointInfo.cshtml" />
+    <Content Include="Views\WorkingPoints\WorkingPointsInfo.cshtml" />
     <None Include="Web.Debug_demo.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
