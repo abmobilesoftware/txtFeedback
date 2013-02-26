@@ -219,14 +219,6 @@ namespace SmsFeedback_Take4.Controllers
             }
         }
 
-        public JsonResult GetWorkingPointForCertainAddress(String iIMAddress)
-        {
-            SmsFeedback_Take4.Models.WorkingPoint wp = new SmsFeedback_Take4.Models.WorkingPoint("07897951452", "hei", "nexmo","defaultShortID", "@moderator.txtfeedback.net", "Hello");
-            wp.NrOfSentSmsThisMonth = 10;
-            wp.MaxNrOfSmsToSendPerMonth = 100;
-            return Json(wp, JsonRequestBehavior.AllowGet);
-        }
-
         public JsonResult SaveMessage(String from, String to, String convId, String text, String xmppUser, bool isSms)
         {
             logger.InfoFormat("SaveMessage - from: [{0}], to: [{1}], convId: [{2}] text: [{3}], xmppUser: [{4}], isSms: [{5}]", from, to, convId, text, xmppUser, isSms.ToString());
