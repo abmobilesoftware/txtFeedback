@@ -166,124 +166,8 @@ namespace SmsFeedback_Take4.Controllers
             return Json("Request failed", JsonRequestBehavior.AllowGet);
         }
 
-
-        public JsonResult GetReportOverviewDataV2(String iIntervalStart, String iIntervalEnd, String iScope)
-        {
-            try
-            {
-                var iGranularity = Constants.DAY_GRANULARITY;
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(Constants.GLOBAL_SCOPE, User.Identity.Name, context);
-                Dictionary<DateTime, ChartValue> resultInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<Message> msgs = new LinkedList<Message>();
-                foreach (var wp in workingPoints)
-                {
-                    var conversations = from conv in wp.Conversations select conv;
-                    foreach (var conv in conversations)
-                    {
-
-                        if (iGranularity.Equals(Constants.DAY_GRANULARITY))
-                        {
-                            var convMsgs = from msg in conv.Messages
-                                           where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd)
-                                           select msg;
-                            msgs = msgs.Union(convMsgs);
-                            var msgsToFrom = from msg in convMsgs
-                                             group msg by msg.TimeReceived.Date into g
-                                             select new { date = g.Key, count = g.Count() };
-                            foreach (var entry in msgsToFrom)
-                                resultInterval[entry.date].value += entry.count;
-
-                        }
-                        else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
-                        {
-                            var convMsgs = from msg in conv.Messages
-                                           where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd)
-                                           select msg;
-                            msgs = msgs.Union(convMsgs);
-                            var msgsToFrom = from msg in convMsgs
-                                             group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g
-                                             select new { date = g.Key, count = g.Count() };
-                            foreach (var entry in msgsToFrom)
-                            {
-                                var monthDateTime = new DateTime(entry.date.Year, entry.date.Month, 1);
-                                if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                    resultInterval[intervalStart].value += entry.count;
-                                else
-                                    resultInterval[monthDateTime].value += entry.count;
-                            }
-                        }
-                        else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-                        {
-                            var convMsgs = from msg in conv.Messages
-                                           where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd)
-                                           select msg;
-                            msgs = msgs.Union(convMsgs);
-                            var msgsToFrom = from msg in convMsgs
-                                             group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g
-                                             select new { date = g.Key, count = g.Count() };
-                            foreach (var entry in msgsToFrom)
-                            {
-                                var firstDayOfTheWeek = entry.date.firstDayOfTheWeek;
-                                if (DateTime.Compare(firstDayOfTheWeek, intervalStart) < 0)
-                                    resultInterval[intervalStart].value += entry.count;
-                                else
-                                    resultInterval[firstDayOfTheWeek].value += entry.count;
-                            }
-                        }
-
-                    }
-                }
-
-                TimeSpan interval = intervalEnd - intervalStart;
-                Int32 noOfClients = msgs.GroupBy(msg => msg.ConversationId).Count();
-                Int32 totalNoOfMsgs = 0;
-                long totalResponseTime = 0;
-                var counter = 0;
-                foreach (var msg in msgs)
-                {
-                    ++totalNoOfMsgs;
-                    if (msg.ResponseTime.HasValue)
-                    {
-                        totalResponseTime += msg.ResponseTime.Value;
-                        ++counter;
-                    }
-                }
-
-                TimeSpan avgResponseTime = (counter == 0) ? new TimeSpan(0) :
-                    avgResponseTime = new TimeSpan((long)(totalResponseTime / counter));
-
-                List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
-                content.Add(resultInterval);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepTotalSmsChart) }, PrepareJson(content, Resources.Global.RepSmsUnit));
-                RepInfoBox IbTotalNoOfSms = new RepInfoBox(totalNoOfMsgs, Resources.Global.RepSmsUnit);
-                RepInfoBox IbAvgNoOfSmsPerDay = (interval.TotalDays == 0) ? new RepInfoBox(totalNoOfMsgs, Resources.Global.RepSmsPerDayUnit) :
-                    new RepInfoBox(Math.Round(totalNoOfMsgs / interval.TotalDays, 2), Resources.Global.RepSmsPerDayUnit);
-                RepInfoBox IbTotalNoOfClients = new RepInfoBox(noOfClients, Resources.Global.RepClients);
-                RepInfoBox IbAvgNoOfSmsPerClient = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
-                    new RepInfoBox(Math.Round((double)totalNoOfMsgs / noOfClients, 2), Resources.Global.RepSmsPerClient);
-                RepInfoBox IbAvgResponseTime = (avgResponseTime.TotalMinutes < 1) ? new RepInfoBox(Math.Round(avgResponseTime.TotalSeconds, 2), Resources.Global.RepSecondsUnit)
-                    : new RepInfoBox(Math.Round(avgResponseTime.TotalMinutes, 2), Resources.Global.RepMinutesUnit);
-                var repData = new ReportData(new List<RepChartData>() { chartSource },
-                    new List<RepInfoBox>() { IbTotalNoOfSms, IbAvgNoOfSmsPerDay,
-                        IbTotalNoOfClients, IbAvgNoOfSmsPerClient, IbAvgResponseTime });
-                return Json(repData, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetReportOverviewData", e);
-            }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
-
-        }
-
         public JsonResult GetReportIncomingOutgoingData(String iIntervalStart, String iIntervalEnd, String iScope)
         {
-            var iGranularity = Constants.DAY_GRANULARITY;
             DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
@@ -299,64 +183,16 @@ namespace SmsFeedback_Take4.Controllers
                 ConversationUtilities.CleanUpPhoneNumber(msg.From) :
                 ConversationUtilities.ExtractUserFromAddress(msg.From)));
 
-            if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+            var incomingMsgsGr = from msg in incomingMsgs group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
+            foreach (var entry in incomingMsgsGr)
             {
-                var incomingMsgsGr = from msg in incomingMsgs group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
-                foreach (var entry in incomingMsgsGr)
-                {
-                    resultIncomingInterval[entry.date].value += entry.count;
-                }
-                var outgoingMsgsGr = from msg in outgoingMsgs group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
-                foreach (var entry in outgoingMsgsGr)
-                {
-                    resultOutgoingInterval[entry.date].value += entry.count;
-                }
+                resultIncomingInterval[entry.date].value += entry.count;
             }
-            else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
+            var outgoingMsgsGr = from msg in outgoingMsgs group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
+            foreach (var entry in outgoingMsgsGr)
             {
-                var incomingMsgsGr = from msg in incomingMsgs group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g select new { date = g.Key, count = g.Count() };
-                var outgoingMsgsGr = from msg in outgoingMsgs group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g select new { date = g.Key, count = g.Count() };
-                foreach (var entry in incomingMsgsGr)
-                {
-                    var monthDateTime = new DateTime(entry.date.Year, entry.date.Month, 1);
-                    if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                        resultIncomingInterval[intervalStart].value += entry.count;
-                    else
-                        resultIncomingInterval[monthDateTime].value += entry.count;
-                }
-
-                foreach (var entry in outgoingMsgsGr)
-                {
-                    var monthDateTime = new DateTime(entry.date.Year, entry.date.Month, 1);
-                    if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                        resultOutgoingInterval[intervalStart].value += entry.count;
-                    else
-                        resultOutgoingInterval[monthDateTime].value += entry.count;
-                }
+                resultOutgoingInterval[entry.date].value += entry.count;
             }
-            else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-            {
-                var incomingMsgsGr = from msg in incomingMsgs group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g select new { date = g.Key, count = g.Count() };
-                var outgoingMsgsGr = from msg in outgoingMsgs group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g select new { date = g.Key, count = g.Count() };
-                foreach (var entry in incomingMsgsGr)
-                {
-                    var weekDateTime = entry.date.firstDayOfTheWeek;
-                    if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                        resultIncomingInterval[intervalStart].value += entry.count;
-                    else
-                        resultIncomingInterval[weekDateTime].value += entry.count;
-                }
-
-                foreach (var entry in outgoingMsgsGr)
-                {
-                    var weekDateTime = entry.date.firstDayOfTheWeek;
-                    if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                        resultOutgoingInterval[intervalStart].value += entry.count;
-                    else
-                        resultOutgoingInterval[weekDateTime].value += entry.count;
-                }
-            }
-
 
             Int32 noOfIncomingMsgs = incomingMsgs.Count();
             Int32 noOfOutgoingMsgs = outgoingMsgs.Count();
@@ -1322,7 +1158,7 @@ namespace SmsFeedback_Take4.Controllers
 
                                 var nextMonth = intervalStart.AddMonths(1);
                                 var nextMonthFirst = new DateTime(nextMonth.Year, nextMonth.Month, 1);
-                                for (var i = nextMonthFirst; i < monthDateTime; i=i.AddMonths(1))
+                                for (var i = nextMonthFirst; i < monthDateTime; i = i.AddMonths(1))
                                 {
                                     resultNegativeTagsEvInterval[i].value = lastNegFeedback;
                                     resultPositiveTagsEvInterval[i].value = lastPosFeedback;
@@ -1337,7 +1173,7 @@ namespace SmsFeedback_Take4.Controllers
                             if (monthDateTime > lastEvDate)
                             {
 
-                                for (var i = lastEvDate; i < monthDateTime; i=i.AddMonths(1))
+                                for (var i = lastEvDate; i < monthDateTime; i = i.AddMonths(1))
                                 {
                                     resultPositiveTagsEvInterval[monthDateTime].value = lastPosFeedback;
                                     resultNegativeTagsEvInterval[monthDateTime].value = lastNegFeedback;
@@ -1494,7 +1330,7 @@ namespace SmsFeedback_Take4.Controllers
                             if (weekDateTime > lastEvDate)
                             {
 
-                                for (var i = lastEvDate; i < weekDateTime; i=i.AddDays(7))
+                                for (var i = lastEvDate; i < weekDateTime; i = i.AddDays(7))
                                 {
                                     resultPositiveTagsEvInterval[i].value = lastPosFeedback;
                                     resultNegativeTagsEvInterval[i].value = lastNegFeedback;
