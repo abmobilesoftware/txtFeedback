@@ -119,8 +119,7 @@ namespace SmsFeedback_Take4.Controllers
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
                 Dictionary<DateTime, ChartValue> resultInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<Message> msgs = GetMessages(intervalStart, intervalEnd, User.Identity.Name, iScope, dbContext);
+                IEnumerable<Message> msgs = GetMessages(intervalStart, intervalEnd, User.Identity.Name, iScope, context);
 
                 if (iGranularity.Equals(Constants.DAY_GRANULARITY))
                 {
@@ -159,12 +158,13 @@ namespace SmsFeedback_Take4.Controllers
                     }
                 }
 
-                // Build the result
-                List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
-                content.Add(resultInterval);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepTotalSmsChart) }, PrepareJson(content, Resources.Global.RepSmsUnit));
-
-                return Json(chartSource, JsonRequestBehavior.AllowGet);
+                List<Dictionary<DateTime, ChartValue>> overviewChartContent = new List<Dictionary<DateTime, ChartValue>>();
+                overviewChartContent.Add(resultInterval);
+                RepChartData chartContentWrapper = new RepChartData(new RepDataColumn[] { 
+                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepTotalSmsChart)
+                }, PrepareJson(overviewChartContent, Resources.Global.RepSmsUnit));
+                return Json(chartContentWrapper, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
