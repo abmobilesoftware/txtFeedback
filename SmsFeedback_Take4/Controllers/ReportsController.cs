@@ -29,6 +29,8 @@ namespace SmsFeedback_Take4.Controllers
         private const int cSectionID4 = 4;
         private const int cSectionID5 = 5;
         private const int cSectionID6 = 6;
+
+        private const String cDateFormat = "yyyy-MM-dd";
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private EFInteraction mEFInterface = new EFInteraction();
         smsfeedbackEntities context = new smsfeedbackEntities();
@@ -168,58 +170,73 @@ namespace SmsFeedback_Take4.Controllers
 
         public JsonResult GetReportIncomingOutgoingData(String iIntervalStart, String iIntervalEnd, String iScope)
         {
-            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-            Dictionary<DateTime, ChartValue> resultIncomingInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-            Dictionary<DateTime, ChartValue> resultOutgoingInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-
-            var msgs = GetMessages(intervalStart, intervalEnd, User.Identity.Name, iScope, new smsfeedbackEntities());
-            var incomingMsgs = msgs.Where(msg => msg.ConversationId.StartsWith(msg.IsSmsBased ?
-                ConversationUtilities.CleanUpPhoneNumber(msg.From) :
-                ConversationUtilities.ExtractUserFromAddress(msg.From)));
-            var outgoingMsgs = msgs.Where(msg => msg.ConversationId.EndsWith(msg.IsSmsBased ?
-                ConversationUtilities.CleanUpPhoneNumber(msg.From) :
-                ConversationUtilities.ExtractUserFromAddress(msg.From)));
-
-            var incomingMsgsGr = from msg in incomingMsgs group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
-            foreach (var entry in incomingMsgsGr)
+            try
             {
-                resultIncomingInterval[entry.date].value += entry.count;
+                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
+                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
+                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+                Dictionary<DateTime, ChartValue> resultIncomingInterval = InitializeInterval(intervalStart, intervalEnd, Constants.DAY_GRANULARITY);
+                Dictionary<DateTime, ChartValue> resultOutgoingInterval = InitializeInterval(intervalStart, intervalEnd, Constants.DAY_GRANULARITY);
+
+                var msgs = GetMessages(intervalStart, intervalEnd, User.Identity.Name, iScope, context);
+                // Group messages by day and type incoming or outgoing
+                var msgsGrouped = from msg in msgs
+                                  group msg by new
+                                  {
+                                      msg.TimeReceived.Date,
+                                      incoming = msg.ConversationId.StartsWith(msg.IsSmsBased ?
+                                          ConversationUtilities.CleanUpPhoneNumber(msg.From) :
+                                          ConversationUtilities.ExtractUserFromAddress(msg.From))
+                                  } into g
+                                  select new { g.Key, Count = g.Count() };
+
+                Int32 noOfIncomingMsgs = 0;
+                Int32 noOfOutgoingMsgs = 0;
+                foreach (var msg in msgsGrouped)
+                {
+                    if (msg.Key.incoming)
+                    {
+                        resultIncomingInterval[msg.Key.Date].value = msg.Count;
+                        noOfIncomingMsgs += msg.Count;
+                    }
+                    else
+                    {
+                        resultOutgoingInterval[msg.Key.Date].value = msg.Count;
+                        noOfOutgoingMsgs += msg.Count;
+                    }
+                }
+
+                Int32 noOfClients = msgs.GroupBy(msg => msg.ConversationId).Count();
+
+                var row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepIncomingSmsChart, Resources.Global.RepIncomingSmsChart), new RepDataRowCell(noOfIncomingMsgs, noOfIncomingMsgs + " sms") });
+                var row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepOutgoingSmsChart, Resources.Global.RepOutgoingSmsChart), new RepDataRowCell(noOfOutgoingMsgs, noOfOutgoingMsgs + " sms") });
+                List<RepDataRow> pieChartContent = new List<RepDataRow>();
+                pieChartContent.Add(row1);
+                pieChartContent.Add(row2);
+                RepChartData pieChartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, Resources.Global.RepTypeTable), new RepDataColumn("18", Constants.STRING_COLUMN_TYPE, Resources.Global.RepValueTable) }, pieChartContent);
+
+                List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
+                content.Add(resultIncomingInterval);
+                content.Add(resultOutgoingInterval);
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepIncomingSmsChart), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepOutgoingSmsChart) }, PrepareJson(content, Resources.Global.RepSmsUnit));
+                RepInfoBox ibNoOfIncomingMsgs = new RepInfoBox(noOfIncomingMsgs, Resources.Global.RepSmsUnit); // TODO: Refactor name of static variable RepSmsUnit 
+                RepInfoBox ibNoOfOutgoingMsgs = new RepInfoBox(noOfOutgoingMsgs, Resources.Global.RepSmsUnit);
+                RepInfoBox ibTotalNoOfClients = new RepInfoBox(noOfClients, Resources.Global.RepClients);
+                RepInfoBox ibAvgNoOfIncomingMsgsPerClient = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
+                    new RepInfoBox(Math.Round((double)noOfIncomingMsgs / noOfClients, 2), Resources.Global.RepSmsPerClient);
+                RepInfoBox ibAvgNoOfOutgoingSmsPerClient = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient)
+                    : new RepInfoBox(Math.Round((double)noOfOutgoingMsgs / noOfClients, 2), Resources.Global.RepSmsPerClient);
+                var repData = new ReportData(new List<RepChartData>() { chartSource, pieChartSource },
+                        new List<RepInfoBox>() { ibNoOfIncomingMsgs, ibNoOfOutgoingMsgs,
+                        ibTotalNoOfClients, ibAvgNoOfIncomingMsgsPerClient, ibAvgNoOfOutgoingSmsPerClient });
+                return Json(repData, JsonRequestBehavior.AllowGet);
             }
-            var outgoingMsgsGr = from msg in outgoingMsgs group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
-            foreach (var entry in outgoingMsgsGr)
+            catch (Exception e)
             {
-                resultOutgoingInterval[entry.date].value += entry.count;
+                logger.Error("GetReportIncomingOutgoingData", e);
+                return Json("request failed", JsonRequestBehavior.AllowGet);
             }
-
-            Int32 noOfIncomingMsgs = incomingMsgs.Count();
-            Int32 noOfOutgoingMsgs = outgoingMsgs.Count();
-            Int32 noOfClients = msgs.GroupBy(msg => msg.ConversationId).Count();
-
-            var row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepIncomingSmsChart, Resources.Global.RepIncomingSmsChart), new RepDataRowCell(noOfIncomingMsgs, noOfIncomingMsgs + " sms") });
-            var row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepOutgoingSmsChart, Resources.Global.RepOutgoingSmsChart), new RepDataRowCell(noOfOutgoingMsgs, noOfOutgoingMsgs + " sms") });
-            List<RepDataRow> pieChartContent = new List<RepDataRow>();
-            pieChartContent.Add(row1);
-            pieChartContent.Add(row2);
-            RepChartData pieChartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, Resources.Global.RepTypeTable), new RepDataColumn("18", Constants.STRING_COLUMN_TYPE, Resources.Global.RepValueTable) }, pieChartContent);
-
-            List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
-            content.Add(resultIncomingInterval);
-            content.Add(resultOutgoingInterval);
-            RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepIncomingSmsChart), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepOutgoingSmsChart) }, PrepareJson(content, Resources.Global.RepSmsUnit));
-            RepInfoBox IbNoOfIncomingMsgs = new RepInfoBox(noOfIncomingMsgs, Resources.Global.RepSmsUnit); // TODO: Refactor name of static variable RepSmsUnit 
-            RepInfoBox IbNoOfOutgoingMsgs = new RepInfoBox(noOfOutgoingMsgs, Resources.Global.RepSmsUnit);
-            RepInfoBox IbTotalNoOfClients = new RepInfoBox(noOfClients, Resources.Global.RepClients);
-            RepInfoBox IbAvgNoOfIncomingMsgsPerClient = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
-                new RepInfoBox(Math.Round((double)noOfIncomingMsgs / noOfClients, 2), Resources.Global.RepSmsPerClient);
-            RepInfoBox IbAvgNoOfOutgoingSmsPerClient = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient)
-                : new RepInfoBox(Math.Round((double)noOfOutgoingMsgs / noOfClients, 2), Resources.Global.RepSmsPerClient);
-            var repData = new ReportData(new List<RepChartData>() { chartSource, pieChartSource },
-                    new List<RepInfoBox>() { IbNoOfIncomingMsgs, IbNoOfOutgoingMsgs,
-                        IbTotalNoOfClients, IbAvgNoOfIncomingMsgsPerClient, IbAvgNoOfOutgoingSmsPerClient });
-            return Json(repData, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetReportIncomingOutgoingGrData(String iIntervalStart, String iIntervalEnd, String iScope, String iGranularity)
