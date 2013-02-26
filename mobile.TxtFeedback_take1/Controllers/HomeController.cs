@@ -38,6 +38,8 @@ namespace mobile.TxtFeedback_take1.Controllers
             var desc = wp.Name;
             ViewBag.Store = desc;
             ViewBag.Message = wp.WelcomeMessage;
+            ViewBag.BusyMessage = wp.BusyMessage;
+            ViewBag.BusyTimerValue = wp.BusyMessageTimer;
             //the format of the db language should be en-US or ro-RO (general-LOCAL)
             ViewBag.Language = language.Split('-')[0];
             ViewBag.ComponentLocation = mStore;

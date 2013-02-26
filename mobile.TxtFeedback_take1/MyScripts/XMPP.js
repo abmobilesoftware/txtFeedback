@@ -18,7 +18,6 @@
 //#endregion
 
 window.app = window.app || {};
-window.app.receivedMsgID = 12345;
 
 //#region XMPP connection variables
 window.app.xmppConn = {};
@@ -51,7 +50,7 @@ window.app.defaultMessage = '';
 //#region Helpers
 function getMessage(msgID) {
    for (var j = 0; j < window.app.unsentMsgQueue.length; ++j) {
-      if (window.app.unsentMsgQueue[j].msgID == msgID) {
+      if (window.app.unsentMsgQueue[j].msgID === msgID) {
          return window.app.unsentMsgQueue[j];
       }
    }
@@ -60,7 +59,7 @@ function getMessage(msgID) {
 
 function removeMessageById(msgID) {
    for (var j = 0; j < window.app.unsentMsgQueue.length; ++j) {
-      if (window.app.unsentMsgQueue[j].msgID == msgID) {
+      if (window.app.unsentMsgQueue[j].msgID === msgID) {
          window.app.unsentMsgQueue.splice(j, 1);
          return true;
       }
@@ -124,8 +123,17 @@ window.app.logOnXmppNetwork = function (register) {
     }
 };
 
-window.app.handleIncommingMessage = function (msgContent, isIncomming) {
-    window.app.receivedMsgID++;
+//#region UUID generator, rfc4122 compliant, details http://www.ietf.org/rfc/rfc4122.txt
+function generateUUID() {
+   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+   });
+   return uuid;
+}
+//#endregion
+
+window.app.handleIncommingMessage = function (msgContent, isIncomming) {   
     //if the message comes from the multiplexer then we will have an encoded message, otherwise it will be a plain message
     var xmlDoc;
     if (window.DOMParser) {
@@ -150,7 +158,7 @@ window.app.handleIncommingMessage = function (msgContent, isIncomming) {
             fromID: fromID,
             toID: toID,
             convID: convID,
-            msgID: window.app.receivedMsgID,
+            msgID: generateUUID(),
             dateReceived: new Date(),
             text: newText,
             readStatus: false
@@ -427,18 +435,12 @@ window.app.disconnectXMPP = function () {
 window.app.saveLoginDetails = function () {
     var store = new Persist.Store('TxtFeedback');
     store.set('xmppUser', window.app.xmppUserToConnectAs);
-    store.set('xmppPassw', window.app.xmppPasswordForUser);
-    //save any unsent messages   
-    store.set('unsentMessages', JSON.stringify(window.app.unsentMsgQueue));    
+    store.set('xmppPassw', window.app.xmppPasswordForUser);   
 };
 
 window.app.loadLoginDetails = function () {
     //console.log("load login details");     
-    var store = new Persist.Store('TxtFeedback');
-    var unsentMsgs = store.get('unsentMessages');
-    if (unsentMsgs) {
-        window.app.unsentMsgQueue = eval(unsentMsgs);
-    }    
+    var store = new Persist.Store('TxtFeedback');    
     var user = store.get('xmppUser');
     if (user !== undefined && user) {
         //if (false) {

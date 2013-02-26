@@ -186,4 +186,16 @@ html, body
     visibility:visible;    
 }
 
-
+.busyTextMessage {
+   margin: 4px 4px 10px 4px;
+   padding: 3px 4px 3px 4px;
+   border-radius: 3px;
+   -moz-border-radius: 3px;
+   -webkit-border-radius: px;
+   color: rgb(255, 255, 255);
+   word-wrap: break-word;
+   position: relative;
+   border-width: 2px !important;
+   text-align: center;
+   background-color: rgb(72, 80, 83);
+}
