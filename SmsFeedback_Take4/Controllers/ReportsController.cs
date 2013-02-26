@@ -31,6 +31,9 @@ namespace SmsFeedback_Take4.Controllers
         private const int cSectionID6 = 6;
 
         private const String cDateFormat = "yyyy-MM-dd";
+        private const String cDateFormat1 = "dd-mm";
+        private const String cDateFormat2 = "dd/mm/yyyy";
+        private const String cDateFormat3 = "dd/mm";
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private EFInteraction mEFInterface = new EFInteraction();
         smsfeedbackEntities context = new smsfeedbackEntities();
@@ -46,14 +49,12 @@ namespace SmsFeedback_Take4.Controllers
         {
             try
             {
-                var iGranularity = Constants.DAY_GRANULARITY;
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
+                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                Dictionary<DateTime, ChartValue> resultInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
-                IEnumerable<Message> msgs = GetMessages(intervalStart, intervalEnd, User.Identity.Name, iScope, dbContext);
+                Dictionary<DateTime, ChartValue> resultInterval = InitializeInterval(intervalStart, intervalEnd, Constants.DAY_GRANULARITY);
+                IEnumerable<Message> msgs = GetMessages(intervalStart, intervalEnd, User.Identity.Name, iScope, context);
 
                 var msgsGrByDay = from msg in msgs
                                   group msg by new { msg.TimeReceived.Date } into g
@@ -79,22 +80,26 @@ namespace SmsFeedback_Take4.Controllers
                 TimeSpan avgResponseTime = (counter == 0) ? new TimeSpan(0) :
                     avgResponseTime = new TimeSpan((long)(totalResponseTime / counter));
 
-                // Build the result
-                List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
-                content.Add(resultInterval);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepTotalSmsChart) }, PrepareJson(content, Resources.Global.RepSmsUnit));
-                RepInfoBox IbTotalNoOfSms = new RepInfoBox(totalNoOfMsgs, Resources.Global.RepSmsUnit);
-                RepInfoBox IbAvgNoOfSmsPerDay = (interval.TotalDays == 0) ? new RepInfoBox(totalNoOfMsgs, Resources.Global.RepSmsPerDayUnit) :
+                List<Dictionary<DateTime, ChartValue>> chartOverviewContent = new List<Dictionary<DateTime, ChartValue>>();
+                chartOverviewContent.Add(resultInterval);
+                RepChartData chartContentWrapper = new RepChartData(new RepDataColumn[] { 
+                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepTotalSmsChart) 
+                }, PrepareJson(chartOverviewContent, Resources.Global.RepSmsUnit));
+                RepInfoBox ibTotalNoOfSms = new RepInfoBox(totalNoOfMsgs, Resources.Global.RepSmsUnit);
+                RepInfoBox ibAvgNoOfSmsPerDay = (interval.TotalDays == 0) ? new RepInfoBox(totalNoOfMsgs, Resources.Global.RepSmsPerDayUnit) :
                     new RepInfoBox(Math.Round(totalNoOfMsgs / interval.TotalDays, 2), Resources.Global.RepSmsPerDayUnit);
-                RepInfoBox IbTotalNoOfClients = new RepInfoBox(noOfClients, Resources.Global.RepClients);
-                RepInfoBox IbAvgNoOfSmsPerClient = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
+                RepInfoBox ibTotalNoOfClients = new RepInfoBox(noOfClients, Resources.Global.RepClients);
+                RepInfoBox ibAvgNoOfSmsPerClient = (noOfClients == 0) ? 
+                    new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
                     new RepInfoBox(Math.Round((double)totalNoOfMsgs / noOfClients, 2), Resources.Global.RepSmsPerClient);
-                RepInfoBox IbAvgResponseTime = (avgResponseTime.TotalMinutes < 1) ? new RepInfoBox(Math.Round(avgResponseTime.TotalSeconds, 2), Resources.Global.RepSecondsUnit)
+                RepInfoBox ibAvgResponseTime = (avgResponseTime.TotalMinutes < 1) ? 
+                    new RepInfoBox(Math.Round(avgResponseTime.TotalSeconds, 2), Resources.Global.RepSecondsUnit)
                     : new RepInfoBox(Math.Round(avgResponseTime.TotalMinutes, 2), Resources.Global.RepMinutesUnit);
 
-                var repData = new ReportData(new List<RepChartData>() { chartSource },
-                    new List<RepInfoBox>() { IbTotalNoOfSms, IbAvgNoOfSmsPerDay,
-                        IbTotalNoOfClients, IbAvgNoOfSmsPerClient, IbAvgResponseTime });
+                var repData = new ReportData(new List<RepChartData>() { chartContentWrapper },
+                    new List<RepInfoBox>() { ibTotalNoOfSms, ibAvgNoOfSmsPerDay,
+                        ibTotalNoOfClients, ibAvgNoOfSmsPerClient, ibAvgResponseTime });
                 return Json(repData, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -109,8 +114,8 @@ namespace SmsFeedback_Take4.Controllers
         {
             try
             {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
+                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
                 Dictionary<DateTime, ChartValue> resultInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
@@ -3092,23 +3097,23 @@ namespace SmsFeedback_Take4.Controllers
             return null;
         }
 
-        private String transformDate(DateTime iDate, String pattern)
+        private String TransformDate(DateTime iDate, String pattern)
         {
             // TODO: Look for a library to convert to different local formats
             var transformedDate = "";
-            if (pattern.Equals("dd-mm"))
+            if (pattern.Equals(cDateFormat1))
             {
                 var day = (iDate.Day < 10) ? "0" + iDate.Day.ToString() : iDate.Day.ToString();
                 var month = (iDate.Month < 10) ? "0" + iDate.Month.ToString() : iDate.Month.ToString();
                 transformedDate = day + "-" + month;
             }
-            else if (pattern.Equals("dd/mm/yyyy"))
+            else if (pattern.Equals(cDateFormat2))
             {
                 var day = (iDate.Day < 10) ? "0" + iDate.Day.ToString() : iDate.Day.ToString();
                 var month = (iDate.Month < 10) ? "0" + iDate.Month.ToString() : iDate.Month.ToString();
                 transformedDate = day + "/" + month + "/" + iDate.Year;
             }
-            else if (pattern.Equals("dd/mm"))
+            else if (pattern.Equals(cDateFormat3))
             {
                 var day = (iDate.Day < 10) ? "0" + iDate.Day.ToString() : iDate.Day.ToString();
                 var month = (iDate.Month < 10) ? "0" + iDate.Month.ToString() : iDate.Month.ToString();
@@ -3261,7 +3266,7 @@ namespace SmsFeedback_Take4.Controllers
             return outgoingNoOfSms;
         }
 
-        public Dictionary<DateTime, ChartValue> InitializeInterval(DateTime intervalStart, DateTime intervalEnd, string iGranularity)
+        private Dictionary<DateTime, ChartValue> InitializeInterval(DateTime intervalStart, DateTime intervalEnd, string iGranularity)
         {
             DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
             Calendar calendar = dfi.Calendar;
@@ -3269,7 +3274,7 @@ namespace SmsFeedback_Take4.Controllers
 
             if (iGranularity.Equals(Constants.DAY_GRANULARITY))
             {
-                resultInterval = Enumerable.Range(0, 1 + intervalEnd.Subtract(intervalStart).Days).Select(offset => intervalStart.AddDays(offset)).ToDictionary(d => d.Date, d => new ChartValue(0, transformDate(d, "dd/mm")));
+                resultInterval = Enumerable.Range(0, 1 + intervalEnd.Subtract(intervalStart).Days).Select(offset => intervalStart.AddDays(offset)).ToDictionary(d => d.Date, d => new ChartValue(0, TransformDate(d, "dd/mm")));
             }
             else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
             {
@@ -3279,7 +3284,7 @@ namespace SmsFeedback_Take4.Controllers
                     var currentDate = (DateTime.Compare(new DateTime(i.Year, i.Month, 1), intervalStart) <= 0) ? intervalStart : new DateTime(i.Year, i.Month, 1);
                     var endOfTheMonth = (DateTime.Compare(new DateTime(currentDate.Year, currentDate.Month, DateTime.DaysInMonth(currentDate.Year, currentDate.Month)), intervalEnd) > 0) ?
                                                                     intervalEnd : new DateTime(currentDate.Year, currentDate.Month, DateTime.DaysInMonth(currentDate.Year, currentDate.Month));
-                    resultInterval.Add(currentDate, new ChartValue(0, transformDate(currentDate, "dd/mm/yyyy") + " » " + transformDate(endOfTheMonth, "dd/mm/yyyy")));
+                    resultInterval.Add(currentDate, new ChartValue(0, TransformDate(currentDate, "dd/mm/yyyy") + " » " + TransformDate(endOfTheMonth, "dd/mm/yyyy")));
                     i = (DateTime.Compare(i, intervalStart) == 0) ? new DateTime(i.Year, i.Month, 1) : i;
                 }
             }
@@ -3292,7 +3297,7 @@ namespace SmsFeedback_Take4.Controllers
                     var lastDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(i).AddDays(6);
                     var endOfTheWeek = (DateTime.Compare(lastDayOfTheWeek, intervalEnd) > 0) ?
                                                                     intervalEnd : lastDayOfTheWeek;
-                    resultInterval.Add(currentDate, new ChartValue(0, transformDate(currentDate, "dd/mm/yyyy") + " » " + transformDate(endOfTheWeek, "dd/mm/yyyy")));
+                    resultInterval.Add(currentDate, new ChartValue(0, TransformDate(currentDate, "dd/mm/yyyy") + " » " + TransformDate(endOfTheWeek, "dd/mm/yyyy")));
                     // executed just first time
                     i = (DateTime.Compare(i, intervalStart) == 0) ? FirstDayOfWeekUtility.GetFirstDayOfWeek(i) : i;
                 }
@@ -3301,7 +3306,7 @@ namespace SmsFeedback_Take4.Controllers
             return resultInterval;
         }
 
-        public List<RepDataRow> PrepareJson(List<Dictionary<DateTime, ChartValue>> source, String unitOfMeasurement)
+        private List<RepDataRow> PrepareJson(List<Dictionary<DateTime, ChartValue>> source, String unitOfMeasurement)
         {
             List<RepDataRow> content = new List<RepDataRow>();
             var rowsTable = new Dictionary<DateTime, List<RepDataRowCell>>();
