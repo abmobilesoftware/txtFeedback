@@ -97,6 +97,7 @@ page width. Or, you can specify an exact pixel width. */
    margin-left: auto;
    margin-right: auto;
    height: 100%;
+   background: #fff;
 }
 
 header, #header {
