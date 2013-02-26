@@ -3090,13 +3090,13 @@ namespace SmsFeedback_Take4.Controllers
                                       });
             var report3 = new Report(cConvsIncomingVsOutgoingID, Resources.Global.RepIncomingVsOutgoing, "/Reports/GetReportIncomingOutgoingData",
                 new ReportSection[] { 
-                                        new ReportSection("FirstSection", Resources.Global.RepIncomingOutgoingChartTitle, 0, iChartSource: "/Reports/GetReportIncomingOutgoingGrData"), 
+                                        new ReportSection("FirstSection", iGroupId: "7", iTitle:Resources.Global.RepIncomingOutgoingChartTitle, iDataIndex: 0, iChartSource: "/Reports/GetReportIncomingOutgoingGrData"), 
                                         new ReportSection("SecondSection", Resources.Global.RepNoOfIncomingSms, 0),
                                         new ReportSection("SecondSection", Resources.Global.RepNoOfOutgoingSms, 1),
                                         new ReportSection("SecondSection", Resources.Global.RepTotalNoOfClients, 2),                                                                                        
                                         new ReportSection("SecondSection", Resources.Global.RepAvgNoOfIncomingSmsPerConversation, 3),
                                         new ReportSection("SecondSection", Resources.Global.RepAvgNoOfOutgoingSmsPerConversation, 4),
-                                        new ReportSection("ThirdSection", Resources.Global.RepIncomingOutgoingChartTitle, 1)
+                                        new ReportSection("ThirdSection", Resources.Global.RepIncomingOutgoingChartTitle, iGroupId: "7", iDataIndex: 1)
                                        });
             var report4 = new Report(cConvsPosVsNegID, Resources.Global.RepPositiveAndNegativeTitle, "/Reports/GetReportPosNegData",
                 new ReportSection[] {                                                                                         
