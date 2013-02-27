@@ -40,7 +40,7 @@
                 </div>
                 
                 <p>
-                    <button id="btnChangePassword" class="btnSaveChanges alignLeft"><%: Resources.Global.settingsBtnChangePassword %></button> 
+                    <button id="btnChangePassword" type="submit" class="btnSaveChanges alignLeft"><%: Resources.Global.settingsBtnChangePassword %></button> 
                 </p>
             </fieldset>
         </div>

@@ -168,7 +168,7 @@ namespace SmsFeedback_EFModels
    {
       [Display(Name= "sd_BillingDay", ResourceType=typeof(Resources.EntitySpecific) )]
       [Required]
-      [RegularExpression(@"\b([1-9]|1[0-9]|2[0-5])\b", ErrorMessage = "Invalid day: must be between 1 and 25")]
+      [RegularExpression(@"\b([1-9]|1[0-9]|2[0-5])\b", ErrorMessageResourceName = "sd_BillingDayErrorNotInInterval", ErrorMessageResourceType=typeof(Resources.EntitySpecific))]
       public int BillingDay { get; set; }
       [Display(Name= "sd_SubscriptionSMS", ResourceType = typeof(Resources.EntitySpecific))]
       [Required]

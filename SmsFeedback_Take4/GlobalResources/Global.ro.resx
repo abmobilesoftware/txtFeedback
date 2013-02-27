@@ -787,7 +787,7 @@
     <comment>Vă apropiaţi de limita bugetului lunar pentru compania dumneavoastră. Aţi cheltuit {0:0.00} {1} din maximul de {2:0.00} {1}. Asiguraţi-vă că aveţi suficiente credite pentru a putea trimite SMS-uri până la următoarea zi de facturare (ce va fi în {3})</comment>
   </data>
   <data name="warningMessageSentSpendingLimitReached" xml:space="preserve">
-    <value>You have reached the monthly spending limit  for your company. Purchase credit or raise spending limit to be able to send more SMS until the next billing month.</value>
+    <value>Aţi atins limita bugetului lunar. Vă rugăm să cumpăraţi credit sau să ridicaţi limita pentru a putea trimite SMS-uri până la următoarea zi de facturare.</value>
     <comment>Aţi atins limita bugetului lunar. Vă rugăm să cumpăraţi credit sau să ridicaţi limita pentru a putea trimite SMS-uri până la următoarea zi de facturare.</comment>
   </data>
   <data name="settingsCurrentPasswordFieldRequired" xml:space="preserve">
@@ -795,5 +795,23 @@
   </data>
   <data name="settingsNewPasswordFieldRequired" xml:space="preserve">
     <value>Parola noua este obligatorie</value>
+  </data>
+  <data name="settingsConfigureBusyMessageTimerHeader" xml:space="preserve">
+    <value>Intervalul după care va apărea Mesajul "Ocupat" (în millisecunde)</value>
+  </data>
+  <data name="settingsConfigureWpBusyMessageIntervalMsgError" xml:space="preserve">
+    <value>Intervalul de afişaj "Ocupat" nu poate lipsi</value>
+  </data>
+  <data name="settingsConfigureWpBusyMessageMsgError" xml:space="preserve">
+    <value>Mesajul de "Ocupat" nu poate lipsi</value>
+  </data>
+  <data name="settingsErrorBusyMessageNotInInterval" xml:space="preserve">
+    <value>Valoare interval invalidă: trebuie să fie între 1000 (1 secondă) şi 60000 (1 minut)</value>
+  </data>
+  <data name="settingsErrorWpBusyMessageLength" xml:space="preserve">
+    <value>Mesajul "Ocupat" trebuie sa conţină între 10 şi 160 caractere</value>
+  </data>
+  <data name="settingsWpBusyMessageHeader" xml:space="preserve">
+    <value>Mesaj "Ocupat"</value>
   </data>
 </root>

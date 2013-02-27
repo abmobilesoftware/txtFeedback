@@ -186,12 +186,12 @@ function resizeTriggered() {
       $('#rightColumn').height(rightAreaCandidateHeight);
       $('#leftColumn').height(contentWindowHeight - filterStripHeigh);
       $('#scrollableconversations').height(rightAreaCandidateHeight);
-      $('#scrollablemessagebox').height(rightAreaCandidateHeight - 135);
+      $('#scrollablemessagebox').height(rightAreaCandidateHeight - 133);
    } else {      
       contentContainer.height(rightAreaHeight + filterStripHeigh + marginTop + marginBottom);
       $('#leftColumn').height(rightAreaHeight + marginTop + marginBottom);
       $('#scrollableconversations').height(rightAreaHeight);
-      $('#scrollablemessagebox').height(rightAreaHeight - 135);
+      $('#scrollablemessagebox').height(rightAreaHeight - 133);
    } 
    $('.page').height(headerHeight + contentContainer.height());
    $('body').height(headerHeight + contentContainer.height());
@@ -367,4 +367,26 @@ $(function () {
    $('header').prepend(window.app.NotifyArea.render().$el);
    window.app.checkSmsSubscriptionStatus();  
 });
+//#endregion
+
+//#region Detect if event is supported
+var isEventSupported = (function () {
+   var TAGNAMES = {
+      'select': 'input', 'change': 'input',
+      'submit': 'form', 'reset': 'form',
+      'error': 'img', 'load': 'img', 'abort': 'img'
+   }
+   function isEventSupported(eventName) {
+      var el = document.createElement(TAGNAMES[eventName] || 'div');
+      eventName = 'on' + eventName;
+      var isSupported = (eventName in el);
+      if (!isSupported) {
+         el.setAttribute(eventName, 'return;');
+         isSupported = typeof el[eventName] == 'function';
+      }
+      el = null;
+      return isSupported;
+   }
+   return isEventSupported;
+})();
 //#endregion

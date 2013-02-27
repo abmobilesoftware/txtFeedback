@@ -15,7 +15,7 @@ window.app.msgView = {};
 //#region Helpers
 function getMessagePositionInRepository(convID, msgID) {
    var messagePosition = -1;
-   if (window.app.globalMessagesRep[convID] != null && window.app.globalMessagesRep[convID] != undefined) {
+   if (window.app.globalMessagesRep[convID] !== null && window.app.globalMessagesRep[convID] !== undefined) {
       for (var i = 0; i < window.app.globalMessagesRep[convID].models.length; ++i) {
          var currentModel = window.app.globalMessagesRep[convID].models[i];
          if (currentModel.attributes.Id === msgID) {
@@ -77,7 +77,8 @@ window.app.Message = Backbone.Model.extend({
       Read: false,
       Starred: false,
       WasSuccessfullySent: false,
-      ClientAcknowledge: false
+      ClientAcknowledge: false,
+      IsBusyMessage: false
    },
    parse: function (data, xhc) {
       //a small hack: the TimeReceived will be something like: "\/Date(1335790178707)\/" which is not something we can work with
@@ -98,6 +99,50 @@ window.app.Message = Backbone.Model.extend({
 });
 //#endregion
 
+//#region MessageView 
+window.app.MessageView = Backbone.View.extend({
+   model: window.app.Message,
+   tagName: "div",
+   initialize: function () {
+      _.bindAll(this, 'render');
+      this.messageTemplate = _.template($('#message-template').html());
+      this.model.on("change:WasSuccessfullySent", this.render);
+      this.model.on("change:ClientAcknowledge", this.render);
+      return this.render;
+   },
+   render: function () {
+      this.$el.html(this.messageTemplate(this.model.toJSON()));
+      var direction = "messagefrom";
+      if (this.model.attributes.Direction === "to") {
+         direction = "messageto";
+      }
+      this.$el.addClass("message");
+      this.$el.addClass(direction);
+      this.$el.attr("id", this.model.get("Id"));
+      var messageId = this.model.get("Id");
+      return this;
+   }
+});
+//#endregion
+
+//#region BusyMessageView
+window.app.BusyMessageView = Backbone.View.extend({
+   model: window.app.Message,
+   tagName: "div",
+   initialize: function () {
+      _.bindAll(this, 'render');
+      this.messageTemplate = _.template($('#busy-message-template').html());      
+      return this.render;
+   },
+   render: function () {
+      this.$el.html(this.messageTemplate(this.model.toJSON()));     
+      this.$el.attr("id", this.model.get("Id"));
+      var messageId = this.model.get("Id");
+      return this;
+   }
+});
+//#endregion
+
 //#region MessagesPool
 window.app.MessagesList = Backbone.Collection.extend({
    model: window.app.Message,
@@ -114,6 +159,19 @@ window.app.defaultMessagesOptions = {
    currentConversationId: ""
 };
 //#endregion
+
+window.app.busyMessageTimer = {};
+window.app.intervalAfterWhichToShowBusy = {};//default value
+function showBusyMessageIfRequired() {
+   window.app.msgView.messagesView.addBusyMessage();
+}
+window.app.startBusyMessageTimer = function () {
+   clearTimeout(window.app.busyMessageTimer);
+   if (_.isEmpty(window.app.intervalAfterWhichToShowBusy)) {
+      window.app.intervalAfterWhichToShowBusy = parseInt($("#busyTimerValue").text(), 10);
+   }
+   window.app.busyMessageTimer = setTimeout(showBusyMessageIfRequired, window.app.intervalAfterWhichToShowBusy);
+};
 
 window.app.sendMessageToClient = function (id, convID) {
    var inputBox = $("#replyText");
@@ -139,12 +197,18 @@ window.app.sendMessageToClient = function (id, convID) {
       });
       //reset the input form
       inputBox.val('');
-
+      //remove busy message
+      window.app.msgView.messagesView.removeBusyMessage();
       //signal all the other "listeners/agents"
       window.app.xmppHandlerInstance.send_reply(from, to, timeSent, convID, msgContent, window.app.suffixedMessageModeratorAddress, id);
+      //once the message has been the "busy timer kicks in"
+      window.app.startBusyMessageTimer();
    }
 };
 window.app.messageID = 412342;
+window.app.busyMessage = {};
+window.app.busyMessageID = -1;
+
 window.app.MessagesArea = function () {
    "use strict";
    var self = this;
@@ -152,12 +216,12 @@ window.app.MessagesArea = function () {
    $.extend(this, window.app.defaultMessagesOptions);
 
    $("#reply").click(function () {
-      window.app.sendMessageToClient(++window.app.messageID, self.currentConversationId);
+      window.app.sendMessageToClient(generateUUID(), self.currentConversationId);
    });
    $("#replyText").keydown(function (event) {
       if (event.which === 13) {
          event.preventDefault();
-         window.app.sendMessageToClient(++window.app.messageID, self.currentConversationId);
+         window.app.sendMessageToClient(generateUUID(), self.currentConversationId);
       }
    });
 
@@ -167,30 +231,6 @@ window.app.MessagesArea = function () {
       evaluate: /\{%([\s\S]+?)%\}/g,   // execute code: {% code_to_execute %}
       escape: /\{%-([\s\S]+?)%\}/g
    }; // excape HTML: {%- <script> %} prints &lt
-
-   var MessageView = Backbone.View.extend({
-      model: window.app.Message,
-      tagName: "div",
-      messageTemplate: _.template($('#message-template').html()),
-      initialize: function () {
-         _.bindAll(this, 'render');
-         this.model.on("change:WasSuccessfullySent", this.render);
-         this.model.on("change:ClientAcknowledge", this.render);         
-         return this.render;
-      },
-      render: function () {
-         this.$el.html(this.messageTemplate(this.model.toJSON()));
-         var direction = "messagefrom";         
-         if (this.model.attributes.Direction === "to") {
-            direction = "messageto";            
-         }
-         this.$el.addClass("message");
-         this.$el.addClass(direction);
-         
-         var messageId = this.model.get("Id");         
-         return this;
-      }      
-   });
 
    //we fade in when we first load a conversation, afterwards we just render - no fade in
    var performFadeIn = false;
@@ -203,7 +243,9 @@ window.app.MessagesArea = function () {
             "appendMessage",
             "appendMessageToDiv",
             "resetViewToDefault",
-            "newMessageReceived");// to solve the this issue
+            "newMessageReceived",
+            "addBusyMessage",
+            "removeBusyMessage");// to solve the this issue
          this.messages = new window.app.MessagesList();
          this.messages.bind("reset", this.render);
          $(this.el).append("<div class='clear'></div>");
@@ -221,6 +263,7 @@ window.app.MessagesArea = function () {
          messages.identifier = conversationId;
          messages.bind("reset", this.render);
          messages.bind('add', this.appendMessage);
+         messages.bind('remove', this.removeMessage);
          performFadeIn = true;
 
          self.currentConversationId = conversationId;
@@ -234,9 +277,31 @@ window.app.MessagesArea = function () {
             ConvID: conversationId,
             Direction: "from",
             Read: false,
-            Starred: false
+            Starred: false,
+            Id: generateUUID()
          });        
          messages.add(msgWelcome);                      
+      },
+      addBusyMessage: function () {         
+         if (_.isEmpty(window.app.busyMessage)) {
+            window.app.busyMessage = new window.app.Message({
+               From: window.app.defaultTo,
+               To: window.app.defaultFrom,
+               Text: $("#busyMessage").text(),
+               TimeReceived: new Date(),
+               ConvID: self.currentConversationId,
+               Direction: "from",
+               Read: false,
+               Starred: false,
+               Id: window.app.busyMessageID,
+               IsBusyMessage: true
+            });
+         }         
+         this.removeBusyMessage();
+         window.app.globalMessagesRep[self.currentConversationId].add(window.app.busyMessage);
+      },
+      removeBusyMessage:function() {
+         window.app.globalMessagesRep[self.currentConversationId].remove(window.app.busyMessage);
       },
       render: function () {
           $("#messagesbox").html('');
@@ -254,7 +319,12 @@ window.app.MessagesArea = function () {
             this.appendMessageToDiv(msg, true, true);
          }
       },
+      removeMessage: function( msg) {
+         $('div[id='+msg.get("Id")+']').fadeOut('slow').remove();
+      },
       newMessageReceived: function (fromID, convID, msgID, dateReceived, text) {
+         clearTimeout(window.app.busyMessageTimer);
+         window.app.msgView.messagesView.removeBusyMessage();
          var newMsg = new window.app.Message({ Id: msgID });
          //decide if this is a from or to message
          var fromTo = getFromToFromConversation(convID);
@@ -277,7 +347,13 @@ window.app.MessagesArea = function () {
          }         
       },
       appendMessageToDiv: function (msg, performFadeIn, scrollToBottomParam) {
-         var msgView = new MessageView({ model: msg });
+         var msgView;
+         if(msg.get("IsBusyMessage") === false) {
+            msgView = new window.app.MessageView({ model: msg });
+         }
+         else {
+            msgView = new window.app.BusyMessageView({ model: msg });
+         }
          var item = msgView.render().el;
          $(".debug").empty();
          $(this.el).append(item);
@@ -331,15 +407,7 @@ $(function () {
             window.app.disconnectXMPP();
          });
          window.app.loadLoginDetails();
-         //DA launch timer only if not on blackberry
-         //var blackBerry = false;
-         //var ua = window.navigator.userAgent;
-         //if (ua.indexOf("BlackBerry") >= 0) {            
-         //      blackBerry = true;            
-         //}
-         //if (!blackBerry) {
-            window.app.startReconnectTimer();
-         //}
+         window.app.startReconnectTimer();      
    }
     
    $("#replyText").click(function () {
@@ -348,16 +416,9 @@ $(function () {
        }
    });
    
-
    $("#replyText").blur(function () {
        $("#footer").css("position", "fixed");
-   });
-   
-  /*
-   $(window).scroll(function () {
-       $("#footer").css("top", window.scrollTop + $(window).height - 50);
-   });
-   */
+   });  
 });
 
 

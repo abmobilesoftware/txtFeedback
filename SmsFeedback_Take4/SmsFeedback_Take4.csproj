@@ -94,6 +94,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Nuget.Core.1.0.1120.104\lib\net40\NuGet.Core.dll</HintPath>
     </Reference>
+    <Reference Include="OneApi">
+      <HintPath>..\ExternalReferences\OneApi.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.103.1\lib\net4\RestSharp.dll</HintPath>
     </Reference>
@@ -214,6 +217,7 @@
     <Compile Include="Models\Helpers\ReportModel\ReportResourceOptions.cs" />
     <Compile Include="Models\Helpers\SubscriptionSmsStatus.cs" />
     <Compile Include="Models\Interfaces\IInternalSMSRepository.cs" />
+    <Compile Include="Models\Repositories\CompatelSmsRepository.cs" />
     <Compile Include="Models\Repositories\EFSmsRepository.cs" />
     <Compile Include="Models\Repositories\FacadeSMSRepository.cs" />
     <Compile Include="Models\Interfaces\IExternalSmsRepository.cs" />
@@ -315,6 +319,7 @@
     <Content Include="Content\images\help_16x16.png" />
     <Content Include="Content\images\in16x16.png" />
     <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\images\loginImage.jpg" />
     <Content Include="Content\images\loginImage.png" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\logo1.png" />
@@ -461,6 +466,7 @@
     <Content Include="MyScripts\Settings\SettingsFacade.js" />
     <Content Include="MyScripts\WorkingPoints.js" />
     <Content Include="MyScripts\Utilities.js" />
+    <Content Include="MyScripts\WorkingPointsConfigure.js" />
     <Content Include="MyScripts\XMPP.js" />
     <Content Include="Nexmo\nexmoTest.js" />
     <Content Include="QUnit\ControllerTest.js" />
@@ -593,6 +599,8 @@
     <Content Include="Views\WarningMailer\SpendingLimitReachedEmail.cshtml" />
     <Content Include="Views\UserMailer\_Layout.cshtml" />
     <Content Include="Views\UserMailer\EmailTemplate.cshtml" />
+    <Content Include="Views\WorkingPoints\EditWorkingPointInfo.cshtml" />
+    <Content Include="Views\WorkingPoints\WorkingPointsInfo.cshtml" />
     <None Include="Web.Debug_demo.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
