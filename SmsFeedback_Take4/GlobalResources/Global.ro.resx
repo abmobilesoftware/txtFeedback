@@ -814,4 +814,7 @@
   <data name="settingsWpBusyMessageHeader" xml:space="preserve">
     <value>Mesaj "Ocupat"</value>
   </data>
+  <data name="gotANewMessage" xml:space="preserve">
+    <value>Ai primit un mesaj!</value>
+  </data>
 </root>

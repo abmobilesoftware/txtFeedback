@@ -205,6 +205,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You received a message!.
+        /// </summary>
+        public static string gotANewMessage {
+            get {
+                return ResourceManager.GetString("gotANewMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string helpPageTitle {
