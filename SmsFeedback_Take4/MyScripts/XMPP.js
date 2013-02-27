@@ -21,6 +21,7 @@ window.app.xmppConn = {};
 window.app.getFeaturesIQID = "info14";
 window.app.selfXmppAddress = "";
 window.app.tempMsgQueue = [];
+window.app.pageBlinkIntervalId = null;
 /*
 when receiving messages it is important that each message is associated an unique id (js wise)
 so we start from a certain id and each time we receive/send a message, we increment the id
@@ -45,6 +46,23 @@ function removeMessageById(msgID) {
       }
    }
    return false;   
+}
+
+function updatePageTitle() {
+    pageTitle1 = window.app.pageTitle;
+    pageTitle2 = $("#gotANewMessage").val();
+    if (document.title == pageTitle1) {
+        document.title = pageTitle2;
+    } else {
+        document.title = pageTitle1;
+    }
+}
+
+function stopUpdatingPageTitle() {
+    clearInterval(window.app.pageBlinkIntervalId);
+    document.title = window.app.pageTitle;
+    document.onmousemove = null;
+    window.app.pageBlinkIntervalId = null;
 }
 //#endregion
 
@@ -386,7 +404,11 @@ window.app.XMPPhandler = function XMPPhandler() {
             }
          }
          else {
-            //incommingMSG
+             //incommingMSG
+             if (window.app.pageBlinkIntervalId == null) {
+                 window.app.pageBlinkIntervalId = setInterval(updatePageTitle, 2000);
+                 document.onmousemove = stopUpdatingPageTitle;
+             }
             //DA check if we are dealing with a delayed message or not - if yes - disregard the message
             if ($(message).children("delay").length === 0) {
                //according to http://xmpp.org/extensions/xep-0160.html#flow if we are dealing with a offline message we will have a delay child

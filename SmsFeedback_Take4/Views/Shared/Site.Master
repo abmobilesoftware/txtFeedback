@@ -132,6 +132,7 @@
            </div>
          <footer>
          </footer>
+          <input type ="hidden" value="<%: Resources.Global.gotANewMessage %>" id="gotANewMessage" />
       </div>
    </div>
 </body>
