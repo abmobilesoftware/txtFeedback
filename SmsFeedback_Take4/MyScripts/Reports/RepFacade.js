@@ -14,6 +14,8 @@
 /*global Spinner */
 /*global ReportsArea */
 //#endregion
+window.app = window.app || {};
+window.app.pageTitle = document.title;
 
 function updateChartsDimensions() {
    // the charts are redrawn at a more appropriate scale.
