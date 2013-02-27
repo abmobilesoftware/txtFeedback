@@ -85,7 +85,7 @@ public class TxtFeedbackModerator implements Component {
 	 * 		- askForAck: 1.TRUE (internal message) - ackDest - filled in, ackID - null
 	 * 					 2.FALSE (acknowledge message) - askDest - null, ackID - filled in 				 
 	 */	
-	private void sendMessage(String iTo, String iBody, String iSubject, String iMsgID, Message.Type iType, boolean askForAck, String iAckID, String iAckDest) {
+	private void sendMessage(String iFrom, String iTo, String iBody, String iSubject, String iMsgID, Message.Type iType, boolean askForAck, String iAckID, String iAckDest) {
 		try {
 			Message lResponseMessage = new Message();
 			lResponseMessage.setTo(iTo);
@@ -101,7 +101,12 @@ public class TxtFeedbackModerator implements Component {
 			if (iMsgID != null) {
 				lResponseMessage.setID(iMsgID);
 			}
-			
+			//DA to be able to multiplex on Beem we need to have a different "from"
+			if(!iFrom.isEmpty()) {
+			String[] split = iFrom.split("@");
+			String from = String.format("%s@%s.%s",split[0],Main.SUBDOMAIN,Main.DOMAIN);			
+			lResponseMessage.setFrom(from);//split[0] + "@"+ Main.SUBDOMAIN+ "." + Main.DOMAIN);
+			}
 			if (askForAck) {
 				if (iAckDest != null) {
 					lResponseMessage.setRequest(iAckDest);
@@ -139,8 +144,8 @@ public class TxtFeedbackModerator implements Component {
 	 * 	- ackDest : the recipient intended to receive the acknowledge for this message. 
 	 *  Obs: askForAck - true
 	 */
-	public void sendInternalMessage(String iBody, String iTo, String iMsgID, String ackDest) {
-		sendMessage(iTo, iBody, Constants.INTERNAL_PACKET, iMsgID, Type.chat, true, null, ackDest);
+	public void sendInternalMessage(String iBody, String iFrom, String iTo, String iMsgID, String ackDest) {
+		sendMessage(iFrom, iTo, iBody, Constants.INTERNAL_PACKET, iMsgID, Type.chat, true, null, ackDest);
 	}
 	
 	/*
@@ -153,8 +158,8 @@ public class TxtFeedbackModerator implements Component {
 	 * 	<received xmlns='urn:xmpp:receipts' id='iAckID' />
 	 * </message> 
 	 */
-	public void sendAcknowledgeMessage(String iTo, String iSubject, String iAckID) {
-		sendMessage(iTo, null, iSubject, UUID.randomUUID().toString(), null, false, iAckID, null);
+	public void sendAcknowledgeMessage(String iFrom, String iTo, String iSubject, String iAckID) {
+		sendMessage(iFrom, iTo, null, iSubject, UUID.randomUUID().toString(), null, false, iAckID, null);
 	}
 	
 	public void sendSmsAcknowledgeMessage(String iTo, String iSubject, String iAckID, String iPayload) {
