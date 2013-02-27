@@ -13,7 +13,7 @@
 /*global Spinner */
 //#endregion
 window.app = window.app || {};
-
+window.app.pageTitle = document.title;
 
 function initializeSettingsGUI() {
    "use strict";   
