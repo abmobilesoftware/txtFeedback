@@ -95,6 +95,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eurogsm", "eurogsm\eurogsm.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tcoffee", "tcoffee\tcoffee.csproj", "{6459D8CA-6E38-4C21-A396-15471C89D28E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kungsg", "kungsg\kungsg.csproj", "{EAD86925-9D1B-4BFC-B7C4-595A8AC4DFAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -289,6 +291,10 @@ Global
 		{6459D8CA-6E38-4C21-A396-15471C89D28E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6459D8CA-6E38-4C21-A396-15471C89D28E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6459D8CA-6E38-4C21-A396-15471C89D28E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAD86925-9D1B-4BFC-B7C4-595A8AC4DFAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAD86925-9D1B-4BFC-B7C4-595A8AC4DFAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAD86925-9D1B-4BFC-B7C4-595A8AC4DFAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAD86925-9D1B-4BFC-B7C4-595A8AC4DFAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
