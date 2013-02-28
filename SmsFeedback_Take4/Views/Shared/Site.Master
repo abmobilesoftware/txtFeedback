@@ -47,8 +47,7 @@
    <!--<script src="<%: Url.Content("~/Scripts/backbone.js") %>" type="application/javascript"></script>
    <script src="<%: Url.Content("~/Scripts/underscore.js") %>" type="application/javascript"></script>-->
    <script src="<%: Url.Content("~/Scripts/persist-min.js") %>" type="application/javascript"></script>
-
-    
+    <script src="<%: Url.Content("~/Scripts/modernizr-2.0.6-development-only.js") %>" type="application/javascript"></script>    
    
     <% if (Html.IsReleaseBuild())      { %>
       <script src="<%: Url.Content("~/Scripts/Strophe/Minified/strophe.js") %>" type="application/javascript"></script> 
@@ -136,6 +135,10 @@
          <footer>
          </footer>
           <input type ="hidden" value="<%: Resources.Global.gotANewMessage %>" id="gotANewMessage" />
+          <audio id="newMsgSound" preload="auto">
+             <source src="<%: Url.Content("~/Content/audio/multimedia_pop_up_alert_tone_2.wav") %>" type="audio/wav" />
+             <source src="<%: Url.Content("~/Content/audio/multimedia_pop_up_alert_tone_2.mp3") %>" type="audio/mp3" />
+          </audio>
       </div>
    </div>
 </body>

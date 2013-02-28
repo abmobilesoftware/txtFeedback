@@ -243,6 +243,7 @@
     <Compile Include="Utilities\ViewExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\audio\multimedia_pop_up_alert_tone_2.mp3" />
     <Content Include="Content\css\areaDefinitions.css" />
     <Content Include="Content\contact.css" />
     <Content Include="Content\css\datepicker\datepicker.css" />
