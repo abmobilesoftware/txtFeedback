@@ -504,7 +504,8 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             "resetViewToDefault",
             "newMessageReceived",
             "messageSuccessfullySent",
-            "setAcknowledgeFromClient");// to solve the this issue
+            "setAcknowledgeFromClient",
+            "deleteMsgsOfAConv");// to solve the this issue
          this.messages = new window.app.MessagesList();
          this.messages.bind("reset", this.render);
       },
@@ -546,7 +547,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                   startTimer(3000);
                   spinner.stop();
                   $("#textareaContainer").removeClass("invisible");
-                  $("textareaContainer").fadeIn("slow");
+                  $("#textareaContainer").fadeIn("slow");
                   $("#tagsContainer").removeClass("invisible");
                   $("#tagsContainer").fadeIn("slow");
                }
@@ -556,6 +557,10 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                value.set("Starred", window.app.selectedConversation.get("Starred"));
             });
          }
+      },
+      deleteMsgsOfAConv: function (convId) {
+          delete window.app.globalMessagesRep[convId];
+          this.resetViewToDefault();
       },
       render: function () {
          $("#messagesbox").html('');
@@ -629,6 +634,9 @@ function MessagesArea(convView, tagsArea, wpsArea) {
 
    $(document).bind('conversationSelected', function (ev, data) {
       self.messagesView.getMessages(data.convID);
+   });
+   $(document).bind('deleteMessagesOfAConversation', function (ev, data) {
+       self.messagesView.deleteMsgsOfAConv(data.convId);
    });
    // The attachment of the handler for this type of event is done only once
 }

@@ -113,6 +113,7 @@ namespace SmsFeedback_Take4.Controllers
           }
        }
 
+       [HttpGet]
        public JsonResult ConversationsList(
                                               bool onlyFavorites,
                                               string[] tags,
@@ -211,15 +212,16 @@ namespace SmsFeedback_Take4.Controllers
           return null;
        }
 
-       public JsonResult DeleteConversation(String convId)
+       [HttpDelete]
+       public JsonResult Delete(String id)
        {
-          if (convId == null)
+          if (id == null)
           {
              logger.Error("No conversationId passed");
              return Json(new Error(Constants.NO_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
           }
 
-          if (convId.Equals(Constants.NULL_STRING))
+          if (id.Equals(Constants.NULL_STRING))
           {
              logger.Error("Conversation Id was null");
              return Json(new Error(Constants.NULL_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
@@ -229,7 +231,7 @@ namespace SmsFeedback_Take4.Controllers
           {
              if (HttpContext.User.IsInRole(MessagesController.cMessageOrganizer))
              {
-                mEFInterface.DeleteConversation(convId, context);
+                mEFInterface.DeleteConversation(id, context);
                 return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
              }
              return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);

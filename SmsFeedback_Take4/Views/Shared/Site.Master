@@ -55,17 +55,19 @@
       <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/XMPP.js") %>" type="application/javascript"></script>      
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.cookie.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.simplemodal.js") %>" type="application/javascript"></script>
-      <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/contact.js") %>" type="application/javascript"></script>     
+      <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/contact.js") %>" type="application/javascript"></script>  
+      <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Transition.js") %>" type="application/javascript"></script>   
    <% }
       else
       { %>
       <script src="<%: Url.Content("~/Scripts/Strophe/strophe.js") %>" type="application/javascript"></script> 
       <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Utilities.js") %>" type="application/javascript"></script>
       <script src="<%: Url.UpdatedResourceLink("~/MyScripts/XMPP.js") %>" type="application/javascript"></script>      
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.cookie.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.simplemodal.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/contact.js") %>" type="application/javascript"></script>     
-      <% } %>         
+      <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.cookie.js") %>" type="application/javascript"></script>
+      <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.simplemodal.js") %>" type="application/javascript"></script>
+      <script src="<%: Url.UpdatedResourceLink("~/MyScripts/contact.js") %>" type="application/javascript"></script>     
+      <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Transition.js") %>" type="application/javascript"></script>
+   <% } %>         
 
    <asp:ContentPlaceHolder ID="IncludesArea" runat="server" />
 </head>
