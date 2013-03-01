@@ -40,7 +40,7 @@ window.app.Conversation = Backbone.Model.extend({
         Starred: false, //favorite conversation or not
         ClientDisplayName: "defaultClient",
         ClientIsSupportBot: false,
-        IsSmsBased: false
+        IsSmsBased: false       
     },
     parse: function (data, xhc) {
         data.TimeUpdated = data.TimeReceived;
@@ -48,6 +48,7 @@ window.app.Conversation = Backbone.Model.extend({
             data.IsSmsBased = false;
         } else {
             data.IsSmsBased = true;
+            data.ClientDisplayName = data.From.substring(0, data.From.length - 4) + "....";
         }
 
         return data;
