@@ -1,4 +1,4 @@
-﻿//#region Defines to stop jshint from complaining about "undefined objects"
+//#region Defines to stop jshint from complaining about "undefined objects"
 /*global window */
 /*global Strophe */
 /*global document */

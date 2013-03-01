@@ -250,6 +250,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\audio\multimedia_pop_up_alert_tone_2.mp3" />
+    <Content Include="Content\audio\multimedia_pop_up_alert_tone_2.wav" />
     <Content Include="Content\css\areaDefinitions.css" />
     <Content Include="Content\contact.css" />
     <Content Include="Content\css\datepicker\datepicker.css" />
@@ -465,6 +466,7 @@
     <Content Include="MyScripts\Settings\Minified\SettingsFacade.js" />
     <Content Include="MyScripts\Settings\settings.js" />
     <Content Include="MyScripts\Settings\SettingsFacade.js" />
+    <Content Include="MyScripts\Transition.js" />
     <Content Include="MyScripts\WorkingPoints.js" />
     <Content Include="MyScripts\Utilities.js" />
     <Content Include="MyScripts\WorkingPointsConfigure.js" />
@@ -766,6 +768,7 @@ java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)My
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Filtering.js" -o "$(ProjectDir)MyScripts\Minified\Filtering.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Messages.js" -o "$(ProjectDir)MyScripts\Minified\Messages.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Utilities.js" -o "$(ProjectDir)MyScripts\Minified\Utilities.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Transition.js" -o "$(ProjectDir)MyScripts\Minified\Transition.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\WorkingPoints.js" -o "$(ProjectDir)MyScripts\Minified\WorkingPoints.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\XMPP.js" -o "$(ProjectDir)MyScripts\Minified\XMPP.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Settings\SettingsFacade.js" -o "$(ProjectDir)MyScripts\Settings\Minified\SettingsFacade.js"
