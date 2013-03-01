@@ -155,7 +155,7 @@ $(function () {
 
             $(".deleteConvImg", this.$el).bind("click", function (e) {
                 e.preventDefault();
-                if (confirm($("#confirmDeleteConversation").val() + " \"" + selfConvView.model.get("From") + "\" ?")) {
+                if (confirm($("#confirmDeleteConversation").val() + " \"" + selfConvView.model.get("ClientDisplayName") + "\" ?")) {
                     selfConvView.transition.startTransition();
                     selfConvView.model.destroy({
                         wait: true,
