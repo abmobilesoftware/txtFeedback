@@ -194,7 +194,8 @@ public class MessageProcessor {
 	private void sendSmsMessageToStaff(Message iPacket, TxtPacket internalPacket) {
 		final Message receivedPacket = iPacket;
 		try {				
-			restGtw.saveMessage(
+			@SuppressWarnings("unused")
+			MessageStatus msgStatus = restGtw.saveMessage(
 						internalPacket.getFromAddress(), 
 						internalPacket.getToAddress(), 
 						internalPacket.getConversationId(),
@@ -204,8 +205,9 @@ public class MessageProcessor {
 			ArrayList<Agent> handlers = restGtw.getHandlersForMessage(Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()), internalPacket.getConversationId(), true);
 			for (int i=0; i<handlers.size(); ++i) {
 				String from = internalPacket.getFromAddress();
-				moderator.sendInternalMessage(internalPacket.toXML(), from, 
-						handlers.get(i).getUser(), internalPacket.getFromAddress());			
+				moderator.sendInternalMessage(internalPacket.toXML(), handlers.get(i).getUser(), 
+						String.valueOf(msgStatus.getMessageID()),
+						from);			
 			}
 		} catch (RESTException e) {
 			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());

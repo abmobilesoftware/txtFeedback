@@ -30,7 +30,7 @@ window.app.MenuItemModel = Backbone.Model.extend({
       Action: "Action",
       callbackFunction: "",
       FriendlyName: "",
-      selected: false,
+      selected: false
    },
    idAttribute: "itemId"
 });
