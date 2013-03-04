@@ -412,6 +412,7 @@ namespace SmsFeedback_Take4.Controllers
                 headerContent.Add(new RepDataColumn(columnCounter.ToString(), Constants.STRING_COLUMN_TYPE));
                 String mostUsedTag = Resources.Global.RepNoneDefaultValue;
                 Int32 tagMaxUsage = -1;
+                Int32 noOfTags = 0;
 
                 foreach (var tagGr in tagsGr)
                 {
@@ -422,6 +423,7 @@ namespace SmsFeedback_Take4.Controllers
                             tagMaxUsage = tagGr.count;
                             mostUsedTag = tagGr.key;
                         }
+                        ++noOfTags;
                         ++columnCounter;
                         rowContent.Add(new RepDataRowCell(tagGr.count, tagGr.count + " " + Resources.Global.RepConversationsUnit));
                         headerContent.Add(new RepDataColumn(columnCounter.ToString(), Constants.NUMBER_COLUMN_TYPE, tagGr.key.ToString()));
@@ -435,7 +437,6 @@ namespace SmsFeedback_Take4.Controllers
                 }
 
                 RepChartData chartSource = new RepChartData(headerContent, new RepDataRow[] { new RepDataRow(rowContent) });
-                Int32 noOfTags = tags.Count();
                 string telNumber = "00000000";
                 var noOfConversations = ((from u in dbContext.Users
                                           where u.UserName.Equals(User.Identity.Name)
