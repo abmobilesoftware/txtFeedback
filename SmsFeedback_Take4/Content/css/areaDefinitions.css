@@ -1,8 +1,22 @@
-﻿.headerArea {
+﻿/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-width : 1024px) {
+.headerArea {
    width: 100%;
    background-color: #183540;   
    height: 45px;
    min-height: 45px;
+}
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+   .headerArea {
+   display:none;
+   visibility:collapse;
+   }
 }
 
 .leftSideArea {
@@ -72,10 +86,25 @@ ul.item1 {
     display: block;
 }
 
+
+@media only screen 
+and (min-width : 1024px) {
 #leftColumn {
    color: white;
    overflow: auto;
 }
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+   #leftColumn {
+   display:none;
+   visibility:collapse;
+   }
+}
+
 
 .rightColumn { 
     color: #000000;     

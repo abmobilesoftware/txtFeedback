@@ -8,14 +8,8 @@ body {
    padding: 0;
 }
 
-html {
-   background-image: linear-gradient(top, rgb(191,215,227) 26%, rgb(144,160,168) 82%);
-   background-image: -o-linear-gradient(top, rgb(191,215,227) 26%, rgb(144,160,168) 82%);
-   background-image: -moz-linear-gradient(top, rgb(191,215,227) 26%, rgb(144,160,168) 82%);
-   background-image: -webkit-linear-gradient(top, rgb(191,215,227) 26%, rgb(144,160,168) 82%);
-   background-image: -ms-linear-gradient(top, rgb(191,215,227) 26%, rgb(144,160,168) 82%);
-   background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, rgb(191,215,227)), color-stop(0.82, rgb(144,160,168)) );
-   background-color: #A0B2BB;
+html {   
+   background-color: white;
 }
 
 html, body {
@@ -102,13 +96,7 @@ page width. Or, you can specify an exact pixel width. */
 
 header, #header {
    position: relative;
-   background-color: #F3F6F7;
-   background-image: linear-gradient(top, rgb(241,243,245) 26%, rgb(227,227,227) 65%);
-   background-image: -o-linear-gradient(top, rgb(241,243,245) 26%, rgb(227,227,227) 65%);
-   background-image: -moz-linear-gradient(top, rgb(241,243,245) 26%, rgb(227,227,227) 65%);
-   background-image: -webkit-linear-gradient(top, rgb(241,243,245) 26%, rgb(227,227,227) 65%);
-   background-image: -ms-linear-gradient(top, rgb(241,243,245) 26%, rgb(227,227,227) 65%);
-   background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, rgb(241,243,245)), color-stop(0.65, rgb(227,227,227)) );
+   background-color: white;   
    margin-bottom: 0px;
    color: #000;
    padding-top: 5px;
@@ -187,33 +175,21 @@ ul#menu {
          color: #fff;
       }
 
-    ul#menu li .currentMenuItem {
-   background-color: #183540 !important;
-   background-image: linear-gradient(top, #183540 26%, #183540 82%) !important;
-   background-image: -o-linear-gradient(top, #183540 26%, #183540 82%) !important;
-   background-image: -moz-linear-gradient(top, #183540 26%, #183540 82%) !important;
-   background-image: -webkit-linear-gradient(top, #183540 26%, #183540 82%) !important;
-   background-image: -ms-linear-gradient(top, #183540 26%, #183540 82%) !important;
-   background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, #183540), color-stop(0.82, #183540) ) !important;
-   color: white !important;
+ul#menu li .currentMenuItem {
+      background-color: #0C2639 !important;  
+      color: white !important;
 }
-      ul#menu li a {
-         padding: 14px 20px 12.5px;
-         font-weight: bold;
-         text-decoration: none;
-         line-height: 2.8em;
-         background-color: #A2B4BD;
-         background-image: linear-gradient(top, #A2B4BD 26%, #A2B4BD 82%);
-         background-image: -o-linear-gradient(top, #A2B4BD 26%, #A2B4BD 82%);
-         background-image: -moz-linear-gradient(top, #A2B4BD 26%, #A2B4BD 82%);
-         background-image: -webkit-linear-gradient(top, #A2B4BD 26%, #A2B4BD 82%);
-         background-image: -ms-linear-gradient(top, #A2B4BD 26%, #A2B4BD 82%);
-         background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.26, #A2B4BD), color-stop(0.82, #A2B4BD) );
-         color: #183540;
-         border-radius: 3px 3px 0 0;
-         -webkit-border-radius: 3px 3px 0 0;
-         -moz-border-radius: 3px 3px 0 0;
-      }
+ul#menu li a {
+   padding: 14px 20px 12.5px;
+   font-weight: bold;
+   text-decoration: none;
+   line-height: 2.8em;
+   background-color: #A2B4BD;         
+   color: #183540;
+   border-radius: 3px 3px 0 0;
+   -webkit-border-radius: 3px 3px 0 0;
+   -moz-border-radius: 3px 3px 0 0;
+}
 
 
 
@@ -327,6 +303,9 @@ border: solid 1px #e8eef4;
    margin-top: 40px;
 }
 
+
+@media only screen 
+and (min-width : 1024px) {
 div#title {
    display: block;
    float: left;
@@ -334,6 +313,18 @@ div#title {
    margin-right: 20px;
    position: relative;
    z-index: 1;
+}
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+   div#title {
+   display:none;
+   visibility:collapse;
+   }
+
 }
 
 #logindisplay {
@@ -529,15 +520,27 @@ div.statusbarclose {
    color: #F7941D;
 }
 
+@media only screen 
+and (min-width : 1024px) {
 #feedbackArea {
    position: relative;
    float:right;
-   /*top: 25px;
-right: 5px;*/
    padding-top: 15px;
    z-index: 5;
    font-size: 15px;
 }
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+   #feedbackArea {
+   display:none;
+   visibility:collapse;
+   }
+}
+
 
    #feedbackArea img {
       width: 20px;
@@ -706,4 +709,14 @@ background: #183540; /* Old browsers */
 
 #rightColumn form {
    margin: 5px 20px 5px 20px;
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+   .noShowOnTablet{
+   display:none;
+   visibility:collapse;
+   }
 }
