@@ -140,7 +140,7 @@
                                                              monthNamesShort: $.datepicker.regional[window.app.calendarCulture].monthNamesShort, monthNames: $.datepicker.regional[window.app.calendarCulture].monthNames}); 
             var timeReceivedLocal = timeReceivedLocal + " " + time;
        %}
-            <input type="hidden" value="<%: Resources.Global.shareOnLinkedinTitle %>" id="linkedInTitle"/>
+            
             {% if (Direction == "to") { %}
                 <div class="sendAndReceivedChecks">
                     {% if (ClientAcknowledge) { %}
@@ -241,6 +241,7 @@
        <div id="convOverlay"></div> 
    </div>
    <div id="messagesArea" class="grid_messages">
+      <input type="hidden" value="<%: Resources.Global.shareOnLinkedinTitle %>" id="linkedInTitle"/>
       <div id="scrollablemessagebox" class="messagesboxcontainerclass scrollablebox">
          <div id="messagesbox" class="messagesboxclass">
             <span id="noConversationsLoaded"><%: Resources.Global.lblNoConversationSelected%></span>
