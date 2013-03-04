@@ -59,12 +59,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
+      <HintPath>..\..\..\..\..\Tools\EntityFramework.Profiler-v2.0-Build-2133\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.6.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ExternalReferences\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="JWT">
       <HintPath>..\packages\JWT.1.2\lib\3.5\JWT.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqKit">
+      <HintPath>..\packages\LinqKit.1.0\lib\35\LinqKit.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>References\log4net.dll</HintPath>
@@ -195,20 +201,20 @@
     <Compile Include="Mailers\WarningMailer.cs" />
     <Compile Include="Models\BusinessObjects\ConvTag.cs" />
     <Compile Include="Models\BusinessObjects\WorkingPointConfModel.cs" />
-    <Compile Include="Models\Helpers\ChartValue.cs" />
+    <Compile Include="Models\Helpers\ReportData\RepChartData\ChartValue.cs" />
     <Compile Include="Models\Helpers\Agent.cs" />
     <Compile Include="Models\Helpers\MsgHandlers.cs" />
-    <Compile Include="Models\Helpers\RepDataColumn.cs" />
-    <Compile Include="Models\Helpers\RepChartData.cs" />
-    <Compile Include="Models\Helpers\RepDataRow.cs" />
-    <Compile Include="Models\Helpers\RepDataRowCell.cs" />
+    <Compile Include="Models\Helpers\ReportData\RepChartData\RepDataColumn.cs" />
+    <Compile Include="Models\Helpers\ReportData\RepChartData\RepChartData.cs" />
+    <Compile Include="Models\Helpers\ReportData\RepChartData\RepDataRow.cs" />
+    <Compile Include="Models\Helpers\ReportData\RepChartData\RepDataRowCell.cs" />
     <Compile Include="Models\Helpers\Error.cs" />
-    <Compile Include="Models\Helpers\RepInfoBox.cs" />
-    <Compile Include="Models\Helpers\Report.cs" />
-    <Compile Include="Models\Helpers\ReportResource.cs" />
-    <Compile Include="Models\Helpers\ReportSection.cs" />
-    <Compile Include="Models\Helpers\ReportsMenuItem.cs" />
-    <Compile Include="Models\Helpers\ReportResourceOptions.cs" />
+    <Compile Include="Models\Helpers\ReportData\RepInfoBox.cs" />
+    <Compile Include="Models\Helpers\ReportModel\Report.cs" />
+    <Compile Include="Models\Helpers\ReportData\ReportData.cs" />
+    <Compile Include="Models\Helpers\ReportModel\ReportSection.cs" />
+    <Compile Include="Models\Helpers\ReportMenu\ReportsMenuItem.cs" />
+    <Compile Include="Models\Helpers\ReportModel\ReportResourceOptions.cs" />
     <Compile Include="Models\Helpers\SubscriptionSmsStatus.cs" />
     <Compile Include="Models\Interfaces\IInternalSMSRepository.cs" />
     <Compile Include="Models\Repositories\CompatelSmsRepository.cs" />
@@ -244,6 +250,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\audio\multimedia_pop_up_alert_tone_2.mp3" />
+    <Content Include="Content\audio\multimedia_pop_up_alert_tone_2.wav" />
     <Content Include="Content\css\areaDefinitions.css" />
     <Content Include="Content\contact.css" />
     <Content Include="Content\css\datepicker\datepicker.css" />
@@ -459,6 +466,7 @@
     <Content Include="MyScripts\Settings\Minified\SettingsFacade.js" />
     <Content Include="MyScripts\Settings\settings.js" />
     <Content Include="MyScripts\Settings\SettingsFacade.js" />
+    <Content Include="MyScripts\Transition.js" />
     <Content Include="MyScripts\WorkingPoints.js" />
     <Content Include="MyScripts\Utilities.js" />
     <Content Include="MyScripts\WorkingPointsConfigure.js" />
@@ -760,6 +768,7 @@ java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)My
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Filtering.js" -o "$(ProjectDir)MyScripts\Minified\Filtering.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Messages.js" -o "$(ProjectDir)MyScripts\Minified\Messages.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Utilities.js" -o "$(ProjectDir)MyScripts\Minified\Utilities.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Transition.js" -o "$(ProjectDir)MyScripts\Minified\Transition.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\WorkingPoints.js" -o "$(ProjectDir)MyScripts\Minified\WorkingPoints.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\XMPP.js" -o "$(ProjectDir)MyScripts\Minified\XMPP.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Settings\SettingsFacade.js" -o "$(ProjectDir)MyScripts\Settings\Minified\SettingsFacade.js"

@@ -109,38 +109,41 @@
                     </div>
                 <div class="clear"></div>
             </div>
-            <div id="reportContent"></div>
+            <div id="reportContent">
+                <div id="firstSection">
+                </div>
+                <div id="secondSection">
+                    <div class="clear"></div>
+                </div>
+                <div id="thirdSection">
+                </div>
+            </div>
                    
             <div id="overlay"></div>                
    </script>
-   <script type="text/template" id="PrimaryChartArea">
+   <script type="text/template" id="FirstSection">
         <div class="chartArea">
             <div id="titleWrapper">
-                <a href="#" class="chartAreaTitle" {% if (tooltip != "no tooltip") { %} title="{{ tooltip }}" {% } %} sectionId="{{ sectionId }}"><img class="sectionVisibility" src="<%: Url.UpdatedResourceLink("~/Content/images/minimize_square.png") %>" alt="Expand section" />{{ name }}</a>
-                <p id="description{{uniqueId}}" class="sectionDescription invisible">Displays two dimensional data set</p>   
-                <a href="#" class="toCsv{{ uniqueId }} exportBtn" title="<%: Resources.Global.RepExportToExcel %>"><img src="<%: Url.Content("~/Content/images/Excel-25.png") %>" width="25" height="25"/></a> 
+                <a href="#" class="chartAreaTitle" {% if (tooltip != "no tooltip") { %} title="{{ tooltip }}" {% } %} sectionId="{{ groupId }}"><img class="sectionVisibility" src="<%: Url.UpdatedResourceLink("~/Content/images/minimize_square.png") %>" alt="Expand section" />{{ title }}</a>
+                <p id="description{{id}}" class="sectionDescription invisible">Displays two dimensional data set</p>   
+                <a href="#" class="toCsv{{ id }} exportBtn" title="<%: Resources.Global.RepExportToExcel %>"><img src="<%: Url.Content("~/Content/images/Excel-25.png") %>" width="25" height="25"/></a> 
         </div>
-            <div class="chartAreaContent{{sectionId}}">
+            <div class="chartAreaContent{{groupId}}">
                 <form action="">    
-                <div id="granularitySelector{{ uniqueId }}" class="granularitySelector">
-                    <div class="radioBtnWrapper active"><label for="day{{uniqueId}}" class="radioBtn"><input type="radio" id="day{{uniqueId}}" name="radio{{uniqueId}}" checked="checked" selectorId="{{ uniqueId }}" class="radioOption{{uniqueId}} radioOption" value="day"/><%: Resources.Global.RepDay %></label></div>
-		            <div class="radioBtnWrapper"><label for="week{{uniqueId}}" class="radioBtn"><input type="radio" id="week{{uniqueId}}" name="radio{{uniqueId}}" selectorId="{{ uniqueId }}" class="radioOption{{uniqueId}} radioOption" value="week" /><%: Resources.Global.RepWeek %></label></div>
-		            <div class="radioBtnWrapper"><label for="month{{uniqueId}}" class="radioBtn"><input type="radio" id="month{{uniqueId}}" name="radio{{uniqueId}}" selectorId="{{ uniqueId }}" class="radioOption{{uniqueId}} radioOption" value="month"/><%: Resources.Global.RepMonth %></label></div>
+                <div id="granularitySelector{{ id }}" class="granularitySelector">
+                    <div class="radioBtnWrapper active"><label for="day{{id}}" class="radioBtn"><input type="radio" id="day{{id}}" name="radio{{id}}" checked="checked" selectorId="{{ id }}" class="radioOption{{id}} radioOption" value="day"/><%: Resources.Global.RepDay %></label></div>
+		            <div class="radioBtnWrapper"><label for="week{{id}}" class="radioBtn"><input type="radio" id="week{{id}}" name="radio{{id}}" selectorId="{{ id }}" class="radioOption{{id}} radioOption" value="week" /><%: Resources.Global.RepWeek %></label></div>
+		            <div class="radioBtnWrapper"><label for="month{{id}}" class="radioBtn"><input type="radio" id="month{{id}}" name="radio{{id}}" selectorId="{{ id }}" class="radioOption{{id}} radioOption" value="month"/><%: Resources.Global.RepMonth %></label></div>
                 </div>
                 </form>
                 
-                <div id="chart_div{{uniqueId}}" class="chart_div"></div>
+                <div id="chart_div{{id}}" class="chart_div"></div>
                 <div class="clear"></div>
             </div>
          </div>     
-   </script>
-   <script type="text/template" id="InfoBox">
-        <div id="infoBoxArea">
-            <div class="clear"></div>
-        </div>
-   </script>
-   <script type="text/template" id="SecondaryChartArea">
-        <div id="tableArea" class="chartAreaContent{{sectionId}}">
+   </script>   
+   <script type="text/template" id="ThirdSection">
+        <div id="tableArea" class="chartAreaContent{{groupId}}">
             <div id="tableContent">
             </div>
             <div id="tableChart">

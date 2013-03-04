@@ -41,7 +41,7 @@ public class RestControllerGateway {
 	//private String RESTUpdateClientAcknowledge = "http://localhost:4631/Component/UpdateMessageClientAcknowledgeField";
 */	 	 
 	 	 
-	/* REST resources for nexmo*/ 
+	/* REST resources for nexmo
 	private String RESTGetHandlersForMessageURL = "http://demo.txtfeedback.net/Component/GetHandlerForMessage";
 	private String RESTDomain = "http://rest.txtfeedback.net/";
 	private String RESTGetHandlersForMessageURL1 = "http://demo.txtfeedback.net/Component/GetHandlerForMessage1";
@@ -50,8 +50,9 @@ public class RestControllerGateway {
 	private String RESTSaveMessage = "http://demo.txtfeedback.net/Component/SaveMessage";
 	private String RESTParametersTest = "http://demo.txtfeedback.net/Component/GetParametersTest";
 	private String RESTUpdateClientAcknowledge = "http://demo.txtfeedback.net/Component/UpdateMessageClientAcknowledgeField";
+	*/
 	
-	/* REST resources for product  
+	/* REST resources for product */  
 	private String RESTGetHandlersForMessageURL = "http://product.txtfeedback.net/Component/GetHandlerForMessage";
 	private String RESTDomain = "http://rest.txtfeedback.net/";
 	private String RESTGetHandlersForMessageURL1 = "http://product.txtfeedback.net/Component/GetHandlerForMessage1";
@@ -59,7 +60,7 @@ public class RestControllerGateway {
 	//private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
 	private String RESTSaveMessage = "http://product.txtfeedback.net/Component/SaveMessage";
 	private String RESTParametersTest = "http://product.txtfeedback.net/Component/GetParametersTest";
-	*/
+	private String RESTUpdateClientAcknowledge = "http://product.txtfeedback.net/Component/UpdateMessageClientAcknowledgeField";
 	
 	public ArrayList<Agent> getHandlersForMessage(String iWP, String iConversationId, boolean isSms) throws RESTException {
 		try {

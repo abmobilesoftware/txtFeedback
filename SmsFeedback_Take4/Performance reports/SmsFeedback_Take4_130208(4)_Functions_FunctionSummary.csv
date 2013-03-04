@@ -1,0 +1,923 @@
+Function Name,Number of Calls,Elapsed Inclusive Time %,Elapsed Exclusive Time %,Avg Elapsed Inclusive Time,Avg Elapsed Exclusive Time,Module Name
+SmsFeedback_EFModels.Conversation.get_Messages(),"1,528",47.25,47.25,17.77,17.77,SmsFeedback_EFModels.dll
+System.Web.Mvc.Controller.ExecuteCore(),44,93.21,19.62,"1,217.00",256.13,System.Web.Mvc.dll
+SmsFeedback_EFModels.Conversation.get_Client(),280,8.89,8.89,18.23,18.23,SmsFeedback_EFModels.dll
+"System.Web.Security.Membership.ValidateUser(string,string)",1,5.29,5.29,"3,040.57","3,040.57",System.Web.dll
+SmsFeedback_EFModels.Conversation.get_ConversationEvents(),79,2.97,2.97,21.62,21.62,SmsFeedback_EFModels.dll
+System.Linq.Queryable.First(class System.Linq.IQueryable`1<!!0>),38,2.95,2.95,44.56,44.56,System.Core.dll
+System.Web.Mvc.AreaRegistration.RegisterAllAreas(),1,2.69,2.69,"1,543.34","1,543.34",System.Web.Mvc.dll
+SmsFeedback_EFModels.WorkingPoint.get_Conversations(),74,2.26,2.26,17.53,17.53,SmsFeedback_EFModels.dll
+System.Linq.Queryable.Count(class System.Linq.IQueryable`1<!!0>),10,2.01,2.01,115.21,115.21,System.Core.dll
+SmsFeedback_EFModels.Tag.get_TagTagTypes(),31,1.07,1.07,19.82,19.82,SmsFeedback_EFModels.dll
+System.Linq.Queryable.FirstOrDefault(class System.Linq.IQueryable`1<!!0>),2,0.93,0.93,267.27,267.27,System.Core.dll
+SmsFeedback_EFModels.Conversation.get_ConversationTags(),18,0.76,0.76,24.4,24.4,SmsFeedback_EFModels.dll
+"System.Linq.Queryable.Where(class System.Linq.IQueryable`1<!!0>,class System.Linq.Expressions.Expression`1<class System.Func`2<!!0,bool>>)",40,0.65,0.65,9.35,9.35,System.Core.dll
+SmsFeedback_EFModels.smsfeedbackEntities..ctor(),40,0.41,0.41,5.84,5.84,SmsFeedback_EFModels.dll
+SmsFeedback_EFModels.Company.get_SubscriptionDetail(),2,0.23,0.23,65.45,65.45,SmsFeedback_EFModels.dll
+SmsFeedback_EFModels.User.get_Company(),2,0.2,0.2,56.53,56.53,SmsFeedback_EFModels.dll
+System.Web.Mvc.ViewPage.ProcessRequest(class System.Web.HttpContext),1,0.65,0.19,375.46,108.87,System.Web.Mvc.dll
+SmsFeedback_EFModels.TagTagType.get_TagType(),4,0.16,0.16,22.77,22.77,SmsFeedback_EFModels.dll
+"System.Resources.ResourceManager.GetString(string,class System.Globalization.CultureInfo)",306,0.15,0.15,0.29,0.29,mscorlib.dll
+SmsFeedback_EFModels.ConversationTag.get_Tag(),10,0.14,0.14,8.27,8.27,SmsFeedback_EFModels.dll
+SmsFeedback_EFModels.Company.get_Tags(),1,0.1,0.1,59.61,59.61,SmsFeedback_EFModels.dll
+System.Web.UI.Control.RenderControl(class System.Web.UI.HtmlTextWriter),4,0.25,0.09,145.81,12.96,System.Web.dll
+"System.Web.Mvc.Html.InputExtensions.TextBoxFor(class System.Web.Mvc.HtmlHelper`1<!!0>,class System.Linq.Expressions.Expression`1<class System.Func`2<!!0,!!1>>,object)",1,0.08,0.08,45.28,44.45,System.Web.Mvc.dll
+System.Web.UI.Control.RenderControl(class System.Web.UI.HtmlTextWriter),18,0.09,0.07,5.45,2.3,System.Web.dll
+System.Data.Entity.Infrastructure.SqlConnectionFactory..ctor(string),1,0.07,0.07,38.67,38.67,EntityFramework.dll
+"System.Web.Security.FormsAuthentication.SetAuthCookie(string,bool)",1,0.06,0.06,33.94,33.94,System.Web.dll
+System.Web.Mvc.ViewPage.ProcessRequest(class System.Web.HttpContext),1,0.17,0.04,98.22,24.21,System.Web.Mvc.dll
+System.Web.Mvc.Html.FormExtensions.BeginForm(class System.Web.Mvc.HtmlHelper),1,0.04,0.04,20.64,20.64,System.Web.Mvc.dll
+"System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(class System.Web.Mvc.HtmlHelper,string)",2,0.04,0.03,10.92,9.83,System.Web.Mvc.dll
+"System.Web.Mvc.RouteCollectionExtensions.IgnoreRoute(class System.Web.Routing.RouteCollection,string,object)",1,0.03,0.03,18.82,18.75,System.Web.Mvc.dll
+"SmsFeedback_Take4.Models.EFSmsRepository.GetConversationsForNumbers(bool,string[],string[],valuetype System.Nullable`1<valuetype System.DateTime>,valuetype System.Nullable`1<valuetype System.DateTime>,bool,int32,int32,valuetype System.Nullable`1<valuetype System.DateTime>,string,class SmsFeedback_EFModels.smsfeedbackEntities)",1,0.37,0.03,213.65,17.92,SmsFeedback_Take4.dll
+System.Linq.Enumerable.Count(class System.Collections.Generic.IEnumerable`1<!!0>),"1,289",0.04,0.03,0.02,0.01,System.Core.dll
+"System.Web.Mvc.UrlHelper.RouteUrl(string,class System.Web.Routing.RouteValueDictionary)",12,0.03,0.03,1.27,1.27,System.Web.Mvc.dll
+System.Collections.IEnumerator.MoveNext(),"2,356",2.09,0.03,0.51,0.01,mscorlib.dll
+System.Web.Mvc.ViewPage.ProcessRequest(class System.Web.HttpContext),1,0.05,0.02,30.22,10.96,System.Web.Mvc.dll
+"System.Linq.Queryable.Select(class System.Linq.IQueryable`1<!!0>,class System.Linq.Expressions.Expression`1<class System.Func`2<!!0,!!1>>)",38,0.02,0.02,0.28,0.28,System.Core.dll
+"System.Web.Mvc.Html.InputExtensions.CheckBoxFor(class System.Web.Mvc.HtmlHelper`1<!!0>,class System.Linq.Expressions.Expression`1<class System.Func`2<!!0,bool>>)",1,0.02,0.02,9.33,9.32,System.Web.Mvc.dll
+"System.DateTime.ParseExact(string,string,class System.IFormatProvider)",48,0.02,0.02,0.19,0.19,mscorlib.dll
+log4net.ILog.Info(object),10,0.01,0.01,0.71,0.71,log4net.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetTotalNoOfSmsChartSource(string,string,string,string,string)",1,2.45,0.01,"1,404.73",6.32,SmsFeedback_Take4.dll
+"System.Linq.Enumerable.ToDictionary(class System.Collections.Generic.IEnumerable`1<!!0>,class System.Func`2<!!0,!!1>,class System.Func`2<!!0,!!2>)",13,0.02,0.01,0.69,0.43,System.Core.dll
+"SmsFeedback_Take4.Models.EFSmsRepository.NrOfUnreadConversations(string,class SmsFeedback_EFModels.smsfeedbackEntities)",3,0.2,0.01,38.52,1.82,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Models.EFSmsRepository.GetWorkingPointsPerUser(string,class SmsFeedback_EFModels.smsfeedbackEntities)",5,1.56,0.01,179.67,1.05,SmsFeedback_Take4.dll
+"System.Linq.Enumerable.Select(class System.Collections.Generic.IEnumerable`1<!!0>,class System.Func`2<!!0,!!1>)",355,0.01,0.01,0.01,0.01,System.Core.dll
+System.Web.UI.IParserAccessor.AddParsedSubObject(object),4,0.01,0.01,1.15,1.15,System.Web.dll
+"SmsFeedback_Take4.Models.EFSmsRepository.GetSpecialTags(string,class SmsFeedback_EFModels.smsfeedbackEntities)",1,1.21,0.01,697.03,3.88,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.TagsController..ctor(),1,0.15,0.01,87.89,3.81,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Utilities.EFInteraction.GetXmppConnectionDetailsPerUser(string,class SmsFeedback_EFModels.smsfeedbackEntities)",2,1.18,0.01,340.13,1.9,SmsFeedback_Take4.dll
+"System.Linq.Expressions.Expression.Lambda(class System.Linq.Expressions.Expression,class System.Linq.Expressions.ParameterExpression[])",123,0.01,0.01,0.03,0.03,System.Core.dll
+"System.Web.Mvc.Html.InputExtensions.PasswordFor(class System.Web.Mvc.HtmlHelper`1<!!0>,class System.Linq.Expressions.Expression`1<class System.Func`2<!!0,!!1>>,object)",1,0.01,0.01,3.32,3.3,System.Web.Mvc.dll
+"System.Web.Mvc.RouteCollectionExtensions.MapRoute(class System.Web.Routing.RouteCollection,string,string,object)",2,0.01,0.01,1.58,1.57,System.Web.Mvc.dll
+System.Web.HttpServerUtility.MapPath(string),66,0.01,0.01,0.05,0.05,System.Web.dll
+SmsFeedback_Take4.Controllers.ReportsController.GetReportById(int32),5,0.01,0.01,0.9,0.61,SmsFeedback_Take4.dll
+System.Web.Mvc.ViewPage`1..ctor(),1,0,0,2.82,2.82,System.Web.Mvc.dll
+"SmsFeedback_Take4.Utilities.EFInteraction.GetCompanySubscriptionSMSStatus(string,class SmsFeedback_EFModels.smsfeedbackEntities)",2,1.55,0,445.16,1.39,SmsFeedback_Take4.dll
+"System.Web.Mvc.Html.ValidationExtensions.ValidationMessageFor(class System.Web.Mvc.HtmlHelper`1<!!0>,class System.Linq.Expressions.Expression`1<class System.Func`2<!!0,!!1>>)",2,0,0,1.39,1.38,System.Web.Mvc.dll
+System.Web.Mvc.UrlHelper.Content(string),66,0,0,0.04,0.04,System.Web.Mvc.dll
+System.Web.Mvc.AjaxRequestExtensions.IsAjaxRequest(class System.Web.HttpRequestBase),8,0,0,0.32,0.32,System.Web.Mvc.dll
+"System.Text.RegularExpressions.Regex.Replace(string,string)",2,0,0,1.24,1.24,System.dll
+"System.Web.UI.Control.SetTraceData(object,object)",4,0,0,0.59,0.59,System.Web.dll
+"System.Web.Mvc.RouteCollectionExtensions.MapRoute(class System.Web.Routing.RouteCollection,string,string,object,object)",1,0,0,2.5,2.36,System.Web.Mvc.dll
+System.String.StartsWith(string),"2,188",0,0,0,0,mscorlib.dll
+"SmsFeedback_Take4.Utilities.EFInteraction.GetWorkingPointsForAUser(string,string,class SmsFeedback_EFModels.smsfeedbackEntities)",25,1.12,0,25.64,0.09,SmsFeedback_Take4.dll
+System.Reflection.FieldInfo.GetFieldFromHandle(valuetype System.RuntimeFieldHandle),52,0,0,0.04,0.04,mscorlib.dll
+"System.Linq.Enumerable.Where(class System.Collections.Generic.IEnumerable`1<!!0>,class System.Func`2<!!0,bool>)","1,587",0,0,0,0,System.Core.dll
+SmsFeedback_EFModels.SubscriptionDetail.WarningsRequired(),2,0,0,1.06,1.06,SmsFeedback_EFModels.dll
+"System.Web.Mvc.Html.ValidationExtensions.ValidationSummary(class System.Web.Mvc.HtmlHelper,bool,string)",1,0,0,2.06,2.06,System.Web.Mvc.dll
+SmsFeedback_Take4.Controllers.ReportsController.<InitializeInterval>b__109(valuetype System.DateTime),416,0.01,0,0.01,0,SmsFeedback_Take4.dll
+System.Web.Mvc.AuthorizeAttribute.set_Roles(string),7,0,0,0.28,0.28,System.Web.Mvc.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetNoOfConversationsByTagsChartSource(string,string,string,string,string)",1,2.68,0,"1,541.02",1.95,SmsFeedback_Take4.dll
+"System.Linq.Expressions.Expression.Equal(class System.Linq.Expressions.Expression,class System.Linq.Expressions.Expression,bool,class System.Reflection.MethodInfo)",40,0,0,0.05,0.05,System.Core.dll
+System.IO.File.GetLastWriteTime(string),66,0,0,0.03,0.03,mscorlib.dll
+SmsFeedback_Take4.MvcApplication.Application_Start(),1,2.8,0,"1,610.95",1.72,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetTotalNoOfClientsInfo(string,string,string,string)",3,6.28,0,"1,203.54",0.56,SmsFeedback_Take4.dll
+ASP.views_shared_site_master.__BuildControlTree(class ASP.views_shared_site_master),2,0.01,0,3.42,0.84,App_Web_e03r53wt.dll
+"System.Web.UI.MasterPage.InstantiateInContentPlaceHolder(class System.Web.UI.Control,class System.Web.UI.ITemplate)",10,0,0,0.21,0.15,System.Web.dll
+"System.Web.Mvc.Html.LabelExtensions.LabelFor(class System.Web.Mvc.HtmlHelper`1<!!0>,class System.Linq.Expressions.Expression`1<class System.Func`2<!!0,!!1>>)",1,0,0,1.54,1.54,System.Web.Mvc.dll
+"System.Linq.Enumerable.OrderByDescending(class System.Collections.Generic.IEnumerable`1<!!0>,class System.Func`2<!!0,!!1>)",7,0,0,0.22,0.22,System.Core.dll
+"System.Linq.Expressions.Expression.Property(class System.Linq.Expressions.Expression,class System.Reflection.MethodInfo)",6,0,0,0.25,0.25,System.Core.dll
+System.Linq.Queryable.AsQueryable(class System.Collections.Generic.IEnumerable`1<!!0>),2,0,0,0.75,0.75,System.Core.dll
+SmsFeedback_EFModels.Message.get_TimeReceived(),"14,392",0,0,0,0,SmsFeedback_EFModels.dll
+"System.Web.UI.IAttributeAccessor.SetAttribute(string,string)",4,0,0,0.35,0.35,System.Web.dll
+ASP.views_shared_site_master.__BuildControl__control2(),2,0.01,0,1.89,0.69,App_Web_e03r53wt.dll
+System.Web.HttpResponseBase.SetCookie(class System.Web.HttpCookie),44,0,0,0.03,0.03,System.Web.dll
+"System.Text.RegularExpressions.Regex..ctor(string,valuetype System.Text.RegularExpressions.RegexOptions)",66,0,0,0.02,0.02,System.dll
+System.Data.Entity.DbContext.Dispose(),42,0,0,0.03,0.03,EntityFramework.dll
+System.Reflection.MethodBase.GetMethodFromHandle(valuetype System.RuntimeMethodHandle),329,0,0,0,0,mscorlib.dll
+"System.Linq.Enumerable.GroupBy(class System.Collections.Generic.IEnumerable`1<!!0>,class System.Func`2<!!0,!!1>)",249,0,0,0,0,System.Core.dll
+"System.Web.HttpCookie..ctor(string,string)",44,0,0,0.03,0.03,System.Web.dll
+System.IO.TextWriter.Write(string),56,0,0,0.02,0.02,mscorlib.dll
+"SmsFeedback_Take4.Utilities.ViewExtensionMethods.ImageLink(class System.Web.Mvc.HtmlHelper,string,string,object,object,string,bool)",12,0.03,0,1.48,0.1,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.PrepareJson(class System.Collections.Generic.List`1<class System.Collections.Generic.Dictionary`2<valuetype System.DateTime,class SmsFeedback_Take4.Models.Helpers.ChartValue>>,string)",6,0.01,0,0.65,0.2,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Models.AggregateSmsRepository..ctor(string),2,0,0,0.57,0.57,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetTotalNoOfSmsInfo(string,string,string,string,string)",1,2.32,0,"1,333.48",1.01,SmsFeedback_Take4.dll
+"System.Web.Mvc.Html.LinkHelper.MenuLink(class System.Web.Mvc.HtmlHelper,string,string,string,string)",8,0.01,0,0.4,0.12,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetOutgoingSmsInfo(string,string,string,string,string)",1,2.31,0,"1,324.97",0.97,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ConversationsController.NrOfUnreadConversations(valuetype System.Nullable`1<bool>),3,0.36,0,69.77,0.32,SmsFeedback_Take4.dll
+System.Web.Mvc.Controller.View(),3,0,0,0.32,0.32,System.Web.Mvc.dll
+System.Web.UI.Page.AddWrappedFileDependencies(object),1,0,0,0.95,0.95,System.Web.dll
+"System.Web.Mvc.RouteCollectionExtensions.IgnoreRoute(class System.Web.Routing.RouteCollection,string)",1,0,0,0.93,0.93,System.Web.Mvc.dll
+"System.Linq.Expressions.Expression.Bind(class System.Reflection.MethodInfo,class System.Linq.Expressions.Expression)",64,0,0,0.01,0.01,System.Core.dll
+System.Data.Entity.Database.set_DefaultConnectionFactory(class System.Data.Entity.Infrastructure.IDbConnectionFactory),1,0,0,0.89,0.89,EntityFramework.dll
+"System.Linq.Expressions.Expression.Property(class System.Linq.Expressions.Expression,class System.Reflection.MethodInfo)",175,0,0,0.01,0.01,System.Core.dll
+"System.Linq.Enumerable.Take(class System.Collections.Generic.IEnumerable`1<!!0>,int32)",1,0,0,0.85,0.85,System.Core.dll
+"SmsFeedback_Take4.Utilities.ViewExtensionMethods.UpdatedResourceLink(class System.Web.Mvc.UrlHelper,string)",6,0.01,0,0.72,0.14,SmsFeedback_Take4.dll
+ASP.views_shared_site_master.__BuildControl__control3(),2,0,0,1.06,0.42,App_Web_e03r53wt.dll
+SmsFeedback_Take4.Controllers.ReportsController.GetReportsMenuItems(),1,0,0,0.97,0.83,SmsFeedback_Take4.dll
+ASP.views_account_logon_aspx.__BuildControl__control2(),1,0.01,0,7.95,0.82,App_Web_q5vesloz.dll
+"System.Web.Mvc.Html.LinkExtensions.ActionLink(class System.Web.Mvc.HtmlHelper,string,string,string)",2,0,0,0.4,0.4,System.Web.Mvc.dll
+"System.DateTime.op_LessThanOrEqual(valuetype System.DateTime,valuetype System.DateTime)","6,705",0,0,0,0,mscorlib.dll
+"System.DateTime.op_GreaterThanOrEqual(valuetype System.DateTime,valuetype System.DateTime)","7,175",0,0,0,0,mscorlib.dll
+"System.Web.Mvc.Html.LinkExtensions.ActionLink(class System.Web.Mvc.HtmlHelper,string,string,string,object,object)",1,0,0,0.8,0.79,System.Web.Mvc.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetIncomingSmsInfo(string,string,string,string,string)",1,2.39,0,"1,372.45",0.78,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClassfd.<ComputeNoOfIncomingSms>b__f9(class SmsFeedback_EFModels.Message),816,0,0,0,0,SmsFeedback_Take4.dll
+"System.Web.Mvc.Html.LinkHelper.MenuLink(class System.Web.Mvc.HtmlHelper,string,string,string,string)",8,0,0,0.27,0.1,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetPosAndNegTagActivity(string,string,string,string,string)",1,4.41,0,"2,530.80",0.76,SmsFeedback_Take4.dll
+ASP.views_reports_index_aspx.FrameworkInitialize(),1,0,0,0.83,0.76,App_Web_jivbjkeg.dll
+"SmsFeedback_Take4.Models.AggregateSmsRepository.UpdateConversationsFromExternalSources(string[],valuetype System.Nullable`1<valuetype System.DateTime>,string,class SmsFeedback_EFModels.smsfeedbackEntities)",2,0.16,0,45.95,0.37,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetIncomingOutgoingSmsChartSource(string,string,string,string,string)",1,2.31,0,"1,325.27",0.73,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClassf7.<ComputeTotalNoOfClients>b__f3(class SmsFeedback_EFModels.Message),"1,578",0,0,0,0,SmsFeedback_Take4.dll
+ASP.views_home_index_aspx.FrameworkInitialize(),1,0,0,1.92,0.71,App_Web_4yrxnmfm.dll
+System.Web.Mvc.ViewUserControl.get_Html(),2,0,0,0.35,0.35,System.Web.Mvc.dll
+"SmsFeedback_Take4.Utilities.ViewExtensionMethods.ImageLink(class System.Web.Mvc.HtmlHelper,string,string,object,object,string,bool)",4,0.03,0,4.5,0.17,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClass105.<ComputeNoOfOutgoingSms>b__100(class SmsFeedback_EFModels.Message),816,0,0,0,0,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetPosAndNegTagEvolution(string,string,string,string,string)",1,5.51,0,"3,166.93",0.67,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetPosNegTransitions(string,string,string,string,string)",1,4.88,0,"2,800.92",0.64,SmsFeedback_Take4.dll
+"log4net.ILog.InfoFormat(string,object)",3,0,0,0.21,0.21,log4net.dll
+System.Web.HttpUtility.HtmlEncode(string),8,0,0,0.08,0.08,System.Web.dll
+MoveNext(),627,0,0,0,0,SmsFeedback_Take4.dll
+"System.Linq.Expressions.Expression.Call(class System.Linq.Expressions.Expression,class System.Reflection.MethodInfo,class System.Linq.Expressions.Expression[])",45,0,0,0.01,0.01,System.Core.dll
+"System.Web.Mvc.Controller.Json(object,valuetype System.Web.Mvc.JsonRequestBehavior)",41,0,0,0.01,0.01,System.Web.Mvc.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetNewVsReturningClientsChartSource(string,string,string,string,string)",1,2.19,0,"1,260.82",0.61,SmsFeedback_Take4.dll
+System.Linq.Enumerable.ToArray(class System.Collections.Generic.IEnumerable`1<!!0>),3,0,0,0.2,0.2,System.Core.dll
+System.Web.UI.Page.FrameworkInitialize(),1,0,0,0.57,0.57,System.Web.dll
+"SmsFeedback_Take4.Models.EFSmsRepository.GetConversationsForNumber(bool,string[],string,valuetype System.Nullable`1<valuetype System.DateTime>,valuetype System.Nullable`1<valuetype System.DateTime>,bool,int32,int32,valuetype System.Nullable`1<valuetype System.DateTime>,string,class SmsFeedback_EFModels.smsfeedbackEntities)",2,0.33,0,95.47,0.27,SmsFeedback_Take4.dll
+"System.Linq.Enumerable.GroupBy(class System.Collections.Generic.IEnumerable`1<!!0>,class System.Func`2<!!0,!!1>,class System.Func`2<!!0,!!2>)",52,0,0,0.01,0.01,System.Core.dll
+System.Collections.Generic.Dictionary`2.get_Item(!0),210,0,0,0,0,mscorlib.dll
+System.Text.RegularExpressions.MatchCollection.get_Count(),66,0,0,0.01,0.01,System.dll
+"System.Web.Mvc.Controller.RedirectToAction(string,string)",1,0,0,0.51,0.51,System.Web.Mvc.dll
+"SmsFeedback_Take4.Models.AggregateSmsRepository.GetConversationsForNumbers(bool,string[],string[],valuetype System.Nullable`1<valuetype System.DateTime>,valuetype System.Nullable`1<valuetype System.DateTime>,bool,int32,int32,valuetype System.Nullable`1<valuetype System.DateTime>,string,bool,class SmsFeedback_EFModels.smsfeedbackEntities)",1,0.46,0,262.79,0.5,SmsFeedback_Take4.dll
+System.Web.Mvc.UrlHelper.IsLocalUrl(string),1,0,0,0.48,0.48,System.Web.Mvc.dll
+"log4net.ILog.DebugFormat(string,object,object)",2,0,0,0.24,0.24,log4net.dll
+SmsFeedback_Take4.MvcApplication..ctor(),6,0,0,0.08,0.08,SmsFeedback_Take4.dll
+"System.Web.UI.Control.EndRenderTracing(class System.IO.TextWriter,object)",60,0,0,0.01,0.01,System.Web.dll
+"System.Math.Round(float64,int32)",6,0,0,0.08,0.08,mscorlib.dll
+System.DateTime.AddYears(int32),44,0,0,0.01,0.01,mscorlib.dll
+System.Web.UI.TemplateControl.set_AppRelativeVirtualPath(string),1,0,0,0.44,0.44,System.Web.dll
+SmsFeedback_Take4.Controllers.AccountController..ctor(),2,0,0,0.22,0.22,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Models.Helpers.ReportResource..ctor(string,string,class SmsFeedback_Take4.Models.Helpers.ReportResourceOptions,string)",150,0,0,0.01,0,SmsFeedback_Take4.dll
+"System.Linq.Expressions.Expression.Lambda(class System.Linq.Expressions.Expression,class System.Linq.Expressions.ParameterExpression[])",6,0,0,0.07,0.07,System.Core.dll
+System.IDisposable.Dispose(),1,0,0,0.42,0.42,mscorlib.dll
+System.Web.Mvc.GlobalFilters.get_Filters(),1,0,0,0.42,0.42,System.Web.Mvc.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetAvgResponseTimeInfo(string,string,string,string)",1,2.33,0,"1,337.98",0.42,SmsFeedback_Take4.dll
+System.Web.UI.Control.SetRenderMethodDelegate(class System.Web.UI.RenderMethod),3,0,0,0.14,0.14,System.Web.dll
+"SmsFeedback_Take4.Utilities.ViewExtensionMethods.ImageLink(class System.Web.Mvc.UrlHelper,string,string,string,string,string,object,string)",2,0,0,0.37,0.2,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.transformDate(valuetype System.DateTime,string)",416,0,0,0,0,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Models.Helpers.SubscriptionSmsStatus..ctor(int32,bool,bool,bool,string)",2,0,0,0.2,0.2,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.ComputeTotalNoOfClients(valuetype System.DateTime,valuetype System.DateTime,class System.Collections.Generic.IEnumerable`1<class SmsFeedback_EFModels.WorkingPoint>)",6,12.2,0,"1,168.33",0.07,SmsFeedback_Take4.dll
+__ASP.FastObjectFactory_app_web_e03r53wt.Create_ASP_views_shared_site_master(),2,0,0,0.37,0.2,App_Web_e03r53wt.dll
+"System.Web.UI.Control.SetTraceData(object,object)",26,0,0,0.02,0.02,System.Web.dll
+SmsFeedback_Take4.Controllers.TagsController.get_SMSRepository(),1,0,0,1.23,0.39,SmsFeedback_Take4.dll
+System.Globalization.DateTimeFormatInfo.get_CurrentInfo(),13,0,0,0.03,0.03,mscorlib.dll
+System.Web.UI.LiteralControl..ctor(string),4,0,0,0.09,0.09,System.Web.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClassef.<ComputeTotalNoOfSms>b__ed(class SmsFeedback_EFModels.Message),816,0,0,0,0,SmsFeedback_Take4.dll
+System.Globalization.CultureInfo.CreateSpecificCulture(string),44,0,0,0.01,0.01,mscorlib.dll
+ASP.views_account_logon_aspx.__BuildControlTree(class ASP.views_account_logon_aspx),1,0.02,0,10.73,0.35,App_Web_q5vesloz.dll
+System.IDisposable.Dispose(),673,0,0,0,0,mscorlib.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetPosNegTransitionsThirdArea(string,string,string,string)",1,4.72,0,"2,710.50",0.34,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetAvgNoOfTagsPerConversationInfo(string,string,string,string,string)",1,2.78,0,"1,596.83",0.34,SmsFeedback_Take4.dll
+System.Web.HttpServerUtility.set_ScriptTimeout(int32),1,0,0,0.34,0.34,System.Web.dll
+System.Web.UI.HtmlControls.HtmlHead..ctor(string),1,0,0,0.34,0.34,System.Web.dll
+System.Web.Mvc.Controller.get_RouteData(),97,0,0,0,0,System.Web.Mvc.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetIncomingOutgoingThirdArea(string,string,string,string)",1,2.24,0,"1,284.47",0.32,SmsFeedback_Take4.dll
+"log4net.ILog.DebugFormat(string,object)",3,0,0,0.11,0.11,log4net.dll
+System.DateTime.ToString(string),66,0,0,0,0,mscorlib.dll
+SmsFeedback_Take4.Controllers.WorkingPointsController.WorkingPointsPerUser(),2,1.32,0,380.39,0.16,SmsFeedback_Take4.dll
+Resources.Global.get_btnNotificationSolve(),2,0,0,0.16,0.15,SmsFeedback_Take4.dll
+System.Collections.Generic.IEnumerator`1.get_Current(),"1,484",0,0,0,0,mscorlib.dll
+System.Web.HttpResponseBase.set_BufferOutput(bool),2,0,0,0.14,0.14,System.Web.dll
+"System.Web.Mvc.UrlHelper.Action(string,string)",2,0,0,0.14,0.14,System.Web.Mvc.dll
+"System.Linq.Expressions.Expression.GreaterThanOrEqual(class System.Linq.Expressions.Expression,class System.Linq.Expressions.Expression,bool,class System.Reflection.MethodInfo)",2,0,0,0.14,0.14,System.Core.dll
+SmsFeedback_Take4.Controllers.TagsController.GetSpecialTags(),1,1.22,0,698.77,0.28,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.ComputeNoOfOutgoingSms(valuetype System.DateTime,valuetype System.DateTime,class System.Collections.Generic.IEnumerable`1<class SmsFeedback_EFModels.WorkingPoint>)",3,2.41,0,461.72,0.09,SmsFeedback_Take4.dll
+ASP.views_shared_site_master.FrameworkInitialize(),2,0.01,0,3.56,0.14,App_Web_e03r53wt.dll
+"System.Linq.Enumerable.Range(int32,int32)",13,0,0,0.02,0.02,System.Core.dll
+"SmsFeedback_Take4.Controllers.ReportsController.ComputeNoOfIncomingSms(valuetype System.DateTime,valuetype System.DateTime,class System.Collections.Generic.IEnumerable`1<class SmsFeedback_EFModels.WorkingPoint>)",3,4.68,0,896.84,0.09,SmsFeedback_Take4.dll
+"System.Linq.Enumerable.OrderBy(class System.Collections.Generic.IEnumerable`1<!!0>,class System.Func`2<!!0,!!1>)",1,0,0,0.27,0.27,System.Core.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClasseb.<GetNoOfConversationsByTags>b__e9(class SmsFeedback_EFModels.Message),544,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClass3e.<GetIncomingOutgoingSmsChartSource>b__17(class SmsFeedback_EFModels.Message),272,0,0,0,0,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Models.AggregateSmsRepository.GetWorkingPointsPerUser(string,class SmsFeedback_EFModels.smsfeedbackEntities)",2,1.32,0,379.8,0.13,SmsFeedback_Take4.dll
+ASP.views_reports_index_aspx.__BuildControlContent5(class System.Web.UI.Control),1,0,0,0.58,0.27,App_Web_jivbjkeg.dll
+"System.Web.Mvc.Html.LinkExtensions.ActionLink(class System.Web.Mvc.HtmlHelper,string,string,string)",5,0,0,0.05,0.05,System.Web.Mvc.dll
+System.Collections.Generic.Dictionary`2.GetEnumerator(),19,0,0,0.01,0.01,mscorlib.dll
+"System.String.op_Equality(string,string)","2,204",0,0,0,0,mscorlib.dll
+System.Web.UI.Page.get_Server(),1,0,0,0.26,0.26,System.Web.dll
+System.Reflection.MethodBase.GetMethodFromHandle(valuetype System.RuntimeMethodHandle),6,0,0,0.04,0.04,mscorlib.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClass3e.<GetIncomingOutgoingSmsChartSource>b__1a(class SmsFeedback_EFModels.Message),272,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.UI.Page.set_Title(string),1,0,0,0.25,0.25,System.Web.dll
+System.Web.UI.Page.set_MasterPageFile(string),1,0,0,0.25,0.25,System.Web.dll
+System.Int32.ToString(),905,0,0,0,0,mscorlib.dll
+System.Web.Mvc.ViewMasterPage.get_Url(),58,0,0,0,0,System.Web.Mvc.dll
+"System.Web.Routing.RouteValueDictionary..ctor(class System.Collections.Generic.IDictionary`2<string,object>)",12,0,0,0.02,0.02,System.Web.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetNoOfConversationsByTags(valuetype System.DateTime,valuetype System.DateTime,string,string)",2,5.59,0,"1,606.23",0.12,SmsFeedback_Take4.dll
+System.ComponentModel.DataAnnotations.DisplayAttribute..ctor(),3,0,0,0.08,0.08,System.ComponentModel.DataAnnotations.dll
+Resources.Global.get_TitleLogOn(),1,0.15,0,88.29,0.23,SmsFeedback_Take4.dll
+System.String.Equals(string),"1,706",0,0,0,0,mscorlib.dll
+System.ComponentModel.DataAnnotations.DisplayAttribute.set_Name(string),3,0,0,0.08,0.08,System.ComponentModel.DataAnnotations.dll
+SmsFeedback_Take4.Models.AggregateSmsRepository.GetInstance(string),7,0,0,0.2,0.03,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetAvgNoOfSmsPerClientInfo(string,string,string,string)",1,2.25,0,"1,290.61",0.22,SmsFeedback_Take4.dll
+System.ComponentModel.DataAnnotations.DisplayAttribute.set_ResourceType(class System.Type),3,0,0,0.07,0.07,System.ComponentModel.DataAnnotations.dll
+ASP.views_account_logon_aspx.FrameworkInitialize(),1,0.02,0,12.47,0.22,App_Web_q5vesloz.dll
+System.Web.Mvc.UrlHelper.Content(string),30,0,0,0.01,0.01,System.Web.Mvc.dll
+System.Web.Mvc.Controller.get_HttpContext(),88,0,0,0,0,System.Web.Mvc.dll
+"System.Web.UI.Page.AddContentTemplate(string,class System.Web.UI.ITemplate)",5,0,0,0.04,0.04,System.Web.dll
+System.Web.Mvc.Controller.get_User(),44,0,0,0,0,System.Web.Mvc.dll
+Resources.Global.get_lblPassword(),1,0,0,0.22,0.21,SmsFeedback_Take4.dll
+"System.Linq.Expressions.Expression.Parameter(class System.Type,string)",123,0,0,0,0,System.Core.dll
+"SmsFeedback_Take4.Models.AggregateSmsRepository.GetSpecialTags(string,class SmsFeedback_EFModels.smsfeedbackEntities)",1,1.21,0,697.25,0.21,SmsFeedback_Take4.dll
+SmsFeedback_EFModels.WorkingPoint.get_TelNumber(),"2,176",0,0,0,0,SmsFeedback_EFModels.dll
+System.Web.UI.Control.set_TemplateControl(class System.Web.UI.TemplateControl),1,0,0,0.21,0.21,System.Web.dll
+"SmsFeedback_Take4.Models.Helpers.ChartValue..ctor(int32,string,bool)",416,0,0,0,0,SmsFeedback_Take4.dll
+System.DateTime.get_Now(),44,0,0,0,0,mscorlib.dll
+System.Web.Mvc.ViewPage`1.get_ViewData(),3,0,0,0.07,0.07,System.Web.Mvc.dll
+System.Web.Mvc.MvcHtmlString..ctor(string),82,0,0,0,0,System.Web.Mvc.dll
+System.Web.UI.IParserAccessor.AddParsedSubObject(object),26,0,0,0.01,0.01,System.Web.dll
+"SmsFeedback_Take4.Controllers.ReportsController.ComputeTotalNoOfSms(valuetype System.DateTime,valuetype System.DateTime,class System.Collections.Generic.IEnumerable`1<class SmsFeedback_EFModels.WorkingPoint>)",3,4.62,0,885.67,0.07,SmsFeedback_Take4.dll
+"System.Web.Mvc.UrlHelper.Action(string,string,class System.Web.Routing.RouteValueDictionary)",2,0,0,0.1,0.1,System.Web.Mvc.dll
+SmsFeedback_EFModels.WorkingPoint.get_ShortID(),"2,176",0,0,0,0,SmsFeedback_EFModels.dll
+SmsFeedback_EFModels.Message.get_To(),"2,176",0,0,0,0,SmsFeedback_EFModels.dll
+System.DateTime.ToShortDateString(),2,0,0,0.1,0.1,mscorlib.dll
+"SmsFeedback_Take4.Models.AggregateSmsRepository.NrOfUnreadConversations(string,class SmsFeedback_EFModels.smsfeedbackEntities)",3,0.2,0,38.58,0.06,SmsFeedback_Take4.dll
+System.Object.ToString(),158,0,0,0,0,mscorlib.dll
+Resources.Global.get_btnNotificationDismiss(),2,0,0,0.1,0.09,SmsFeedback_Take4.dll
+"System.Linq.Expressions.Expression.LessThanOrEqual(class System.Linq.Expressions.Expression,class System.Linq.Expressions.Expression,bool,class System.Reflection.MethodInfo)",2,0,0,0.09,0.09,System.Core.dll
+"System.Linq.Expressions.Expression.MemberInit(class System.Linq.Expressions.NewExpression,class System.Linq.Expressions.MemberBinding[])",9,0,0,0.02,0.02,System.Core.dll
+System.Web.Mvc.ModelStateDictionary.get_IsValid(),1,0,0,0.18,0.18,System.Web.Mvc.dll
+System.Web.HttpUtility.HtmlEncode(object),17,0,0,0.01,0.01,System.Web.dll
+System.Web.HttpCookieCollection.get_Item(string),35,0,0,0,0,System.Web.dll
+Resources.Global.get_tabSettings(),2,0,0,0.09,0.09,SmsFeedback_Take4.dll
+System.Collections.Generic.List`1.Add(!0),"1,475",0,0,0,0,mscorlib.dll
+SmsFeedback_Take4.Controllers.BaseController.ExecuteCore(),44,93.21,0,"1,217.12",0,SmsFeedback_Take4.dll
+"VirtCall:<>f__AnonymousTypec`3..ctor(!0,!1,!2)",2,0,0,0.08,0.08,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClassb2.<GetPosAndNegTagEvolution>b__97(class SmsFeedback_EFModels.Message),255,0,0,0,0,SmsFeedback_Take4.dll
+"VirtCall:<>f__AnonymousTypeb`2..ctor(!0,!1)",1,0,0,0.16,0.16,SmsFeedback_Take4.dll
+System.Text.RegularExpressions.Regex..ctor(string),2,0,0,0.08,0.08,System.dll
+"System.String.Concat(object,object,object)",418,0,0,0,0,mscorlib.dll
+"SmsFeedback_Take4.Utilities.ViewExtensionMethods.UpdatedResourceLink(class System.Web.Mvc.UrlHelper,string)",66,0.02,0,0.16,0,SmsFeedback_Take4.dll
+System.Web.Mvc.ViewMasterPage..ctor(),2,0,0,0.08,0.08,System.Web.Mvc.dll
+Resources.Global.get_feedbackSendUsFeedback(),2,0,0,0.09,0.08,SmsFeedback_Take4.dll
+SmsFeedback_EFModels.Message.get_From(),"2,176",0,0,0,0,SmsFeedback_EFModels.dll
+"System.Linq.Enumerable.Union(class System.Collections.Generic.IEnumerable`1<!!0>,class System.Collections.Generic.IEnumerable`1<!!0>)",2,0,0,0.08,0.08,System.Core.dll
+get_Key(),"1,408",0,0,0,0,SmsFeedback_Take4.dll
+System.Web.UI.HtmlControls.HtmlLink.set_Href(string),2,0,0,0.08,0.08,System.Web.dll
+Resources.Global.get_RepExportToExcel(),1,0,0,0.16,0.15,SmsFeedback_Take4.dll
+get_Value(),"1,216",0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.KeyAndCount.get_count(),4,0,0,0.04,0.04,SmsFeedback_Take4.dll
+System.String.ToLower(),24,0,0,0.01,0.01,mscorlib.dll
+SmsFeedback_Take4.Models.EFSmsRepository.<>c__DisplayClass17.<GetSpecialTags>b__11(class SmsFeedback_EFModels.Tag),25,0.93,0,21.41,0.01,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Utilities.SwitchLanguageHelper.LanguageUrl(class System.Web.Mvc.HtmlHelper,string,string,bool)",12,0.03,0,1.35,0.01,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Models.Helpers.ChartValue.get_value(),914,0,0,0,0,SmsFeedback_Take4.dll
+"System.String.Format(string,object[])",1,0,0,0.14,0.14,mscorlib.dll
+Resources.Global.get_lblUserName(),1,0,0,0.15,0.14,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Models.Helpers.ReportResourceOptions..ctor(class System.Collections.Generic.List`1<string>,string)",150,0,0,0,0,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetAvgNoOfSmsPerDayInfo(string,string,string,string,string)",1,2.2,0,"1,262.57",0.14,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClass6a.<GetNewVsReturningClientsChartSource>b__44(class SmsFeedback_EFModels.Conversation),52,2.06,0,22.75,0,SmsFeedback_Take4.dll
+System.Linq.Enumerable.First(class System.Collections.Generic.IEnumerable`1<!!0>),9,0,0,0.02,0.02,System.Core.dll
+System.Collections.Generic.List`1.Add(!0),"1,218",0,0,0,0,mscorlib.dll
+"System.Linq.Enumerable.SelectMany(class System.Collections.Generic.IEnumerable`1<!!0>,class System.Func`2<!!0,class System.Collections.Generic.IEnumerable`1<!!1>>)",1,0,0,0.14,0.14,System.Core.dll
+"Microsoft.VisualStudio.Web.PageInspector.Runtime.WebForms.TraceData..ctor(string,int32,int32,bool)",60,0,0,0,0,Microsoft.VisualStudio.Web.PageInspector.Runtime.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClass14.<GetTotalNoOfSmsChartSource>b__1(class SmsFeedback_EFModels.Message),272,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_EFModels.smsfeedbackEntities.get_Users(),38,0,0,0,0,SmsFeedback_EFModels.dll
+System.Security.Principal.IPrincipal.get_Identity(),44,0,0,0,0,mscorlib.dll
+"System.Web.Mvc.ViewDataDictionary.set_Item(string,object)",3,0,0,0.04,0.04,System.Web.Mvc.dll
+Resources.Global.get_TitleLogOn(),1,0.15,0,88.42,0.13,SmsFeedback_Take4.dll
+ASP.views_shared_logonusercontrol_ascx.FrameworkInitialize(),2,0,0,0.07,0.07,App_Web_e03r53wt.dll
+Resources.Global.get_tooltipWpImg(),1,0,0,0.14,0.13,SmsFeedback_Take4.dll
+Resources.Global.get_accountAuthenticate(),1,0,0,0.14,0.13,SmsFeedback_Take4.dll
+System.Collections.Generic.Dictionary`2.ContainsKey(!0),608,0,0,0,0,mscorlib.dll
+System.Collections.Generic.IEnumerable`1.GetEnumerator(),29,0,0,0,0,mscorlib.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetNoOfReturningClientsInfo(string,string,string,string)",1,2.06,0,"1,184.02",0.12,SmsFeedback_Take4.dll
+System.DateTime.get_Day(),832,0,0,0,0,mscorlib.dll
+Resources.Global.get_tabReports(),2,0,0,0.07,0.06,SmsFeedback_Take4.dll
+System.Web.Mvc.UrlHelper.Content(string),19,0,0,0.01,0.01,System.Web.Mvc.dll
+Resources.Global.get_messagesPageTitle(),1,0,0,0.14,0.12,SmsFeedback_Take4.dll
+Resources.Global.get_loginUnsuccessfulSummary(),1,0,0,0.15,0.12,SmsFeedback_Take4.dll
+Resources.Global.get_LogOnButtonMessage(),1,0,0,0.13,0.12,SmsFeedback_Take4.dll
+System.Collections.Generic.IEnumerable`1.GetEnumerator(),56,0,0,0,0,mscorlib.dll
+"VirtCall:<>f__AnonymousType0`2..ctor(!0,!1)",2,0,0,0.06,0.06,App_Web_q5vesloz.dll
+System.Collections.Generic.EqualityComparer`1.get_Default(),8,0,0,0.01,0.01,mscorlib.dll
+Resources.Global.get_logOnLogOffMsg(),2,0,0,0.06,0.06,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipSendNegativeFeedback(),2,0,0,0.06,0.06,SmsFeedback_Take4.dll
+"System.Web.UI.Control.EndRenderTracing(class System.IO.TextWriter,object)",198,0,0,0,0,System.Web.dll
+Resources.Global.get_welcomeMessage(),2,0,0,0.07,0.06,SmsFeedback_Take4.dll
+System.DateTime.get_Month(),832,0,0,0,0,mscorlib.dll
+Resources.Global.get_tooltipNrOfConvsWithUnreadMsgs(),2,0,0,0.06,0.06,SmsFeedback_Take4.dll
+System.Object..ctor(),"1,513",0,0,0,0,mscorlib.dll
+Resources.Global.get_tooltipIncludeSupportFilter(),1,0,0,0.12,0.12,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipSendPositiveFeedback(),2,0,0,0.06,0.06,SmsFeedback_Take4.dll
+Resources.Global.get_loadMoreConversations(),1,0,0,0.12,0.12,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClassd4.<GetAvgNoOfTagsPerConversationInfo>b__d0(class SmsFeedback_EFModels.Message),263,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Utilities.SwitchLanguageHelper.Language.get_Url(),12,0,0,0.01,0.01,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClasscc.<GetPosNegTransitions>b__b4(class SmsFeedback_EFModels.Message),255,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClassde.<GetNoOfReturningClientsInfo>b__db(class SmsFeedback_EFModels.Message),263,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_tabHelp(),2,0,0,0.06,0.06,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClassb2.<GetPosAndNegTagEvolution>b__92(class SmsFeedback_EFModels.Message),255,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.Mvc.Controller.get_Response(),2,0,0,0.06,0.06,System.Web.Mvc.dll
+"System.Web.Routing.RouteValueDictionary.set_Item(string,object)",47,0,0,0,0,System.Web.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClass90.<GetPosAndNegTagActivity>b__78(class SmsFeedback_EFModels.Message),255,0,0,0,0,SmsFeedback_Take4.dll
+System.TimeSpan.get_TotalDays(),2,0,0,0.06,0.06,mscorlib.dll
+VirtCall:<>f__AnonymousTypee`1..ctor(!0),1,0,0,0.11,0.11,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipDeleteConversation(),1,0,0,0.12,0.11,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipMarkAsFavouriteImg(),2,0,0,0.06,0.06,SmsFeedback_Take4.dll
+System.Web.Mvc.AuthorizeAttribute..ctor(),7,0,0,0.02,0.02,System.Web.Mvc.dll
+Resources.Global.get_shareOnFacebook(),1,0,0,0.12,0.11,SmsFeedback_Take4.dll
+Resources.Global.get_tabMessages(),2,0,0,0.06,0.05,SmsFeedback_Take4.dll
+System.Web.UI.MasterPage.get_ContentPlaceHolders(),12,0,0,0.01,0.01,System.Web.dll
+Resources.Global.get_reportsPageTitle(),1,0,0,0.12,0.11,SmsFeedback_Take4.dll
+Resources.Global.get_RepDay(),1,0,0,0.11,0.11,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Models.Helpers.ChartValue.get_description(),384,0,0,0,0,SmsFeedback_Take4.dll
+get_Current(),608,0,0,0,0,SmsFeedback_Take4.dll
+log4net.ILog.Debug(object),1,0,0,0.11,0.11,log4net.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClass6a.<>c__DisplayClass6e.<GetNewVsReturningClientsChartSource>b__45(class SmsFeedback_EFModels.Message),263,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.Mvc.ViewMasterPage.get_Html(),22,0,0,0,0,System.Web.Mvc.dll
+"System.Collections.Generic.Dictionary`2.Add(!0,!1)",25,0,0,0,0,mscorlib.dll
+Resources.Global.get_supportLabel(),1,0,0,0.11,0.11,SmsFeedback_Take4.dll
+Resources.Global.get_shareOnLinkedinTitle(),1,0,0,0.11,0.1,SmsFeedback_Take4.dll
+System.Text.RegularExpressions.MatchCollection.get_Item(int32),65,0,0,0,0,System.dll
+Resources.Global.get_errorCannotSendMessage(),1,0,0,0.11,0.1,SmsFeedback_Take4.dll
+Resources.Global.get_lblNoConversationSelected(),2,0,0,0.06,0.05,SmsFeedback_Take4.dll
+System.Web.Mvc.ViewDataDictionary.get_Item(string),3,0,0,0.03,0.03,System.Web.Mvc.dll
+Resources.Global.get_sendButton(),1,0,0,0.11,0.1,SmsFeedback_Take4.dll
+"System.Web.UI.Control.EndRenderTracing(class System.IO.TextWriter,object)",168,0,0,0,0,System.Web.dll
+"SmsFeedback_Take4.Controllers.ConversationsController.ConversationsList(bool,string[],string[],string,string,valuetype System.Nullable`1<bool>,int32,int32,int32,bool)",1,0.46,0,263.26,0.1,SmsFeedback_Take4.dll
+Resources.Global.get_RepWeek(),1,0,0,0.11,0.1,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipCheckMessageReceived(),1,0,0,0.11,0.1,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Models.Helpers.RepDataRowCell..ctor(object,string)",618,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClassf7.<ComputeTotalNoOfClients>b__f1(class SmsFeedback_EFModels.Conversation),336,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_deleteMessage(),1,0,0,0.11,0.1,SmsFeedback_Take4.dll
+Resources.Global.get_starredLabel(),1,0,0,0.1,0.1,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipIncludeStarredInFilter(),1,0,0,0.11,0.1,SmsFeedback_Take4.dll
+Resources.Global.get_thumbsUpTooltip(),1,0,0,0.1,0.1,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Models.Helpers.ReportsMenuItem..ctor(int32,string,bool,int32,string,string)",7,0,0,0.01,0.01,SmsFeedback_Take4.dll
+System.Threading.Thread.set_CurrentUICulture(class System.Globalization.CultureInfo),44,0,0,0,0,mscorlib.dll
+Resources.Global.get_readLabel(),1,0,0,0.1,0.1,SmsFeedback_Take4.dll
+Resources.Global.get_messagesRemoveTagPlaceHolder(),1,0,0,0.1,0.1,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipCheckMessageSent(),1,0,0,0.1,0.1,SmsFeedback_Take4.dll
+Resources.Global.get_RepMonth(),1,0,0,0.1,0.1,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Models.SmsMessage.get_TimeReceived(),112,0,0,0,0,SmsFeedback_Take4.dll
+System.ComponentModel.DisplayNameAttribute..ctor(),3,0,0,0.03,0.03,System.dll
+Resources.Global.get_thumbsDownTooltip(),1,0,0,0.1,0.1,SmsFeedback_Take4.dll
+System.Web.UI.UserControl.get_Request(),2,0,0,0.05,0.05,System.Web.dll
+Resources.Global.get_tooltipIncludeUnreadInFilter(),1,0,0,0.1,0.1,SmsFeedback_Take4.dll
+"System.Web.UI.Control.SetTraceData(object,object)",1,0,0,0.1,0.1,System.Web.dll
+"System.Web.UI.Control.BeginRenderTracing(class System.IO.TextWriter,object)",198,0,0,0,0,System.Web.dll
+Resources.Global.get_tooltipSendEmailImg(),1,0,0,0.1,0.1,SmsFeedback_Take4.dll
+"System.Web.UI.Control.BeginRenderTracing(class System.IO.TextWriter,object)",168,0,0,0,0,System.Web.dll
+Resources.Global.get_shareOnTwitter(),1,0,0,0.1,0.09,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipReplyBtn(),1,0,0,0.1,0.09,SmsFeedback_Take4.dll
+Resources.Global.get_addATagLabel(),1,0,0,0.1,0.09,SmsFeedback_Take4.dll
+"System.Resources.ResourceManager..ctor(string,class System.Reflection.Assembly)",1,0,0,0.09,0.09,mscorlib.dll
+"System.Collections.Generic.Dictionary`2.Add(!0,!1)",192,0,0,0,0,mscorlib.dll
+Resources.Global.get_tagsLabel(),1,0,0,0.1,0.09,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipIncludeTagsInFilter(),1,0,0,0.1,0.09,SmsFeedback_Take4.dll
+Resources.Global.get_errorMessageNotSentInsufficientCredits(),1,0,0,0.1,0.09,SmsFeedback_Take4.dll
+Resources.Global.get_shareOnLinkedin(),1,0,0,0.1,0.09,SmsFeedback_Take4.dll
+Resources.Global.get_messagesAddTagPlaceHolder(),1,0,0,0.1,0.09,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.HomeController.Index(),1,0,0,0.24,0.09,SmsFeedback_Take4.dll
+System.Collections.Generic.Dictionary`2..ctor(),6,0,0,0.02,0.02,mscorlib.dll
+"SmsFeedback_Take4.Controllers.KeyAndCount..ctor(string,int32)",2,0,0,0.05,0.05,SmsFeedback_Take4.dll
+System.IO.TextWriter.Write(string),162,0,0,0,0,mscorlib.dll
+Resources.Global.get_warningMessageSentSpendingLimitReached(),1,0,0,0.1,0.09,SmsFeedback_Take4.dll
+System.Web.UI.CompiledTemplateBuilder..ctor(class System.Web.UI.BuildTemplateMethod),5,0,0,0.02,0.02,System.Web.dll
+Resources.Global.get_confirmDeleteMessage(),1,0,0,0.09,0.09,SmsFeedback_Take4.dll
+Resources.Global.get_filteringAddFilterTag(),1,0,0,0.09,0.09,SmsFeedback_Take4.dll
+SmsFeedback_EFModels.smsfeedbackEntities.get_WorkingPoints(),2,0,0,0.04,0.04,SmsFeedback_EFModels.dll
+System.IO.TextWriter.Write(string),184,0,0,0,0,mscorlib.dll
+Resources.Global.get_confirmDeleteConversation(),1,0,0,0.09,0.09,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.InitializeInterval(valuetype System.DateTime,valuetype System.DateTime,string)",13,0.02,0,0.84,0.01,SmsFeedback_Take4.dll
+Resources.Global.get_errorMessageNotSentReasonUnknown(),1,0,0,0.09,0.09,SmsFeedback_Take4.dll
+System.Web.UI.HtmlControls.HtmlTitle..ctor(),1,0,0,0.09,0.09,System.Web.dll
+SmsFeedback_Take4.Models.Helpers.ChartValue.get_changed(),64,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.HttpCookie.set_Expires(valuetype System.DateTime),44,0,0,0,0,System.Web.dll
+VirtCall:<>f__AnonymousTyped`1..ctor(!0),1,0,0,0.08,0.08,SmsFeedback_Take4.dll
+SmsFeedback_EFModels.Conversation.get_StartTime(),652,0,0,0,0,SmsFeedback_EFModels.dll
+VirtCall:<>f__AnonymousTypea`1..ctor(!0),1,0,0,0.08,0.08,SmsFeedback_Take4.dll
+System.Web.Mvc.UrlHelper.Content(string),9,0,0,0.01,0.01,System.Web.Mvc.dll
+VirtCall:<>f__AnonymousType3`1..ctor(!0),2,0,0,0.04,0.04,SmsFeedback_Take4.dll
+Resources.Global.get_ResourceManager(),306,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Utilities.ViewExtensionMethods.IsReleaseBuild(class System.Web.Mvc.HtmlHelper),1,0,0,0.08,0.08,SmsFeedback_Take4.dll
+"Microsoft.VisualStudio.Web.PageInspector.Runtime.WebForms.TraceData..ctor(int32,int32,bool)",4,0,0,0.02,0.02,Microsoft.VisualStudio.Web.PageInspector.Runtime.dll
+System.Web.HttpRequestBase.get_Cookies(),35,0,0,0,0,System.Web.dll
+System.Web.UI.WebControls.ContentPlaceHolder..ctor(),12,0,0,0.01,0.01,System.Web.dll
+SmsFeedback_Take4.Models.EFSmsRepository.<>c__DisplayClass17.<>c__DisplayClass19.<GetSpecialTags>b__12(class SmsFeedback_EFModels.TagTagType),2,0.09,0,26.69,0.04,SmsFeedback_Take4.dll
+System.Web.Mvc.EmptyResult..ctor(),2,0,0,0.04,0.04,System.Web.Mvc.dll
+System.Collections.Generic.List`1..ctor(),385,0,0,0,0,mscorlib.dll
+System.Collections.Generic.Dictionary`2.get_Item(!0),608,0,0,0,0,mscorlib.dll
+"ASP.views_account_logon_aspx.__Render__control1(class System.Web.UI.HtmlTextWriter,class System.Web.UI.Control)",1,0.44,0,254.12,0.07,App_Web_q5vesloz.dll
+VirtCall:<>f__AnonymousType0`2.get_date(),18,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.Mvc.ViewPage`1.get_Html(),13,0,0,0.01,0.01,System.Web.Mvc.dll
+System.Security.Principal.IIdentity.get_Name(),44,0,0,0,0,mscorlib.dll
+System.Web.UI.Page.get_User(),2,0,0,0.03,0.03,System.Web.dll
+SmsFeedback_Take4.Models.ConvTag.set_TagType(string),2,0,0,0.03,0.03,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Utilities.SwitchLanguageHelper.Language.set_IsSelected(bool),12,0,0,0.01,0.01,SmsFeedback_Take4.dll
+VirtCall:<>f__AnonymousType3`1.get_Date(),2,0,0,0.03,0.03,SmsFeedback_Take4.dll
+System.Web.HttpRequestBase.get_QueryString(),12,0,0,0.01,0.01,System.Web.dll
+System.DateTime.AddHours(float64),24,0,0,0,0,mscorlib.dll
+System.Web.UI.HtmlControls.HtmlLink..ctor(),2,0,0,0.03,0.03,System.Web.dll
+"Microsoft.VisualStudio.Web.PageInspector.Runtime.WebForms.TraceData..ctor(string,int32,int32,bool)",198,0,0,0,0,Microsoft.VisualStudio.Web.PageInspector.Runtime.dll
+MoveNext(),800,0,0,0,0,SmsFeedback_Take4.dll
+"System.String.Concat(string,string)",547,0,0,0,0,mscorlib.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetNoOfNewClientsInfo(string,string,string,string)",1,0.12,0,70.04,0.06,SmsFeedback_Take4.dll
+System.Web.Mvc.Controller.get_Url(),15,0,0,0,0,System.Web.Mvc.dll
+SmsFeedback_Take4.Utilities.SwitchLanguageHelper.Language.set_Url(string),12,0,0,0.01,0.01,SmsFeedback_Take4.dll
+VirtCall:<>f__AnonymousType8`2.get_eventType(),1,0,0,0.06,0.06,SmsFeedback_Take4.dll
+System.Collections.Generic.IEnumerable`1.GetEnumerator(),3,0,0,0.02,0.02,mscorlib.dll
+VirtCall:<>f__AnonymousType0`2.get_date(),2,0,0,0.03,0.03,SmsFeedback_Take4.dll
+<>f__AnonymousTypea`1.GetHashCode(),4,0,0,0.02,0.02,SmsFeedback_Take4.dll
+"System.DateTime.op_LessThan(valuetype System.DateTime,valuetype System.DateTime)",616,0,0,0,0,mscorlib.dll
+"System.DateTime.op_GreaterThan(valuetype System.DateTime,valuetype System.DateTime)",582,0,0,0,0,mscorlib.dll
+System.Web.UI.IParserAccessor.AddParsedSubObject(object),6,0,0,0.01,0.01,System.Web.dll
+VirtCall:<>f__AnonymousType0`2.get_count(),18,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.Mvc.Controller.get_ModelState(),1,0,0,0.06,0.06,System.Web.Mvc.dll
+"System.Web.UI.Control.BeginRenderTracing(class System.IO.TextWriter,object)",60,0,0,0,0,System.Web.dll
+"SmsFeedback_Take4.Models.Helpers.ReportSection..ctor(string,bool,class System.Collections.Generic.IEnumerable`1<class SmsFeedback_Take4.Models.Helpers.ReportResource>,string,string)",90,0,0,0,0,SmsFeedback_Take4.dll
+"Microsoft.VisualStudio.Web.PageInspector.Runtime.WebForms.TraceData..ctor(string,int32,int32,bool)",168,0,0,0,0,Microsoft.VisualStudio.Web.PageInspector.Runtime.dll
+System.Web.Routing.RouteValueDictionary.get_Item(string),86,0,0,0,0,System.Web.dll
+ASP.global_asax..ctor(),6,0,0,0.09,0.01,App_global.asax.x184vxen.dll
+VirtCall:<>f__AnonymousType5`2.get_count(),1,0,0,0.06,0.06,SmsFeedback_Take4.dll
+System.Collections.Generic.IEnumerable`1.GetEnumerator(),170,0,0,0,0,mscorlib.dll
+SmsFeedback_Take4.Controllers.ReportsController..ctor(),31,0,0,0.04,0,SmsFeedback_Take4.dll
+"System.Linq.Enumerable.Skip(class System.Collections.Generic.IEnumerable`1<!!0>,int32)",1,0,0,0.05,0.05,System.Core.dll
+SmsFeedback_Take4.Models.ConvTag.set_CompanyName(string),2,0,0,0.03,0.03,SmsFeedback_Take4.dll
+SmsFeedback_EFModels.Client.get_isSupportClient(),280,0,0,0,0,SmsFeedback_EFModels.dll
+System.Web.UI.MasterPage.get_ContentTemplates(),24,0,0,0,0,System.Web.dll
+"System.Linq.Expressions.Expression.New(class System.Reflection.ConstructorInfo,class System.Linq.Expressions.Expression[])",9,0,0,0.01,0.01,System.Core.dll
+"System.Linq.Expressions.Expression.Field(class System.Linq.Expressions.Expression,class System.Reflection.FieldInfo)",52,0,0,0,0,System.Core.dll
+System.Web.Mvc.ViewUserControl..ctor(),2,0,0,0.02,0.02,System.Web.Mvc.dll
+System.Collections.Generic.IEnumerable`1.GetEnumerator(),12,0,0,0,0,mscorlib.dll
+"ASP.views_shared_site_master.__Render__control1(class System.Web.UI.HtmlTextWriter,class System.Web.UI.Control)",2,0.14,0,41.34,0.02,App_Web_e03r53wt.dll
+"System.String.Concat(string,string,string)",421,0,0,0,0,mscorlib.dll
+ASP.views_shared_site_master..ctor(),2,0,0,0.17,0.02,App_Web_e03r53wt.dll
+SmsFeedback_Take4.Models.ConvTag.set_IsDefault(bool),2,0,0,0.02,0.02,SmsFeedback_Take4.dll
+"ASP.views_shared_site_master.__Render__control2(class System.Web.UI.HtmlTextWriter,class System.Web.UI.Control)",2,0.04,0,12.56,0.02,App_Web_e03r53wt.dll
+System.Collections.Generic.List`1..ctor(),1,0,0,0.05,0.05,mscorlib.dll
+SmsFeedback_Take4.Utilities.SwitchLanguageHelper.Language.set_ActionName(string),12,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Models.ConvTag.set_Name(string),2,0,0,0.02,0.02,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Utilities.SwitchLanguageHelper.Language.set_ControllerName(string),12,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Utilities.SwitchLanguageHelper.Language.set_RouteValues(class System.Web.Routing.RouteValueDictionary),12,0,0,0,0,SmsFeedback_Take4.dll
+get_Current(),608,0,0,0,0,SmsFeedback_Take4.dll
+System.Guid.NewGuid(),90,0,0,0,0,mscorlib.dll
+System.Web.UI.Page.GetWrappedFileDependencies(string[]),1,0,0,0.04,0.04,System.Web.dll
+System.Web.HttpUtility.HtmlEncode(string),57,0,0,0,0,System.Web.dll
+SmsFeedback_Take4.Models.ConvTag.set_Description(string),2,0,0,0.02,0.02,SmsFeedback_Take4.dll
+System.Collections.Generic.IEnumerator`1.get_Current(),58,0,0,0,0,mscorlib.dll
+SmsFeedback_EFModels.Message.get_ResponseTime(),493,0,0,0,0,SmsFeedback_EFModels.dll
+System.Collections.Generic.EqualityComparer`1.get_Default(),28,0,0,0,0,mscorlib.dll
+System.IO.TextWriter.Write(string),55,0,0,0,0,mscorlib.dll
+System.Web.UI.Page.InitializeCulture(),1,0,0,0.04,0.04,System.Web.dll
+System.String.Concat(object[]),65,0,0,0,0,mscorlib.dll
+"System.Web.UI.Control.EndRenderTracing(class System.IO.TextWriter,object)",57,0,0,0,0,System.Web.dll
+ASP.views_account_logon_aspx..ctor(),1,0.01,0,3.94,0.04,App_Web_q5vesloz.dll
+"System.Web.UI.Control.BeginRenderTracing(class System.IO.TextWriter,object)",57,0,0,0,0,System.Web.dll
+"System.Object.ReferenceEquals(object,object)",306,0,0,0,0,mscorlib.dll
+System.Linq.Expressions.Expression.Constant(object),52,0,0,0,0,System.Core.dll
+System.Collections.Generic.List`1..ctor(),6,0,0,0.01,0.01,mscorlib.dll
+System.Web.Mvc.HtmlHelper.get_RouteCollection(),12,0,0,0,0,System.Web.Mvc.dll
+System.Collections.Generic.IEnumerable`1.GetEnumerator(),1,0,0,0.03,0.03,mscorlib.dll
+System.Web.Mvc.ViewPage.get_Url(),15,0,0,0,0,System.Web.Mvc.dll
+"ASP.views_home_index_aspx.__RenderContent3(class System.Web.UI.HtmlTextWriter,class System.Web.UI.Control)",1,0,0,1.79,0.03,App_Web_4yrxnmfm.dll
+System.Collections.Generic.IEnumerable`1.GetEnumerator(),56,0,0,0,0,mscorlib.dll
+"System.Reflection.MethodBase.GetMethodFromHandle(valuetype System.RuntimeMethodHandle,valuetype System.RuntimeTypeHandle)",8,0,0,0,0,mscorlib.dll
+ASP.views_home_index_aspx..ctor(),1,0,0,0.06,0.03,App_Web_4yrxnmfm.dll
+ASP.views_reports_index_aspx..ctor(),1,0,0,0.05,0.03,App_Web_jivbjkeg.dll
+System.Web.Mvc.UrlHelper.Content(string),3,0,0,0.01,0.01,System.Web.Mvc.dll
+System.Collections.Generic.IEnumerable`1.GetEnumerator(),55,0,0,0,0,mscorlib.dll
+System.Text.RegularExpressions.GroupCollection.get_Item(int32),130,0,0,0,0,System.dll
+System.Collections.Generic.IEnumerator`1.get_Current(),52,0,0,0,0,mscorlib.dll
+"ASP.views_home_index_aspx.__RenderContent2(class System.Web.UI.HtmlTextWriter,class System.Web.UI.Control)",1,0,0,2.52,0.03,App_Web_4yrxnmfm.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClassd4.<GetAvgNoOfTagsPerConversationInfo>b__ce(class SmsFeedback_EFModels.Conversation),112,0,0,0,0,SmsFeedback_Take4.dll
+System.Collections.Generic.List`1..ctor(),8,0,0,0,0,mscorlib.dll
+System.Web.HttpCookie.get_Value(),35,0,0,0,0,System.Web.dll
+System.Collections.Generic.IEnumerator`1.get_Current(),272,0,0,0,0,mscorlib.dll
+System.Collections.IDictionary.get_Item(object),12,0,0,0,0,mscorlib.dll
+System.Web.UI.IParserAccessor.AddParsedSubObject(object),4,0,0,0.01,0.01,System.Web.dll
+System.Text.RegularExpressions.Regex.Matches(string),66,0,0,0,0,System.dll
+System.Collections.Generic.List`1.Add(!0),196,0,0,0,0,mscorlib.dll
+"System.Func`2..ctor(object,native int)",86,0,0,0,0,mscorlib.dll
+System.Threading.Thread.get_CurrentUICulture(),56,0,0,0,0,mscorlib.dll
+System.Collections.Generic.List`1..ctor(),1,0,0,0.02,0.02,mscorlib.dll
+System.Web.Routing.RouteData.GetRequiredString(string),32,0,0,0,0,System.Web.dll
+System.Collections.Generic.List`1..ctor(),153,0,0,0,0,mscorlib.dll
+"Microsoft.VisualStudio.Web.PageInspector.Runtime.WebForms.TraceData..ctor(string,int32,int32,bool)",57,0,0,0,0,Microsoft.VisualStudio.Web.PageInspector.Runtime.dll
+"System.Web.Mvc.TagBuilder.MergeAttribute(string,string)",38,0,0,0,0,System.Web.WebPages.dll
+System.Text.RegularExpressions.Match.get_Groups(),130,0,0,0,0,System.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClass6a.<GetNewVsReturningClientsChartSource>b__40(class SmsFeedback_EFModels.Conversation),56,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.HttpUtility.HtmlEncode(string),34,0,0,0,0,System.Web.dll
+MoveNext(),198,0,0,0,0,SmsFeedback_Take4.dll
+get_HasValue(),272,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.HttpContextBase.get_Request(),55,0,0,0,0,System.Web.dll
+get_Value(),221,0,0,0,0,SmsFeedback_Take4.dll
+System.Type.GetTypeFromHandle(valuetype System.RuntimeTypeHandle),139,0,0,0,0,mscorlib.dll
+System.Collections.Generic.List`1.GetEnumerator(),192,0,0,0,0,mscorlib.dll
+"System.Func`2..ctor(object,native int)",52,0,0,0,0,mscorlib.dll
+"ASP.views_home_index_aspx.__RenderContent5(class System.Web.UI.HtmlTextWriter,class System.Web.UI.Control)",1,0,0,1.63,0.02,App_Web_4yrxnmfm.dll
+"ASP.views_reports_index_aspx.__RenderContent2(class System.Web.UI.HtmlTextWriter,class System.Web.UI.Control)",1,0,0,1.73,0.02,App_Web_jivbjkeg.dll
+System.Globalization.CultureInfo.get_Name(),56,0,0,0,0,mscorlib.dll
+SmsFeedback_Take4.Models.EFSmsRepository.<GetConversationsForNumbers>b__2(class SmsFeedback_Take4.Models.SmsMessage),112,0,0,0,0,SmsFeedback_Take4.dll
+System.Collections.Generic.IEnumerable`1.GetEnumerator(),12,0,0,0,0,mscorlib.dll
+System.Web.Mvc.ViewPage`1..ctor(),1,0,0,0.02,0.02,System.Web.Mvc.dll
+System.DateTime.get_Date(),26,0,0,0,0,mscorlib.dll
+"System.String.Replace(string,string)",66,0,0,0,0,mscorlib.dll
+System.Web.Mvc.TagBuilder..ctor(string),32,0,0,0,0,System.Web.WebPages.dll
+"System.Linq.Expressions.Expression.Parameter(class System.Type,string)",6,0,0,0,0,System.Core.dll
+"System.Web.UI.IAttributeAccessor.SetAttribute(string,string)",14,0,0,0,0,System.Web.dll
+System.Globalization.CultureInfo.get_InvariantCulture(),48,0,0,0,0,mscorlib.dll
+System.Web.HttpContextBase.get_Response(),44,0,0,0,0,System.Web.dll
+get_Current(),192,0,0,0,0,SmsFeedback_Take4.dll
+System.Collections.Generic.ICollection`1.get_Count(),4,0,0,0,0,mscorlib.dll
+System.Web.HttpContext.get_Current(),66,0,0,0,0,System.Web.dll
+"ASP.views_home_index_aspx.__RenderContent4(class System.Web.UI.HtmlTextWriter,class System.Web.UI.Control)",1,0,0,1.05,0.01,App_Web_4yrxnmfm.dll
+get_Value(),192,0,0,0,0,SmsFeedback_Take4.dll
+System.Text.RegularExpressions.Capture.get_Value(),65,0,0,0,0,System.dll
+System.Web.Mvc.ViewPage`1..ctor(),1,0,0,0.01,0.01,System.Web.Mvc.dll
+"System.Linq.Expressions.Expression.Equal(class System.Linq.Expressions.Expression,class System.Linq.Expressions.Expression)",7,0,0,0,0,System.Core.dll
+System.Collections.Generic.EqualityComparer`1.GetHashCode(!0),28,0,0,0,0,mscorlib.dll
+System.Threading.Thread.get_CurrentThread(),100,0,0,0,0,mscorlib.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClassd8.<GetNoOfNewClientsInfo>b__d6(class SmsFeedback_EFModels.Conversation),56,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.Routing.RouteData.get_Values(),109,0,0,0,0,System.Web.dll
+System.Collections.Generic.ICollection`1.get_Count(),4,0,0,0,0,mscorlib.dll
+SmsFeedback_Take4.Controllers.ReportsController.Dispose(bool),31,0,0,0.01,0,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Utilities.ViewExtensionMethods.UpdatedResourceLink(class System.Web.Mvc.UrlHelper,string)",26,0,0,0.09,0,SmsFeedback_Take4.dll
+"ASP.views_reports_index_aspx.__RenderContent3(class System.Web.UI.HtmlTextWriter,class System.Web.UI.Control)",1,0,0,0.9,0.01,App_Web_jivbjkeg.dll
+System.Security.Principal.IPrincipal.IsInRole(string),1,0,0,0.01,0.01,mscorlib.dll
+System.Random.Next(int32),70,0,0,0,0,mscorlib.dll
+System.Collections.IList.Add(object),12,0,0,0,0,mscorlib.dll
+"SmsFeedback_Take4.Utilities.ViewExtensionMethods.UpdatedResourceLink(class System.Web.Mvc.UrlHelper,string)",18,0,0,0.13,0,SmsFeedback_Take4.dll
+System.Collections.Generic.List`1.Contains(!0),9,0,0,0,0,mscorlib.dll
+"ASP.views_account_logon_aspx.__Render__control2(class System.Web.UI.HtmlTextWriter,class System.Web.UI.Control)",1,0.24,0,138,0.01,App_Web_q5vesloz.dll
+System.DateTime.AddDays(float64),94,0,0,0,0,mscorlib.dll
+System.Web.HttpContext.get_Server(),66,0,0,0,0,System.Web.dll
+System.Web.Mvc.ControllerContext.get_RouteData(),44,0,0,0,0,System.Web.Mvc.dll
+System.Collections.Generic.EqualityComparer`1.get_Default(),14,0,0,0,0,mscorlib.dll
+"Microsoft.VisualStudio.Web.PageInspector.Runtime.WebForms.TraceData..ctor(int32,int32,bool)",26,0,0,0,0,Microsoft.VisualStudio.Web.PageInspector.Runtime.dll
+System.Collections.Generic.IEnumerable`1.GetEnumerator(),52,0,0,0,0,mscorlib.dll
+<>f__AnonymousTypec`3.GetHashCode(),8,0,0,0.02,0,SmsFeedback_Take4.dll
+System.Web.UI.TemplateControl.set_AppRelativeVirtualPath(string),4,0,0,0,0,System.Web.dll
+"System.String.Equals(string,valuetype System.StringComparison)",12,0,0,0,0,mscorlib.dll
+System.Collections.Generic.IEnumerator`1.get_Current(),18,0,0,0,0,mscorlib.dll
+"ASP.views_shared_logonusercontrol_ascx.__Render__control1(class System.Web.UI.HtmlTextWriter,class System.Web.UI.Control)",2,0,0,0.99,0,App_Web_e03r53wt.dll
+System.DateTime.AddSeconds(float64),24,0,0,0,0,mscorlib.dll
+"System.Linq.Expressions.Expression.Condition(class System.Linq.Expressions.Expression,class System.Linq.Expressions.Expression,class System.Linq.Expressions.Expression)",8,0,0,0,0,System.Core.dll
+SmsFeedback_Take4.Controllers.XmppController.GetConnectionDetailsForLoggedInUser(),2,1.2,0,345,0,SmsFeedback_Take4.dll
+System.DateTime.AddMinutes(float64),24,0,0,0,0,mscorlib.dll
+System.Web.HttpUtility.HtmlEncode(object),46,0,0,0,0,System.Web.dll
+SmsFeedback_Take4.Utilities.CustomAuthorizeAtribute..ctor(),7,0,0,0.3,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Models.Helpers.ChartValue.set_value(int32),84,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.Mvc.HtmlHelper.get_ViewContext(),82,0,0,0,0,System.Web.Mvc.dll
+"SmsFeedback_Take4.Models.Helpers.Report..ctor(int32,string,string,class System.Collections.Generic.IEnumerable`1<class SmsFeedback_Take4.Models.Helpers.ReportSection>)",25,0,0,0,0,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Utilities.ViewExtensionMethods.UpdatedResourceLink(class System.Web.Mvc.UrlHelper,string)",16,0,0,0.12,0,SmsFeedback_Take4.dll
+System.Collections.Generic.IEnumerator`1.get_Current(),6,0,0,0,0,mscorlib.dll
+System.Web.HttpUtility.HtmlEncode(string),8,0,0,0,0,System.Web.dll
+"System.Func`2..ctor(object,native int)",25,0,0,0,0,mscorlib.dll
+SmsFeedback_Take4.Controllers.ConversationsController..ctor(),4,0,0,0.04,0,SmsFeedback_Take4.dll
+"System.Linq.Expressions.Expression.Constant(object,class System.Type)",15,0,0,0,0,System.Core.dll
+System.Web.UI.HtmlControls.HtmlLink.set_Href(string),6,0,0,0,0,System.Web.dll
+System.Collections.Generic.List`1.GetEnumerator(),6,0,0,0,0,mscorlib.dll
+"System.Web.UI.Page.AddContentTemplate(string,class System.Web.UI.ITemplate)",5,0,0,0,0,System.Web.dll
+System.Web.UI.Page.set_MasterPageFile(string),1,0,0,0.01,0.01,System.Web.dll
+"System.Web.Mvc.Html.LinkHelper.MenuLinkForMessages(class System.Web.Mvc.HtmlHelper,string,string,string,string)",2,0,0,0.12,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.MvcApplication.RegisterRoutes(class System.Web.Routing.RouteCollection),1,0.05,0,25.92,0.01,SmsFeedback_Take4.dll
+System.Web.HttpUtility.HtmlEncode(object),19,0,0,0,0,System.Web.dll
+"SmsFeedback_Take4.Models.Helpers.RepDataColumn..ctor(string,string,string)",25,0,0,0,0,SmsFeedback_Take4.dll
+<>f__AnonymousTypeb`2.GetHashCode(),4,0,0,0,0,SmsFeedback_Take4.dll
+System.Collections.Generic.EqualityComparer`1.get_Default(),8,0,0,0,0,mscorlib.dll
+SmsFeedback_Take4.Controllers.ConversationsController.get_SMSRepository(),6,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.MessagesController..ctor(),2,0.13,0,37.81,0,SmsFeedback_Take4.dll
+System.Collections.Generic.IEnumerable`1.GetEnumerator(),2,0,0,0,0,mscorlib.dll
+System.Collections.Generic.Dictionary`2..ctor(),5,0,0,0,0,mscorlib.dll
+System.Web.UI.ControlCollection.get_Item(int32),18,0,0,0,0,System.Web.dll
+System.Collections.Generic.Dictionary`2.GetEnumerator(),6,0,0,0,0,mscorlib.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetAvgNoOfOutgoingSmsPerClientInfo(string,string,string,string,string)",1,2.2,0,"1,265.71",0,SmsFeedback_Take4.dll
+System.Web.Mvc.ViewPage.get_Url(),37,0,0,0,0,System.Web.Mvc.dll
+System.Web.Mvc.TagBuilder.AddCssClass(string),4,0,0,0,0,System.Web.WebPages.dll
+System.Collections.Generic.List`1.Add(!0),13,0,0,0,0,mscorlib.dll
+"System.Func`2..ctor(object,native int)",18,0,0,0,0,mscorlib.dll
+System.Security.Principal.IIdentity.get_Name(),2,0,0,0,0,mscorlib.dll
+"System.String.Substring(int32,int32)",9,0,0,0,0,mscorlib.dll
+System.Collections.Generic.IEnumerator`1.get_Current(),4,0,0,0,0,mscorlib.dll
+System.Collections.Generic.Dictionary`2.GetEnumerator(),2,0,0,0,0,mscorlib.dll
+System.Web.Mvc.TagBuilder.GenerateId(string),2,0,0,0,0,System.Web.WebPages.dll
+System.Web.HttpUtility.HtmlEncode(object),17,0,0,0,0,System.Web.dll
+ASP.views_home_index_aspx.__BuildControlTree(class ASP.views_home_index_aspx),1,0,0,1.21,0,App_Web_4yrxnmfm.dll
+System.Web.UI.Control.get_Controls(),18,0,0,0,0,System.Web.dll
+System.Web.Mvc.Controller.Dispose(bool),42,0,0,0,0,System.Web.Mvc.dll
+System.Collections.Generic.IEnumerator`1.get_Current(),2,0,0,0,0,mscorlib.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetAvgNoOfIncomingSmsPerClientInfo(string,string,string,string,string)",1,2.19,0,"1,255.69",0,SmsFeedback_Take4.dll
+System.Web.UI.Control.SetRenderMethodDelegate(class System.Web.UI.RenderMethod),6,0,0,0,0,System.Web.dll
+Resources.Global.get_RepTotalNoOfClients(),15,0,0,0,0,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Utilities.ViewExtensionMethods.ImageLink(class System.Web.Mvc.UrlHelper,string,string,string,string,string,object,string)",2,0,0,0.16,0,SmsFeedback_Take4.dll
+System.Web.UI.Page.FrameworkInitialize(),1,0,0,0,0,System.Web.dll
+<>f__AnonymousType0`2.GetHashCode(),8,0,0,0,0,App_Web_q5vesloz.dll
+System.Web.UI.Page.AddWrappedFileDependencies(object),1,0,0,0,0,System.Web.dll
+SmsFeedback_Take4.Utilities.ConversationUtilities.CleanUpPhoneNumber(string),2,0,0,1.32,0,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.MvcLocalization.Models.LocalizationDisplayNameAttribute..ctor(string,class System.Type)",3,0,0,0.26,0,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.AccountController.LogOn(class SmsFeedback_Take4.Models.LogOnModel,string)",1,5.35,0,"3,075.75",0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.MessagesController.SMSSSubscriptionStatus(),2,1.55,0,445.16,0,SmsFeedback_Take4.dll
+System.Collections.Generic.Dictionary`2.get_Item(!0),5,0,0,0,0,mscorlib.dll
+"System.String.Join(string,string[])",2,0,0,0,0,mscorlib.dll
+Resources.Global.get_LogOnModel_UserName_DisplayName(),4,0,0,0.01,0,SmsFeedback_Take4.dll
+System.Web.HttpRequest.get_IsAuthenticated(),2,0,0,0,0,System.Web.dll
+"System.Linq.Expressions.Expression.AndAlso(class System.Linq.Expressions.Expression,class System.Linq.Expressions.Expression)",6,0,0,0,0,System.Core.dll
+ASP.views_account_logon_aspx.__BuildControl__control3(),1,0.01,0,4.06,0,App_Web_q5vesloz.dll
+"System.String.Join(string,class System.Collections.Generic.IEnumerable`1<string>)",1,0,0,0,0,mscorlib.dll
+System.TimeSpan.get_Days(),13,0,0,0,0,mscorlib.dll
+System.Web.Mvc.ControllerBase.get_ViewData(),3,0,0,0,0,System.Web.Mvc.dll
+MoveNext(),4,0,0,0,0,SmsFeedback_Take4.dll
+System.Collections.Specialized.NameObjectCollectionBase.GetEnumerator(),12,0,0,0,0,System.dll
+System.Web.UI.Page.AddWrappedFileDependencies(object),1,0,0,0,0,System.Web.dll
+System.Collections.Generic.EqualityComparer`1.GetHashCode(!0),14,0,0,0,0,mscorlib.dll
+Resources.Global.get_RepClients(),6,0,0,0.01,0,SmsFeedback_Take4.dll
+System.Security.Principal.IPrincipal.get_Identity(),2,0,0,0,0,mscorlib.dll
+"SmsFeedback_Take4.Models.Helpers.RepInfoBox..ctor(object,string)",15,0,0,0,0,SmsFeedback_Take4.dll
+System.DateTime.Subtract(valuetype System.DateTime),13,0,0,0,0,mscorlib.dll
+"SmsFeedback_Take4.Utilities.ViewExtensionMethods.ImageLink(class System.Web.Mvc.HtmlHelper,string,string,object,object,string,bool)",8,0,0,0.06,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ConversationsController.Dispose(bool),4,0,0,0.01,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ErrorLogController..ctor(),2,0,0,0,0,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ReportsController.GetMostUsedTagsInfo(string,string,string,string,string)",1,2.96,0,"1,702.00",0,SmsFeedback_Take4.dll
+Resources.Global.get_RepOverview(),6,0,0,0.01,0,SmsFeedback_Take4.dll
+ASP.views_shared_site_master.__BuildControlFilterArea(),2,0,0,0.06,0,App_Web_e03r53wt.dll
+ASP.views_shared_site_master.__BuildControlTitleContent(),2,0,0,0.37,0,App_Web_e03r53wt.dll
+System.Web.Mvc.TagBuilder.SetInnerText(string),2,0,0,0,0,System.Web.WebPages.dll
+System.Web.UI.LiteralControl..ctor(string),4,0,0,0,0,System.Web.dll
+Resources.Global.get_RepAvgNoOfTagsPerConversation(),10,0,0,0,0,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Controllers.ErrorLogController.LogDebug(string,string)",2,0,0,0.27,0,SmsFeedback_Take4.dll
+System.Web.UI.TemplateControl.set_AppRelativeVirtualPath(string),1,0,0,0,0,System.Web.dll
+"System.Web.Mvc.UrlHelper..ctor(class System.Web.Routing.RequestContext,class System.Web.Routing.RouteCollection)",12,0,0,0,0,System.Web.Mvc.dll
+SmsFeedback_Take4.Models.AggregateSmsRepository.<UpdateConversationsFromExternalSources>b__2(class SmsFeedback_Take4.Models.WorkingPoint),4,0,0,0,0,SmsFeedback_Take4.dll
+ASP.views_reports_index_aspx.__BuildControlTree(class ASP.views_reports_index_aspx),1,0,0,0.07,0,App_Web_jivbjkeg.dll
+Resources.Global.get_RepPositiveNegativeTransitionsChartTitle(),10,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepMostUsedTag(),10,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.UI.HtmlControls.HtmlHead..ctor(string),2,0,0,0,0,System.Web.dll
+Resources.Global.get_RepAvgNoOfSmsPerClient(),5,0,0,0,0,SmsFeedback_Take4.dll
+<>f__AnonymousTyped`1.GetHashCode(),4,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.UI.TemplateControl.set_AppRelativeVirtualPath(string),1,0,0,0,0,System.Web.dll
+System.Web.UI.Control.SetRenderMethodDelegate(class System.Web.UI.RenderMethod),5,0,0,0,0,System.Web.dll
+Resources.Global.get_RepTooltipPosNegFeedbackEvolution(),5,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.XmppController..ctor(),2,0.13,0,36.22,0,SmsFeedback_Take4.dll
+System.Web.Mvc.ControllerContext.get_Controller(),14,0,0,0,0,System.Web.Mvc.dll
+Resources.Global.get_LogOnModel_RememberMe_DisplayName(),4,0,0,0,0,SmsFeedback_Take4.dll
+System.Globalization.DateTimeFormatInfo.get_Calendar(),13,0,0,0,0,mscorlib.dll
+SmsFeedback_Take4.Controllers.WorkingPointsController.Dispose(bool),2,0,0,0.02,0,SmsFeedback_Take4.dll
+System.Web.UI.Control.set_ID(string),12,0,0,0,0,System.Web.dll
+System.Type.GetTypeFromHandle(valuetype System.RuntimeTypeHandle),26,0,0,0,0,mscorlib.dll
+ASP.views_shared_site_master.__BuildControl__control4(),2,0,0,0.18,0,App_Web_e03r53wt.dll
+MoveNext(),19,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.HttpServerUtility.set_ScriptTimeout(int32),1,0,0,0,0,System.Web.dll
+System.Web.HttpServerUtility.set_ScriptTimeout(int32),1,0,0,0,0,System.Web.dll
+0x2B0000B1,24,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepSmsUnit(),5,0,0,0,0,SmsFeedback_Take4.dll
+System.Collections.Generic.EqualityComparer`1.GetHashCode(!0),8,0,0,0,0,mscorlib.dll
+"System.Func`2..ctor(object,native int)",13,0,0,0,0,mscorlib.dll
+System.Web.Mvc.ViewPage.get_Url(),19,0,0,0,0,System.Web.Mvc.dll
+ASP.views_shared_site_master.__BuildControlIncludesArea(),2,0,0,0.12,0,App_Web_e03r53wt.dll
+"System.String.Concat(object,object)",2,0,0,0,0,mscorlib.dll
+System.Web.UI.LiteralControl..ctor(string),6,0,0,0,0,System.Web.dll
+ASP.views_shared_site_master.__BuildControlMainContent(),2,0,0,0.12,0,App_Web_e03r53wt.dll
+ASP.views_shared_site_master.__BuildControlTemplatesArea(),2,0,0,0.14,0,App_Web_e03r53wt.dll
+Resources.Global.get_LogOnModel_Password_DisplayName(),4,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.WorkingPointsController.get_SMSRepository(),2,0,0,0.27,0,SmsFeedback_Take4.dll
+System.Collections.Generic.EqualityComparer`1.get_Default(),8,0,0,0,0,mscorlib.dll
+ASP.views_shared_site_master.__BuildControlLeftSideArea(),2,0,0,0.34,0,App_Web_e03r53wt.dll
+System.Web.UI.Page.get_Server(),1,0,0,0,0,System.Web.dll
+System.String.IsNullOrWhiteSpace(string),9,0,0,0,0,mscorlib.dll
+System.Web.UI.Control.SetRenderMethodDelegate(class System.Web.UI.RenderMethod),4,0,0,0,0,System.Web.dll
+System.Web.UI.Page.InitializeCulture(),1,0,0,0,0,System.Web.dll
+"System.Web.UI.RenderMethod..ctor(object,native int)",3,0,0,0,0,System.Web.dll
+SmsFeedback_Take4.Controllers.AccountController.LogOn(),1,0,0,1.16,0,SmsFeedback_Take4.dll
+"SmsFeedback_Take4.Models.Helpers.RepChartData..ctor(class System.Collections.Generic.IEnumerable`1<class SmsFeedback_Take4.Models.Helpers.RepDataColumn>,class System.Collections.Generic.IEnumerable`1<class SmsFeedback_Take4.Models.Helpers.RepDataRow>)",9,0,0,0,0,SmsFeedback_Take4.dll
+"System.Func`2..ctor(object,native int)",5,0,0,0,0,mscorlib.dll
+Resources.Global.get_RepPosToNegFeedback(),4,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.Mvc.ControllerContext.get_RequestContext(),12,0,0,0,0,System.Web.Mvc.dll
+"System.Func`2..ctor(object,native int)",13,0,0,0,0,mscorlib.dll
+Resources.Global.get_RepIncomingVsOutgoing(),6,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepTags(),6,0,0,0,0,SmsFeedback_Take4.dll
+"ASP.views_home_index_aspx.__RenderContent1(class System.Web.UI.HtmlTextWriter,class System.Web.UI.Control)",1,0,0,0.15,0,App_Web_4yrxnmfm.dll
+"ASP.views_account_logon_aspx.__Render__control5(class System.Web.UI.HtmlTextWriter,class System.Web.UI.Control)",1,0.15,0,88.59,0,App_Web_q5vesloz.dll
+<>f__AnonymousTypee`1.GetHashCode(),4,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepNewVsReturning(),6,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepAvgNoOfSmsPerDay(),5,0,0,0,0,SmsFeedback_Take4.dll
+ASP.views_shared_site_master.__BuildControl__control8(),2,0,0,0.01,0,App_Web_e03r53wt.dll
+Resources.Global.get_RepNegToPosFeedback(),4,0,0,0,0,SmsFeedback_Take4.dll
+"ASP.views_reports_index_aspx.__RenderContent4(class System.Web.UI.HtmlTextWriter,class System.Web.UI.Control)",1,0,0,0.01,0,App_Web_jivbjkeg.dll
+SmsFeedback_EFModels.ConversationHistory.get_EventTypeName(),8,0,0,0,0,SmsFeedback_EFModels.dll
+System.Web.Mvc.TagBuilder.set_InnerHtml(string),16,0,0,0,0,System.Web.WebPages.dll
+Resources.Global.get_RepAvgNoOfIncomingSmsPerConversation(),5,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.UI.HtmlControls.HtmlLink..ctor(),6,0,0,0,0,System.Web.dll
+Resources.Global.get_btnNotificationSolve(),2,0,0,0.01,0,SmsFeedback_Take4.dll
+ASP.views_shared_site_master.__BuildControl__control7(),2,0,0,0.01,0,App_Web_e03r53wt.dll
+Resources.Global.get_RepAvgNoOfOutgoingSmsPerConversation(),5,0,0,0,0,SmsFeedback_Take4.dll
+ASP.views_account_logon_aspx.__BuildControl__control4(),1,0,0,0.02,0,App_Web_q5vesloz.dll
+SmsFeedback_Take4.Controllers.XmppController.Dispose(bool),2,0,0,0.43,0,SmsFeedback_Take4.dll
+ASP.views_shared_site_master.__BuildControl__control6(),2,0,0,0.01,0,App_Web_e03r53wt.dll
+System.Collections.Generic.EqualityComparer`1.GetHashCode(!0),8,0,0,0,0,mscorlib.dll
+"ASP.views_reports_index_aspx.__RenderContent1(class System.Web.UI.HtmlTextWriter,class System.Web.UI.Control)",1,0,0,0.13,0,App_Web_jivbjkeg.dll
+Resources.Global.get_RepTotalNoOfSms(),5,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepSmsPerClient(),3,0,0,0.01,0,SmsFeedback_Take4.dll
+ASP.views_account_logon_aspx.__BuildControl__control5(),1,0,0,0.5,0,App_Web_q5vesloz.dll
+Resources.Global.get_RepTooltipPosNegFeedbackActivity(),5,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepNoOfOutgoingSms(),5,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.UI.Control.get_Controls(),4,0,0,0,0,System.Web.dll
+ASP.views_shared_logonusercontrol_ascx..ctor(),2,0,0,0.03,0,App_Web_e03r53wt.dll
+Resources.Global.get_RepOverviewChartTitle(),5,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepPositiveNegativeActivityChartTitle(),5,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepNoOfReturningClients(),5,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepPositiveNegativeEvolutionChartTitle(),5,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepNewReturningClientsChartTitle(),5,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepPositiveAndNegativeTitle(),5,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepNoOfIncomingSms(),5,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepNoOfNewClients(),5,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepIncomingOutgoingChartTitle(),5,0,0,0,0,SmsFeedback_Take4.dll
+ASP.views_shared_logonusercontrol_ascx.__BuildControlTree(class ASP.views_shared_logonusercontrol_ascx),2,0,0,0,0,App_Web_e03r53wt.dll
+Resources.Global.get_RepAvgResponseTime(),5,0,0,0,0,SmsFeedback_Take4.dll
+System.Text.StringBuilder..ctor(),2,0,0,0,0,mscorlib.dll
+Resources.Global.get_RepTooltipPosNegFeedbackTransitions(),5,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClassb2.<GetPosAndNegTagEvolution>b__93(class SmsFeedback_EFModels.ConversationHistory),2,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepNoOfConversationsByTagsChartTitle(),5,0,0,0,0,SmsFeedback_Take4.dll
+"System.Collections.Generic.Dictionary`2.Add(!0,!1)",2,0,0,0,0,mscorlib.dll
+ASP.views_reports_index_aspx.__BuildControl__control2(),1,0,0,0.31,0,App_Web_jivbjkeg.dll
+System.Collections.Generic.Dictionary`2..ctor(),2,0,0,0,0,mscorlib.dll
+Resources.Global.get_btnNotificationDismiss(),2,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClassb2.<GetPosAndNegTagEvolution>b__98(class SmsFeedback_EFModels.ConversationHistory),1,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Models.WorkingPoint.get_TelNumber(),6,0,0,0,0,SmsFeedback_Take4.dll
+System.Boolean.ToString(),4,0,0,0,0,mscorlib.dll
+ASP.views_account_logon_aspx.ProcessRequest(class System.Web.HttpContext),1,0.65,0,375.46,0,App_Web_q5vesloz.dll
+System.Web.UI.ControlCollection.get_Item(int32),4,0,0,0,0,System.Web.dll
+get_HasValue(),7,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.UI.Page.InitializeCulture(),1,0,0,0,0,System.Web.dll
+System.Web.UI.Page.FrameworkInitialize(),1,0,0,0,0,System.Web.dll
+System.Web.Mvc.ControllerContext.get_HttpContext(),12,0,0,0,0,System.Web.Mvc.dll
+System.Type.GetTypeFromHandle(valuetype System.RuntimeTypeHandle),10,0,0,0,0,mscorlib.dll
+Resources.Global.get_RepIncomingSmsChart(),3,0,0,0.01,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.MessagesController.Dispose(bool),2,0,0,0.01,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClass6a.<GetNewVsReturningClientsChartSource>b__46(class SmsFeedback_EFModels.Message),2,0,0,0.04,0,SmsFeedback_Take4.dll
+"System.Web.UI.RenderMethod..ctor(object,native int)",5,0,0,0,0,System.Web.dll
+ASP.views_shared_site_master.__BuildControl__control5(),2,0,0,0,0,App_Web_e03r53wt.dll
+System.Web.UI.HtmlControls.HtmlTitle..ctor(),2,0,0,0,0,System.Web.dll
+Resources.Global.get_RepConversationsUnit(),3,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Models.AggregateSmsRepository.<GetConversationsForNumbers>b__0(class SmsFeedback_Take4.Models.WorkingPoint),2,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.UI.Page.get_Server(),1,0,0,0,0,System.Web.dll
+get_Value(),7,0,0,0,0,SmsFeedback_Take4.dll
+<>f__AnonymousType8`2.GetHashCode(),2,0,0,0,0,SmsFeedback_Take4.dll
+get_Current(),13,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_tabSettings(),2,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_LogOnModel_UserName_Required(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.BaseController..cctor(),1,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.Mvc.ViewDataDictionary.get_Item(string),1,0,0,0,0,System.Web.Mvc.dll
+Resources.Global.get_logOnLogOffMsg(),2,0,0,0,0,SmsFeedback_Take4.dll
+"System.Web.UI.RenderMethod..ctor(object,native int)",4,0,0,0,0,System.Web.dll
+SmsFeedback_Take4.Controllers.HomeController..ctor(),1,0,0,0,0,SmsFeedback_Take4.dll
+".ctor(!0,!1)",3,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.Index(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+System.Web.UI.Page.set_Title(string),1,0,0,0,0,System.Web.dll
+Resources.Global.get_welcomeMessage(),2,0,0,0.01,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClass90.<GetPosAndNegTagActivity>b__79(class SmsFeedback_EFModels.ConversationHistory),1,0,0,0,0,SmsFeedback_Take4.dll
+"<>f__AnonymousTypec`3..ctor(!0,!1,!2)",2,0,0,0,0,SmsFeedback_Take4.dll
+"System.Web.UI.RenderMethod..ctor(object,native int)",6,0,0,0,0,System.Web.dll
+Resources.Global.get_tabReports(),2,0,0,0.01,0,SmsFeedback_Take4.dll
+System.String.IsNullOrEmpty(string),7,0,0,0,0,mscorlib.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClasse6.<GetPosNegTransitionsThirdArea>b__e0(class SmsFeedback_EFModels.ConversationHistory),1,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_EFModels.Tag.get_Name(),6,0,0,0,0,SmsFeedback_EFModels.dll
+Resources.Global.get_RepOutgoingSmsChart(),3,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.UI.TemplateControl.FrameworkInitialize(),4,0,0,0,0,System.Web.dll
+Resources.Global.get_tabHelp(),2,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.ReportsController.<>c__DisplayClasscc.<GetPosNegTransitions>b__b5(class SmsFeedback_EFModels.ConversationHistory),1,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_feedbackSendUsFeedback(),2,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipMarkAsFavouriteImg(),2,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_EFModels.TagType.get_Type(),4,0,0,0,0,SmsFeedback_EFModels.dll
+Resources.Global.get_RepMinutesUnit(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+<>f__AnonymousType3`1.GetHashCode(),2,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_lblNoConversationSelected(),2,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipSendNegativeFeedback(),2,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_EFModels.Company.get_Name(),2,0,0,0,0,SmsFeedback_EFModels.dll
+Resources.Global.get_tabMessages(),2,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Controllers.TagsController.Dispose(bool),1,0,0,0.01,0,SmsFeedback_Take4.dll
+get_HasValue(),4,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipSendPositiveFeedback(),2,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepTypeTable(),2,0,0,0.01,0,SmsFeedback_Take4.dll
+System.Type.get_Assembly(),1,0,0,0,0,mscorlib.dll
+System.Web.Routing.RouteTable.get_Routes(),1,0,0,0,0,System.Web.dll
+Resources.Global.get_RepNewClientsChart(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+System.Web.HttpContextBase.get_User(),1,0,0,0,0,System.Web.dll
+System.Web.Mvc.Controller..ctor(),1,0,0,0,0,System.Web.Mvc.dll
+"System.Web.UI.BuildTemplateMethod..ctor(object,native int)",5,0,0,0,0,System.Web.dll
+"<>f__AnonymousType0`2..ctor(!0,!1)",2,0,0,0,0,App_Web_q5vesloz.dll
+Resources.Global.get_tooltipNrOfConvsWithUnreadMsgs(),2,0,0,0,0,SmsFeedback_Take4.dll
+System.Collections.Generic.EqualityComparer`1.GetHashCode(!0),8,0,0,0,0,mscorlib.dll
+Resources.Global.get_RepConversations(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepTagsPerConversationUnit(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepPositiveFeedback(),1,0,0,0.02,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepSmsPerDayUnit(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_lblUserName(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_messagesPageTitle(),1,0,0,0.02,0,SmsFeedback_Take4.dll
+Resources.Global.get_errorMessageNotSentInsufficientCredits(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+System.Collections.Generic.Dictionary`2.ContainsKey(!0),2,0,0,0,0,mscorlib.dll
+"System.Func`2..ctor(object,native int)",3,0,0,0,0,mscorlib.dll
+Resources.Global.get_RepPosFeedbackAdded(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipWpImg(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Models.LogOnModel.get_UserName(),2,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepTotalSmsChart(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepValueTable(),2,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Utilities.ViewExtensionMethods.IsReleaseBuild(class System.Web.Mvc.HtmlHelper),4,0,0,0,0,SmsFeedback_Take4.dll
+Resources.Global.get_loginUnsuccessfulSummary(),1,0,0,0.03,0,SmsFeedback_Take4.dll
+Resources.Global.get_reportsPageTitle(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_LogOnModel_Password_Required(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_accountAuthenticate(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+"System.Web.UI.BuildTemplateMethod..ctor(object,native int)",5,0,0,0,0,System.Web.dll
+ASP.views_home_index_aspx.__BuildControlContent1(class System.Web.UI.Control),1,0,0,0,0,App_Web_4yrxnmfm.dll
+ASP.views_reports_index_aspx.__BuildControlContent1(class System.Web.UI.Control),1,0,0,0,0,App_Web_jivbjkeg.dll
+Resources.Global.get_shareOnFacebook(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+ASP.views_home_index_aspx.__BuildControlContent3(class System.Web.UI.Control),1,0,0,0,0,App_Web_4yrxnmfm.dll
+Resources.Global.get_RepExportToExcel(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+SmsFeedback_EFModels.ConversationHistory.get_Date(),4,0,0,0,0,SmsFeedback_EFModels.dll
+"Microsoft.VisualStudio.Web.PageInspector.Runtime.WebForms.TraceData..ctor(int32,int32,bool)",1,0,0,0,0,Microsoft.VisualStudio.Web.PageInspector.Runtime.dll
+Resources.Global.get_tooltipIncludeStarredInFilter(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_LogOnButtonMessage(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+ASP.views_reports_index_aspx.__BuildControlContent2(class System.Web.UI.Control),1,0,0,0,0,App_Web_jivbjkeg.dll
+Resources.Global.get_loadMoreConversations(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipDeleteConversation(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepNegativeFeedback(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipIncludeSupportFilter(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+ASP.views_reports_index_aspx.__BuildControlContent3(class System.Web.UI.Control),1,0,0,0,0,App_Web_jivbjkeg.dll
+Resources.Global.get_thumbsUpTooltip(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_errorCannotSendMessage(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_readLabel(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+System.Web.UI.CompiledTemplateBuilder..ctor(class System.Web.UI.BuildTemplateMethod),5,0,0,0,0,System.Web.dll
+Resources.Global.get_tooltipIncludeUnreadInFilter(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_shareOnTwitter(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_starredLabel(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipCheckMessageSent(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+System.Text.StringBuilder.Append(string),1,0,0,0,0,mscorlib.dll
+Resources.Global.get_RepReturningClientsChart(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepWeek(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+ASP.views_reports_index_aspx.__BuildControlContent4(class System.Web.UI.Control),1,0,0,0,0,App_Web_jivbjkeg.dll
+Resources.Global.get_RepPositiveAndNegative(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_shareOnLinkedinTitle(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipCheckMessageReceived(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+System.Collections.Generic.Dictionary`2.get_Count(),2,0,0,0,0,mscorlib.dll
+Resources.Global.get_confirmDeleteConversation(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_lblPassword(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_tagsLabel(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+"System.Func`2..ctor(object,native int)",3,0,0,0,0,mscorlib.dll
+Resources.Global.get_RepDay(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+ASP.views_home_index_aspx.__BuildControlContent2(class System.Web.UI.Control),1,0,0,0,0,App_Web_4yrxnmfm.dll
+Resources.Global.get_messagesRemoveTagPlaceHolder(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_supportLabel(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipReplyBtn(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_warningMessageSentSpendingLimitReached(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_thumbsDownTooltip(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepMonth(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_shareOnLinkedin(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_tooltipIncludeTagsInFilter(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+ASP.views_reports_index_aspx.ProcessRequest(class System.Web.HttpContext),1,0.05,0,30.22,0,App_Web_jivbjkeg.dll
+Resources.Global.get_confirmDeleteMessage(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_deleteMessage(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_errorMessageNotSentReasonUnknown(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+"System.Func`2..ctor(object,native int)",3,0,0,0,0,mscorlib.dll
+Resources.Global.get_filteringAddFilterTag(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+"System.Func`2..ctor(object,native int)",3,0,0,0,0,mscorlib.dll
+Resources.Global.get_addATagLabel(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+ASP.views_home_index_aspx.ProcessRequest(class System.Web.HttpContext),1,0.17,0,98.23,0,App_Web_4yrxnmfm.dll
+"System.Func`2..ctor(object,native int)",2,0,0,0,0,mscorlib.dll
+ASP.views_home_index_aspx.__BuildControlContent4(class System.Web.UI.Control),1,0,0,0,0,App_Web_4yrxnmfm.dll
+Resources.Global.get_tooltipSendEmailImg(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_sendButton(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+Resources.Global.get_RepNegFeedbackAdded(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+ASP.views_home_index_aspx.__BuildControlContent5(class System.Web.UI.Control),1,0,0,0,0,App_Web_4yrxnmfm.dll
+Resources.Global.get_RepPosFeedbackRemoved(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_messagesAddTagPlaceHolder(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepClientsUnit(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+Resources.Global.get_RepNegFeedbackRemoved(),1,0,0,0.01,0,SmsFeedback_Take4.dll
+<>f__AnonymousType0`2.get_placeholder(),2,0,0,0,0,App_Web_q5vesloz.dll
+SmsFeedback_Take4.Controllers.ConversationsController.DecideIfUpdateFromExternalSourcesIsRequired(int32),1,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Utilities.ViewExtensionMethods.IsReleaseBuild(class System.Web.Mvc.HtmlHelper),1,0,0,0,0,SmsFeedback_Take4.dll
+"System.DateTime.op_Subtraction(valuetype System.DateTime,valuetype System.DateTime)",1,0,0,0,0,mscorlib.dll
+SmsFeedback_EFModels.TagTagType.get_IsDefault(),2,0,0,0,0,SmsFeedback_EFModels.dll
+"System.Func`2..ctor(object,native int)",2,0,0,0,0,mscorlib.dll
+<>f__AnonymousType0`2.get_class(),2,0,0,0,0,App_Web_q5vesloz.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+System.Web.Mvc.ViewPage`1.get_Html(),1,0,0,0,0,System.Web.Mvc.dll
+System.Web.Mvc.ViewPage`1.get_Html(),1,0,0,0,0,System.Web.Mvc.dll
+get_Value(),4,0,0,0,0,SmsFeedback_Take4.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+System.Web.UI.Control.get_Page(),2,0,0,0,0,System.Web.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+System.TimeSpan.get_TotalMinutes(),2,0,0,0,0,mscorlib.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+SmsFeedback_EFModels.Tag.get_Description(),2,0,0,0,0,SmsFeedback_EFModels.dll
+SmsFeedback_Take4.Utilities.ViewExtensionMethods.IsReleaseBuild(class System.Web.Mvc.HtmlHelper),1,0,0,0,0,SmsFeedback_Take4.dll
+System.Object..ctor(),2,0,0,0,0,mscorlib.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+System.Collections.Generic.List`1.Add(!0),2,0,0,0,0,mscorlib.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+System.TimeSpan..ctor(int64),1,0,0,0,0,mscorlib.dll
+get_Key(),2,0,0,0,0,SmsFeedback_Take4.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+SmsFeedback_Take4.Models.LogOnModel.get_RememberMe(),1,0,0,0,0,SmsFeedback_Take4.dll
+System.Type.GetTypeFromHandle(valuetype System.RuntimeTypeHandle),1,0,0,0,0,mscorlib.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+get_Current(),2,0,0,0,0,SmsFeedback_Take4.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+"System.Func`2..ctor(object,native int)",1,0,0,0,0,mscorlib.dll
+System.Web.Mvc.ViewPage`1.get_ViewData(),1,0,0,0,0,System.Web.Mvc.dll
+System.Web.UI.Page.GetWrappedFileDependencies(string[]),1,0,0,0,0,System.Web.dll
+VirtCall:<>f__AnonymousType5`2.get_key(),1,0,0,0,0,SmsFeedback_Take4.dll
+SmsFeedback_Take4.Models.LogOnModel.get_Password(),1,0,0,0,0,SmsFeedback_Take4.dll
+System.Web.UI.Page.GetWrappedFileDependencies(string[]),1,0,0,0,0,System.Web.dll

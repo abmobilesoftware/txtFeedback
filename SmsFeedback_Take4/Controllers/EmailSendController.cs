@@ -41,7 +41,15 @@ namespace SmsFeedback_Take4.Controllers
               {
                  wpName = lWpTelNoOrShortID;
               }
-              ViewData["emailSubject"] = Resources.Global.sendEmailPrefixSubject + fromTo[0] + Resources.Global.sendEmailConjuctionSubject + wpName + "]";
+              long parseResult = 0;
+              if (long.TryParse(fromTo[0], out parseResult))
+              {
+                  ViewData["emailSubject"] = Resources.Global.sendEmailPrefixSubject + fromTo[0].Substring(0, fromTo[0].Length - 4) + "...." + Resources.Global.sendEmailConjuctionSubject + wpName + "]";
+              }
+              else
+              {
+                  ViewData["emailSubject"] = Resources.Global.sendEmailPrefixSubject + fromTo[0] + Resources.Global.sendEmailConjuctionSubject + wpName + "]";
+              }
               result = View();
            }
            catch (Exception ex)

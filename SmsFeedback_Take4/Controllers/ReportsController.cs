@@ -5,8 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SmsFeedback_Take4.Models.Helpers;
-using SmsFeedback_Take4.Utilities;
 using SmsFeedback_EFModels;
+using System.Linq.Expressions;
+using LinqKit;
+using SmsFeedback_Take4.Utilities;
 
 
 namespace SmsFeedback_Take4.Controllers
@@ -14,13 +16,24 @@ namespace SmsFeedback_Take4.Controllers
     [CustomAuthorizeAtribute]
     public class ReportsController : BaseController
     {
-       private const int cConvsMenuContainerID = 10;
-       private const int cConvsOverviewMenuID = 11;
-       private const int cConvsIncomingVsOutgoingID = 12;
-       private const int cConvsPosVsNegID = 13;
-       private const int cConvsTagsOverviewID = 14;
-       private const int cClientsOverviewID = 20;
-       private const int cClientsNewVsReturningID = 21;
+        private const int cConvsMenuContainerID = 10;
+        private const int cConvsOverviewMenuID = 11;
+        private const int cConvsIncomingVsOutgoingID = 12;
+        private const int cConvsPosVsNegID = 13;
+        private const int cConvsTagsOverviewID = 14;
+        private const int cClientsOverviewID = 20;
+        private const int cClientsNewVsReturningID = 21;
+        private const int cSectionID1 = 1;
+        private const int cSectionID2 = 2;
+        private const int cSectionID3 = 3;
+        private const int cSectionID4 = 4;
+        private const int cSectionID5 = 5;
+        private const int cSectionID6 = 6;
+
+        private const String cDateFormat = "yyyy-MM-dd";
+        private const String cDateFormat1 = "dd-mm";
+        private const String cDateFormat2 = "dd/mm/yyyy";
+        private const String cDateFormat3 = "dd/mm";
         private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private EFInteraction mEFInterface = new EFInteraction();
         smsfeedbackEntities context = new smsfeedbackEntities();
@@ -31,169 +44,974 @@ namespace SmsFeedback_Take4.Controllers
             return View();
         }
 
-        #region First area chart sources
 
-        public JsonResult GetTotalNoOfSmsChartSource(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
+        public JsonResult GetReportOverviewData(String iIntervalStart, String iIntervalEnd, String iScope)
         {
             try
             {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
+                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-                Dictionary<DateTime, ChartValue> resultInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                foreach (var wp in workingPoints)
+                Dictionary<DateTime, ChartValue> resultInterval = InitializeInterval(intervalStart, intervalEnd, Constants.DAY_GRANULARITY);
+                IEnumerable<Message> msgs = GetMessages(intervalStart, intervalEnd, User.Identity.Name, iScope, context);
+
+                var msgsGrByDay = from msg in msgs
+                                  group msg by new { msg.TimeReceived.Date } into g
+                                  select new { date = g.Key, count = g.Count() };
+                foreach (var entry in msgsGrByDay)
+                    resultInterval[entry.date.Date].value = entry.count;
+
+                TimeSpan interval = intervalEnd - intervalStart;
+                Int32 noOfClients = msgs.GroupBy(msg => msg.ConversationId).Count();
+                Int32 totalNoOfMsgs = 0;
+                long totalResponseTime = 0;
+                var counter = 0;
+                foreach (var msg in msgs)
                 {
-                    var conversations = from conv in wp.Conversations select conv;
-                    foreach (var conv in conversations)
+                    ++totalNoOfMsgs;
+                    if (msg.ResponseTime.HasValue)
                     {
-
-                        if (iGranularity.Equals(Constants.DAY_GRANULARITY))
-                        {
-                            var msgsToFrom = from msg in conv.Messages
-                                             where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd)
-                                             group msg by msg.TimeReceived.Date into g
-                                             select new { date = g.Key, count = g.Count() };
-                            foreach (var entry in msgsToFrom)
-                                resultInterval[entry.date].value += entry.count;
-
-                        }
-                        else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
-                        {
-                            var msgsToFrom = from msg in conv.Messages
-                                             where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd)
-                                             group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g
-                                             select new { date = g.Key, count = g.Count() };
-                            foreach (var entry in msgsToFrom)
-                            {
-                                var monthDateTime = new DateTime(entry.date.Year, entry.date.Month, 1);
-                                if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                    resultInterval[intervalStart].value += entry.count;
-                                else
-                                    resultInterval[monthDateTime].value += entry.count;
-                            }
-                        }
-                        else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-                        {
-                            var msgsToFrom = from msg in conv.Messages
-                                             where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd)
-                                             group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g
-                                             select new { date = g.Key, count = g.Count() };
-                            foreach (var entry in msgsToFrom)
-                            {
-                                var firstDayOfTheWeek = entry.date.firstDayOfTheWeek;
-                                if (DateTime.Compare(firstDayOfTheWeek, intervalStart) < 0)
-                                    resultInterval[intervalStart].value += entry.count;
-                                else
-                                    resultInterval[firstDayOfTheWeek].value += entry.count;
-                            }
-                        }
-
+                        totalResponseTime += msg.ResponseTime.Value;
+                        ++counter;
                     }
                 }
-                List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
-                content.Add(resultInterval);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepTotalSmsChart) }, PrepareJson(content, Resources.Global.RepSmsUnit));
-                return Json(chartSource, JsonRequestBehavior.AllowGet);
+
+                TimeSpan avgResponseTime = (counter == 0) ? new TimeSpan(0) :
+                    avgResponseTime = new TimeSpan((long)(totalResponseTime / counter));
+
+                List<Dictionary<DateTime, ChartValue>> chartOverviewContent = new List<Dictionary<DateTime, ChartValue>>();
+                chartOverviewContent.Add(resultInterval);
+                RepChartData chartContentWrapper = new RepChartData(new RepDataColumn[] { 
+                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepTotalSmsChart) 
+                }, PrepareJson(chartOverviewContent, Resources.Global.RepSmsUnit));
+                RepInfoBox ibTotalNoOfSms = new RepInfoBox(totalNoOfMsgs, Resources.Global.RepSmsUnit);
+                RepInfoBox ibAvgNoOfSmsPerDay = (interval.TotalDays == 0) ? new RepInfoBox(totalNoOfMsgs, Resources.Global.RepSmsPerDayUnit) :
+                    new RepInfoBox(Math.Round(totalNoOfMsgs / interval.TotalDays, 2), Resources.Global.RepSmsPerDayUnit);
+                RepInfoBox ibTotalNoOfClients = new RepInfoBox(noOfClients, Resources.Global.RepClients);
+                RepInfoBox ibAvgNoOfSmsPerClient = (noOfClients == 0) ?
+                    new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
+                    new RepInfoBox(Math.Round((double)totalNoOfMsgs / noOfClients, 2), Resources.Global.RepSmsPerClient);
+                RepInfoBox ibAvgResponseTime = (avgResponseTime.TotalMinutes < 1) ?
+                    new RepInfoBox(Math.Round(avgResponseTime.TotalSeconds, 2), Resources.Global.RepSecondsUnit)
+                    : new RepInfoBox(Math.Round(avgResponseTime.TotalMinutes, 2), Resources.Global.RepMinutesUnit);
+
+                var repData = new ReportData(new List<RepChartData>() { chartContentWrapper },
+                    new List<RepInfoBox>() { ibTotalNoOfSms, ibAvgNoOfSmsPerDay,
+                        ibTotalNoOfClients, ibAvgNoOfSmsPerClient, ibAvgResponseTime });
+                return Json(repData, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                logger.Error("GetTotalNoOfSmsChartSource", e);
+                logger.Error("GetReportOverviewData", e);
+            }
+            return Json("Request failed", JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetReportOverviewGrData(String iIntervalStart, String iIntervalEnd, String iScope, String iGranularity)
+        {
+            try
+            {
+                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
+                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
+                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+                Dictionary<DateTime, ChartValue> resultInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                IEnumerable<Message> msgs = GetMessages(intervalStart, intervalEnd, User.Identity.Name, iScope, context);
+
+                if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+                {
+                    var msgsToFrom = from msg in msgs
+                                     group msg by new { msg.TimeReceived.Date } into g
+                                     select new { date = g.Key, count = g.Count() };
+                    foreach (var entry in msgsToFrom)
+                        resultInterval[entry.date.Date].value = entry.count;
+                }
+                else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
+                {
+                    var msgsToFrom = from msg in msgs
+                                     group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g
+                                     select new { date = g.Key, count = g.Count() };
+                    foreach (var entry in msgsToFrom)
+                    {
+                        var monthDateTime = new DateTime(entry.date.Year, entry.date.Month, 1);
+                        if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                            resultInterval[intervalStart].value += entry.count;
+                        else
+                            resultInterval[monthDateTime].value += entry.count;
+                    }
+                }
+                else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
+                {
+                    var msgsToFrom = from msg in msgs
+                                     group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g
+                                     select new { date = g.Key, count = g.Count() };
+                    foreach (var entry in msgsToFrom)
+                    {
+                        var firstDayOfTheWeek = entry.date.firstDayOfTheWeek;
+                        if (DateTime.Compare(firstDayOfTheWeek, intervalStart) < 0)
+                            resultInterval[intervalStart].value += entry.count;
+                        else
+                            resultInterval[firstDayOfTheWeek].value += entry.count;
+                    }
+                }
+
+                List<Dictionary<DateTime, ChartValue>> overviewChartContent = new List<Dictionary<DateTime, ChartValue>>();
+                overviewChartContent.Add(resultInterval);
+                RepChartData chartContentWrapper = new RepChartData(new RepDataColumn[] { 
+                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepTotalSmsChart)
+                }, PrepareJson(overviewChartContent, Resources.Global.RepSmsUnit));
+                return Json(chartContentWrapper, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                logger.Error("GetReportOverviewDataGr", e);
             }
             return Json("Request failed", JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetIncomingOutgoingSmsChartSource(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
+        public JsonResult GetReportIncomingOutgoingData(String iIntervalStart, String iIntervalEnd, String iScope)
         {
             try
             {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
+                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-                Dictionary<DateTime, ChartValue> resultIncomingInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultOutgoingInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                foreach (var wp in workingPoints)
+                Dictionary<DateTime, ChartValue> resultIncomingInterval = InitializeInterval(intervalStart, intervalEnd, Constants.DAY_GRANULARITY);
+                Dictionary<DateTime, ChartValue> resultOutgoingInterval = InitializeInterval(intervalStart, intervalEnd, Constants.DAY_GRANULARITY);
+
+                var msgs = GetMessages(intervalStart, intervalEnd, User.Identity.Name, iScope, context);
+                // Group messages by day and type incoming or outgoing
+                var msgsGrouped = from msg in GroupIncomingOutgoingMsgs(intervalStart, 
+                                      intervalEnd, 
+                                      iScope, 
+                                      context) 
+                                  group msg by new { 
+                                      msg.Key.TimeReceived.Date, 
+                                      incoming = msg.Key.incoming 
+                                  } into g 
+                                  select new { g.Key, count = g.Count() };
+                Int32 noOfIncomingMsgs = 0;
+                Int32 noOfOutgoingMsgs = 0;
+                foreach (var msg in msgsGrouped)
                 {
-                    var conversations = from conv in wp.Conversations select conv;
-                    foreach (var conv in conversations)
+                    if (msg.Key.incoming)
                     {
-                        if (iGranularity.Equals(Constants.DAY_GRANULARITY))
-                        {
-                            var msgsTo = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.To == wp.TelNumber || msg.To.StartsWith(wp.ShortID))) group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
-                            foreach (var entry in msgsTo)
-                            {
-                                resultIncomingInterval[entry.date].value += entry.count;
-                            }
-                            var msgsFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.From == wp.TelNumber || msg.From.StartsWith(wp.ShortID))) group msg by msg.TimeReceived.Date into g select new { date = g.Key, count = g.Count() };
-                            foreach (var entry in msgsFrom)
-                            {
-                                resultOutgoingInterval[entry.date].value += entry.count;
-                            }
-                        }
-                        else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
-                        {
-                            var msgsTo = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.To == wp.TelNumber || msg.To.StartsWith(wp.ShortID))) group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g select new { date = g.Key, count = g.Count() };
-                            var msgsFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.From == wp.TelNumber ||msg.From.StartsWith(wp.ShortID))) group msg by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into g select new { date = g.Key, count = g.Count() };
-                            foreach (var entry in msgsTo)
-                            {
-                                var monthDateTime = new DateTime(entry.date.Year, entry.date.Month, 1);
-                                if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                    resultIncomingInterval[intervalStart].value += entry.count;
-                                else
-                                    resultIncomingInterval[monthDateTime].value += entry.count;
-                            }
-
-                            foreach (var entry in msgsFrom)
-                            {
-                                var monthDateTime = new DateTime(entry.date.Year, entry.date.Month, 1);
-                                if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                    resultOutgoingInterval[intervalStart].value += entry.count;
-                                else
-                                    resultOutgoingInterval[monthDateTime].value += entry.count;
-                            }
-                        }
-                        else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-                        {
-                           var msgsTo = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.To == wp.TelNumber || msg.To.StartsWith(wp.ShortID))) group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g select new { date = g.Key, count = g.Count() };
-                           var msgsFrom = from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd & (msg.From == wp.TelNumber || msg.From.StartsWith(wp.ShortID))) group msg by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into g select new { date = g.Key, count = g.Count() };
-                            foreach (var entry in msgsTo)
-                            {
-                                var weekDateTime = entry.date.firstDayOfTheWeek;
-                                if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                    resultIncomingInterval[intervalStart].value += entry.count;
-                                else
-                                    resultIncomingInterval[weekDateTime].value += entry.count;
-                            }
-
-                            foreach (var entry in msgsFrom)
-                            {
-                                var weekDateTime = entry.date.firstDayOfTheWeek;
-                                if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                    resultOutgoingInterval[intervalStart].value += entry.count;
-                                else
-                                    resultOutgoingInterval[weekDateTime].value += entry.count;
-                            }
-                        }
+                        resultIncomingInterval[msg.Key.Date].value = msg.count;
+                        noOfIncomingMsgs += msg.count;
+                    }
+                    else
+                    {
+                        resultOutgoingInterval[msg.Key.Date].value = msg.count;
+                        noOfOutgoingMsgs += msg.count;
                     }
                 }
+
+                Int32 noOfClients = msgs.GroupBy(msg => msg.ConversationId).Count();
+
+                var row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepIncomingSmsChart, Resources.Global.RepIncomingSmsChart), new RepDataRowCell(noOfIncomingMsgs, noOfIncomingMsgs + " sms") });
+                var row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepOutgoingSmsChart, Resources.Global.RepOutgoingSmsChart), new RepDataRowCell(noOfOutgoingMsgs, noOfOutgoingMsgs + " sms") });
+                List<RepDataRow> pieChartContent = new List<RepDataRow>();
+                pieChartContent.Add(row1);
+                pieChartContent.Add(row2);
+                RepChartData pieChartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, Resources.Global.RepTypeTable), new RepDataColumn("18", Constants.STRING_COLUMN_TYPE, Resources.Global.RepValueTable) }, pieChartContent);
 
                 List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
                 content.Add(resultIncomingInterval);
                 content.Add(resultOutgoingInterval);
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepIncomingSmsChart), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepOutgoingSmsChart) }, PrepareJson(content, Resources.Global.RepSmsUnit));
+                RepInfoBox ibNoOfIncomingMsgs = new RepInfoBox(noOfIncomingMsgs, Resources.Global.RepSmsUnit); // TODO: Refactor name of static variable RepSmsUnit 
+                RepInfoBox ibNoOfOutgoingMsgs = new RepInfoBox(noOfOutgoingMsgs, Resources.Global.RepSmsUnit);
+                RepInfoBox ibTotalNoOfClients = new RepInfoBox(noOfClients, Resources.Global.RepClients);
+                RepInfoBox ibAvgNoOfIncomingMsgsPerClient = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
+                    new RepInfoBox(Math.Round((double)noOfIncomingMsgs / noOfClients, 2), Resources.Global.RepSmsPerClient);
+                RepInfoBox ibAvgNoOfOutgoingSmsPerClient = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient)
+                    : new RepInfoBox(Math.Round((double)noOfOutgoingMsgs / noOfClients, 2), Resources.Global.RepSmsPerClient);
+                var repData = new ReportData(new List<RepChartData>() { chartSource, pieChartSource },
+                        new List<RepInfoBox>() { ibNoOfIncomingMsgs, ibNoOfOutgoingMsgs,
+                        ibTotalNoOfClients, ibAvgNoOfIncomingMsgsPerClient, ibAvgNoOfOutgoingSmsPerClient });
+                return Json(repData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                logger.Error("GetReportIncomingOutgoingData", e);
+                return Json("request failed", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private IEnumerable<MsgInfoWrapper> GroupIncomingOutgoingMsgs(DateTime iIntervalStart, DateTime iIntervalEnd, String iScope, smsfeedbackEntities dbContext)
+        {
+            var msgs = GetMessages(iIntervalStart, iIntervalEnd, User.Identity.Name, iScope, dbContext);
+            List<MsgInfoWrapper> msgsGrouped = (from msg in msgs
+                                                                                   group msg by new MsgInfo
+                                                                                   {
+                                                                                       incoming = msg.ConversationId.StartsWith(msg.IsSmsBased ?
+                                                                                           ConversationUtilities.CleanUpPhoneNumber(msg.From) :
+                                                                                           ConversationUtilities.ExtractUserFromAddress(msg.From)),
+                                                                                       Id = msg.Id,
+                                                                                       TimeReceived = msg.TimeReceived
+                                                                                   } into g
+                                                                                   select new MsgInfoWrapper { Key = g.Key }).ToList();
+            return msgsGrouped;
+        }
+        
+        public JsonResult GetReportIncomingOutgoingGrData(String iIntervalStart, String iIntervalEnd, String iScope, String iGranularity)
+        {
+            try
+            {
+                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
+                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
+                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+                Dictionary<DateTime, ChartValue> resultIncomingInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultOutgoingInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+
+                if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+                {
+                    var incomingMsgsGr = from msg in GroupIncomingOutgoingMsgs(intervalStart,
+                                             intervalEnd,
+                                             iScope,
+                                             context)
+                                         group msg by new
+                                         {
+                                             msg.Key.TimeReceived.Date,
+                                             incoming = msg.Key.incoming
+                                         } into g
+                                         select new { key = g.Key, count = g.Count() };
+                    foreach (var entry in incomingMsgsGr)
+                    {
+                        if (entry.key.incoming)
+                            resultIncomingInterval[entry.key.Date].value += entry.count;
+                        else
+                            resultOutgoingInterval[entry.key.Date].value += entry.count;
+                    }
+                }
+                else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
+                {
+                    var incomingMsgsGr = from msg in GroupIncomingOutgoingMsgs(intervalStart,
+                                             intervalEnd,
+                                             iScope,
+                                             context)
+                                         group msg by new
+                                         {
+                                             msg.Key.TimeReceived.Month,
+                                             msg.Key.TimeReceived.Year,
+                                             incoming = msg.Key.incoming
+                                         } into g
+                                         select new { key = g.Key, count = g.Count() };
+                    foreach (var entry in incomingMsgsGr)
+                    {
+                        var monthDateTime = new DateTime(entry.key.Year, entry.key.Month, 1);
+                        if (entry.key.incoming)
+                        {
+                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                            {
+                                resultIncomingInterval[intervalStart].value += entry.count;
+                            }
+                            else
+                            {
+                                resultIncomingInterval[monthDateTime].value += entry.count;
+                            }
+
+                        }
+                        else
+                        {
+                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                resultOutgoingInterval[intervalStart].value += entry.count;
+                            else
+                                resultOutgoingInterval[monthDateTime].value += entry.count;
+                        }
+                    }
+                }
+                else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
+                {
+                    var incomingMsgsGr = from msg in GroupIncomingOutgoingMsgs(intervalStart,
+                                             intervalEnd,
+                                             iScope,
+                                             context)
+                                         group msg by new
+                                         {
+                                             firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.Key.TimeReceived),
+                                             incoming = msg.Key.incoming
+                                         } into g
+                                         select new { key = g.Key, count = g.Count() };
+                    foreach (var entry in incomingMsgsGr)
+                    {
+                        var weekDateTime = entry.key.firstDayOfTheWeek;
+                        if (entry.key.incoming)
+                        {
+                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                            {
+                                resultIncomingInterval[intervalStart].value += entry.count;
+                            }
+                            else
+                            {
+                                resultIncomingInterval[weekDateTime].value += entry.count;
+                            }
+
+                        }
+                        else
+                        {
+                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                                resultOutgoingInterval[intervalStart].value += entry.count;
+                            else
+                                resultOutgoingInterval[weekDateTime].value += entry.count;
+                        }
+                    }
+                }
+                List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
+                content.Add(resultIncomingInterval);
+                content.Add(resultOutgoingInterval);
                 RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepIncomingSmsChart), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepOutgoingSmsChart) }, PrepareJson(content, Resources.Global.RepSmsUnit));
+
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                logger.Error("GetIncomingOutgoingSmsChartSource", e);
+                logger.Error("GetReportIncomingOutgoingGrData", e);
+                return Json("request failed", JsonRequestBehavior.AllowGet);
             }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetNewVsReturningClientsChartSource(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
+        public JsonResult GetReportTagsData(String iIntervalStart, String iIntervalEnd, String iScope)
+        {
+            try
+            {
+                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
+                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
+                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+                String DEFAULT_TAGS = "defaultTags";
+                var dbContext = new smsfeedbackEntities();
+                var tags = (from u in dbContext.Users
+                            where u.UserName.Equals(User.Identity.Name)
+                            select (from wp in u.WorkingPoints
+                                    where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                    select (from conv in wp.Conversations
+                                            where conv.Messages.Where(msg => msg.TimeReceived >= intervalStart
+                                                && msg.TimeReceived <= intervalEnd).Count() > 0
+                                            select (from convTag in conv.ConversationTags
+                                                    select
+                                                        new { tag = convTag, wp = wp })))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
+
+                var tagsGr = from tag in tags
+                             group tag by tag.tag.Tag.TagTagTypes.Count == 0 ? tag.tag.Tag.Name : DEFAULT_TAGS
+                                 into g
+                                 select new { key = g.Key, count = g.Count() };
+
+                // Build the chart source and compute the "Most used tag"
+                Int32 columnCounter = 0;
+                String tagInterval = intervalStart.ToShortDateString() + " - " + intervalEnd.ToShortDateString();
+                var headerContent = new List<RepDataColumn>();
+                var rowContent = new List<RepDataRowCell>();
+                rowContent.Add(new RepDataRowCell(tagInterval, tagInterval));
+                headerContent.Add(new RepDataColumn(columnCounter.ToString(), Constants.STRING_COLUMN_TYPE));
+                String mostUsedTag = Resources.Global.RepNoneDefaultValue;
+                Int32 tagMaxUsage = -1;
+
+                foreach (var tagGr in tagsGr)
+                {
+                    if (!tagGr.key.Equals(DEFAULT_TAGS))
+                    {
+                        if (tagGr.count > tagMaxUsage)
+                        {
+                            tagMaxUsage = tagGr.count;
+                            mostUsedTag = tagGr.key;
+                        }
+                        ++columnCounter;
+                        rowContent.Add(new RepDataRowCell(tagGr.count, tagGr.count + " " + Resources.Global.RepConversationsUnit));
+                        headerContent.Add(new RepDataColumn(columnCounter.ToString(), Constants.NUMBER_COLUMN_TYPE, tagGr.key.ToString()));
+                    }
+                }
+
+                if (rowContent.Count() == 1)
+                {
+                    rowContent.Add(new RepDataRowCell(0, Resources.Global.RepNoDataToDisplay));
+                    headerContent.Add(new RepDataColumn("15", "number", Resources.Global.RepNoDataToDisplay));
+                }
+
+                RepChartData chartSource = new RepChartData(headerContent, new RepDataRow[] { new RepDataRow(rowContent) });
+                Int32 noOfTags = tags.Count();
+                string telNumber = "00000000";
+                var noOfConversations = ((from u in dbContext.Users
+                                          where u.UserName.Equals(User.Identity.Name)
+                                          select (from wp in u.WorkingPoints
+                                                  select (from conv in wp.Conversations
+                                                          where
+                                                              conv.Messages.Where(msg => msg.TimeReceived >= intervalStart
+                                                              && msg.TimeReceived <= intervalEnd).Count() > 0
+                                                          select conv)))
+                                                          .SelectMany(x => x).SelectMany(x => x)).Count();
+                RepInfoBox IbMostUsedTag = new RepInfoBox(mostUsedTag, "");
+                RepInfoBox IbAvgNoOfTagsPerConversation = (noOfConversations == 0) ? new RepInfoBox(0, Resources.Global.RepTagsPerConversationUnit) :
+                    new RepInfoBox(Math.Round((double)noOfTags / noOfConversations, 2), Resources.Global.RepTagsPerConversationUnit);
+                var repData = new ReportData(new List<RepChartData>() { chartSource },
+                        new List<RepInfoBox>() { IbMostUsedTag, IbAvgNoOfTagsPerConversation });
+                return Json(repData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                logger.Error("GetReportTagsData", e);
+                return Json("request failed", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        #region Report Positive and Negative
+        public JsonResult GetReportPosNegData(String iIntervalStart, String iIntervalEnd, String iScope)
+        {
+            try
+            {
+                var iGranularity = Constants.DAY_GRANULARITY;
+                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
+                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
+                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+                Dictionary<DateTime, ChartValue> resultPositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultRemovePositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultRemoveNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultPositiveTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultNegativeTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultPosToNegTransitionsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultNegToPosTransitionsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                KeyAndCount posToNegTransitions = new KeyAndCount(Constants.POS_TO_NEG_EVENT, 0);
+                KeyAndCount negToPosTransitions = new KeyAndCount(Constants.NEG_TO_POS_EVENT, 0);
+
+                smsfeedbackEntities dbContext = new smsfeedbackEntities();
+                // GLOBAL SCOPE
+                IEnumerable<ConversationHistory> convEvents = (from u in dbContext.Users
+                                                               where u.UserName.Equals(User.Identity.Name)
+                                                               select (from wp in u.WorkingPoints
+                                                                       where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                                                       select (from conv in wp.Conversations
+                                                                               where !conv.Client.isSupportClient &&
+                                                                               conv.Messages.Where(msg => msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd).Count() > 0
+                                                                               select (from convEvent in conv.ConversationEvents
+                                                                                       where (convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
+                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
+                                                                                           convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
+                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
+                                                                                           convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
+                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
+                                                                                           (convEvent.Date <= intervalEnd)
+                                                                                       select convEvent)))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
+
+                /*
+                 * All events are grouped by occur date and event name/type, which can be POS_ADD, NEG_ADD, etc.
+                 * This groups of events are than grouped by occur date. And the new formed groups are ordered ascending by occur date.
+                 * For Activity and Transitions I count for each type of event the number of appearances.
+                 * For Evolution I count the previous events (occur date < intervalStart) and then count the events for each day.
+                 */
+
+                var posFeedback = 0;
+                var negFeedback = 0;
+                DateTime lastEvDate = DateTime.MinValue;
+                int prevPosFeedback = 0;
+                int prevNegFeedback = 0;
+                int lastPosFeedback = -1;
+                int lastNegFeedback = -1;
+                var convEventsGr = (from convEvent in convEvents
+                                    group convEvent by new { evOccurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName }
+                                        into g
+                                        select new { key = g.Key, count = g.Count(), elements = g.ToList() }).OrderBy(convEventGr => convEventGr.key.evOccurDate);
+
+                foreach (var convEvent in convEventsGr)
+                {
+                    if (convEvent.key.evOccurDate >= intervalStart && convEvent.key.evOccurDate <= intervalEnd)
+                    {
+                        lastNegFeedback = negFeedback;
+                        lastPosFeedback = posFeedback;
+                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                        {
+                            resultPositiveTagsInterval[convEvent.key.evOccurDate].value += convEvent.count;
+                            posFeedback += convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
+                        {
+                            resultNegativeTagsInterval[convEvent.key.evOccurDate].value += convEvent.count;
+                            negFeedback += convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                        {
+                            resultRemovePositiveTagsInterval[convEvent.key.evOccurDate].value -= convEvent.count;
+                            posFeedback -= convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                        {
+                            resultRemoveNegativeTagsInterval[convEvent.key.evOccurDate].value -= convEvent.count;
+                            negFeedback -= convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                        {
+                            resultPosToNegTransitionsInterval[convEvent.key.evOccurDate].value += convEvent.count;
+                            posToNegTransitions.count += convEvent.count;
+                            posFeedback -= convEvent.count;
+                            negFeedback += convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                        {
+                            resultNegToPosTransitionsInterval[convEvent.key.evOccurDate].value += convEvent.count;
+                            negToPosTransitions.count += convEvent.count;
+                            negFeedback -= convEvent.count;
+                            posFeedback += convEvent.count;
+                        }
+
+                        /* To achieve: Fill the empty entries -- Obs: Maybe someday i'll figure out a smarter solution
+                        * How the chart data look: The evolution chart is continuous. Lets say ch[d1] = x and ch[d6] = y, d1, d6 - dates, d1 < d6
+                        *  x,y = no of positive fdbks, x!=y. The entries ch[d2], ch[d3], .., ch[d5] must have the x value.
+                        *  
+                        * How the events data look: Array<Entry> ordered asc by key.occurDate, Entry = {key, int count}
+                        * Key = {type = {POS_ADD,etc}, DateTime occurDate}. Multiple Entry instances with the same occurDate.
+                        * I convert the events data TO chart data
+                        * 
+                        * Solution: I group the events that occur on the same date. 
+                        * To figure out when I finished to group different types of events for a certain date I use lastEvDate.
+                        * Case lastEvDate == null fill the entries between startInterval and lastEvDate - 1 day
+                        *      convEvent.key.evOccurDate > lastDate fill the entries between lastEvDate and evOccurDate - 1 day
+                        */
+                        if (lastEvDate.Equals(DateTime.MinValue))
+                        {
+                            for (var i = intervalStart; i <= convEvent.key.evOccurDate.AddDays(-1); i = i.AddDays(1))
+                            {
+                                resultPositiveTagsEvInterval[i].value = lastPosFeedback;
+                                resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                            }
+                            lastEvDate = convEvent.key.evOccurDate;
+                            lastPosFeedback = posFeedback;
+                            lastNegFeedback = negFeedback;
+                        }
+                        else
+                        {
+                            if (convEvent.key.evOccurDate > lastEvDate)
+                            {
+                                for (var i = lastEvDate; i <= convEvent.key.evOccurDate.AddDays(-1); i = i.AddDays(1))
+                                {
+                                    resultPositiveTagsEvInterval[i].value = lastPosFeedback;
+                                    resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                                }
+                                lastEvDate = convEvent.key.evOccurDate;
+                                lastPosFeedback = posFeedback;
+                                lastNegFeedback = negFeedback;
+                            }
+                            else
+                            {
+                                lastEvDate = convEvent.key.evOccurDate;
+                                lastPosFeedback = posFeedback;
+                                lastNegFeedback = negFeedback;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                        {
+                            ++posFeedback;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
+                        {
+                            ++negFeedback;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                        {
+                            --posFeedback;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                        {
+                            --negFeedback;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                        {
+                            ++negFeedback;
+                            --posFeedback;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                        {
+                            ++posFeedback;
+                            --negFeedback;
+                        }
+                    }
+                }
+                if (lastEvDate.Equals(DateTime.MinValue))
+                {
+                    // No events found in interval intervalStart - intervalEnd
+                    lastEvDate = intervalStart;
+                    lastPosFeedback = prevPosFeedback;
+                    lastNegFeedback = prevNegFeedback;
+                }
+                for (var i = lastEvDate; i <= intervalEnd; i = i.AddDays(1))
+                {
+                    resultPositiveTagsEvInterval[i].value = lastPosFeedback;
+                    resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                }
+
+                List<Dictionary<DateTime, ChartValue>> evolutionChartContent = new List<Dictionary<DateTime, ChartValue>>();
+                evolutionChartContent.Add(resultPositiveTagsEvInterval);
+                evolutionChartContent.Add(resultNegativeTagsEvInterval);
+                RepChartData evolutionChartSource = new RepChartData(new RepDataColumn[] { 
+                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPositiveFeedback), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegativeFeedback) },
+                    PrepareJson(evolutionChartContent, Resources.Global.RepConversationsUnit));
+
+                List<Dictionary<DateTime, ChartValue>> activityChartContent = new List<Dictionary<DateTime, ChartValue>>();
+                activityChartContent.Add(resultPositiveTagsInterval);
+                activityChartContent.Add(resultNegativeTagsInterval);
+                activityChartContent.Add(resultRemovePositiveTagsInterval);
+                activityChartContent.Add(resultRemoveNegativeTagsInterval);
+                RepChartData activityChartSource = new RepChartData(new RepDataColumn[] { 
+                    new RepDataColumn("16", Constants.STRING_COLUMN_TYPE), 
+                    new RepDataColumn("17", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosFeedbackAdded), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegFeedbackAdded),
+                    new RepDataColumn("19", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosFeedbackRemoved), 
+                    new RepDataColumn("20", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegFeedbackRemoved) },
+                    PrepareJson(activityChartContent, Resources.Global.RepConversationsUnit));
+
+                List<Dictionary<DateTime, ChartValue>> transitionsChartContent = new List<Dictionary<DateTime, ChartValue>>();
+                transitionsChartContent.Add(resultNegToPosTransitionsInterval);
+                transitionsChartContent.Add(resultPosToNegTransitionsInterval);
+                RepChartData transitionsChartSource = new RepChartData(new RepDataColumn[] { 
+                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegToPosFeedback), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosToNegFeedback) },
+                PrepareJson(transitionsChartContent, Resources.Global.RepConversationsUnit));
+
+                List<RepDataRow> transitionsPieChartContent = new List<RepDataRow>();
+                RepDataRow row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepPosToNegFeedback, Resources.Global.RepPosToNegFeedback), new RepDataRowCell(posToNegTransitions.count, posToNegTransitions.count + " " + Resources.Global.RepPosToNegFeedback) });
+                RepDataRow row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepNegToPosFeedback, Resources.Global.RepNegToPosFeedback), new RepDataRowCell(negToPosTransitions.count, negToPosTransitions.count + " " + Resources.Global.RepNegToPosFeedback) });
+                transitionsPieChartContent.Add(row1);
+                transitionsPieChartContent.Add(row2);
+                RepChartData transitionsPieChartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, Resources.Global.RepTypeTable), new RepDataColumn("18", Constants.STRING_COLUMN_TYPE, Resources.Global.RepValueTable) }, transitionsPieChartContent);
+
+                ReportData repData = new ReportData(new List<RepChartData>() { evolutionChartSource, transitionsChartSource, transitionsPieChartSource, activityChartSource }, null);
+
+                return Json(repData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                logger.Error("GetReportPosNegData", e);
+                return Json("request failed", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult GetReportPosNegActivityGr(String iIntervalStart, String iIntervalEnd, String iScope, String iGranularity)
+        {
+            try
+            {
+                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
+                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
+                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+                Dictionary<DateTime, ChartValue> resultPositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultRemovePositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultRemoveNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultPositiveTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultNegativeTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+
+                smsfeedbackEntities dbContext = new smsfeedbackEntities();
+                // GLOBAL SCOPE
+                IEnumerable<ConversationHistory> convEvents = (from u in dbContext.Users
+                                                               where u.UserName.Equals(User.Identity.Name)
+                                                               select (from wp in u.WorkingPoints
+                                                                       where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                                                       select (from conv in wp.Conversations
+                                                                               where !conv.Client.isSupportClient &&
+                                                                               conv.Messages.Where(msg => msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd).Count() > 0
+                                                                               select (from convEvent in conv.ConversationEvents
+                                                                                       where (convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
+                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
+                                                                                           convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
+                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT)) &&
+                                                                                           (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd)
+                                                                                       select convEvent)))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
+
+                /*
+                 * All events are grouped by occur date and event name/type, which can be POS_ADD, NEG_ADD, etc.
+                 * This groups of events are than grouped by occur date. And the new formed groups are ordered ascending by occur date.
+                 * For Activity I count for each type of event the number of appearances.
+                 */
+
+
+                if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+                {
+                    var convEventsGr = (from convEvent in convEvents
+                                        group convEvent by new { evOccurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName }
+                                            into g
+                                            select new { key = g.Key, count = g.Count(), elements = g.ToList() });
+
+                    foreach (var convEvent in convEventsGr)
+                    {
+                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                        {
+                            resultPositiveTagsInterval[convEvent.key.evOccurDate].value += convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
+                        {
+                            resultNegativeTagsInterval[convEvent.key.evOccurDate].value += convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                        {
+                            resultRemovePositiveTagsInterval[convEvent.key.evOccurDate].value -= convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                        {
+                            resultRemoveNegativeTagsInterval[convEvent.key.evOccurDate].value -= convEvent.count;
+                        }
+                    }
+
+                }
+                else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
+                {
+                    var convEventsGr = (from convEvent in convEvents
+                                        group convEvent by new
+                                        {
+                                            Month = convEvent.Date.Month,
+                                            Year = convEvent.Date.Year,
+                                            eventType = convEvent.EventTypeName
+                                        } into g
+                                        select new { key = g.Key, count = g.Count(), elements = g.ToList() });
+
+                    foreach (var convEvent in convEventsGr)
+                    {
+                        var monthDateTime = new DateTime(convEvent.key.Year, convEvent.key.Month, 1);
+                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                        {
+                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                resultPositiveTagsInterval[intervalStart].value += convEvent.count;
+                            else
+                                resultPositiveTagsInterval[monthDateTime].value += convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
+                        {
+                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                resultNegativeTagsInterval[intervalStart].value += convEvent.count;
+                            else
+                                resultNegativeTagsInterval[monthDateTime].value += convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                        {
+                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                resultRemovePositiveTagsInterval[intervalStart].value -= convEvent.count;
+                            else
+                                resultRemovePositiveTagsInterval[monthDateTime].value -= convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                        {
+                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                resultRemoveNegativeTagsInterval[intervalStart].value -= convEvent.count;
+                            else
+                                resultRemoveNegativeTagsInterval[monthDateTime].value -= convEvent.count;
+                        }
+                    }
+                }
+                else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
+                {
+                    var convEventsGr = (from convEvent in convEvents
+                                        group convEvent by new
+                                        {
+                                            firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Date),
+                                            eventType = convEvent.EventTypeName
+                                        }
+                                            into g
+                                            select new { key = g.Key, count = g.Count(), elements = g.ToList() });
+
+                    foreach (var convEvent in convEventsGr)
+                    {
+                        var weekDateTime = convEvent.key.firstDayOfTheWeek;
+                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                        {
+                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                                resultPositiveTagsInterval[intervalStart].value += convEvent.count;
+                            else
+                                resultPositiveTagsInterval[weekDateTime].value += convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
+                        {
+                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                                resultNegativeTagsInterval[intervalStart].value += convEvent.count;
+                            else
+                                resultNegativeTagsInterval[weekDateTime].value += convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                        {
+                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                                resultRemovePositiveTagsInterval[intervalStart].value -= convEvent.count;
+                            else
+                                resultRemovePositiveTagsInterval[weekDateTime].value -= convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                        {
+                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                                resultRemoveNegativeTagsInterval[intervalStart].value -= convEvent.count;
+                            else
+                                resultRemoveNegativeTagsInterval[weekDateTime].value -= convEvent.count;
+                        }
+
+                    }
+                }
+
+                List<Dictionary<DateTime, ChartValue>> activityChartContent = new List<Dictionary<DateTime, ChartValue>>();
+                activityChartContent.Add(resultPositiveTagsInterval);
+                activityChartContent.Add(resultNegativeTagsInterval);
+                activityChartContent.Add(resultRemovePositiveTagsInterval);
+                activityChartContent.Add(resultRemoveNegativeTagsInterval);
+                RepChartData activityChartSource = new RepChartData(new RepDataColumn[] { 
+                    new RepDataColumn("16", Constants.STRING_COLUMN_TYPE, "Date"), 
+                    new RepDataColumn("17", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosFeedbackAdded), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegFeedbackAdded),
+                    new RepDataColumn("19", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosFeedbackRemoved), 
+                    new RepDataColumn("20", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegFeedbackRemoved) },
+                    PrepareJson(activityChartContent, Resources.Global.RepConversationsUnit));
+
+                return Json(activityChartSource, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                logger.Error("GetReportPosNegActivityData", e);
+                return Json("request failed", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult GetReportPosNegTransitionsGr(String iIntervalStart, String iIntervalEnd, String iScope, String iGranularity)
+        {
+            try
+            {
+                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
+                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
+                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+                Dictionary<DateTime, ChartValue> resultPosNegTagsTrInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultNegPosTagsTrInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+
+                smsfeedbackEntities dbContext = new smsfeedbackEntities();
+                // GLOBAL SCOPE
+                IEnumerable<ConversationHistory> convEvents = (from u in dbContext.Users
+                                                               where u.UserName.Equals(User.Identity.Name)
+                                                               select (from wp in u.WorkingPoints
+                                                                       where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                                                       select (from conv in wp.Conversations
+                                                                               where !conv.Client.isSupportClient &&
+                                                                               conv.Messages.Where(msg => msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd).Count() > 0
+                                                                               select (from convEvent in conv.ConversationEvents
+                                                                                       where (convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
+                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
+                                                                                           (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd)
+                                                                                       select convEvent)))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
+
+                /*
+                 * All events are grouped by occur date and event name/type, which can be POS_ADD, NEG_ADD, etc.
+                 * This groups of events are than grouped by occur date. And the new formed groups are ordered ascending by occur date.
+                 * For Activity I count for each type of event the number of appearances.
+                 */
+
+
+                if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+                {
+                    var convEventsGr = (from convEvent in convEvents
+                                        group convEvent by new { evOccurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName }
+                                            into g
+                                            select new { key = g.Key, count = g.Count(), elements = g.ToList() });
+
+                    foreach (var convEvent in convEventsGr)
+                    {
+                        if (convEvent.key.evOccurDate >= intervalStart && convEvent.key.evOccurDate <= intervalEnd)
+                        {
+                            if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                            {
+                                resultPosNegTagsTrInterval[convEvent.key.evOccurDate].value += convEvent.count;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                            {
+                                resultNegPosTagsTrInterval[convEvent.key.evOccurDate].value += convEvent.count;
+                            }
+                        }
+                    }
+                }
+                else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
+                {
+                    var convEventsGr = (from convEvent in convEvents
+                                        group convEvent by new
+                                        {
+                                            Month = convEvent.Date.Month,
+                                            Year = convEvent.Date.Year,
+                                            eventType = convEvent.EventTypeName
+                                        }
+                                            into g
+                                            select new { key = g.Key, count = g.Count(), elements = g.ToList() });
+
+                    foreach (var convEvent in convEventsGr)
+                    {
+                        var monthDateTime = new DateTime(convEvent.key.Year, convEvent.key.Month, 1);
+                        if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                        {
+                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                resultPosNegTagsTrInterval[intervalStart].value += convEvent.count;
+                            else
+                                resultPosNegTagsTrInterval[monthDateTime].value += convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                        {
+                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                resultNegPosTagsTrInterval[intervalStart].value += convEvent.count;
+                            else
+                                resultNegPosTagsTrInterval[monthDateTime].value += convEvent.count;
+                        }
+                    }
+                }
+                else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
+                {
+                    var convEventsGr = (from convEvent in convEvents
+                                        group convEvent by new
+                                        {
+                                            firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Date),
+                                            eventType = convEvent.EventTypeName
+                                        }
+                                            into g
+                                            select new { key = g.Key, count = g.Count(), elements = g.ToList() });
+
+                    foreach (var convEvent in convEventsGr)
+                    {
+                        var weekDateTime = convEvent.key.firstDayOfTheWeek;
+                        if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                        {
+                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                                resultPosNegTagsTrInterval[intervalStart].value += convEvent.count;
+                            else
+                                resultPosNegTagsTrInterval[weekDateTime].value += convEvent.count;
+                        }
+                        else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                        {
+                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                                resultNegPosTagsTrInterval[intervalStart].value += convEvent.count;
+                            else
+                                resultNegPosTagsTrInterval[weekDateTime].value += convEvent.count;
+                        }
+                    }
+                }
+
+                List<Dictionary<DateTime, ChartValue>> transitionsChartContent = new List<Dictionary<DateTime, ChartValue>>();
+                transitionsChartContent.Add(resultNegPosTagsTrInterval);
+                transitionsChartContent.Add(resultPosNegTagsTrInterval);
+                RepChartData transitionsChartSource = new RepChartData(new RepDataColumn[] { 
+                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegToPosFeedback), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosToNegFeedback) },
+                PrepareJson(transitionsChartContent, Resources.Global.RepConversationsUnit));
+
+                return Json(transitionsChartSource, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                logger.Error("GetReportPosNegTransitionsData", e);
+                return Json("request failed", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult GetReportPosNegEvolutionGr(String iIntervalStart, String iIntervalEnd, String iScope, String iGranularity)
         {
             try
             {
@@ -201,99 +1019,559 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
+                Dictionary<DateTime, ChartValue> resultPositiveTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultNegativeTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
 
+                KeyAndCount posToNegTransitions = new KeyAndCount(Constants.POS_TO_NEG_EVENT, 0);
+                KeyAndCount negToPosTransitions = new KeyAndCount(Constants.NEG_TO_POS_EVENT, 0);
+
+                smsfeedbackEntities dbContext = new smsfeedbackEntities();
+                // GLOBAL SCOPE
+                IEnumerable<ConversationHistory> convEvents = (from u in dbContext.Users
+                                                               where u.UserName.Equals(User.Identity.Name)
+                                                               select (from wp in u.WorkingPoints
+                                                                       where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                                                       select (from conv in wp.Conversations
+                                                                               where !conv.Client.isSupportClient &&
+                                                                               conv.Messages.Where(msg => msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd).Count() > 0
+                                                                               select (from convEvent in conv.ConversationEvents
+                                                                                       where (convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
+                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
+                                                                                           convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
+                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
+                                                                                           convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
+                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
+                                                                                           (convEvent.Date <= intervalEnd)
+                                                                                       select convEvent)))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
+
+                /*
+                 * All events are grouped by occur date and event name/type, which can be POS_ADD, NEG_ADD, etc.
+                 * This groups of events are than grouped by occur date. And the new formed groups are ordered ascending by occur date.
+                 * For Activity and Transitions I count for each type of event the number of appearances.
+                 * For Evolution I count the previous events (occur date < intervalStart) and then count the events for each day.
+                 */
+
+                var posFeedback = 0;
+                var negFeedback = 0;
+                DateTime lastEvDate = DateTime.MinValue;
+                int prevPosFeedback = 0;
+                int prevNegFeedback = 0;
+                int lastPosFeedback = -1;
+                int lastNegFeedback = -1;
+
+                if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+                {
+                    var convEventsGr = (from convEvent in convEvents
+                                        group convEvent by new
+                                        {
+                                            evOccurDate = convEvent.Date.Date,
+                                            eventType = convEvent.EventTypeName
+                                        }
+                                            into g
+                                            select new
+                                            {
+                                                key = g.Key,
+                                                count = g.Count(),
+                                                elements = g.ToList()
+                                            }).OrderBy(convEventGr =>
+                                                convEventGr.key.evOccurDate);
+
+                    foreach (var convEvent in convEventsGr)
+                    {
+                        if (convEvent.key.evOccurDate >= intervalStart && convEvent.key.evOccurDate <= intervalEnd)
+                        {
+                            if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                            {
+                                posFeedback += convEvent.count;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
+                            {
+                                negFeedback += convEvent.count;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                            {
+                                posFeedback -= convEvent.count;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                            {
+                                negFeedback -= convEvent.count;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                            {
+                                posFeedback -= convEvent.count;
+                                negFeedback += convEvent.count;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                            {
+                                negFeedback -= convEvent.count;
+                                posFeedback += convEvent.count;
+                            }
+
+                            /* To achieve: Fill the empty entries -- Obs: Maybe someday i'll figure out a smarter solution
+                            * How the chart data look: The evolution chart is continuous. Lets say ch[d1] = x and ch[d6] = y, d1, d6 - dates, d1 < d6
+                            *  x,y = no of positive fdbks, x!=y. The entries ch[d2], ch[d3], .., ch[d5] must have the x value.
+                            *  
+                            * How the events data look: Array<Entry> ordered asc by key.occurDate, Entry = {key, int count}
+                            * Key = {type = {POS_ADD,etc}, DateTime occurDate}. Multiple Entry instances with the same occurDate.
+                            * I convert the events data TO chart data
+                            * 
+                            * Solution: I group the events that occur on the same date. 
+                            * To figure out when I finished to group different types of events for a certain date I use lastEvDate.
+                            * Case lastEvDate == null fill the entries between startInterval and lastEvDate - 1 day
+                            *      convEvent.key.evOccurDate > lastDate fill the entries between lastEvDate and evOccurDate - 1 day
+                            */
+
+                            if (lastEvDate.Equals(DateTime.MinValue))
+                            {
+                                lastEvDate = convEvent.key.evOccurDate;
+                                lastPosFeedback = posFeedback;
+                                lastNegFeedback = negFeedback;
+                            }
+                            else
+                            {
+                                if (convEvent.key.evOccurDate > lastEvDate)
+                                {
+                                    for (var i = lastEvDate; i <= convEvent.key.evOccurDate.AddDays(-1); i = i.AddDays(1))
+                                    {
+                                        resultPositiveTagsEvInterval[i].value = lastPosFeedback;
+                                        resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                                    }
+                                    lastEvDate = convEvent.key.evOccurDate;
+                                    lastPosFeedback = posFeedback;
+                                    lastNegFeedback = negFeedback;
+                                }
+                                else
+                                {
+                                    lastEvDate = convEvent.key.evOccurDate;
+                                    lastPosFeedback = posFeedback;
+                                    lastNegFeedback = negFeedback;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                            {
+                                ++posFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
+                            {
+                                ++negFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                            {
+                                --posFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                            {
+                                --negFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                            {
+                                ++negFeedback;
+                                --posFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                            {
+                                ++posFeedback;
+                                --negFeedback;
+                            }
+                        }
+
+                    }
+                    if (lastEvDate.Equals(DateTime.MinValue))
+                    {
+                        // No events found in interval intervalStart - intervalEnd
+                        lastEvDate = intervalStart;
+                        lastPosFeedback = prevPosFeedback;
+                        lastNegFeedback = prevNegFeedback;
+                    }
+                    for (var i = lastEvDate; i <= intervalEnd; i = i.AddDays(1))
+                    {
+                        resultPositiveTagsEvInterval[i].value = lastPosFeedback;
+                        resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                    }
+
+                }
+                else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
+                {
+                    var convEventsGr = (from convEvent in convEvents
+                                        group convEvent by new
+                                        {
+                                            evOccurDate = convEvent.Date,
+                                            eventType = convEvent.EventTypeName
+                                        }
+                                            into g
+                                            select new
+                                            {
+                                                key = g.Key
+                                            })
+                                            .OrderBy(convEvent => convEvent.key.evOccurDate);
+
+                    foreach (var convEvent in convEventsGr)
+                    {
+                        if (convEvent.key.evOccurDate >= intervalStart && convEvent.key.evOccurDate <= intervalEnd)
+                        {
+                            var monthDateTime = new DateTime(convEvent.key.evOccurDate.Year, convEvent.key.evOccurDate.Month, 1);
+                            lastPosFeedback = posFeedback;
+                            lastNegFeedback = negFeedback;
+
+                            if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                            {
+                                ++posFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
+                            {
+                                ++negFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                            {
+                                --posFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                            {
+                                --negFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                            {
+                                --posFeedback;
+                                ++negFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                            {
+                                --negFeedback;
+                                ++posFeedback;
+                            }
+
+                            if (lastEvDate.Equals(DateTime.MinValue))
+                            {
+                                if (monthDateTime > intervalStart)
+                                {
+                                    resultPositiveTagsEvInterval[intervalStart].value = lastPosFeedback;
+                                    resultNegativeTagsEvInterval[intervalStart].value = lastNegFeedback;
+
+                                    var nextMonth = intervalStart.AddMonths(1);
+                                    var nextMonthFirst = new DateTime(nextMonth.Year, nextMonth.Month, 1);
+                                    for (var i = nextMonthFirst; i < monthDateTime; i = i.AddMonths(1))
+                                    {
+                                        resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                                        resultPositiveTagsEvInterval[i].value = lastPosFeedback;
+                                    }
+                                }
+                                lastEvDate = monthDateTime;
+                                lastPosFeedback = posFeedback;
+                                lastNegFeedback = negFeedback;
+                            }
+                            else
+                            {
+                                if (monthDateTime > lastEvDate)
+                                {
+
+                                    for (var i = lastEvDate; i < monthDateTime; i = i.AddMonths(1))
+                                    {
+                                        resultPositiveTagsEvInterval[monthDateTime].value = lastPosFeedback;
+                                        resultNegativeTagsEvInterval[monthDateTime].value = lastNegFeedback;
+                                    }
+                                    lastEvDate = monthDateTime;
+                                    lastPosFeedback = posFeedback;
+                                    lastNegFeedback = negFeedback;
+                                }
+                                else
+                                {
+                                    lastEvDate = monthDateTime;
+                                    lastPosFeedback = posFeedback;
+                                    lastNegFeedback = negFeedback;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                            {
+                                ++prevPosFeedback;
+                                ++posFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
+                            {
+                                ++prevNegFeedback;
+                                ++negFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                            {
+                                --prevPosFeedback;
+                                --posFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                            {
+                                --prevNegFeedback;
+                                --negFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                            {
+                                ++prevNegFeedback;
+                                ++negFeedback;
+                                --prevPosFeedback;
+                                --posFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                            {
+                                ++prevPosFeedback;
+                                ++posFeedback;
+                                --prevNegFeedback;
+                                --negFeedback;
+                            }
+                        }
+
+                    }
+                    if (lastEvDate.Equals(DateTime.MinValue))
+                    {
+                        // No events found in interval intervalStart - intervalEnd
+                        lastEvDate = intervalStart;
+                        lastPosFeedback = prevPosFeedback;
+                        lastNegFeedback = prevNegFeedback;
+                    }
+                    for (var i = lastEvDate; i <= intervalEnd; i = i.AddMonths(1))
+                    {
+                        resultPositiveTagsEvInterval[i].value = lastPosFeedback;
+                        resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                    }
+
+                }
+                else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
+                {
+                    var convEventsGr = (from convEvent in convEvents
+                                        group convEvent by new
+                                        {
+                                            evOccurDate = convEvent.Date,
+                                            eventType = convEvent.EventTypeName
+                                        }
+                                            into g
+                                            select new
+                                            {
+                                                key = g.Key
+                                            })
+                                            .OrderBy(convEvent => convEvent.key.evOccurDate);
+
+                    foreach (var convEvent in convEventsGr)
+                    {
+                        if (convEvent.key.evOccurDate >= intervalStart && convEvent.key.evOccurDate <= intervalEnd)
+                        {
+                            var weekDateTime = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.key.evOccurDate);
+                            lastPosFeedback = posFeedback;
+                            lastNegFeedback = negFeedback;
+
+                            if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                            {
+                                ++posFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
+                            {
+                                ++negFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                            {
+                                --posFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                            {
+                                --negFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                            {
+                                --posFeedback;
+                                ++negFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                            {
+                                --negFeedback;
+                                ++posFeedback;
+                            }
+                                                      
+                            if (lastEvDate.Equals(DateTime.MinValue))
+                            {
+                                if (weekDateTime > intervalStart)
+                                {
+                                    resultPositiveTagsEvInterval[intervalStart].value = lastPosFeedback;
+                                    resultNegativeTagsEvInterval[intervalStart].value = lastNegFeedback;
+
+                                    var nextWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(intervalStart).AddDays(7);
+                                    for (var i = nextWeek; i < weekDateTime; i = i.AddDays(7))
+                                    {
+                                        resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                                        resultPositiveTagsEvInterval[i].value = lastPosFeedback;
+                                    }
+                                }
+                                lastEvDate = weekDateTime;
+                                lastPosFeedback = posFeedback;
+                                lastNegFeedback = negFeedback;
+                            }
+                            else
+                            {
+                                if (weekDateTime > lastEvDate)
+                                {
+
+                                    for (var i = lastEvDate; i < weekDateTime; i = i.AddDays(7))
+                                    {
+                                        resultPositiveTagsEvInterval[i].value = lastPosFeedback;
+                                        resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                                    }
+                                    lastEvDate = weekDateTime;
+                                    lastPosFeedback = posFeedback;
+                                    lastNegFeedback = negFeedback;
+                                }
+                                else
+                                {
+                                    lastEvDate = weekDateTime;
+                                    lastPosFeedback = posFeedback;
+                                    lastNegFeedback = negFeedback;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
+                            {
+                                ++prevPosFeedback;
+                                ++posFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
+                            {
+                                ++prevNegFeedback;
+                                ++negFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
+                            {
+                                --prevPosFeedback;
+                                --posFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
+                            {
+                                --prevNegFeedback;
+                                --negFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                            {
+                                ++prevNegFeedback;
+                                ++negFeedback;
+                                --prevPosFeedback;
+                                --posFeedback;
+                            }
+                            else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                            {
+                                ++prevPosFeedback;
+                                ++posFeedback;
+                                --prevNegFeedback;
+                                --negFeedback;
+                            }
+                        }
+
+                    }
+                    if (lastEvDate.Equals(DateTime.MinValue))
+                    {
+                        // No events found in interval intervalStart - intervalEnd
+                        lastEvDate = intervalStart;
+                        lastPosFeedback = prevPosFeedback;
+                        lastNegFeedback = prevNegFeedback;
+                    }
+                    for (var i = lastEvDate; i <= intervalEnd; i = i.AddDays(7))
+                    {
+                        resultPositiveTagsEvInterval[i].value = lastPosFeedback;
+                        resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                    }
+                }
+
+                List<Dictionary<DateTime, ChartValue>> evolutionChartContent = new List<Dictionary<DateTime, ChartValue>>();
+                evolutionChartContent.Add(resultPositiveTagsEvInterval);
+                evolutionChartContent.Add(resultNegativeTagsEvInterval);
+                RepChartData evolutionChartSource = new RepChartData(new RepDataColumn[] { 
+                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPositiveFeedback), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegativeFeedback) },
+                    PrepareJson(evolutionChartContent, Resources.Global.RepConversationsUnit));
+
+                return Json(evolutionChartSource, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                logger.Error("GetReportPosNegEvolutionData", e);
+                return Json("request failed", JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+
+        #region Client report
+        public JsonResult GetReportClientsData(String iIntervalStart, String iIntervalEnd, String iScope)
+        {
+            try
+            {
+                var iGranularity = Constants.DAY_GRANULARITY;
+                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+                smsfeedbackEntities dbContext = new smsfeedbackEntities();
                 Dictionary<DateTime, ChartValue> resultNewClientsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultReturningClientsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
 
-                foreach (var wp in workingPoints)
+                var clients = (from u in dbContext.Users
+                               where u.UserName.Equals(User.Identity.Name)
+                               select (from wp in u.WorkingPoints
+                                       where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                       select (from conv in wp.Conversations
+                                               where conv.Messages.Where(msg => msg.TimeReceived >= intervalStart &&
+                                                   msg.TimeReceived <= intervalEnd).Count() > 0
+                                               select (from msg in conv.Messages
+                                                       where
+                                                           msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd
+                                                       group msg by new
+                                                       {
+                                                           msg.TimeReceived.Day,
+                                                           msg.TimeReceived.Month,
+                                                           msg.TimeReceived.Year,
+                                                           conv.ConvId,
+                                                           returning = conv.Messages.Where(convMsg => convMsg.TimeReceived < intervalStart).Count() > 0
+                                                       }
+                                                           into msgGr
+                                                           select (new { key = msgGr.Key })))))
+                                                           .SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
+                Int32 noOfNewClients = 0;
+                Int32 noOfReturningClients = 0;
+
+                foreach (var client in clients)
                 {
-                    if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+                    if (client.key.returning)
                     {
-                        var newClients = from conv in wp.Conversations where conv.StartTime > intervalStart & conv.StartTime < intervalEnd group conv by conv.StartTime.Date into convGroup select new { date = convGroup.Key, count = convGroup.Count() };
-                        foreach (var newClient in newClients)
-                        {
-                            resultNewClientsInterval[newClient.date].value += newClient.count;
-                        }
-
-                        var returningClients = from conv in wp.Conversations where conv.StartTime < intervalStart select (from msg in conv.Messages where msg.TimeReceived > intervalStart & msg.TimeReceived < intervalEnd group conv by new { msg.TimeReceived.Date } into convGroup select new { date = convGroup.Key, count = convGroup.Count() });
-                        foreach (var conv in returningClients)
-                        {
-                            foreach (var day in conv)
-                            {
-                                DateTime currentDay = day.date.Date;
-                                resultReturningClientsInterval[currentDay].value += 1;
-                            }
-                        }
+                        ++resultReturningClientsInterval[new DateTime(client.key.Year, client.key.Month, client.key.Day)].value;
+                        ++noOfReturningClients;
                     }
-                    else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
+                    else
                     {
-                        var newClients = from conv in wp.Conversations where conv.StartTime > intervalStart & conv.StartTime < intervalEnd group conv by new { conv.StartTime.Month, conv.StartTime.Year } into convGroup select new { date = convGroup.Key, count = convGroup.Count() };
-                        foreach (var entry in newClients)
-                        {
-                            var monthDateTime = new DateTime(entry.date.Year, entry.date.Month, 1);
-                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                resultNewClientsInterval[intervalStart].value += entry.count;
-                            else
-                                resultNewClientsInterval[monthDateTime].value += entry.count;
-                        }
-
-                        var returningClients = from conv in wp.Conversations where conv.StartTime < intervalStart select (from msg in conv.Messages where msg.TimeReceived > intervalStart & msg.TimeReceived < intervalEnd group conv by new { msg.TimeReceived.Month, msg.TimeReceived.Year } into convGroup select new { date = convGroup.Key, count = convGroup.Count() });
-                        foreach (var conv in returningClients)
-                        {
-                            foreach (var entry in conv)
-                            {
-                                var monthDateTime = new DateTime(entry.date.Year, entry.date.Month, 1);
-                                if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                    resultReturningClientsInterval[intervalStart].value += 1;
-                                else
-                                    resultReturningClientsInterval[monthDateTime].value += 1;
-
-                            }
-                        }
-                    }
-                    else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-                    {
-                        var newClients = from conv in wp.Conversations where conv.StartTime >= intervalStart & conv.StartTime <= intervalEnd group conv by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(conv.StartTime) } into convGroup select new { date = convGroup.Key, count = convGroup.Count() };
-                        foreach (var entry in newClients)
-                        {
-                            var weekDateTime = entry.date.firstDayOfTheWeek;
-                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                resultNewClientsInterval[intervalStart].value += entry.count;
-                            else
-                                resultNewClientsInterval[weekDateTime].value += entry.count;
-                        }
-
-                        var returningClients = from conv in wp.Conversations where conv.StartTime < intervalStart select (from msg in conv.Messages where msg.TimeReceived > intervalStart & msg.TimeReceived < intervalEnd group conv by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(msg.TimeReceived) } into convGroup select new { date = convGroup.Key, count = convGroup.Count() });
-                        foreach (var conv in returningClients)
-                        {
-                            foreach (var entry in conv)
-                            {
-                                var weekDateTime = entry.date.firstDayOfTheWeek;
-                                if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                    resultReturningClientsInterval[intervalStart].value += 1;
-                                else
-                                    resultReturningClientsInterval[weekDateTime].value += 1;
-                            }
-                        }
+                        ++resultNewClientsInterval[new DateTime(client.key.Year, client.key.Month, client.key.Day)].value;
+                        ++noOfNewClients;
                     }
                 }
 
                 List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
                 content.Add(resultNewClientsInterval);
                 content.Add(resultReturningClientsInterval);
-
                 RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNewClientsChart), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepReturningClientsChart) }, PrepareJson(content, Resources.Global.RepClientsUnit));
-                return Json(chartSource, JsonRequestBehavior.AllowGet);
+                RepInfoBox IbTotalNoOfClients = new RepInfoBox(noOfNewClients + noOfReturningClients, Resources.Global.RepClientsUnit);
+                RepInfoBox IbNoOfNewClients = new RepInfoBox(noOfNewClients, Resources.Global.RepClientsUnit);
+                RepInfoBox IbNoOfReturningClients = new RepInfoBox(noOfReturningClients, Resources.Global.RepClients);
+                LinkedList<RepInfoBox> repInfoBoxArray = new LinkedList<RepInfoBox>();
+                var repData = new ReportData(new List<RepChartData>() { chartSource },
+                        new List<RepInfoBox>() { IbTotalNoOfClients, IbNoOfNewClients, IbNoOfReturningClients });
+                return Json(repData, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                logger.Error("GetNewVsReturningClientsChartSource", e);
+                logger.Error("GetReportClientsData", e);
+                return Json("request failed", JsonRequestBehavior.AllowGet);
             }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
         }
+  
 
-        public JsonResult GetNoOfConversationsByTagsChartSource(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
+        public JsonResult GetReportClientsGrData(String iIntervalStart, String iIntervalEnd, String iScope, String iGranularity)
         {
             try
             {
@@ -301,1002 +1579,159 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
+                smsfeedbackEntities dbContext = new smsfeedbackEntities();
+                Dictionary<DateTime, ChartValue> resultNewClientsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultReturningClientsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
 
-                var tagsHash = GetNoOfConversationsByTags(intervalStart, intervalEnd, iGranularity, scope);
+                Int32 noOfNewClients = 0;
+                Int32 noOfReturningClients = 0;
 
-                // Prepare Json result
-                var columnCounter = 0;
-                var tagInterval = intervalStart.ToShortDateString() + " - " + intervalEnd.ToShortDateString();
-                var headerContent = new List<RepDataColumn>();
-                var rowContent = new List<RepDataRowCell>();
-
-                rowContent.Add(new RepDataRowCell(tagInterval, tagInterval));
-                headerContent.Add(new RepDataColumn(columnCounter.ToString(), "string", "Date"));
-
-                if (tagsHash.Count > 0)
-                {
-                    foreach (var tagEntry in tagsHash)
-                    {
-                        ++columnCounter;
-                        rowContent.Add(new RepDataRowCell(tagEntry.Value, tagEntry.Value.ToString() + " conversations"));
-                        headerContent.Add(new RepDataColumn(columnCounter.ToString(), "number", tagEntry.Key));
-                    }
-                }
-                else
-                {
-                    rowContent.Add(new RepDataRowCell(0, "No data for this period"));
-                    headerContent.Add(new RepDataColumn("15", "number", Resources.Global.RepNoDataToDisplay));
-                }
-
-                RepChartData chartSource = new RepChartData(headerContent, new RepDataRow[] { new RepDataRow(rowContent) });
-                return Json(chartSource, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetNoOfConversationsByTagsChartSource", e);
-            }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetPosAndNegTagActivity(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-                Dictionary<DateTime, ChartValue> resultPositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultRemovePositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultRemoveNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                foreach (var wp in workingPoints)
-                {
-                    foreach (var conv in wp.Conversations)
-                    {
-                        if (!conv.Client.isSupportClient)
-                        {
-                            if (iGranularity.Equals(Constants.DAY_GRANULARITY))
-                            {
-                                // Test if conversation had activity in that period.
-                                var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
-                                if (allMsg > 0)
-                                {
-                                    var convEvents = from convEvent in conv.ConversationEvents
-                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT)) &&
-                                                     (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
-                                                     group convEvent by new { occurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName }
-                                                         into g
-                                                         select new { key = g.Key, count = g.Count() };
-                                    foreach (var convEvent in convEvents)
-                                    {
-                                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
-                                        {
-                                            resultPositiveTagsInterval[convEvent.key.occurDate].value += convEvent.count;
-                                        }
-                                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
-                                        {
-                                            resultNegativeTagsInterval[convEvent.key.occurDate].value += convEvent.count;
-                                        }
-                                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
-                                        {
-                                            resultRemovePositiveTagsInterval[convEvent.key.occurDate].value -= convEvent.count;
-                                        }
-                                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                                        {
-                                            resultRemoveNegativeTagsInterval[convEvent.key.occurDate].value -= convEvent.count;
-                                        }
-                                    }
-
-                                }
-                            }
-                            else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
-                            {
-                                // Test if conversation had activity in that period.
-                                var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
-                                if (allMsg > 0)
-                                {
-                                    var convEvents = from convEvent in conv.ConversationEvents
-                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT)) &&
-                                                     (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
-                                                     group convEvent by new { Month = convEvent.Date.Month, Year = convEvent.Date.Year, eventType = convEvent.EventTypeName }
-                                                         into g
-                                                         select new { key = g.Key, count = g.Count() };
-                                    foreach (var convEvent in convEvents)
-                                    {
-                                        var monthDateTime = new DateTime(convEvent.key.Year, convEvent.key.Month, 1);
-                                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
-                                        {
-                                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                                resultPositiveTagsInterval[intervalStart].value += convEvent.count;
-                                            else
-                                                resultPositiveTagsInterval[monthDateTime].value += convEvent.count;
-                                        }
-                                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT)) 
-                                        {
-                                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                                resultNegativeTagsInterval[intervalStart].value += convEvent.count;
-                                            else
-                                                resultNegativeTagsInterval[monthDateTime].value += convEvent.count;
-                                        }
-                                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
-                                        {
-                                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                                resultRemovePositiveTagsInterval[intervalStart].value -= convEvent.count;
-                                            else
-                                                resultRemovePositiveTagsInterval[monthDateTime].value -= convEvent.count;
-                                        }
-                                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                                        {
-                                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                                resultRemoveNegativeTagsInterval[intervalStart].value -= convEvent.count;
-                                            else
-                                                resultRemoveNegativeTagsInterval[monthDateTime].value -= convEvent.count;                                            
-                                        }
-                                    }
-                                }
-                            }
-                            else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-                            {
-                                // Test if conversation had activity in that period.
-                                var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
-                                if (allMsg > 0)
-                                {
-                                    var convEvents = from convEvent in conv.ConversationEvents
-                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT)) &&
-                                                     (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
-                                                     group convEvent by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Date), eventType = convEvent.EventTypeName }
-                                                         into g
-                                                         select new { key = g.Key, count = g.Count() };
-                                    foreach (var convEvent in convEvents)
-                                    {
-                                        var weekDateTime = convEvent.key.firstDayOfTheWeek;
-                                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
-                                        {
-                                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                                resultPositiveTagsInterval[intervalStart].value += convEvent.count;
-                                            else
-                                                resultPositiveTagsInterval[weekDateTime].value += convEvent.count;
-                                        }
-                                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT)) 
-                                        {
-                                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                                resultNegativeTagsInterval[intervalStart].value += convEvent.count;
-                                            else
-                                                resultNegativeTagsInterval[weekDateTime].value += convEvent.count;
-                                        }
-                                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
-                                        {
-                                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                                resultRemovePositiveTagsInterval[intervalStart].value -= convEvent.count;
-                                            else
-                                                resultRemovePositiveTagsInterval[weekDateTime].value -= convEvent.count;
-                                        }
-                                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                                        {
-                                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                                resultRemoveNegativeTagsInterval[intervalStart].value -= convEvent.count;
-                                            else
-                                                resultRemoveNegativeTagsInterval[weekDateTime].value -= convEvent.count;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
-                content.Add(resultPositiveTagsInterval);
-                content.Add(resultNegativeTagsInterval);
-                content.Add(resultRemovePositiveTagsInterval);
-                content.Add(resultRemoveNegativeTagsInterval);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { 
-                    new RepDataColumn("16", Constants.STRING_COLUMN_TYPE, "Date"), 
-                    new RepDataColumn("17", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosFeedbackAdded), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegFeedbackAdded),
-                    new RepDataColumn("19", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosFeedbackRemoved), 
-                    new RepDataColumn("20", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegFeedbackRemoved) },
-                    PrepareJson(content, Resources.Global.RepConversationsUnit));
-                return Json(chartSource, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetPosAndNegTagActivity", e);
-            }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetPosAndNegTagEvolution(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-                Dictionary<DateTime, ChartValue> resultPositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                int posFeedback = 0;
-                int negFeedback = 0;
-                int posFeedbackEvolution, negFeedbackEvolution;
-                foreach (var wp in workingPoints)
-                {
-                    foreach (var conv in wp.Conversations)
-                    {
-                        if (!conv.Client.isSupportClient)
-                        {
-                            // Test if conversation had activity in that period.
-                            var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
-                            if (allMsg > 0)
-                            {
-                                var pastEvents = (from convEvent in conv.ConversationEvents
-                                                  where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                  convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
-                                                  convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT) ||
-                                                  convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT)) &&
-                                                  convEvent.Date < intervalStart)
-                                                  group convEvent by new { eventDate = convEvent.Date, eventType = convEvent.EventTypeName } into g
-                                                  select new { key = g.Key, count = g.Count() }).OrderByDescending(c => c.key.eventDate);
-
-                                if (pastEvents.Count() > 0)
-                                {
-                                    var pastEvent = pastEvents.First();
-                                    if (pastEvent.key.eventType.Equals(Constants.POS_ADD_EVENT)) posFeedback += pastEvent.count;
-                                    else if (pastEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT)) negFeedback += pastEvent.count;
-                                    else if (pastEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT)) { negFeedback += pastEvent.count; }
-                                    else if (pastEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT)) { posFeedback += pastEvent.count; }
-                                }
-                            }
-                        }
-
-                    }
-                }
-                posFeedbackEvolution = posFeedback;
-                negFeedbackEvolution = negFeedback;
-                List<EventCounter> allEvents = new List<EventCounter>();
-
-                foreach (var wp in workingPoints)
-                {
-                    foreach (var conv in wp.Conversations)
-                    {
-                        if (!conv.Client.isSupportClient)
-                        {
-                            var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
-                            if (allMsg > 0)
-                            {
-                                if (iGranularity.Equals(Constants.DAY_GRANULARITY))
-                                {
-
-                                    var convEvents = (from convEvent in conv.ConversationEvents
-                                                      where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                      convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
-                                                      convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
-                                                      convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
-                                                      convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT) ||
-                                                      convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT)) &&
-                                                      convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd)
-                                                      group convEvent by new { occurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName } into g
-                                                      select new EventCounter(new Event(g.Key.occurDate, g.Key.eventType), g.Count()));
-                                    if (convEvents.Count() > 0) allEvents.AddRange(convEvents.ToList<EventCounter>());
-                                }
-                                else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
-                                {
-                                    var convEvents = from convEvent in conv.ConversationEvents
-                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT)) &&
-                                                     convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd)
-                                                     group convEvent by new { Month = convEvent.Date.Month, Year = convEvent.Date.Year, eventType = convEvent.EventTypeName } into g
-                                                     select new EventCounter(new Event((new DateTime(g.Key.Year, g.Key.Month, 1).CompareTo(intervalStart) < 0 ? intervalStart : new DateTime(g.Key.Year, g.Key.Month, 1)), g.Key.eventType), g.Count());
-                                    if (convEvents.Count() > 0) allEvents.AddRange(convEvents.ToList<EventCounter>());
-                                }
-                                else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-                                {
-                                    var convEvents = from convEvent in conv.ConversationEvents
-                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT)) &&
-                                                     convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd)
-                                                     group convEvent by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Date), eventType = convEvent.EventTypeName } into g
-                                                     select new EventCounter(new Event((g.Key.firstDayOfTheWeek.CompareTo(intervalStart) < 0 ? intervalStart : g.Key.firstDayOfTheWeek), g.Key.eventType), g.Count());
-                                    if (convEvents.Count() > 0) allEvents.AddRange(convEvents.ToList<EventCounter>());
-                                }
-                            }
-                        }
-                    }
-                }
-
-                IEnumerable<EventCounter> allEventsOrdered = allEvents.OrderBy(c => c.eventItem.occurDate);
-                foreach (var convEvent in allEventsOrdered)
-                {
-                    if (convEvent.eventItem.eventType.Equals(Constants.POS_ADD_EVENT)) posFeedbackEvolution += convEvent.counter;
-                    else if (convEvent.eventItem.eventType.Equals(Constants.NEG_ADD_EVENT)) negFeedbackEvolution += convEvent.counter;
-                    else if (convEvent.eventItem.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                    {
-                        negFeedbackEvolution += convEvent.counter;
-                        posFeedbackEvolution -= convEvent.counter;
-                    }
-                    else if (convEvent.eventItem.eventType.Equals(Constants.NEG_TO_POS_EVENT))
-                    {
-                        posFeedbackEvolution += convEvent.counter;
-                        negFeedbackEvolution -= convEvent.counter;
-                    }
-                    else if (convEvent.eventItem.eventType.Equals(Constants.POS_REMOVE_EVENT)) { posFeedbackEvolution -= convEvent.counter; }
-                    else if (convEvent.eventItem.eventType.Equals(Constants.NEG_REMOVE_EVENT)) { negFeedbackEvolution -= convEvent.counter; }
-                    resultNegativeTagsInterval[convEvent.eventItem.occurDate].value = negFeedbackEvolution;
-                    resultNegativeTagsInterval[convEvent.eventItem.occurDate].changed = true;
-                    resultPositiveTagsInterval[convEvent.eventItem.occurDate].value = posFeedbackEvolution;
-                    resultPositiveTagsInterval[convEvent.eventItem.occurDate].changed = true;
-                }
-
-                if (!resultPositiveTagsInterval[intervalStart].changed)
-                    resultPositiveTagsInterval[intervalStart].value = posFeedback;
-                if (!resultNegativeTagsInterval[intervalStart].changed)
-                    resultNegativeTagsInterval[intervalStart].value = negFeedback;
                 if (iGranularity.Equals(Constants.DAY_GRANULARITY))
                 {
-                    for (var i = intervalStart.AddDays(1); i < intervalEnd; i = i.AddDays(1))
-                    {
-                        if (!resultPositiveTagsInterval[i].changed)
-                            resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[i.AddDays(-1)].value;
-                        if (!resultNegativeTagsInterval[i].changed)
-                            resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[i.AddDays(-1)].value;
+                    var clients = (from u in dbContext.Users
+                                   where u.UserName.Equals(User.Identity.Name)
+                                   select (from wp in u.WorkingPoints
+                                           where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                           select (from conv in wp.Conversations
+                                                   where conv.Messages.Where(msg => msg.TimeReceived >= intervalStart &&
+                                                       msg.TimeReceived <= intervalEnd).Count() > 0
+                                                   select (from msg in conv.Messages
+                                                           where
+                                                               msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd
+                                                           group msg by new
+                                                           {
+                                                               msg.TimeReceived.Day,
+                                                               msg.TimeReceived.Month,
+                                                               msg.TimeReceived.Year,
+                                                               conv.ConvId,
+                                                               returning = conv.Messages.Where(convMsg => convMsg.TimeReceived < intervalStart).Count() > 0
+                                                           }
+                                                               into msgGr
+                                                               select (new { key = msgGr.Key })))))
+                                                       .SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
 
+                    foreach (var client in clients)
+                    {
+                        if (client.key.returning)
+                        {
+                            ++resultReturningClientsInterval[new DateTime(client.key.Year, client.key.Month, client.key.Day)].value;
+                            ++noOfReturningClients;
+                        }
+                        else
+                        {
+                            ++resultNewClientsInterval[new DateTime(client.key.Year, client.key.Month, client.key.Day)].value;
+                            ++noOfNewClients;
+                        }
                     }
                 }
                 else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
                 {
-                    DateTime firstDayOfTheMonth = new DateTime(intervalStart.Year, intervalStart.Month, 1);
-                    for (var i = firstDayOfTheMonth.AddMonths(1); i < intervalEnd; i = i.AddMonths(1))
+                    var clients = (from u in dbContext.Users
+                                   where u.UserName.Equals(User.Identity.Name)
+                                   select (from wp in u.WorkingPoints
+                                           where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                           select (from conv in wp.Conversations
+                                                   where conv.Messages.Where(msg => msg.TimeReceived >= intervalStart &&
+                                                       msg.TimeReceived <= intervalEnd).Count() > 0
+                                                   select (from msg in conv.Messages
+                                                           where
+                                                               msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd
+                                                           group msg by new
+                                                           {
+                                                               msg.TimeReceived.Day,
+                                                               msg.TimeReceived.Month,
+                                                               msg.TimeReceived.Year,
+                                                               conv.ConvId,
+                                                               returning = conv.Messages.Where(convMsg => convMsg.TimeReceived < intervalStart).Count() > 0
+                                                           }
+                                                               into msgGr
+                                                               select (new { key = msgGr.Key })))))
+                                                       .SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
+
+
+                    var clientsGrByMonth = from client in clients
+                                           group client by new { client.key.Month, client.key.Year, client.key.returning } into gr
+                                           select new { gr.Key, count = gr.Count() };
+                    foreach (var entry in clientsGrByMonth)
                     {
-                        if (i.Equals(firstDayOfTheMonth.AddMonths(1)))
+                        var monthDateTime = new DateTime(entry.Key.Year, entry.Key.Month, 1);
+                        if (entry.Key.returning)
                         {
-                            if (!resultPositiveTagsInterval[i].changed)
-                                resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[intervalStart].value;
-                            if (!resultNegativeTagsInterval[i].changed)
-                                resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[intervalStart].value;
+                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                resultReturningClientsInterval[intervalStart].value += entry.count;
+                            else
+                                resultReturningClientsInterval[monthDateTime].value += entry.count;
                         }
                         else
                         {
-                            if (!resultPositiveTagsInterval[i].changed)
-                                resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[i.AddMonths(-1)].value;
-                            if (!resultNegativeTagsInterval[i].changed)
-                                resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[i.AddMonths(-1)].value;
+                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
+                                resultNewClientsInterval[intervalStart].value += entry.count;
+                            else
+                                resultNewClientsInterval[monthDateTime].value += entry.count;
                         }
                     }
                 }
                 else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
                 {
+                    var clients = (from u in dbContext.Users
+                                   where u.UserName.Equals(User.Identity.Name)
+                                   select (from wp in u.WorkingPoints
+                                           where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                           select (from conv in wp.Conversations
+                                                   where conv.Messages.Where(msg => msg.TimeReceived >= intervalStart &&
+                                                       msg.TimeReceived <= intervalEnd).Count() > 0
+                                                   select (from msg in conv.Messages
+                                                           where
+                                                               msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd
+                                                           group msg by new
+                                                           {
+                                                               msg.TimeReceived.Day,
+                                                               msg.TimeReceived.Month,
+                                                               msg.TimeReceived.Year,
+                                                               conv.ConvId,
+                                                               returning = conv.Messages.Where(convMsg => convMsg.TimeReceived < intervalStart).Count() > 0
+                                                           }
+                                                               into msgGr
+                                                               select (new { key = msgGr.Key })))))
+                                                       .SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
 
-                    Calendar calendar = CultureInfo.CurrentUICulture.Calendar;
-                    for (var i = calendar.AddWeeks(FirstDayOfWeekUtility.GetFirstDayOfWeek(intervalStart), 1); i < intervalEnd; i = calendar.AddWeeks(i, 1))
+                    foreach (var entry in clients)
                     {
-                        if (i.Equals(calendar.AddWeeks(FirstDayOfWeekUtility.GetFirstDayOfWeek(intervalStart), 1)))
+                        var weekDateTime = FirstDayOfWeekUtility.GetFirstDayOfWeek(
+                                                  new DateTime(entry.key.Year,
+                                                      entry.key.Month,
+                                                      entry.key.Day));
+                        if (entry.key.returning)
                         {
-                            if (!resultPositiveTagsInterval[i].changed)
-                                resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[intervalStart].value;
-                            if (!resultNegativeTagsInterval[i].changed)
-                                resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[intervalStart].value;
+                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                                ++resultReturningClientsInterval[intervalStart].value;
+                            else
+                                ++resultReturningClientsInterval[weekDateTime].value;
                         }
                         else
                         {
-                            if (!resultPositiveTagsInterval[i].changed)
-                                resultPositiveTagsInterval[i].value = resultPositiveTagsInterval[calendar.AddWeeks(i, -1)].value;
-                            if (!resultNegativeTagsInterval[i].changed)
-                                resultNegativeTagsInterval[i].value = resultNegativeTagsInterval[calendar.AddWeeks(i, -1)].value;
+                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
+                                ++resultNewClientsInterval[intervalStart].value;
+                            else
+                                ++resultNewClientsInterval[weekDateTime].value;
                         }
                     }
                 }
+
 
                 List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
-                content.Add(resultPositiveTagsInterval);
-                content.Add(resultNegativeTagsInterval);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { 
-                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPositiveFeedback), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegativeFeedback) }, 
-                    PrepareJson(content, Resources.Global.RepConversationsUnit));
+                content.Add(resultNewClientsInterval);
+                content.Add(resultReturningClientsInterval);
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNewClientsChart), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepReturningClientsChart) }, PrepareJson(content, Resources.Global.RepClientsUnit));
                 return Json(chartSource, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                logger.Error("GetPosAndNegTagEvolution", e);
+                logger.Error("GetReportClientsGrData", e);
+                return Json("request failed", JsonRequestBehavior.AllowGet);
             }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
         }
-
-        public JsonResult GetPosNegTransitions(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-                Dictionary<DateTime, ChartValue> resultPosToNegTransitionsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultNegToPosTransitionsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                foreach (var wp in workingPoints)
-                {
-                    foreach (var conv in wp.Conversations)
-                    {
-                        if (!conv.Client.isSupportClient)
-                        {
-                            if (iGranularity.Equals(Constants.DAY_GRANULARITY))
-                            {
-                                // Test if conversation had activity in that period.
-                                var allMsg = (from msg in conv.Messages
-                                              where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd)
-                                              select msg).Count();
-                                if (allMsg > 0)
-                                {
-                                    var convEvents = from convEvent in conv.ConversationEvents
-                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
-                                                     (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
-                                                     group convEvent by new { occurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName }
-                                                         into g
-                                                         select new { key = g.Key, count = g.Count() };
-                                    foreach (var convEvent in convEvents)
-                                    {
-                                        if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                                        {
-                                            resultPosToNegTransitionsInterval[convEvent.key.occurDate].value += convEvent.count;
-                                        }
-                                        else
-                                        {
-                                            resultNegToPosTransitionsInterval[convEvent.key.occurDate].value += convEvent.count;
-                                        }
-                                    }
-
-                                }
-                            }
-                            else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
-                            {
-                                // Test if conversation had activity in that period.
-                                var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
-                                if (allMsg > 0)
-                                {
-                                    var convEvents = from convEvent in conv.ConversationEvents
-                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
-                                                     (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
-                                                     group convEvent by new { Month = convEvent.Date.Month, Year = convEvent.Date.Year, eventType = convEvent.EventTypeName }
-                                                         into g
-                                                         select new { key = g.Key, count = g.Count() };
-                                    foreach (var convEvent in convEvents)
-                                    {
-                                        var monthDateTime = new DateTime(convEvent.key.Year, convEvent.key.Month, 1);
-                                        if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                                        {
-                                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                                resultPosToNegTransitionsInterval[intervalStart].value += convEvent.count;
-                                            else
-                                                resultPosToNegTransitionsInterval[monthDateTime].value += convEvent.count;
-                                        }
-                                        else
-                                        {
-                                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                                resultNegToPosTransitionsInterval[intervalStart].value += convEvent.count;
-                                            else
-                                                resultNegToPosTransitionsInterval[monthDateTime].value += convEvent.count;
-                                        }
-                                    }
-                                }
-                            }
-                            else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-                            {
-                                // Test if conversation had activity in that period.
-                                var allMsg = (from msg in conv.Messages where (msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd) select msg).Count();
-                                if (allMsg > 0)
-                                {
-                                    var convEvents = from convEvent in conv.ConversationEvents
-                                                     where ((convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
-                                                     convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
-                                                     (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
-                                                     group convEvent by new { firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Date), eventType = convEvent.EventTypeName }
-                                                         into g
-                                                         select new { key = g.Key, count = g.Count() };
-                                    foreach (var convEvent in convEvents)
-                                    {
-                                        var weekDateTime = convEvent.key.firstDayOfTheWeek;
-                                        if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                                        {
-                                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                                resultPosToNegTransitionsInterval[intervalStart].value += convEvent.count;
-                                            else
-                                                resultPosToNegTransitionsInterval[weekDateTime].value += convEvent.count;
-                                        }
-                                        else
-                                        {
-                                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                                resultNegToPosTransitionsInterval[intervalStart].value += convEvent.count;
-                                            else
-                                                resultNegToPosTransitionsInterval[weekDateTime].value += convEvent.count;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
-                content.Add(resultNegToPosTransitionsInterval);
-                content.Add(resultPosToNegTransitionsInterval);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { 
-                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegToPosFeedback), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosToNegFeedback) }, 
-                    PrepareJson(content, Resources.Global.RepConversationsUnit));
-                return Json(chartSource, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetPosAndNegTagActivity", e);
-            }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
-        }
-
-        #endregion
-
-        #region Second area info box sources
-
-        public JsonResult GetTotalNoOfSmsInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-                
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-                var totalNoOfSms = ComputeTotalNoOfSms(intervalStart, intervalEnd, workingPoints);
-
-                return Json(new RepInfoBox(totalNoOfSms, Resources.Global.RepSmsUnit), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetTotalNoOfSmsInfo", e);
-            }
-            return Json(new RepInfoBox("Request failed", Resources.Global.RepSmsUnit), JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetIncomingSmsInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-
-                var incomingNoOfSms = ComputeNoOfIncomingSms(intervalStart, intervalEnd, workingPoints);
-                return Json(new RepInfoBox(incomingNoOfSms, Resources.Global.RepSmsUnit), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetIncomingSmsInfo", e);
-            }
-            return Json(new RepInfoBox("Request failed", Resources.Global.RepSmsUnit), JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetOutgoingSmsInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-
-                var outgoingNoOfSms = ComputeNoOfOutgoingSms(intervalStart, intervalEnd, workingPoints);
-                return Json(new RepInfoBox(outgoingNoOfSms, Resources.Global.RepSmsUnit), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetOutgoingSmsInfo", e);
-            }
-            return Json(new RepInfoBox("Request failed", Resources.Global.RepSmsUnit), JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetAvgNoOfSmsPerDayInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-
-                var totalNoOfSms = ComputeTotalNoOfSms(intervalStart, intervalEnd, workingPoints);
-                TimeSpan interval = intervalEnd - intervalStart;
-
-                RepInfoBox result = (interval.TotalDays == 0) ? new RepInfoBox(totalNoOfSms, Resources.Global.RepSmsPerDayUnit) :
-                    new RepInfoBox(Math.Round(totalNoOfSms / interval.TotalDays, 2), Resources.Global.RepSmsPerDayUnit);
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetAvgNoOfSmsPerDayInfo", e);
-            }
-            return Json(new RepInfoBox("Request failed", "sms"), JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetAvgNoOfIncomingSmsPerClientInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-
-                int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
-                int noOfIncomingMessages = ComputeNoOfIncomingSms(intervalStart, intervalEnd, workingPoints);
-
-                RepInfoBox result = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
-                    new RepInfoBox(Math.Round((double)noOfIncomingMessages / noOfClients, 2), Resources.Global.RepSmsPerClient);
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetAvgNoOfIncomingSmsPerClientInfo", e);
-            }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetAvgNoOfOutgoingSmsPerClientInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-
-                int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
-                int noOfOutgoingMessages = ComputeNoOfOutgoingSms(intervalStart, intervalEnd, workingPoints);
-
-                RepInfoBox result = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
-                    new RepInfoBox(Math.Round((double)noOfOutgoingMessages / noOfClients, 2), Resources.Global.RepSmsPerClient);
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetAvgNoOfOutgoingSmsPerClientInfo", e);
-            }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetMostUsedTagsInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                var tagsHash = GetNoOfConversationsByTags(intervalStart, intervalEnd, iGranularity, scope);
-
-                var mostUsedTags = new List<String>();
-                var mostUsedTagNoOfConversations = -1;
-                if (tagsHash.Count > 0)
-                {
-                    foreach (var tagEntry in tagsHash)
-                    {
-                        if (tagEntry.Value > mostUsedTagNoOfConversations)
-                        {
-                            mostUsedTagNoOfConversations = tagEntry.Value;
-                            mostUsedTags = new List<String>();
-                            mostUsedTags.Add(tagEntry.Key);
-                        }
-                        else if (tagEntry.Value >= mostUsedTagNoOfConversations)
-                        {
-                            mostUsedTagNoOfConversations = tagEntry.Value;
-                            mostUsedTags.Add(tagEntry.Key);
-                        }
-                    }
-                    return Json(new RepInfoBox(String.Join(", ", mostUsedTags), ""), JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(new RepInfoBox(Resources.Global.RepNoneDefaultValue, ""), JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetMostUsedTagsInfo", e);
-            }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
-
-        }
-
-        public JsonResult GetAvgNoOfTagsPerConversationInfo(String iIntervalStart, String iIntervalEnd, String iGranularity, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-
-                var noOfConversations = 0;
-                var noOfTags = 0;
-                foreach (var wp in workingPoints)
-                {
-                    var conversationsStartedInPeriod = from conv in wp.Conversations where conv.StartTime >= intervalStart && conv.StartTime <= intervalEnd select conv;
-                    noOfConversations += conversationsStartedInPeriod.Count();
-                    foreach (var conv in conversationsStartedInPeriod) noOfTags += conv.ConversationTags.Count;
-
-                    var conversationStartedBefore = from conv in wp.Conversations where conv.StartTime < intervalStart select conv;
-                    foreach (var conv in conversationStartedBefore)
-                    {
-                        var messagesInPeriod = from msg in conv.Messages where msg.TimeReceived >= intervalStart & msg.TimeReceived <= intervalEnd select msg;
-                        if (messagesInPeriod.Count() > 0)
-                        {
-                            ++noOfConversations;
-                            noOfTags += conv.ConversationTags.Count();
-                        }
-                    }
-                }
-
-                RepInfoBox result = (noOfConversations == 0) ? new RepInfoBox(0, Resources.Global.RepTagsPerConversationUnit) :
-                    result = new RepInfoBox(Math.Round((double)noOfTags / noOfConversations, 2), Resources.Global.RepTagsPerConversationUnit);
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetAverageNoOfTagsPerConversationInfo", e);
-            }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetNoOfNewClientsInfo(String iIntervalStart, String iIntervalEnd, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-
-                int noOfNewClients = 0;
-                foreach (var wp in workingPoints)
-                {
-                    noOfNewClients += (from conv in wp.Conversations where conv.StartTime >= intervalStart && conv.StartTime <= intervalEnd select conv).Count();
-                }
-                return Json(new RepInfoBox(noOfNewClients, Resources.Global.RepClients), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetNoOfNewClientsInfo", e);
-            }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetTotalNoOfClientsInfo(String iIntervalStart, String iIntervalEnd, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-
-                int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
-                return Json(new RepInfoBox(noOfClients, Resources.Global.RepClients), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetTotalNoOfClientsInfo", e);
-            }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetNoOfReturningClientsInfo(String iIntervalStart, String iIntervalEnd, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-
-                int noOfReturningClients = 0;
-                foreach (var wp in workingPoints)
-                {
-                    var conversationsStartedBefore = from conv in wp.Conversations where conv.StartTime < intervalStart select conv;
-                    foreach (var conv in conversationsStartedBefore)
-                    {
-                        var noOfMessagesInThisPeriod = (from msg in conv.Messages where msg.TimeReceived > intervalStart & msg.TimeReceived < intervalEnd select msg).Count();
-                        if (noOfMessagesInThisPeriod > 0) ++noOfReturningClients;
-                    }
-                }
-                return Json(new RepInfoBox(noOfReturningClients, Resources.Global.RepClients), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetNoOfReturningClientsInfo", e);
-            }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetAvgNoOfSmsPerClientInfo(String iIntervalStart, String iIntervalEnd, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-
-                int noOfClients = ComputeTotalNoOfClients(intervalStart, intervalEnd, workingPoints);
-                int noOfMessages = ComputeTotalNoOfSms(intervalStart, intervalEnd, workingPoints);
-
-                RepInfoBox result = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
-                    new RepInfoBox(Math.Round((double)noOfMessages / noOfClients, 2), Resources.Global.RepSmsPerClient);
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetAvgNoOfSmsPerClientInfo", e);
-            }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetAvgResponseTimeInfo(String iIntervalStart, String iIntervalEnd, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-
-                long totalResponseTime = 0;
-                var counter = 0;
-                foreach (var wp in workingPoints)
-                {
-                    foreach (var conv in wp.Conversations)
-                    {
-                        foreach (var msg in conv.Messages)
-                        {
-                            if (msg.ResponseTime.HasValue)
-                            {
-                                totalResponseTime += msg.ResponseTime.Value;
-                                ++counter;
-                            }
-                        }
-                    }
-                }
-                // Avoid division by 0
-                TimeSpan avgResponseTime = (counter == 0) ? new TimeSpan(0) :
-                    avgResponseTime = new TimeSpan((long)(totalResponseTime / counter));
-
-                if (avgResponseTime.TotalMinutes < 1)
-                {
-                    return Json(new RepInfoBox(Math.Round(avgResponseTime.TotalSeconds, 2), Resources.Global.RepSecondsUnit), JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(new RepInfoBox(Math.Round(avgResponseTime.TotalMinutes, 2), Resources.Global.RepMinutesUnit), JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetAvgResponseTimeInfo", e);
-            }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
-        }
-
-        #endregion
-
-        #region Third area sources
-
-        public JsonResult GetIncomingOutgoingThirdArea(String iIntervalStart, String iIntervalEnd, String culture, String scope)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-
-                var incomingNoOfSms = ComputeNoOfIncomingSms(intervalStart, intervalEnd, workingPoints);
-                var outgoingNoOfSms = ComputeNoOfOutgoingSms(intervalStart, intervalEnd, workingPoints);
-
-                // Prepare Json result
-                var row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepIncomingSmsChart, Resources.Global.RepIncomingSmsChart), new RepDataRowCell(incomingNoOfSms, incomingNoOfSms + " sms") });
-                var row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepOutgoingSmsChart, Resources.Global.RepOutgoingSmsChart), new RepDataRowCell(outgoingNoOfSms, outgoingNoOfSms + " sms") });
-                List<RepDataRow> content = new List<RepDataRow>();
-                content.Add(row1);
-                content.Add(row2);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, Resources.Global.RepTypeTable), new RepDataColumn("18", Constants.STRING_COLUMN_TYPE, Resources.Global.RepValueTable) }, content);
-                return Json(chartSource, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetIncomingOutgoingThirdArea", e);
-            }
-            return Json("Request failed", JsonRequestBehavior.AllowGet);
-
-        }
-
-        public JsonResult GetPosNegTransitionsThirdArea(String iIntervalStart, String iIntervalEnd, String culture, String scope)
-        {
-            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-
-            KeyAndCount posToNegTransitions = new KeyAndCount(Constants.POS_TO_NEG_EVENT, 0);
-            KeyAndCount negToPosTransitions = new KeyAndCount(Constants.NEG_TO_POS_EVENT, 0);
-            IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-            foreach (var wp in workingPoints)
-            {
-                foreach (var conv in wp.Conversations)
-                {
-                    if (!conv.Client.isSupportClient)
-                    {
-                        IEnumerable<KeyAndCount> convEvents = from convEvent in conv.ConversationEvents
-                                         where ((convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
-                                         convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
-                                         (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd))
-                                         group convEvent by new { eventType = convEvent.EventTypeName }
-                                             into g
-                                             select new KeyAndCount(g.Key.eventType, g.Count());
-                        foreach (var eventType in convEvents)
-                        {
-                            if (eventType.key.Equals(Constants.POS_TO_NEG_EVENT))
-                                posToNegTransitions.count += eventType.count;
-                            else if (eventType.key.Equals(Constants.NEG_TO_POS_EVENT))
-                                negToPosTransitions.count += eventType.count;
-                        }
-                    }
-                }
-            }
-
-            List<RepDataRow> content = new List<RepDataRow>();
-            RepDataRow row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepPosToNegFeedback, Resources.Global.RepPosToNegFeedback), new RepDataRowCell(posToNegTransitions.count, posToNegTransitions.count + " " + Resources.Global.RepPosToNegFeedback) });
-            RepDataRow row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepNegToPosFeedback, Resources.Global.RepNegToPosFeedback), new RepDataRowCell(negToPosTransitions.count, negToPosTransitions.count + " " + Resources.Global.RepNegToPosFeedback) });
-            content.Add(row1);
-            content.Add(row2);
-            RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, Resources.Global.RepTypeTable), new RepDataColumn("18", Constants.STRING_COLUMN_TYPE, Resources.Global.RepValueTable) }, content);
-            return Json(chartSource, JsonRequestBehavior.AllowGet);
-        }
-
-        #endregion
+        #endregion // 230 rows
 
         public JsonResult GetReportsMenuItems()
         {
@@ -1308,107 +1743,55 @@ namespace SmsFeedback_Take4.Controllers
                new ReportsMenuItem(cConvsTagsOverviewID, Resources.Global.RepTags, true, cConvsMenuContainerID, "getReportById","ConversationsTagsOverview"),
                new ReportsMenuItem(cClientsOverviewID, Resources.Global.RepClients, false, 0, "getReportById","Clients"),
                new ReportsMenuItem(cClientsNewVsReturningID, Resources.Global.RepNewVsReturning, true, cClientsOverviewID,"getReportById","CustomersNewVsReturning")};
-            
+
             return Json(reportsMenuItems, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetReportById(int reportId)
         {
             var hashTable = new Dictionary<int, Report>();
-            var report2 = new Report(cConvsOverviewMenuID, Resources.Global.RepOverview, "Global", new ReportSection[] { 
-                                                                                        new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepOverviewChartTitle, iSource: "/Reports/GetTotalNoOfSmsChartSource") 
-                                                                                                                                                          }),
-                                                                                        new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "/Reports/GetTotalNoOfSmsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfSmsPerDay, iSource: "/Reports/GetAvgNoOfSmsPerDayInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfSmsPerClient, iSource: "/Reports/GetAvgNoOfSmsPerClientInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgResponseTime, iSource: "/Reports/GetAvgResponseTimeInfo")
-                                                                                                                                                }),
-                                                                                        new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetIncomingOutgoingThirdArea") 
-                                                                                                                                                          }),
-                                                                                    });
-            var report3 = new Report(cConvsIncomingVsOutgoingID, Resources.Global.RepIncomingVsOutgoing, "Global", new ReportSection[] { 
-                                                                                        new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepIncomingOutgoingChartTitle, iSource: "/Reports/GetIncomingOutgoingSmsChartSource") 
-                                                                                                                                                          }),
-                                                                                        new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfIncomingSms, iSource: "/Reports/GetIncomingSmsInfo"),  
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfOutgoingSms, iSource: "/Reports/GetOutgoingSmsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfIncomingSmsPerConversation, iSource: "/Reports/GetAvgNoOfIncomingSmsPerClientInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfOutgoingSmsPerConversation, iSource: "/Reports/GetAvgNoOfOutgoingSmsPerClientInfo")
-                                                                                                                                                }),
-                                                                                        new ReportSection("SecondaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetIncomingOutgoingThirdArea") 
-                                                                                                                                                          }),
-                                                                                    });
-            var report4 = new Report(cConvsPosVsNegID, Resources.Global.RepPositiveAndNegativeTitle, "Global", new ReportSection[] { 
-                                                                                        
-                                                                                        new ReportSection("PrimaryChartArea", true, iUniqueId:"1", iResources: new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeEvolutionChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackEvolution, iSource: "/Reports/GetPosAndNegTagEvolution")                                                                                                                                                                                                                                                     
-                                                                                                                                                            }),
-                                                                                        new ReportSection("PrimaryChartArea", true, iUniqueId: "2", iSectionId: "7",  iResources: new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeTransitionsChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackTransitions, iSource: "/Reports/GetPosNegTransitions") 
-                                                                                                                                                            }),
-                                                                                        new ReportSection("SecondaryChartArea", true, iUniqueId: "3", iSectionId: "7", iResources: new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeTransitionsChartTitle, iSource: "/Reports/GetPosNegTransitionsThirdArea") 
-                                                                                                                                                          }),
-                                                                                        new ReportSection("PrimaryChartArea", true, iUniqueId: "4", iResources: new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepPositiveNegativeActivityChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackActivity, iSource: "/Reports/GetPosAndNegTagActivity", iOptions: new ReportResourceOptions(iColors: new List<String>{"#3366cc", "#dc3912", "#667189", "#b48479"})) 
-                                                                                                                                                                                                                                                                                                                        
-                                                                                                                                                            }),
-                                                                                        new ReportSection("InfoBox", false, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepMostUsedTag, iSource: "/Reports/GetMostUsedTagsInfo"),     
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfTagsPerConversation, iSource: "/Reports/GetAvgNoOfTagsPerConversationInfo")
-                                                                                                                                                }),
-                                                                                        new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
-                                                                                                                                                          }),
-                                                                                    });
-            var report5 = new Report(cConvsTagsOverviewID, Resources.Global.RepTags, "Global", new ReportSection[] { 
-                                                                                        new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepNoOfConversationsByTagsChartTitle, iSource: "/Reports/GetNoOfConversationsByTagsChartSource", iOptions: new ReportResourceOptions(iSeriesType : Constants.BARS_CHART_STYLE)) 
-                                                                                                                                                            
-                                                                                                                                                             
-                                                                                                                                                            }),
-                                                                                        new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepMostUsedTag, iSource: "/Reports/GetMostUsedTagsInfo"),     
-                                                                                                                                                    new ReportResource(Resources.Global.RepAvgNoOfTagsPerConversation, iSource: "/Reports/GetAvgNoOfTagsPerConversationInfo")
-                                                                                                                                                }),
-                                                                                        new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
-                                                                                                                                                          }),
-                                                                                    });
-            var report7 = new Report(cClientsNewVsReturningID, Resources.Global.RepNewVsReturning, "Global", new ReportSection[] { 
-                                                                                        new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource(Resources.Global.RepNewReturningClientsChartTitle, iSource: "/Reports/GetNewVsReturningClientsChartSource") 
-                                                                                                                                                          }),
-                                                                                        new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfClients, iSource: "/Reports/GetTotalNoOfClientsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfNewClients, iSource: "/Reports/GetNoOfNewClientsInfo"),
-                                                                                                                                                    new ReportResource(Resources.Global.RepNoOfReturningClients, iSource: "/Reports/GetNoOfReturningClientsInfo")
-                                                                                                                                                }),
-                                                                                        new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
-                                                                                                                                                          }),
-                                                                                    });
 
-            /* out
-         var report7 = new Report(7, Resources.Global.RepNewVsReturning, "Global", new ReportSection[] { 
-                                                                                        new ReportSection("PrimaryChartArea", true, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms with granularity", iSource: "/Reports/GetSmsIncomingOutgoingDetailed") 
-                                                                                                                                                          }),
-                                                                                        new ReportSection("InfoBox", true, new ReportResource[] { 
-                                                                                                                                                    new ReportResource(Resources.Global.RepTotalNoOfSms, iSource: "/Reports/GetSmsTotalInfo"),                                                                                                                                                    
-                                                                                                                                                }),
-                                                                                        new ReportSection("SecondaryChartArea", false, new ReportResource[] { 
-                                                                                                                                                            new ReportResource("Incoming vs Outgoing Sms total", iSource: "/Reports/GetSmsIncomingOutgoingTotal") 
-                                                                                                                                                          }),
-                                                                                    });
-             */
+            var report2 = new Report(cConvsOverviewMenuID, Resources.Global.RepOverview, "/Reports/GetReportOverviewData",
+                new ReportSection[] { 
+                                        new ReportSection("FirstSection", Resources.Global.RepOverviewChartTitle, 0, iChartSource: "/Reports/GetReportOverviewGrData"),
+                                        new ReportSection("SecondSection", Resources.Global.RepTotalNoOfSms, 0),
+                                        new ReportSection("SecondSection", Resources.Global.RepAvgNoOfSmsPerDay, 1),
+                                        new ReportSection("SecondSection", Resources.Global.RepTotalNoOfClients, 2),
+                                        new ReportSection("SecondSection", Resources.Global.RepAvgNoOfSmsPerClient, 3),
+                                        new ReportSection("SecondSection", Resources.Global.RepAvgResponseTime, 4)
+                                      });
+            var report3 = new Report(cConvsIncomingVsOutgoingID, Resources.Global.RepIncomingVsOutgoing, "/Reports/GetReportIncomingOutgoingData",
+                new ReportSection[] { 
+                                        new ReportSection("FirstSection", iGroupId: "7", iTitle:Resources.Global.RepIncomingOutgoingChartTitle, iDataIndex: 0, iChartSource: "/Reports/GetReportIncomingOutgoingGrData"), 
+                                        new ReportSection("SecondSection", Resources.Global.RepNoOfIncomingSms, 0),
+                                        new ReportSection("SecondSection", Resources.Global.RepNoOfOutgoingSms, 1),
+                                        new ReportSection("SecondSection", Resources.Global.RepTotalNoOfClients, 2),                                                                                        
+                                        new ReportSection("SecondSection", Resources.Global.RepAvgNoOfIncomingSmsPerConversation, 3),
+                                        new ReportSection("SecondSection", Resources.Global.RepAvgNoOfOutgoingSmsPerConversation, 4),
+                                        new ReportSection("ThirdSection", Resources.Global.RepIncomingOutgoingChartTitle, iGroupId: "7", iDataIndex: 1)
+                                       });
+            var report4 = new Report(cConvsPosVsNegID, Resources.Global.RepPositiveAndNegativeTitle, "/Reports/GetReportPosNegData",
+                new ReportSection[] {                                                                                         
+                                        new ReportSection("FirstSection", iDataIndex: 0, iChartSource:"/Reports/GetReportPosNegEvolutionGr", iSectionId:"1", iTitle:Resources.Global.RepPositiveNegativeEvolutionChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackEvolution),                                                                                                                                                            
+                                        new ReportSection("FirstSection", iChartSource:"/Reports/GetReportPosNegTransitionsGr", iDataIndex: 1, iSectionId: "2", iGroupId: "7",  iTitle:Resources.Global.RepPositiveNegativeTransitionsChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackTransitions),
+                                        new ReportSection("ThirdSection", iDataIndex: 2, iSectionId: "3", iGroupId: "7", iTitle: Resources.Global.RepPositiveNegativeTransitionsChartTitle),
+                                        new ReportSection("FirstSection", iChartSource:"/Reports/GetReportPosNegActivityGr", iDataIndex: 3, iSectionId: "4", iTitle: Resources.Global.RepPositiveNegativeActivityChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackActivity, 
+                                        iOptions: new ReportResourceOptions(iColors: new List<String>{"#3366cc", "#dc3912", "#667189", "#b48479"}))
+            });
+            var report5 = new Report(cConvsTagsOverviewID, Resources.Global.RepTags, "/Reports/GetReportTagsData",
+                new ReportSection[] { 
+                                        new ReportSection("FirstSection", iDataIndex: 0, iTitle:Resources.Global.RepNoOfConversationsByTagsChartTitle, iOptions: new ReportResourceOptions(iSeriesType : Constants.BARS_CHART_STYLE)),
+                                        new ReportSection("SecondSection", iDataIndex: 0, iTitle:Resources.Global.RepMostUsedTag),
+                                        new ReportSection("SecondSection", iDataIndex: 1, iTitle: Resources.Global.RepAvgNoOfTagsPerConversation)                                                                                                                                                    
+                                     });
+            var report7 = new Report(cClientsNewVsReturningID, Resources.Global.RepNewVsReturning, "/Reports/GetReportClientsData",
+                new ReportSection[] { 
+                                        new ReportSection("FirstSection", iDataIndex: 0, iChartSource: "/Reports/GetReportClientsGrData", iTitle: Resources.Global.RepNewReturningClientsChartTitle),                                                                                                                                                            
+                                        new ReportSection("SecondSection", iDataIndex: 0, iTitle: Resources.Global.RepTotalNoOfClients),
+                                        new ReportSection("SecondSection", iDataIndex: 1, iTitle: Resources.Global.RepNoOfNewClients),
+                                        new ReportSection("SecondSection", iDataIndex: 2, iTitle: Resources.Global.RepNoOfReturningClients)                                                                                                                                                    
+                                   });
+
             hashTable.Add(cConvsOverviewMenuID, report2);
             hashTable.Add(cConvsIncomingVsOutgoingID, report3);
             hashTable.Add(cConvsPosVsNegID, report4);
@@ -1498,11 +1881,11 @@ namespace SmsFeedback_Take4.Controllers
                                 TagType tagType = null;
                                 if (tagTagType != null)
                                     tagType = tagTagType.TagType;
-                                
+
                                 if (tagType != null)
                                     if (tagType.Type == Constants.POSITIVE_FEEDBACK || tagType.Type == Constants.NEGATIVE_FEEDBACK)
                                         tagNotPosOrNeg = false;
-                                
+
                                 if (tagNotPosOrNeg)
                                 {
                                     if (tagsHash.ContainsKey(convTag.Tag.Name))
@@ -1528,23 +1911,23 @@ namespace SmsFeedback_Take4.Controllers
             return null;
         }
 
-        private String transformDate(DateTime iDate, String pattern)
+        private String TransformDate(DateTime iDate, String pattern)
         {
             // TODO: Look for a library to convert to different local formats
             var transformedDate = "";
-            if (pattern.Equals("dd-mm"))
+            if (pattern.Equals(cDateFormat1))
             {
                 var day = (iDate.Day < 10) ? "0" + iDate.Day.ToString() : iDate.Day.ToString();
                 var month = (iDate.Month < 10) ? "0" + iDate.Month.ToString() : iDate.Month.ToString();
                 transformedDate = day + "-" + month;
             }
-            else if (pattern.Equals("dd/mm/yyyy"))
+            else if (pattern.Equals(cDateFormat2))
             {
                 var day = (iDate.Day < 10) ? "0" + iDate.Day.ToString() : iDate.Day.ToString();
                 var month = (iDate.Month < 10) ? "0" + iDate.Month.ToString() : iDate.Month.ToString();
                 transformedDate = day + "/" + month + "/" + iDate.Year;
             }
-            else if (pattern.Equals("dd/mm"))
+            else if (pattern.Equals(cDateFormat3))
             {
                 var day = (iDate.Day < 10) ? "0" + iDate.Day.ToString() : iDate.Day.ToString();
                 var month = (iDate.Month < 10) ? "0" + iDate.Month.ToString() : iDate.Month.ToString();
@@ -1567,13 +1950,13 @@ namespace SmsFeedback_Take4.Controllers
             {
                 foreach (var conv in wp.Conversations)
                 {
-                    totalNoOfSms += (from msg in conv.Messages where (msg.TimeReceived >= iIntervalStart & msg.TimeReceived <= iIntervalEnd) select msg).Count();
+                    totalNoOfSms += (from msg in conv.Messages where (msg.TimeReceived >= iIntervalStart && msg.TimeReceived <= iIntervalEnd) select msg).Count();
                 }
             }
             return totalNoOfSms;
         }
 
-        private int ComputeTotalNoOfClients(DateTime iIntervalStart, DateTime intervalEnd, IEnumerable<WorkingPoint> iWorkingPoints)
+        public int ComputeTotalNoOfClients(DateTime iIntervalStart, DateTime intervalEnd, IEnumerable<WorkingPoint> iWorkingPoints)
         {
             int noOfClients = 0;
             foreach (var wp in iWorkingPoints)
@@ -1588,7 +1971,45 @@ namespace SmsFeedback_Take4.Controllers
             return noOfClients;
         }
 
-        public int ComputeNoOfIncomingSms(DateTime iIntervalStart, DateTime iIntervalEnd, IEnumerable<WorkingPoint> iWorkingPoints)
+        private IEnumerable<Message> GetMessages(DateTime iIntervalStart, DateTime iIntervalEnd, String iUser, String scope, smsfeedbackEntities dbContext)
+        {
+            if (scope.Equals(Constants.GLOBAL_SCOPE))
+            {
+                var msgsCollectionOfCollections = from u in dbContext.Users
+                                                  where u.UserName == iUser
+                                                  select (from wp in u.WorkingPoints
+                                                          where scope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(scope)
+                                                          select (
+                                                          from conv in wp.Conversations
+                                                          select (from msg in conv.Messages
+                                                                  where (msg.TimeReceived >= iIntervalStart && msg.TimeReceived <= iIntervalEnd)
+                                                                  select msg)
+                                                                  )
+                                                           );
+                var msgs = msgsCollectionOfCollections.SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
+                return msgs;
+            }
+            else
+            {
+                var msgsCollectionOfCollections = from u in dbContext.Users
+                                                  where u.UserName == iUser
+                                                  select (from wp in u.WorkingPoints
+                                                          where wp.TelNumber == scope
+                                                          select (
+                                                          from conv in wp.Conversations
+                                                          select (from msg in conv.Messages
+                                                                  where (msg.TimeReceived >= iIntervalStart && msg.TimeReceived <= iIntervalEnd)
+                                                                  select msg)
+                                                                  )
+                                                           );
+                var msgs = msgsCollectionOfCollections.SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
+                return msgs;
+            }
+
+
+        }
+
+        private int ComputeNoOfIncomingSms(DateTime iIntervalStart, DateTime iIntervalEnd, IEnumerable<WorkingPoint> iWorkingPoints)
         {
             var incomingNoOfSms = 0;
             foreach (var wp in iWorkingPoints)
@@ -1602,7 +2023,7 @@ namespace SmsFeedback_Take4.Controllers
             return incomingNoOfSms;
         }
 
-        public int ComputeNoOfOutgoingSms(DateTime iIntervalStart, DateTime iIntervalEnd, IEnumerable<WorkingPoint> iWorkingPoints)
+        private int ComputeNoOfOutgoingSms(DateTime iIntervalStart, DateTime iIntervalEnd, IEnumerable<WorkingPoint> iWorkingPoints)
         {
             var outgoingNoOfSms = 0;
             foreach (var wp in iWorkingPoints)
@@ -1617,7 +2038,7 @@ namespace SmsFeedback_Take4.Controllers
             return outgoingNoOfSms;
         }
 
-        public Dictionary<DateTime, ChartValue> InitializeInterval(DateTime intervalStart, DateTime intervalEnd, string iGranularity)
+        private Dictionary<DateTime, ChartValue> InitializeInterval(DateTime intervalStart, DateTime intervalEnd, string iGranularity)
         {
             DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
             Calendar calendar = dfi.Calendar;
@@ -1625,7 +2046,7 @@ namespace SmsFeedback_Take4.Controllers
 
             if (iGranularity.Equals(Constants.DAY_GRANULARITY))
             {
-                resultInterval = Enumerable.Range(0, 1 + intervalEnd.Subtract(intervalStart).Days).Select(offset => intervalStart.AddDays(offset)).ToDictionary(d => d.Date, d => new ChartValue(0, transformDate(d, "dd/mm")));
+                resultInterval = Enumerable.Range(0, 1 + intervalEnd.Subtract(intervalStart).Days).Select(offset => intervalStart.AddDays(offset)).ToDictionary(d => d.Date, d => new ChartValue(0, TransformDate(d, "dd/mm")));
             }
             else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
             {
@@ -1635,7 +2056,7 @@ namespace SmsFeedback_Take4.Controllers
                     var currentDate = (DateTime.Compare(new DateTime(i.Year, i.Month, 1), intervalStart) <= 0) ? intervalStart : new DateTime(i.Year, i.Month, 1);
                     var endOfTheMonth = (DateTime.Compare(new DateTime(currentDate.Year, currentDate.Month, DateTime.DaysInMonth(currentDate.Year, currentDate.Month)), intervalEnd) > 0) ?
                                                                     intervalEnd : new DateTime(currentDate.Year, currentDate.Month, DateTime.DaysInMonth(currentDate.Year, currentDate.Month));
-                    resultInterval.Add(currentDate, new ChartValue(0, transformDate(currentDate, "dd/mm/yyyy") + " » " + transformDate(endOfTheMonth, "dd/mm/yyyy")));
+                    resultInterval.Add(currentDate, new ChartValue(0, TransformDate(currentDate, "dd/mm/yyyy") + " » " + TransformDate(endOfTheMonth, "dd/mm/yyyy")));
                     i = (DateTime.Compare(i, intervalStart) == 0) ? new DateTime(i.Year, i.Month, 1) : i;
                 }
             }
@@ -1648,7 +2069,7 @@ namespace SmsFeedback_Take4.Controllers
                     var lastDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(i).AddDays(6);
                     var endOfTheWeek = (DateTime.Compare(lastDayOfTheWeek, intervalEnd) > 0) ?
                                                                     intervalEnd : lastDayOfTheWeek;
-                    resultInterval.Add(currentDate, new ChartValue(0, transformDate(currentDate, "dd/mm/yyyy") + " » " + transformDate(endOfTheWeek, "dd/mm/yyyy")));
+                    resultInterval.Add(currentDate, new ChartValue(0, TransformDate(currentDate, "dd/mm/yyyy") + " » " + TransformDate(endOfTheWeek, "dd/mm/yyyy")));
                     // executed just first time
                     i = (DateTime.Compare(i, intervalStart) == 0) ? FirstDayOfWeekUtility.GetFirstDayOfWeek(i) : i;
                 }
@@ -1657,7 +2078,7 @@ namespace SmsFeedback_Take4.Controllers
             return resultInterval;
         }
 
-        public List<RepDataRow> PrepareJson(List<Dictionary<DateTime, ChartValue>> source, String unitOfMeasurement)
+        private List<RepDataRow> PrepareJson(List<Dictionary<DateTime, ChartValue>> source, String unitOfMeasurement)
         {
             List<RepDataRow> content = new List<RepDataRow>();
             var rowsTable = new Dictionary<DateTime, List<RepDataRowCell>>();
@@ -1700,11 +2121,11 @@ namespace SmsFeedback_Take4.Controllers
         }
 
         #endregion
-        
-       protected override void Dispose(bool disposing)
+
+        protected override void Dispose(bool disposing)
         {
-           context.Dispose();
-           base.Dispose(disposing);
+            context.Dispose();
+            base.Dispose(disposing);
         }
 
     }
@@ -1743,5 +2164,17 @@ namespace SmsFeedback_Take4.Controllers
             key = iKey;
             count = iCount;
         }
+    }
+
+    class MsgInfoWrapper
+    {
+        public MsgInfo Key;
+    }
+
+    class MsgInfo
+    {
+        public bool incoming;
+        public DateTime TimeReceived;
+        public int Id;
     }
 }
