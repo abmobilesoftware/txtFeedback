@@ -154,7 +154,7 @@
     <value>Ajutor</value>
   </data>
   <data name="lblNoConversationSelected" xml:space="preserve">
-    <value>Nici o conversaţie selectată, vă rugăm să selectaţi una</value>
+    <value>Nicio conversaţie selectată, vă rugăm să selectaţi una</value>
   </data>
   <data name="lblPassword" xml:space="preserve">
     <value>parola</value>
@@ -460,7 +460,7 @@
     <value>Email trimis cu succes</value>
   </data>
   <data name="sendEmailHeader" xml:space="preserve">
-    <value>Trimite email</value>
+    <value>Distribuie prin email</value>
   </data>
   <data name="sendEmailLoadingScreen" xml:space="preserve">
     <value>Încarca...</value>
@@ -676,10 +676,10 @@
     <value>Etichete:</value>
   </data>
   <data name="thumbsDownTooltip" xml:space="preserve">
-    <value>Etichetează această conversaţie ca şi feedback negativ</value>
+    <value>Etichetează această conversaţie ca feedback negativ</value>
   </data>
   <data name="thumbsUpTooltip" xml:space="preserve">
-    <value>Etichetează această conversaţie ca şi feedback pozitiv</value>
+    <value>Etichetează această conversaţie ca feedback pozitiv</value>
   </data>
   <data name="TitleLogOn" xml:space="preserve">
     <value>Autentificaţi-vă</value>
@@ -715,7 +715,7 @@
     <value>Trimite mesaj de răspuns clientului (Shift + Enter)</value>
   </data>
   <data name="tooltipSendEmailImg" xml:space="preserve">
-    <value>Trimite ca şi email</value>
+    <value>Trimite ca email</value>
   </data>
   <data name="tooltipSendNegativeFeedback" xml:space="preserve">
     <value>Trimiteţi feedback negativ</value>
