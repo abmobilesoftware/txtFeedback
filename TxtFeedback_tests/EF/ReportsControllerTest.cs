@@ -30,7 +30,7 @@ namespace TxtFeedback_tests.EF
             DateTime lastMonth = today.AddDays(-30);
             smsfeedbackEntities context = new smsfeedbackEntities();
             IEnumerable<WorkingPoint> wps = efInteraction.GetWorkingPointsForAUser(Constants.GLOBAL_SCOPE, "ando", context);
-            Int32 noOfClients1 = reportsController.ComputeTotalNoOfClients(lastMonth, today, wps, new smsfeedbackEntities());
+            Int32 noOfClients1 = reportsController.ComputeTotalNoOfClients(lastMonth, today, wps);
             Console.Write("No of clients 1 = " + noOfClients1);
             
             Int32 noOfClients2 = reportsController.ComputeTotalNoOfClients(lastMonth, today, wps);
