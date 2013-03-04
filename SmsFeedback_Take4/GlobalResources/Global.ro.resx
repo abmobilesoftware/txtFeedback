@@ -325,10 +325,10 @@
     <value>Număr de conversaţii per etichetă</value>
   </data>
   <data name="RepNoOfIncomingSms" xml:space="preserve">
-    <value>Numărul de mesaje primite</value>
+    <value>Numărul de mesaje recepționate</value>
   </data>
   <data name="RepNoOfIncomingSmsTooltip" xml:space="preserve">
-    <value>Numărul de mesaje primite</value>
+    <value>Numărul de mesaje recepționate</value>
   </data>
   <data name="RepNoOfNewClients" xml:space="preserve">
     <value>Numărul de clienţi noi</value>
