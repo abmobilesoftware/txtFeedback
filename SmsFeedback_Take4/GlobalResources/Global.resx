@@ -919,7 +919,7 @@
     <value>Invalid interval value: must be between 1000 (1 second) and 60000 (1 minute)</value>
   </data>
   <data name="gotANewMessage" xml:space="preserve">
-    <value>You received a message!</value>
+    <value>New message!</value>
     <comment>Global</comment>
   </data>
 </root>

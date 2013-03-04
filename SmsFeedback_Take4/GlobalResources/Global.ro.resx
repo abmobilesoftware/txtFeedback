@@ -815,6 +815,6 @@
     <value>Mesaj "Ocupat"</value>
   </data>
   <data name="gotANewMessage" xml:space="preserve">
-    <value>Ai primit un mesaj!</value>
+    <value>Mesaj nou!</value>
   </data>
 </root>

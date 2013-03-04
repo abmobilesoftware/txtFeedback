@@ -742,6 +742,6 @@
     <value>The new password is required</value>
   </data>
   <data name="gotANewMessage" xml:space="preserve">
-    <value>You received a new message!</value>
+    <value>New message!</value>
   </data>
 </root>

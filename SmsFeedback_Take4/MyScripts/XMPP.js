@@ -48,6 +48,14 @@ function removeMessageById(msgID) {
    return false;   
 }
 
+function playNewMsgSound() {
+    if (Modernizr.audio) {
+        if (Modernizr.audio.wav || Modernizr.audio.mp3) {
+            document.getElementById("newMsgSound").play();
+        }
+    }
+}
+
 function updatePageTitle() {
     pageTitle1 = window.app.pageTitle;
     pageTitle2 = $("#gotANewMessage").val();
@@ -405,6 +413,7 @@ window.app.XMPPhandler = function XMPPhandler() {
          }
          else {
              //incommingMSG
+             playNewMsgSound();
              if (window.app.pageBlinkIntervalId == null) {
                  window.app.pageBlinkIntervalId = setInterval(updatePageTitle, 2000);
                  document.onmousemove = stopUpdatingPageTitle;

@@ -205,7 +205,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You received a message!.
+        ///   Looks up a localized string similar to New message!.
         /// </summary>
         public static string gotANewMessage {
             get {
