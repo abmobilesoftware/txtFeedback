@@ -5,26 +5,26 @@ USE txtfeedback_production -- choose db
 
 -- Client working point
 DECLARE @Client_TelNumber nvarchar(50) = '27877460935';
-DECLARE @WP_ShortID nvarchar(10) = 'tcoffee';
-DECLARE @WP_Name nvarchar(40) = 'Truth coffee';
-DECLARE @Client_Description nvarchar(160) = 'Truth coffee';
+DECLARE @WP_ShortID nvarchar(10) = 'bcoffee';
+DECLARE @WP_Name nvarchar(40) = 'Brew coffee';
+DECLARE @Client_Description nvarchar(160) = 'Brew coffee';
 DECLARE @WP_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to Truth coffee. How did you find our coffee?';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to Brew coffee. How did you find your Brew experience?';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'Truth coffee'; -- details in less used section
-DECLARE @C_ContactName nvarchar(50) = 'David';
-DECLARE @C_ContactSurname nvarchar(50) = 'Donde';
-DECLARE @C_ContactEmail nvarchar(50) = 'david@truthcoffee.com';
-DECLARE @C_VATID nvarchar(50) = 'TruthCoffeVATID';
+DECLARE @U_CompanyName nvarchar(50) = 'Brew coffee'; -- details in less used section
+DECLARE @C_ContactName nvarchar(50) = 'Mark';
+DECLARE @C_ContactSurname nvarchar(50) = 'Badham';
+DECLARE @C_ContactEmail nvarchar(50) = 'info@c4k-westerncape.co.za';
+DECLARE @C_VATID nvarchar(50) = 'BrewCoffeVATID';
 DECLARE @C_RegistrationNumber nvarchar(50) = NULL;
 -- SubscriptionDetails
-DECLARE @S_PrimaryContact_Name nvarchar(50) = 'David'; 
-DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Donde';
-DECLARE @S_PrimaryContact_Email nvarchar(50) = 'david@truthcoffee.com';
-DECLARE @S_SecondaryContact_Name nvarchar(50) = 'David'; 
-DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Donde';
-DECLARE @S_SecondaryContact_Email nvarchar(50) = 'david@truthcoffee.com';
+DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Mark'; 
+DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Badham';
+DECLARE @S_PrimaryContact_Email nvarchar(50) = 'info@c4k-westerncape.co.za';
+DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Mark'; 
+DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Badham';
+DECLARE @S_SecondaryContact_Email nvarchar(50) = 'info@c4k-westerncape.co.za';
 
 
 -- Support working point
@@ -36,12 +36,12 @@ DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
 DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback. Use this chat to clarify every & any question you might have about TxtFeedback';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'david.donde';
+DECLARE @U_RegularUserName varchar(30) = 'mark.badham';
 DECLARE @U_ReqularUserPassword nvarchar(128) = 'XmvfaqU+aRfwesAwc0ALbOmo0k0=';
 DECLARE @U_RegularPasswordSalt nvarchar(128) = '73DvrrHwyrfOJNGEaaZXrQ==';
-DECLARE @U_XmppUser varchar(30) = 'tcoffe1@txtfeedback.net';
+DECLARE @U_XmppUser varchar(30) = 'bcoffe1@txtfeedback.net';
 DECLARE @U_XmppPassword varchar(30) = '7<a}B<4Aq';
-DECLARE @U_RegularUserEmail nvarchar(256) = 'david@truthcoffee.com';
+DECLARE @U_RegularUserEmail nvarchar(256) = 'info@c4k-westerncape.co.za';
 -- END Important fields
 
 -- Less used
@@ -70,7 +70,7 @@ DECLARE @C_Address nvarchar(max) = 'company address';
 DECLARE @C_City nvarchar(50) = 'company city';
 
 -- Subscription details 
-DECLARE @S_SpendingLimit decimal = 10.0;
+DECLARE @S_SpendingLimit decimal = 5.0;
 DECLARE @S_WarningLimit decimal = @S_SpendingLimit * 9 /10;
 DECLARE @S_SubscriptionSMS int = 20;
 

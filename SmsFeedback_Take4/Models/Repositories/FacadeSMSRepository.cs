@@ -16,7 +16,7 @@ namespace SmsFeedback_Take4.Models
    {      
       public const string TWILIO_PROVIDER = "twilio";
       public const string NEXMO_PROVIDER = "nexmo";
-      public const string COMPATEL_PROVIDER = "compate";
+      public const string COMPATEL_PROVIDER = "compatel";
 
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
       private TwilioSmsRepository mTwilioRep = new TwilioSmsRepository();

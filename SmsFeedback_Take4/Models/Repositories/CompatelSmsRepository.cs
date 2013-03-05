@@ -43,7 +43,7 @@ namespace SmsFeedback_Take4.Models
          SMSRequest smsRequest = new SMSRequest(from, message, address);
          SendMessageResult sendMessageResult = smsClient.SmsMessagingClient.SendSMS(smsRequest);
          SendMessageResultItem msgResult = sendMessageResult.SendMessageResults[0];
-         MessageStatus result = new MessageStatus() { Status = msgResult.MessageStatus, MessageSent = true, Price = (msgResult.Price / 100).ToString(), ExternalID = msgResult .MessageId};
+         MessageStatus result = new MessageStatus() { Status = msgResult.MessageStatus, MessageSent = true, Price = (msgResult.Price / 100).ToString(), ExternalID = msgResult .MessageId, DateSent=DateTime.Now};
          return result;
       }
    }
