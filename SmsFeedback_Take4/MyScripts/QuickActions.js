@@ -1,6 +1,14 @@
 ﻿window.app = window.app || {};
 window.app.vouchersPanel = null;
 
+/*
+    This function is triggered when the "Give voucher" button is clicked.
+    Toggles the panel visibility.
+
+    el: $("#vPanel") - Placeholder for the vouchers panel.
+    voucherBtnView - the button that triggers this action. It is passed to the voucher panel, 
+    in this way the panel can trigger events of the button.
+*/
 function displayVouchersPanel(voucherBtnView) {
     if (window.app.vouchersPanel != null) {
         if (window.app.vouchersPanel.isVisible()) {
@@ -16,10 +24,21 @@ function displayVouchersPanel(voucherBtnView) {
     }
 }
 
-window.app.Button = Backbone.Model.extend({
+/*
+    Holds the button model. Has 2 attributes: 
+        Title - the text displayed in UI
+        Action - the function triggered in javascript on click event
 
-});
+*/
+window.app.Button = Backbone.Model.extend({});
 
+/*
+    Builds the UI representation of the button. Assigns a handler for the DOM click event
+    Responds to the following events:
+        - EVENT_SHOW_LOADING_ICON - a spinner is displayed on the right side of the button's text 
+        - EVENT_HIDE_LOADING_ICON - the spinner is hided
+        - EVENT_ACTIVE_STATE, EVENT_INACTIVE_STATE - updates the css style of DOM element .buttonContent
+*/
 window.app.ButtonView = Backbone.View.extend({
     events: {
         "click a.button": "click"
@@ -83,6 +102,10 @@ window.app.ButtonView = Backbone.View.extend({
     }
 });
 
+/*
+    Builds the UI representation of the buttons bar. Can contain more than one button.
+    For ease of use the bar is displayed using setVisible(true/false) method.
+*/
 window.app.ButtonsBarView = Backbone.View.extend({
     initialize: function () {
         var buttonsList = [];
@@ -124,9 +147,16 @@ window.app.ButtonsList = Backbone.Collection.extend({
     model: window.app.Button
 });
 
-// Vouchers Panel
+/*
+    Holds the button model. Has 2 attributes: 
+        Code - voucher code
+        Description
+*/
 window.app.Voucher = Backbone.Model.extend({});
 
+/*
+    url - the vouchers resource is identified by shortID
+*/
 window.app.VouchersList = Backbone.Collection.extend({
     model: window.app.Voucher,
     url: function () {
@@ -134,6 +164,12 @@ window.app.VouchersList = Backbone.Collection.extend({
     }
 });
 
+/*
+    Builds the graphical representation of voucher model. Handles the DOM click event
+    Methods:
+        - selectVoucher - a confirm message box is opened. If the answer is positive
+        it sends the code to the voucher panel through EVENT_VOUCHER_SELECTED event
+*/
 window.app.VoucherView = Backbone.View.extend({
     vouchersListView: {},
     className: "voucherItem",
@@ -163,6 +199,18 @@ window.app.VoucherView = Backbone.View.extend({
     }
 });
 
+/*
+    Builds the graphical representation of the vouchers collection. Handles the DOM click event
+    for the element identified through class "panelClose".
+
+    Internal events
+        - EVENT_VOUCHER_SELECTED - triggered when a voucher is selected from the VoucherView
+    
+    Methods:
+        getVouchersList - if the collection retrieved from the server has more than one element 
+        the voucher panel is displayed. If it has just one element, the voucher code is
+        inserted in the reply message box. Else the user is prompted with the message "No vouchers"
+*/
 window.app.VouchersListView = Backbone.View.extend({
     events: {
         "click .panelClose": "hide"
