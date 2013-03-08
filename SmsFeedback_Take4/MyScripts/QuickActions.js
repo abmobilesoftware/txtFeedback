@@ -154,7 +154,7 @@ window.app.VoucherView = Backbone.View.extend({
         event.preventDefault();
         var voucherChoosed = confirm($(this.ID_CONFIRM_MESSAGE).val() + " " +
             this.model.get("code") + " : "
-            + this.model.get("description"));
+            + this.model.get("description") + "?");
         if (voucherChoosed) {
             this.options.vouchersListView.trigger(
                 this.options.vouchersListView.vouchersListEvents.EVENT_VOUCHER_SELECTED,
