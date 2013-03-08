@@ -522,9 +522,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
       getMessages: function (conversationId) {
          $("#messagesbox").html('');
          var target = document.getElementById('scrollablemessagebox');
-         spinner.spin(target);
-         this.quickActionBtns.setVisible(true);
-
+         spinner.spin(target);         
          self.currentConversationId = conversationId;
          if (self.currentConversationId in window.app.globalMessagesRep) {
             //we have already loaded this conversation so display the cached messages 
@@ -573,6 +571,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             //don't scroll to bottom as we will do it when loading is done
             selfMessageView.appendMessageToDiv(msg, performFadeIn, false);
          });
+         this.quickActionBtns.setVisible(true);
          spinner.stop();
          //scroll to bottom
          //var messagesEl = $("#scrollablemessagebox");
