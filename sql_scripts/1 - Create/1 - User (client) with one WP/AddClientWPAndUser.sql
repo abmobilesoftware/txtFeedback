@@ -4,44 +4,44 @@ USE txtfeedback_production -- choose db
 -- Script for Canada
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = '27877460935';
-DECLARE @WP_ShortID nvarchar(10) = 'bcoffee';
-DECLARE @WP_Name nvarchar(40) = 'Brew coffee';
-DECLARE @Client_Description nvarchar(160) = 'Brew coffee';
+DECLARE @Client_TelNumber nvarchar(50) = '447937947849';
+DECLARE @WP_ShortID nvarchar(10) = 'altru';
+DECLARE @WP_Name nvarchar(40) = 'Altru drama';
+DECLARE @Client_Description nvarchar(160) = 'Altru drama from Liverpool';
 DECLARE @WP_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to Brew coffee. How did you find your Brew experience?';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to Altru drama. How did you find the show? ';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'Brew coffee'; -- details in less used section
-DECLARE @C_ContactName nvarchar(50) = 'Mark';
-DECLARE @C_ContactSurname nvarchar(50) = 'Badham';
-DECLARE @C_ContactEmail nvarchar(50) = 'info@c4k-westerncape.co.za';
-DECLARE @C_VATID nvarchar(50) = 'BrewCoffeVATID';
+DECLARE @U_CompanyName nvarchar(50) = 'Altru drama'; -- details in less used section
+DECLARE @C_ContactName nvarchar(50) = 'Kate';
+DECLARE @C_ContactSurname nvarchar(50) = 'Gorst';
+DECLARE @C_ContactEmail nvarchar(50) = 'kate@altru.co.uk';
+DECLARE @C_VATID nvarchar(50) = 'KateGorstVATID';
 DECLARE @C_RegistrationNumber nvarchar(50) = NULL;
 -- SubscriptionDetails
-DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Mark'; 
-DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Badham';
-DECLARE @S_PrimaryContact_Email nvarchar(50) = 'info@c4k-westerncape.co.za';
-DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Mark'; 
-DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Badham';
-DECLARE @S_SecondaryContact_Email nvarchar(50) = 'info@c4k-westerncape.co.za';
+DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Kate'; 
+DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Gorst';
+DECLARE @S_PrimaryContact_Email nvarchar(50) = 'kate@altru.co.uk';
+DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Kate'; 
+DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Gorst';
+DECLARE @S_SecondaryContact_Email nvarchar(50) = 'kate@altru.co.uk';
 
 
 -- Support working point
 DECLARE @WP_Support_TelNumber nvarchar(50) = '2220000100';
 DECLARE @WP_Support_ShortID nvarchar(10) = 'supportrop';
 DECLARE @WP_Support_Name nvarchar(40) = 'TxtFeedback support';
-DECLARE @WP_Support_Description nvarchar(120)= 'Support for SouthAffrica';
+DECLARE @WP_Support_Description nvarchar(120)= 'Support for UK';
 DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
 DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback. Use this chat to clarify every & any question you might have about TxtFeedback';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'mark.badham';
-DECLARE @U_ReqularUserPassword nvarchar(128) = 'XmvfaqU+aRfwesAwc0ALbOmo0k0=';
-DECLARE @U_RegularPasswordSalt nvarchar(128) = '73DvrrHwyrfOJNGEaaZXrQ==';
-DECLARE @U_XmppUser varchar(30) = 'bcoffe1@txtfeedback.net';
-DECLARE @U_XmppPassword varchar(30) = '7<a}B<4Aq';
-DECLARE @U_RegularUserEmail nvarchar(256) = 'info@c4k-westerncape.co.za';
+DECLARE @U_RegularUserName varchar(30) = 'kate.gorst';
+DECLARE @U_ReqularUserPassword nvarchar(128) = '/ctF76Us3utaEYQVjSrrcJhqFeo=';
+DECLARE @U_RegularPasswordSalt nvarchar(128) = 'H3UdNba7sNZ7/70d/h2ztg==';
+DECLARE @U_XmppUser varchar(30) = 'altru@txtfeedback.net';
+DECLARE @U_XmppPassword varchar(30) = 'zUe5EPHeL';
+DECLARE @U_RegularUserEmail nvarchar(256) = 'kate@altru.co.uk';
 -- END Important fields
 
 -- Less used
@@ -50,7 +50,7 @@ DECLARE @WP_SmsSent int = 0;
 DECLARE @WP_MaxNrOfSmsToSend int = 200;
 DECLARE @WP_Description_Additional_Text nvarchar(120) = ' WP';
 DECLARE @WP_Description nvarchar(160) = @WP_Name + @WP_Description_Additional_Text;
-DECLARE @WP_BusyMessage nvarchar(160) = 'Busy';
+DECLARE @WP_BusyMessage nvarchar(160) = 'Our staff are currently busy. Please allow for up to 2 minutes for a response';
 DECLARE @WP_OutsideOfficeHoursMessage nvarchar(160) = 'Outside of office hours';
 -- Welcome message
 DECLARE @WP_TimeReceived datetime = GETUTCDATE();
