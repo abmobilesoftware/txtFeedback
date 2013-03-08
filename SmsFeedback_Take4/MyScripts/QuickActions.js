@@ -125,11 +125,7 @@ window.app.ButtonsList = Backbone.Collection.extend({
 });
 
 // Vouchers Panel
-window.app.Voucher = Backbone.Model.extend({
-    getCode: function () {
-        return this.attributes.code;
-    }
-});
+window.app.Voucher = Backbone.Model.extend({});
 
 window.app.VouchersList = Backbone.Collection.extend({
     model: window.app.Voucher,
