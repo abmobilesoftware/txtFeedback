@@ -279,6 +279,8 @@
     <Content Include="Content\grid.css" />
     <Content Include="Content\images\06-web-2.png" />
     <Content Include="Content\images\06-web-2_225.png" />
+    <Content Include="Content\images\ajax-loader.gif" />
+    <Content Include="Content\images\arrow_down_16.png" />
     <Content Include="Content\images\check-grey.png" />
     <Content Include="Content\images\check-grey.svg" />
     <Content Include="Content\images\check-white.svg" />
@@ -391,6 +393,7 @@
     <Content Include="Content\Minified\text.css" />
     <Content Include="Content\nav.css" />
     <Content Include="Content\phonenumbers.css" />
+    <Content Include="Content\quickActionBtns.css" />
     <Content Include="Content\reset.css" />
     <Content Include="Content\tags.css" />
     <Content Include="Content\TestLayout.css" />
@@ -446,6 +449,7 @@
     <Content Include="MyScripts\Minified\Utilities.js" />
     <Content Include="MyScripts\Minified\WorkingPoints.js" />
     <Content Include="MyScripts\Minified\XMPP.js" />
+    <Content Include="MyScripts\QuickActions.js" />
     <Content Include="MyScripts\Reports\DateHelper.js" />
     <Content Include="MyScripts\Reports\GlobalVariables.js" />
     <Content Include="MyScripts\Reports\Minified\DateHelper.js" />
@@ -750,7 +754,7 @@ java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Co
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\layout.css" -o "$(ProjectDir)Content\Minified\layout.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\nav.css" -o "$(ProjectDir)Content\Minified\nav.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\Site.css" -o "$(ProjectDir)Content\Minified\Site.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\Site.css" -o "$(ProjectDir)Content\Minified\Site.css"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\quickActionBtns.css" -o "$(ProjectDir)Content\Minified\quickActionBtns.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\phonenumbers.css" -o "$(ProjectDir)Content\Minified\phonenumbers.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\messages.css" -o "$(ProjectDir)Content\Minified\messages.css"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\conversations.css" -o "$(ProjectDir)Content\Minified\conversations.css"
@@ -766,6 +770,7 @@ java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)My
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\ConversationTags.js" -o "$(ProjectDir)MyScripts\Minified\ConversationTags.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Facade.js" -o "$(ProjectDir)MyScripts\Minified\Facade.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Filtering.js" -o "$(ProjectDir)MyScripts\Minified\Filtering.js"
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\QuickActions.js" -o "$(ProjectDir)MyScripts\Minified\QuickActions.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Messages.js" -o "$(ProjectDir)MyScripts\Minified\Messages.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Utilities.js" -o "$(ProjectDir)MyScripts\Minified\Utilities.js"
 java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Transition.js" -o "$(ProjectDir)MyScripts\Minified\Transition.js"

@@ -88,6 +88,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Give voucher.
+        /// </summary>
+        public static string btnGiveVoucher {
+            get {
+                return ResourceManager.GetString("btnGiveVoucher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dismiss.
         /// </summary>
         public static string btnNotificationDismiss {
@@ -381,6 +390,33 @@ namespace Resources {
         public static string logOnWithUserPassMsg {
             get {
                 return ResourceManager.GetString("logOnWithUserPassMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to give voucher.
+        /// </summary>
+        public static string messageChooseVoucher {
+            get {
+                return ResourceManager.GetString("messageChooseVoucher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pick a voucher.
+        /// </summary>
+        public static string messageListOfVouchers {
+            get {
+                return ResourceManager.GetString("messageListOfVouchers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No more vouchers.
+        /// </summary>
+        public static string messageNoVouchers {
+            get {
+                return ResourceManager.GetString("messageNoVouchers", resourceCulture);
             }
         }
         

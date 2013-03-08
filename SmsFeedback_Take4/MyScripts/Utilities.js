@@ -172,7 +172,7 @@ function resizeTriggered() {
    //var messagesAreaHeight = $('#messagesArea').height();
    var headerHeight = $('header').outerHeight();
    var contentWindowHeight = window_height - headerHeight;// - (2 * padding) - filterStripHeigh;
-   
+   var quickActionBtnsBar = $("#quickActionBtns").length == 0 ? 0 : $("#quickActionBtns").outerHeight(true);
    var marginTop = parseInt($('#rightColumn').css('margin-top'),10);
    var marginBottom = parseInt($('#rightColumn').css('margin-bottom'),10);
    var rightAreaCandidateHeight = contentWindowHeight - filterStripHeigh - marginTop - marginBottom;
@@ -186,12 +186,12 @@ function resizeTriggered() {
       $('#rightColumn').height(rightAreaCandidateHeight);
       $('#leftColumn').height(contentWindowHeight - filterStripHeigh);
       $('#scrollableconversations').height(rightAreaCandidateHeight);
-      $('#scrollablemessagebox').height(rightAreaCandidateHeight - 133);
+      $('#scrollablemessagebox').height(rightAreaCandidateHeight - 133 - quickActionBtnsBar);
    } else {      
       contentContainer.height(rightAreaHeight + filterStripHeigh + marginTop + marginBottom);
       $('#leftColumn').height(rightAreaHeight + marginTop + marginBottom);
       $('#scrollableconversations').height(rightAreaHeight);
-      $('#scrollablemessagebox').height(rightAreaHeight - 133);
+      $('#scrollablemessagebox').height(rightAreaHeight - 133 - quickActionBtnsBar);
    } 
    $('.page').height(headerHeight + contentContainer.height());
    $('body').height(headerHeight + contentContainer.height());

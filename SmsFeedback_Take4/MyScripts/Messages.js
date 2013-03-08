@@ -381,10 +381,11 @@ function MessagesArea(convView, tagsArea, wpsArea) {
       style: 'dark'
    });
    $.extend(this, window.app.defaultMessagesOptions);
-
+   
    this.convView = convView;
    this.tagsArea = tagsArea;
    this.wpsArea = wpsArea;
+   
    //set the filter to make only the top div (conversation) selectable
    // in the absence of the filter option all elements within the conversation are made "selectable"
    $("#conversations").selectable({
@@ -508,6 +509,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             "deleteMsgsOfAConv");// to solve the this issue
          this.messages = new window.app.MessagesList();
          this.messages.bind("reset", this.render);
+         this.quickActionBtns = new window.app.ButtonsBarView({ el: $("#quickActionBtns") });
       },
       resetViewToDefault: function () {
          var noConversationLoadedMessage = $("#noConversationSelectedMessage").val();
@@ -515,11 +517,13 @@ function MessagesArea(convView, tagsArea, wpsArea) {
          $("#textareaContainer").addClass("invisible");
          $("#tagsContainer").addClass("invisible");
          self.currentConversationId = '';
+         this.quickActionBtns.setVisible(false);
       },
       getMessages: function (conversationId) {
          $("#messagesbox").html('');
          var target = document.getElementById('scrollablemessagebox');
          spinner.spin(target);
+         this.quickActionBtns.setVisible(true);
 
          self.currentConversationId = conversationId;
          if (self.currentConversationId in window.app.globalMessagesRep) {
@@ -631,6 +635,14 @@ function MessagesArea(convView, tagsArea, wpsArea) {
       }
    });
    this.messagesView = new MessagesView();
+
+   $(document).bind("giveVoucher", function (ev, data) {
+       var replyAreaContent = $("#limitedtextarea").val();
+       if (replyAreaContent.length + data.voucherCode.length <= 159) {
+           $("#limitedtextarea").attr("value", replyAreaContent + " " + data.voucherCode);
+           $("input[name~='countdown']").val(160 - $("#limitedtextarea").val().length);
+       }
+   });
 
    $(document).bind('conversationSelected', function (ev, data) {
       self.messagesView.getMessages(data.convID);

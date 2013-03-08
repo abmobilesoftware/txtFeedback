@@ -1,0 +1,109 @@
+﻿#quickActionBtns {
+    width: 80%;
+    margin-left:20px;
+    margin-bottom:5px;
+    position:relative;
+}
+
+a.button {    
+    text-decoration: none;    
+}
+
+    a.button:hover {
+        color: #fff;
+    }
+
+.buttonContent {
+    height:20px;
+    background: #CFDFE3;
+    border-radius: 5px;
+    color: #000000;
+    border: 1px solid #D0C3BE;
+    display:table-cell;
+    font-size: 15px;
+    font-weight: 400;
+    height: 25px;
+    padding: 10px 10px 4px;
+    width: 100%;
+}
+
+.buttonTitle {
+    line-height:21px;
+}
+
+#vPanel {
+    background: #183540;
+    color: #fff;
+    position: absolute;
+    bottom: 35px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    font-size:15px;
+    width: 269px;
+}
+
+#panelTitle {
+    font-weight: bold;
+    padding: 10px;
+    color: #fff;
+}
+
+    #panelTitle span {
+        text-indent:5px;
+    }
+
+#panelContent {
+    margin: 5px 10px 19px;
+    height: 144px;
+    overflow: auto;
+}
+
+.voucherItem {
+    padding: 10px 5px;
+    border-bottom:1px dotted #ccc;    
+}
+
+    .voucherItem:hover {
+        background:#1f6883;
+        color: #1f6883;
+    }
+
+    .voucherItem a, a.panelClose {
+        color: #d7efff;
+        text-decoration: none;
+        font-weight: 400; 
+        width: 100%;
+        height: 100%;       
+    }
+
+        .voucherItem a:hover, a.panelClose:hover {
+            color: #fff;
+        }
+
+a.panelClose {
+    position:relative;
+    top:2px;
+    margin-left:10px;
+    float:right;
+    width:20px;
+}
+
+.visible {
+    display:block;
+}
+
+.hidden {
+    display: none;
+}
+
+.loader {
+    margin-left:10px;
+    position:relative;
+    top:3px;
+}
+
+

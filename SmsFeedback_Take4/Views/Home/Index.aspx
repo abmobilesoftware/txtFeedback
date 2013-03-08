@@ -12,6 +12,7 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/filtersStrip.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/tags.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/jquery.tagsinput.css") %>" />
+   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/quickActionBtns.css") %>" />
 
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/spin.js") %>" type="application/javascript" ></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.tagsinput.js") %>" type="application/javascript"></script>
@@ -20,7 +21,7 @@
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-ro.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-en-GB.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-es.js") %>" type="application/javascript"></script>
-
+   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/QuickActions.js") %>" type ="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/WorkingPoints.js") %>" type="application/javascript"></script>   
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Messages.js") %>" type="application/javascript"></script>
    
@@ -37,6 +38,7 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/filtersStrip.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/tags.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/jquery.tagsinput.css") %>" />    
+    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/quickActionBtns.css") %>" />
    
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="application/javascript" ></script>
      
@@ -46,7 +48,7 @@
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-ro.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-en-GB.js") %>" type="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-es.js") %>" type="application/javascript"></script>
-
+    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/QuickActions.js") %>" type ="application/javascript"></script>
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/WorkingPoints.js") %>" type="application/javascript"></script>   
    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Messages.js") %>" type="application/javascript"></script>
    
@@ -185,6 +187,31 @@
       <div class="clear"></div>
       </div>
    </script>
+
+    <script type="text/template" id="voucher">
+        <a href="#">
+            {{ code }} - {{ description }}
+        </a>
+    </script>
+    <script type="text/template" id="vouchersPanel">
+        <div id="panelTitle">
+            <span><%: Resources.Global.messageListOfVouchers %></span>
+            <a class="panelClose" href="#"><img src="<%: Url.Content("~/Content/images/arrow_down_16.png") %>" /></a>
+        </div>
+        <div id="panelContent">
+
+        </div>
+    </script>
+    <script type="text/template" id="button">
+        <div id="vPanel"></div>
+        <a class="button" href="#">
+            <div class="buttonContent">
+                <span class="buttonTitle">{{ Title }}</span>
+                <img class="loader hidden" src="<%: Url.Content("~/Content/images/ajax-loader.gif") %>" />      
+            </div>
+        </a>
+        
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="FilterArea" runat="server">
@@ -228,8 +255,7 @@
       $(function () {
          var newGUI = new InitializeGUI();
       });
-   </script>
-    
+   </script>    
    <div id="conversationsArea" class="grid_convs">
       <div id="scrollableconversations" class="conversationbox scrollablebox">
          <div id="conversations" class="conversationbox">
@@ -258,8 +284,10 @@
              <a href="#" id='thumbsDown' title="<%: Resources.Global.thumbsDownTooltip %>" class='specialTag' tagType="negativeFeedback"></a>
             </div>
        </div>
+        <div class="clear"></div>
       </div>
       
+      <div id="quickActionBtns" class="hidden"></div>
       <div id="textareaContainer" class="invisible">
          <div id="replyFormArea">
             <form id="replyToMessageForm">
@@ -276,9 +304,10 @@
             <input type="hidden" value="<%: Resources.Global.errorCannotSendMessage %>" id="msgMessageNotSent"/>
             <button tooltiptitle="<%: Resources.Global.tooltipReplyBtn %>" id="replyBtn"> <%: Resources.Global.sendButton %></button>
          </div>
-        
+         <div class="clear"></div>
       </div>
    </div>
+       
    <input type="hidden" value="<%: ViewData["currentCulture"] %>" class="currentCulture" />
    <input type="hidden" value="<%: Resources.Global.lblNoConversationSelected %>" id="noConversationSelectedMessage" />
    <input type="hidden" value="<%: Resources.Global.messagesAddTagPlaceHolder %>" id="messagesAddTagPlaceHolderMessage" />
@@ -290,4 +319,8 @@
    <input type="hidden" value="<%: Resources.Global.errorMessageNotSentReasonUnknown %>" id="messageNotSentReasonUnknown" />
    <input type="hidden" value="<%: Resources.Global.errorMessageNotSentInsufficientCredits %>" id="messageNotSentInsufficientCredits" />
    <input type="hidden" value="<%: Resources.Global.warningMessageSentSpendingLimitReached %>" id="messageSentSpendingLimitReached" />
+    <input type="hidden" value="<%: Resources.Global.messageChooseVoucher %>" id="messageChooseVoucher" />
+    <input type="hidden" value="<%: Resources.Global.btnGiveVoucher %>" id="titleBtnGiveVoucher" />
+    <input type="hidden" value="<%: Resources.Global.messageNoVouchers %>" id="messageNoVouchers" />
+    <input type="hidden" value="<%: User.IsInRole("VoucherOperator") ? "yes" : "no" %>" id="hasVoucherRole" />
 </asp:Content>

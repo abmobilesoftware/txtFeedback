@@ -922,4 +922,16 @@
     <value>New message!</value>
     <comment>Global</comment>
   </data>
+  <data name="btnGiveVoucher" xml:space="preserve">
+    <value>Give voucher</value>
+  </data>
+  <data name="messageChooseVoucher" xml:space="preserve">
+    <value>Are you sure you want to give voucher</value>
+  </data>
+  <data name="messageListOfVouchers" xml:space="preserve">
+    <value>Pick a voucher</value>
+  </data>
+  <data name="messageNoVouchers" xml:space="preserve">
+    <value>No more vouchers</value>
+  </data>
 </root>

@@ -817,4 +817,16 @@
   <data name="gotANewMessage" xml:space="preserve">
     <value>Mesaj nou!</value>
   </data>
+  <data name="btnGiveVoucher" xml:space="preserve">
+    <value>Oferă cupon</value>
+  </data>
+  <data name="messageChooseVoucher" xml:space="preserve">
+    <value>Sunteți sigur că vreți să acordați cuponul</value>
+  </data>
+  <data name="messageListOfVouchers" xml:space="preserve">
+    <value>Alegeți un cupon din listă</value>
+  </data>
+  <data name="messageNoVouchers" xml:space="preserve">
+    <value>Nu mai sunt cupoane</value>
+  </data>
 </root>
