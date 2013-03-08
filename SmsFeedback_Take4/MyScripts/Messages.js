@@ -521,6 +521,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
       },
       getMessages: function (conversationId) {
          $("#messagesbox").html('');
+         $("#vPanel").hide(); // voucher panel hack
          var target = document.getElementById('scrollablemessagebox');
          spinner.spin(target);         
          self.currentConversationId = conversationId;
