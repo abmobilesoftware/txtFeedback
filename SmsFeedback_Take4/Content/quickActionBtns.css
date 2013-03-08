@@ -16,10 +16,9 @@ a.button {
 
 .buttonContent {
     height:20px;
-    background: #CFDFE3;
+    background: #183540;
     border-radius: 5px;
-    color: #000000;
-    border: 1px solid #D0C3BE;
+    color: #fff;
     display:table-cell;
     font-size: 15px;
     font-weight: 400;
@@ -78,7 +77,8 @@ a.button {
         text-decoration: none;
         font-weight: 400; 
         width: 100%;
-        height: 100%;       
+        height: 100%;   
+        line-height:18px;    
     }
 
         .voucherItem a:hover, a.panelClose:hover {
@@ -94,10 +94,14 @@ a.panelClose {
 }
 
 .visible {
-    display:block;
+    visibility:visible;
 }
 
 .hidden {
+    visibility:hidden;
+}
+
+.displayNone {
     display: none;
 }
 

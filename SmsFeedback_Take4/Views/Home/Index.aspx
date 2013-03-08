@@ -207,7 +207,7 @@
         <a class="button" href="#">
             <div class="buttonContent">
                 <span class="buttonTitle">{{ Title }}</span>
-                <img class="loader hidden" src="<%: Url.Content("~/Content/images/ajax-loader.gif") %>" />      
+                <img class="loader displayNone" src="<%: Url.Content("~/Content/images/ajax-loader.gif") %>" />      
             </div>
         </a>
         
