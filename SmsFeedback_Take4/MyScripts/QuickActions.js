@@ -96,9 +96,8 @@ window.app.ButtonView = Backbone.View.extend({
         this.setBorder("1px solid #183540");
     },
     goToInactiveState: function () {
-        this.setBackgroundColor("#CFDFE3");
-        this.setForegroundColor("#000000");
-        this.setBorder("1px solid #D0C3BE");
+        this.setBackgroundColor("#183540");
+        this.setForegroundColor("#FFFFFF");        
     }
 });
 
@@ -188,14 +187,9 @@ window.app.VoucherView = Backbone.View.extend({
     },
     selectVoucher: function (event) {
         event.preventDefault();
-        var voucherChoosed = confirm($(this.ID_CONFIRM_MESSAGE).val() + " " +
-            this.model.get("code") + " : "
-            + this.model.get("description") + "?");
-        if (voucherChoosed) {
-            this.options.vouchersListView.trigger(
+        this.options.vouchersListView.trigger(
                 this.options.vouchersListView.vouchersListEvents.EVENT_VOUCHER_SELECTED,
                 this.model.get("code"));
-        }
     }
 });
 
