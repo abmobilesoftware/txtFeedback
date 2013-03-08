@@ -74,7 +74,7 @@ window.app.ButtonView = Backbone.View.extend({
     goToActiveState: function () {
         this.setBackgroundColor("#183540");
         this.setForegroundColor("#D7EFFF");
-        this.setBorder("0px");
+        this.setBorder("1px solid #183540");
     },
     goToInactiveState: function () {
         this.setBackgroundColor("#CFDFE3");
