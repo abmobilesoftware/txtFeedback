@@ -40,6 +40,7 @@ window.app.Button = Backbone.Model.extend({});
         - EVENT_ACTIVE_STATE, EVENT_INACTIVE_STATE - updates the css style of DOM element .buttonContent
 */
 window.app.ButtonView = Backbone.View.extend({
+    className: "buttonWrapper",
     events: {
         "click a.button": "click"
     },
@@ -216,13 +217,17 @@ window.app.VouchersListView = Backbone.View.extend({
         this.initializeConstants();
         this.vouchers = new window.app.VouchersList();
         this.on(this.vouchersListEvents.EVENT_VOUCHER_SELECTED, this.voucherSelected);
+        this.on(this.vouchersListEvents.EVENT_CLOSE_PANEL, this.hide);
         this.getVouchersList();
     },
     initializeConstants: function () {
         this.ID_PANEL_CONTENT = "#panelContent";
         this.ID_PANEL_CONTAINER = "#vouchersPanel";
         this.ID_NO_VOUCHERS_MESSAGE = "#messageNoVouchers";
-        this.vouchersListEvents = { EVENT_VOUCHER_SELECTED: "voucherSelected" }
+        this.vouchersListEvents = {
+            EVENT_VOUCHER_SELECTED: "voucherSelected",
+            EVENT_CLOSE_PANEL: "closePanel"
+        }
     },
     getVouchersList: function () {
         $(this.ID_PANEL_CONTENT, this.$el).empty();
@@ -252,6 +257,7 @@ window.app.VouchersListView = Backbone.View.extend({
         this.template = _.template($(this.ID_PANEL_CONTAINER).html());
         this.$el.html(this.template())
         _.each(this.vouchers, this.addVoucher, this);
+        this.$el.show();
         this.options.voucherBtnView.trigger(
             this.options.voucherBtnView.btnViewEvents.EVENT_HIDE_LOADING_ICON);        
     },

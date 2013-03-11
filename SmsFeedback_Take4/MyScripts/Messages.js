@@ -520,8 +520,11 @@ function MessagesArea(convView, tagsArea, wpsArea) {
          this.quickActionBtns.setVisible(false);
       },
       getMessages: function (conversationId) {
-         $("#messagesbox").html('');
-         $("#vPanel").hide(); // voucher panel hack
+          $("#messagesbox").html('');
+          if (window.app.vouchersPanel != null) {
+              window.app.vouchersPanel.trigger(
+                  window.app.vouchersPanel.vouchersListEvents.EVENT_CLOSE_PANEL);
+          }
          var target = document.getElementById('scrollablemessagebox');
          spinner.spin(target);         
          self.currentConversationId = conversationId;
@@ -649,6 +652,15 @@ function MessagesArea(convView, tagsArea, wpsArea) {
    });
    $(document).bind('deleteMessagesOfAConversation', function (ev, data) {
        self.messagesView.deleteMsgsOfAConv(data.convId);
+   });
+    // close voucher panel on click outside of it area.
+   $(":visible").first().bind("click", function (ev, data) {
+       var $target = $(ev.target);
+       if (!($target.is(".buttonWrapper") ||
+           $target.parents(".buttonWrapper").length > 0)) {
+           window.app.vouchersPanel.trigger(
+               window.app.vouchersPanel.vouchersListEvents.EVENT_CLOSE_PANEL);
+       }
    });
    // The attachment of the handler for this type of event is done only once
 }

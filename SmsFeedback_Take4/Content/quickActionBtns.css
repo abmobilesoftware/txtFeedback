@@ -5,6 +5,10 @@
     position:relative;
 }
 
+.buttonWrapper {
+    display:inline;
+}
+
 a.button {    
     text-decoration: none;    
     display:inline-block;
