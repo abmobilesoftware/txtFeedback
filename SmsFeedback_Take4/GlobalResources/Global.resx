@@ -934,4 +934,8 @@
   <data name="messageNoVouchers" xml:space="preserve">
     <value>No more vouchers</value>
   </data>
+  <data name="messageVoucherNotInserted" xml:space="preserve">
+    <value>The voucher code was not inserted in the message because would surpass the 160 characters limit.</value>
+    <comment>Messages: show an alert box when voucher code cannot be inserted in the reply message</comment>
+  </data>
 </root>

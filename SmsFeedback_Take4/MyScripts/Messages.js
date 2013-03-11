@@ -644,6 +644,11 @@ function MessagesArea(convView, tagsArea, wpsArea) {
        if (replyAreaContent.length + data.voucherCode.length <= 159) {
            $("#limitedtextarea").attr("value", replyAreaContent + " " + data.voucherCode);
            $("input[name~='countdown']").val(160 - $("#limitedtextarea").val().length);
+       } else {
+           $(".voucherAlert").show("slow");
+           var t = setTimeout(function () {
+               $(".voucherAlert").hide("slow");
+           },5000);
        }
    });
 

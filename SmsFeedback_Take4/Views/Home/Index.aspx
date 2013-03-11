@@ -289,7 +289,10 @@
       
       <div id="quickActionBtns" class="hidden"></div>
       <div id="textareaContainer" class="invisible">
-         <div id="replyFormArea">
+          <div class="voucherAlert">
+              <%: Resources.Global.messageVoucherNotInserted %>
+          </div>
+          <div id="replyFormArea">
             <form id="replyToMessageForm">
             <div id="inputTextContainer">
                <textarea id="limitedtextarea" class="textarea160"

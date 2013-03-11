@@ -448,6 +448,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The voucher code was not inserted in the message because would surpass the 160 characters limit..
+        /// </summary>
+        public static string messageVoucherNotInserted {
+            get {
+                return ResourceManager.GetString("messageVoucherNotInserted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unread.
         /// </summary>
         public static string readLabel {

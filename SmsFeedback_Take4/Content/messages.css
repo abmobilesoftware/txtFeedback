@@ -298,6 +298,7 @@ input[name="countdown"] {
    margin-top: 4px;
    padding-left: 20px;
    padding-right: 108px;
+   position:relative;
 }
 
 #replyFormArea {
