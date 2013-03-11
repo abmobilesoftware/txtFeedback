@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="ProductOnAzure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="3" osVersion="*" schemaVersion="2012-10.1.8">
+  <Role name="SmsFeedback_Take4">
+    <Instances count="2" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=producttxtfeedback;AccountKey=QWZg2pdOiGlOzxM/cPJM8aeyXC4v7p+KoC0N2kFMw2olwQm4v0zerSNPiMQ7kcPEjQOi7OIHPz6MYXIwj1kEeA==" />
+    </ConfigurationSettings>
+  </Role>
+</ServiceConfiguration>

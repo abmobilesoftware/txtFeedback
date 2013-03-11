@@ -454,6 +454,7 @@
     <Content Include="MyScripts\Minified\Filtering.js" />
     <Content Include="MyScripts\Minified\Messages.js" />
     <Content Include="MyScripts\Minified\Settings\SettingsFacade.js" />
+    <Content Include="MyScripts\Minified\Transition.js" />
     <Content Include="MyScripts\Minified\Utilities.js" />
     <Content Include="MyScripts\Minified\WorkingPoints.js" />
     <Content Include="MyScripts\Minified\XMPP.js" />

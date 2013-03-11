@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="WebApiAzure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2012-10.1.8">
+  <WebRole name="mobile.TxtFeedback_take1" vmsize="ExtraSmall">
+    <Sites>
+      <Site name="Web">        
+        <Bindings>
+          <Binding name="Endpoint1" endpointName="Endpoint1" />
+        </Bindings>
+      </Site>
+       <Site name="WebApi" physicalDirectory="..\..\..\txtlab" >
+        <VirtualApplication name="txtlab" physicalDirectory="..\..\..\txtlab" />
+        <VirtualApplication name="tcoffee" physicalDirectory="..\..\..\tcoffee" />
+          <Bindings>
+             <Binding name="Endpoint2" endpointName="Endpoint2" hostHeader="t3xt.cloudapp.net/txtlab"/>
+          </Bindings>
+       </Site>
+    </Sites>
+    <Endpoints>
+      <InputEndpoint name="Endpoint1" protocol="http" port="80" />
+      <InputEndpoint name="Endpoint2" protocol="http" port="8080" />
+    </Endpoints>
+    <Imports>
+      <Import moduleName="Diagnostics" />
+    </Imports>
+  </WebRole>
+</ServiceDefinition>
