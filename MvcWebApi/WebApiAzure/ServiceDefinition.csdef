@@ -8,6 +8,40 @@
             </Bindings>
          </Site>
          <Site name="WebApi" physicalDirectory="..\..\..\WebApiEmpty">
+            <VirtualApplication name="abmob1" physicalDirectory="..\..\..\abmob1" />
+            <VirtualApplication name="abmobando" physicalDirectory="..\..\..\abmobando" />
+            <VirtualApplication name="abmobdemo1" physicalDirectory="..\..\..\abmobdemo1" />
+            <VirtualApplication name="abmobdemo2" physicalDirectory="..\..\..\abmobdemo2" />
+            <VirtualApplication name="abmobdemo3" physicalDirectory="..\..\..\abmobdemo3" />
+            <VirtualApplication name="abmobdemo4" physicalDirectory="..\..\..\abmobdemo4" />
+            <VirtualApplication name="abmobdemo5" physicalDirectory="..\..\..\abmobdemo5" />
+            <VirtualApplication name="abmobdemo6" physicalDirectory="..\..\..\abmobdemo6" />
+            <VirtualApplication name="abprodsu" physicalDirectory="..\..\..\abprodsu" />
+            <VirtualApplication name="absupde" physicalDirectory="..\..\..\absupde" />
+            <VirtualApplication name="bitdefsp" physicalDirectory="..\..\..\bitdefsp" />
+            <VirtualApplication name="biz" physicalDirectory="..\..\..\biz" />
+            <VirtualApplication name="bolt1" physicalDirectory="..\..\..\bolt1" />
+            <VirtualApplication name="bolt2" physicalDirectory="..\..\..\bolt2" />
+            <VirtualApplication name="caferoma" physicalDirectory="..\..\..\caferoma" />
+            <VirtualApplication name="carr1" physicalDirectory="..\..\..\carr1" />
+            <VirtualApplication name="carr2" physicalDirectory="..\..\..\carr2" />
+            <VirtualApplication name="cat5" physicalDirectory="..\..\..\cat5" />
+            <VirtualApplication name="cat51" physicalDirectory="..\..\..\cat51" />
+            <VirtualApplication name="ccpr" physicalDirectory="..\..\..\ccpr" />
+            <VirtualApplication name="ccto" physicalDirectory="..\..\..\ccto" />
+            <VirtualApplication name="ccwe" physicalDirectory="..\..\..\ccwe" />
+            <VirtualApplication name="esport" physicalDirectory="..\..\..\esport" />
+            <VirtualApplication name="kungsg" physicalDirectory="..\..\..\kungsg" />
+            <VirtualApplication name="supportau" physicalDirectory="..\..\..\supportau" />
+            <VirtualApplication name="supportca" physicalDirectory="..\..\..\supportca" />
+            <VirtualApplication name="supportde" physicalDirectory="..\..\..\supportde" />
+            <VirtualApplication name="supporthu" physicalDirectory="..\..\..\supporthu" />
+            <VirtualApplication name="supportpl" physicalDirectory="..\..\..\supportpl" />
+            <VirtualApplication name="supportro" physicalDirectory="..\..\..\supportro" />
+            <VirtualApplication name="supportrom" physicalDirectory="..\..\..\supportrom" />
+            <VirtualApplication name="supportrop" physicalDirectory="..\..\..\supportrop" />
+            <VirtualApplication name="supportuk" physicalDirectory="..\..\..\supportuk" />
+            <VirtualApplication name="supportus" physicalDirectory="..\..\..\supportus" />
             <VirtualApplication name="txtlab" physicalDirectory="..\..\..\txtlab" />
             <VirtualApplication name="tcoffee" physicalDirectory="..\..\..\tcoffee" />
             <VirtualApplication name="mag1" physicalDirectory="..\..\..\mag1" />
