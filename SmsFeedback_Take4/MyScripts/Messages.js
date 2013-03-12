@@ -660,11 +660,14 @@ function MessagesArea(convView, tagsArea, wpsArea) {
    });
     // close voucher panel on click outside of it area.
    $(":visible").first().bind("click", function (ev, data) {
-       var $target = $(ev.target);
-       if (!($target.is(".buttonWrapper") ||
-           $target.parents(".buttonWrapper").length > 0)) {
-           window.app.vouchersPanel.trigger(
-               window.app.vouchersPanel.vouchersListEvents.EVENT_CLOSE_PANEL);
+       if (window.app.vouchersPanel != null) {
+           var $target = $(ev.target);
+           if (!($target.is(".buttonWrapper") ||
+               $target.parents(".buttonWrapper").length > 0)) {
+
+               window.app.vouchersPanel.trigger(
+                   window.app.vouchersPanel.vouchersListEvents.EVENT_CLOSE_PANEL);
+           }
        }
    });
    // The attachment of the handler for this type of event is done only once
