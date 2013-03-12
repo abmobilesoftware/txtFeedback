@@ -389,6 +389,7 @@
     <Content Include="Content\Minified\messages.css" />
     <Content Include="Content\Minified\nav.css" />
     <Content Include="Content\Minified\phonenumbers.css" />
+    <Content Include="Content\Minified\quickActionBtns.css" />
     <Content Include="Content\Minified\reset.css" />
     <Content Include="Content\Minified\Site.css" />
     <Content Include="Content\Minified\tags.css" />
@@ -447,7 +448,9 @@
     <Content Include="MyScripts\Minified\Facade.js" />
     <Content Include="MyScripts\Minified\Filtering.js" />
     <Content Include="MyScripts\Minified\Messages.js" />
+    <Content Include="MyScripts\Minified\QuickActions.js" />
     <Content Include="MyScripts\Minified\Settings\SettingsFacade.js" />
+    <Content Include="MyScripts\Minified\Transition.js" />
     <Content Include="MyScripts\Minified\Utilities.js" />
     <Content Include="MyScripts\Minified\WorkingPoints.js" />
     <Content Include="MyScripts\Minified\XMPP.js" />
