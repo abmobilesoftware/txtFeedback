@@ -64,7 +64,6 @@ window.app.ConversationsList = Backbone.Collection.extend({
     url: "Conversations/Delete",
     methodUrl: {
         "read": "Conversations/ConversationsList",
-        "create": "Conversations/ConversationsList",
         "delete": "Conversations/Delete"
     },
     sync: function (method, collection, options) {
@@ -72,7 +71,8 @@ window.app.ConversationsList = Backbone.Collection.extend({
             options = options || {};
             options.url = collection.methodUrl[method];
         }
-        Backbone.sync(method, collection, options);
+        var parseMethod = (method === "delete") ? "create" : method;
+        Backbone.sync(parseMethod, collection, options);
     }
 });
 //#endregion
