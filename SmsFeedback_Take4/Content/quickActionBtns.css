@@ -1,17 +1,17 @@
 ﻿#quickActionBtns {
     width: 80%;
-    margin-left:20px;
-    margin-bottom:5px;
-    position:relative;
+    margin-left: 20px;
+    margin-bottom: 5px;
+    position: relative;
 }
 
 .buttonWrapper {
-    display:inline;
+    display: inline;
 }
 
-a.button {    
-    text-decoration: none;    
-    display:inline-block;
+a.button {
+    text-decoration: none;
+    display: inline-block;
 }
 
     a.button:hover {
@@ -19,11 +19,11 @@ a.button {
     }
 
 .buttonContent {
-    height:20px;
+    height: 20px;
     background: #183540;
     border-radius: 5px;
     color: #fff;
-    display:table-cell;
+    display: table-cell;
     font-size: 15px;
     font-weight: 400;
     height: 25px;
@@ -32,7 +32,7 @@ a.button {
 }
 
 .buttonTitle {
-    line-height:21px;
+    line-height: 21px;
 }
 
 #vPanel {
@@ -46,7 +46,7 @@ a.button {
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright: 5px;
     -moz-border-radius-bottomright: 5px;
-    font-size:15px;
+    font-size: 15px;
     width: 269px;
 }
 
@@ -57,7 +57,7 @@ a.button {
 }
 
     #panelTitle span {
-        text-indent:5px;
+        text-indent: 5px;
     }
 
 #panelContent {
@@ -68,21 +68,21 @@ a.button {
 
 .voucherItem {
     padding: 10px 5px;
-    border-bottom:1px dotted #ccc;    
+    border-bottom: 1px dotted #ccc;
 }
 
     .voucherItem:hover {
-        background:#1f6883;
+        background: #1f6883;
         color: #1f6883;
     }
 
     .voucherItem a, a.panelClose {
         color: #d7efff;
         text-decoration: none;
-        font-weight: 400; 
+        font-weight: 400;
         width: 100%;
-        height: 100%;   
-        line-height:18px;    
+        height: 100%;
+        line-height: 18px;
     }
 
         .voucherItem a:hover, a.panelClose:hover {
@@ -90,19 +90,19 @@ a.button {
         }
 
 a.panelClose {
-    position:relative;
-    top:2px;
-    margin-left:10px;
-    float:right;
-    width:20px;
+    position: relative;
+    top: 2px;
+    margin-left: 10px;
+    float: right;
+    width: 20px;
 }
 
 .visible {
-    visibility:visible;
+    visibility: visible;
 }
 
 .hidden {
-    visibility:hidden;
+    visibility: hidden;
 }
 
 .displayNone {
@@ -110,9 +110,31 @@ a.panelClose {
 }
 
 .loader {
-    margin-left:10px;
-    position:relative;
-    top:3px;
+    margin-left: 10px;
+    position: relative;
+    top: 3px;
 }
 
+.voucherAlert {
+    padding: 10px;
+    border-radius: 5px;
+    background: #F67683;
+    color: #ffffff;
+    position:absolute;
+    bottom: 78px;
+    left:139px;
+    z-index:100;
+    display:none;
+}
 
+    .voucherAlert:after {
+        border-color: #F67683 transparent;
+        border-style: solid;
+        border-width: 10px 10px 0 0;
+        bottom: -10px;
+        content: "";
+        display: block;
+        left: 20px;
+        position: absolute;
+        width: 0;
+    }
