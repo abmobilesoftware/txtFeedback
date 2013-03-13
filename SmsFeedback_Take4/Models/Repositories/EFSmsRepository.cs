@@ -274,7 +274,8 @@ namespace SmsFeedback_Take4.Models
 
       internal System.Collections.Generic.IEnumerable<ConvTag> GetSpecialTags(String userId,smsfeedbackEntities dbContext)
       {         
-        logger.Info("Call made");
+        logger.Info("Call made");        
+        System.Diagnostics.Trace.WriteLine("hasta la vista");
         var companies = from user in dbContext.Users where user.UserName == userId select user.Company;
         if (companies.Count() == 1)
         {
