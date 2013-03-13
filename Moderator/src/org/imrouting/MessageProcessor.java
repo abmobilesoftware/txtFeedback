@@ -139,9 +139,9 @@ public class MessageProcessor {
 					processInternalPacket(receivedPacket);
 				}				
 			};
-				worker.schedule(task, CALL_DELAY, TimeUnit.SECONDS);
+				worker.schedule(task, CALL_DELAY, TimeUnit.SECONDS);				
 		} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());			
+			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
 		}
 	}
 	
@@ -184,9 +184,9 @@ public class MessageProcessor {
 						processInternalPacket(receivedPacket);
 					}				
 				};
-			worker.schedule(task, CALL_DELAY, TimeUnit.SECONDS);
+			worker.schedule(task, CALL_DELAY, TimeUnit.SECONDS);			
 		} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());			
+			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
 		}
 		
 	}
