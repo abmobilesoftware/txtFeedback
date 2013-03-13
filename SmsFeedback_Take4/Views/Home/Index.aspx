@@ -190,7 +190,9 @@
 
     <script type="text/template" id="voucher">
         <a href="#">
-            {{ code }} - {{ description }}
+            <div class="voucherItem">
+                {{ code }} - {{ description }}
+            </div>
         </a>
     </script>
     <script type="text/template" id="vouchersPanel">

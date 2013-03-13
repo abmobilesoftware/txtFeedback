@@ -172,7 +172,7 @@ window.app.VouchersList = Backbone.Collection.extend({
 */
 window.app.VoucherView = Backbone.View.extend({
     vouchersListView: {},
-    className: "voucherItem",
+    className: "voucherItemWrapper",
     events: {
         "click a": "selectVoucher"
     },

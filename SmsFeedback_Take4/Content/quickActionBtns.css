@@ -73,10 +73,10 @@ a.button {
 
     .voucherItem:hover {
         background: #1f6883;
-        color: #1f6883;
+        color: #ffffff;
     }
 
-    .voucherItem a, a.panelClose {
+    .voucherItemWrapper a, a.panelClose {
         color: #d7efff;
         text-decoration: none;
         font-weight: 400;
@@ -85,9 +85,7 @@ a.button {
         line-height: 18px;
     }
 
-        .voucherItem a:hover, a.panelClose:hover {
-            color: #fff;
-        }
+        
 
 a.panelClose {
     position: relative;
