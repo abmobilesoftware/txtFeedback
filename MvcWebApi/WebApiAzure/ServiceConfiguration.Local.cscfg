@@ -3,7 +3,7 @@
   <Role name="mobile.TxtFeedback_take1">
     <Instances count="2" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=t3xt;AccountKey=qPj93ukz9TSkb4oY3Q9JeYcbmAyHh0Q8qCF2hYxYeHXQyQY3GBfLJWYnDks5OjS0VFqG2Hic9qS4FiT8Ulmv/Q==" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

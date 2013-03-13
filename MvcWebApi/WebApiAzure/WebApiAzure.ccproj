@@ -43,7 +43,7 @@
       <Private>True</Private>
       <RoleType>Web</RoleType>
       <RoleName>mobile.TxtFeedback_take1</RoleName>
-      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+      <UpdateDiagnosticsConnectionStringOnPublish>False</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
