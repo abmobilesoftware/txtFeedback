@@ -358,7 +358,7 @@ namespace SmsFeedback_Take4.Utilities
             */
            bool differentMsgBody = currentConversation.Text != text;
            bool differentMsgDate = (updateTime.HasValue && updateTime.Value != currentConversation.TimeUpdated);
-           bool newMessage = differentMsgBody && differentMsgDate;
+           bool newMessage = differentMsgBody || differentMsgDate;
 
            if (newMessage)
            {
