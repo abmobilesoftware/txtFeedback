@@ -160,7 +160,11 @@ window.app.Voucher = Backbone.Model.extend({});
 window.app.VouchersList = Backbone.Collection.extend({
     model: window.app.Voucher,
     url: function () {
-        return "http://rest.txtfeedback.net/" + window.app.wpShortId + "/api/vouchers";
+        return "http://rest.txtfeedback.net/" + window.app.wpShortId + "/api/vouchers";        
+    },
+    sync: function (method, model, options) {
+        options.dataType = "jsonp";
+        return Backbone.sync(method, model, options);
     }
 });
 
@@ -236,6 +240,7 @@ window.app.VouchersListView = Backbone.View.extend({
         this.options.voucherBtnView.trigger(
             this.options.voucherBtnView.btnViewEvents.EVENT_SHOW_LOADING_ICON);
         var self = this;
+        
         this.vouchers.fetch({
             success: function (collection, response, options) {
                 if (_.size(collection) > 1) {
@@ -251,7 +256,7 @@ window.app.VouchersListView = Backbone.View.extend({
                 }
             },
             error: function (collection, xhr, options) { }
-        });
+        });       
     },
     render: function () {
         this.template = _.template($(this.ID_PANEL_CONTAINER).html());
