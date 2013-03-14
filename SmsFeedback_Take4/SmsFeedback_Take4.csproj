@@ -283,6 +283,7 @@
     <Content Include="Content\images\arrow_down_16.png" />
     <Content Include="Content\images\arrow_down_dblue_16.png" />
     <Content Include="Content\images\arrow_up_dblue_16.png" />
+    <Content Include="Content\images\check-black.svg" />
     <Content Include="Content\images\check-grey.png" />
     <Content Include="Content\images\check-grey.svg" />
     <Content Include="Content\images\check-white.svg" />
