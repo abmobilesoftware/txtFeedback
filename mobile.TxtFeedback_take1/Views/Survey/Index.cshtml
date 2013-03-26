@@ -1,0 +1,87 @@
+﻿@{
+    Layout = null;
+}
+@using mobile.TxtFeedback_take1.GlobalResources;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="iso-8859-1" />
+    <title>Survey</title>
+    @Styles.Render("~/bundles/survey.css")
+    @Scripts.Render("~/bundles/jquery.js", "~/bundles/survey.js")
+
+    <script id="questionTemplate" type="text/template">
+        <div class="question">
+            <h4 class="questionTitle"> <%= QuestionLabel %> </h4>
+            <div class="answerArea">            
+            <%
+            if (QuestionType == "rating") {
+                
+            } else if (QuestionType == "comment") {
+            %>
+                <textarea class="answer comment"></textarea>
+            <%
+            } else if (QuestionType == "list_single_selection") {
+            %>
+                <select class="answer list" name="answer">
+                        <option value="noValue">Select an answer</option>
+                    <% _.each(Answers, function(value, key, list) { %>
+                        <option value="<%= value.AnswerValue %>"><%= value.AnswerLabel %></option>
+                    <% }); %> 
+                </select>
+            <%
+            }
+            %>
+            </div>
+        </div>
+    </script>
+    <script type="text/template" id="starTemplate">
+        <% if (Active) { %> 
+            <a href="#"><img class="starImg" src="/Content/images/star50.png" /></a>
+            <% } else { %>
+            <a href="#"><img class="starImg" src="/Content/images/star50_inactive.png" /></a>
+            <% } %>
+    </script>
+    <script type="text/template" id="thankYouTemplate">
+        
+    </script>
+</head>
+<body>
+    <section id="survey">
+        <section id="questionsPage" class="page">
+            <header>
+                <img id="pageIcon" src="/Content/images/small-icon.png" />
+                <h3 id="pageTitle"></h3>
+                <div class="clear" />
+            </header>
+            <section id="questions">
+            </section>
+            <div id="doneBtnWrapper">
+                <button id="doneBtn"></button>
+            </div>
+            <footer>
+                <span>Powered by 
+                  <a href="http://www.txtfeedback.net">TxtFeedback
+                  </a>
+                </span>
+            </footer>
+            <input type="hidden" value="@Global.btnDone" id="doneBtnTitle" />
+        </section>
+        <section id="thankYouPage" class="page invisible">
+            <div id="thankYouMessage"><strong>Thank you!</strong></div>
+            <div id="userInfo">
+                <fieldset>
+                    <label for="email">
+                        Enter your e-mail address to receive the voucher:
+                    </label>
+                    <input id="email" type="email" /><br />
+                    <button id="sendBtn" class="enabled small" />Send</button>
+                </fieldset>
+            </div>
+        </section>
+        <div class="clear" />
+    </section>
+</body>
+</html>
