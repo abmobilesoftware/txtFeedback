@@ -8,14 +8,46 @@
     margin-bottom: 9px;
     padding: 3px 0;
 }
-#tagsPoolWrapper {    
-   background-color: #DFE7EA;  
-}
 
-#tagsContainer {
+
+@media only screen 
+and (min-width : 1024px) {
+   #tagsContainer {
     padding-left:20px; 
     padding-right: 108px;
 }
+   #tagsPoolWrapper {    
+   background-color: #DFE7EA;  
+}
+   #tags_tagsinput .tag {
+   color: #3E6D8E;   
+}
+
+#tags_tagsinput {
+   max-height: 22px; /*same size as min-height*/
+   display:  block;
+   overflow: hidden;
+}
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+   #tagsContainer {
+   display:none;
+   visibility:collapse;
+   }
+   #tagsPoolWrapper {    
+    display:none;
+    visibility:collapse;
+}
+ #tags_tagsinput {    
+    display:none;
+    visibility:collapse;
+}
+}
+
  
 #tagFiltering {
 
@@ -61,15 +93,7 @@
    color: white;   
 }
 
-#tags_tagsinput .tag {
-   color: #3E6D8E;   
-}
 
-#tags_tagsinput {
-   max-height: 22px; /*same size as min-height*/
-   display:  block;
-   overflow: hidden;
-}
 
 #filterTag_tagsinput {
    max-height: 22px; /*same size as min-height*/

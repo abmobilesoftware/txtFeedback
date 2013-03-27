@@ -76,7 +76,7 @@
                <img class="isSms" src="<%: Url.Content("~/Content/images/sms.png") %>"/>
              {% } %}
 
-            <div class="leftLiDiv convColumn">
+            <div class="leftLiDiv convColumn noShowOnTablet">
                 {% if (Read) { %}
                         <img src="<%: Url.Content("~/Content/images/check-grey.png") %>" class="images conversationImageRead" height="28" width="40" />
                 {% } else {

@@ -167,7 +167,15 @@ function resizeTriggered() {
    //pick the highest between window size (- header) and messagesArea
    //var padding = 5;
    //var msgAreaMarginTop = 10;
-   var filterStripHeigh = $(".headerArea").outerHeight();
+   if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+      var filterStripHeigh = 0;
+      var magicNumber = 82;
+   }
+   else {
+      filterStripHeigh =  $(".headerArea").outerHeight();
+      magicNumber =133;
+   }
+   
    var window_height = window.innerHeight;
    //var messagesAreaHeight = $('#messagesArea').height();
    var headerHeight = $('header').outerHeight();
@@ -180,18 +188,19 @@ function resizeTriggered() {
    $('#rightColumn').height('auto');
    var rightAreaHeight = $('#rightColumn').outerHeight();
    var contentContainer = $('.container_12');
+   
    //we need to set a fixed height for the conversations area and messages area to ensure that scrolling is enabled
    if (rightAreaCandidateHeight > rightAreaHeight) {
       contentContainer.height(contentWindowHeight);
       $('#rightColumn').height(rightAreaCandidateHeight);
       $('#leftColumn').height(contentWindowHeight - filterStripHeigh);
       $('#scrollableconversations').height(rightAreaCandidateHeight);
-      $('#scrollablemessagebox').height(rightAreaCandidateHeight - 133);
+      $('#scrollablemessagebox').height(rightAreaCandidateHeight - magicNumber);
    } else {      
       contentContainer.height(rightAreaHeight + filterStripHeigh + marginTop + marginBottom);
       $('#leftColumn').height(rightAreaHeight + marginTop + marginBottom);
       $('#scrollableconversations').height(rightAreaHeight);
-      $('#scrollablemessagebox').height(rightAreaHeight - 133);
+      $('#scrollablemessagebox').height(rightAreaHeight - magicNumber);
    } 
    $('.page').height(headerHeight + contentContainer.height());
    $('body').height(headerHeight + contentContainer.height());

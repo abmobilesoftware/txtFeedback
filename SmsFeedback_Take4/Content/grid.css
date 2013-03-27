@@ -118,10 +118,24 @@
 	width: 81.333%;
 }
 
-.container_12 .grid_11
-{
-	/*width: 89.666%;*/
-   width: 84.3%;
+@media only screen 
+and (min-width : 1024px) {
+   .container_12 .grid_11
+   {
+      width: 84.3%;
+   }
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+   .container_12 .grid_11
+   {
+      width: 99%;
+      margin-left: 1.0%;
+      margin-right: 0.5%;
+   }
 }
 
 /* =Grid >> 16 Columns

@@ -8,12 +8,23 @@
 /* =Basic HTML
 --------------------------------------------------------------------------------*/
 
+@media only screen 
+and (min-width : 1024px) {
 body
-{
-	/*font: 13px/1.5 Calibri, Verdana, sans-serif;*/
-   /*font-family:Calibri, Verdana, sans-serif;*/
+{	
    font-family: 'Source Sans Pro', sans-serif;
 }
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+  body {
+  
+   }
+}
+
 
 a:focus
 {
