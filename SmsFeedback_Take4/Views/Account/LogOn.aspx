@@ -21,8 +21,7 @@
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/nav.css") %>" />
    <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Site.css") %>" />
    <% } %>
-
-   <link rel="stylesheet" type="text/css" media="all" href="../../Content/css/metro-ui-light.css" />
+   
    <script src="<%: Url.Content("~/Scripts/jquery-1.6.2.min.js") %>" charset="charset="UTF-8" type="text/javascript"></script>
     <title> <%: Resources.Global.TitleLogOn %></title>
 </head>
