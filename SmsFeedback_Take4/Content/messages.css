@@ -232,7 +232,7 @@ border-color:#92c942 transparent;
 
 #inputTextContainer {
    display: inline-block;
-   background-color: #DFE7EA;
+   background-color: rgba(255, 255, 255, 0.8);
    width: 100%;
    border-radius: 10px;
    -moz-border-radius: 10px;
@@ -286,7 +286,7 @@ input[name="countdown"] {
    /*font-size: 13px;*/
    line-height: 18px;
    border-width: 0px;
-   background-color: transparent;
+   /*background-color: transparent;*/
    white-space: pre-wrap;
    word-wrap: break-word;
    display: inline-block;
@@ -440,4 +440,27 @@ input[name="countdown"] {
 
 .rightColumn form {   
    margin: 0px !important;
+}
+
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+   .container_12 .grid_11
+   {
+      width: 99%;
+      margin-left: 1.0%;
+      margin-right: 0.5%;
+   }
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+   .noShowOnTablet{
+   display:none;
+   visibility:collapse;
+   }
 }

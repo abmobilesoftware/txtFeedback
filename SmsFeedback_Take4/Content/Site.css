@@ -191,13 +191,6 @@ ul#menu li a {
    -moz-border-radius: 3px 3px 0 0;
 }
 
-
-
-ul#menu li a:hover {
-   background-color: #fff;
-   text-decoration: none;
-}
-
 ul#menu li a:active {
    background-color: #a6e2a6;
    text-decoration: none;
@@ -723,15 +716,7 @@ and (min-width : 1024px) {
    margin: 5px 20px 5px 20px;
 }
 
-/* iPads (portrait and landscape) ----------- */
-@media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1024px) {
-   .noShowOnTablet{
-   display:none;
-   visibility:collapse;
-   }
-}
+
 
 input[type=text]:focus, input[type=text]:active, input[type=password]:focus, input[type=password]:active, input[type=email]:focus, input[type=email]:active, input[type=number]:focus, input[type=number]:active, input[type=tel]:focus, input[type=tel]:active, input[type=url]:focus, input[type=url]:active, input[type=search]:focus, input[type=search]:active, textarea:focus, textarea:active, .win-textarea:focus, .win-textarea:active, select:focus, select:active {
 background-color: white;

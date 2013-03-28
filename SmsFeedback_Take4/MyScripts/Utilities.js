@@ -173,7 +173,7 @@ function resizeTriggered() {
    }
    else {
       filterStripHeigh =  $(".headerArea").outerHeight();
-      magicNumber =133;
+      magicNumber =128;
    }
    
    var window_height = window.innerHeight;
