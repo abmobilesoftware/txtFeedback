@@ -131,55 +131,32 @@ div.radioBtnWrapper.active {
     float:left;
 }
 
+/* INFO BOX AREA */
 .boxArea {
-    width: 180px;
-    height: 150px;
+    height: 130px;
     display:inline;
     float:left;
     text-align: center;
     background: #eee;
     margin-right: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 22px;
     border-radius: 10px;
 }
 
-#infoBoxArea {
-    margin: 5px 10px 25px;
-    height:160px;
-    display: inline-table;
-}
-
 .infoTitle {
-    overflow: auto;
-    height: 45%;
-    width: 100%;
+    height: 25%;
     background: #183540;
     color: #fff;
     border-radius: 0 0 10px 10px;
-    overflow: hidden; position: relative;
+    padding: 10px 8px 0;
 }
 
 .infoContent {
-    height: 55%;
-    width: 100%;
+    height: 65%;
     background: #f5f8fa;
     border-radius: 10px 10px 0 0;
     color: #183540;
-    overflow: hidden; position: relative;
-}
-
-.infoTitle[id], .infoContent[id] {display: table; position: static;}
-
-.infoTitleMiddle, .infoContentMiddle {position: absolute; top: 20%; width: 100%;} /* for explorer only*/
-.infoTitleMiddle[id], .infoContentMiddle[id] {display: table-cell; vertical-align: top; width: 100%;}
-
-.infoTitleInner, .infoContentInner {position: relative; top: -35%; padding: 0 5px 0 5px;} /* for explorer only */
-/* optional: #inner[id] {position: static;} */
-
-.boxContent {
-  /*  margin-top: 20px;
-    position:relative;
-    top: 31px; */
+    padding-top:17px;
 }
 
 .boxValue {
@@ -190,12 +167,7 @@ div.radioBtnWrapper.active {
 .boxUnit {
     font-size: 1.6em;
 }
-
-.boxTitle {
-    /* margin-top:10px;
-    position:relative;
-    top: 15px; */
-}
+/* END INFO BOX */
 
 #tableContent {
     width: 69%;
