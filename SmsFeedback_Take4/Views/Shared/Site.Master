@@ -112,9 +112,7 @@
                <li>
                   <%: Html.MenuLink(Resources.Global.tabReports, "Index", "Reports")%></li>
                <li>
-                  <%: Html.MenuLink(Resources.Global.tabSettings, "Index", "Settings")%></li>
-               <li>
-                  <%: Html.MenuLink(Resources.Global.tabHelp, "Index", "Help")%></li>
+                  <%: Html.MenuLink(Resources.Global.tabSettings, "Index", "Settings")%></li>               
             </ul>                
              
          </nav>

@@ -443,6 +443,14 @@ input[name="countdown"] {
 }
 
 
+@media only screen 
+and (min-width : 1024px) {
+   .container_12 .grid_11
+   {
+      width: 84.3%;
+   }
+}
+
 /* iPads (portrait and landscape) ----------- */
 @media only screen 
 and (min-device-width : 768px) 
@@ -459,7 +467,7 @@ and (max-device-width : 1024px) {
 @media only screen 
 and (min-device-width : 768px) 
 and (max-device-width : 1024px) {
-   .noShowOnTablet{
+   #leftColumn {
    display:none;
    visibility:collapse;
    }

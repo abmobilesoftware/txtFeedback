@@ -184,7 +184,7 @@ ul#menu li a {
    font-weight: bold;
    text-decoration: none;
    line-height: 2.8em;
-   background-color: white;         
+   /*background-color: white;*/         
    color: #183540;
    border-radius: 3px 3px 0 0;
    -webkit-border-radius: 3px 3px 0 0;
@@ -691,21 +691,17 @@ and (min-width : 1024px) {
 }
 }
 
-
- 
-
-
 .textarea160 {
    width: 100%;
-   background-color: rgba(255, 255, 255, 0.8);
+   background-color: transparent;
    border-color: rgba(0, 0, 0, 0.27);
    color: #000;
    font-family: 'Source Sans Pro', sans-serif;
 }
-.textarea160::hover {
-   background-color: rgba(255, 255, 255, 0.87);
-   border-color: rgba(0, 0, 0, 0.44);
-   color: #000;
+
+.textarea160:focus, .textarea160:active {
+   background-color:transparent;
+   border-color: rgba(0, 0, 0, 0.27);
 }
 
 .logInTextBox {
@@ -722,4 +718,14 @@ input[type=text]:focus, input[type=text]:active, input[type=password]:focus, inp
 background-color: white;
 border-color: rgba(0, 0, 0, 0.6);
 color: black;
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+   .noShowOnTablet{
+   display:none;
+   visibility:collapse;
+   }
 }
