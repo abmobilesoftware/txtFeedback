@@ -50,10 +50,9 @@
 #titleArea {
     padding: 10px 10px 6px;
     background: #f5f8fa;
-    margin: 8px;
-    border-radius: 10px;
-    -moz-border-radius: 10px;
+    margin: 0 8px;
     color: #183540;
+    border:1px solid #ddd;
 }
 
 .clear {
@@ -63,9 +62,10 @@
 .chartArea, #tableArea {
     padding:10px;
     background: #F5F8FA;
-    border-radius: 10px;
-    margin: 10px;
+    border-radius: 5px;
+    margin: 7px 10px;
     padding: 10px;  
+    border: 1px solid #ddd;
 }
 
 .granularitySelector {
@@ -133,13 +133,13 @@ div.radioBtnWrapper.active {
 
 /* INFO BOX AREA */
 .boxArea {
-    height: 130px;
+    height: 100px;
     display:inline;
     float:left;
     text-align: center;
     background: #eee;
-    margin-right: 8px;
-    margin-bottom: 22px;
+    margin-right: 7px;
+    margin-bottom: 9px;
     border-radius: 10px;
 }
 
@@ -147,16 +147,19 @@ div.radioBtnWrapper.active {
     height: 25%;
     background: #183540;
     color: #fff;
-    border-radius: 0 0 10px 10px;
-    padding: 10px 8px 0;
+    border-radius: 0 0 5px 5px;
+    padding: 7px 8px 0;
 }
 
 .infoContent {
     height: 65%;
     background: #f5f8fa;
-    border-radius: 10px 10px 0 0;
+    border-radius: 5px 5px 0 0;
     color: #183540;
-    padding-top:17px;
+    padding-top:4px;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
 }
 
 .boxValue {
