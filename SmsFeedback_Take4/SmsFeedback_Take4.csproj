@@ -63,6 +63,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ExternalReferences\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="IronRuby">
+      <HintPath>..\packages\IronRuby.1.1.3\lib\IronRuby.dll</HintPath>
+    </Reference>
+    <Reference Include="IronRuby.Libraries">
+      <HintPath>..\packages\IronRuby.1.1.3\lib\IronRuby.Libraries.dll</HintPath>
+    </Reference>
+    <Reference Include="IronRuby.Libraries.Yaml">
+      <HintPath>..\packages\IronRuby.1.1.3\lib\IronRuby.Libraries.Yaml.dll</HintPath>
+    </Reference>
     <Reference Include="JWT">
       <HintPath>..\packages\JWT.1.2\lib\3.5\JWT.dll</HintPath>
     </Reference>
@@ -73,6 +82,15 @@
       <HintPath>References\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Dynamic">
+      <HintPath>..\packages\IronRuby.1.1.3\lib\Microsoft.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting">
+      <HintPath>..\packages\IronRuby.1.1.3\lib\Microsoft.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting.Metadata">
+      <HintPath>..\packages\IronRuby.1.1.3\lib\Microsoft.Scripting.Metadata.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -109,6 +127,18 @@
     </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.103.1\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SassAndCoffee.AspNet">
+      <HintPath>..\packages\SassAndCoffee.AspNet.2.0.2.0\lib\net40\SassAndCoffee.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="SassAndCoffee.Core">
+      <HintPath>..\packages\SassAndCoffee.Core.2.0.2.0\lib\net40-Client\SassAndCoffee.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SassAndCoffee.JavaScript">
+      <HintPath>..\packages\SassAndCoffee.JavaScript.2.0.2.0\lib\net40-Client\SassAndCoffee.JavaScript.dll</HintPath>
+    </Reference>
+    <Reference Include="SassAndCoffee.Ruby">
+      <HintPath>..\packages\SassAndCoffee.Ruby.2.0.2.0\lib\net40-Client\SassAndCoffee.Ruby.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
@@ -263,8 +293,8 @@
   <ItemGroup>
     <Content Include="Content\audio\multimedia_pop_up_alert_tone_2.mp3" />
     <Content Include="Content\audio\multimedia_pop_up_alert_tone_2.wav" />
-    <Content Include="Content\css\areaDefinitions.css" />
-    <Content Include="Content\contact.css" />
+    <None Include="Content\css\areaDefinitions.scss" />
+    <None Include="Content\contact.scss" />
     <Content Include="Content\css\datepicker\datepicker.css" />
     <Content Include="Content\css\datepicker\layout.css" />
     <Content Include="Content\css\help.css" />
@@ -288,7 +318,7 @@
     <Content Include="Content\css\reports.css" />
     <Content Include="Content\css\settings.css" />
     <Content Include="Content\filtersStrip.css" />
-    <Content Include="Content\grid.css" />
+    <None Include="Content\grid.scss" />
     <Content Include="Content\images\06-web-2.png" />
     <Content Include="Content\images\06-web-2_225.png" />
     <Content Include="Content\images\check-grey.png" />
@@ -384,7 +414,7 @@
     <Content Include="Content\images\Uk_flag_16.png" />
     <Content Include="Content\images\Warning_24.png" />
     <Content Include="Content\jquery.tagsinput.css" />
-    <Content Include="Content\layout.css" />
+    <None Include="Content\layout.scss" />
     <Content Include="Content\messages.css" />
     <Content Include="Content\Minified\contact.css" />
     <Content Include="Content\Minified\conversations.css" />
@@ -401,12 +431,12 @@
     <Content Include="Content\Minified\Site.css" />
     <Content Include="Content\Minified\tags.css" />
     <Content Include="Content\Minified\text.css" />
-    <Content Include="Content\nav.css" />
+    <None Include="Content\nav.scss" />
     <Content Include="Content\phonenumbers.css" />
-    <Content Include="Content\reset.css" />
+    <None Include="Content\reset.scss" />
     <Content Include="Content\tags.css" />
     <Content Include="Content\TestLayout.css" />
-    <Content Include="Content\text.css" />
+    <None Include="Content\text.scss" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -556,7 +586,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Content\Site.css" />
+    <None Include="Content\Site.scss" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -605,6 +635,8 @@
       <LastGenOutput>Global.de.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Content Include="MyScripts\common.combine" />
+    <Content Include="MyScripts\common_min.combine" />
     <None Include="Properties\PublishProfiles\cluj.info.pubxml" />
     <Content Include="Scripts\jquery.cookie.js" />
     <None Include="Properties\PublishProfiles\demo_debug.txtfeedback.net.pubxml" />

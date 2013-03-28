@@ -1,0 +1,9 @@
+﻿## testing the combine functionality
+
+~/Scripts/Strophe/strophe.js
+~/MyScripts/Utilities.js
+~/MyScripts/XMPP.js
+~/Scripts/jquery.cookie.js
+~/Scripts/jquery.simplemodal.js
+~/MyScripts/contact.js
+~/MyScripts/Transition.js

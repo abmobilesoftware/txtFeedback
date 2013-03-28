@@ -2,6 +2,7 @@
 /*global Persist */
 /*global document */
 /*global navigator */
+
 window.app = window.app || {};
 function showStatus(message, timeout, additive, isError) {
   
