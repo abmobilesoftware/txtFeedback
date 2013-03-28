@@ -29,21 +29,12 @@
 
    <script src="<%: Url.Content("~/Scripts/persist-min.js") %>" type="application/javascript"></script>
 
-    
-   
-    <% if (Html.IsReleaseBuild())      { %>
-      <%--<script src="<%: Url.Content("~/Scripts/Strophe/Minified/strophe.js") %>" type="application/javascript"></script> 
-      <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Utilities.js") %>" type="application/javascript"></script>
-      <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/XMPP.js") %>" type="application/javascript"></script>      
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.cookie.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.simplemodal.js") %>" type="application/javascript"></script>
-      <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/contact.js") %>" type="application/javascript"></script>  
-      <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Transition.js") %>" type="application/javascript"></script>   --%>
-    <script scr="/MyScripts/common_min.js" type="application/javascript" />
+    <% if (Html.IsReleaseBuild())      { %>      
+       <script src="/MyScripts/common_min.js"></script>
    <% }
       else
       { %>      
-   <script src="/MyScripts/common.js"></script>   
+           <script src="/MyScripts/common.js"></script>   
    <% } %>         
 
    <asp:ContentPlaceHolder ID="IncludesArea" runat="server" />

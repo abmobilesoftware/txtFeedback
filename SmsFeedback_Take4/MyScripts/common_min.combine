@@ -3,7 +3,7 @@
 ~/Scripts/Strophe/strophe.min.js
 ~/MyScripts/Utilities.min.js
 ~/MyScripts/XMPP.min.js
-~/Scripts/jquery.min.cookie.js
-~/Scripts/jquery.min.simplemodal.js
+~/Scripts/jquery.cookie.min.js
+~/Scripts/jquery.simplemodal.min.js
 ~/MyScripts/contact.min.js
 ~/MyScripts/Transition.min.js

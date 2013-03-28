@@ -293,8 +293,12 @@
   <ItemGroup>
     <Content Include="Content\audio\multimedia_pop_up_alert_tone_2.mp3" />
     <Content Include="Content\audio\multimedia_pop_up_alert_tone_2.wav" />
-    <None Include="Content\css\areaDefinitions.scss" />
-    <None Include="Content\contact.scss" />
+    <Content Include="Content\css\areaDefinitions.scss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\contact.scss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\css\datepicker\datepicker.css" />
     <Content Include="Content\css\datepicker\layout.css" />
     <Content Include="Content\css\help.css" />
@@ -317,8 +321,12 @@
     <Content Include="Content\css\Minified\settings.css" />
     <Content Include="Content\css\reports.css" />
     <Content Include="Content\css\settings.css" />
-    <Content Include="Content\filtersStrip.css" />
-    <None Include="Content\grid.scss" />
+    <Content Include="Content\filtersStrip.scss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\grid.scss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\images\06-web-2.png" />
     <Content Include="Content\images\06-web-2_225.png" />
     <Content Include="Content\images\check-grey.png" />
@@ -413,30 +421,31 @@
     <Content Include="Content\images\Uk_flag.png" />
     <Content Include="Content\images\Uk_flag_16.png" />
     <Content Include="Content\images\Warning_24.png" />
-    <Content Include="Content\jquery.tagsinput.css" />
-    <None Include="Content\layout.scss" />
-    <Content Include="Content\messages.css" />
-    <Content Include="Content\Minified\contact.css" />
-    <Content Include="Content\Minified\conversations.css" />
-    <Content Include="Content\Minified\filtersStrip.css" />
-    <Content Include="Content\Minified\grid.css" />
-    <Content Include="Content\Minified\images\thumbs_down_hover_red_24x24.png" />
-    <Content Include="Content\Minified\images\thumbs_up_hover_yellow_24x24.png" />
-    <Content Include="Content\Minified\jquery.tagsinput.css" />
-    <Content Include="Content\Minified\layout.css" />
-    <Content Include="Content\Minified\messages.css" />
-    <Content Include="Content\Minified\nav.css" />
-    <Content Include="Content\Minified\phonenumbers.css" />
-    <Content Include="Content\Minified\reset.css" />
-    <Content Include="Content\Minified\Site.css" />
-    <Content Include="Content\Minified\tags.css" />
-    <Content Include="Content\Minified\text.css" />
-    <None Include="Content\nav.scss" />
-    <Content Include="Content\phonenumbers.css" />
-    <None Include="Content\reset.scss" />
-    <Content Include="Content\tags.css" />
+    <Content Include="Content\jquery.tagsinput.scss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\layout.scss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\messages.scss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\nav.scss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\phonenumbers.scss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\reset.scss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\tags.scss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\TestLayout.css" />
-    <None Include="Content\text.scss" />
+    <Content Include="Content\text.scss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -464,7 +473,9 @@
     <Content Include="Content\themes\base\jquery.ui.slider.css" />
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
-    <Content Include="Content\conversations.css" />
+    <Content Include="Content\conversations.scss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="crossdomain.xml" />
     <Content Include="Diagnostics.wadcfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -481,17 +492,6 @@
     <Content Include="MyScripts\Messages.js" />
     <Content Include="MyScripts\ConversationTags.js" />
     <Content Include="MyScripts\Base\BaseLeftSideMenu.js" />
-    <Content Include="MyScripts\Minified\contact.js" />
-    <Content Include="MyScripts\Minified\Conversations.js" />
-    <Content Include="MyScripts\Minified\ConversationTags.js" />
-    <Content Include="MyScripts\Minified\Facade.js" />
-    <Content Include="MyScripts\Minified\Filtering.js" />
-    <Content Include="MyScripts\Minified\Messages.js" />
-    <Content Include="MyScripts\Minified\Settings\SettingsFacade.js" />
-    <Content Include="MyScripts\Minified\Transition.js" />
-    <Content Include="MyScripts\Minified\Utilities.js" />
-    <Content Include="MyScripts\Minified\WorkingPoints.js" />
-    <Content Include="MyScripts\Minified\XMPP.js" />
     <Content Include="MyScripts\Reports\DateHelper.js" />
     <Content Include="MyScripts\Reports\GlobalVariables.js" />
     <Content Include="MyScripts\Reports\Minified\DateHelper.js" />
@@ -586,7 +586,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <None Include="Content\Site.scss" />
+    <Content Include="Content\Site.scss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -608,11 +610,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Minified\css\" />
-    <Folder Include="Content\Minified\Settings\" />
     <Folder Include="Models\ViewModels\" />
-    <Folder Include="MyScripts\Minified\Base\" />
-    <Folder Include="MyScripts\Minified\css\" />
     <Folder Include="Scripts\datepicker\" />
     <Folder Include="Views\Messages\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
@@ -635,8 +633,18 @@
       <LastGenOutput>Global.de.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Content Include="MyScripts\common.combine" />
-    <Content Include="MyScripts\common_min.combine" />
+    <Content Include="MyScripts\common.combine">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MyScripts\common_min.combine">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MyScripts\conversationsTab.combine">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MyScripts\conversationsTab_min.combine">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\PublishProfiles\cluj.info.pubxml" />
     <Content Include="Scripts\jquery.cookie.js" />
     <None Include="Properties\PublishProfiles\demo_debug.txtfeedback.net.pubxml" />
@@ -792,56 +800,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>if NOT $(ConfigurationName) == Debug (
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\reset.css" -o "$(ProjectDir)Content\Minified\reset.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\text.css" -o "$(ProjectDir)Content\Minified\text.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\grid.css" -o "$(ProjectDir)Content\Minified\grid.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\layout.css" -o "$(ProjectDir)Content\Minified\layout.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\nav.css" -o "$(ProjectDir)Content\Minified\nav.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\Site.css" -o "$(ProjectDir)Content\Minified\Site.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\Site.css" -o "$(ProjectDir)Content\Minified\Site.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\phonenumbers.css" -o "$(ProjectDir)Content\Minified\phonenumbers.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\messages.css" -o "$(ProjectDir)Content\Minified\messages.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\conversations.css" -o "$(ProjectDir)Content\Minified\conversations.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\filtersStrip.css" -o "$(ProjectDir)Content\Minified\filtersStrip.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\tags.css" -o "$(ProjectDir)Content\Minified\tags.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\contact.css" -o "$(ProjectDir)Content\Minified\contact.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\css\settings.css" -o "$(ProjectDir)Content\css\Minified\settings.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\jquery.tagsinput.css" -o "$(ProjectDir)Content\Minified\jquery.tagsinput.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\css\areaDefinitions.css" -o "$(ProjectDir)Content\css\Minified\areaDefinitions.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Content\css\reports.css" -o "$(ProjectDir)Content\css\Minified\reports.css"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Conversations.js" -o "$(ProjectDir)MyScripts\Minified\Conversations.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\contact.js" -o "$(ProjectDir)MyScripts\Minified\contact.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\ConversationTags.js" -o "$(ProjectDir)MyScripts\Minified\ConversationTags.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Facade.js" -o "$(ProjectDir)MyScripts\Minified\Facade.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Filtering.js" -o "$(ProjectDir)MyScripts\Minified\Filtering.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Messages.js" -o "$(ProjectDir)MyScripts\Minified\Messages.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Utilities.js" -o "$(ProjectDir)MyScripts\Minified\Utilities.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Transition.js" -o "$(ProjectDir)MyScripts\Minified\Transition.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\WorkingPoints.js" -o "$(ProjectDir)MyScripts\Minified\WorkingPoints.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\XMPP.js" -o "$(ProjectDir)MyScripts\Minified\XMPP.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Settings\SettingsFacade.js" -o "$(ProjectDir)MyScripts\Settings\Minified\SettingsFacade.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\GlobalVariables.js" -o "$(ProjectDir)MyScripts\Reports\Minified\GlobalVariables.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\FirstArea.js" -o "$(ProjectDir)MyScripts\Reports\Minified\FirstArea.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\SecondArea.js" -o "$(ProjectDir)MyScripts\Reports\Minified\SecondArea.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\ThirdArea.js" -o "$(ProjectDir)MyScripts\Reports\Minified\ThirdArea.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\Reports.js" -o "$(ProjectDir)MyScripts\Reports\Minified\Reports.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\RepFacade.js" -o "$(ProjectDir)MyScripts\Reports\Minified\RepFacade.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\Json2Csv.js" -o "$(ProjectDir)MyScripts\Reports\Minified\Json2Csv.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Reports\DateHelper.js" -o "$(ProjectDir)MyScripts\Reports\Minified\DateHelper.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Base\BaseLeftSideMenu.js" -o "$(ProjectDir)MyScripts\Base\Minified\BaseLeftSideMenu.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\Settings\settings.js" -o "$(ProjectDir)MyScripts\Settings\Minified\settings.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\spin.js" -o "$(ProjectDir)Scripts\Minified\spin.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.cookie.js" -o "$(ProjectDir)Scripts\Minified\jquery.cookie.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.simplemodal.js" -o "$(ProjectDir)Scripts\Minified\jquery.simplemodal.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.tagsinput.js" -o "$(ProjectDir)Scripts\Minified\jquery.tagsinput.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\CollapsibleLists.js" -o "$(ProjectDir)Scripts\Minified\CollapsibleLists.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.ui.datepicker-de.js" -o "$(ProjectDir)Scripts\Minified\jquery.ui.datepicker-de.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.ui.datepicker-ro.js" -o "$(ProjectDir)Scripts\Minified\jquery.ui.datepicker-ro.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\jquery.ui.datepicker-en-GB.js" -o "$(ProjectDir)Scripts\Minified\jquery.ui.datepicker-en-GB.js"
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)Scripts\strophe\strophe.js" -o "$(ProjectDir)Scripts\strophe\Minified\strophe.js"
-echo f | xcopy /f /y "$(ProjectDir)Content\images\thumbs_up_hover_yellow_24x24.png" "$(ProjectDir)Content\Minified\images\thumbs_up_hover_yellow_24x24.png"
-echo f | xcopy /f /y "$(ProjectDir)Content\images\thumbs_down_hover_red_24x24.png" "$(ProjectDir)Content\Minified\images\thumbs_down_hover_red_24x24.png"
-)</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

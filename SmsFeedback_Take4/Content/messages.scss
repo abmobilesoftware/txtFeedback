@@ -1,4 +1,10 @@
-﻿/*Tags*/
+﻿@import "phonenumbers";
+@import "conversations";
+@import "filtersStrip";
+@import "tags";
+@import "jquery.tagsinput";
+
+/*Tags*/
 #messageTagsSeparator {
    height: 1px;
    background: #103749; /* Old browsers */
