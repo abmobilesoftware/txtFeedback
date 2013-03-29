@@ -49,6 +49,8 @@
         <VirtualApplication name="mag2" physicalDirectory="..\..\..\mag2" />
         <VirtualApplication name="eurogsm" physicalDirectory="..\..\..\eurogsm" />
         <VirtualApplication name="bcoffee" physicalDirectory="..\..\..\bcoffee" />
+        <VirtualApplication name="magazin1" physicalDirectory="..\..\..\magazin1" />
+        <VirtualApplication name="magazin2" physicalDirectory="..\..\..\magazin2" />
         <Bindings>
           <Binding name="Endpoint2" endpointName="Endpoint2" />
         </Bindings>

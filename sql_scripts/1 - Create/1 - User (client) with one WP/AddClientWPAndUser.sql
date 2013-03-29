@@ -1,51 +1,51 @@
 SET XACT_ABORT ON
 BEGIN TRAN
-USE txtfeedback_production -- choose db 
+--USE txtfeedback_nexmo -- choose db 
 -- Script for Canada
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = '27877460935';
-DECLARE @WP_ShortID nvarchar(10) = 'bcoffee';
-DECLARE @WP_Name nvarchar(40) = 'Brew coffee';
-DECLARE @Client_Description nvarchar(160) = 'Brew coffee';
-DECLARE @WP_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to Brew coffee. How did you find your Brew experience?';
+DECLARE @Client_TelNumber nvarchar(50) = '2220000191';
+DECLARE @WP_ShortID nvarchar(10) = 'magazin1';
+DECLARE @WP_Name nvarchar(40) = 'Magazin demo 1';
+DECLARE @Client_Description nvarchar(160) = 'Magazin demo 1';
+DECLARE @WP_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Bine aþi venit la Magazin 1. Cu ce vã putem fi de folos?';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'Brew coffee'; -- details in less used section
-DECLARE @C_ContactName nvarchar(50) = 'Mark';
-DECLARE @C_ContactSurname nvarchar(50) = 'Badham';
-DECLARE @C_ContactEmail nvarchar(50) = 'info@c4k-westerncape.co.za';
-DECLARE @C_VATID nvarchar(50) = 'BrewCoffeVATID';
+DECLARE @U_CompanyName nvarchar(50) = 'MediaIQ'; -- details in less used section
+DECLARE @C_ContactName nvarchar(50) = 'Daniel';
+DECLARE @C_ContactSurname nvarchar(50) = 'Enache';
+DECLARE @C_ContactEmail nvarchar(50) = 'daniel@mediaiq.ro';
+DECLARE @C_VATID nvarchar(50) = 'MediaIQVATID';
 DECLARE @C_RegistrationNumber nvarchar(50) = NULL;
 -- SubscriptionDetails
-DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Mark'; 
-DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Badham';
-DECLARE @S_PrimaryContact_Email nvarchar(50) = 'info@c4k-westerncape.co.za';
-DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Mark'; 
-DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Badham';
-DECLARE @S_SecondaryContact_Email nvarchar(50) = 'info@c4k-westerncape.co.za';
+DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Daniel'; 
+DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Enache';
+DECLARE @S_PrimaryContact_Email nvarchar(50) = 'daniel@mediaiq.ro';
+DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Daniel'; 
+DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Enache';
+DECLARE @S_SecondaryContact_Email nvarchar(50) = 'daniel@mediaiq.ro';
 
 
 -- Support working point
 DECLARE @WP_Support_TelNumber nvarchar(50) = '2220000100';
 DECLARE @WP_Support_ShortID nvarchar(10) = 'supportrop';
 DECLARE @WP_Support_Name nvarchar(40) = 'TxtFeedback support';
-DECLARE @WP_Support_Description nvarchar(120)= 'Support for SouthAffrica';
+DECLARE @WP_Support_Description nvarchar(120)= 'Support pentru Romania ';
 DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback. Use this chat to clarify every & any question you might have about TxtFeedback';
+DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Bine aþi venit la TxtFeedback. Folosiþi acest chat pentru a clarifica orice & toate întrebãrile avute';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'mark.badham';
-DECLARE @U_ReqularUserPassword nvarchar(128) = 'XmvfaqU+aRfwesAwc0ALbOmo0k0=';
-DECLARE @U_RegularPasswordSalt nvarchar(128) = '73DvrrHwyrfOJNGEaaZXrQ==';
-DECLARE @U_XmppUser varchar(30) = 'bcoffe1@txtfeedback.net';
-DECLARE @U_XmppPassword varchar(30) = '7<a}B<4Aq';
-DECLARE @U_RegularUserEmail nvarchar(256) = 'info@c4k-westerncape.co.za';
+DECLARE @U_RegularUserName varchar(30) = 'daniel.enache';
+DECLARE @U_ReqularUserPassword nvarchar(128) = 'Xv9B0wixe8VJZBpb5b9m1Qh+cHc=';
+DECLARE @U_RegularPasswordSalt nvarchar(128) = 'wvymA8O5MJCVyzu2v9WGGQ==';
+DECLARE @U_XmppUser varchar(30) = 'magazindemo1@txtfeedback.net';
+DECLARE @U_XmppPassword varchar(30) = 'qB7XWq,_G';
+DECLARE @U_RegularUserEmail nvarchar(256) = 'Daniel@mediaiq.ro';
 -- END Important fields
 
 -- Less used
-DECLARE @WP_Provider nvarchar(50) = 'nexmo';
+DECLARE @WP_Provider nvarchar(50) = 'compatel';
 DECLARE @WP_SmsSent int = 0;
 DECLARE @WP_MaxNrOfSmsToSend int = 200;
 DECLARE @WP_Description_Additional_Text nvarchar(120) = ' WP';
@@ -138,7 +138,7 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@Client_TelNumber, @WP_Description, @WP_Name, 
 		@WP_Provider, @WP_SmsSent, @WP_MaxNrOfSmsToSend, @WP_ShortID, 
 		@WP_XmppSuffix, @WP_WelcomeMessage, @WP_BusyMessage,
-		@WP_OutsideOfficeHoursMessage, @WP_Language_US);
+		@WP_OutsideOfficeHoursMessage, @WP_Language_RO);
 		
 IF (SELECT COUNT(*) FROM [dbo].[WorkingPoints] WHERE [dbo].[WorkingPoints].[TelNumber] = @WP_Support_TelNumber) = 0 
 INSERT INTO WorkingPoints(TelNumber, Description, Name, 
@@ -147,7 +147,7 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@WP_Support_TelNumber, @WP_Support_Description, @WP_Support_Name, 
 		@WP_Support_Provider, @WP_Support_SentSms, @WP_Support_MaxNrOfSms, @WP_Support_ShortID, 
 		@WP_Support_XmppSuffix, @WP_Support_WelcomeMessage, @WP_Support_BusyMessage,
-		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_US);
+		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_RO);
 
 -- Welcome conversation Support - WP. 
 INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
