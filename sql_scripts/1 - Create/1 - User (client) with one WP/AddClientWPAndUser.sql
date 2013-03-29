@@ -4,44 +4,44 @@ USE txtfeedback_production -- choose db
 -- Script for Canada
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = '447937947849';
-DECLARE @WP_ShortID nvarchar(10) = 'altru';
-DECLARE @WP_Name nvarchar(40) = 'Altru drama';
-DECLARE @Client_Description nvarchar(160) = 'Altru drama from Liverpool';
+DECLARE @Client_TelNumber nvarchar(50) = '15878802193';
+DECLARE @WP_ShortID nvarchar(10) = 'rise';
+DECLARE @WP_Name nvarchar(40) = 'Rise espresso';
+DECLARE @Client_Description nvarchar(160) = 'Rise Espresso from Canada';
 DECLARE @WP_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to Altru drama. How did you find the show? ';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to Rise Espresso. What do you think about our coffee? ';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'Altru drama'; -- details in less used section
-DECLARE @C_ContactName nvarchar(50) = 'Kate';
-DECLARE @C_ContactSurname nvarchar(50) = 'Gorst';
-DECLARE @C_ContactEmail nvarchar(50) = 'kate@altru.co.uk';
-DECLARE @C_VATID nvarchar(50) = 'KateGorstVATID';
+DECLARE @U_CompanyName nvarchar(50) = 'Rise Espresso'; -- details in less used section
+DECLARE @C_ContactName nvarchar(50) = 'Jenny';
+DECLARE @C_ContactSurname nvarchar(50) = 'Jorge';
+DECLARE @C_ContactEmail nvarchar(50) = 'jjjennylee00@gmail.com';
+DECLARE @C_VATID nvarchar(50) = 'RiseEspressonVATID';
 DECLARE @C_RegistrationNumber nvarchar(50) = NULL;
 -- SubscriptionDetails
-DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Kate'; 
-DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Gorst';
-DECLARE @S_PrimaryContact_Email nvarchar(50) = 'kate@altru.co.uk';
-DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Kate'; 
-DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Gorst';
-DECLARE @S_SecondaryContact_Email nvarchar(50) = 'kate@altru.co.uk';
+DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Jenny'; 
+DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Jorge';
+DECLARE @S_PrimaryContact_Email nvarchar(50) = 'jjjennylee00@gmail.com';
+DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Jenny'; 
+DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Jorge';
+DECLARE @S_SecondaryContact_Email nvarchar(50) = 'jjjennylee00@gmail.com';
 
 
 -- Support working point
 DECLARE @WP_Support_TelNumber nvarchar(50) = '2220000100';
 DECLARE @WP_Support_ShortID nvarchar(10) = 'supportrop';
 DECLARE @WP_Support_Name nvarchar(40) = 'TxtFeedback support';
-DECLARE @WP_Support_Description nvarchar(120)= 'Support for UK';
+DECLARE @WP_Support_Description nvarchar(120)= 'Support for CA';
 DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
 DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback. Use this chat to clarify every & any question you might have about TxtFeedback';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'kate.gorst';
-DECLARE @U_ReqularUserPassword nvarchar(128) = '/ctF76Us3utaEYQVjSrrcJhqFeo=';
-DECLARE @U_RegularPasswordSalt nvarchar(128) = 'H3UdNba7sNZ7/70d/h2ztg==';
-DECLARE @U_XmppUser varchar(30) = 'altru@txtfeedback.net';
-DECLARE @U_XmppPassword varchar(30) = 'zUe5EPHeL';
-DECLARE @U_RegularUserEmail nvarchar(256) = 'kate@altru.co.uk';
+DECLARE @U_RegularUserName varchar(30) = 'jenny.jorge';
+DECLARE @U_ReqularUserPassword nvarchar(128) = '0uWREPXbi5+EtDE9bqNn9MW2fmU=';
+DECLARE @U_RegularPasswordSalt nvarchar(128) = 'NSJCdZyTxqi8lB9YZ390yw==';
+DECLARE @U_XmppUser varchar(30) = 'rise@txtfeedback.net';
+DECLARE @U_XmppPassword varchar(30) = '164phkbA';
+DECLARE @U_RegularUserEmail nvarchar(256) = 'jjjennylee00@gmail.com';
 -- END Important fields
 
 -- Less used
