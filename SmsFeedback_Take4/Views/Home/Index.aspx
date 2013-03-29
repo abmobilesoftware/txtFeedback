@@ -72,59 +72,59 @@
 		</span>
    </script>
    <script type="text/template" id="conversation-template">
-            {% if (IsSmsBased) { %}
-               <img class="isSms" src="<%: Url.Content("~/Content/images/sms.png") %>"/>
-             {% } %}
+            <div class="conversation {% if (Read) { %} readConversation {% }else{ %} unreadConversation {% } %}
+                        {% if (ClientIsSupportBot) { %} supportConversation {% }else{ %} normalConversation {% } %}">
+                {% if (IsSmsBased) { %}
+                   <img class="isSms" src="<%: Url.Content("~/Content/images/sms.png") %>"/>
+                 {% } %}
 
-            <div class="leftLiDiv convColumn">
-                {% if (Read) { %}
-                        <img src="<%: Url.Content("~/Content/images/check-grey.png") %>" class="images conversationImageRead" height="28" width="40" />
-                {% } else {
-                        var fromTo = getFromToFromConversation(ConvID);
-                        if (comparePhoneNumbers(fromTo[0],From)) {
-                        %}
-                            <img src="<%: Url.Content("~/Content/images/exclamation-blue.png") %>" class="images conversationImageUnread" height="28" width="40" />
-                        {% } else { %}
-                            <img src="<%: Url.Content("~/Content/images/exclamation-green.png") %>" class="images conversationImageUnread" height="28" width="40" />
-                        {% }    
-                }  %}
-            </div>
-            <div class="rightLiDiv convColumn">    
-                   
-               <div class="spanClassFrom rightSideMembers">                    
-                        {% 
-                            var clientDisplayName = cleanupPhoneNumber(ClientDisplayName);                                                                      
-                        %} 
-                        {%
-                             if (ClientIsSupportBot) {             
+                <div class="leftLiDiv convColumn">
+                    {% if (Read) { %}
+                            <img src="<%: Url.Content("~/Content/images/check-grey.png") %>" class="images conversationImageRead" height="28" width="40" />
+                    {% } else {
+                            var fromTo = getFromToFromConversation(ConvID);
+                            if (comparePhoneNumbers(fromTo[0],From)) {
                             %}
-                                <img class="conversationHeaderImg" src="<%: Url.Content("~/Content/images/Help-16.png") %>"/>
+                                <img src="<%: Url.Content("~/Content/images/exclamation-blue.png") %>" class="images conversationImageUnread" height="28" width="40" />
+                            {% } else { %}
+                                <img src="<%: Url.Content("~/Content/images/exclamation-green.png") %>" class="images conversationImageUnread" height="28" width="40" />
+                            {% }    
+                    }  %}
+                </div>
+                <div class="rightLiDiv convColumn">    
+                   
+                   <div class="spanClassFrom rightSideMembers">                    
+                            {% 
+                                var clientDisplayName = cleanupPhoneNumber(ClientDisplayName);                                                                      
+                            %} 
                             {%
-                            }
-                         %}                         
-                        <span class="conversationFrom" title="{{ clientDisplayName }}" >{{ clientDisplayName }} </span> 
-                       <span class='conversationArrows'> >> </span>
-                       <span class="conversationTo">{{ window.app.workingPointsNameDictionary[getFromToFromConversation(ConvID)[1]] }}</span>      
-                </div>
-               <div class='clear'></div>
-                <div class="spanClassText rightSideMembers">
-                    <span>{{ Text }}</span>
-                </div>
-                <% if ((bool)ViewData["messageOrganizer"]) { %>
-                    <div class="deleteConv ignoreElementOnSelection">
-                        <img tooltiptitle="<%: Resources.Global.tooltipDeleteConversation %>" src="<%: Url.Content("~/Content/images/trash.png") %>" class="deleteConvImg" />
+                                 if (ClientIsSupportBot) {             
+                                %}
+                                    <img class="conversationHeaderImg" src="<%: Url.Content("~/Content/images/Help-16.png") %>"/>
+                                {%
+                                }
+                             %}                         
+                            <span class="conversationFrom" title="{{ clientDisplayName }}" >{{ clientDisplayName }} </span> 
+                           <span class='conversationArrows'> >> </span>
+                           <span class="conversationTo">{{ window.app.workingPointsNameDictionary[getFromToFromConversation(ConvID)[1]] }}</span>      
                     </div>
-                <% } %>
+                   <div class='clear'></div>
+                    <div class="spanClassText rightSideMembers">
+                        <span>{{ Text }}</span>
+                    </div>
+                    <% if ((bool)ViewData["messageOrganizer"]) { %>
+                        <div class="deleteConv ignoreElementOnSelection">
+                            <img tooltiptitle="<%: Resources.Global.tooltipDeleteConversation %>" src="<%: Url.Content("~/Content/images/trash.png") %>" class="deleteConvImg" />
+                        </div>
+                    <% } %>
        
-                <div class="conversationStarIcon ignoreElementOnSelection">
-                    {% if (Starred) { %}
-                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected_orange.svg") %>" class="conversationStarIconImg" height="33" width="33"/>
-                    {% } else { %}
-                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star.svg") %>" class="conversationStarIconImg" height="33" width="33"/> 
-                    {% } %}
-                </div>
-            </div>                         
-        <div class="clear"></div>
+                    <div class="favoriteConversation">
+                        <img class="star starred {% if (!Starred) { %} hide {% } %}" title="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected_orange.png") %>" height="32" width="36"/>
+                        <img class="star unstarred {% if (Starred) { %} hide {% } %}" title="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star.png") %>" height="32" width="36"/> 
+                    </div>
+                </div>                         
+                <div class="clear"></div>
+            </div>
    </script>
    <script type="text/template" id="message-template">
       <div class="textMessage">

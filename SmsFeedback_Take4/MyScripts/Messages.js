@@ -385,35 +385,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
    this.convView = convView;
    this.tagsArea = tagsArea;
    this.wpsArea = wpsArea;
-   //set the filter to make only the top div (conversation) selectable
-   // in the absence of the filter option all elements within the conversation are made "selectable"
-   $("#conversations").selectable({
-      filter: ".conversation",
-      selected: function (event, ui) {
-         //prepare to mark the conversation as read in 3 seconds - once the messages have been loaded
-         //for now make sure to other timers are active
-         gSelectedElement = ui.selected;
-         // If the selected conversation is the support conversation than add a special class. Else remove the ui-selectedSupport
-         if ($(gSelectedElement).hasClass("supportConversation")) {
-            if (!$(gSelectedElement).hasClass("ui-selectedSupport")) {
-               $(gSelectedElement).addClass("ui-selectedSupport");
-            }
-         } else {
-            // SEARCH for ui-selectedSupport and remove that class;
-            $(gSelectedElement).parent().children(".ui-selectedSupport").removeClass("ui-selectedSupport");
-         }
-         resetTimer();
-         var convId = ui.selected.getAttribute("conversationid");
-         gSelectedConversationID = convId;
-
-         window.app.selectedConversation = self.convView.convsList.get(convId);
-         $(document).trigger("conversationSelected", {convID:convId});
-         //self.messagesView.getMessages(convId);
-         //self.tagsArea.getTags(convId);
-      },
-      cancel: ".ignoreElementOnSelection"
-   });
-
+   
    $("#replyBtn").click(function () {      
       self.sendMessageTriggered();      
    });
