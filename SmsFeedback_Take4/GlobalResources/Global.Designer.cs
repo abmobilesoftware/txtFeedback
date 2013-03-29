@@ -574,11 +574,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to days.
+        /// </summary>
+        public static string RepDaysUnit {
+            get {
+                return ResourceManager.GetString("RepDaysUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export to CSV.
         /// </summary>
         public static string RepExportToExcel {
             get {
                 return ResourceManager.GetString("RepExportToExcel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to hours.
+        /// </summary>
+        public static string RepHoursUnit {
+            get {
+                return ResourceManager.GetString("RepHoursUnit", resourceCulture);
             }
         }
         

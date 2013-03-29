@@ -89,14 +89,17 @@ namespace SmsFeedback_Take4.Controllers
                 RepInfoBox ibTotalNoOfSms = new RepInfoBox(totalNoOfMsgs, Resources.Global.RepSmsUnit);
                 RepInfoBox ibAvgNoOfSmsPerDay = (interval.TotalDays == 0) ? new RepInfoBox(totalNoOfMsgs, Resources.Global.RepSmsPerDayUnit) :
                     new RepInfoBox(Math.Round(totalNoOfMsgs / interval.TotalDays, 2), Resources.Global.RepSmsPerDayUnit);
-                RepInfoBox ibTotalNoOfClients = new RepInfoBox(noOfClients, Resources.Global.RepClients);
+                RepInfoBox ibTotalNoOfClients = new RepInfoBox(noOfClients, Resources.Global.RepClientsUnit);
                 RepInfoBox ibAvgNoOfSmsPerClient = (noOfClients == 0) ?
                     new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
                     new RepInfoBox(Math.Round((double)totalNoOfMsgs / noOfClients, 2), Resources.Global.RepSmsPerClient);
-                RepInfoBox ibAvgResponseTime = (avgResponseTime.TotalMinutes < 1) ?
+                RepInfoBox ibAvgResponseTime = (avgResponseTime.TotalMinutes < 2) ?
                     new RepInfoBox(Math.Round(avgResponseTime.TotalSeconds, 2), Resources.Global.RepSecondsUnit)
-                    : new RepInfoBox(Math.Round(avgResponseTime.TotalMinutes, 2), Resources.Global.RepMinutesUnit);
+                    : (avgResponseTime.TotalMinutes < 120) ? new RepInfoBox(Math.Round(avgResponseTime.TotalMinutes, 2), Resources.Global.RepMinutesUnit)
+                    : (avgResponseTime.TotalHours < 48) ? new RepInfoBox(Math.Round(avgResponseTime.TotalHours, 2), Resources.Global.RepHoursUnit)
+                    : new RepInfoBox(Math.Round(avgResponseTime.TotalDays, 2), Resources.Global.RepDaysUnit);
 
+                    new RepInfoBox(Math.Round(avgResponseTime.TotalHours, 2), Resources.Global.RepMinutesUnit);
                 var repData = new ReportData(new List<RepChartData>() { chartContentWrapper },
                     new List<RepInfoBox>() { ibTotalNoOfSms, ibAvgNoOfSmsPerDay,
                         ibTotalNoOfClients, ibAvgNoOfSmsPerClient, ibAvgResponseTime });
@@ -226,7 +229,7 @@ namespace SmsFeedback_Take4.Controllers
                 RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepIncomingSmsChart), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepOutgoingSmsChart) }, PrepareJson(content, Resources.Global.RepSmsUnit));
                 RepInfoBox ibNoOfIncomingMsgs = new RepInfoBox(noOfIncomingMsgs, Resources.Global.RepSmsUnit); // TODO: Refactor name of static variable RepSmsUnit 
                 RepInfoBox ibNoOfOutgoingMsgs = new RepInfoBox(noOfOutgoingMsgs, Resources.Global.RepSmsUnit);
-                RepInfoBox ibTotalNoOfClients = new RepInfoBox(noOfClients, Resources.Global.RepClients);
+                RepInfoBox ibTotalNoOfClients = new RepInfoBox(noOfClients, Resources.Global.RepClientsUnit);
                 RepInfoBox ibAvgNoOfIncomingMsgsPerClient = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient) :
                     new RepInfoBox(Math.Round((double)noOfIncomingMsgs / noOfClients, 2), Resources.Global.RepSmsPerClient);
                 RepInfoBox ibAvgNoOfOutgoingSmsPerClient = (noOfClients == 0) ? new RepInfoBox(0, Resources.Global.RepSmsPerClient)
@@ -1558,7 +1561,7 @@ namespace SmsFeedback_Take4.Controllers
                 RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNewClientsChart), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepReturningClientsChart) }, PrepareJson(content, Resources.Global.RepClientsUnit));
                 RepInfoBox IbTotalNoOfClients = new RepInfoBox(noOfNewClients + noOfReturningClients, Resources.Global.RepClientsUnit);
                 RepInfoBox IbNoOfNewClients = new RepInfoBox(noOfNewClients, Resources.Global.RepClientsUnit);
-                RepInfoBox IbNoOfReturningClients = new RepInfoBox(noOfReturningClients, Resources.Global.RepClients);
+                RepInfoBox IbNoOfReturningClients = new RepInfoBox(noOfReturningClients, Resources.Global.RepClientsUnit);
                 LinkedList<RepInfoBox> repInfoBoxArray = new LinkedList<RepInfoBox>();
                 var repData = new ReportData(new List<RepChartData>() { chartSource },
                         new List<RepInfoBox>() { IbTotalNoOfClients, IbNoOfNewClients, IbNoOfReturningClients });

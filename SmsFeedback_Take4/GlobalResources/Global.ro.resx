@@ -817,4 +817,12 @@
   <data name="gotANewMessage" xml:space="preserve">
     <value>Mesaj nou!</value>
   </data>
+  <data name="RepDaysUnit" xml:space="preserve">
+    <value>zile</value>
+    <comment>Reports: units</comment>
+  </data>
+  <data name="RepHoursUnit" xml:space="preserve">
+    <value>ore</value>
+    <comment>Reports: units</comment>
+  </data>
 </root>

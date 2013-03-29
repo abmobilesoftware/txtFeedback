@@ -922,4 +922,12 @@
     <value>New message!</value>
     <comment>Global</comment>
   </data>
+  <data name="RepDaysUnit" xml:space="preserve">
+    <value>days</value>
+    <comment>Reports: units</comment>
+  </data>
+  <data name="RepHoursUnit" xml:space="preserve">
+    <value>hours</value>
+    <comment>Reports: units</comment>
+  </data>
 </root>
