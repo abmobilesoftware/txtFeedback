@@ -238,12 +238,15 @@ $(function () {
         },
         conversationClicked: function (event) {
             event.preventDefault();
-            this.model.set("RequestSelect", true);
-            gSelectedElement = this.$el;
-            resetTimer();
-            gSelectedConversationID = this.model.get("ConvID");
-            window.app.selectedConversation = this.model;
-            $(document).trigger("conversationSelected", { convID: gSelectedConversationID });
+            // click on the conversation but outside the star icon
+            if (!$(event.target).hasClass("star")) {
+                this.model.set("RequestSelect", true);
+                gSelectedElement = this.$el;
+                resetTimer();
+                gSelectedConversationID = this.model.get("ConvID");
+                window.app.selectedConversation = this.model;
+                $(document).trigger("conversationSelected", { convID: gSelectedConversationID });
+            }
         },
         updateSelectedState: function () {
             if (this.model.get("RequestSelect")) {
