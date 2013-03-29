@@ -4,58 +4,19 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
    <%: Resources.Global.messagesPageTitle %>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="IncludesArea" runat="server">
-   <% if (Html.IsReleaseBuild())      { %>
-  <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/phonenumbers.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/messages.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/conversations.css") %>" />   
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/filtersStrip.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/tags.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/jquery.tagsinput.css") %>" />
+<asp:Content ID="Content2" ContentPlaceHolderID="IncludesCssArea" runat="server">
+   <%: Styles.Render("~/Content/homeCss") %>      
+</asp:Content>
+<asp:Content ID="Content15" ContentPlaceHolderID="IncludesJsArea" runat="server">   
+   <%:Scripts.Render("~/bundles/homejs")%> 
+   <script type="text/javascript">
+      $(function () {
+         var newGUI = new InitializeGUI();
+      });
+   </script>
+</asp:Content>
 
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/spin.js") %>" type="application/javascript" ></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.tagsinput.js") %>" type="application/javascript"></script>
 
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-de.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-ro.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-en-GB.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-es.js") %>" type="application/javascript"></script>
-
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/WorkingPoints.js") %>" type="application/javascript"></script>   
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Messages.js") %>" type="application/javascript"></script>
-   
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Conversations.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Filtering.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/ConversationTags.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Facade.js") %>" type="application/javascript"></script>
-
-   <% } else { %>
-
-    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/phonenumbers.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/messages.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/conversations.css") %>" />   
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/filtersStrip.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/tags.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/jquery.tagsinput.css") %>" />    
-   
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="application/javascript" ></script>
-     
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.tagsinput.js") %>" type="application/javascript"></script>
-   
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-de.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-ro.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-en-GB.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-es.js") %>" type="application/javascript"></script>
-
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/WorkingPoints.js") %>" type="application/javascript"></script>   
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Messages.js") %>" type="application/javascript"></script>
-   
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Conversations.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Filtering.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/ConversationTags.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Facade.js")%>" type="application/javascript"></script>         
-   <% } %>
- </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="TemplatesArea" runat="server">
    <script type="text/template" id="tag-template">       
 		<span class="tag"  >
@@ -73,7 +34,7 @@
    </script>
    <script type="text/template" id="conversation-template">
             {% if (IsSmsBased) { %}
-               <img class="isSms" src="<%: Url.Content("~/Content/images/sms.png") %>"/>
+               <img class="isSms" src="<%: Url.Content("~/Content/images/sms_white.png") %>"/>
              {% } %}
 
             <div class="leftLiDiv convColumn noShowOnTablet">
@@ -112,7 +73,7 @@
                 </div>
                 <% if ((bool)ViewData["messageOrganizer"]) { %>
                     <div class="deleteConv ignoreElementOnSelection">
-                        <img tooltiptitle="<%: Resources.Global.tooltipDeleteConversation %>" src="<%: Url.Content("~/Content/images/trash.png") %>" class="deleteConvImg" />
+                        <img tooltiptitle="<%: Resources.Global.tooltipDeleteConversation %>" src="<%: Url.Content("~/Content/images/trash_white.png") %>" class="deleteConvImg" />
                     </div>
                 <% } %>
        
@@ -224,11 +185,7 @@
 </asp:Content>
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server" ContentType="text/xml">      
-   <script type="text/javascript">
-      $(function () {
-         var newGUI = new InitializeGUI();
-      });
-   </script>
+   
     
    <div id="conversationsArea" class="grid_convs">
       <div id="scrollableconversations" class="conversationbox scrollablebox">
