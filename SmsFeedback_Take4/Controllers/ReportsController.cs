@@ -70,7 +70,7 @@ namespace SmsFeedback_Take4.Controllers
                 foreach (var msg in msgs)
                 {
                     ++totalNoOfMsgs;
-                    if (msg.ResponseTime.HasValue)
+                    if (!msg.Conversation.Client.isSupportClient && msg.ResponseTime.HasValue)
                     {
                         totalResponseTime += msg.ResponseTime.Value;
                         ++counter;
