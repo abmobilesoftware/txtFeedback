@@ -8,7 +8,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <LastUsedBuildConfiguration>Debug</LastUsedBuildConfiguration>
     <LastUsedPlatform>Any CPU</LastUsedPlatform>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAALiIHPXM1H0mZ3D8ziRIVKAAAAAACAAAAAAAQZgAAAAEAACAAAABcJMbi8+vm2Hm4k6KhszpKXTU3jR1LUNCDQ4WeCGOxhQAAAAAOgAAAAAIAACAAAADf3AgX8RgWhrWc8U020oSg2oTeMmQro6DsC635AytaQiAAAABw0nkPA8Wjc88QbpUcsY5O8CMByQfADZpGbgOo+MBKC0AAAACGOHeVIeig3ZKQbUxai3Uhz7hm573c/XISlUuhLMeqX9QkGGv7TqnWO9LHXFVu2QTi+gpvygPmIOvlsPJzFNb2</EncryptedPassword>
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAeBj7K9kzkkiuif/4p3cm/AAAAAACAAAAAAAQZgAAAAEAACAAAACv0c4PETKoCHOf+4wkHHwikCa718o3s61oQoOJxNwjdQAAAAAOgAAAAAIAACAAAACGd2zeWSXONzwRiZ/DwDErCViq58/m0CfqsGMUb/ys4CAAAACr51NFrbaM7xaNXovYDqoasH62gMdOarTpIChFyKtZZ0AAAADlen8gtiaq3qj5tpV03eHTbjdc/GowepZv6wWSfDORy4bfpgbL4rw0TVM6YmLUEUpwIcuxhAwp/hglBlrvl/Bl</EncryptedPassword>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -17,11 +17,8 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/EntityFramework.dll">
       <publishTime>11/07/2012 10:21:01</publishTime>
     </File>
-    <File Include="bin/Mag1.dll">
-      <publishTime>11/15/2012 14:29:23</publishTime>
-    </File>
-    <File Include="bin/Mag1.pdb">
-      <publishTime>11/15/2012 14:29:23</publishTime>
+    <File Include="bin/Microsoft.QualityTools.Testing.Fakes.dll">
+      <publishTime>05/21/2012 21:46:04</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>11/07/2012 10:21:05</publishTime>
@@ -62,23 +59,29 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/System.Web.WebPages.Razor.dll">
       <publishTime>11/07/2012 10:21:05</publishTime>
     </File>
+    <File Include="bin/TxtFeedback REST services1.dll">
+      <publishTime>03/08/2013 20:23:23</publishTime>
+    </File>
+    <File Include="bin/TxtFeedback REST services1.pdb">
+      <publishTime>03/08/2013 20:23:23</publishTime>
+    </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>11/07/2012 10:21:06</publishTime>
     </File>
     <File Include="favicon.ico">
-      <publishTime>11/15/2012 14:00:40</publishTime>
+      <publishTime>03/08/2013 20:16:35</publishTime>
     </File>
     <File Include="Global.asax">
-      <publishTime>11/15/2012 14:00:40</publishTime>
+      <publishTime>03/08/2013 20:16:35</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>11/15/2012 14:00:40</publishTime>
+      <publishTime>03/08/2013 20:16:35</publishTime>
     </File>
     <File Include="Views/Web.config">
-      <publishTime>11/15/2012 14:00:40</publishTime>
+      <publishTime>03/08/2013 20:16:35</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/15/2012 14:29:24</publishTime>
+      <publishTime>03/08/2013 20:23:25</publishTime>
     </File>
   </ItemGroup>
 </Project>

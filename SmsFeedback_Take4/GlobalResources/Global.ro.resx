@@ -817,4 +817,28 @@
   <data name="gotANewMessage" xml:space="preserve">
     <value>Mesaj nou!</value>
   </data>
+  <data name="RepDaysUnit" xml:space="preserve">
+    <value>zile</value>
+    <comment>Reports: units</comment>
+  </data>
+  <data name="RepHoursUnit" xml:space="preserve">
+    <value>ore</value>
+    <comment>Reports: units</comment>
+  </data>
+  <data name="btnGiveVoucher" xml:space="preserve">
+    <value>Oferă cupon</value>
+  </data>
+  <data name="messageChooseVoucher" xml:space="preserve">
+    <value>Sunteți sigur că vreți să acordați cuponul</value>
+  </data>
+  <data name="messageListOfVouchers" xml:space="preserve">
+    <value>Alegeți un cupon din listă</value>
+  </data>
+  <data name="messageNoVouchers" xml:space="preserve">
+    <value>Nu mai sunt cupoane</value>
+  </data>
+  <data name="messageVoucherNotInserted" xml:space="preserve">
+    <value>Codul cuponului nu a fost inserat in mesaj deoarece mesajul este aproape de limita maxima de caractere.</value>
+    <comment>Mesaje:acest mesaj de alerta apare atunci cand codul cuponului nu poate fi inserat in corpul mesajului.</comment>
+  </data>
 </root>

@@ -60,18 +60,24 @@ namespace SmsFeedback_Take4.Controllers
           if (conversationId == null)
           {
              logger.Error("no conversationId passed");
-             return Json(new Error(Constants.NO_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
+             return Json(new Error(Constants.NO_CONVID_ERROR_MESSAGE), 
+                 JsonRequestBehavior.AllowGet);
           }
 
           if (conversationId.Equals(Constants.NULL_STRING))
           {
              logger.Error("conversationId was null");
-             return Json(new Error(Constants.NULL_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
+             return Json(new Error(Constants.NULL_CONVID_ERROR_MESSAGE), 
+                 JsonRequestBehavior.AllowGet);
           }
           if (newStarredStatus.HasValue)
           {
-             logger.InfoFormat("Changing starred status for conversation [{0}] to {1}", conversationId, ((bool)newStarredStatus ? "True" : "False"));
-             var conv = mEFInterface.UpdateStarredStatusForConversation(conversationId, newStarredStatus.Value, context);
+             logger.InfoFormat("Changing starred status for conversation [{0}] to {1}", 
+                 conversationId, ((bool)newStarredStatus ? "True" : "False"));
+             var conv = mEFInterface.UpdateStarredStatusForConversation(
+                 conversationId, 
+                 newStarredStatus.Value, 
+                 context);
              if (conv != null)
              {
                 return Json("Update successful", JsonRequestBehavior.AllowGet);
@@ -79,7 +85,7 @@ namespace SmsFeedback_Take4.Controllers
              else
              {
                 //most likely the convId was invalid
-                return null;
+                 return Json("Update failed", JsonRequestBehavior.AllowGet);
              }
           }
           else

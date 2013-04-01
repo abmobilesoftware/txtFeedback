@@ -65,13 +65,6 @@ function stopUpdatingPageTitle() {
     window.app.pageBlinkIntervalId = null;
 }
 
-
-function stopUpdatingPageTitle() {
-    clearInterval(window.app.pageBlinkIntervalId);
-    document.title = window.app.pageTitle;
-    document.onmousemove = null;
-    window.app.pageBlinkIntervalId = null;
-}
 //#endregion
 
 // TODO: Check if Message model from Messages.js can be used 
