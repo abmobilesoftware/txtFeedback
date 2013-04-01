@@ -371,39 +371,12 @@ function MessagesArea(convView, tagsArea, wpsArea) {
 
    var replyButton = $("#replyBtn");
    $.extend(this, window.app.defaultMessagesOptions);
-
+   
    this.convView = convView;
    this.tagsArea = tagsArea;
    this.wpsArea = wpsArea;
-   //set the filter to make only the top div (conversation) selectable
-   // in the absence of the filter option all elements within the conversation are made "selectable"
-   $("#conversations").selectable({
-      filter: ".conversation",
-      selected: function (event, ui) {
-         //prepare to mark the conversation as read in 3 seconds - once the messages have been loaded
-         //for now make sure to other timers are active
-         gSelectedElement = ui.selected;
-         // If the selected conversation is the support conversation than add a special class. Else remove the ui-selectedSupport
-         if ($(gSelectedElement).hasClass("supportConversation")) {
-            if (!$(gSelectedElement).hasClass("ui-selectedSupport")) {
-               $(gSelectedElement).addClass("ui-selectedSupport");
-            }
-         } else {
-            // SEARCH for ui-selectedSupport and remove that class;
-            $(gSelectedElement).parent().children(".ui-selectedSupport").removeClass("ui-selectedSupport");
-         }
-         resetTimer();
-         var convId = ui.selected.getAttribute("conversationid");
-         gSelectedConversationID = convId;
-
-         window.app.selectedConversation = self.convView.convsList.get(convId);
-         $(document).trigger("conversationSelected", {convID:convId});
-         //self.messagesView.getMessages(convId);
-         //self.tagsArea.getTags(convId);
-      },
-      cancel: ".ignoreElementOnSelection"
-   });
-
+   
+   
    $("#replyBtn").click(function () {      
       self.sendMessageTriggered();      
    });
@@ -498,6 +471,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             "deleteMsgsOfAConv");// to solve the this issue
          this.messages = new window.app.MessagesList();
          this.messages.bind("reset", this.render);
+         this.quickActionBtns = new window.app.ButtonsBarView({ el: $("#quickActionBtns") });
       },
       resetViewToDefault: function () {
          var noConversationLoadedMessage = $("#noConversationSelectedMessage").val();
@@ -505,12 +479,16 @@ function MessagesArea(convView, tagsArea, wpsArea) {
          $("#textareaContainer").addClass("invisible");
          $("#tagsContainer").addClass("invisible");
          self.currentConversationId = '';
+         this.quickActionBtns.setVisible(false);
       },
       getMessages: function (conversationId) {
-         $("#messagesbox").html('');
+          $("#messagesbox").html('');
+          if (window.app.vouchersPanel != null) {
+              window.app.vouchersPanel.trigger(
+                  window.app.vouchersPanel.vouchersListEvents.EVENT_CLOSE_PANEL);
+          }
          var target = document.getElementById('scrollablemessagebox');
-         spinner.spin(target);
-
+         spinner.spin(target);         
          self.currentConversationId = conversationId;
          if (self.currentConversationId in window.app.globalMessagesRep) {
             //we have already loaded this conversation so display the cached messages 
@@ -559,6 +537,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             //don't scroll to bottom as we will do it when loading is done
             selfMessageView.appendMessageToDiv(msg, performFadeIn, false);
          });
+         this.quickActionBtns.setVisible(true);
          spinner.stop();
          //scroll to bottom
          //var messagesEl = $("#scrollablemessagebox");
@@ -622,11 +601,36 @@ function MessagesArea(convView, tagsArea, wpsArea) {
    });
    this.messagesView = new MessagesView();
 
+   $(document).bind("giveVoucher", function (ev, data) {
+       var replyAreaContent = $("#limitedtextarea").val();
+       if (replyAreaContent.length + data.voucherCode.length <= 159) {
+           $("#limitedtextarea").attr("value", replyAreaContent + " " + data.voucherCode);
+           $("input[name~='countdown']").val(160 - $("#limitedtextarea").val().length);
+       } else {
+           $(".voucherAlert").show("slow");
+           var t = setTimeout(function () {
+               $(".voucherAlert").hide("slow");
+           },5000);
+       }
+   });
+
    $(document).bind('conversationSelected', function (ev, data) {
       self.messagesView.getMessages(data.convID);
    });
    $(document).bind('deleteMessagesOfAConversation', function (ev, data) {
        self.messagesView.deleteMsgsOfAConv(data.convId);
+   });
+    // close voucher panel on click outside of it area.
+   $(":visible").first().bind("click", function (ev, data) {
+       if (window.app.vouchersPanel != null) {
+           var $target = $(ev.target);
+           if (!($target.is(".buttonWrapper") ||
+               $target.parents(".buttonWrapper").length > 0)) {
+
+               window.app.vouchersPanel.trigger(
+                   window.app.vouchersPanel.vouchersListEvents.EVENT_CLOSE_PANEL);
+           }
+       }
    });
    // The attachment of the handler for this type of event is done only once
 }

@@ -298,6 +298,11 @@
     <Content Include="Content\grid.css" />
     <Content Include="Content\images\06-web-2.png" />
     <Content Include="Content\images\06-web-2_225.png" />
+    <Content Include="Content\images\ajax-loader.gif" />
+    <Content Include="Content\images\arrow_down_16.png" />
+    <Content Include="Content\images\arrow_down_dblue_16.png" />
+    <Content Include="Content\images\arrow_up_dblue_16.png" />
+    <Content Include="Content\images\check-black.svg" />
     <Content Include="Content\images\check-grey.png" />
     <Content Include="Content\images\check-grey.svg" />
     <Content Include="Content\images\check-white.svg" />
@@ -396,8 +401,10 @@
     <Content Include="Content\jquery.tagsinput.css" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\messages.css" />
+    <Content Include="Content\Minified\quickActionBtns.css" />
     <Content Include="Content\nav.css" />
     <Content Include="Content\phonenumbers.css" />
+    <Content Include="Content\quickActionBtns.css" />
     <Content Include="Content\reset.css" />
     <Content Include="Content\tags.css" />
     <Content Include="Content\TestLayout.css" />
@@ -445,6 +452,9 @@
     <Content Include="MyScripts\Messages.js" />
     <Content Include="MyScripts\ConversationTags.js" />
     <Content Include="MyScripts\Base\BaseLeftSideMenu.js" />
+    <Content Include="MyScripts\Minified\QuickActions.js" />
+    <Content Include="MyScripts\Minified\Transition.js" />
+    <Content Include="MyScripts\QuickActions.js" />
     <Content Include="MyScripts\Reports\DateHelper.js" />
     <Content Include="MyScripts\Reports\GlobalVariables.js" />
     <Content Include="MyScripts\Reports\Json2Csv.js" />
@@ -717,5 +727,6 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
+java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\QuickActions.js" -o "$(ProjectDir)MyScripts\Minified\QuickActions.js"
   </PropertyGroup>
 </Project>

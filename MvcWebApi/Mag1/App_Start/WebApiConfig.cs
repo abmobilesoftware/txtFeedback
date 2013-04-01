@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace Mag1
+namespace mag1
 {
     public static class WebApiConfig
     {

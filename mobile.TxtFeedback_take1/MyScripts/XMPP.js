@@ -37,6 +37,12 @@ window.app.xmppHandlerInstance = {};
 window.app.separatorForUnsentMessages = "@@";
 window.app.unsentMsgQueue = [];
 window.app.XMPPConnecting = false;
+/* 
+Holds the history messages that will be highlighted. If the 
+history is not loaded then the messages are added in
+the queue to be highlighted when the queue is ready.
+*/
+window.app.highlightMessageQueue = [];
 //#endregion
 
 //#region Global variables
@@ -72,6 +78,21 @@ function MessageUnsent(body, xmppTo, msgID, convID) {
     this.xmppTo = xmppTo;
     this.msgID = msgID;
     this.convID = convID;
+}
+
+function StringToXMLObject(xmlString) {
+    var xmlDoc;
+    if (window.DOMParser) {
+        parser = new DOMParser();
+        xmlDoc = parser.parseFromString(xmlString, "text/xml");
+    }
+    else // Internet Explorer
+    {
+        xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+        xmlDoc.async = false;
+        xmlDoc.loadXML(xmlString);
+    }
+    return xmlDoc;
 }
 //#endregion
 
@@ -406,8 +427,30 @@ window.app.XMPPhandler = function XMPPhandler() {
             else if ($(message).children("received").attr("xmlns") === "urn:xmpp:carbons:1") {
             }
             else {
-               var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
-               window.app.handleIncommingMessage(incommingMsg, true);
+                /*
+                    User is in web app and receives the message, in this case 
+                    the message is displayed and a received acknowledge is sent.
+                    The second scenario, the user is disconnected, in this case the
+                    message is not displayed because it already appears in history
+                    and a received acknowledge is sent.
+                */
+                if ($(message).children("delay").length == 0) {
+                    var incommingMsg = Strophe.getText(message.getElementsByTagName('body')[0]);
+                    window.app.handleIncommingMessage(incommingMsg, true);
+                } else {
+                    var body = StringToXMLObject($(message).children("body").text());
+                    if (window.app.historyLoaded) {
+                        $(document).trigger("highlightMessage", {
+                            msgId: $(message).attr("id").split("##")[1],
+                            convId: $(body).children("msg").children("convID").text()
+                        });
+                    } else {
+                        window.app.highlightMessageQueue.push({
+                            msgId: $(message).attr("id").split("##")[1],
+                            convId: $(body).children("msg").children("convID").text()
+                        });
+                    }
+                }
                var fromAddr = $(message).attr("from");
                self.sendAckMessage($(message).attr("from"),
                                     $(message).attr("id"),
@@ -451,6 +494,7 @@ window.app.loadLoginDetails = function () {
         var defaultConversationID = buildConversationID(user, window.app.messageModeratorAddress);
         window.app.initializeBasedOnConnectionDetails(user, password, defaultConversationID);
         window.app.logOnXmppNetwork(false);
+        $(document).trigger("getHistory", { xmppUser: user });
     }
     else {
         //console.log("new user");

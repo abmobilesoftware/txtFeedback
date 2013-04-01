@@ -1,118 +1,122 @@
 ﻿/*Tags*/
 
 #messagesbox {
-   min-height: 200px;
-   display: block;  
+    min-height: 200px;
+    display: block;
 }
 
 .messagefrom::after {
-   content:"";
-	position:absolute;
-	bottom:-10px; /* value = - border-top-width - border-bottom-width */
-	left:20px; /* controls horizontal position */
-	border-width:10px 10px 0 0px; /* vary these values to change the angle of the vertex */
-	border-style:solid;
-	border-color:#00A4E4 transparent; 
+    content: "";
+    position: absolute;
+    bottom: -10px; /* value = - border-top-width - border-bottom-width */
+    left: 20px; /* controls horizontal position */
+    border-width: 10px 10px 0 0px; /* vary these values to change the angle of the vertex */
+    border-style: solid;
+    border-color: #00A4E4 transparent;
     /* reduce the damage in FF3.0 */
-   display:block; 
-   width:0;
+    display: block;
+    width: 0;
 }
 
-#messagesbox .message {   
-   width: 75%;
-   margin: 4px 4px 10px 4px;
-   padding: 1px 4px 1px 4px;
-   border-radius: 3px;
-   -moz-border-radius: 3px;
-   -webkit-border-radius: px;
-   color: white;
-   /*font-weight: bold;*/
-   word-wrap: break-word;
-   position: relative;
-   border-width: 2px !important;
+#messagesbox .message {
+    width: 75%;
+    margin: 4px 4px 10px 4px;
+    padding: 1px 4px 1px 4px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: px;
+    color: white;
+    /*font-weight: bold;*/
+    word-wrap: break-word;
+    position: relative;
+    border-width: 2px !important;
 }
 
-#messagesbox .message:hover {
-   border-color: #000;
-   font-size: 100%;
-}
+    #messagesbox .message:hover {
+        border-color: #000;
+        font-size: 100%;
+    }
 
 #messagesbox .messagefrom {
-   float: left;
-   -webkit-border-radius: 3px;
-   -moz-border-radius: 3px;
-   border-radius: 3px;
-   background: #00A4E4;
-   background: -webkit-gradient(linear, 0 0, 0 bottom, from(#00A4E4), to(#009de2));
-   background: -webkit-linear-gradient(#00A4E4, #009de2);
-   background: -moz-linear-gradient(#00A4E4, #009de2);
-   background: -ms-linear-gradient(#00A4E4, #009de2);
-   background: -o-linear-gradient(#00A4E4, #009de2);
-   background: linear-gradient(#00A4E4, #009de2);
-   -pie-background: linear-gradient(#00A4E4, #009de2);
-   behavior: url(/PIE.htc);
+    float: left;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: #00A4E4;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#00A4E4), to(#009de2));
+    background: -webkit-linear-gradient(#00A4E4, #009de2);
+    background: -moz-linear-gradient(#00A4E4, #009de2);
+    background: -ms-linear-gradient(#00A4E4, #009de2);
+    background: -o-linear-gradient(#00A4E4, #009de2);
+    background: linear-gradient(#00A4E4, #009de2);
+    -pie-background: linear-gradient(#00A4E4, #009de2);
+    behavior: url(/PIE.htc);
 }
 
-#messagesbox span {   
-   font-size:  15px;
-   line-height: 1.3em;   
+#messagesbox span {
+    font-size: 15px;
+    line-height: 1.3em;
 }
 
-.textMessage {   
-   float: left;
+.textMessage {
+    float: left;
 }
 
 
 #messagesbox .messageto {
-   float: right;
-   -webkit-border-radius: 3px;
-   -moz-border-radius: 3px;
-   border-radius: 3px;
-   background: #92c942;
-   background: -webkit-gradient(linear, 0 0, 0 bottom, from(#92c942), to(#8ac53d));
-   background: -webkit-linear-gradient(#92c942, #8ac53d);
-   background: -moz-linear-gradient(#92c942, #8ac53d);
-   background: -ms-linear-gradient(#92c942, #8ac53d);
-   background: -o-linear-gradient(#92c942, #8ac53d);
-   background: linear-gradient(#92c942, #8ac53d);
-   -pie-background: linear-gradient(#92c942, #8ac53d);
-   behavior: url(/PIE.htc);
+    float: right;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: #92c942;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#92c942), to(#8ac53d));
+    background: -webkit-linear-gradient(#92c942, #8ac53d);
+    background: -moz-linear-gradient(#92c942, #8ac53d);
+    background: -ms-linear-gradient(#92c942, #8ac53d);
+    background: -o-linear-gradient(#92c942, #8ac53d);
+    background: linear-gradient(#92c942, #8ac53d);
+    -pie-background: linear-gradient(#92c942, #8ac53d);
+    behavior: url(/PIE.htc);
+}
+
+#messagesbox .history {
+    opacity: 0.4;
 }
 
 .messageto::after {
-   content:"";
-	position:absolute;
-	bottom:-10px; /* value = - border-top-width - border-bottom-width */
-	right:20px; /* controls horizontal position */
-	border-width:10px 0 0 10px; /* vary these values to change the angle of the vertex */
-	border-style:solid;
-	border-color:#92c942 transparent; 
+    content: "";
+    position: absolute;
+    bottom: -10px; /* value = - border-top-width - border-bottom-width */
+    right: 20px; /* controls horizontal position */
+    border-width: 10px 0 0 10px; /* vary these values to change the angle of the vertex */
+    border-style: solid;
+    border-color: #92c942 transparent;
     /* reduce the damage in FF3.0 */
-   display:block; 
-   width:0;
+    display: block;
+    width: 0;
 }
 
 #messagesbox .ui-selecting {
-   background: #FECA40;
+    background: #FECA40;
 }
 
 #messagesbox .ui-selected {
-   background: #034af3;
-   color: white;
+    background: #034af3;
+    color: white;
 }
 
 /*Reply area*/
 .invisible {
-   visibility: hidden;
+    visibility: hidden;
 }
 
 .visible {
-   visibility: visible;
+    visibility: visible;
 }
 
 
 .clear {
-   clear: both;
+    clear: both;
 }
 
 
@@ -120,14 +124,14 @@
 ::-webkit-scrollbar {
     width: 12px;
 }
- 
+
 /* Track */
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px #183540; 
+    -webkit-box-shadow: inset 0 0 6px #183540;
     -webkit-border-radius: 10px;
     border-radius: 10px;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
@@ -140,27 +144,26 @@
     background: -ms-linear-gradient(left, #183540 0%,#397596 100%); /* IE10+ */
     background: linear-gradient(to right, #183540 0%,#397596 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183540', endColorstr='#397596',GradientType=1 ); /* IE6-9 */
-
-    /*-webkit-box-shadow: inset 0 0 6px #183540;*/ 
-}
-::-webkit-scrollbar-thumb:window-inactive {
-	background: #183540; /* Old browsers */
-    background: -moz-linear-gradient(left, #183540 0%, #397596 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#183540), color-stop(100%,#397596)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(left, #183540 0%,#397596 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(left, #183540 0%,#397596 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(left, #183540 0%,#397596 100%); /* IE10+ */
-    background: linear-gradient(to right, #183540 0%,#397596 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183540', endColorstr='#397596',GradientType=1 ); /* IE6-9 */
+    /*-webkit-box-shadow: inset 0 0 6px #183540;*/
 }
 
-html, body
-{
+    ::-webkit-scrollbar-thumb:window-inactive {
+        background: #183540; /* Old browsers */
+        background: -moz-linear-gradient(left, #183540 0%, #397596 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,#183540), color-stop(100%,#397596)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(left, #183540 0%,#397596 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(left, #183540 0%,#397596 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(left, #183540 0%,#397596 100%); /* IE10+ */
+        background: linear-gradient(to right, #183540 0%,#397596 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#183540', endColorstr='#397596',GradientType=1 ); /* IE6-9 */
+    }
+
+html, body {
     height: 100%;
 }
 
 .ui-page {
-   height:100%;
+    height: 100%;
 }
 
 
@@ -176,26 +179,26 @@ html, body
 
 .sendAndReceivedChecks {
     float: right;
-    /*width: 34px;*/   
+    /*width: 34px;*/
     /*position:absolute;
     bottom: 0px;
     right: 0px;*/
 }
 
 .check {
-    visibility:visible;    
+    visibility: visible;
 }
 
 .busyTextMessage {
-   margin: 4px 4px 10px 4px;
-   padding: 3px 4px 3px 4px;
-   border-radius: 3px;
-   -moz-border-radius: 3px;
-   -webkit-border-radius: px;
-   color: rgb(255, 255, 255);
-   word-wrap: break-word;
-   position: relative;
-   border-width: 2px !important;
-   text-align: center;
-   background-color: rgb(72, 80, 83);
+    margin: 4px 4px 10px 4px;
+    padding: 3px 4px 3px 4px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: px;
+    color: rgb(255, 255, 255);
+    word-wrap: break-word;
+    position: relative;
+    border-width: 2px !important;
+    text-align: center;
+    background-color: rgb(72, 80, 83);
 }

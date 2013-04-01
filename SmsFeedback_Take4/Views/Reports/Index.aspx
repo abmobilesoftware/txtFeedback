@@ -57,7 +57,7 @@
    <script type="text/template" id="FirstSection">
         <div class="chartArea">
             <div id="titleWrapper">
-                <a href="#" class="chartAreaTitle" {% if (tooltip != "no tooltip") { %} title="{{ tooltip }}" {% } %} sectionId="{{ groupId }}"><img class="sectionVisibility" src="<%: Url.UpdatedResourceLink("~/Content/images/minimize_square.png") %>" alt="Expand section" />{{ title }}</a>
+                <a href="#" class="chartAreaTitle" {% if (tooltip != "no tooltip") { %} title="{{ tooltip }}" {% } %} sectionId="{{ groupId }}"><img class="sectionVisibility" src="<%: Url.Content("~/Content/images/arrow_down_dblue_16.png") %>" alt="Expand section" />{{ title }}</a>
                 <p id="description{{id}}" class="sectionDescription invisible">Displays two dimensional data set</p>   
                 <a href="#" class="toCsv{{ id }} exportBtn" title="<%: Resources.Global.RepExportToExcel %>"><img src="<%: Url.Content("~/Content/images/Excel-25.png") %>" width="25" height="25"/></a> 
         </div>

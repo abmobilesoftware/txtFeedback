@@ -30,6 +30,9 @@ window.app.cummulativeSkip = window.app.defaultNrOfConversationsToSkip;
 
 //#region Conversation Model
 window.app.Conversation = Backbone.Model.extend({
+    events: {
+        EVENT_SELECTED_STATE: "updateSelectStateEvent"
+    },
     defaults: {
         TimeUpdated: Date.now(),
         Read: false,
@@ -40,7 +43,11 @@ window.app.Conversation = Backbone.Model.extend({
         Starred: false, //favorite conversation or not
         ClientDisplayName: "defaultClient",
         ClientIsSupportBot: false,
-        IsSmsBased: false       
+        IsSmsBased: false,
+        /* Flag the selected conversation. The conversation with 
+        RequestSelect true goes to select state. Other goes to
+        deselect state*/
+        RequestSelect: false
     },
     parse: function (data, xhc) {
         data.TimeUpdated = data.TimeReceived;
@@ -53,6 +60,25 @@ window.app.Conversation = Backbone.Model.extend({
 
         return data;
     },
+    toggleStarred: function () {
+        /* Toggle the starred value using an optimistically approach
+        Change the value of Starred attribute after click to affect 
+        display. Then save the new value on the server, if the request
+        fails either a connection problem (fail) or application logic
+        (request failed) the value is reverted.
+        */
+        var self = this;
+        self.set("Starred", !self.get("Starred"));
+        $.getJSON('Conversations/ChangeStarredStatusForConversation',
+                { conversationId: this.get("ConvID"), newStarredStatus: this.get("Starred") },
+                function (data) {
+                    if (data !== "Update successful") {
+                        self.set("Starred", !self.get("Starred"));
+                    }
+                }).fail(function () {
+                    self.set("Starred", !self.get("Starred"));
+                });
+    },
     idAttribute: "ConvID" //the id shold be the combination from-to
 });
 //#endregion
@@ -62,9 +88,12 @@ window.app.ConversationsList = Backbone.Collection.extend({
     model: window.app.Conversation,
     convID: null,
     url: "Conversations/Delete",
+    initialize: function () {
+        //_.bindAll(this, "updateConvSelectedState");
+        this.on("change:RequestSelect", this.updateConvSelectedState);
+    },
     methodUrl: {
         "read": "Conversations/ConversationsList",
-        "create": "Conversations/ConversationsList",
         "delete": "Conversations/Delete"
     },
     sync: function (method, collection, options) {
@@ -72,7 +101,18 @@ window.app.ConversationsList = Backbone.Collection.extend({
             options = options || {};
             options.url = collection.methodUrl[method];
         }
-        Backbone.sync(method, collection, options);
+        var parseMethod = (method === "delete") ? "create" : method;
+        Backbone.sync(parseMethod, collection, options);
+    },
+    updateConvSelectedState: function (event) {
+        /* Send an event to update their selected state to all
+        elements in a list. The one that requested the change
+        goes to active state, the others go to inactive state */
+        if (event.changed.RequestSelect) {
+            _.each(this.models, function (value) {
+                value.trigger(value.events.EVENT_SELECTED_STATE);
+            });
+        }
     }
 });
 //#endregion
@@ -110,49 +150,40 @@ $(function () {
     var deleteConvSpinner = new Spinner(opts);
 
     window.app.ConversationView = Backbone.View.extend({
+        events: {
+            "click .star": "favoriteStarClicked",
+            "click .conversation": "conversationClicked"
+        },
         model: window.app.Conversation,
         tagName: "div",
         conversationTemplate: _.template($('#conversation-template').html()),
         self: this,
         initialize: function () {
-            _.bindAll(this, 'render', "updateFavouritesIcon", "unrender");
+            _.bindAll(this, 'render', "updateFavouritesIcon",
+                "unrender", "favoriteStarClicked", "conversationClicked",
+                "updateSelectedState");
+            this.transition = new Transition(
+                document.getElementById("scrollableconversations"),
+                $("#convOverlay"));
+            this.render();
             this.model.on("change:Starred", this.updateFavouritesIcon);
             this.model.on("change:Read", this.render);
-            this.transition = new Transition(document.getElementById("scrollableconversations"), $("#convOverlay"));
-            return this.render;
+            this.model.on(this.model.events.EVENT_SELECTED_STATE,
+                this.updateSelectedState);
+            this.domElements = {
+                STAR: $(".star", this.$el),
+                STARRED: $(".starred", this.$el),
+                UNSTARRED: $(".unstarred", this.$el)
+            };
         },
         render: function () {
             var selfConvView = this;
             this.$el.html(this.conversationTemplate(this.model.toJSON()));
-            var readUnread = "unreadconversation";
-            if (this.model.attributes.Read === true) {
-                readUnread = "readconversation";
-            }
-            var convNormalSupport = "normalConversation";
-            if (this.model.attributes.ClientIsSupportBot) {
-                convNormalSupport = "supportConversation";
-            }
-            this.$el.addClass("conversation");
-            this.$el.addClass(readUnread);
-            this.$el.addClass(convNormalSupport);
-            $(this.el).attr("conversationId", this.model.attributes.ConvID);
-            var markAsFavImg = $(".conversationStarIcon img", this.$el);
             
+            // TODO : Move this action
             var deleteConvImg = $(".deleteConv img", this.$el);
             
             //#region Click on Mark as Favorite
-            $(".conversationStarIconImg", this.$el).bind("click", function (e) {
-                e.preventDefault();
-                var starredStatus = selfConvView.model.get("Starred");
-                selfConvView.model.set("Starred", !starredStatus);
-                var id = $(this).parents(".conversation").attr("conversationId");
-                $.getJSON('Conversations/ChangeStarredStatusForConversation',
-                        { conversationId: id, newStarredStatus: !starredStatus },
-                        function (data) {
-                            //conversation starred status changed                            
-                        });
-            });
-
             $(".deleteConvImg", this.$el).bind("click", function (e) {
                 e.preventDefault();
                 if (confirm($("#confirmDeleteConversation").val() + " \"" + selfConvView.model.get("ClientDisplayName") + "\" ?")) {
@@ -168,7 +199,7 @@ $(function () {
                             selfConvView.transition.endTransition();
                         }
                     });
-                } 
+                }
             });
             //#endregion
 
@@ -184,15 +215,45 @@ $(function () {
             //#endregion
             return this;
         },
-        unrender: function() {
+        unrender: function () {
             $(this.el).remove();
         },
+        // TODO MB: Investigate why the first version is not working
         updateFavouritesIcon: function () {
-            var markAsFavImg = $(".conversationStarIcon img", this.$el);            
             if (this.model.get("Starred")) {
-                markAsFavImg.attr("src", window.app.domainName + "/Content/images/star-selected_orange.svg");
+                /*this.domElements.STARRED.show();
+                this.domELements.UNSTARRED.hide();*/
+                $(".starred", this.$el).show();
+                $(".unstarred", this.$el).hide();
             } else {
-                markAsFavImg.attr("src", window.app.domainName + "/Content/images/star.svg");
+                /*this.domElements.STARRED.hide();
+                this.domElements.UNSTARRED.show();*/
+                $(".starred", this.$el).hide();
+                $(".unstarred", this.$el).show();
+            }
+        },
+        favoriteStarClicked: function (event) {
+            event.preventDefault();
+            this.model.toggleStarred();
+        },
+        conversationClicked: function (event) {
+            event.preventDefault();
+            // click on the conversation but outside the star icon
+            if (!$(event.target).hasClass("star")) {
+                this.model.set("RequestSelect", true);
+                gSelectedElement = this.$el;
+                resetTimer();
+                gSelectedConversationID = this.model.get("ConvID");
+                window.app.selectedConversation = this.model;
+                $(document).trigger("conversationSelected", { convID: gSelectedConversationID });
+            }
+        },
+        updateSelectedState: function () {
+            if (this.model.get("RequestSelect")) {
+                $(".conversation", this.$el).addClass("ui-selected");
+                this.model.set("RequestSelect", false);
+            } else {
+                $(".conversation", this.$el).removeClass("ui-selected");
             }           
         }
     });
