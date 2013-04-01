@@ -727,6 +727,5 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
-java -jar "$(SolutionDir)ExternalTools\yuicompressor-2.4.7.jar" "$(ProjectDir)MyScripts\QuickActions.js" -o "$(ProjectDir)MyScripts\Minified\QuickActions.js"
   </PropertyGroup>
 </Project>

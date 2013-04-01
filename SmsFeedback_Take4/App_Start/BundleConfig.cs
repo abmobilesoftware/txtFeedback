@@ -37,7 +37,7 @@ namespace SmsFeedback_Take4
             "~/Content/messages.css",
             "~/Content/conversations.css",
             "~/Content/filtersStrip.css",
-            "~/Content/tags.css",
+            "~/Content/tags.css",            
             "~/Content/jquery.tagsinput.css"));
          //js
          bundles.Add(new ScriptBundle("~/bundles/homejs").Include(
@@ -52,7 +52,8 @@ namespace SmsFeedback_Take4
             "~/MyScripts/Conversations.js",
             "~/MyScripts/Filtering.js",
             "~/MyScripts/ConversationTags.js",
-            "~/MyScripts/Facade.js"));
+            "~/MyScripts/Facade.js",
+            "~/MyScripts/QuickActions.js"));
          //Reports tab
          //css
          bundles.Add(new StyleBundle("~/Content/reportsCss").Include(
