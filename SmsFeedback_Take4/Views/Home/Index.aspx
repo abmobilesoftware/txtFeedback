@@ -28,7 +28,7 @@
    </script>
    <script type="text/template" id="phoneNumber-template">       
 		<span >
-            <img tooltiptitle="<%: Resources.Global.tooltipWpImg %>" src="<%: Url.Content("~/Content/images/check-white.svg") %>" class="wpItem wpSelectorIcon deletePhoneNumberIconSelected" />		
+            <img title="<%: Resources.Global.tooltipWpImg %>" src="<%: Url.Content("~/Content/images/check-white.svg") %>" class="wpItem wpSelectorIcon deletePhoneNumberIconSelected" />		
 			<span class="wpItem" >{{ Name }}</span>						
 		</span>
    </script>
@@ -73,15 +73,15 @@
                 </div>
                 <% if ((bool)ViewData["messageOrganizer"]) { %>
                     <div class="deleteConv ignoreElementOnSelection">
-                        <img tooltiptitle="<%: Resources.Global.tooltipDeleteConversation %>" src="<%: Url.Content("~/Content/images/trash_white.png") %>" class="deleteConvImg" />
+                        <img title="<%: Resources.Global.tooltipDeleteConversation %>" src="<%: Url.Content("~/Content/images/trash_white.png") %>" class="deleteConvImg" />
                     </div>
                 <% } %>
        
                 <div class="conversationStarIcon ignoreElementOnSelection">
                     {% if (Starred) { %}
-                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected_orange.svg") %>" class="conversationStarIconImg" height="33" width="33"/>
+                            <img title="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected_orange.svg") %>" class="conversationStarIconImg" height="33" width="33"/>
                     {% } else { %}
-                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star.svg") %>" class="conversationStarIconImg" height="33" width="33"/> 
+                            <img title="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star.svg") %>" class="conversationStarIconImg" height="33" width="33"/> 
                     {% } %}
                 </div>
             </div>                         
@@ -151,20 +151,20 @@
 <asp:Content ID="Content4" ContentPlaceHolderID="FilterArea" runat="server">
     <div class="grid_4_custom filterStripElement">
             <div id="supportFilterArea" class="filterLabel">
-                <img id="includeSupportInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeSupportFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+                <img id="includeSupportInFilter" title="<%: Resources.Global.tooltipIncludeSupportFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                    src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
                 <span style="vertical-align: middle">
                    <%: Resources.Global.supportLabel %></span>
            </div>
          
            <div id="starredFilterArea" class="filterLabel">
-                <img id="includeStarredInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeStarredInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+                <img id="includeStarredInFilter" title="<%: Resources.Global.tooltipIncludeStarredInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                    src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
                 <span style="vertical-align: middle">
                    <%: Resources.Global.starredLabel %></span>
            </div>
             <div id="unreadFilterArea" class="filterLabel">
-                <img id="includeUnreadInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeUnreadInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+                <img id="includeUnreadInFilter" title="<%: Resources.Global.tooltipIncludeUnreadInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                    src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
                 <span style="vertical-align: middle">
                    <%: Resources.Global.readLabel %></span>
@@ -172,7 +172,7 @@
       </div>
       <div class="grid_6 filterStripElement tagFilterArea">
          <div id="tagsLabel" class="filterLabel">
-            <img id="includeTagsInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeTagsInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+            <img id="includeTagsInFilter" title="<%: Resources.Global.tooltipIncludeTagsInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
                src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
             <span style="vertical-align: middle">
                <%: Resources.Global.tagsLabel %></span>
@@ -232,7 +232,7 @@
          </div>
          <div id="replyButtonArea">
             <input type="hidden" value="<%: Resources.Global.errorCannotSendMessage %>" id="msgMessageNotSent"/>
-            <button tooltiptitle="<%: Resources.Global.tooltipReplyBtn %>" id="replyBtn"> <%: Resources.Global.sendButton %></button>
+            <button title="<%: Resources.Global.tooltipReplyBtn %>" id="replyBtn"> <%: Resources.Global.sendButton %></button>
          </div>
         
       </div>

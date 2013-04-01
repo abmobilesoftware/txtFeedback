@@ -344,6 +344,7 @@
     <Content Include="Content\images\loginImage.png" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\logo1.png" />
+    <Content Include="Content\images\logo_225.png" />
     <Content Include="Content\images\mail.png" />
     <Content Include="Content\images\maximize_square.png" />
     <Content Include="Content\images\minimize_square.png" />
@@ -472,7 +473,6 @@
     <Content Include="Scripts\backbone.js" />
     <Content Include="Scripts\CollapsibleLists.js" />
     <Content Include="Scripts\flxhr\updateplayer.swf" />
-    <Content Include="Scripts\jquery-1.9.0.min.js" />
     <Content Include="Scripts\jquery.json-2.3.min.js" />
     <Content Include="Scripts\jquery.qtip-1.0.0-rc3.min.js" />
     <Content Include="Scripts\jquery.simplemodal.js" />
@@ -489,11 +489,6 @@
     <Content Include="Scripts\strophe\strophe.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Templates\PhoneTemplates.txt" />
-    <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.6.2.js" />
-    <Content Include="Scripts\jquery-1.6.2.min.js" />
-    <Content Include="Scripts\jquery-ui-1.8.11.js" />
-    <Content Include="Scripts\jquery-ui-1.8.11.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />

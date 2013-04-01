@@ -119,31 +119,7 @@ var ReportsContentArea = Backbone.View.extend({
            window.app.areas[model.id] = thirdArea;
        }
    },
-   setupEnvironment: function (displayTooltip) {
-      // Hover tooltip
-      if (displayTooltip) {
-         var infoBoxElement = $(".chartAreaTitle");
-         infoBoxElement.qtip({
-            content: infoBoxElement.attr('tooltiptitle'),
-            position: {
-               corner: {
-                  target: 'bottomMiddle',
-                  tooltip: 'topMiddle'
-               }
-            },
-            style: 'dark'
-         });
-      }
-      $(".exportBtn").qtip({
-         content: $(".exportBtn").attr('tooltiptitle'),
-         position: {
-            corner: {
-               target: 'leftMiddle',
-               tooltip: 'rightMiddle'
-            }
-         },
-         style: 'dark'
-      });
+   setupEnvironment: function (displayTooltip) {           
 
       $(".chartAreaTitle").click(function (event) {
          event.preventDefault();

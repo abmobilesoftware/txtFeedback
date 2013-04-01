@@ -370,16 +370,6 @@ function MessagesArea(convView, tagsArea, wpsArea) {
    var self = this;
 
    var replyButton = $("#replyBtn");
-   replyButton.qtip({
-      content: replyButton.attr('tooltiptitle'),
-      position: {
-         corner: {
-            target: 'leftMiddle',
-            tooltip: 'rightMiddle'
-         }
-      },
-      style: 'dark'
-   });
    $.extend(this, window.app.defaultMessagesOptions);
 
    this.convView = convView;

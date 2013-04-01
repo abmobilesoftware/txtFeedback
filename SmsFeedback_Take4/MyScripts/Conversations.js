@@ -137,9 +137,9 @@ $(function () {
             this.$el.addClass(convNormalSupport);
             $(this.el).attr("conversationId", this.model.attributes.ConvID);
             var markAsFavImg = $(".conversationStarIcon img", this.$el);
-            setTooltipOnElement(markAsFavImg, markAsFavImg.attr('tooltiptitle'), 'dark');
+            
             var deleteConvImg = $(".deleteConv img", this.$el);
-            setTooltipOnElement(deleteConvImg, deleteConvImg.attr('tooltiptitle'), 'dark');
+            
             //#region Click on Mark as Favorite
             $(".conversationStarIconImg", this.$el).bind("click", function (e) {
                 e.preventDefault();
@@ -188,14 +188,12 @@ $(function () {
             $(this.el).remove();
         },
         updateFavouritesIcon: function () {
-            var markAsFavImg = $(".conversationStarIcon img", this.$el);
-            markAsFavImg.qtip("destroy");
+            var markAsFavImg = $(".conversationStarIcon img", this.$el);            
             if (this.model.get("Starred")) {
                 markAsFavImg.attr("src", window.app.domainName + "/Content/images/star-selected_orange.svg");
             } else {
                 markAsFavImg.attr("src", window.app.domainName + "/Content/images/star.svg");
-            }
-            setTooltipOnElement(markAsFavImg, markAsFavImg.attr('tooltiptitle'), 'dark');
+            }           
         }
     });
 });

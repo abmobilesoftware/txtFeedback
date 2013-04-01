@@ -34,7 +34,7 @@
    <div class="page">        
       <header>
          <div id="title">
-            <%: Url.ImageLink(Url.Content("~/Content/images/06-web-2_225.png"),"home","Index","Home", "engaging your customers in conversations",null,"logo") %>
+            <%: Url.ImageLink(Url.Content("~/Content/images/logo_225.png"),"home","Index","Home", "engaging your customers in conversations",null,"logo") %>
          </div>
          <div id="logindisplay">
             <% Html.RenderPartial("LogOnUserControl"); %>
@@ -45,8 +45,8 @@
          </div>
          <div id="feedbackArea">
             <span><%: Resources.Global.feedbackSendUsFeedback %></span>
-            <img id="sendPositiveFeedback" tooltiptitle="<%: Resources.Global.tooltipSendPositiveFeedback %>" src="<%:Url.Content("~/Content/images/smiley-h.png")%>" height="18" width="18"/>    
-            <img id="sendNegativeFeedback" tooltiptitle="<%: Resources.Global.tooltipSendNegativeFeedback %>" src="<%:Url.Content("~/Content/images/smiley-s.png")%>" height="18" width="18"/>    
+            <img id="sendPositiveFeedback" title="<%: Resources.Global.tooltipSendPositiveFeedback %>" src="<%:Url.Content("~/Content/images/smiley-h.png")%>" height="18" width="18"/>    
+            <img id="sendNegativeFeedback" title="<%: Resources.Global.tooltipSendNegativeFeedback %>" src="<%:Url.Content("~/Content/images/smiley-s.png")%>" height="18" width="18"/>    
         </div>
          <nav>
             <ul id="menu">
@@ -78,9 +78,8 @@
           <input type ="hidden" value="<%: Resources.Global.gotANewMessage %>" id="gotANewMessage" />
       </div>
    </div>
-   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
-   <script src="<%: Url.Content("~/Scripts/jquery.qtip-1.0.0-rc3.min.js") %>"      type="text/javascript"></script>
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>   
    <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.min.js"></script>
    
     <!-- Temporary disabled links -- error fetching this libraries from documentcloud -->

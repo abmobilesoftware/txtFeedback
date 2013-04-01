@@ -253,8 +253,7 @@ function FilterArea() {
    //#endregion
 
    $("#includeDateInFilter, #includeStarredInFilter, #includeUnreadInFilter, #includeTagsInFilter, #includeSupportInFilter").each(function () {
-      var elementToShowTooltipOn = $(this);
-      setTooltipOnElement(elementToShowTooltipOn, elementToShowTooltipOn.attr('tooltiptitle'), 'light');
+      var elementToShowTooltipOn = $(this);      
    });
 
 }

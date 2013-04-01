@@ -103,8 +103,7 @@ window.app.WorkingPointView = Backbone.View.extend({
       this.$el.html(this.phoneNumberTemplate(this.model.toJSON()));
       this.$el.addClass("phoneNumber");
       this.$el.addClass("phoneNumberSelected");
-      var selectWp = $("img", this.$el);
-      setTooltipOnElement(selectWp, selectWp.attr('tooltiptitle'), 'light');
+      var selectWp = $("img", this.$el);      
       return this;
    },
    unrender: function () {

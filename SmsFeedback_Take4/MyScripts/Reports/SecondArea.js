@@ -19,7 +19,7 @@ function SecondArea(iModel) {
    var model = iModel;
 
    this.load = function (data) {
-     var infoBoxString = "<div class='boxArea' tooltiptitle='" + model.tooltip + "'>" +
+     var infoBoxString = "<div class='boxArea' title='" + model.tooltip + "'>" +
                               "<div class='infoContent'>" +
                                 "<div class='infoContentMiddle'><div class='infoContentInner'>" +
                                    "<span class='boxContent'>" +

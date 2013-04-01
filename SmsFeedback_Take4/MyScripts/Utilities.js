@@ -60,10 +60,7 @@ function isWorkingPoint(phoneNumber, componentExtension) {
 
 //uses qtip
 function setTooltipOnElement(elem, tooltip, style) {
-   elem.qtip({
-      content: { text: tooltip },
-      style: style
-   });
+  //TODO DA set tooltip on element
 }
 
 //checkbox is the button img
@@ -172,13 +169,13 @@ function resizeTriggered() {
       var magicNumber = 82;
    }
    else {
-      filterStripHeigh =  $(".headerArea").outerHeight();
+      filterStripHeigh =  $(".headerArea").outerHeight(true);
       magicNumber =128;
    }
    
    var window_height = window.innerHeight;
    //var messagesAreaHeight = $('#messagesArea').height();
-   var headerHeight = $('header').outerHeight();
+   var headerHeight = $('header').outerHeight(true);
    var contentWindowHeight = window_height - headerHeight;// - (2 * padding) - filterStripHeigh;
    
    var marginTop = parseInt($('#rightColumn').css('margin-top'),10);
@@ -186,7 +183,7 @@ function resizeTriggered() {
    var rightAreaCandidateHeight = contentWindowHeight - filterStripHeigh - marginTop - marginBottom;
    //first make sure we have a valid right side heigt
    $('#rightColumn').height('auto');
-   var rightAreaHeight = $('#rightColumn').outerHeight();
+   var rightAreaHeight = $('#rightColumn').outerHeight(true);
    var contentContainer = $('.container_12');
    
    //we need to set a fixed height for the conversations area and messages area to ensure that scrolling is enabled
@@ -306,7 +303,7 @@ $(function () {
 //#region Set tooltip on Messages
 $(function () {
    var nrOfConvsWithUnreadMessages = $("#msgTabcount");
-   setTooltipOnElement(nrOfConvsWithUnreadMessages, nrOfConvsWithUnreadMessages.attr('tooltiptitle'), 'light');
+   //setTooltipOnElement(nrOfConvsWithUnreadMessages, nrOfConvsWithUnreadMessages.attr('title'), 'light');
 });
 //#endregion
 

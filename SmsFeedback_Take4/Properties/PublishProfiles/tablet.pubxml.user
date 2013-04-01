@@ -25,7 +25,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/29/2013 14:27:13</publishTime>
     </File>
     <File Include="bin/de/SmsFeedback_Take4.resources.dll">
-      <publishTime>03/29/2013 16:09:42</publishTime>
+      <publishTime>03/29/2013 17:49:18</publishTime>
     </File>
     <File Include="bin/Diagnostics.wadcfg">
       <publishTime>03/29/2013 11:10:37</publishTime>
@@ -37,7 +37,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/29/2013 14:27:13</publishTime>
     </File>
     <File Include="bin/es/SmsFeedback_Take4.resources.dll">
-      <publishTime>03/29/2013 16:09:42</publishTime>
+      <publishTime>03/29/2013 17:49:18</publishTime>
     </File>
     <File Include="bin/ICSharpCode.SharpZipLib.dll">
       <publishTime>07/24/2012 11:42:11</publishTime>
@@ -91,7 +91,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/29/2013 14:27:13</publishTime>
     </File>
     <File Include="bin/ro/SmsFeedback_Take4.resources.dll">
-      <publishTime>03/29/2013 16:09:42</publishTime>
+      <publishTime>03/29/2013 17:49:18</publishTime>
     </File>
     <File Include="bin/SmsFeedback_EFModels.dll">
       <publishTime>03/29/2013 14:27:13</publishTime>
@@ -100,10 +100,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/29/2013 14:27:13</publishTime>
     </File>
     <File Include="bin/SmsFeedback_Take4.dll">
-      <publishTime>03/29/2013 16:09:42</publishTime>
+      <publishTime>03/29/2013 17:49:18</publishTime>
     </File>
     <File Include="bin/SmsFeedback_Take4.pdb">
-      <publishTime>03/29/2013 16:09:41</publishTime>
+      <publishTime>03/29/2013 17:49:18</publishTime>
     </File>
     <File Include="bin/System.Net.Http.dll">
       <publishTime>10/07/2012 21:52:12</publishTime>
@@ -247,7 +247,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/29/2013 11:10:37</publishTime>
     </File>
     <File Include="Content/css/settings.css">
-      <publishTime>03/29/2013 11:10:37</publishTime>
+      <publishTime>03/29/2013 17:29:45</publishTime>
     </File>
     <File Include="Content/filtersStrip.css">
       <publishTime>03/29/2013 10:01:31</publishTime>
@@ -399,6 +399,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/images/logo1.png">
       <publishTime>03/09/2012 20:47:34</publishTime>
     </File>
+    <File Include="Content/images/logo_225.png">
+      <publishTime>03/29/2013 17:48:04</publishTime>
+    </File>
     <File Include="Content/images/mail.png">
       <publishTime>07/09/2012 17:31:49</publishTime>
     </File>
@@ -459,6 +462,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/images/sms.png">
       <publishTime>07/12/2012 09:30:31</publishTime>
     </File>
+    <File Include="Content/images/sms_white.png">
+      <publishTime>03/29/2013 17:14:06</publishTime>
+    </File>
     <File Include="Content/images/Spain_flag.png">
       <publishTime>08/27/2012 13:11:46</publishTime>
     </File>
@@ -518,6 +524,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/images/trash20x20.png">
       <publishTime>11/27/2012 17:56:31</publishTime>
+    </File>
+    <File Include="Content/images/trash_white.png">
+      <publishTime>03/29/2013 17:14:14</publishTime>
     </File>
     <File Include="Content/images/tw16x16.png">
       <publishTime>11/27/2012 17:56:31</publishTime>
@@ -709,25 +718,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/27/2013 16:57:48</publishTime>
     </File>
     <File Include="MyScripts/contact.js">
-      <publishTime>03/29/2013 10:01:33</publishTime>
+      <publishTime>03/29/2013 17:19:26</publishTime>
     </File>
     <File Include="MyScripts/Conversations.js">
-      <publishTime>03/29/2013 14:39:38</publishTime>
+      <publishTime>03/29/2013 17:23:33</publishTime>
     </File>
     <File Include="MyScripts/ConversationTags.js">
-      <publishTime>03/29/2013 10:01:33</publishTime>
+      <publishTime>03/29/2013 17:19:39</publishTime>
     </File>
     <File Include="MyScripts/Facade.js">
       <publishTime>03/03/2013 10:41:38</publishTime>
     </File>
     <File Include="MyScripts/Filtering.js">
-      <publishTime>02/07/2013 17:13:50</publishTime>
+      <publishTime>03/29/2013 17:22:36</publishTime>
     </File>
     <File Include="MyScripts/Helpers/Debounce.js">
       <publishTime>02/07/2013 17:13:50</publishTime>
     </File>
     <File Include="MyScripts/Messages.js">
-      <publishTime>03/29/2013 10:01:33</publishTime>
+      <publishTime>03/29/2013 17:22:46</publishTime>
     </File>
     <File Include="MyScripts/Minified/contact.js">
       <publishTime>03/27/2013 16:57:40</publishTime>
@@ -802,10 +811,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/03/2013 10:41:38</publishTime>
     </File>
     <File Include="MyScripts/Reports/Reports.js">
-      <publishTime>03/29/2013 10:01:33</publishTime>
+      <publishTime>03/29/2013 17:21:42</publishTime>
     </File>
     <File Include="MyScripts/Reports/SecondArea.js">
-      <publishTime>03/04/2013 11:58:35</publishTime>
+      <publishTime>03/29/2013 17:23:48</publishTime>
     </File>
     <File Include="MyScripts/Reports/ThirdArea.js">
       <publishTime>03/04/2013 11:58:35</publishTime>
@@ -817,7 +826,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/27/2013 16:57:44</publishTime>
     </File>
     <File Include="MyScripts/Settings/settings.js">
-      <publishTime>03/29/2013 10:01:33</publishTime>
+      <publishTime>03/29/2013 17:20:15</publishTime>
     </File>
     <File Include="MyScripts/Settings/SettingsFacade.js">
       <publishTime>03/03/2013 10:41:38</publishTime>
@@ -826,10 +835,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/04/2013 11:58:35</publishTime>
     </File>
     <File Include="MyScripts/Utilities.js">
-      <publishTime>03/29/2013 11:10:37</publishTime>
+      <publishTime>03/29/2013 17:23:48</publishTime>
     </File>
     <File Include="MyScripts/WorkingPoints.js">
-      <publishTime>02/07/2013 17:13:50</publishTime>
+      <publishTime>03/29/2013 17:23:14</publishTime>
     </File>
     <File Include="MyScripts/WorkingPointsConfigure.js">
       <publishTime>03/03/2013 10:41:38</publishTime>
@@ -859,7 +868,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/07/2013 17:13:50</publishTime>
     </File>
     <File Include="QUnit/QUnitTests.html">
-      <publishTime>02/07/2013 17:42:39</publishTime>
+      <publishTime>03/29/2013 17:23:48</publishTime>
     </File>
     <File Include="QUnit/TagsTests.js">
       <publishTime>06/09/2012 12:01:56</publishTime>
@@ -1045,7 +1054,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/14/2012 16:04:02</publishTime>
     </File>
     <File Include="Views/Home/Index.aspx">
-      <publishTime>03/29/2013 17:01:44</publishTime>
+      <publishTime>03/29/2013 17:23:48</publishTime>
     </File>
     <File Include="Views/NexmoTest/Index.aspx">
       <publishTime>06/11/2012 10:39:48</publishTime>
@@ -1063,7 +1072,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/03/2013 10:41:38</publishTime>
     </File>
     <File Include="Views/Settings/GetDefineWorkingPointsForm.aspx">
-      <publishTime>03/29/2013 10:01:34</publishTime>
+      <publishTime>03/29/2013 17:23:23</publishTime>
     </File>
     <File Include="Views/Settings/Index.aspx">
       <publishTime>03/29/2013 17:02:10</publishTime>
@@ -1075,7 +1084,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/29/2013 11:10:37</publishTime>
     </File>
     <File Include="Views/Shared/Site.Master">
-      <publishTime>03/29/2013 16:57:22</publishTime>
+      <publishTime>03/29/2013 17:48:44</publishTime>
     </File>
     <File Include="Views/Shared/Unauthorized.aspx">
       <publishTime>06/11/2012 10:39:48</publishTime>

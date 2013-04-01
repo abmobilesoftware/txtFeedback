@@ -68,27 +68,6 @@ function TagsArea() {
       left: 'auto' // Left position relative to parent in px
    };
    var spinner = new Spinner(opts);
-   $("#thumbsUp").qtip({
-      content: $("#thumbsUp").attr('tooltiptitle'),
-      position: {
-         corner: {
-            target: 'leftMiddle',
-            tooltip: 'rightMiddle'
-         }
-      },
-      style: 'dark'
-   });
-   $("#thumbsDown").qtip({
-      content: $("#thumbsDown").attr('tooltiptitle'),
-      position: {
-         corner: {
-            target: 'leftMiddle',
-            tooltip: 'rightMiddle'
-         }
-      },
-      style: 'dark'
-   });
-
    var placeholderValue = $('#messagesAddTagPlaceHolderMessage').val();
    var removeTagValue = $('#messagesRemoveTagPlaceHolderMessage').val();
    var self;
