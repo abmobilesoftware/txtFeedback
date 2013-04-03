@@ -39,6 +39,7 @@ namespace SmsFeedback_Take4.Controllers
       }
 
       [HttpPost]
+      [ValidateInput(false)]
       public ActionResult LogOnSummary(LogOnModel model, string returnUrl)
       {
          if (ModelState.IsValid)
@@ -66,6 +67,7 @@ namespace SmsFeedback_Take4.Controllers
       }
 
       [HttpPost]
+      [ValidateInput(false)]
       public ActionResult LogOn(LogOnModel model, string returnUrl)
       {
          if (ModelState.IsValid)
