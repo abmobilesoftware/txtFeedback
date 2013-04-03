@@ -4,48 +4,48 @@ BEGIN TRAN
 -- Script for Canada
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = '2220000191';
-DECLARE @WP_ShortID nvarchar(10) = 'magazin1';
-DECLARE @WP_Name nvarchar(40) = 'Magazin demo 1';
-DECLARE @Client_Description nvarchar(160) = 'Magazin demo 1';
+DECLARE @Client_TelNumber nvarchar(50) = '1110000010';
+DECLARE @WP_ShortID nvarchar(10) = 'sales1';
+DECLARE @WP_Name nvarchar(40) = 'Sales demo 1';
+DECLARE @Client_Description nvarchar(160) = 'Sales demo 1';
 DECLARE @WP_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Bine aþi venit la Magazin 1. Cu ce vã putem fi de folos?';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to sales demo 1. How could we be of service?';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'MediaIQ'; -- details in less used section
-DECLARE @C_ContactName nvarchar(50) = 'Daniel';
-DECLARE @C_ContactSurname nvarchar(50) = 'Enache';
-DECLARE @C_ContactEmail nvarchar(50) = 'daniel@mediaiq.ro';
-DECLARE @C_VATID nvarchar(50) = 'MediaIQVATID';
+DECLARE @U_CompanyName nvarchar(50) = 'TIBS'; -- details in less used section
+DECLARE @C_ContactName nvarchar(50) = 'Timur';
+DECLARE @C_ContactSurname nvarchar(50) = 'Baitassov';
+DECLARE @C_ContactEmail nvarchar(50) = 'baimakhan.tibs@gmail.com';
+DECLARE @C_VATID nvarchar(50) = 'TIBSIQVATID';
 DECLARE @C_RegistrationNumber nvarchar(50) = NULL;
 -- SubscriptionDetails
-DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Daniel'; 
-DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Enache';
-DECLARE @S_PrimaryContact_Email nvarchar(50) = 'daniel@mediaiq.ro';
-DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Daniel'; 
-DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Enache';
-DECLARE @S_SecondaryContact_Email nvarchar(50) = 'daniel@mediaiq.ro';
+DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Timur'; 
+DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Baitassov';
+DECLARE @S_PrimaryContact_Email nvarchar(50) = 'baimakhan.tibs@gmail.com';
+DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Timur'; 
+DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Baitassov';
+DECLARE @S_SecondaryContact_Email nvarchar(50) = 'baimakhan.tibs@gmail.com';
 
 
 -- Support working point
 DECLARE @WP_Support_TelNumber nvarchar(50) = '2220000100';
-DECLARE @WP_Support_ShortID nvarchar(10) = 'supportrop';
+DECLARE @WP_Support_ShortID nvarchar(10) = 'supportro';
 DECLARE @WP_Support_Name nvarchar(40) = 'TxtFeedback support';
-DECLARE @WP_Support_Description nvarchar(120)= 'Support pentru Romania ';
-DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Bine aþi venit la TxtFeedback. Folosiþi acest chat pentru a clarifica orice & toate întrebãrile avute';
+DECLARE @WP_Support_Description nvarchar(120)= 'Support pentru Rusia ';
+DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
+DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback. Please use this chat to clarify every/any questions';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'daniel.enache';
-DECLARE @U_ReqularUserPassword nvarchar(128) = 'Xv9B0wixe8VJZBpb5b9m1Qh+cHc=';
-DECLARE @U_RegularPasswordSalt nvarchar(128) = 'wvymA8O5MJCVyzu2v9WGGQ==';
-DECLARE @U_XmppUser varchar(30) = 'magazindemo1@txtfeedback.net';
-DECLARE @U_XmppPassword varchar(30) = 'qB7XWq,_G';
-DECLARE @U_RegularUserEmail nvarchar(256) = 'Daniel@mediaiq.ro';
+DECLARE @U_RegularUserName varchar(30) = 'daniyar';
+DECLARE @U_ReqularUserPassword nvarchar(128) = 't32x3tb8kS5zBnxg8KeALBGcavI=';
+DECLARE @U_RegularPasswordSalt nvarchar(128) = 'kuPCkD9lVzZg8tmQqA6HgA==';
+DECLARE @U_XmppUser varchar(30) = 'sales1@txtfeedback.net';
+DECLARE @U_XmppPassword varchar(30) = '<STenygx=';
+DECLARE @U_RegularUserEmail nvarchar(256) = 'baimakhan.tibs@gmail.com';
 -- END Important fields
 
 -- Less used
-DECLARE @WP_Provider nvarchar(50) = 'compatel';
+DECLARE @WP_Provider nvarchar(50) = 'nexmo';
 DECLARE @WP_SmsSent int = 0;
 DECLARE @WP_MaxNrOfSmsToSend int = 200;
 DECLARE @WP_Description_Additional_Text nvarchar(120) = ' WP';
@@ -72,7 +72,7 @@ DECLARE @C_City nvarchar(50) = 'company city';
 -- Subscription details 
 DECLARE @S_SpendingLimit decimal = 5.0;
 DECLARE @S_WarningLimit decimal = @S_SpendingLimit * 9 /10;
-DECLARE @S_SubscriptionSMS int = 20;
+DECLARE @S_SubscriptionSMS int = 0;
 
 -- Tags
 DECLARE @TagDescription nvarchar(200) = 'default tag';
@@ -138,7 +138,7 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@Client_TelNumber, @WP_Description, @WP_Name, 
 		@WP_Provider, @WP_SmsSent, @WP_MaxNrOfSmsToSend, @WP_ShortID, 
 		@WP_XmppSuffix, @WP_WelcomeMessage, @WP_BusyMessage,
-		@WP_OutsideOfficeHoursMessage, @WP_Language_RO);
+		@WP_OutsideOfficeHoursMessage, @WP_Language_US);
 		
 IF (SELECT COUNT(*) FROM [dbo].[WorkingPoints] WHERE [dbo].[WorkingPoints].[TelNumber] = @WP_Support_TelNumber) = 0 
 INSERT INTO WorkingPoints(TelNumber, Description, Name, 
@@ -147,31 +147,31 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@WP_Support_TelNumber, @WP_Support_Description, @WP_Support_Name, 
 		@WP_Support_Provider, @WP_Support_SentSms, @WP_Support_MaxNrOfSms, @WP_Support_ShortID, 
 		@WP_Support_XmppSuffix, @WP_Support_WelcomeMessage, @WP_Support_BusyMessage,
-		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_RO);
+		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_US);
 
--- Welcome conversation Support - WP. 
-INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
-		[From], Starred, StartTime, WorkingPoint_TelNumber, 
-		Client_TelNumber, IsSmsBased) VALUES (@WP_ConvIdSupportToWP, @WP_Support_WelcomeMessage,
-		@WP_Read, @WP_TimeReceived, @WP_Support_ShortID, @WP_Starred, @WP_TimeReceived, 
-		@Client_TelNumber, @WP_Support_ShortID, @isSmsBased_IM);
+---- Welcome conversation Support - WP. 
+--INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
+--		[From], Starred, StartTime, WorkingPoint_TelNumber, 
+--		Client_TelNumber, IsSmsBased) VALUES (@WP_ConvIdSupportToWP, @WP_Support_WelcomeMessage,
+--		@WP_Read, @WP_TimeReceived, @WP_Support_ShortID, @WP_Starred, @WP_TimeReceived, 
+--		@Client_TelNumber, @WP_Support_ShortID, @isSmsBased_IM);
 		
-INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId, XmppConnectionXmppUser)
-		VALUES (@WP_Support_XmppAddress, @WP_XmppAddress, @WP_Support_WelcomeMessage,
-		@WP_TimeReceived, @WP_Read, @WP_ConvIdSupportToWP, NULL);
+--INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId, XmppConnectionXmppUser)
+--		VALUES (@WP_Support_XmppAddress, @WP_XmppAddress, @WP_Support_WelcomeMessage,
+--		@WP_TimeReceived, @WP_Read, @WP_ConvIdSupportToWP, NULL);
 		
-UPDATE WorkingPoints SET SupportConversation = @WP_ConvIdSupportToWP WHERE TelNumber = @Client_TelNumber;
+--UPDATE WorkingPoints SET SupportConversation = @WP_ConvIdSupportToWP WHERE TelNumber = @Client_TelNumber;
 
--- Welcome conversation WP - Support
-INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
-		[From], Starred, StartTime, WorkingPoint_TelNumber, 
-		Client_TelNumber, IsSmsBased) VALUES (@WP_ConvIdWPToSupport, @WP_Support_WelcomeMessage,
-		@WP_Read, @WP_TimeReceived, @WP_ShortID, @WP_Starred, @WP_TimeReceived, 
-		@WP_Support_TelNumber, @WP_ShortID, @isSmsBased_IM);
+---- Welcome conversation WP - Support
+--INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
+--		[From], Starred, StartTime, WorkingPoint_TelNumber, 
+--		Client_TelNumber, IsSmsBased) VALUES (@WP_ConvIdWPToSupport, @WP_Support_WelcomeMessage,
+--		@WP_Read, @WP_TimeReceived, @WP_ShortID, @WP_Starred, @WP_TimeReceived, 
+--		@WP_Support_TelNumber, @WP_ShortID, @isSmsBased_IM);
 		
-INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId, XmppConnectionXmppUser)
-		VALUES (@WP_XmppAddress, @WP_Support_XmppAddress, @WP_Support_WelcomeMessage,
-		@WP_TimeReceived, @WP_Read, @WP_ConvIdWPToSupport, NULL);
+--INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId, XmppConnectionXmppUser)
+--		VALUES (@WP_XmppAddress, @WP_Support_XmppAddress, @WP_Support_WelcomeMessage,
+--		@WP_TimeReceived, @WP_Read, @WP_ConvIdWPToSupport, NULL);
 
 DECLARE @U_ApplicationId uniqueidentifier = (SELECT TOP 1 ApplicationId FROM dbo.Applications); 
 
