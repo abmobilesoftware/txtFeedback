@@ -373,7 +373,9 @@
     <Content Include="Content\images\sms_white.png" />
     <Content Include="Content\images\Spain_flag.png" />
     <Content Include="Content\images\Spain_flag_16.png" />
+    <Content Include="Content\images\star-selected_orange.png" />
     <Content Include="Content\images\star-selected_orange.svg" />
+    <Content Include="Content\images\star.png" />
     <Content Include="Content\images\star.svg" />
     <Content Include="Content\images\star-selected.svg" />
     <Content Include="Content\images\thumbs_down_hover_red_24x24.png" />
@@ -401,7 +403,6 @@
     <Content Include="Content\jquery.tagsinput.css" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\messages.css" />
-    <Content Include="Content\Minified\quickActionBtns.css" />
     <Content Include="Content\nav.css" />
     <Content Include="Content\phonenumbers.css" />
     <Content Include="Content\quickActionBtns.css" />
@@ -452,7 +453,6 @@
     <Content Include="MyScripts\Messages.js" />
     <Content Include="MyScripts\ConversationTags.js" />
     <Content Include="MyScripts\Base\BaseLeftSideMenu.js" />
-    <Content Include="MyScripts\Minified\QuickActions.js" />
     <Content Include="MyScripts\Minified\Transition.js" />
     <Content Include="MyScripts\QuickActions.js" />
     <Content Include="MyScripts\Reports\DateHelper.js" />
@@ -547,6 +547,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Minified\" />
     <Folder Include="Models\ViewModels\" />
     <Folder Include="Scripts\datepicker\" />
     <Folder Include="Views\Messages\" />

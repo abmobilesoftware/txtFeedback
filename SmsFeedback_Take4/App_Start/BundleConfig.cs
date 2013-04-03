@@ -38,7 +38,8 @@ namespace SmsFeedback_Take4
             "~/Content/conversations.css",
             "~/Content/filtersStrip.css",
             "~/Content/tags.css",            
-            "~/Content/jquery.tagsinput.css"));
+            "~/Content/jquery.tagsinput.css",
+             "~/Content/quickActionBtns.css"));
          //js
          bundles.Add(new ScriptBundle("~/bundles/homejs").Include(
             "~/Scripts/spin.js",
