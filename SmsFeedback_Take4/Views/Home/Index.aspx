@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="SmsFeedback" Language="C#" MasterPageFile="~/Views/Shared/Site.Master"
-   Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+   Inherits="System.Web.Mvc.ViewPage<dynamic>"  %>
 <%@ Import Namespace="SmsFeedback_Take4.Utilities" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
    <%: Resources.Global.messagesPageTitle %>
@@ -14,10 +14,7 @@
          var newGUI = new InitializeGUI();
       });
    </script>
-</asp:Content>
-    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/quickActionBtns.css") %>" />
-    <script src="<%: Url.UpdatedResourceLink("~/MyScripts/QuickActions.js") %>" type ="application/javascript"></script>
-
+</asp:Content>    
 <asp:Content ID="Content3" ContentPlaceHolderID="TemplatesArea" runat="server">
    <script type="text/template" id="tag-template">       
 		<span class="tag"  >
@@ -74,10 +71,18 @@
                     <div class="spanClassText rightSideMembers">
                         <span>{{ Text }}</span>
                     </div>
-                    <% if ((bool)ViewData["messageOrganizer"]) { %>
-                        <div class="deleteConv ignoreElementOnSelection">
-                        <img title="<%: Resources.Global.tooltipDeleteConversation %>" src="<%: Url.Content("~/Content/images/trash_white.png") %>" class="deleteConvImg" />
-                        </div>
+                    <% if ((bool)ViewData["messageOrganizer"] )
+                       { %>
+                          {%
+                                 if (!ClientIsSupportBot) {             
+                           %}
+                              <div class="deleteConv ignoreElementOnSelection">
+                                 <img title="<%: Resources.Global.tooltipDeleteConversation %>" src="<%: Url.Content("~/Content/images/trash_white.png") %>" class="deleteConvImg" />
+                              </div>
+                            {%
+                                }
+                             %}     
+                        
                     <% } %>
        
                     <div class="favoriteConversation">
