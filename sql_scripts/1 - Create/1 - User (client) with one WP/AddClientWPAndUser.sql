@@ -4,19 +4,19 @@ USE txtfeedback_production -- choose db
 -- Script for Canada
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = '15878802193';
-DECLARE @WP_ShortID nvarchar(10) = 'rise';
-DECLARE @WP_Name nvarchar(40) = 'Rise espresso';
-DECLARE @Client_Description nvarchar(160) = 'Rise Espresso from Canada';
+DECLARE @Client_TelNumber nvarchar(50) = ' 40371799990';
+DECLARE @WP_ShortID nvarchar(10) = 'altex';
+DECLARE @WP_Name nvarchar(40) = 'Altex Cluj 1';
+DECLARE @Client_Description nvarchar(160) = 'Magazin Altex Cluj 1';
 DECLARE @WP_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Welcome to Rise Espresso. What do you think about our coffee? ';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Bine aþi venit la Altex Iulius Mall. Cu ce vã putem fi de ajutor?';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'Rise Espresso'; -- details in less used section
+DECLARE @U_CompanyName nvarchar(50) = 'Altex'; -- details in less used section
 DECLARE @C_ContactName nvarchar(50) = 'Jenny';
 DECLARE @C_ContactSurname nvarchar(50) = 'Jorge';
 DECLARE @C_ContactEmail nvarchar(50) = 'jjjennylee00@gmail.com';
-DECLARE @C_VATID nvarchar(50) = 'RiseEspressonVATID';
+DECLARE @C_VATID nvarchar(50) = 'AltextVATID';
 DECLARE @C_RegistrationNumber nvarchar(50) = NULL;
 -- SubscriptionDetails
 DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Jenny'; 
@@ -30,10 +30,10 @@ DECLARE @S_SecondaryContact_Email nvarchar(50) = 'jjjennylee00@gmail.com';
 -- Support working point
 DECLARE @WP_Support_TelNumber nvarchar(50) = '2220000100';
 DECLARE @WP_Support_ShortID nvarchar(10) = 'supportrop';
-DECLARE @WP_Support_Name nvarchar(40) = 'TxtFeedback support';
-DECLARE @WP_Support_Description nvarchar(120)= 'Support for CA';
+DECLARE @WP_Support_Name nvarchar(40) = 'TxtFeedback suport';
+DECLARE @WP_Support_Description nvarchar(120)= 'Support for Romania';
 DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Welcome to TxtFeedback. Use this chat to clarify every & any question you might have about TxtFeedback';
+DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Bine aþi venit la TxtFeedback. Folosiþi aceastã conversaþie pentru a clarifica toate/orice întrebare';
 
 -- User data
 DECLARE @U_RegularUserName varchar(30) = 'jenny.jorge';
@@ -77,8 +77,8 @@ DECLARE @S_SubscriptionSMS int = 20;
 -- Tags
 DECLARE @TagDescription nvarchar(200) = 'default tag';
 -- English version
-DECLARE @TagPositive nvarchar(50) = 'Positive feedback';
-DECLARE @TagNegative nvarchar(50) = 'Negative feedback';
+DECLARE @TagPositive nvarchar(50) = 'Feedback pozitiv';
+DECLARE @TagNegative nvarchar(50) = 'Feedback negativ';
 -- German version
 --DECLARE @TagPositive nvarchar(50) = 'Positives feedback';
 --DECLARE @TagNegative nvarchar(50) = 'Negatives feedback';
@@ -138,7 +138,7 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@Client_TelNumber, @WP_Description, @WP_Name, 
 		@WP_Provider, @WP_SmsSent, @WP_MaxNrOfSmsToSend, @WP_ShortID, 
 		@WP_XmppSuffix, @WP_WelcomeMessage, @WP_BusyMessage,
-		@WP_OutsideOfficeHoursMessage, @WP_Language_US);
+		@WP_OutsideOfficeHoursMessage, @WP_Language_RO);
 		
 IF (SELECT COUNT(*) FROM [dbo].[WorkingPoints] WHERE [dbo].[WorkingPoints].[TelNumber] = @WP_Support_TelNumber) = 0 
 INSERT INTO WorkingPoints(TelNumber, Description, Name, 
@@ -147,7 +147,7 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		VALUES (@WP_Support_TelNumber, @WP_Support_Description, @WP_Support_Name, 
 		@WP_Support_Provider, @WP_Support_SentSms, @WP_Support_MaxNrOfSms, @WP_Support_ShortID, 
 		@WP_Support_XmppSuffix, @WP_Support_WelcomeMessage, @WP_Support_BusyMessage,
-		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_US);
+		@WP_Support_OutsideOfficeHoursMessage, @WP_Language_RO);
 
 -- Welcome conversation Support - WP. 
 INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
