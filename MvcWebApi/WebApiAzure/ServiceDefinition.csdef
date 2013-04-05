@@ -53,6 +53,8 @@
         <VirtualApplication name="magazin2" physicalDirectory="..\..\..\magazin2" />
         <VirtualApplication name="sales1" physicalDirectory="..\..\..\sales1" />
         <VirtualApplication name="sales2" physicalDirectory="..\..\..\sales2" />
+         <VirtualApplication name="demo1" physicalDirectory="..\..\..\demo1" />
+         <VirtualApplication name="demo2" physicalDirectory="..\..\..\demo2" />
         <Bindings>
           <Binding name="Endpoint2" endpointName="Endpoint2" />
         </Bindings>
