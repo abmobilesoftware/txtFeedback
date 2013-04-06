@@ -547,7 +547,7 @@
          // get the dimensions for the container and data
          var ch = s.d.origHeight ? s.d.origHeight : browser.opera ? s.d.container.height() : s.getVal(badIE ? s.d.container[0].currentStyle['height'] : s.d.container.css('height'), 'h'),
 				cw = s.d.origWidth ? s.d.origWidth : browser.opera ? s.d.container.width() : s.getVal(badIE ? s.d.container[0].currentStyle['width'] : s.d.container.css('width'), 'w'),
-				dh = s.d.data.outerHeight(true), dw = s.d.data.outerWidth(true);
+				dh = "NaNpx", dw = "NaNpx";
 
          s.d.origHeight = s.d.origHeight || ch;
          s.d.origWidth = s.d.origWidth || cw;
