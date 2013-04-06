@@ -1,35 +1,97 @@
-/*
- * SimpleModal Contact Form
- * http://simplemodal.com
- *
- * Copyright (c) 2013 Eric Martin - http://ericmmartin.com
- *
- * Licensed under the MIT license:
- *   http://www.opensource.org/licenses/mit-license.php
- */
+//#region Defines to stop jshint from complaining about "undefined objects"
+/*global window */
+/*global Strophe */
+/*global document */
+/*global console */
+/*global $pres */
+/*global $iq */
+/*global $msg */
+/*global Persist */
+/*global DOMParser */
+/*global ActiveXObject */
+/*global Backbone */
+/*global _ */
+/*global alert */
+/*global gSelectedConversationID */
+/*global gSelectedMessage */
+//#endregion
 
 jQuery(function ($) {
    var contact = {
       message: null,
       init: function () {
+         // $('div.sendEmailButton').unbind("click");
+         $(document).on("click", 'div.sendEmailButton', function (e) {
+            e.preventDefault();
+            var textToDisplay = gSelectedMessage;
+            var conversationId = gSelectedConversationID;
+            // load the contact form using ajax
+            $.ajax({
+               url: "EmailSend/GetEmailMessageForm",
+               data: { 'emailText': textToDisplay, 'convID': conversationId },
+               cache: true,
+               success: function (data) {
+                  // create a modal dialog with the data
+                  $(data).modal({
+                     appendTo: 'form',
+                     closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
+                     minWidth: 600,
+                     position: ["15%", "30%"],
+                     overlayId: 'contact-overlay',
+                     containerId: 'contact-container',
+                     onOpen: contact.open,
+                     onShow: contact.show,
+                     onClose: contact.close
+                  });
+               }
+            });
+         });
+         //#region Feedback buttons
          $('#sendPositiveFeedback').click(function (e) {
             e.preventDefault();
-
-            // load the contact form using ajax
-            $.get("EmailSend/GetEmailMessageForm", function (data) {
-               // create a modal dialog with the data
-               $(data).modal({
-                  closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
-                  position: ["15%", ],
-                  overlayId: 'contact-overlay',
-                  containerId: 'contact-container',
-                  onOpen: contact.open,
-                  onShow: contact.show,
-                  onClose: contact.close
-               });
+            $.ajax({
+               url: "EmailSend/GetFeedbackForm",
+               data: { 'positiveFeedback': true, 'url': document.URL },
+               cache: true,
+               success: function (data) {
+                  // create a modal dialog with the data
+                  $(data).modal({
+                     closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
+                     position: ["15%", ],
+                     overlayId: 'contact-overlay',
+                     containerId: 'contact-container',
+                     onOpen: contact.open,
+                     onShow: contact.show,
+                     onClose: contact.close
+                  });
+               }
+            });
+         });
+         $('#sendNegativeFeedback').click( function (e) {
+            e.preventDefault();
+            $.ajax({
+               url: "EmailSend/GetFeedbackForm",
+               data: { 'positiveFeedback': false, 'url': document.URL },
+               cache: true,
+               success: function (data) {
+                  // create a modal dialog with the data
+                  $(data).modal({
+                     appendTo: 'body',
+                     closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
+                     minWidth: 600,
+                     position: ["15%", "30%"],
+                     overlayId: 'contact-overlay',
+                     containerId: 'contact-container',
+                     onOpen: contact.open,
+                     onShow: contact.show,
+                     onClose: contact.close
+                  });
+               }
             });
          });
       },
+      //#endregion
+      //#region Open
       open: function (dialog) {
          // dynamically determine height
          var h = 280;
@@ -39,9 +101,10 @@ jQuery(function ($) {
          if ($('#contact-cc').length) {
             h += 22;
          }
-
          var title = $('#contact-container .contact-title').html();
-         $('#contact-container .contact-title').html('Loading...');
+         var loadingMessage = $('#sendEmailLoadingMsg').val();
+         var title = $('#contact-container .contact-title').html();
+         $('#contact-container .contact-title').html(loadingMessage);
          dialog.overlay.fadeIn(200, function () {
             dialog.container.fadeIn(200, function () {
                dialog.data.fadeIn(200, function () {
@@ -61,7 +124,9 @@ jQuery(function ($) {
                });
             });
          });
-      },
+      },        
+      //#endregion
+      //#region Show
       show: function (dialog) {
          $('#contact-container .contact-send').click(function (e) {
             e.preventDefault();
@@ -71,21 +136,23 @@ jQuery(function ($) {
                msg.fadeOut(function () {
                   msg.removeClass('contact-error').empty();
                });
-               $('#contact-container .contact-title').html('Sending...');
+               var sendingMsg = $('#sendEmailSendingEmailMsg').val();
+               $('#contact-container .contact-title').html(sendingMsg);
                $('#contact-container form').fadeOut(200);
                $('#contact-container .contact-content').animate({
                   height: '80px'
                }, function () {
                   $('#contact-container .contact-loading').fadeIn(200, function () {
                      $.ajax({
-                        url: 'data/contact.php',
+                        url: 'EmailSend/SendEmail',
                         data: $('#contact-container form').serialize() + '&action=send',
                         type: 'post',
                         cache: false,
                         dataType: 'html',
                         success: function (data) {
                            $('#contact-container .contact-loading').fadeOut(200, function () {
-                              $('#contact-container .contact-title').html('Thank you!');
+                              var emailSentMsg = $('#sendEmailEmailSentMsg').val();
+                              $('#contact-container .contact-title').html(emailSentMsg);
                               msg.html(data).fadeIn(200);
                            });
                         },
@@ -108,13 +175,15 @@ jQuery(function ($) {
                      height: '30px'
                   }, contact.showError);
                }
-
+					
             }
          });
-      },
-      close: function (dialog) {
+      },        
+      //#endregion
+      //#region Close
+      close: function (dialog) {        
          $('#contact-container .contact-message').fadeOut();
-         $('#contact-container .contact-title').html('Goodbye...');
+         $('#contact-container .contact-title').html('');
          $('#contact-container form').fadeOut(200);
          $('#contact-container .contact-content').animate({
             height: 40
@@ -128,27 +197,28 @@ jQuery(function ($) {
             });
          });
       },
+      //#endregion
       error: function (xhr) {
          alert(xhr.statusText);
       },
       validate: function () {
          contact.message = '';
-         if (!$('#contact-container #contact-name').val()) {
-            contact.message += 'Name is required. ';
+         if (!$('#contact-container #contact-subject').val()) {
+            contact.message += $('#sendEmailValidationSubjectRequiredMsg').val();
          }
 
          var email = $('#contact-container #contact-email').val();
          if (!email) {
-            contact.message += 'Email is required. ';
+            contact.message += $('#sendEmailValidationEmailRequiredMsg').val();
          }
          else {
             if (!contact.validateEmail(email)) {
-               contact.message += 'Email is invalid. ';
+               contact.message += $('#sendEmailValidationEmailInvalidMsg').val();
             }
          }
 
          if (!$('#contact-container #contact-message').val()) {
-            contact.message += 'Message is required.';
+            contact.message += $('#sendEmailValidationMessageRequiredMsg').val();
          }
 
          if (contact.message.length > 0) {
@@ -161,49 +231,54 @@ jQuery(function ($) {
       validateEmail: function (email) {
          var at = email.lastIndexOf("@");
 
-         // Make sure the at (@) sybmol exists and  
+         // Make sure the at (@) sybmol exists and
          // it is not the first or last character
-         if (at < 1 || (at + 1) === email.length)
+         if (at < 1 || (at + 1) === email.length) {
             return false;
+         }
 
          // Make sure there aren't multiple periods together
-         if (/(\.{2,})/.test(email))
+         if (/(\.{2,})/.test(email)) {
             return false;
+         }
 
          // Break up the local and domain portions
          var local = email.substring(0, at);
          var domain = email.substring(at + 1);
 
          // Check lengths
-         if (local.length < 1 || local.length > 64 || domain.length < 4 || domain.length > 255)
+         if (local.length < 1 || local.length > 64 || domain.length < 4 || domain.length > 255) {
             return false;
+         }
 
          // Make sure local and domain don't start with or end with a period
-         if (/(^\.|\.$)/.test(local) || /(^\.|\.$)/.test(domain))
+         if (/(^\.|\.$)/.test(local) || /(^\.|\.$)/.test(domain)) {
             return false;
+         }
 
          // Check for quoted-string addresses
          // Since almost anything is allowed in a quoted-string address,
          // we're just going to let them go through
          if (!/^"(.+)"$/.test(local)) {
             // It's a dot-string address...check for valid characters
-            if (!/^[-a-zA-Z0-9!#$%*\/?|^{}`~&'+=_\.]*$/.test(local))
+            if (!/^[-a-zA-Z0-9!#$%*\/?|\^{}`~&'+=_\.]*$/.test(local)) {
                return false;
+            }
          }
 
          // Make sure domain contains only valid characters and at least one period
-         if (!/^[-a-zA-Z0-9\.]*$/.test(domain) || domain.indexOf(".") === -1)
+         if (!/^[-a-zA-Z0-9\.]*$/.test(domain) || domain.indexOf(".") === -1) {
             return false;
+         }
 
          return true;
       },
       showError: function () {
          $('#contact-container .contact-message')
-				.html($('<div class="contact-error"></div>').append(contact.message))
-				.fadeIn(200);
+         .html($('<div class="contact-error"></div>').append(contact.message))
+         .fadeIn(200);
       }
    };
-
+   window.ContactWindow = contact;
    contact.init();
-
 });
