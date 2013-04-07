@@ -12,6 +12,7 @@ namespace SmsFeedback_Take4
          //master layout
          //css
          bundles.Add(new ScriptBundle("~/bundles/corejs").Include(
+            "~/Scripts/persist-min.js",
             "~/Scripts/Strophe/strophe.js",
             "~/MyScripts/Utilities.js",
             "~/MyScripts/XMPP.js",

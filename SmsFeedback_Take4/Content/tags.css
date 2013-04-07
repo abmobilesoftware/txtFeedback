@@ -35,6 +35,10 @@ and (min-width : 1024px) {
 @media only screen 
 and (min-device-width : 768px) 
 and (max-device-width : 1024px) {
+   #quickActionBtns {
+      display:none;
+      visibility:collapse;
+   }
    #tagsContainer {
    display:none;
    visibility:collapse;

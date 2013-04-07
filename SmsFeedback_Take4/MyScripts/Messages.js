@@ -499,8 +499,11 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             this.render();
             $("#textareaContainer").removeClass("invisible");
             $("textareaContainer").fadeIn("slow");
+            //show only if not on tablet
+            if ($("#tagsContainer").css("visibility") != "collapse") {
             $("#tagsContainer").removeClass("invisible");
             $("#tagsContainer").fadeIn("slow");
+            }
          }
          else {
             var messages1 = new window.app.MessagesList();
@@ -516,8 +519,10 @@ function MessagesArea(convView, tagsArea, wpsArea) {
                   spinner.stop();
                   $("#textareaContainer").removeClass("invisible");
                   $("#textareaContainer").fadeIn("slow");
-                  $("#tagsContainer").removeClass("invisible");
-                  $("#tagsContainer").fadeIn("slow");
+                  if ($("#tagsContainer").css("visibility") != "collapse") {
+                     $("#tagsContainer").removeClass("invisible");
+                     $("#tagsContainer").fadeIn("slow");
+                  }
                }
             });
             window.app.globalMessagesRep[self.currentConversationId] = messages1;
