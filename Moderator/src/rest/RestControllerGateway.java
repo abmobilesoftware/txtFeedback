@@ -26,20 +26,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RestControllerGateway {
-	/* REST resources for dev 
+	/* REST resources for dev */
 	private String RESTGetHandlersForMessageURL = "http://dev.txtfeedback.net/Component/GetHandlerForMessage";
 //	private String RESTGetHandlersForMessageURL = "http://localhost:4631/Component/GetHandlerForMessage";
 	private String RESTDomain = "http://rest.txtfeedback.net/";
 	private String RESTGetHandlersForMessageURL1 = "http://dev.txtfeedback.net/Component/GetHandlerForMessage1";
 	//private String RESTGetHandlersForMessageURL1 = "http://localhost:4631/Component/GetHandlerForMessage1";
 	private String RESTGetWorkingPointForCertainAddress = "http://dev.txtfeedback.net/Component/GetWorkingPointForCertainAddress";
-	private String RESTSaveMessage = "http://localhost:4631/en-US/Component/SaveMessage";
-	//private String RESTSaveMessage = "http://dev.txtfeedback.net/Component/SaveMessage";
+	//private String RESTSaveMessage = "http://localhost:4631/en-US/Component/SaveMessage";
+	private String RESTSaveMessage = "http://dev.txtfeedback.net/Component/SaveMessage";
 	private String RESTParametersTest = "http://dev.txtfeedback.net/Component/GetParametersTest";
 	private String RESTUpdateClientAcknowledge = "http://dev.txtfeedback.net/Component/UpdateMessageClientAcknowledgeField";
 	//private String RESTUpdateClientAcknowledge = "http://localhost:4631/Component/UpdateMessageClientAcknowledgeField";
 	//private String RESTUpdateClientAcknowledge = "http://localhost:4631/Component/UpdateMessageClientAcknowledgeField";
-*/	 	 
+	 
 	 	 
 	/* REST resources for nexmo
 	private String RESTGetHandlersForMessageURL = "http://demo.txtfeedback.net/Component/GetHandlerForMessage";
@@ -52,7 +52,7 @@ public class RestControllerGateway {
 	private String RESTUpdateClientAcknowledge = "http://demo.txtfeedback.net/Component/UpdateMessageClientAcknowledgeField";
 	*/
 	
-	/* REST resources for product */  
+	/* REST resources for product  
 	private String RESTGetHandlersForMessageURL = "http://product.txtfeedback.net/Component/GetHandlerForMessage";
 	private String RESTDomain = "http://rest.txtfeedback.net/";
 	private String RESTGetHandlersForMessageURL1 = "http://product.txtfeedback.net/Component/GetHandlerForMessage1";
@@ -61,7 +61,7 @@ public class RestControllerGateway {
 	private String RESTSaveMessage = "http://product.txtfeedback.net/Component/SaveMessage";
 	private String RESTParametersTest = "http://product.txtfeedback.net/Component/GetParametersTest";
 	private String RESTUpdateClientAcknowledge = "http://product.txtfeedback.net/Component/UpdateMessageClientAcknowledgeField";
-	
+	*/
 	public ArrayList<Agent> getHandlersForMessage(String iWP, String iConversationId, boolean isSms) throws RESTException {
 		try {
 			StringBuilder urlSb = new StringBuilder(RESTDomain);
@@ -231,6 +231,20 @@ public class RestControllerGateway {
 			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 		} 
 		return ri;
+	}
+	
+	public String callGCMRest(String message) {
+		RestClient ri = new RestClient("https://android.googleapis.com/gcm/send");
+		ri.addParam("\"registration_ids\"", "[\"APA91bGTsIOwkKl-buzLrw1kbmmMst6cl3fEvSSQAh0bmKU3bwp5GKcDb_qxEJvg9BQa-1q_RWZ4E6g3Q03F4C9Lt1CZzY0Wfb0yh48PcgU0jhlTjpsJBDLasE84Nn5HpnDtgX3Ob7nCC4TexMuaFwHPTXlEb2h3JA\"]");
+		ri.addHeader("Authorization", "key=AIzaSyDD7C2r_A9E7ByJNNmEFGALVzHZgmC--xg");
+		ri.addHeader("Content-type", "application/json");
+		ri.addParam("\"data\"", "{\"payload\":\"" + message + "\"}");
+		try {
+			ri.sendHttpPostWithJsonBody();				
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return ri.getResponse();
 	}
 	
 }
