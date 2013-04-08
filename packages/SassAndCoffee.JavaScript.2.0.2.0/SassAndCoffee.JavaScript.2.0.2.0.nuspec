@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>SassAndCoffee.JavaScript</id>
+    <version>2.0.2.0</version>
+    <title>SassAndCoffee.JavaScript</title>
+    <authors>Steven Robbins,  Ken Browning,  Roman Kvasov,  Nicholas Sivo</authors>
+    <owners>Steven Robbins,  Ken Browning,  Roman Kvasov,  Nicholas Sivo</owners>
+    <licenseUrl>http://opensource.org/licenses/ms-pl.html</licenseUrl>
+    <projectUrl>https://github.com/xpaulbettsx/SassAndCoffee</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Just the JavaScript (CoffeeScript, Uglify.js) parts of SassAndCoffee. Useful for embedding in other projects.</description>
+    <releaseNotes>Extract JavaScript dependencies into seperate project.</releaseNotes>
+    <copyright>Copyright 2011 Paul Betts</copyright>
+    <tags>Uglify UglifyJS CoffeeScript Coffee Minify</tags>
+    <dependencies>
+      <dependency id="SassAndCoffee.Core" version="2.0.2.0" />
+    </dependencies>
+    <references>
+      <reference file="SassAndCoffee.JavaScript.dll" />
+    </references>
+  </metadata>
+</package>
