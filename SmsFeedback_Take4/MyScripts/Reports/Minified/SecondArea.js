@@ -1,1 +1,0 @@
-window.app=window.app||{};function SecondArea(b){var a=b;this.load=function(d){var c="<div class='boxArea' tooltiptitle='"+a.tooltip+"'><div class='infoContent'><div class='boxValue'>"+d.value+"</div><div class='boxUnit'> "+d.unit+"</div></div><div class='infoTitle'>"+a.title+"</div></div>";$("#secondSection").append(c)}};
