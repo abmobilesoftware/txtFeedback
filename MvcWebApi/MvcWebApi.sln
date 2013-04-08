@@ -1,5 +1,4 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abmobdemo1", "Abmobdemo1\Abmobdemo1.csproj", "{9D08C9F2-59C8-4ADD-82E2-0EF97798651B}"
 EndProject
@@ -167,6 +166,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo1", "demo1\demo1.csproj", "{09ECE6DD-CDF8-49DC-983F-02450191A93C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo2", "demo2\demo2.csproj", "{2853C940-746F-42EC-BC71-168389D9DD46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rise", "rise\rise.csproj", "{B4A04A5F-C761-4E6B-B49C-E501FD38F7FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "altexim", "altexim\altexim.csproj", "{3FA418AF-C52D-4009-AD3E-63E860DDBC53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "altexreal", "altexreal\altexreal.csproj", "{A27C0F36-6465-427D-9329-57201D511076}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mediagcj", "mediagcj\mediagcj.csproj", "{7389C8CF-A10C-450E-8D78-C2AB2D1448E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

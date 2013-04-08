@@ -30,7 +30,7 @@ DECLARE @S_SecondaryContact_Email nvarchar(50) = 'marius@txtfeedback.net';
 -- Support working point
 DECLARE @WP_Support_TelNumber nvarchar(50) = '2220000100';
 DECLARE @WP_Support_ShortID nvarchar(10) = 'supportro';
-DECLARE @WP_Support_Name nvarchar(40) = 'TxtFeedback support';
+DECLARE @WP_Support_Name nvarchar(40) = 'TxtFeedback suport';
 DECLARE @WP_Support_Description nvarchar(120)= 'Support pentru Romania ';
 DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
 DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Bine aþi venit la TxtFeedback. Folosiþi aceastã conversaþie pentru a clarifica orice/toate întrebãrile';
@@ -267,12 +267,23 @@ INSERT INTO UsersForWorkingPoints (Users_UserId, WorkingPoints_TelNumber) VALUES
 -- Add roles
 DECLARE @ROLE_COMUNICATION_RESPONSIBLE uniqueidentifier;
 SET @ROLE_COMUNICATION_RESPONSIBLE = (SELECT TOP 1 RoleId FROM Roles WHERE RoleName = 'ComunicationResponsible' ORDER BY RoleId DESC);
-DECLARE @ROLE_WORKING_POINTS_CONFIGURATOR uniqueidentifier;
-SET @ROLE_WORKING_POINTS_CONFIGURATOR = (SELECT TOP 1 RoleId FROM Roles WHERE RoleName = 'WorkingPointsConfigurator' ORDER BY RoleId DESC);
 INSERT INTO UsersInRoles (UserId, RoleId) VALUES
 		(@U_GUID, @ROLE_COMUNICATION_RESPONSIBLE);
+
+DECLARE @ROLE_WORKING_POINTS_CONFIGURATOR uniqueidentifier;
+SET @ROLE_WORKING_POINTS_CONFIGURATOR = (SELECT TOP 1 RoleId FROM Roles WHERE RoleName = 'WorkingPointsConfigurator' ORDER BY RoleId DESC);
 INSERT INTO UsersInRoles (UserId, RoleId) VALUES 
 		(@U_GUID, @ROLE_WORKING_POINTS_CONFIGURATOR);
+
+DECLARE @ROLE_MESSAGES_ORG uniqueidentifier;
+SET @ROLE_MESSAGES_ORG = (SELECT TOP 1 RoleId FROM Roles WHERE RoleName = 'MessageOrganizer' ORDER BY RoleId DESC);
+INSERT INTO UsersInRoles (UserId, RoleId) VALUES 
+		(@U_GUID, @ROLE_MESSAGES_ORG);
+
+DECLARE @ROLE_COMPANY_CONFIG uniqueidentifier;
+SET @ROLE_COMPANY_CONFIG = (SELECT TOP 1 RoleId FROM Roles WHERE RoleName = 'CompanyConfigurator' ORDER BY RoleId DESC);
+INSERT INTO UsersInRoles (UserId, RoleId) VALUES 
+		(@U_GUID, @ROLE_COMPANY_CONFIG);
 
 -- Message Organizer
 DECLARE @ROLE_MessageOrganizer uniqueidentifier;
