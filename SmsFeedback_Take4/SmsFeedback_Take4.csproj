@@ -352,7 +352,9 @@
     <Content Include="Content\images\sms.png" />
     <Content Include="Content\images\Spain_flag.png" />
     <Content Include="Content\images\Spain_flag_16.png" />
+    <Content Include="Content\images\star-selected_orange.png" />
     <Content Include="Content\images\star-selected_orange.svg" />
+    <Content Include="Content\images\star.png" />
     <Content Include="Content\images\star.svg" />
     <Content Include="Content\images\star-selected.svg" />
     <Content Include="Content\images\thumbs_down_hover_red_24x24.png" />
