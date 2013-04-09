@@ -20,7 +20,8 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>true</IISExpressAnonymousAuthentication>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UpgradeBackupLocation />
@@ -492,7 +493,6 @@
     <Content Include="Scripts\jquery.ui.datepicker-ro.js" />
     <Content Include="Scripts\persist-min.js" />
     <Content Include="Scripts\spin.js" />
-    <Content Include="Scripts\splitter.js" />
     <Content Include="Scripts\jquery-ui-vertical-buttonset.js" />
     <Content Include="Scripts\strophe\strophe.js" />
     <Content Include="Scripts\underscore.js" />
