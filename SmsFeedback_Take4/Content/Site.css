@@ -1,12 +1,4 @@
-﻿@import "reset";
-@import "text";
-@import "grid";
-@import "layout";
-@import "nav";
-@import "contact";
-@import "css/areaDefinitions";
-
-/*----------------------------------------------------------
+﻿/*----------------------------------------------------------
 The base color for this template is #5c87b2. If you'd like
 to use a different color start by replacing all instances of
 #5c87b2 with your new color.
@@ -306,7 +298,7 @@ border: solid 1px #e8eef4;
 
 
 @media only screen 
-and (min-width : 1024px) {
+and (min-width : 960px) {
 div#title {
    display: block;
    float: left;
@@ -528,7 +520,7 @@ div.statusbarclose {
 }
 
 @media only screen 
-and (min-width : 1024px) {
+and (min-width : 960px) {
 #feedbackArea {
    position: relative;
    float:right;
@@ -661,7 +653,7 @@ and (max-device-width : 1024px) {
 
 
 @media only screen 
-and (min-width : 1024px) {
+and (min-width : 960px) {
 /* Let's get this party started */
 ::-webkit-scrollbar {
     width: 12px;
