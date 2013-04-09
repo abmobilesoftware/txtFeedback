@@ -95,7 +95,7 @@ var ReportsContentArea = Backbone.View.extend({
                $("#secondSection").append("<div class='clear'></div>");
                self.setupEnvironment(false);
                self.transition.endTransition();
-               $(document).trigger("resize");
+               $(document).trigger("resizeLocal");
            }
        }).responseText;
    },
@@ -130,13 +130,13 @@ var ReportsContentArea = Backbone.View.extend({
             $(elementName).hide();
             $(this).children(".sectionVisibility").attr("src", "/Content/images/arrow_up_dblue_16.png");
             $(descriptionElement).show();
-            $(document).trigger("resize");
+            $(document).trigger("resizeLocal");
          }
          else {
             $(elementName).show();
             $(this).children(".sectionVisibility").attr("src", "/Content/images/arrow_down_dblue_16.png");
             $(descriptionElement).hide();
-            $(document).trigger("resize");
+            $(document).trigger("resizeLocal");
          }
       });
 
