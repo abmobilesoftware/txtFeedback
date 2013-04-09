@@ -453,7 +453,6 @@
     <Content Include="MyScripts\Messages.js" />
     <Content Include="MyScripts\ConversationTags.js" />
     <Content Include="MyScripts\Base\BaseLeftSideMenu.js" />
-    <Content Include="MyScripts\Minified\Transition.js" />
     <Content Include="MyScripts\QuickActions.js" />
     <Content Include="MyScripts\Reports\DateHelper.js" />
     <Content Include="MyScripts\Reports\GlobalVariables.js" />
@@ -495,7 +494,6 @@
     <Content Include="Scripts\spin.js" />
     <Content Include="Scripts\splitter.js" />
     <Content Include="Scripts\jquery-ui-vertical-buttonset.js" />
-    <Content Include="Scripts\strophe\Minified\strophe.js" />
     <Content Include="Scripts\strophe\strophe.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Templates\PhoneTemplates.txt" />
@@ -547,7 +545,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Minified\" />
     <Folder Include="Models\ViewModels\" />
     <Folder Include="Scripts\datepicker\" />
     <Folder Include="Views\Messages\" />
