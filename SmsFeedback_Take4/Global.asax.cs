@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Newtonsoft.Json;
 using SmsFeedback_Take4.Utilities;
+using Thinktecture.IdentityModel.Http.Cors.Mvc;
 //required by log4net
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
@@ -54,10 +55,15 @@ namespace SmsFeedback_Take4
 
             // Use LocalDB for Entity Framework by default
             Database.DefaultConnectionFactory = new SqlConnectionFactory("Data Source=(localdb)\v11.0; Integrated Security=True; MultipleActiveResultSets=True");
-
-            RegisterGlobalFilters(GlobalFilters.Filters);
+             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+            RegisterCors(MvcCorsConfiguration.Configuration);
 
+        }
+
+        private void RegisterCors(MvcCorsConfiguration corsConfig)
+        {
+           corsConfig.AllowAll();
         }
     }
 }
