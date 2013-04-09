@@ -191,6 +191,12 @@ ul#menu li a {
    -moz-border-radius: 3px 3px 0 0;
 }
 
+ul#menu li a:hover {
+   background-color: #3E6D8E;
+   color: #E0EAF1;
+   text-decoration: none;
+}
+
 ul#menu li a:active {
    background-color: #a6e2a6;
    text-decoration: none;
