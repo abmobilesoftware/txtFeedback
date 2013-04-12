@@ -4,14 +4,14 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <!DOCTYPE html>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+ <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic' rel='stylesheet' type='text/css'>   
    <title>
       <asp:ContentPlaceHolder ID="TitleContent" runat="server" />
    </title>
-   <meta name="viewport" content="width=device-width, initial-scale=1"> 
    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.Content("~/Content/css/jq_ui_themes/dot-luv/jquery-ui-1.8.23.custom.css") %>" />
-    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>      
    <%: Styles.Render("~/Content/masterCss") %>     
    <asp:ContentPlaceHolder ID="IncludesCssArea" runat="server" />
 </head>
