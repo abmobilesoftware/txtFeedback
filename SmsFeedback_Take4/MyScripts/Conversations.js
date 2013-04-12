@@ -79,7 +79,14 @@ window.app.Conversation = Backbone.Model.extend({
                     self.set("Starred", !self.get("Starred"));
                 });
     },
-    idAttribute: "ConvID" //the id shold be the combination from-to
+    sync: function (method, model, options) {
+       //convert the delete to a post (for livehosting)
+       if (method === 'delete') {
+          options.url = "Conversations/Delete";
+          Backbone.sync("create", model, options);
+       }
+   },
+    idAttribute: "ConvID" //the id should be the combination from-to
 });
 //#endregion
 

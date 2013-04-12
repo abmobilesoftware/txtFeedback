@@ -175,6 +175,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "altexreal", "altexreal\alte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mediagcj", "mediagcj\mediagcj.csproj", "{7389C8CF-A10C-450E-8D78-C2AB2D1448E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gertkemper", "gertkemper\gertkemper.csproj", "{7C26A0CF-ED3D-4405-921C-E23C6D630EC4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_demo|Any CPU = Debug_demo|Any CPU
