@@ -53,12 +53,12 @@
     border-radius: 2px;
    -moz-border-radius: 2px;
    -webkit-border-radius: 2px;
-   background: #6b9bb3; /* Old browsers */   
+    background: #6b9bb3; /* Old browsers */   
 }
 
 .wpSelectorIcon {
-   width: 17px;
-   height: 17px;   
+  width: 17px !important;
+   height: 17px !important;  
    cursor: pointer;
 }
 
