@@ -75,8 +75,15 @@ color: white;*/
    color: white;
    font-weight: bold;
    font-size: 16px;
-   cursor: pointer;
- 
+   cursor: pointer; 
+}
+/*DA disabled style*/
+.btnSaveChanges:disabled {
+   color: GrayText;
+}
+
+.btnSaveChanges:hover {
+
 }
 
 .alignRight {
@@ -208,7 +215,7 @@ color: white;*/
    max-height: 45px;
    min-height: 45px;
    padding: 14px 0 14px 13px;
-   border-bottom: 1px solid #eee;
+   border-bottom: 3px solid #FFF;
    opacity: 1;
    background-color: #cfdfe3;
  }
