@@ -409,7 +409,6 @@
     <Content Include="Content\quickActionBtns.css" />
     <Content Include="Content\reset.css" />
     <Content Include="Content\tags.css" />
-    <Content Include="Content\TestLayout.css" />
     <Content Include="Content\text.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
