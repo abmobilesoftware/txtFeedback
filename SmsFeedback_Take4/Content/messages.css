@@ -286,7 +286,7 @@ input[name="countdown"] {
    /*font-size: 13px;*/
    line-height: 18px;
    border-width: 0px;
-   /*background-color: transparent;*/
+   background-color: transparent;
    white-space: pre-wrap;
    word-wrap: break-word;
    display: inline-block;
