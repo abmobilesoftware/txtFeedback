@@ -49,16 +49,15 @@ window.app.Conversation = Backbone.Model.extend({
         deselect state*/
         RequestSelect: false
     },
-    parse: function (data, xhc) {
-        data.TimeUpdated = data.TimeReceived;
-        if (data.IsSmsBased === "false" || data.IsSmsBased === false) {
-            data.IsSmsBased = false;
-        } else {
-            data.IsSmsBased = true;
-            data.ClientDisplayName = data.From.substring(0, data.From.length - 4) + "....";
-        }
-
-        return data;
+   //DA we override the initialize function so that all Conversation objects have their properties properly initialized
+   //the problem before was that parse was only called when initialized via collection.fetch
+    initialize: function (attributes, options) {
+       this.set('IsSmsBased', (attributes.IsSmsBased === "false" || attributes.IsSmsBased === false) ? false : true);
+       this.set('TimeUpdated', attributes.TimeReceived);
+       if (this.get('IsSmsBased')) {
+          var fromTo = getFromToFromConversation(attributes.ConvID)
+          this.set('ClientDisplayName', fromTo[0].substring(0, fromTo[0].length - 4) + "....");
+       }
     },
     toggleStarred: function () {
         /* Toggle the starred value using an optimistically approach
@@ -428,17 +427,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                     $(target).addClass("readable");
 
                     $.each(data, function () {
-                        var conv = new window.app.Conversation({
-                            From: $(this).attr("From"),
-                            ConvID: $(this).attr("ConvID"),
-                            TimeReceived: $(this).attr("TimeReceived"),
-                            Text: $(this).attr("Text"),
-                            Read: $(this).attr("Read"),
-                            To: $(this).attr('To'),
-                            Starred: $(this).attr('Starred'),
-                            ClientDisplayName: $(this).attr('ClientDisplayName'),
-                            ClientIsSupportBot: $(this).attr('ClientIsSupportBot')
-                        });
+                       var conv = new window.app.Conversation(this);                            
                         selfConversationsView.convsList.add(conv, { silent: true });
                         selfConversationsView.addConversationBasicEffect(conv, false);
 
