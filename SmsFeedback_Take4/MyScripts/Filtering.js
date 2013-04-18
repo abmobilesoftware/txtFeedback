@@ -29,17 +29,14 @@ window.app.defaultFilteringOptions = {
    supportFilteringEnabled: false
 };
 
-function Filter(iElement, iValue) {
-   var elementName = iElement;
-   this.behindVariable = iValue;
-
-   this.getElementName = function () {
-      return elementName;
-   };
-   this.getBehindVariable = function () {
-      return behindVariable;
-   };
-}
+window.app.setLabelState = function (labelElement, state) {
+   var elem = $(labelElement);
+   if (state === true) {
+      elem.addClass('filterActive');
+   } else {
+      elem.removeClass('filterActive');
+   }
+};
 
 function FilterArea() {
    "use strict";
@@ -86,11 +83,15 @@ function FilterArea() {
          self.starredFilteringEnabled = false;
          self.unreadFilteringEnabled = false;
          setCheckboxState($('#includeTagsInFilter'), self.tagFilteringEnabled);
+         window.app.setLabelState('#tagsLabel span', self.tagFilteringEnabled);
          setCheckboxState($('#includeStarredInFilter'), self.starredFilteringEnabled);
+         window.app.setLabelState('#starredFilterArea span', self.starredFilteringEnabled);
          setCheckboxState($('#includeUnreadInFilter'), self.unreadFilteringEnabled);
+         window.app.setLabelState('#unreadFilterArea span', self.unreadFilteringEnabled);
       } else {
          self.supportFilteringEnabled = false;
          setCheckboxState($('#includeSupportInFilter'), self.supportFilteringEnabled);
+         window.app.setLabelState('#supportFilterArea span', self.supportFilteringEnabled);
       }
    }
 
@@ -104,9 +105,11 @@ function FilterArea() {
       }
       //change checkbox state
       setCheckboxState($(this), self.tagFilteringEnabled);
+      window.app.setLabelState('#tagsLabel span', self.tagFilteringEnabled);
+      self.deactivateFilters(false);
       //trigger filtering if required      
       if (self.tagsForFiltering.length !== 0) {
-         self.deactivateFilters(false);
+         
          $(document).trigger('refreshConversationList');
       }
    });
@@ -118,6 +121,8 @@ function FilterArea() {
       self.starredFilteringEnabled = !self.starredFilteringEnabled;
       //change checkbox state
       setCheckboxState($(this), self.starredFilteringEnabled);
+      window.app.setLabelState('#starredFilterArea span', self.starredFilteringEnabled);
+      //Change the style of the label to match the state
       //trigger filtering if required
       self.deactivateFilters(false);
       $(document).trigger('refreshConversationList');
@@ -130,6 +135,7 @@ function FilterArea() {
       self.unreadFilteringEnabled = !self.unreadFilteringEnabled;
       //change checkbox state
       setCheckboxState($(this), self.unreadFilteringEnabled);
+      window.app.setLabelState('#unreadFilterArea span', self.unreadFilteringEnabled);
       //trigger filtering if required
       self.deactivateFilters(false);
       $(document).trigger('refreshConversationList');
@@ -142,6 +148,7 @@ function FilterArea() {
       self.supportFilteringEnabled = !self.supportFilteringEnabled;
       //change checkbox state
       setCheckboxState($(this), self.supportFilteringEnabled);
+      window.app.setLabelState('#supportFilterArea span', self.supportFilteringEnabled);
       self.deactivateFilters(true);
       //trigger filtering if required
       $(document).trigger('refreshConversationList');
