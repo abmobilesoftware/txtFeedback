@@ -86,9 +86,6 @@ window.app.ConversationsList = Backbone.Collection.extend({
     model: window.app.Conversation,
     convID: null,
     url: "Conversations/Delete",
-    initialize: function () {
-     
-    },
     methodUrl: {
         "read": "Conversations/ConversationsList",
         "delete": "Conversations/Delete"
@@ -114,6 +111,7 @@ window.app.ConversationView = Backbone.View.extend({
    events: {
       "click .star": "favoriteStarClicked",
       "click .conversation": "conversationClicked",
+      "click .deleteConvImg" : "deleteConversation"
    },
    model: window.app.Conversation,
    tagName: "div",
@@ -122,7 +120,7 @@ window.app.ConversationView = Backbone.View.extend({
       $("#convOverlay").hide();
       _.bindAll(this, 'render', "updateFavouritesIcon",
           "unrender", "favoriteStarClicked", "conversationClicked",
-          "updateSelectedState");
+          "updateSelectedState", "deleteConversation");
       this.conversationTemplate= _.template($('#conversation-template').html()),
       this.transition = new Transition(
           document.getElementById("scrollableconversations"),$("#convOverlay"));
@@ -136,25 +134,6 @@ window.app.ConversationView = Backbone.View.extend({
       // TODO : Move this action
       var deleteConvImg = $(".deleteConv img", this.$el);
 
-      //#region Click on Mark as Favorite
-      $(".deleteConvImg", this.$el).bind("click", function (e) {
-         e.preventDefault();
-         if (confirm($("#confirmDeleteConversation").val() + " \"" + selfConvView.model.get("ClientDisplayName") + "\" ?")) {
-            selfConvView.transition.startTransition();
-            selfConvView.model.destroy({
-               wait: true,
-               success: function (model, response, options) {
-                  selfConvView.unrender();
-                  selfConvView.transition.endTransition();
-                  $(document).trigger("deleteMessagesOfAConversation", { convId: model.get("ConvID") });
-               },
-               error: function (model, xhr, options) {
-                  selfConvView.transition.endTransition();
-               }
-            });
-         }
-      });
-      //#endregion
       //#region Hover on a conversation
       var deleteConvArea = $(".deleteConv", this.$el);
       if (deleteConvArea !== undefined) {
@@ -202,6 +181,23 @@ window.app.ConversationView = Backbone.View.extend({
          this.RequestSelect = false;
       } else {
          $(".conversation", this.$el).removeClass("ui-selected");
+      }
+   },
+   deleteConversation: function () {    
+      var selfConvView = this;
+      if (confirm($("#confirmDeleteConversation").val() + " \"" + selfConvView.model.get("ClientDisplayName") + "\" ?")) {
+         selfConvView.transition.startTransition();
+         selfConvView.model.destroy({
+            wait: true,
+            success: function (model, response, options) {
+               selfConvView.unrender();
+               selfConvView.transition.endTransition();
+               $(document).trigger("deleteMessagesOfAConversation", { convId: model.get("ConvID") });
+            },
+            error: function (model, xhr, options) {
+               selfConvView.transition.endTransition();
+            }
+         });
       }
    }
 });
