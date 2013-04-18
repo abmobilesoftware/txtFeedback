@@ -484,11 +484,13 @@ div.statusbarclose {
    position: relative;
    margin-right: 18%;
    background-color: #F3F6F7;
-   width: 255px;
-   min-width: 255px;
+   width: 280px;
+   min-width: 280px;
    margin-right: 200px;
    margin-top: 200px;
-   border-radius: 3px;
+   border-radius: 4px;
+   -moz-border-radius: 4px;
+   -webkit-border-radius: 4px;
 }
 
    #loginContainer p {
@@ -719,6 +721,11 @@ div.statusbarclose {
 
 .logInTextBox {
    width: 100%;
+   font-family: 'Source Sans Pro', sans-serif !important;
+   font-weight: 400;
+   line-height: 19px !important;
+   font-size: 15px !important;
+   background-color: white !important;
 }
 
 #rightColumn form {
