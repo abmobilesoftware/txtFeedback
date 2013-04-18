@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<SmsFeedback_Take4.Models.ChangePasswordModel>" %>
+﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<SmsFeedback_Take4.Models.ChangePasswordModel>" ValidateRequest ="false"%>
 
 <!DOCTYPE html>
 <legend id="wpConfigLegend"><%: Resources.Global.settingsChangePasswordTitle %></legend>

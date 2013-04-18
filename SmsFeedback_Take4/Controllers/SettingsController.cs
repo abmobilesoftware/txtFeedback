@@ -66,6 +66,7 @@ namespace SmsFeedback_Take4.Controllers
         }
       
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult GetChangePasswordForm(ChangePasswordModel model)
         {
            if (ModelState.IsValid)

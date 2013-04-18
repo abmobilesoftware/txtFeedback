@@ -153,6 +153,7 @@ namespace SmsFeedback_Take4.Controllers
 
       [Authorize]
       [HttpPost]
+      [ValidateInput(false)]
       public ActionResult ChangePassword(ChangePasswordModel model)
       {
          if (ModelState.IsValid)

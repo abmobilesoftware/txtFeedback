@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<SmsFeedback_Take4.Models.LogOnModel>" %>
+﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<SmsFeedback_Take4.Models.LogOnModel>" ValidateRequest = "false"%>
 <%@ Import Namespace="SmsFeedback_Take4.Utilities" %>
 <!DOCTYPE html>
 
