@@ -416,8 +416,8 @@ input[name="countdown"] {
    margin-right: 0.5%
 }
 .grid_messages {
-   width:61.0%;
-   margin-left:0.5%;
+   width:61.5%;
+   /*margin-left:0.5%;*/
    display: inline;
    float: left;
    /*margin-right: 0.5%*/
