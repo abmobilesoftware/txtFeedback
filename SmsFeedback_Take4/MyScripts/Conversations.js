@@ -79,6 +79,17 @@ window.app.Conversation = Backbone.Model.extend({
                     self.set("Starred", !self.get("Starred"));
                 });
     },
+    methodUrl: {
+       "delete": "Conversations/Delete"
+    },
+    sync: function (method, model, options) {
+       if (model.methodUrl && model.methodUrl[method]) {
+          options = options || {};
+          options.url = model.methodUrl[method];
+       }
+       var parseMethod = (method === "delete") ? "create" : method;
+       Backbone.sync(parseMethod, model, options);
+    },
     idAttribute: "ConvID" //the id shold be the combination from-to
 });
 //#endregion
@@ -87,7 +98,6 @@ window.app.Conversation = Backbone.Model.extend({
 window.app.ConversationsList = Backbone.Collection.extend({
     model: window.app.Conversation,
     convID: null,
-    url: "Conversations/Delete",
     initialize: function () {
         //_.bindAll(this, "updateConvSelectedState");
         this.on("change:RequestSelect", this.updateConvSelectedState);
