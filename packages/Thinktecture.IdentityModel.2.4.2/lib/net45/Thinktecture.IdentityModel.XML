@@ -74,6 +74,56 @@
             Converts the given epoch time to a UTC <see cref="T:System.DateTimeOffset"/>.
             </summary>
         </member>
+        <member name="M:Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="!:HttpUserNameSecurityTokenHandler"/> class.
+            </summary>
+        </member>
+        <member name="M:Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.#ctor(Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.ValidateUserNameCredentialDelegate)">
+            <summary>
+            Initializes a new instance of the <see cref="!:HttpUserNameSecurityTokenHandler"/> class.
+            </summary>
+            <param name="validateUserNameCredential">The credential validation callback.</param>
+        </member>
+        <member name="M:Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.ValidateToken(System.IdentityModel.Tokens.SecurityToken)">
+            <summary>
+            Validates the username and password.
+            </summary>
+            <param name="token">The token.</param>
+            <returns>An identity collection representing the identity in the token</returns>
+        </member>
+        <member name="M:Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.ValidateUserNameCredentialCore(System.String,System.String)">
+            <summary>
+            Validates the user name credential core.
+            </summary>
+            <param name="userName">Name of the user.</param>
+            <param name="password">The password.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.ValidateUserNameCredential">
+            <summary>
+            Gets or sets the credential validation callback
+            </summary>
+            <value>
+            The credential validation callback.
+            </value>
+        </member>
+        <member name="P:Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.CanValidateToken">
+            <summary>
+            Gets a value indicating whether this instance can validate a token.
+            </summary>
+            <value>
+            	<c>true</c> if this instance can validate a token; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.ValidateUserNameCredentialDelegate">
+            <summary>
+            Callback type for validating the credential
+            </summary>
+            <param name="username">The username.</param>
+            <param name="password">The password.</param>
+            <returns>True when the credential could be validated succesfully. Otherwise false.</returns>
+        </member>
         <member name="T:Thinktecture.IdentityModel.Clients.WrapClient">
             <summary>
             Implements the OAuth WRAP protocol to request tokens from an issuer.
@@ -714,56 +764,6 @@
             </summary>
             <param name="epi">The epi.</param>
             <returns>The target site X509 certificate</returns>
-        </member>
-        <member name="M:Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="!:HttpUserNameSecurityTokenHandler"/> class.
-            </summary>
-        </member>
-        <member name="M:Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.#ctor(Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.ValidateUserNameCredentialDelegate)">
-            <summary>
-            Initializes a new instance of the <see cref="!:HttpUserNameSecurityTokenHandler"/> class.
-            </summary>
-            <param name="validateUserNameCredential">The credential validation callback.</param>
-        </member>
-        <member name="M:Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.ValidateToken(System.IdentityModel.Tokens.SecurityToken)">
-            <summary>
-            Validates the username and password.
-            </summary>
-            <param name="token">The token.</param>
-            <returns>An identity collection representing the identity in the token</returns>
-        </member>
-        <member name="M:Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.ValidateUserNameCredentialCore(System.String,System.String)">
-            <summary>
-            Validates the user name credential core.
-            </summary>
-            <param name="userName">Name of the user.</param>
-            <param name="password">The password.</param>
-            <returns></returns>
-        </member>
-        <member name="P:Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.ValidateUserNameCredential">
-            <summary>
-            Gets or sets the credential validation callback
-            </summary>
-            <value>
-            The credential validation callback.
-            </value>
-        </member>
-        <member name="P:Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.CanValidateToken">
-            <summary>
-            Gets a value indicating whether this instance can validate a token.
-            </summary>
-            <value>
-            	<c>true</c> if this instance can validate a token; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="T:Thinktecture.IdentityModel.Tokens.Http.BasicAuthenticationSecurityTokenHandler.ValidateUserNameCredentialDelegate">
-            <summary>
-            Callback type for validating the credential
-            </summary>
-            <param name="username">The username.</param>
-            <param name="password">The password.</param>
-            <returns>True when the credential could be validated succesfully. Otherwise false.</returns>
         </member>
         <member name="T:Thinktecture.IdentityModel.Tokens.Http.HttpsIssuerNameRegistry">
             <summary>

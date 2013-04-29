@@ -85,7 +85,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Nexmo-CSharp-lib">
       <HintPath>..\ExternalReferences\Nexmo-CSharp-lib.dll</HintPath>
@@ -102,6 +102,7 @@
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -156,6 +157,9 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Thinktecture.IdentityModel">
+      <HintPath>..\packages\Thinktecture.IdentityModel.2.4.2\lib\net40\Thinktecture.IdentityModel.dll</HintPath>
+    </Reference>
     <Reference Include="Twilio.Api">
       <HintPath>..\packages\Twilio.3.4.2\lib\3.5\Twilio.Api.dll</HintPath>
     </Reference>
@@ -236,6 +240,7 @@
     <Compile Include="Nexmo\NexmoTestController.cs" />
     <Compile Include="Test\HashPassword.cs" />
     <Compile Include="Utilities\Constants.cs" />
+    <Compile Include="Utilities\CorsAttribute.cs" />
     <Compile Include="Utilities\CustomAuthorizeAtribute.cs" />
     <Compile Include="Utilities\EFInteraction.cs" />
     <Compile Include="Utilities\FirstDayOfWeekUtility.cs" />
@@ -740,7 +745,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>4631</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
