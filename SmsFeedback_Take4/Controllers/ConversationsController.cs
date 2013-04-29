@@ -218,16 +218,16 @@ namespace SmsFeedback_Take4.Controllers
           return null;
        }
 
-       [HttpDelete]
-       public JsonResult Delete(String id)
+       [HttpPost]
+       public JsonResult Delete(String ConvID)
        {
-          if (id == null)
+          if (ConvID == null)
           {
              logger.Error("No conversationId passed");
              return Json(new Error(Constants.NO_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
           }
 
-          if (id.Equals(Constants.NULL_STRING))
+          if (ConvID.Equals(Constants.NULL_STRING))
           {
              logger.Error("Conversation Id was null");
              return Json(new Error(Constants.NULL_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
@@ -237,7 +237,7 @@ namespace SmsFeedback_Take4.Controllers
           {
              if (HttpContext.User.IsInRole(MessagesController.cMessageOrganizer))
              {
-                mEFInterface.DeleteConversation(id, context);
+                mEFInterface.DeleteConversation(ConvID, context);
                 return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
              }
              return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);
