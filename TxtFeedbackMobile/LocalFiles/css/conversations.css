@@ -1,0 +1,27 @@
+#convList {
+	overflow-y:auto;
+}
+
+li.unread-conversation span.conversation-last-message {
+	font-weight: bold;
+}
+
+li.read-conversation  span.conversation-last-message {
+	font-weight: normal;
+}
+
+li.conversation {
+	font-size: 1em;
+	padding-bottom:0.3em;
+}
+
+p.conversation-actors {
+	margin-bottom:0.9em;
+	margin-top:0.3em;
+	font-style: italic;
+	color: #888;
+}
+
+img.conversation-thumb {
+	margin-top:8px;
+}
