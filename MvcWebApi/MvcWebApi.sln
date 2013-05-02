@@ -110,6 +110,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mediagcj", "mediagcj\mediag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gertkemper", "gertkemper\gertkemper.csproj", "{7C26A0CF-ED3D-4405-921C-E23C6D630EC4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scserdika", "scserdika\scserdika.csproj", "{FEC9FBE6-0101-4EC8-BBB8-AE878E58AC53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -336,6 +338,10 @@ Global
 		{7C26A0CF-ED3D-4405-921C-E23C6D630EC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C26A0CF-ED3D-4405-921C-E23C6D630EC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C26A0CF-ED3D-4405-921C-E23C6D630EC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEC9FBE6-0101-4EC8-BBB8-AE878E58AC53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEC9FBE6-0101-4EC8-BBB8-AE878E58AC53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEC9FBE6-0101-4EC8-BBB8-AE878E58AC53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEC9FBE6-0101-4EC8-BBB8-AE878E58AC53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
