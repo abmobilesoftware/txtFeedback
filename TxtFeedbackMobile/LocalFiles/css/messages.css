@@ -1,10 +1,12 @@
 /*#### Section 1. Staff, customer and carbons bubble common ####*/
 li.staff,li.customer, li.carbons {
 	border-radius: 3px;
-	width: 66%;
+	width: 75%;
 	margin-bottom: 0.4em;
 	margin-top:0.3em;
 	color: #fff;
+	padding-left: 0.3em;
+	padding-right: 0.3em;
 }
 
 li.staff:after,li.customer:after, li.carbons:after {
@@ -101,5 +103,8 @@ li p.timeReceived {
 	margin:0 auto;
 	margin-top:0.3em; 
 	margin-bottom:0.3em;
+	line-height: 1em;
+	color: #000;
+	background: #fff;
 }
 /******** END Section 5 *********/
