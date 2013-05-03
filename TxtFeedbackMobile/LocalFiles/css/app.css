@@ -1,3 +1,15 @@
 .app-header, .app-footer {
 	background: #071D2D;	
 }
+
+#transition {
+	display:none;
+	background: #000;
+	position:absolute;
+	z-index: 1000;
+	opacity: 0.8;
+}
+
+#transition span {
+	color: #fff;
+}
