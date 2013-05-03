@@ -77,20 +77,26 @@ function formatCarbonsStanza(id) {
 	return carbonsStanza;
 }
 
+// Messages can be normal or carbons
 function getXmppMessageId(message) {
-	return $("forwarded", message).children("message").attr("id");
+	if ($("forwarded", message).length == 0) {
+		return $(message).attr("id");
+	} else {
+		return $(message).children("forwarded").children("message").attr("id")
+	}	
 }
 
-function getClientAcknowledgeId(message) {
-	return $("forwarded", message).children("message").children("received").attr("id");
-}
-
-function getServerAcknowledgeId(message) {
-	return $("received", message).attr("id");
+/* Acknowledge message can be normal or carbons */
+function getAcknowledgeId(message) {
+	if ($("forwarded", message).length == 0) {
+		return $("received", message).attr("id");
+	} else {
+		return $("forwarded", message).children("message").children("received").attr("id");
+	}
 }
 
 function getXmppMessageAckDestination(message) {
-	return $("forwarded", message).children("message").children("request").attr("ackDest");
+	return $(message).children("request").attr("ackDest");
 }
 
 function getXmppMessageSubject(message) {
