@@ -6,8 +6,11 @@ var ConversationsPage = Backbone.View.extend({
 		_.bindAll(this, "buildConversationsList",
 				"messageReceivedHandler",
 				"messageSentHandler",
+				"carbonsMessageReceivedHandler",
 				"logOffBtnHandler",
-				"resizeHandler");
+				"resizeHandler",
+				"pageShowHandler",
+				"pageHideHandler");
 		this.dom = {
 				$CONVERSATIONS_LIST : $("#convList", this.$el),
 				$HEADER: $(".app-header", this.$el)
@@ -18,44 +21,45 @@ var ConversationsPage = Backbone.View.extend({
 					el: this.dom.$CONVERSATIONS_LIST, 
 					model: this.conversationsAreaModel
 				});
+
 		/*
 		 *  on "pagebeforeshow" event - Prepare conversationsAreaModel 
 		 * in this phase it loads the working points
 		 * on "ready - conversationsAreaModel has the working points
 		 * loaded and can build the conversations list
-		 */ 
+		 */
+		
 		this.$el.on("pagebeforeshow", 
 				this.conversationsAreaModel.initialSetup);
 		this.conversationsAreaModel.on(this.conversationsAreaModel.events.READY,
 				this.buildConversationsList);
-		/*
-		 *  on "pageshow" all dom elements are in place and the conversations list
-		 * is resized
-		 */
-		this.$el.on("pageshow",
-				this.resizeHandler);
+		
+		this.$el.on("pageshow", this.pageShowHandler);
+		this.$el.on("pagehide", this.pageHideHandler);
+		
 		/*
 		 * Update the conversations list when a xmpp message is sent or received 
 		 */
+		
 		this.options.xmppHandler.on(this.options.xmppHandler.events.MESSAGE_RECEIVED,
 				this.messageReceivedHandler);
 		this.options.xmppHandler.on(this.options.xmppHandler.events.MESSAGE_SENT,
-				this.messageSentHandler);
-		/*
-		 * on "orientationchange" resize the conversations list
-		 */
-		$(window).resize(this.resizeHandler);
-		
+				this.messageSentHandler);	
+		this.options.xmppHandler.on(this.options.xmppHandler.events.CARBONS_MESSAGE_RECEIVED,
+				this.carbonsMessageReceivedHandler);		
 	},
 	// OPTIMIZATION 1: Render just when a message arrived or was sent
 	buildConversationsList: function() {
 		this.conversationsArea.renderArea(false);		
 	},
 	messageReceivedHandler: function(message) {
-		this.conversationsAreaModel.newMessageHandler(message);
+		this.conversationsAreaModel.newMessageHandler(message, !this.pageActive);
 	},
 	messageSentHandler: function(message) {
-		this.conversationsAreaModel.newMessageHandler(message);
+		this.conversationsAreaModel.newMessageHandler(message, true);
+	},
+	carbonsMessageReceivedHandler: function(message) {
+		this.conversationsAreaModel.newMessageHandler(message, !this.pageActive);
 	},
 	show: function() {
 		this.$el.show();
@@ -73,6 +77,14 @@ var ConversationsPage = Backbone.View.extend({
 	resizeHandler: function() {
 		this.conversationsArea.setHeight(($(window).height() - 
 				this.dom.$HEADER.outerHeight()) + "px");
+	},
+	pageShowHandler: function() {
+		this.pageActive = true;
+		this.conversationsAreaModel.activateScroll();
+	},
+	pageHideHandler: function() {
+		this.pageActive = false;
+		this.conversationsAreaModel.deactivateScroll();
 	}
 });
 
@@ -83,8 +95,9 @@ var ConversationsArea = Backbone.View.extend({
 		this.model.on(this.model.events.LIST_UPDATED,
 				this.renderArea);
 		this.conversationItemHeight;
+		
 		// infer by experiment
-		this.$el.scroll(this.scrollHandler);
+		$(window).scroll(this.scrollHandler);
 		
 	},
 	renderArea: function(nextSetOfConversations) {
@@ -133,23 +146,32 @@ var ConversationsArea = Backbone.View.extend({
 		this.conversationItemHeight = conversationItemView.getHeight();
 	},
 	scrollHandler: function () {
-		var listContentHeight = this.conversationItemHeight * this.model.getNoOfConversations();
+		/* Old approach, the list has overflow-y: scroll; 
+		 * var listContentHeight = this.conversationItemHeight * this.model.getNoOfConversations();
 		var errorThreshold = 0.03 * listContentHeight;
 		if (this.$el.scrollTop() + errorThreshold >= 
 			(listContentHeight - this.$el.height())) {
 			this.renderArea(true);
+		}*/
+		
+		if (this.model.isScrollActive()) {
+			if ($(window).scrollTop() + $(window).height()/3 >= 
+				$(document).height() - $(window).height()) {
+				this.renderArea(true);
+			}
 		}
 	},
 	setHeight: function(height) {
 		this.$el.css("height", height);
-	}
+	}	
 });
 
 var ConversationsAreaModel = Backbone.Model.extend({
 	events: {
 		LIST_UPDATED: "listUpdatedEvent",
 		READY: "readyEvent",
-		NOT_READY: "notReadyEvent"
+		NOT_READY: "notReadyEvent",
+		UNAUTHORIZED: "unauthorizedEvent"
 	},
 	initialize: function() {
 		var self = this;
@@ -168,6 +190,7 @@ var ConversationsAreaModel = Backbone.Model.extend({
 				function() {
 					self.trigger(self.events.NOT_READY);
 				});
+		this.scrollStatus = false;
 		this.currentSet = 0;
 		this.setSize = 18;
 		this.noMoreConversations = false;
@@ -204,14 +227,19 @@ var ConversationsAreaModel = Backbone.Model.extend({
 				error: function(collection, response, options) {
 					alert("Conversations loading process failed. Response " + 
 							response + ".Options " + options);
-				}			
+				},
+				statusCode: {
+					401: function() {
+						Backbone.trigger(self.events.UNAUTHORIZED);
+					}
+				}
 			});			
 		} else {
 			callback.apply(this, [this.conversationsList.models]);
 		}
 	},
 	// handles the sent and received messages
-	newMessageHandler: function(message) {
+	newMessageHandler: function(message, silent) {
 		var conversation = this.conversationsList.findWhere({ConvID: message.ConvID});
 		if (conversation != undefined) {
 			this.conversationsList.remove(conversation);
@@ -226,7 +254,9 @@ var ConversationsAreaModel = Backbone.Model.extend({
 		conversation.set("IsSmsBased", message.IsSmsBased);
 		conversation.set("Read", false);
 		conversation.transformAttributes();
-		this.trigger(this.events.LIST_UPDATED, false);
+		if (!silent) {
+			this.trigger(this.events.LIST_UPDATED, false);
+		}
 	},
 	logOff: function() {
 		this.loadedFromServer = false;
@@ -237,7 +267,16 @@ var ConversationsAreaModel = Backbone.Model.extend({
 	},
 	getNoOfConversations: function() {
 		return this.conversationsList.models.length;
-	}
+	},
+	activateScroll: function() {
+		this.scrollStatus = true;
+	},
+	deactivateScroll: function() {
+		this.scrollStatus = false;
+	},
+	isScrollActive: function() {
+		return this.scrollStatus;
+	}	
 });
 
 var Conversation = Backbone.Model.extend({
