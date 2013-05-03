@@ -53,7 +53,7 @@
 			%>
 			<div class="info">
 				<p class="timeReceived"><%= $.datepicker.formatDate(enFormat, TimeReceived) + " " + messageDate[0] %></p>
-					<% if (fromParsed != customer && !CarbonsMessage) { %>
+					<% if (fromParsed != customer) { %>
 						<div class="acknowledge">
 							<% if (ServerAcknowledge) { 
 									if (ClientAcknowledge) { %>
@@ -84,6 +84,7 @@
 		<script type="text/javascript" charset="utf-8" src="js/myScripts/WorkingPoints.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/myScripts/Conversations.js"></script>  
 		<script type="text/javascript" charset="utf-8" src="js/myScripts/Messages.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/myScripts/Transition.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/myScripts/App.js"></script>  
      	<script type="text/javascript" charset="utf-8" src="js/scripts/wormhole.js"></script>	
      			
@@ -117,6 +118,12 @@
 						processNotification);
 			}
 			
+			function configureJQMobile() {
+				$.extend($.mobile, {
+					defaultPageTransition: "none"
+				});
+			}
+			
 			function startApp() {
 				var app = new AppView({el: $("body")});				
 			}
@@ -137,8 +144,9 @@
 					
 				};					
 			};			
-			$(document).ready(startApp);
 			
+			$(document).bind("mobileinit", configureJQMobile);
+			$(document).ready(startApp);			
 			document.addEventListener("deviceready",
 					deviceReady,
 					true);
@@ -179,6 +187,7 @@
 		</div>
 		<div id="messagesPage" data-role="page">
 			<div data-role="header" class="app-header" data-position="fixed" data-id="persistentHeader">
+				<a href="a" class="back" data-theme="b">Back</a>
 				<h1>Messages</h1>
 			</div>
 			<div data-role="content">
@@ -190,6 +199,9 @@
 				<textarea id="sendMsgTextArea"></textarea>
 				<button type="button" id="sendMsgBtn" data-theme="b">Send</button>
 			</div>
+		</div>
+		<div id="transition">
+			<span>Loading. Please wait!</span>
 		</div>
 	</body>
 </html>
