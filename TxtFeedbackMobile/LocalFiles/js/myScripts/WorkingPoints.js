@@ -15,7 +15,8 @@ var WorkingPointsList = Backbone.Collection.extend({
 var WorkingPointsManager = Backbone.Model.extend({
 	events: {
 		WORKING_POINTS_LOADED: "workingPointsLoadedEvent",
-		WORKING_POINTS_NOT_LOADED: "workingPointsNotLoadedEvent"
+		WORKING_POINTS_NOT_LOADED: "workingPointsNotLoadedEvent",
+		UNAUTHORIZED: "unauthorizedEvent"
 	},
 	initialize: function() {
 		_.bindAll(this, "reset", "getWorkingPointName");
@@ -40,6 +41,11 @@ var WorkingPointsManager = Backbone.Model.extend({
 				error: function(collection, response, options) {
 					alert("Error WP" + response);
 					self.trigger(self.events.WORKING_POINTS_NOT_LOADED);
+				},
+				statusCode: {
+					401: function() {
+						Backbone.trigger(self.events.UNAUTHORIZED);
+					}
 				}
 			
 			});
