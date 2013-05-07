@@ -4,27 +4,27 @@ USE txtfeedback_production -- choose db
 -- Script for Canada
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = ' 40371799990';
-DECLARE @WP_ShortID nvarchar(10) = 'altex';
-DECLARE @WP_Name nvarchar(40) = 'Altex Cluj 1';
-DECLARE @Client_Description nvarchar(160) = 'Magazin Altex Cluj 1';
+DECLARE @Client_TelNumber nvarchar(50) = '40371700016';
+DECLARE @WP_ShortID nvarchar(10) = 'lyrams';
+DECLARE @WP_Name nvarchar(40) = 'Restaurant Lyra';
+DECLARE @Client_Description nvarchar(160) = 'Restaurant Lyra';
 DECLARE @WP_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Bine aþi venit la Altex Iulius Mall. Cu ce vã putem fi de ajutor?';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Bine aþi venit la restaurantul Lyra. Cu ce vã putem fi de ajutor?';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'Altex'; -- details in less used section
-DECLARE @C_ContactName nvarchar(50) = 'Jenny';
-DECLARE @C_ContactSurname nvarchar(50) = 'Jorge';
-DECLARE @C_ContactEmail nvarchar(50) = 'jjjennylee00@gmail.com';
-DECLARE @C_VATID nvarchar(50) = 'AltextVATID';
-DECLARE @C_RegistrationNumber nvarchar(50) = NULL;
+DECLARE @U_CompanyName nvarchar(50) = 'SC Seisim Serv SRL'; -- details in less used section
+DECLARE @C_ContactName nvarchar(50) = 'Eugen';
+DECLARE @C_ContactSurname nvarchar(50) = 'Suciu';
+DECLARE @C_ContactEmail nvarchar(50) = 'restaurant_lyra@yahoo.com';
+DECLARE @C_VATID nvarchar(50) = 'RO18803010';
+DECLARE @C_RegistrationNumber nvarchar(50) = 'RO18803010';
 -- SubscriptionDetails
-DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Jenny'; 
-DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Jorge';
-DECLARE @S_PrimaryContact_Email nvarchar(50) = 'jjjennylee00@gmail.com';
-DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Jenny'; 
-DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Jorge';
-DECLARE @S_SecondaryContact_Email nvarchar(50) = 'jjjennylee00@gmail.com';
+DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Eugen'; 
+DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Suciu';
+DECLARE @S_PrimaryContact_Email nvarchar(50) = 'restaurant_lyra@yahoo.com';
+DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Eugen'; 
+DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Suciu';
+DECLARE @S_SecondaryContact_Email nvarchar(50) = 'restaurant_lyra@yahoo.com';
 
 
 -- Support working point
@@ -36,21 +36,21 @@ DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
 DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Bine aþi venit la TxtFeedback. Folosiþi aceastã conversaþie pentru a clarifica toate/orice întrebare';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'jenny.jorge';
-DECLARE @U_ReqularUserPassword nvarchar(128) = '0uWREPXbi5+EtDE9bqNn9MW2fmU=';
-DECLARE @U_RegularPasswordSalt nvarchar(128) = 'NSJCdZyTxqi8lB9YZ390yw==';
-DECLARE @U_XmppUser varchar(30) = 'rise@txtfeedback.net';
-DECLARE @U_XmppPassword varchar(30) = '164phkbA';
-DECLARE @U_RegularUserEmail nvarchar(256) = 'jjjennylee00@gmail.com';
+DECLARE @U_RegularUserName varchar(30) = 'staff.lyra';
+DECLARE @U_ReqularUserPassword nvarchar(128) = 'Q6HMOoFLtGh4dOJyUKag0kI1sQs=';
+DECLARE @U_RegularPasswordSalt nvarchar(128) = 'jE36LoJGNZEAzYbc3OYY8w==';
+DECLARE @U_XmppUser varchar(30) = 'lyrams@txtfeedback.net';
+DECLARE @U_XmppPassword varchar(30) = 'RK$a,M=bn';
+DECLARE @U_RegularUserEmail nvarchar(256) = 'restaurant_lyra@yahoo.com';
 -- END Important fields
 
 -- Less used
-DECLARE @WP_Provider nvarchar(50) = 'nexmo';
+DECLARE @WP_Provider nvarchar(50) = 'compatel';
 DECLARE @WP_SmsSent int = 0;
-DECLARE @WP_MaxNrOfSmsToSend int = 200;
-DECLARE @WP_Description_Additional_Text nvarchar(120) = ' WP';
+DECLARE @WP_MaxNrOfSmsToSend int = 50;
+DECLARE @WP_Description_Additional_Text nvarchar(120) = 'WP';
 DECLARE @WP_Description nvarchar(160) = @WP_Name + @WP_Description_Additional_Text;
-DECLARE @WP_BusyMessage nvarchar(160) = 'Our staff are currently busy. Please allow for up to 2 minutes for a response';
+DECLARE @WP_BusyMessage nvarchar(160) = 'Vã mulþumim de feedback. Pentru un rãspuns garantat adãugaþi mesajului dumneavoastrã adresa de email';
 DECLARE @WP_OutsideOfficeHoursMessage nvarchar(160) = 'Outside of office hours';
 -- Welcome message
 DECLARE @WP_TimeReceived datetime = GETUTCDATE();
