@@ -238,6 +238,7 @@ div.leftLiDiv .conversationImageRead, div.leftLiDiv .conversationImageUnread {
     opacity: 0.2;
     z-index: 10000;
     left: 0px;
+    display: none;
 }
 
  /* HELPERS - This section should be moved to a 
