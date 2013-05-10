@@ -40,7 +40,7 @@ window.app.Conversation = Backbone.Model.extend({
         Starred: false, //favorite conversation or not
         ClientDisplayName: "defaultClient",
         ClientIsSupportBot: false,
-        IsSmsBased: false,     
+        IsSmsBased: false     
     },
    //DA we override the initialize function so that all Conversation objects have their properties properly initialized
    //the problem before was that parse was only called when initialized via collection.fetch
@@ -48,7 +48,7 @@ window.app.Conversation = Backbone.Model.extend({
        this.set('IsSmsBased', (attributes.IsSmsBased === "false" || attributes.IsSmsBased === false) ? false : true);
        this.set('TimeUpdated', attributes.TimeReceived);
        if (this.get('IsSmsBased')) {
-          var fromTo = getFromToFromConversation(attributes.ConvID)
+          var fromTo = getFromToFromConversation(attributes.ConvID);
           this.set('ClientDisplayName', fromTo[0].substring(0, fromTo[0].length - 4) + "....");
        }
     },
