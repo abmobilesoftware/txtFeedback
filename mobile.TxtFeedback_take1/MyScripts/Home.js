@@ -67,11 +67,11 @@ function acknowledgeFromClient(msgView, message) {
     msgView.acknowledgeFromClient(message);
 }
 
-function getUserHistory(msgView, xmppUser) {
-    $.getJSON("/Messages/GetUserHistory",
+function getConversationHistory(msgView, converstionID) {
+   $.getJSON("/Messages/GetConversationHistory",
         {
-            xmppUser: xmppUser,
-            top: 4
+           convId: converstionID,
+           top: 4
         },
         function success(data, textResponse, xhr) {
             msgView.addHistoryMessages(data);
@@ -438,7 +438,7 @@ window.app.MessagesArea = function () {
                     window.app.globalMessagesRep[value.ConvId].models.splice(0, 0, newMsg);
                 }
             });
-            window.app.globalMessagesRep[messages[0].ConvId].trigger("reset");            
+            if (messages.length !== 0) { window.app.globalMessagesRep[messages[0].ConvId].trigger("reset"); }
         },
         highlightMessage: function (msgId, convId) {
             /* TODO MB: Implement backbone collection.get(id). Now it doesn't work
@@ -478,7 +478,7 @@ $(function () {
         });
 
         $(document).bind("getHistory", function (ev, data) {
-            getUserHistory(window.app.msgView.messagesView, data.xmppUser);
+            getConversationHistory(window.app.msgView.messagesView, data.conversationID);
         });
 
         $(document).bind("highlightMessage", function (ev, data) {

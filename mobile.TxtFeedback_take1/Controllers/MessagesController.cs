@@ -14,13 +14,12 @@ namespace mobile.TxtFeedback_take1.Controllers
          * xmppID has the format user@domain.tld
          * xmppUser is the user part
          */
-        public JsonResult GetUserHistory(String xmppUser, int top)
+        public JsonResult GetConversationHistory(String convId, int top)
         {
-            if (xmppUser != null)
-            {
-                top = (top == null) ? 4 : top;
+           if (convId != null)
+            {                
                 var messages = (from conv in dbContext.Conversations
-                                where conv.ConvId.StartsWith(xmppUser)
+                                where conv.ConvId == convId
                                 select
                                     (from msg in conv.Messages
                                      select new

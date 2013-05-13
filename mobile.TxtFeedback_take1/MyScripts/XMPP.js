@@ -494,7 +494,7 @@ window.app.loadLoginDetails = function () {
         var defaultConversationID = buildConversationID(user, window.app.messageModeratorAddress);
         window.app.initializeBasedOnConnectionDetails(user, password, defaultConversationID);
         window.app.logOnXmppNetwork(false);
-        $(document).trigger("getHistory", { xmppUser: user });
+        $(document).trigger("getHistory", { conversationID: defaultConversationID });
     }
     else {
         //console.log("new user");
