@@ -3,20 +3,20 @@
   <PropertyGroup>
     <AzureCredentials>Windows Azure BizSpark 1111</AzureCredentials>
     <AzureDeleteDeploymentOnFailure>False</AzureDeleteDeploymentOnFailure>
-    <AzureDeploymentLabel>DemoTxtFeedbackOnAzure</AzureDeploymentLabel>
-    <AzureDeploymentReplacementMethod>DeleteAndCreate</AzureDeploymentReplacementMethod>
+    <AzureDeploymentLabel>demo.t3xt.meOnAzure</AzureDeploymentLabel>
+    <AzureDeploymentReplacementMethod>AutomaticUpgrade</AzureDeploymentReplacementMethod>
     <AzureSlot>Staging</AzureSlot>
     <AzureEnableRemoteDesktop>True</AzureEnableRemoteDesktop>
     <AzureEnableWebDeploy>False</AzureEnableWebDeploy>
     <AzureFallbackToDeleteAndRecreateIfUpgradeFails>False</AzureFallbackToDeleteAndRecreateIfUpgradeFails>
-    <AzureHostedServiceLabel>demotxtfeedback</AzureHostedServiceLabel>
-    <AzureHostedServiceName>demotxtfeedback</AzureHostedServiceName>
+    <AzureHostedServiceLabel>demot3xt</AzureHostedServiceLabel>
+    <AzureHostedServiceName>demot3xt</AzureHostedServiceName>
     <AzureEnableIntelliTrace>False</AzureEnableIntelliTrace>
     <AzureEnableProfiling>False</AzureEnableProfiling>
     <AzureServiceConfiguration>Cloud</AzureServiceConfiguration>
     <AzureSolutionConfiguration>Release</AzureSolutionConfiguration>
-    <AzureStorageAccountLabel>demotxtfeedback</AzureStorageAccountLabel>
-    <AzureStorageAccountName>demotxtfeedback</AzureStorageAccountName>
-    <AzureAppendTimestampToDeploymentLabel>False</AzureAppendTimestampToDeploymentLabel>
+    <AzureStorageAccountLabel>demot3xt</AzureStorageAccountLabel>
+    <AzureStorageAccountName>demot3xt</AzureStorageAccountName>
+    <AzureAppendTimestampToDeploymentLabel>True</AzureAppendTimestampToDeploymentLabel>
   </PropertyGroup>
 </Project>

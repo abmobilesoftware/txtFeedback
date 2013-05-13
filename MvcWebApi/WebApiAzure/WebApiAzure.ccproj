@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <PublishProfile Include="Profiles\testTxtfeedbackProduction.azurePubxml" />
+    <PublishProfile Include="Profiles\demo.t3xt.azurePubxml" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>
