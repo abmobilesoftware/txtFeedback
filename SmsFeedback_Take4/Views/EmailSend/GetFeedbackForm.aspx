@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<dynamic>" %><!DOCTYPE html><div style='display:none;' >
+﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<dynamic>" %><!DOCTYPE html><div style='display:none'>
    <div class='contact-top'></div>
    <div class='contact-content'>
          <h1 class='contact-title'><%: Resources.Global.sendFeedbackHeader %></h1>
