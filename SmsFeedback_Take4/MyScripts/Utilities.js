@@ -124,7 +124,7 @@ window.app.Payload = Backbone.Model.extend({
       WarningLimitReached: false,
       MessageID: 0,      
       MessageSent: false,
-      Reason: "",
+      Reason: ""
    }
 });
 function payloadReceived(content, messageId) {
@@ -157,28 +157,34 @@ function payloadReceived(content, messageId) {
 }
 
 //#region Region resize
-window.app.resizeInProgress = false
+window.app.resizeInProgress = false;
 function resizeTriggered() {
    "use strict";
    if (!window.app.resizeInProgress) {
       window.app.resizeInProgress = true;
-   //pick the highest between window size (- header) and messagesArea
-   //var padding = 5;
-   //var msgAreaMarginTop = 10;
-   if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
-      var filterStripHeigh = 0;
-      var magicNumber = 82;
+      //pick the highest between window size (- header) and messagesArea
+      //var padding = 5;
+      //var msgAreaMarginTop = 10;
+      var filterStripHeigh, magicNumber;
+      //if on tablet, or if resolution == 1024
+      //DA - determine if on 1024
+      //TODO DA - clean up this messy code :)
+      var rezIs1024 = false;
+      if(!$('div#title').is(":visible")) {
+         rezIs1024 = true;
+      }
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) || rezIs1024 === true) {
+      filterStripHeigh = 0;
+      magicNumber = 82;
    }
    else {
       filterStripHeigh =  $(".headerArea").outerHeight(true);
       magicNumber =128;
-   }
-   
-   var window_height = window.innerHeight;
-   //var messagesAreaHeight = $('#messagesArea').height();
+   }   
+   var window_height = window.innerHeight;  
    var headerHeight = $('header').outerHeight(true);
    var contentWindowHeight = window_height - headerHeight;// - (2 * padding) - filterStripHeigh;
-   var quickActionBtnsBar = $("#quickActionBtns").length == 0 ? 0 : $("#quickActionBtns").outerHeight(true);
+   var quickActionBtnsBar = $("#quickActionBtns").is(":hidden") || $("#quickActionBtns").length == 0 ? 0 : $("#quickActionBtns").outerHeight(true);
    var marginTop = parseInt($('#rightColumn').css('margin-top'),10);
    var marginBottom = parseInt($('#rightColumn').css('margin-bottom'),10);
    var rightAreaCandidateHeight = contentWindowHeight - filterStripHeigh - marginTop - marginBottom;
@@ -332,7 +338,7 @@ window.app.NotifyAreaView = Backbone.View.extend({
    tagName: 'div',
    events: {
       "click #takeAction": "callAction",
-      "click #notificationAck": "hide",
+      "click #notificationAck": "hide"
    },
    initialize: function () {
       this.template = _.template($('#notifyAreaTemplate').html());
@@ -382,7 +388,7 @@ var isEventSupported = (function () {
       'select': 'input', 'change': 'input',
       'submit': 'form', 'reset': 'form',
       'error': 'img', 'load': 'img', 'abort': 'img'
-   }
+   };
    function isEventSupported(eventName) {
       var el = document.createElement(TAGNAMES[eventName] || 'div');
       eventName = 'on' + eventName;
