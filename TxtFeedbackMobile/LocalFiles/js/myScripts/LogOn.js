@@ -50,50 +50,66 @@ var LogOnModel = Backbone.Model.extend({
 	initialize: function(attributes, options) {
 		// first - firefox, second - chrome
 		//this.JSON_LOGON_SUCCESS = "\"success\"";
-		this.JSON_LOGON_SUCCESS = "success";
-		this.JSON_LOGOFF_SUCCESS = "success";
+		this.response = {
+			LOGON_SUCCESS : "success",
+			LOGOFF_SUCCESS : "success",
+			REGISTER_SUCCESS : "addDevice success",
+			REGISTER_FAIL : "addDevice fail",
+			UNREGISTER_SUCCESS: "removeDevice success",
+			UNREGISTER_FAIL: "removeDevice fail"
+		}		
 		this.events = {
 				LOGON_SUCCESS : "logon_success_event",
 				LOGOFF_SUCCESS : "logoff_success_event"
 		};		
 		this.xmppHandler = options.xmppHandler;
-		this.xmppCredentialsUrl = "http://www.dev.txtfeedback.net/Xmpp/GetConnectionDetailsForLoggedInUser";
-		//this.xmppCredentialsUrl = "http://localhost:4631/Xmpp/GetConnectionDetailsForLoggedInUser";
-		this.checkLoggedOnStatusUrl = "http://www.dev.txtfeedback.net/Conversations/NrOfUnreadConversations";
-		this.logOffUrl = "http://www.dev.txtfeedback.net/Account/AjaxLogOff"
+		this.pushNotificationHandler = options.pushNotificationHandler;
+		this.url = {
+			xmppCredentials: domain + "/Xmpp/GetConnectionDetailsForLoggedInUser",
+			checkLoggedOnStatus : domain + "/Conversations/NrOfUnreadConversations",
+			logOn: domain + "/Account/AjaxLogOn",
+			logOff : domain + "/Account/AjaxLogOff",
+			registerDevice : domain + "/Devices/AddDevice",
+			unregisterDevice : domain + "/Devices/RemoveDevice"
+		}		
 	},
 	logOn: function(username, password, action, method) {
-		var self = this;
-		var credentials= {};
-		credentials.UserName = username;
-		credentials.Password = password;
-		$.ajax({
-			data: "{model:" + JSON.stringify(credentials) + "}",
-			url: action,
-			xhrFields: {
-				withCredentials: true
-			},
-			crossDomain:true,
-			type: "POST",
-			contentType: "application/json; charset=utf-8",
-			// In emulator data equals success, in firefox equals "success"
-			success: function(data, textStatus, jqXHR) {									
-				if (data === self.JSON_LOGON_SUCCESS) {
-					//alert("ok login");
-					self.getXmppCredentials();
-				} else {
-					alert("Invalid credentials");
-				}  				
-			}, 
-			error: function(jqXHR, textStatus, errorThrown) {
-				alert("Status " + textStatus + " Error " + errorThrown);
-			}    		
-		});
+		if (this.pushNotificationHandler.getGCMKey() != null) {
+			var self = this;
+			var credentials= {};
+			credentials.UserName = username;
+			credentials.Password = password;
+			$.ajax({
+				data: "{model:" + JSON.stringify(credentials) + "}",
+				url: this.url.logOn,
+				xhrFields: {
+					withCredentials: true
+				},
+				crossDomain:true,
+				type: "POST",
+				contentType: "application/json; charset=utf-8",
+				// In emulator data equals success, in firefox equals "success"
+				success: function(data, textStatus, jqXHR) {									
+					if (data === self.response.LOGON_SUCCESS) {
+						self.registerDevice(
+								self.pushNotificationHandler.getGCMKey());
+						self.getXmppCredentials();
+					} else {
+						alert("Invalid credentials");
+					}  				
+				}, 
+				error: function(jqXHR, textStatus, errorThrown) {
+					alert("Check your internet connection and try again");
+				}    		
+			});
+		} else {
+			alert("Try again in few moments.")
+		}
 	},
 	getXmppCredentials: function()  {
 		var self = this;
 		$.ajax({
-			url: this.xmppCredentialsUrl,
+			url: this.url.xmppCredentials,
 			type: "GET",
 			headers: {
 				"X-Requested-With": "XMLHttpRequest"				
@@ -105,8 +121,6 @@ var LogOnModel = Backbone.Model.extend({
 			contentType: "application/json; charset=utf-8",
 			// In emulator data is an object, in Firefox is a string
 			success: function(credentials) {
-				//alert("ok credentials");
-				//var credentials = JSON.parse(data);
 				self.xmppHandler.connect(credentials.XmppUser, credentials.XmppPassword);
 				self.trigger(self.events.LOGON_SUCCESS);
 			}, 
@@ -116,10 +130,56 @@ var LogOnModel = Backbone.Model.extend({
 			
 		});		
 	},
+	registerDevice: function(deviceId) {
+		var self = this;
+		$.ajax({
+			url: this.url.registerDevice,
+			type: "POST",
+			data: "{deviceId: \"" + deviceId + "\"}",
+			xhrFields: {
+				withCredentials: true
+			},
+			async: false,
+			crossDomain: true,
+			contentType: "application/json; charset=utf-8",
+			success: function(data) {
+				if (data == self.response.REGISTER_SUCCESS) {
+					return true;
+				} else if (data == self.response.REGISTER_FAIL) {
+					return false;
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert("Register device error " + textStatus);
+				return false;
+			}
+		});
+	},
+	unregisterDevice: function(deviceId) {
+		var self = this;
+		$.ajax({
+			url: this.url.unregisterDevice,
+			type: "POST",
+			data: "{deviceId: \"" + deviceId + "\"}",
+			xhrFields: {
+				withCredentials: true
+			},
+			async: false,
+			crossDomain: true,
+			contentType: "application/json; charset=utf-8",
+			success: function(data) {
+				if (data == self.response.UNREGISTER_SUCCESS) {
+					return true;
+				} else if (data == self.response.UNREGISTER_FAIL) {
+					return false;
+				}
+			}
+		});
+	},
 	isLoggedOn: function() {
 		var loggedOn = false;
 		$.ajax({
-			url: this.checkLoggedOnStatusUrl,
+			url: this.url.checkLoggedOnStatus,
 			method: "POST",
 			data: "{performUpdateBefore: false}",
 			headers: {
@@ -144,8 +204,10 @@ var LogOnModel = Backbone.Model.extend({
 	}, 
 	logOff: function() {
 		var self = this;
+		this.unregisterDevice(
+				this.pushNotificationHandler.getGCMKey());
 		$.ajax({
-			url: this.logOffUrl,
+			url: this.url.logOff,
 			type: "POST",
 			cache: false,
 			xhrFields: {
@@ -153,7 +215,7 @@ var LogOnModel = Backbone.Model.extend({
 			},
 			crossDomain: true,
 			success: function(data) {
-				if (data == self.JSON_LOGOFF_SUCCESS) {
+				if (data == self.response.LOGOFF_SUCCESS) {
 					self.trigger(self.events.LOGOFF_SUCCESS);
 				}
 			},

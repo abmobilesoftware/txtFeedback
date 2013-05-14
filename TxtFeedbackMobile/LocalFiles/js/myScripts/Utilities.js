@@ -1,3 +1,5 @@
+var domain = "http://dev.txtfeedback.net";
+
 function cleanupPhoneNumber(data) {
    var prefixes = new Array("00", "\\+");
    //remove 00 and + from the beginning of the number
@@ -13,11 +15,11 @@ function getFromToFromConversation(convID) {
    return fromToArray;
 }
 
+/* XMPP Utilities */
 function extractUser(xmppAddress) {
 	return xmppAddress.substring(0, xmppAddress.indexOf("@"));
 }
 
-/* XMPP Utilities */
 function formatXmppMsgBody(from, to, dateSent, convId, message, toStaff, isSmsBased) {
 	var messageBody = 
 		"<msg>" +
@@ -158,6 +160,5 @@ function parseMessage(message) {
 			Minutes: timeReceived.getMinutes(),
 			Seconds: timeReceived.getSeconds()
 		}
-	} else return null;
-	
+	} else return null;	
 }

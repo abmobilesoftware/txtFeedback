@@ -2,7 +2,7 @@ var WorkingPoint = Backbone.Model.extend({});
 
 var WorkingPointsList = Backbone.Collection.extend({
 	model:WorkingPoint,
-	url: "http://www.dev.txtfeedback.net/WorkingPoints/WorkingPointsPerUser",
+	url: domain + "/WorkingPoints/WorkingPointsPerUser",
 	sync: function(method, collection, options) {
 		options = options || {};
 		options.xhrFields = {
