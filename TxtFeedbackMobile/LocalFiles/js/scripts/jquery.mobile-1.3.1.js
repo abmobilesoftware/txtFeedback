@@ -96,9 +96,9 @@
 
 		// turn of binding to the native orientationchange due to android orientation behavior
 		orientationChangeEnabled: true,
-
+		// default 200
 		buttonMarkup: {
-			hoverDelay: 200
+			hoverDelay: 0
 		},
 
 		// define the window and the document objects
