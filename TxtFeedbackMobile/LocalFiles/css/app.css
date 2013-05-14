@@ -4,12 +4,17 @@
 
 #transition {
 	display:none;
-	background: #000;
+	background: #071D2D;
 	position:absolute;
 	z-index: 1000;
-	opacity: 0.8;
+	/*opacity: 0.5;*/
 }
 
-#transition span {
+#loader {
+	position: relative;
+	margin:0 auto;
 	color: #fff;
+	font-size: 1.5em;
+	text-align:center;	
 }
+
