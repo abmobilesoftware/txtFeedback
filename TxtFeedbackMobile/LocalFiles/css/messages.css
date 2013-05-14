@@ -93,18 +93,28 @@ li p.timeReceived {
 /*#### Section 5. Footer ####*/
 .msg-footer > .ui-btn {
 	display: block;
-	width: 99%;
+	width: 32.5%;
 	margin: 0 auto;
 	margin-bottom: 0.3em;
+	float:left;
+	margin-top:0.3em;
+	margin-left: 0.5%;
+	height: 50px;
+	line-height: 28.5px;
+}
+
+.msg-footer .ui-btn-inner {
+	font-size: 19.5px;
 }
 
 #sendMsgTextArea {
-	width:99%;
-	margin:0 auto;
+	width:66%;
+	margin-left:0.5%;
 	margin-top:0.3em; 
 	margin-bottom:0.3em;
 	line-height: 1em;
 	color: #000;
 	background: #fff;
+	float: left;
 }
 /******** END Section 5 *********/
