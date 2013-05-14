@@ -26,9 +26,9 @@ var MessagesPage = Backbone.View.extend({
 				READY: "readyEvent",
 				BACK: "backEvent"
 		}
-		/*if (mosync.isAndroid) {
-			$BACK_BUTTON.hide();
-		};*/		
+		if (mosync.isAndroid) {
+			this.dom.$BACK_BUTTON.hide();			
+		};		
 		this.messagesAreaModel = new MessagesAreaModel();
 		this.messagesArea = new MessagesArea(
 				{
@@ -58,14 +58,14 @@ var MessagesPage = Backbone.View.extend({
 				this.serverAcknowledgeHandler);	
 		this.options.xmppHandler.on(this.options.xmppHandler.events.CARBONS_MESSAGE_RECEIVED,
 				this.carbonsMessageReceivedHandler);
-		this.messagesArea.on(this.messagesArea.constants.EVENT_MLIST_RENDERED,
-				this.pageReady);
+		/*this.messagesArea.on(this.messagesArea.constants.EVENT_MLIST_RENDERED,
+				this.pageReady);*/
 	},
 	buildMessagesList:function() {
 		this.messagesArea.renderArea();
 	},
 	loadConversation: function(conversation) {
-		this.messagesAreaModel.loadConversation(conversation);
+		this.messagesAreaModel.getMessages(conversation, false);
 		this.sendMessageModel.setConversation(conversation);
 	},
 	messageReceivedHandler: function(message) {
@@ -105,13 +105,16 @@ var MessagesPage = Backbone.View.extend({
 	},
 	pageHideHandler: function() {
 		this.pageActive = false;
+		this.messagesArea.emptyList();
+		this.messagesAreaModel.deactivateConversation();
 	},
 	pageBeforeShowHandler: function() {
 		this.messagesArea.enhanceList();
 	},
 	pageShowHandler: function() {
 		this.scrollToBottom();
-		this.pageActive = true;		
+		this.pageActive = true;	
+		this.pageReady();
 	},
 	pageReady: function() {
 		this.trigger(this.pageEvents.READY);
@@ -139,7 +142,7 @@ var MessagesArea = Backbone.View.extend({
 			self.$el.append(messageItemView.render().el);
 		}, this);
 		this.scrollToBottom();
-		this.trigger(this.constants.EVENT_MLIST_RENDERED);
+		Backbone.trigger(this.constants.EVENT_MLIST_RENDERED);
 	},
 	enhanceList: function() {
 		this.$el.listview("refresh");
@@ -147,6 +150,9 @@ var MessagesArea = Backbone.View.extend({
 	scrollToBottom: function() {
 		$(window).scrollTop(
 				$(document).height());
+	},
+	emptyList: function() {
+		this.$el.empty();
 	}
 });
 
@@ -159,24 +165,40 @@ var MessagesAreaModel = Backbone.Model.extend(
 	events: {
 		ADD_MESSAGE: "addMessageEvent",
 		MESSAGES_LOADED: "readyEvent",
-		UNAUTHORIZED: "unauthorizedEvent"
+		UNAUTHORIZED: "unauthorizedEvent",
+		PRELOAD_MESSAGES: "preloadMessagesEvent"
 	},
 	initialize: function() {
-		_.bindAll(this, "getMessages", "loadConversation",
-				"addMessage");		
+		_.bindAll(this, "getMessages", "addMessage");		
 		this.messagesRepository = {};
 		this.messagesWaitingForAck = [];
+		Backbone.on(this.events.PRELOAD_MESSAGES, this.getMessages);
+		this.skip = 0;
+		this.top = 10;
 	},
-	getMessages: function() {
+	getMessages: function(conversation, silent) {
+		/**
+		 * silent - TRUE: load the messages in background
+		 * FALSE: load the messages and then display
+		 */
 		var self = this;
+		this.conversation = conversation;
+		if (!silent) {
+			this.conversation.set("Read", true);
+			this.conversation.set("Animate", false);
+		}
 		var messagesListFromRepository = this.messagesRepository[this.conversation.get("ConvID")];
 		if (messagesListFromRepository != undefined) {
-			this.trigger(this.events.MESSAGES_LOADED, 
-					messagesListFromRepository.models);			
+			if (!silent) {
+				this.trigger(this.events.MESSAGES_LOADED, 
+						messagesListFromRepository.models);
+			}
 		} else {
 			var messagesList = new MessagesList();
 			var data = {
-					conversationId : this.conversation.get("ConvID")	
+					conversationId : this.conversation.get("ConvID"),
+					skip : this.skip,
+					top: this.top
 			};
 			messagesList.fetch({
 				data: data,
@@ -184,9 +206,11 @@ var MessagesAreaModel = Backbone.Model.extend(
 					"X-Requested-With": "XMLHttpRequest"
 				},
 				success: function(collection, response, options) {
-					self.messagesRepository[self.conversation.get("ConvID")] = messagesList;	
-					self.trigger(self.events.MESSAGES_LOADED, 
-							messagesList.models);	
+					self.messagesRepository[options.data.conversationId] = collection;	
+					if (!silent) {
+						self.trigger(self.events.MESSAGES_LOADED, 
+								collection.models);
+					}
 				}, 
 				error: function(collection, response, options) {
 					alert("Conversations loading process failed. Response " + 
@@ -200,11 +224,6 @@ var MessagesAreaModel = Backbone.Model.extend(
 			});
 		}
 	},
-	loadConversation: function(conversation) {
-		this.conversation = conversation;
-		this.conversation.set("Read", true);
-		this.getMessages();
-	},
 	addMessage: 
 	/**
 	 * @param message JSON object
@@ -215,14 +234,20 @@ var MessagesAreaModel = Backbone.Model.extend(
 	 */
 	function(message, direction, silent, isCarbonsMessage) {
 		var messagesListFromRepository = this.messagesRepository[message.ConvID];
-		var messageModel = new Message(message, {parse: true});
+		// Parse incoming messages, except carbons messages 
+		var messageModel = new Message(message, {parse: 
+			direction == this.messageDirection.INCOMING ? 
+					isCarbonsMessage ? false : true : false});
 		if (messagesListFromRepository != undefined) {
 			messagesListFromRepository.add(messageModel);
 		}
 		if (direction == this.messageDirection.OUTGOING || isCarbonsMessage) {
 			this.messagesWaitingForAck.push(messageModel);
 		}
-		if (!silent) {
+		/* if ((Is on messages page) AND (The message belongs to this
+		 * conversation)) then update UI
+		 */ 
+		if (!silent && message.ConvID == this.conversation.get("ConvID")) {
 			this.trigger(this.events.ADD_MESSAGE, 
 					messagesListFromRepository.models);
 		}		
@@ -248,6 +273,12 @@ var MessagesAreaModel = Backbone.Model.extend(
 	logOff: function() {
 		this.messagesRepository = [];
 		this.messagesWaitingForAck = [];
+	},
+	/*
+	 * IsActive TRUE the conversation's messages are displayed
+	 */
+	deactivateConversation: function() {
+		this.conversation.set("IsActive", false);
 	}
 });
 
@@ -272,7 +303,7 @@ var Message = Backbone.Model.extend({
 
 var MessagesList = Backbone.Collection.extend({
 	model: Message,
-	url: "http://www.dev.txtfeedback.net/Messages/MessagesList",
+	url: domain + "/Messages/MessagesList",
 	sync: function(method, collection, options) {
 		options = options || {};
 		options.xhrFields = {
@@ -313,14 +344,18 @@ var SendMessageView = Backbone.View.extend({
 		this.dom = {
 			$MESSAGE_TEXTAREA : $("#sendMsgTextArea", this.$el) 	
 		};
-		this.TWO_EMPTY_SPACES = "  ";
+		//this.
+		this.constants = {
+				TWO_SPACES : "  ",
+				EMPTY_STRING : ""		
+		};
 		this.key = {
 			ENTER : 13
 		};
 		this.model.on(this.model.events.MESSAGE_SENT, 
 				this.messageSentHandler);
 		// Keeps the textarea above the soft keyboard
-		this.dom.$MESSAGE_TEXTAREA.val(this.TWO_EMPTY_SPACES);
+		//this.dom.$MESSAGE_TEXTAREA.val(this.constants.TWO_SPACES);
 	},
 	clickHandler: function(event) {
 		this.model.sendMessage(this.dom.$MESSAGE_TEXTAREA.val());
@@ -332,7 +367,8 @@ var SendMessageView = Backbone.View.extend({
 		}
 	},
 	messageSentHandler: function() {
-		this.dom.$MESSAGE_TEXTAREA.val(this.TWO_EMPTY_SPACES);
+		this.dom.$MESSAGE_TEXTAREA.val(this.constants.EMPTY_STRING);
+		window.focus();
 	}
 });
 
@@ -352,19 +388,24 @@ var SendMessageModel = Backbone.Model.extend({
 					self.trigger(self.events.MESSAGE_SENT);
 				});
 	},
-	sendMessage: function(message) {		
-		this.xmppHandler.sendMessage(
-				generateUUID(), // Message Id
-				getFromToFromConversation(
-						this.conversation.get("ConvID"))[1] + this.componentDomain,
-				getFromToFromConversation(
-						this.conversation.get("ConvID"))[0] + this.userDomain, // Xmpp To address, final destination 
-				this.conversation.get("ConvID"), // Conversation id
-				message, // Body
-				this.conversation.get("IsSmsBased"));		
+	sendMessage: function(message) {	
+		if (this.isMessageValid(message)) {
+			this.xmppHandler.sendMessage(
+					generateUUID(), // Message Id
+					getFromToFromConversation(
+							this.conversation.get("ConvID"))[1] + this.componentDomain,
+					getFromToFromConversation(
+							this.conversation.get("ConvID"))[0] + this.userDomain, // Xmpp To address, final destination 
+					this.conversation.get("ConvID"), // Conversation id
+					message, // Body
+					this.conversation.get("IsSmsBased"));
+		}
 	},
 	setConversation: function(conversation) {
 		this.conversation = conversation;
+	},
+	isMessageValid: function(message) {
+		return message.length > 0 ? true : false; 
 	}
 });
 
@@ -443,6 +484,7 @@ var XMPPHandler = Backbone.Model.extend({
 			this.conn.send(xmppMessage);			
 			return "sending";
 		} else {
+			alert("Check your internet connection and try again later");
 			this.disconnect();
 			return "disconnected";
 		}		
@@ -475,7 +517,6 @@ var XMPPHandler = Backbone.Model.extend({
 	connectCallback: function(status) {
 		var reconnect = false;
 		if (status === Strophe.Status.CONNECTED) {
-			//vibrate();		
 			alert("Connected to XMPP");
 			this.conn.addHandler(this.handleMessage, 
 					null, "message", null, null, null, 
@@ -488,11 +529,11 @@ var XMPPHandler = Backbone.Model.extend({
 			this.getServerInfo();
 			this.sendInitialPresence();
 		} else if (status === Strophe.Status.CONNECTING) {
-			alert("CONNECTING");
+			//alert("CONNECTING");
 		} else if (status === Strophe.Status.AUTHENTICATING) {
-			alert("AUTHENTICATING");
+			//alert("AUTHENTICATING");
 		} else if (status === Strophe.Status.DISCONNECTING) {
-			alert("DISCONNECTING");
+			//alert("DISCONNECTING");
 		} else if (status === Strophe.Status.DISCONNECTED) {
 			alert("Disconnected from XMPP");
 			reconnect = true;

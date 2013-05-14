@@ -47,12 +47,11 @@
 			%>
 			<p class="message"><%= Text %></p>
 			<% 
-				//messageDate[0] is time
-				var messageDate = TimeReceived.toTimeString().split(" ");
+				var localeTimeString = TimeReceived.toLocaleTimeString();
 				var enFormat = "DD, MM d, yy";
 			%>
 			<div class="info">
-				<p class="timeReceived"><%= $.datepicker.formatDate(enFormat, TimeReceived) + " " + messageDate[0] %></p>
+				<p class="timeReceived"><%= $.datepicker.formatDate(enFormat, TimeReceived) + " " + localeTimeString %></p>
 					<% if (fromParsed != customer) { %>
 						<div class="acknowledge">
 							<% if (ServerAcknowledge) { 
@@ -80,44 +79,19 @@
 			<span class="groupDate"><%= dateToDisplay %></span> 
 			<span class="ui-li-count ui-btn-up-c ui-btn-corner-all"><%= ConversationsCount %></span>
 		</script>
-		<script type="text/javascript" charset="utf-8" src="js/myScripts/LogOn.js"></script>
+     	<script type="text/javascript" charset="utf-8" src="js/scripts/wormhole.js"></script>
+     	<script type="text/javascript" charset="utf-8" src="js/scripts/mosponsive.js"></script>
+     	<script type="text/javascript" charset="utf-8" src="js/myScripts/PushNotification.js"></script>
+     	<script type="text/javascript" charset="utf-8" src="js/myScripts/LogOn.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/myScripts/WorkingPoints.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/myScripts/Conversations.js"></script>  
 		<script type="text/javascript" charset="utf-8" src="js/myScripts/Messages.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/myScripts/Transition.js"></script>
-		<script type="text/javascript" charset="utf-8" src="js/myScripts/App.js"></script>  
-     	<script type="text/javascript" charset="utf-8" src="js/scripts/wormhole.js"></script>	
+		<script type="text/javascript" charset="utf-8" src="js/myScripts/App.js"></script>  	
      			
 		<script type="text/javascript">
 			// The "deviceready" event is sent when the system
 			// has finished loading.
-			function pushNotificationDidRegistered(token) {
-				//document.getElementById("regStatus").innerHTML = "REGISTERED " + token;
-				storage.setItem("GCMKey", token);		
-				
-			};
-			
-			function pushNotificationFailedToRegister(error) {
-				//document.getElementById("regStatus").innerHTML = "Error " + error.message;
-			}
-			
-			function processNotification(notification) {
-				//document.getElementById("pushNotification").innerHTML = "Mesaj primit " + notification.message;
-			};
-			
-			function registerPhoneInGCM() {
-				//document.getElementById("regStatus").innerHTML = "REGISTERING";
-				pushNotificationManager.register(
-						pushNotificationDidRegistered,
-						pushNotificationFailedToRegister);
-			}
-			
-			function listenForGCMNotifications() {
-				//document.getElementById("regStatus").innerHTML = "Registered. Listening";
-				pushNotificationManager.listener(
-						processNotification);
-			}
-			
 			function configureJQMobile() {
 				$.extend($.mobile, {
 					defaultPageTransition: "none"
@@ -126,30 +100,10 @@
 			
 			function startApp() {
 				var app = new AppView({el: $("body")});				
-			}
-			
-			var pushNotificationManager;
-			var storage;
-			function deviceReady() {
-				console.log("Start");
-				storage = window.localStorage;
-				pushNotificationManager = new PushNotificationManager();
-				pushNotificationManager.accountID("92320531700");
-				if (storage.getItem("GCMKey") == null) {
-					console.log("cheia nu exista. inregistrare");
-					registerPhoneInGCM();					
-				} else {
-					console.log("cheia exista. ascult dupa notificari");
-					listenForGCMNotifications();		
-					
-				};					
-			};			
-			
+			}			
 			$(document).bind("mobileinit", configureJQMobile);
 			$(document).ready(startApp);			
-			document.addEventListener("deviceready",
-					deviceReady,
-					true);
+			
 			
 		</script>
 		<!--<script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>-->
@@ -164,7 +118,11 @@
 			<!-- BROWSER http://localhost:4631/Account/AjaxLogOn -->
 			<div data-role="content">
 				<div id="logo">
-					<img src="images/logo.png" alt="Welcome to Txtfeedback!" />
+					<img src="images/logo_300x75.png" 
+						data-android-medium="images/logo_300x75.png" 
+						data-android-large="images/logo_300x75.png"
+						data-android-hdpi="images/logo_300x75.png" 
+						alt="Welcome to Txtfeedback!" />
 				</div>
 				<form id="logOnForm" data-ajax="false" action="http://www.dev.txtfeedback.net/Account/AjaxLogOn" method="POST">
 					<label for="username" class="ui-hidden-accessible">Username</label>
@@ -201,7 +159,9 @@
 			</div>
 		</div>
 		<div id="transition">
-			<span>Loading. Please wait!</span>
+			<div id="loader">
+				<!-- <span>Loading. Please wait!</span> -->
+			</div>			
 		</div>
 	</body>
 </html>
