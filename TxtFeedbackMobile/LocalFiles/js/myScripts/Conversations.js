@@ -1,6 +1,6 @@
 var ConversationsPage = Backbone.View.extend({
 	events: {
-		"click #logOffBtn": "logOffBtnHandler"
+		"vclick #logOffBtn": "logOffBtnHandler"
 	},
 	initialize: function() {
 		_.bindAll(this, "buildConversationsList",
@@ -53,13 +53,16 @@ var ConversationsPage = Backbone.View.extend({
 		this.conversationsArea.renderArea(false);		
 	},
 	messageReceivedHandler: function(message) {
-		this.conversationsAreaModel.newMessageHandler(message, !this.pageActive);
+		this.conversationsAreaModel.newMessageHandler(message, !this.pageActive,
+				this.conversationsAreaModel.direction.INCOMING);
 	},
 	messageSentHandler: function(message) {
-		this.conversationsAreaModel.newMessageHandler(message, true);
+		this.conversationsAreaModel.newMessageHandler(message, true,
+				this.conversationsAreaModel.direction.OUTGOING);
 	},
 	carbonsMessageReceivedHandler: function(message) {
-		this.conversationsAreaModel.newMessageHandler(message, !this.pageActive);
+		this.conversationsAreaModel.newMessageHandler(message, !this.pageActive,
+				this.conversationsAreaModel.direction.INCOMING);
 	},
 	show: function() {
 		this.$el.show();
@@ -95,10 +98,7 @@ var ConversationsArea = Backbone.View.extend({
 		this.model.on(this.model.events.LIST_UPDATED,
 				this.renderArea);
 		this.conversationItemHeight;
-		
-		// infer by experiment
-		$(window).scroll(this.scrollHandler);
-		
+		$(window).scroll(this.scrollHandler);		
 	},
 	renderArea: function(nextSetOfConversations) {
 		this.model.getConversations(this.render, 
@@ -155,9 +155,11 @@ var ConversationsArea = Backbone.View.extend({
 		}*/
 		
 		if (this.model.isScrollActive()) {
-			if ($(window).scrollTop() + $(window).height()/3 >= 
-				$(document).height() - $(window).height()) {
-				this.renderArea(true);
+			if ($(document).height() > $(window).height()) {
+				if ($(window).scrollTop() + $(window).height()/3 >= 
+					$(document).height() - $(window).height()) {
+					this.renderArea(true);
+				}
 			}
 		}
 	},
@@ -167,11 +169,16 @@ var ConversationsArea = Backbone.View.extend({
 });
 
 var ConversationsAreaModel = Backbone.Model.extend({
+	direction: {
+		INCOMING: "incoming",
+		OUTGOING: "outgoing"
+	},
 	events: {
 		LIST_UPDATED: "listUpdatedEvent",
 		READY: "readyEvent",
 		NOT_READY: "notReadyEvent",
-		UNAUTHORIZED: "unauthorizedEvent"
+		UNAUTHORIZED: "unauthorizedEvent",
+		PRELOAD_MESSAGES: "preloadMessagesEvent"
 	},
 	initialize: function() {
 		var self = this;
@@ -223,6 +230,7 @@ var ConversationsAreaModel = Backbone.Model.extend({
 					callback.apply(self, [collection.models]);
 					++self.currentSet;
 					self.noMoreConversations = response.length < 10 ? true : false;
+					self.preloadMessages();
 				}, 
 				error: function(collection, response, options) {
 					alert("Conversations loading process failed. Response " + 
@@ -238,8 +246,31 @@ var ConversationsAreaModel = Backbone.Model.extend({
 			callback.apply(this, [this.conversationsList.models]);
 		}
 	},
+	/*
+	 *  THORNY: Make sure the background load of messages doesn't
+	 *  mix up with the display of the messages for a conversation
+	 *  Tip: this.conversation is now used for both current
+	 *  background loading conversation and current displayed 
+	 *  conversation
+	 *  
+	 *  OPTIMIZATION: Don't cache everything. Cache the first ten 
+	 *  conversations messages. And then cache locally. If the 
+	 *  user clicks on the 15th conversation cache the conversations
+	 *  from 11 to 19. 
+	 *  Release least used conversations or the oldest ones.
+	 */ 	
+	preloadMessages: function() {
+		_.each(this.conversationsList.models, function(conversation) {
+			Backbone.trigger(this.events.PRELOAD_MESSAGES, conversation, true);
+		}, this);
+	},
 	// handles the sent and received messages
-	newMessageHandler: function(message, silent) {
+	/**
+	 * @param message
+	 * @param silent TRUE - the list model is updated
+	 * FALSE - the list model and the list UI is updated
+	 */
+	newMessageHandler: function(message, silent, direction) {
 		var conversation = this.conversationsList.findWhere({ConvID: message.ConvID});
 		if (conversation != undefined) {
 			this.conversationsList.remove(conversation);
@@ -247,14 +278,29 @@ var ConversationsAreaModel = Backbone.Model.extend({
 			conversation = new Conversation();
 		}
 		this.conversationsList.add(conversation, {at: 0});
-		conversation.set("Text", message.Text);
-		conversation.set("TimeReceived", message.TimeReceived);
-		conversation.set("From", message.From);	
-		conversation.set("ConvID", message.ConvID);
-		conversation.set("IsSmsBased", message.IsSmsBased);
-		conversation.set("Read", false);
+		conversation.set(
+				{ Text: message.Text,
+				  TimeReceived: message.TimeReceived,
+				  From: message.From,
+				  ConvID: message.ConvID,
+				  IsSmsBased: message.IsSmsBased,
+				  /*
+				   * Read If the human operator sends the message
+				   * then the read status is READ (true). Otherwise
+				   * if it receives the message than if the message
+				   * belongs to the conversation opened the read status
+				   * is READ otherwise is UNREAD (is in conversations page
+				   * or has other conversation opened)
+				   */
+				  Read: direction == this.direction.OUTGOING
+				  		? true : conversation.get("IsActive") ? true : 
+				  			false,
+				  Animate: direction == this.direction.OUTGOING ?
+						  false : conversation.get("IsActive") ? false :
+							  true
+				}, {silent: true});		
 		conversation.transformAttributes();
-		if (!silent) {
+		if (!silent) {			
 			this.trigger(this.events.LIST_UPDATED, false);
 		}
 	},
@@ -291,7 +337,9 @@ var Conversation = Backbone.Model.extend({
 		ClientDisplayName: "defaultClient",
 		ClientIsSupportBot: false,
 		IsSmsBased: false,  
-		WorkingPointDisplayName: "defaultWP"
+		WorkingPointDisplayName: "defaultWP",
+		Animate: false,
+		IsActive: false
 	},
 	initialize: function() {
 		_.bindAll(this, "parse");		
@@ -323,53 +371,89 @@ var Conversation = Backbone.Model.extend({
 		this.set({"WorkingPointDisplayName": workingPointName}, {silent: true});
 		return true;
 	},
-	updateReadStateOnServer: function() {
-		$.ajax({
-			url: this.updateReadStateUrl,
-			type: "GET",
-			data: "&conversationId=" + this.get("ConvID"), 
-			crossDomain: true,
-			xhrFields: {
-				withCredentials: true
-			}			
-		})
+	updateReadStateOnServer: function(message) {
+		if (message.changed.Read) {
+			$.ajax({
+				url: this.updateReadStateUrl,
+				type: "GET",
+				data: "&conversationId=" + this.get("ConvID"), 
+				crossDomain: true,
+				xhrFields: {
+					withCredentials: true
+				}			
+			});
+		}
 	},
 	idAttribute: "ConvID" //the id shold be the combination from-to
 });
 
 var ConversationView = Backbone.View.extend({	
 	events: {
-		"click a": "selectConversation"
+		"vclick a": "selectConversation"
 	},
 	model: Conversation,
 	tagName: "li",
 	self: this,
 	initialize: function () {
+		var self = this;
 		_.bindAll(this, 'render', "selectConversation",
-				"getHeight");
+				"getHeight", "startAnimation");
 		this.constanst = {
 			EVENT_CONVERSATION_SELECTED : "conversationsSelectedEvent"	
+		};
+		this.colors = {
+			BLACK : "rgb(0, 0, 0)",
+			LIGHT_GRAY : "rgb(204, 204, 204)"			
 		};
 		this.conversationTemplate = 
 			_.template($('#conversation-template').html());	
 		this.model.on("change:Read", this.render);
-		this.$el.addClass("conversation");
+		/* FUTURE: This handler don't play any role now. The change
+		 * of Animate attribute is silent. When the conversations list
+		 * will be built once than some aspects of the list behavior
+		 * will change and this part will be useful.
+		 */
+		this.model.on("change:Animate", function(conversation) {
+			if (conversation.changed.Animate) {
+				self.startAnimation();
+			}
+		});
+		this.$el.addClass("conversation");  		
 	},
 	render: function () {
 		this.$el.addClass(this.model.get("Read")? "read-conversation" 
 				: "unread-conversation");		
 		this.$el.html(this.conversationTemplate(this.model.toJSON()));
 		//$("div", this.$el).click(this.selectConversation);
+		if (this.model.get("Animate")) this.startAnimation();
 		return this;
 	},
 	selectConversation: function(event) {
 		event.preventDefault();
+		this.model.set("IsActive", true);
 		Backbone.trigger(this.constanst.EVENT_CONVERSATION_SELECTED,
 				this.model);
 		
 	},
 	getHeight: function() {
 		return this.$el.height();
+	},
+	startAnimation: function() {
+		var self = this;
+		this.animation = setInterval(
+				function() {
+					if ($(".conversation-last-message", self.$el).css("color") 
+							== self.colors.BLACK) { 
+						$(".conversation-last-message", self.$el).css("color", 
+								self.colors.LIGHT_GRAY);
+					} else {
+						$(".conversation-last-message", self.$el).css("color", 
+								self.colors.BLACK);
+					}
+				}, 500);
+	},
+	endAnimation: function() {
+		clearInterval(this.animation);		
 	}
 });
 
@@ -381,9 +465,9 @@ var ConversationsList = Backbone.Collection.extend({
 				"reset");
 	},
 	methodUrl: {
-		"read": "http://www.dev.txtfeedback.net/Conversations/ConversationsList",
+		"read": domain + "/Conversations/ConversationsList",
 		//"read": "http://10.0.2.2:4631/Conversations/ConversationsList",
-		"delete": "http://www.dev.txtfeedback.net/Conversations/Delete"
+		"delete": domain + "/Conversations/Delete"
 	},
 	sync: function (method, collection, options) {
 		if (collection.methodUrl && collection.methodUrl[method]) {
