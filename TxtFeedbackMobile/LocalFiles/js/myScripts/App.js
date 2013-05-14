@@ -8,7 +8,8 @@ var AppView = Backbone.View.extend({
 		_.bindAll(this, "goToConversationsPage",
 				"goToMessagesPage", "back", 
 				"goToLogOnPage", "logOffHandler",
-				"selectConversationHandler",
+				"selectConversationStartHandler",
+				"selectConversationEndHandler",
 				"onlineHandler",
 				"offlineHandler",
 				"pauseHandler",
@@ -27,9 +28,13 @@ var AppView = Backbone.View.extend({
 				EVENT_UNAUTHORIZED: "unauthorizedEvent"
 		};
 		this.xmppHandler = new XMPPHandler();
+		this.pushNotificationHandler = new PushNotificationHandler();
 		// Pages
 		this.logOnModel = new LogOnModel({},
-				{xmppHandler: this.xmppHandler})
+				{
+					xmppHandler: this.xmppHandler,
+					pushNotificationHandler: this.pushNotificationHandler
+				});
 		this.logOnPage = new LogOnPage({model: this.logOnModel, 
 			el: this.dom.$PAGE_LOGON});
 		this.conversationsPage = new ConversationsPage(
@@ -51,12 +56,22 @@ var AppView = Backbone.View.extend({
 		this.conversationsPage.on("EVENT_LOG_OFF", this.logOffHandler);
 		this.messagesPage.on(this.messagesPage.pageEvents.BACK_EVENT, 
 				this.back);
-		this.messagesPage.on(this.messagesPage.pageEvents.READY,
-				this.goToMessagesPage);		
+		
+		/* Select conversation event in 3 steps
+		 * - 1 the conversation is selected, the messages are fetched and 
+		 * added in DOM. The overlay is displayed
+		 * - 2 the messages list DOM is ready. Page transition from conversations
+		 * to messages starts
+		 * - 3 the messages page is displayed and the overlay is hidden
+		 */
 		Backbone.on(this.constants.EVENT_SELECTED_CONVERSATION,
-				this.selectConversationHandler);
+				this.selectConversationStartHandler);
 		Backbone.on(this.constants.EVENT_MLIST_RENDERED,
 				this.goToMessagesPage);
+		this.messagesPage.on(this.messagesPage.pageEvents.READY,
+				this.selectConversationEndHandler);
+		/* End select conversation handler */
+		
 		Backbone.on(this.constants.EVENT_UNAUTHORIZED,
 				this.goToLogOnPage);
 		document.addEventListener("backbutton", this.back);	
@@ -70,8 +85,7 @@ var AppView = Backbone.View.extend({
 		$.mobile.changePage(this.dom.$PAGE_CONVERSATIONS);				
 	},
 	goToMessagesPage: function() {		
-		this.currentState = this.states.MESSAGES;
-		this.transition.end();
+		this.currentState = this.states.MESSAGES;		
 		$.mobile.changePage(this.dom.$PAGE_MESSAGES);
 	},
 	goToLogOnPage: function() {
@@ -91,21 +105,24 @@ var AppView = Backbone.View.extend({
 		this.messagesPage.logOff();
 		this.xmppHandler.disconnect();
 	}, 
-	selectConversationHandler: function(conversation) {
+	selectConversationStartHandler: function(conversation) {
 		this.transition.start();
 		this.messagesPage.loadConversation(conversation);		
 	},
+	selectConversationEndHandler: function() {
+		this.transition.end();
+	},
 	onlineHandler: function() {
-		alert("Application is online");
+		//alert("Application is online");
 	},
 	offlineHandler: function() {
 		alert("No network connection");
 	},
 	pauseHandler: function() {
-		alert("Application is in background");
+		//alert("Application is in background");
 	},
 	resumeHandler: function() {
-		alert("Application is active");
+		//alert("Application is active");
 	}
 	
 });
