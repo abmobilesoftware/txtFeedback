@@ -7,15 +7,26 @@ http://code.google.com/p/android/issues/detail?id=2118
 
 li.unread-conversation span.conversation-last-message {
 	font-weight: bold;
+	color: inherit;
 }
 
 li.read-conversation  span.conversation-last-message {
 	font-weight: normal;
+	color: inherit;
 }
+
+li.unread-conversation p.conversation-actors {
+	font-weight: bold;
+}
+
+li.read-conversation p.conversation-actors {
+	font-weight: normal;
+}
+
 
 li.conversation {
 	font-size: 1em;
-	padding-bottom:0.3em;
+	padding-bottom:0.3em;	
 }
 
 p.conversation-actors {
