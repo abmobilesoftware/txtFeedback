@@ -25,6 +25,10 @@ class MyMoblet : public HybridMoblet
 public:
 	MyMoblet()
 	{
+		maNotificationPushSetDisplayFlag(true);
+		maNotificationPushSetTickerText("New message");
+		maNotificationPushSetMessageTitle("New message");
+
 		showPage("index.html");
 
 		// Set the sound used by the PhoneGap beep notification API.
