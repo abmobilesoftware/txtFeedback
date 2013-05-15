@@ -114,6 +114,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scserdika", "scserdika\scse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lyrams", "lyrams\lyrams.csproj", "{0F20CA4E-4CE6-4163-8493-89E7EAB1CAD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "coracj", "coracj\coracj.csproj", "{94350899-A2F0-4A29-AC72-1781EA1BE67A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -348,6 +350,10 @@ Global
 		{0F20CA4E-4CE6-4163-8493-89E7EAB1CAD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F20CA4E-4CE6-4163-8493-89E7EAB1CAD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F20CA4E-4CE6-4163-8493-89E7EAB1CAD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94350899-A2F0-4A29-AC72-1781EA1BE67A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94350899-A2F0-4A29-AC72-1781EA1BE67A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94350899-A2F0-4A29-AC72-1781EA1BE67A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94350899-A2F0-4A29-AC72-1781EA1BE67A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,27 +4,27 @@ USE txtfeedback_production -- choose db
 -- Script for Canada
 
 -- Client working point
-DECLARE @Client_TelNumber nvarchar(50) = '40371700016';
-DECLARE @WP_ShortID nvarchar(10) = 'lyrams';
-DECLARE @WP_Name nvarchar(40) = 'Restaurant Lyra';
-DECLARE @Client_Description nvarchar(160) = 'Restaurant Lyra';
+DECLARE @Client_TelNumber nvarchar(50) = '40371700011';
+DECLARE @WP_ShortID nvarchar(10) = 'coracj';
+DECLARE @WP_Name nvarchar(40) = 'Cora Cluj';
+DECLARE @Client_Description nvarchar(160) = 'Cora Cluj';
 DECLARE @WP_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_WelcomeMessage nvarchar(160) = 'Bine aþi venit la restaurantul Lyra. Cu ce vã putem fi de ajutor?';
+DECLARE @WP_WelcomeMessage nvarchar(160) = 'Bine aþi venit la Cora Cluj unde pãrerea dumneavoastrã e importantã pentru noi. Ce pãrere aveþi despre magazinul nostru?';
 
 -- Company
-DECLARE @U_CompanyName nvarchar(50) = 'SC Seisim Serv SRL'; -- details in less used section
-DECLARE @C_ContactName nvarchar(50) = 'Eugen';
-DECLARE @C_ContactSurname nvarchar(50) = 'Suciu';
-DECLARE @C_ContactEmail nvarchar(50) = 'restaurant_lyra@yahoo.com';
-DECLARE @C_VATID nvarchar(50) = 'RO18803010';
-DECLARE @C_RegistrationNumber nvarchar(50) = 'RO18803010';
+DECLARE @U_CompanyName nvarchar(50) = 'Cora'; -- details in less used section
+DECLARE @C_ContactName nvarchar(50) = 'Victoria';
+DECLARE @C_ContactSurname nvarchar(50) = 'Nestoriuc';
+DECLARE @C_ContactEmail nvarchar(50) = 'vnestoriuc@cora.ro';
+DECLARE @C_VATID nvarchar(50) = 'NECUNOSCUTACUM';
+DECLARE @C_RegistrationNumber nvarchar(50) = 'NECUNOSCUTACUM';
 -- SubscriptionDetails
-DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Eugen'; 
-DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Suciu';
-DECLARE @S_PrimaryContact_Email nvarchar(50) = 'restaurant_lyra@yahoo.com';
-DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Eugen'; 
-DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Suciu';
-DECLARE @S_SecondaryContact_Email nvarchar(50) = 'restaurant_lyra@yahoo.com';
+DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Victoria'; 
+DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Nestoriuc';
+DECLARE @S_PrimaryContact_Email nvarchar(50) = 'vnestoriuc@cora.ro';
+DECLARE @S_SecondaryContact_Name nvarchar(50) = 'Victoria'; 
+DECLARE @S_SecondaryContact_Surname nvarchar(50) = 'Nestoriuc';
+DECLARE @S_SecondaryContact_Email nvarchar(50) = 'vnestoriuc@cora.ro';
 
 
 -- Support working point
@@ -33,15 +33,15 @@ DECLARE @WP_Support_ShortID nvarchar(10) = 'supportrop';
 DECLARE @WP_Support_Name nvarchar(40) = 'TxtFeedback suport';
 DECLARE @WP_Support_Description nvarchar(120)= 'Support for Romania';
 DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@moderator.txtfeedback.net';
-DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Bine aþi venit la TxtFeedback. Folosiþi aceastã conversaþie pentru a clarifica toate/orice întrebare';
+DECLARE @WP_Support_WelcomeMessage nvarchar(160) = 'Bine aþi venit la TxtFeedback. Folosiþi aceastã conversaþie pentru a clarifica toate/orice întrebari';
 
 -- User data
-DECLARE @U_RegularUserName varchar(30) = 'staff.lyra';
-DECLARE @U_ReqularUserPassword nvarchar(128) = 'Q6HMOoFLtGh4dOJyUKag0kI1sQs=';
-DECLARE @U_RegularPasswordSalt nvarchar(128) = 'jE36LoJGNZEAzYbc3OYY8w==';
-DECLARE @U_XmppUser varchar(30) = 'lyrams@txtfeedback.net';
-DECLARE @U_XmppPassword varchar(30) = 'RK$a,M=bn';
-DECLARE @U_RegularUserEmail nvarchar(256) = 'restaurant_lyra@yahoo.com';
+DECLARE @U_RegularUserName varchar(30) = 'staff.coracj';
+DECLARE @U_ReqularUserPassword nvarchar(128) = 'hqBu+HnsVYC8Og6hW0xLehe3ABE=';
+DECLARE @U_RegularPasswordSalt nvarchar(128) = 'K4OyMm3cdXHBXPqDQq9v0w==';
+DECLARE @U_XmppUser varchar(30) = 'coracj@txtfeedback.net';
+DECLARE @U_XmppPassword varchar(30) = 'pA#8_1HeN';
+DECLARE @U_RegularUserEmail nvarchar(256) = 'vnestoriuc@cora.ro';
 -- END Important fields
 
 -- Less used
