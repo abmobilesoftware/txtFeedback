@@ -22,13 +22,13 @@ public class Main {
       try {
            mgr.addComponent(SUBDOMAIN, new TxtFeedbackModerator());
       } catch (ComponentException e) {
-    	  Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+    	  Log.addLogEntry("Main", LogEntryType.ERROR, e.getMessage());
       }
       while (true)
          try {
             Thread.sleep(10000);
          } catch (Exception e) {
-        	 Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+        	 Log.addLogEntry("Main", LogEntryType.ERROR, e.getMessage());
          }
    }
 }

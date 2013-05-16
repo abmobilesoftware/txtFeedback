@@ -19,6 +19,7 @@ import org.exceptions.RESTException;
 import org.helpers.Constants;
 import org.helpers.Utilities;
 import org.helpers.json.Agent;
+import org.helpers.json.Device;
 import org.helpers.json.MessageStatus;
 import org.helpers.json.WorkingPoint;
 import org.json.JSONArray;
@@ -74,15 +75,24 @@ public class RestControllerGateway {
 			if (listOfAgentsJsonObject != null) {
 				JSONArray listOfAgentsArray = listOfAgentsJsonObject.getJSONArray("agents");
 				for (int i=0; i<listOfAgentsArray.length(); ++i) {
-					handlers.add(new Agent(listOfAgentsArray.getJSONObject(i).getString("user"), listOfAgentsArray.getJSONObject(i).getInt("priority")));												
+					JSONArray listOfDevices = listOfAgentsArray.getJSONObject(i).getJSONArray("devices");
+					ArrayList<Device> devices = new ArrayList<Device>();					
+					for (int j=0; j<listOfDevices.length(); ++j) {
+						devices.add(new Device(listOfDevices.getJSONObject(j).getString("id")));	
+					}
+					handlers.add(new Agent(
+							listOfAgentsArray.getJSONObject(i).getString("xmppId"),
+							devices,
+							listOfAgentsArray.getJSONObject(i).getInt("priority"))
+					);												
 				}
 			}
 			return handlers;
 		} catch (JSONException e) {
-			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
+			Log.addLogEntry("getHandlersForMessage", LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 			throw new RESTException();
 		}catch (UnsupportedEncodingException e) {
-			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
+			Log.addLogEntry("getHandlersForMessage", LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 			throw new RESTException();
 		}		
 	}
@@ -95,17 +105,26 @@ public class RestControllerGateway {
 			params.put("convId", URLEncoder.encode(iConversationId, "UTF-8"));
 			params.put("isSms", URLEncoder.encode(String.valueOf(isSms), "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
-			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
+			Log.addLogEntry("getHandlersForMessage1", LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 		}
 		JSONObject listOfAgentsJsonObject = getResourceAsJsonObject(RESTGetHandlersForMessageURL1, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);
 		if (listOfAgentsJsonObject != null) {
 			try {
 				JSONArray listOfAgentsArray = listOfAgentsJsonObject.getJSONArray("agents");
 				for (int i=0; i<listOfAgentsArray.length(); ++i) {
-					handlers.add(new Agent(listOfAgentsArray.getJSONObject(i).getString("user"), listOfAgentsArray.getJSONObject(i).getInt("priority")));												
+					JSONArray listOfDevices = listOfAgentsArray.getJSONObject(i).getJSONArray("devices");
+					ArrayList<Device> devices = new ArrayList<Device>();					
+					for (int j=0; j<listOfDevices.length(); ++j) {
+						devices.add(new Device(listOfDevices.getJSONObject(j).getString("id")));	
+					}
+					handlers.add(new Agent(
+							listOfAgentsArray.getJSONObject(i).getString("xmppId"),
+							devices,
+							listOfAgentsArray.getJSONObject(i).getInt("priority"))
+					);												
 				}
 			} catch (JSONException e) {
-				Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
+				Log.addLogEntry("listOfAgentsJsonObject", LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 			}
 		}
 		return handlers;
@@ -124,7 +143,7 @@ public class RestControllerGateway {
 				wpJsonObject.getInt("NrOfSentSmsThisMonth"),
 				wpJsonObject.getInt("MaxNrOfSmsToSendPerMonth"));
 			} catch (JSONException e) {
-				Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
+				Log.addLogEntry("getWorkingPointForCertainAddress", LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 			}	
 		}		
 		return wp;	
@@ -174,10 +193,10 @@ public class RestControllerGateway {
 			}
 			return msgStatus;			
 		} catch (UnsupportedEncodingException e) {
-			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
+			Log.addLogEntry("saveMessage", LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 			throw new RESTException();
 		} catch (Exception e) {
-			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
+			Log.addLogEntry("saveMessage", LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 			throw new RESTException();			
 		}
 	}
@@ -191,7 +210,7 @@ public class RestControllerGateway {
 			ri.createObjectJson();
 			wpJsonObj = ri.getRecvObject();
 		} catch (JSONException e) {
-			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
+			Log.addLogEntry("getResourceAsJsonObject", LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 		}
 		return wpJsonObj;
 	}
@@ -224,27 +243,36 @@ public class RestControllerGateway {
 			// INFO Log the event - a REST resource was accessed 
 			//System.out.println(ri.getResponse());
 		} catch (IllegalStateException e) {
-			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
+			Log.addLogEntry("callRESTResource", LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 		} catch (ClientProtocolException e) {
-			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
+			Log.addLogEntry("callRESTResource", LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 		} catch (IOException e) {
-			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
+			Log.addLogEntry("callRESTResource", LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
 		} 
 		return ri;
 	}
 	
-	public String callGCMRest(String message) {
-		RestClient ri = new RestClient("https://android.googleapis.com/gcm/send");
-		ri.addParam("\"registration_ids\"", "[\"APA91bGTsIOwkKl-buzLrw1kbmmMst6cl3fEvSSQAh0bmKU3bwp5GKcDb_qxEJvg9BQa-1q_RWZ4E6g3Q03F4C9Lt1CZzY0Wfb0yh48PcgU0jhlTjpsJBDLasE84Nn5HpnDtgX3Ob7nCC4TexMuaFwHPTXlEb2h3JA\"]");
-		ri.addHeader("Authorization", "key=AIzaSyDD7C2r_A9E7ByJNNmEFGALVzHZgmC--xg");
-		ri.addHeader("Content-type", "application/json");
-		ri.addParam("\"data\"", "{\"payload\":\"" + message + "\"}");
-		try {
-			ri.sendHttpPostWithJsonBody();				
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+	public String callGCMRest(ArrayList<Device> devices, String message) {
+		if (devices.size() > 0) {
+			RestClient ri = new RestClient("https://android.googleapis.com/gcm/send");
+			StringBuilder registrationIds = new StringBuilder();
+				registrationIds.append("\"" + devices.get(0).id + "\"");
+				for (int i=1; i<devices.size(); ++i) {
+					registrationIds.append(", \"" + devices.get(i).id + "\"");
+				};
+			ri.addParam("\"registration_ids\"", "[" + registrationIds.toString() + "]");
+			ri.addHeader("Authorization", "key=AIzaSyAzp0RTyzXCuI8dkw6FxViK8Rn2hTl1ecw");
+			ri.addHeader("Content-type", "application/json");
+			ri.addParam("\"data\"", "{\"payload\":\"" + message + "\"}");
+			try {
+				ri.sendHttpPostWithJsonBody();				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			return ri.getResponse();
+		} else {
+			return "0 devices";
 		}
-		return ri.getResponse();
 	}
 	
 }

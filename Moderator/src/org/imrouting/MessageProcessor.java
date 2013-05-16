@@ -65,7 +65,7 @@ public class MessageProcessor {
 				}
 			}
 		} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getStackTrace().toString());
+			Log.addLogEntry("ProcessInternalPacket", LogEntryType.ERROR, e.getStackTrace().toString());
 		}	
 		t2 = System.currentTimeMillis();
 		System.out.println("PROCESSING " + (t2 - t1));
@@ -124,15 +124,17 @@ public class MessageProcessor {
 			System.out.println("\"" + receivedPacket.getID() + "\", \"GET HANDLERS\", \"" + (t2 - t1) + "\", \"" + (t4 - t3) + "\"");
 			
 			String computedID = iPacket.getID() + "##" + String.valueOf(msgStatus.getMessageID()); // PACKET_ID**DB_ID
+			
 			for (int i=0; i<handlers.size(); ++i) {
 				//String from = internalPacket.getFromAddress();
 				String to = handlers.get(i).getUser();
 				moderator.sendInternalMessage(internalPacket.toXML(), to, 
-						computedID, internalPacket.getFromAddress());			
-			}			
+						computedID, internalPacket.getFromAddress());
+				restGtw.callGCMRest(handlers.get(i).devices, internalPacket.getBody());
+			}					
 			System.out.println(iPacket.getID() + " OUT TO STAFF - " + System.currentTimeMillis());
 		} catch (RESTException e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+			Log.addLogEntry("sendImMessageToStaff", LogEntryType.ERROR, e.getMessage());
 			Runnable task = new Runnable() {
 				public void run() {
 					System.out.println("Re");
@@ -141,7 +143,7 @@ public class MessageProcessor {
 			};
 				worker.schedule(task, CALL_DELAY, TimeUnit.SECONDS);
 		} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());			
+			Log.addLogEntry("SendImMessageToStaff", LogEntryType.ERROR, e.getMessage());			
 		}
 	}
 	
@@ -177,7 +179,7 @@ public class MessageProcessor {
 			moderator.sendInternalMessage(iPacket.getBody(), internalPacket.getToAddress(), computedId, iPacket.getFrom().toBareJID());
 			System.out.println(iPacket.getID() + " OUT: TO CLIENT " + System.currentTimeMillis());
 		} catch (RESTException e) {
-				Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+				Log.addLogEntry("SendImMessageToClient", LogEntryType.ERROR, e.getMessage());
 				Runnable task = new Runnable() {
 					public void run() {
 						System.out.println("Re");
@@ -186,7 +188,7 @@ public class MessageProcessor {
 				};
 			worker.schedule(task, CALL_DELAY, TimeUnit.SECONDS);
 		} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());			
+			Log.addLogEntry("SendImMessageToClient", LogEntryType.ERROR, e.getMessage());			
 		}
 		
 	}
@@ -210,7 +212,7 @@ public class MessageProcessor {
 						from);			
 			}
 		} catch (RESTException e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+			Log.addLogEntry("sendSmsMessageToStaff", LogEntryType.ERROR, e.getMessage());
 			Runnable task = new Runnable() {
 				public void run() {
 					System.out.println("Re");
@@ -219,7 +221,7 @@ public class MessageProcessor {
 			};
 			worker.schedule(task, CALL_DELAY, TimeUnit.SECONDS);			
 		} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());			
+			Log.addLogEntry("SendSmsMessageToStaff", LogEntryType.ERROR, e.getMessage());			
 		}
 	}
 	
@@ -238,7 +240,7 @@ public class MessageProcessor {
 			moderator.sendSmsAcknowledgeMessage(iPacket.getFrom().toString(), Constants.CLIENT_ACK, iPacket.getID(), msgStatus.getJsonFormat());
 			restGtw.updateMessageClientAcknowledgeField(msgStatus.getMessageID(), true);
 		} catch (RESTException e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+			Log.addLogEntry("sendSmsMessageToClient", LogEntryType.ERROR, e.getMessage());
 			Runnable task = new Runnable() {
 				public void run() {
 					System.out.println("Re");
@@ -247,7 +249,7 @@ public class MessageProcessor {
 			};
 			worker.schedule(task, CALL_DELAY, TimeUnit.SECONDS);			
 		} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());			
+			Log.addLogEntry("SendSmsMessageToClient", LogEntryType.ERROR, e.getMessage());			
 		}	
 	}
 

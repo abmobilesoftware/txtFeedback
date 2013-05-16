@@ -114,7 +114,7 @@ public class TxtFeedbackModerator implements Component {
 			
 			mMgr.sendPacket(this, lResponseMessage);			
 		} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+			Log.addLogEntry("sendMessage 1", LogEntryType.ERROR, e.getMessage());
 		}
 	}
 	
@@ -129,7 +129,7 @@ public class TxtFeedbackModerator implements Component {
 			mMgr.sendPacket(this, lResponseMessage);
 			
 		} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+			Log.addLogEntry("sendMessage 2", LogEntryType.ERROR, e.getMessage());
 		}
 	}
 	
