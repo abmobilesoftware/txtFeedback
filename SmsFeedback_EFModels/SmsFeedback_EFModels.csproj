@@ -160,6 +160,9 @@
     <Compile Include="InvoiceDetailsTemplate.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Log.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Membership.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

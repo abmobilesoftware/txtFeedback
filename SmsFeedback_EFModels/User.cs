@@ -18,6 +18,7 @@ namespace SmsFeedback_EFModels
         {
             this.WorkingPoints = new HashSet<WorkingPoint>();
             this.Roles = new HashSet<Role>();
+            this.Devices = new HashSet<Device>();
         }
     
         public System.Guid ApplicationId { get; set; }
@@ -35,5 +36,6 @@ namespace SmsFeedback_EFModels
         public virtual Profile Profile { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
         public virtual XmppConnection XmppConnection { get; set; }
+        public virtual ICollection<Device> Devices { get; set; }
     }
 }
