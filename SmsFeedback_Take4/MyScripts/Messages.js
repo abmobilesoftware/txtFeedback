@@ -519,7 +519,11 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             messages1.bind('add', this.appendMessage);
             performFadeIn = true;
             messages1.fetch({
-               data: { "conversationId": messages1.identifier },
+               data: {
+                  "conversationId": messages1.identifier,
+                  "top": 10,
+                  "skip": 0
+               },
                success: function () {
                   //we have loaded the conversation - give the user some time to read it and then mark it as read
                   startTimer(3000);
