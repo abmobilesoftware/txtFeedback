@@ -48,5 +48,6 @@ namespace SmsFeedback_EFModels
         public DbSet<SubscriptionDetail> SubscriptionDetails { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<InvoiceDetailsTemplate> InvoiceDetailsTemplates { get; set; }
+        public DbSet<Device> Devices { get; set; }
     }
 }
