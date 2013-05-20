@@ -10,11 +10,18 @@ var ConversationsPage = Backbone.View.extend({
 				"logOffBtnHandler",
 				"resizeHandler",
 				"pageShowHandler",
-				"pageHideHandler");
+				"pageHideHandler",
+				"scrollHandler",
+				"pageBeforeHideHandler"
+				);
+		this.pageEvents = {
+				SELECTED_CONVERSATION : "conversationsSelectedEvent"	
+		};
 		this.dom = {
 				$CONVERSATIONS_LIST : $("#convList", this.$el),
 				$HEADER: $(".app-header", this.$el)
 		};
+		this.scrollPosition = 0;
 		this.conversationsAreaModel = new ConversationsAreaModel();
 		this.conversationsArea = new ConversationsArea(
 				{
@@ -36,17 +43,19 @@ var ConversationsPage = Backbone.View.extend({
 		
 		this.$el.on("pageshow", this.pageShowHandler);
 		this.$el.on("pagehide", this.pageHideHandler);
-		
+		this.$el.on("pagebeforehide", this.pageBeforeHideHandler);
 		/*
 		 * Update the conversations list when a xmpp message is sent or received 
 		 */
-		
+		/*Backbone.on(this.pageEvents.SELECTED_CONVERSATION,
+				this.saveScrollPosition);*/
 		this.options.xmppHandler.on(this.options.xmppHandler.events.MESSAGE_RECEIVED,
 				this.messageReceivedHandler);
 		this.options.xmppHandler.on(this.options.xmppHandler.events.MESSAGE_SENT,
 				this.messageSentHandler);	
 		this.options.xmppHandler.on(this.options.xmppHandler.events.CARBONS_MESSAGE_RECEIVED,
-				this.carbonsMessageReceivedHandler);		
+				this.carbonsMessageReceivedHandler);	
+		$(window).scroll(this.scrollHandler);
 	},
 	// OPTIMIZATION 1: Render just when a message arrived or was sent
 	buildConversationsList: function() {
@@ -70,7 +79,6 @@ var ConversationsPage = Backbone.View.extend({
 	hide: function() {
 		this.$el.hide();
 	},
-	// this action will be handled by app and triggered by a menu button
 	logOffBtnHandler: function() {		
 		this.trigger("EVENT_LOG_OFF");
 	},
@@ -84,11 +92,30 @@ var ConversationsPage = Backbone.View.extend({
 	pageShowHandler: function() {
 		this.pageActive = true;
 		this.conversationsAreaModel.activateScroll();
+		this.restoreScrollPosition();
 	},
-	pageHideHandler: function() {
+	pageBeforeHideHandler: function() {
 		this.pageActive = false;
 		this.conversationsAreaModel.deactivateScroll();
-	}
+	},
+	pageHideHandler: function() {		
+		// Actions on page hide
+	},
+	/* While the conversations page is visible keep track of the 
+	 * position of the scroll bar.
+	 * 
+	 * When returning to conversations page restore to the last position of the 
+	 * scroll bar.
+	 */
+	scrollHandler: function() {
+		if (this.pageActive) {
+			this.scrollPosition = $(window).scrollTop();
+		}
+	},
+	restoreScrollPosition: function() {
+		$(window).scrollTop(this.scrollPosition);
+	} 
+	
 });
 
 var ConversationsArea = Backbone.View.extend({
