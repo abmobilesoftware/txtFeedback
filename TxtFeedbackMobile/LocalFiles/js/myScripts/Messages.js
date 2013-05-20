@@ -10,7 +10,6 @@ var MessagesPage = Backbone.View.extend({
 				"carbonsMessageReceivedHandler",
 				"serverAcknowledgeHandler",
 				"clientAcknowledgeHandler",
-				"scrollToBottom",
 				"backButtonHandler",
 				"pageHideHandler",
 				"pageBeforeShowHandler",
@@ -57,9 +56,7 @@ var MessagesPage = Backbone.View.extend({
 		this.options.xmppHandler.on(this.options.xmppHandler.events.SERVER_ACKNOWLEDGE,
 				this.serverAcknowledgeHandler);	
 		this.options.xmppHandler.on(this.options.xmppHandler.events.CARBONS_MESSAGE_RECEIVED,
-				this.carbonsMessageReceivedHandler);
-		/*this.messagesArea.on(this.messagesArea.constants.EVENT_MLIST_RENDERED,
-				this.pageReady);*/
+				this.carbonsMessageReceivedHandler);		
 	},
 	buildMessagesList:function() {
 		this.messagesArea.renderArea();
@@ -69,7 +66,7 @@ var MessagesPage = Backbone.View.extend({
 		this.sendMessageModel.setConversation(conversation);
 	},
 	messageReceivedHandler: function(message) {
-		// TODO: Doesn't work on tablet
+		// TODO: Vibrations are not available on Evolio tablet
 		navigator.notification.vibrate(1000);
 		this.messagesAreaModel.addMessage(message, 
 				this.messagesAreaModel.messageDirection.INCOMING, 
@@ -94,11 +91,6 @@ var MessagesPage = Backbone.View.extend({
 	logOff: function() {
 		this.messagesAreaModel.logOff();
 	},
-	scrollToBottom: function() {
-		// Not displaying the last 1-2 items
-		$(window).scrollTop(
-				$(document).height());		
-	},
 	backButtonHandler: function(event) {
 		event.preventDefault();
 		this.trigger(this.pageEvents.BACK_EVENT);
@@ -109,16 +101,16 @@ var MessagesPage = Backbone.View.extend({
 		this.messagesAreaModel.deactivateConversation();
 	},
 	pageBeforeShowHandler: function() {
-		this.messagesArea.enhanceList();
+		//this.messagesArea.enhanceList();
 	},
 	pageShowHandler: function() {
-		this.scrollToBottom();
+		//this.messagesArea.scrollToBottom();
 		this.pageActive = true;	
 		this.pageReady();
 	},
 	pageReady: function() {
 		this.trigger(this.pageEvents.READY);
-	}
+	}	
 });
 
 // TODO : Extend this class with a global events class
@@ -141,7 +133,7 @@ var MessagesArea = Backbone.View.extend({
 			var messageItemView = new MessageView({model: model});
 			self.$el.append(messageItemView.render().el);
 		}, this);
-		this.scrollToBottom();
+		//this.scrollToBottom();
 		Backbone.trigger(this.constants.EVENT_MLIST_RENDERED);
 	},
 	enhanceList: function() {
@@ -344,7 +336,6 @@ var SendMessageView = Backbone.View.extend({
 		this.dom = {
 			$MESSAGE_TEXTAREA : $("#sendMsgTextArea", this.$el) 	
 		};
-		//this.
 		this.constants = {
 				TWO_SPACES : "  ",
 				EMPTY_STRING : ""		
@@ -354,8 +345,14 @@ var SendMessageView = Backbone.View.extend({
 		};
 		this.model.on(this.model.events.MESSAGE_SENT, 
 				this.messageSentHandler);
-		// Keeps the textarea above the soft keyboard
-		//this.dom.$MESSAGE_TEXTAREA.val(this.constants.TWO_SPACES);
+		/** 
+		 * Hack to keep the textarea above the soft keyboard
+		 * Issues of fixed positioning in Android 2.2 & 2.3 
+		 * http://jquerymobile.com/demos/1.2.1/docs/toolbars/bars-fixed.html 
+		 * in section "Known issue with form controls inside fixed toolbars, 
+		 * and programmatic scroll"
+		 */
+		this.dom.$MESSAGE_TEXTAREA.val(this.constants.TWO_SPACES);
 	},
 	clickHandler: function(event) {
 		this.model.sendMessage(this.dom.$MESSAGE_TEXTAREA.val());
@@ -368,6 +365,10 @@ var SendMessageView = Backbone.View.extend({
 	},
 	messageSentHandler: function() {
 		this.dom.$MESSAGE_TEXTAREA.val(this.constants.EMPTY_STRING);
+		/**
+		 * NOT WORKING. Goal: Hide the soft keyboard.
+		 * Approach: Move focus from textarea to window
+		 */
 		window.focus();
 	}
 });
@@ -377,25 +378,16 @@ var SendMessageModel = Backbone.Model.extend({
 		var self = this;
 		_.bindAll(this, "sendMessage",
 				"setConversation");
-		this.xmppHandler = options.xmppHandler;
-		this.events = {
-			MESSAGE_SENT : this.xmppHandler.events.MESSAGE_SENT	
-		};
-		this.userDomain = "@txtfeedback.net";
-		this.componentDomain = "@devxmpp.txtfeedback.net";
-		this.xmppHandler.on(this.xmppHandler.events.MESSAGE_SENT, 
-				function() {
-					self.trigger(self.events.MESSAGE_SENT);
-				});
+		this.xmppHandler = options.xmppHandler;		
 	},
 	sendMessage: function(message) {	
 		if (this.isMessageValid(message)) {
 			this.xmppHandler.sendMessage(
 					generateUUID(), // Message Id
 					getFromToFromConversation(
-							this.conversation.get("ConvID"))[1] + this.componentDomain,
+							this.conversation.get("ConvID"))[1],
 					getFromToFromConversation(
-							this.conversation.get("ConvID"))[0] + this.userDomain, // Xmpp To address, final destination 
+							this.conversation.get("ConvID"))[0], 
 					this.conversation.get("ConvID"), // Conversation id
 					message, // Body
 					this.conversation.get("IsSmsBased"));
@@ -436,6 +428,8 @@ var XMPPHandler = Backbone.Model.extend({
 		this.serverDomain = {};
 		this.componentAddress = "broker@devxmpp.txtfeedback.net";
 		this.xmppServerAddress = "http://46.137.26.124:5280/http-bind/";
+		this.userDomain = "@txtfeedback.net";
+		this.componentDomain = "@devxmpp.txtfeedback.net";
 		this.conn = new Strophe.Connection(this.xmppServerAddress);						
 	},
 	connect: function(userId, password) {
@@ -450,16 +444,29 @@ var XMPPHandler = Backbone.Model.extend({
 		this.conn.flush();
 		this.conn.disconnect();		
 	},
-	sendMessage: function(clientId, from, to, convId,
+	sendMessage: /**
+	 * @param clientId UUID
+	 * @param from - component user (ex: cba@compdev.txtfeedback.net, 
+	 * cba is the user, fromAddress is cba@compdev.txtfeedback.net)
+	 * @param to - customer user (ex: abc@txtfeedback.net,
+	 * abc is the user, toAddress is abc@txtfeedback.net)
+	 * @param convId 
+	 * @param messageBody
+	 * @param isSmsBased
+	 * @returns {String}
+	 */
+	function(clientId, from, to, convId,
 			messageBody, isSmsBased) {
 		var dateSent = new Date();
+		var toAddress = to + this.componentDomain;
+		var fromAddress = from + this.userDomain;
 		if (this.conn.connected) {
 			this.trigger(this.events.MESSAGE_SENT, 
 					{
 						ClientId: clientId, 
 						ConvID: convId,
-						From: from,
-						To: to,
+						From: fromAddress,
+						To: toAddress,
 						Text: messageBody,
 						TimeReceived: dateSent,
 						IsSmsBased: isSmsBased,
