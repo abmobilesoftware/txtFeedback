@@ -1,3 +1,14 @@
+/**
+ * Use Chrome when debugging and testing the application for 
+ * Android, and Safari for iPhone.
+ * An actual screen on mobile is powered by:
+ *  1. a DOM element, representing the structure of the page
+ *  2. a Backbone View object handling the events coming from
+ *  DOM and any aspect linked to the DOM.
+ *  3 a Backbone Model object which takes care of the communication
+ *  and computation process in order to retrieve data from server
+ *  and then pass to view to display it.
+ */
 var AppView = Backbone.View.extend({
 	states: {
 		LOGON: 1,
@@ -29,7 +40,9 @@ var AppView = Backbone.View.extend({
 		};
 		this.xmppHandler = new XMPPHandler();
 		this.pushNotificationHandler = new PushNotificationHandler();
-		// Pages
+		/**
+		 * Mapping between page view, dom element and model.
+		 */ 
 		this.logOnModel = new LogOnModel({},
 				{
 					xmppHandler: this.xmppHandler,
@@ -48,7 +61,9 @@ var AppView = Backbone.View.extend({
 					xmppHandler: this.xmppHandler
 				});
 		this.transition = new Transition({el: this.dom.$TRANSITION});
-		// Events
+		/**
+		 *  Handle events at application level
+		 */ 
 		this.logOnModel.on(this.logOnModel.events.LOGON_SUCCESS, 
 				this.goToConversationsPage);
 		this.logOnModel.on(this.logOnModel.events.LOGOFF_SUCCESS,
@@ -57,7 +72,7 @@ var AppView = Backbone.View.extend({
 		this.messagesPage.on(this.messagesPage.pageEvents.BACK_EVENT, 
 				this.back);
 		
-		/* Select conversation event in 3 steps
+		/** Select conversation event in 3 steps
 		 * - 1 the conversation is selected, the messages are fetched and 
 		 * added in DOM. The overlay is displayed
 		 * - 2 the messages list DOM is ready. Page transition from conversations
@@ -70,8 +85,7 @@ var AppView = Backbone.View.extend({
 				this.goToMessagesPage);
 		this.messagesPage.on(this.messagesPage.pageEvents.READY,
 				this.selectConversationEndHandler);
-		/* End select conversation handler */
-		
+				
 		Backbone.on(this.constants.EVENT_UNAUTHORIZED,
 				this.goToLogOnPage);
 		document.addEventListener("backbutton", this.back);	
