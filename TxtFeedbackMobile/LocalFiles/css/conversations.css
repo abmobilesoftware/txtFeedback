@@ -17,10 +17,12 @@ li.read-conversation  span.conversation-last-message {
 
 li.unread-conversation p.conversation-actors {
 	font-weight: bold;
+	color: #000;
 }
 
 li.read-conversation p.conversation-actors {
 	font-weight: normal;
+	color: color: #888;
 }
 
 
