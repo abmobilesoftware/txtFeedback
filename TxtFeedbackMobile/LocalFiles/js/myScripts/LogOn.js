@@ -1,3 +1,9 @@
+/**
+ * LogOnPage view is mapped on #logOnPage DOM element.
+ * In case a user is logged in the system this page is skipped.
+ * This behavior is implemented in checkLoggedOnStatus. 
+ * TODO: Move checkLoggedOnStatus logic in LogOnPage model.
+ */
 var LogOnPage = Backbone.View.extend({
 	events: {
 		"submit form": "logOn"
@@ -33,11 +39,9 @@ var LogOnPage = Backbone.View.extend({
 		}
 	},
 	hide: function() {
-		//this.$el.hide();
 		this.$el.css("visibility", "hidden");
 	},
 	show: function() {
-		//this.$el.show();
 		this.$el.css("visibility", "visible");
 	},
 	clearFields: function() {
@@ -46,6 +50,13 @@ var LogOnPage = Backbone.View.extend({
 	}
 });
 
+/**
+ * This class implements logic for:
+ * 1. log on/log off
+ * 2. check for logged in user
+ * 3. get xmpp credentials for logged user
+ * 4. register/unregister device GCM id in the system
+ */
 var LogOnModel = Backbone.Model.extend({
 	initialize: function(attributes, options) {
 		// first - firefox, second - chrome
@@ -105,6 +116,54 @@ var LogOnModel = Backbone.Model.extend({
 		} else {
 			alert("Try again in few moments.")
 		}
+	},
+	logOff: function() {
+		var self = this;
+		this.unregisterDevice(
+				this.pushNotificationHandler.getGCMKey());
+		$.ajax({
+			url: this.url.logOff,
+			type: "POST",
+			cache: false,
+			xhrFields: {
+				withCredentials: true
+			},
+			crossDomain: true,
+			success: function(data) {
+				if (data == self.response.LOGOFF_SUCCESS) {
+					self.trigger(self.events.LOGOFF_SUCCESS);
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert("Error log off" + textStatus + " " + errorThrown);
+			}
+		});
+	},
+	isLoggedOn: function() {
+		var loggedOn = false;
+		$.ajax({
+			url: this.url.checkLoggedOnStatus,
+			method: "POST",
+			data: "{performUpdateBefore: false}",
+			headers: {
+				"X-Requested-With": "XMLHttpRequest"
+			},
+			xhrFields: {
+				withCredentials: true
+			},
+			async: false,
+			crossDomain: true,
+			contentType: "application/json; charset=utf-8",
+			statusCode: {
+				403: function() {
+					loggedOn = false;
+				}, 
+				200: function() {
+					loggedOn = true;
+				}
+			}
+		});
+		return loggedOn;
 	},
 	getXmppCredentials: function()  {
 		var self = this;
@@ -173,54 +232,6 @@ var LogOnModel = Backbone.Model.extend({
 				} else if (data == self.response.UNREGISTER_FAIL) {
 					return false;
 				}
-			}
-		});
-	},
-	isLoggedOn: function() {
-		var loggedOn = false;
-		$.ajax({
-			url: this.url.checkLoggedOnStatus,
-			method: "POST",
-			data: "{performUpdateBefore: false}",
-			headers: {
-				"X-Requested-With": "XMLHttpRequest"
-			},
-			xhrFields: {
-				withCredentials: true
-			},
-			async: false,
-			crossDomain: true,
-			contentType: "application/json; charset=utf-8",
-			statusCode: {
-				403: function() {
-					loggedOn = false;
-				}, 
-				200: function() {
-					loggedOn = true;
-				}
-			}
-		});
-		return loggedOn;
-	}, 
-	logOff: function() {
-		var self = this;
-		this.unregisterDevice(
-				this.pushNotificationHandler.getGCMKey());
-		$.ajax({
-			url: this.url.logOff,
-			type: "POST",
-			cache: false,
-			xhrFields: {
-				withCredentials: true
-			},
-			crossDomain: true,
-			success: function(data) {
-				if (data == self.response.LOGOFF_SUCCESS) {
-					self.trigger(self.events.LOGOFF_SUCCESS);
-				}
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-				alert("Error log off" + textStatus + " " + errorThrown);
 			}
 		});
 	}
