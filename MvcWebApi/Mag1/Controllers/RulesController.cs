@@ -17,7 +17,7 @@ namespace Controllers
         {
             Agent agent1 = new Agent("magazin1@txtfeedback.net", 7);
             Agent agent2 = new Agent("manager@txtfeedback.net", 7);
-            List<Agent> agents = new List<Agent> { agent1 };
+            List<Agent> agents = new List<Agent> { agent1, agent2 };
             MsgHandlers listOfAgents = new MsgHandlers(agents);
             return listOfAgents;
             throw new HttpResponseException(HttpStatusCode.NotFound);
