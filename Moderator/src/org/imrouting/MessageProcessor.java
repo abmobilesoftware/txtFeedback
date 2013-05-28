@@ -34,17 +34,23 @@ public class MessageProcessor {
 		restGtw = new RestControllerGateway();
 	}	
 	public void processInternalPacket(Message message) {
-		//System.out.println("Received message = " + message.toXML());
 		long t1, t2;
 		t1 = System.currentTimeMillis();
 		try {
 			if (message.getSubject().equals(Constants.CLIENT_ACK)) {
-				// For this message update WasReceivedByClient state in DB 
-				String ackId = message.getReceivedID();  // ackId = PACKET_ID**DB_ID
-				String[] ackIds = ackId.split("##");
-												
-				moderator.sendAcknowledgeMessage(message.getAckDestination(), "ClientMsgDeliveryReceipt", ackIds[0]);
-				restGtw.updateMessageClientAcknowledgeField(Integer.parseInt(ackIds[1]), true);
+				/**
+				 * Id Format is ClientId##DatabaseId
+				 * ClientId is the UUID generated on client side for this message
+				 * (mobile website) and is recognized during a session (session terminates 
+				 * when the the web browser page is closed).
+				 * DatabaseId is persistent and is received after inserting this message
+				 * in database 
+				 */
+				String acknowledgeId = message.getReceivedID();  
+				String clientId = acknowledgeId.split("##")[0];
+				int databaseId = Integer.parseInt(acknowledgeId.split("##")[1]);												
+				moderator.sendAcknowledgeMessage(message.getAckDestination(), "ClientMsgDeliveryReceipt", clientId);
+				restGtw.updateMessageClientAcknowledgeField(databaseId, true);
 			} else if (message.getSubject().equals(Constants.INTERNAL_PACKET)) {
 				TxtPacket internalPacket = new TxtPacket(message.getBody());
 				//DA since the date coming from the Javascript client is unreliable we use the server side time as reference
