@@ -371,7 +371,7 @@ var Conversation = Backbone.Model.extend({
 	initialize: function() {
 		_.bindAll(this, "parse");		
 		this.on("change:Read", this.updateReadStateOnServer);
-		this.updateReadStateUrl = "http://www.dev.txtfeedback.net/Conversations/MarkConversationAsRead";
+		this.updateReadStateUrl = "http://dev.txtfeedback.net/Conversations/MarkConversationAsRead";
 	},
 	// automatic parse of raw data received from server
 	parse: function (data, xhc) {
