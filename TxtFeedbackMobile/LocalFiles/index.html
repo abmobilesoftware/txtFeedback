@@ -37,7 +37,7 @@
 				<img class="conversation-thumb" src="images/Outbox-green-32.png" alt="outbox" />
 			<% } %>
 			<p class="conversation-actors"><%= ClientDisplayName  %>... >> <%= WorkingPointDisplayName %></p>			
-			<span class="conversation-last-message"><%= Text %></span>						
+			<span class="conversation-last-message"><%= textOverflow(Text) %></span>						
 		</a>
 		</script>
 		<script type="text/template" id="message-template">

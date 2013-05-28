@@ -15,6 +15,23 @@ function getFromToFromConversation(convID) {
    return fromToArray;
 }
 
+/** 
+ * Css property text-overflow is not working in Android 2.3.3, 
+ * This approach extracts the first x characters of a given text.
+ * The x is computed in relation with the width of the screen.
+ */
+function textOverflow(text) {
+	var screenWidth = $(document).width();
+	var iconWidth = 40;
+	var characterWidth = 12;
+	var textWidth = characterWidth * text.length;	
+	var textSectionWidth = screenWidth - iconWidth;		
+	var noOfCharactersInTextSection = textSectionWidth / characterWidth;
+	var textIsTrimmed = textWidth > textSectionWidth; 
+	return text.substring(0, noOfCharactersInTextSection) + 
+											(textIsTrimmed ? "..." : "");
+}
+
 /* XMPP Utilities */
 function extractUser(xmppAddress) {
 	return xmppAddress.substring(0, xmppAddress.indexOf("@"));
