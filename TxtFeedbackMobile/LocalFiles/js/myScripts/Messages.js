@@ -43,10 +43,11 @@ var MessagesPage = Backbone.View.extend({
 					el: this.dom.$FOOTER,
 					model: this.sendMessageModel
 				});
+		
+		/** Handle events */
 		this.$el.on("pagebeforeshow", this.pageBeforeShowHandler);
 		this.$el.on("pageshow", this.pageShowHandler);
-		this.$el.on("pagehide", this.pageHideHandler);
-		
+		this.$el.on("pagehide", this.pageHideHandler);		
 		this.options.xmppHandler.on(this.options.xmppHandler.events.MESSAGE_RECEIVED,
 				this.messageReceivedHandler);
 		this.options.xmppHandler.on(this.options.xmppHandler.events.MESSAGE_SENT,
@@ -101,10 +102,10 @@ var MessagesPage = Backbone.View.extend({
 		this.messagesAreaModel.deactivateConversation();
 	},
 	pageBeforeShowHandler: function() {
-		//this.messagesArea.enhanceList();
+		this.messagesArea.enhanceList();
 	},
 	pageShowHandler: function() {
-		//this.messagesArea.scrollToBottom();
+		this.messagesArea.scrollToBottom();
 		this.pageActive = true;	
 		this.pageReady();
 	},
@@ -126,15 +127,29 @@ var MessagesArea = Backbone.View.extend({
 		this.model.on(this.model.events.MESSAGES_LOADED, 
 				this.renderArea);
 	},
-	renderArea: function(messagesList) {
+	renderArea: function(messagesList, event) {
 		var self = this;
 		this.$el.empty();
 		_.each(messagesList, function(model) {
 			var messageItemView = new MessageView({model: model});
 			self.$el.append(messageItemView.render().el);
 		}, this);
-		//this.scrollToBottom();
-		Backbone.trigger(this.constants.EVENT_MLIST_RENDERED);
+		this.scrollToBottom();
+		/**
+		 * If renderArea is called by MESSAGES_LOADED event 
+		 * than the list is not yet displayed and more steps 
+		 * will be done before displaying the list and enhancing it. 
+		 * (follow EVENT_MLIST_RENDER event) 
+		 * Otherwise if is called by ADD_MESSAGE event
+		 * than the list is already displayed and it is 
+		 * re-rendered to display the new received or sent message.
+		 * In this case the list needs an enhancement right away.  
+		 */
+		if (event == this.model.events.MESSAGES_LOADED) {
+			Backbone.trigger(this.constants.EVENT_MLIST_RENDERED);
+		} else if (event == this.model.events.ADD_MESSAGE) {
+			this.enhanceList();
+		}
 	},
 	enhanceList: function() {
 		this.$el.listview("refresh");
@@ -183,7 +198,8 @@ var MessagesAreaModel = Backbone.Model.extend(
 		if (messagesListFromRepository != undefined) {
 			if (!silent) {
 				this.trigger(this.events.MESSAGES_LOADED, 
-						messagesListFromRepository.models);
+						messagesListFromRepository.models, 
+						this.events.MESSAGES_LOADED);
 			}
 		} else {
 			var messagesList = new MessagesList();
@@ -201,7 +217,8 @@ var MessagesAreaModel = Backbone.Model.extend(
 					self.messagesRepository[options.data.conversationId] = collection;	
 					if (!silent) {
 						self.trigger(self.events.MESSAGES_LOADED, 
-								collection.models);
+								collection.models,
+								self.events.MESSAGES_LOADED);
 					}
 				}, 
 				error: function(collection, response, options) {
@@ -241,7 +258,8 @@ var MessagesAreaModel = Backbone.Model.extend(
 		 */ 
 		if (!silent && message.ConvID == this.conversation.get("ConvID")) {
 			this.trigger(this.events.ADD_MESSAGE, 
-					messagesListFromRepository.models);
+					messagesListFromRepository.models,
+					this.events.ADD_MESSAGE);
 		}		
 	},
 	serverAcknowledgeHandler: function(messageId) {
@@ -379,6 +397,13 @@ var SendMessageModel = Backbone.Model.extend({
 		_.bindAll(this, "sendMessage",
 				"setConversation");
 		this.xmppHandler = options.xmppHandler;		
+		this.events = {
+			MESSAGE_SENT : this.xmppHandler.events.MESSAGE_SENT	
+		};
+		this.xmppHandler.on(this.xmppHandler.events.MESSAGE_SENT, 
+			function() {
+				self.trigger(self.events.MESSAGE_SENT);
+			});
 	},
 	sendMessage: function(message) {	
 		if (this.isMessageValid(message)) {
@@ -387,7 +412,7 @@ var SendMessageModel = Backbone.Model.extend({
 					getFromToFromConversation(
 							this.conversation.get("ConvID"))[1],
 					getFromToFromConversation(
-							this.conversation.get("ConvID"))[0], 
+							this.conversation.get("ConvID"))[0], // Xmpp To address, final destination 
 					this.conversation.get("ConvID"), // Conversation id
 					message, // Body
 					this.conversation.get("IsSmsBased"));
@@ -458,8 +483,8 @@ var XMPPHandler = Backbone.Model.extend({
 	function(clientId, from, to, convId,
 			messageBody, isSmsBased) {
 		var dateSent = new Date();
-		var toAddress = to + this.componentDomain;
-		var fromAddress = from + this.userDomain;
+		var fromAddress = from + this.componentDomain;
+		var toAddress = to + this.userDomain;
 		if (this.conn.connected) {
 			this.trigger(this.events.MESSAGE_SENT, 
 					{
@@ -480,8 +505,8 @@ var XMPPHandler = Backbone.Model.extend({
 						Seconds: dateSent.getSeconds()
 					});
 			var formattedMsgBody = formatXmppMsgBody(
-					from,			
-					to, // final recipient of the message
+					fromAddress,			
+					toAddress, // final recipient of the message
 					dateSent, // Message send date 
 					convId, messageBody, 
 					false, // Direction, to client
@@ -591,17 +616,24 @@ var XMPPHandler = Backbone.Model.extend({
 				this.trigger(this.events.CARBONS_MESSAGE_RECEIVED, 
 						message);	
 			} else {
-				var id = getXmppMessageId(xmppMessage).split("##");
-				var clientId = id[0];
-				var serverId = id[1];
+				/**
+				 * Id Format is ClientId##DatabaseId
+				 * ClientId is the UUID generated on client side for this message
+				 * (mobile website) and is recognized during a session (session terminates 
+				 * when the the web browser page is closed).
+				 * DatabaseId is persistent and is received after inserting this message
+				 * in database 
+				 */
+				var id = getXmppMessageId(xmppMessage);
+				var databaseId = id.split("##")[1];
 				if (isMessageDelayed(xmppMessage)) {
 					this.sendAcknowledgeMessage(this.componentAddress,
-							clientId, acknowledgeDestination);
+							id, acknowledgeDestination);
 				} else {
 					var message = parseMessage(body);
-					message.Id = serverId;
+					message.Id = databaseId;
 					this.sendAcknowledgeMessage(this.componentAddress,
-							clientId, acknowledgeDestination);
+							id, acknowledgeDestination);
 					this.trigger(this.events.MESSAGE_RECEIVED, 
 							message);				
 				}
