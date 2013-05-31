@@ -9,6 +9,7 @@
 </filter>
 </criteria>
 <properties>
+<property key="android:version.number" value="1"/>
 <property key="build.prefs:additional.include.paths/Debug" value=""/>
 <property key="build.prefs:additional.include.paths/Release" value=""/>
 <property key="build.prefs:additional.libraries" value="MAUtil.lib, NativeUI.lib, MAFS.lib, Wormhole.lib, yajl.lib, Notification.lib"/>
@@ -17,6 +18,7 @@
 <property key="build.prefs:additional.library.paths/Release" value=""/>
 <property key="build.prefs:app.name/Release" value="TxtFeedback"/>
 <property key="build.prefs:app.permissions" value="File\ Storage Internet\ Access Push\ Notifications Vibration"/>
+<property key="build.prefs:app.version/Release" value="1.0"/>
 <property key="build.prefs:extra.link.sw/Debug" value=""/>
 <property key="build.prefs:extra.link.sw/Release" value=""/>
 <property key="build.prefs:extra.res.sw/Debug" value=""/>
@@ -29,6 +31,7 @@
 <property key="build.prefs:memory.heap/Release" value="3072"/>
 <property key="build.prefs:memory.stack/Debug" value="512"/>
 <property key="build.prefs:memory.stack/Release" value="512"/>
+<property key="build.prefs:output.static.recompilation/Debug" value="true"/>
 <property key="build.prefs:project.type" value=""/>
 <property key="com.mobilesorcery.sdk.html5.support" value="true"/>
 <property key="dependency.strategy" value="0"/>
