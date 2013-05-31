@@ -28,7 +28,7 @@ public:
 		maNotificationPushSetDisplayFlag(true);
 		maNotificationPushSetTickerText("New message");
 		maNotificationPushSetMessageTitle("New message");
-
+		showSplashScreen();
 		showPage("index.html");
 
 		// Set the sound used by the PhoneGap beep notification API.
@@ -38,7 +38,31 @@ public:
 		maScreenSetSupportedOrientations(MA_SCREEN_ORIENTATION_LANDSCAPE_LEFT |
 		  MA_SCREEN_ORIENTATION_LANDSCAPE_RIGHT | MA_SCREEN_ORIENTATION_PORTRAIT |
 		  MA_SCREEN_ORIENTATION_PORTRAIT_UPSIDE_DOWN);
-	}
+	};
+	void showSplashScreen()
+	    {
+	        // Compute coordinates to center image.
+	        int screenSize = maGetScrSize();
+	        int screenWidth = EXTENT_X(screenSize);
+	        int screenHeight = EXTENT_Y(screenSize);
+
+	        int imageSize = maGetImageSize(SPLASH_SCREEN);
+	        int imageWidth = EXTENT_X(imageSize);
+	        int imageHeight = EXTENT_Y(imageSize);
+
+	        int imageX = (screenWidth - imageWidth) / 2;
+	        int imageY = (screenHeight - imageHeight) / 2;
+
+	        // Fill background.
+	        maSetColor(0x000000);
+	        maFillRect(0, 0, screenWidth, screenHeight);
+
+	        // Draw image centered.
+	        maDrawImage(SPLASH_SCREEN, imageX, imageY);
+
+	        // Display updates.
+	        maUpdateScreen();
+	    }
 };
 
 /**
