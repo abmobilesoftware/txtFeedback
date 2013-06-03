@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "NewsletterTemplate";
+    Layout = "~/Views/UserMailer/_Layout.cshtml";
+}
+
+<p>Activity for period @ViewData["StartDate"] - @ViewData["EndDate"]</p>
+   @foreach (var conversationsForWp in @ViewData["conversations"]) 
+   {
+      <p>For working point @conversationsForWp.wpName</p>
+      <ul>
+         @foreach (var conversation in @conversationsForWp.conversations)
+         {
+            <li class="conversation">@conversation.Text</li>        
+         }
+      </ul>
+   }   
+}
