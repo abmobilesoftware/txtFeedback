@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Mvc.Mailer;
 using System.Net.Mail;
+using SmsFeedback_Take4.Models.Helpers;
 
 namespace SmsFeedback_Take4.Mailers
 { 
@@ -16,7 +17,11 @@ namespace SmsFeedback_Take4.Mailers
 		}
 
 		
-		public virtual MailMessage SendMessageContent(string email, string subject, string content,string from, string location ="")
+		public virtual MailMessage SendMessageContent(string email, 
+         string subject, 
+         string content,
+         string from, 
+         string location ="")
 		{
 			var mailMessage = new MailMessage{Subject = subject};			
 			mailMessage.To.Add(email);
@@ -26,6 +31,16 @@ namespace SmsFeedback_Take4.Mailers
 			PopulateBody(mailMessage, viewName: "EmailTemplate");
 			return mailMessage;
 		}
-      
+
+      public virtual MailMessage NewsletterContent(string to, 
+         string subject,
+         List<WpAndConversations> conversations, 
+         DateTime startDate, 
+         DateTime endDate) {
+            var mailMessage = new MailMessage { Subject = subject };
+            mailMessage.To.Add(to);
+            ViewData["conversations
+
+      }
 	}
 }
