@@ -1,6 +1,7 @@
 var PushNotificationHandler = Backbone.Model.extend({
 	initialize: function() {
-		_.bindAll(this, "pushNotificationListener",
+		_.bindAll(this, 
+				"pushNotificationListener",
 				"pushNotificationRegisterSuccess",
 				"pushNotificationRegisterError",
 				"getGCMKey");
@@ -9,7 +10,8 @@ var PushNotificationHandler = Backbone.Model.extend({
 		// GCM project id
 		this.pushNotificationManager.accountID("92320531700");
 		if (this.storage.getItem("GCMKey") == null) {
-			this.pushNotificationManager.register(this.pushNotificationRegisterSuccess,
+			this.pushNotificationManager.register(
+					this.pushNotificationRegisterSuccess,
 					this.pushNotificationRegisterError);
 		} else {
 			this.pushNotificationManager.listener(
