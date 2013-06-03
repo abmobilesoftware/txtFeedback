@@ -1,40 +1,17 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<SmsFeedback_Take4.Models.LogOnModel>" %>
+﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<SmsFeedback_Take4.Models.LogOnModel>" ValidateRequest = "false"%>
 <%@ Import Namespace="SmsFeedback_Take4.Utilities" %>
 <!DOCTYPE html>
 
 <html>
 <head runat="server">
-   <link rel="stylesheet" href="../../Content/themes/base/jquery.ui.all.css">
-
-      <% if (Html.IsReleaseBuild())      { %>
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/reset.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/text.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/grid.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/layout.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/nav.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Minified/Site.css") %>" />
-   <% }      else      { %>
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/reset.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/text.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/grid.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/layout.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/nav.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%:Url.UpdatedResourceLink("~/Content/Site.css") %>" />
-   <% } %>
-
-   <link rel="stylesheet" type="text/css" media="all" href="../../Content/css/metro-ui-light.css" />
-   <script src="<%: Url.Content("~/Scripts/jquery-1.6.2.min.js") %>" charset="charset="UTF-8" type="text/javascript"></script>
+   <%: Styles.Render("~/Content/logonCss") %>   
+   <%:Scripts.Render("~/bundles/logonjs")%>       
     <title> <%: Resources.Global.TitleLogOn %></title>
 </head>
 
 <body>
    <img id="bkgImage" src="<%: Url.Content("~/Content/images/loginImage.jpg") %>"/>
-     
     <div id="logOnContainer">   
-  
-    <script src="<%: Url.Content("~/Scripts/jquery.validate.min.js") %>" type="text/javascript"></script>
-    <script src="<%: Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js") %>" type="text/javascript"></script>
-
     <% using (Html.BeginForm()) { %>
     
         <div id="loginContainer" >
@@ -48,7 +25,6 @@
                    </span>
                 </legend>
                 
-
                 <div class="editor-field">
                     <%: Html.TextBoxFor(m => m.UserName, new { @placeholder = Resources.Global.lblUserName, @class = "logInTextBox"}) %>
                     <%: Html.ValidationMessageFor(m => m.UserName) %>

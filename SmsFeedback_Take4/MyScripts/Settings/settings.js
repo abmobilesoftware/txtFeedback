@@ -75,18 +75,7 @@ window.app.getDataForWorkingPoints = function () {
 window.app.localForSetting = {};
 window.app.localForSetting.setTooltipsOnHeaders = function () {
    "use strict";
-   $('th').each(function () {
-      $(this).qtip({
-         content: $(this).attr('tooltiptitle'),
-         position: {
-            corner: {
-               target: 'topLeft',
-               tooltip: 'bottomLeft'
-            }
-         },
-         style: 'dark'
-      });
-   });
+  //TODO DA -set tooltips on header
 };
 window.app.saveWorkingPoints = function (e) {
    "use strict";

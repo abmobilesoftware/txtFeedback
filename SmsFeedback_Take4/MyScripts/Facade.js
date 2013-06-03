@@ -17,6 +17,7 @@
 /*global ConversationArea */
 /*global TagsArea */
 /*global MessagesArea */
+/*global resizeTriggered */
 //#endregion
 
 window.app = window.app || {};

@@ -42,7 +42,6 @@ namespace SmsFeedback_Take4.Controllers
         public JsonResult GetMenuItems()
         {
            List<ReportsMenuItem> reportsMenuItems = new List<ReportsMenuItem> {
-               new ReportsMenuItem(1, Resources.Global.settingUserPreferences, false, 0, "","UserPreferences"),
                new ReportsMenuItem(20, Resources.Global.settingsPrivacy, false, 0, "","Privacy"),
                new ReportsMenuItem(21, Resources.Global.settingsChangePassword, true, 20, "ConfigurePassword","ChangePassword"),
            };
@@ -66,6 +65,7 @@ namespace SmsFeedback_Take4.Controllers
         }
       
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult GetChangePasswordForm(ChangePasswordModel model)
         {
            if (ModelState.IsValid)

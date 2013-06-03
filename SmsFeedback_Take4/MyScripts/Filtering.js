@@ -29,60 +29,19 @@ window.app.defaultFilteringOptions = {
    supportFilteringEnabled: false
 };
 
-function Filter(iElement, iValue) {
-   var elementName = iElement;
-   var behindVariable = iValue;
-
-   this.getElementName = function () {
-      return elementName;
-   };
-   this.getBehindVariable = function () {
-      return behindVariable;
-   };
-}
+window.app.setLabelState = function (labelElement, state) {
+   var elem = $(labelElement);
+   if (state === true) {
+      elem.addClass('filterActive');
+   } else {
+      elem.removeClass('filterActive');
+   }
+};
 
 function FilterArea() {
    "use strict";
    var self = this;
    $.extend(this, window.app.defaultFilteringOptions);
-
-   // List of filters and filter operations
-   var filtersList = [];
-   var tagsFilter = new Filter("#includeTagsInFilter", "self.tagFilteringEnabled");
-   var unreadFilter = new Filter("#includeUnreadInFilter", "self.unreadFilteringEnabled");
-   var starredFilter = new Filter("#includeStarredInFilter", "self.starredFilteringEnabled");
-   var supportFilter = new Filter("#includeSupportInFilter", "self.supportFilteringEnabled");
-   filtersList.push(tagsFilter);
-   filtersList.push(unreadFilter);
-   filtersList.push(starredFilter);
-
-   this.deactivateFilters = function () {
-      for (var i = 0; i < filtersList.length; ++i) {
-         var behindVariableValue = eval(filtersList[i].getBehindVariable());
-         if (behindVariableValue === true) {
-            eval(filtersList[i].getBehindVariable() + "=false");
-         }
-         setCheckboxState($(filtersList[i].getElementName()), eval(filtersList[i].getBehindVariable()));
-      }
-   };
-
-   this.deactivateFilter = function (filter) {
-      var behindVariableValue = eval(filter.getBehindVariable());
-      if (behindVariableValue === true) {
-         eval(filter.getBehindVariable() + "=false");
-      }
-      setCheckboxState($(filter.getElementName()), eval(filter.getBehindVariable()));
-   };
-
-   this.toggleFilter = function (filter) {
-      var behindVariableValue = eval(filter.getBehindVariable());
-      if (behindVariableValue === true) {
-         eval(filter.getBehindVariable() + "=false");
-      } else if (behindVariableValue === false) {
-         eval(filter.getBehindVariable() + "=true");
-      }
-      setCheckboxState($(filter.getElementName()), eval(filter.getBehindVariable()));
-   };
 
    //#region Tags
    var placeholderMessage = $('#filteringAddFilterTagMessage').val();
@@ -118,130 +77,80 @@ function FilterArea() {
       'placeholderColor': '#666666'
    });
 
+   self.deactivateFilters = function (onlySupport) {
+      if (onlySupport) {
+         self.tagFilteringEnabled = false;
+         self.starredFilteringEnabled = false;
+         self.unreadFilteringEnabled = false;
+         setCheckboxState($('#includeTagsInFilter'), self.tagFilteringEnabled);
+         window.app.setLabelState('#tagsLabel span', self.tagFilteringEnabled);
+         setCheckboxState($('#includeStarredInFilter'), self.starredFilteringEnabled);
+         window.app.setLabelState('#starredFilterArea span', self.starredFilteringEnabled);
+         setCheckboxState($('#includeUnreadInFilter'), self.unreadFilteringEnabled);
+         window.app.setLabelState('#unreadFilterArea span', self.unreadFilteringEnabled);
+      } else {
+         self.supportFilteringEnabled = false;
+         setCheckboxState($('#includeSupportInFilter'), self.supportFilteringEnabled);
+         window.app.setLabelState('#supportFilterArea span', self.supportFilteringEnabled);
+      }
+   }
+
    $("#includeTagsInFilter").bind('click', function () {
-      if (!self.tagFilteringEnabled) { self.deactivateFilter(supportFilter); }
-      self.toggleFilter(tagsFilter);
-      //trigger filtering if required
+      //set internal state
+      if (self.tagFilteringEnabled) {
+         self.tagFilteringEnabled = false;
+      }
+      else {
+         self.tagFilteringEnabled = true;
+      }
+      //change checkbox state
+      setCheckboxState($(this), self.tagFilteringEnabled);
+      window.app.setLabelState('#tagsLabel span', self.tagFilteringEnabled);
+      self.deactivateFilters(false);
+      //trigger filtering if required      
       if (self.tagsForFiltering.length !== 0) {
+         
          $(document).trigger('refreshConversationList');
       }
    });
    //#endregion
 
-   //#region Date
-
-   /*
-  this.previousStartDate = "";
-  this.defaultStartDate = this.startDate;
-  var startDatePicker = $("#startDateTimePicker");
-  if (startDatePicker.length !== 0)
-  {     
-     //TODO add option to specify which language to use (according to selected language)
-     startDatePicker.datepicker({
-         changeMonth: true,
-         numberOfMonths: 3,
-         dateFormat: app.dateFormatForDatePicker,
-        onClose: function (dateText, inst) {
-           //compare the new value with the previous value
-           //if changed and date filtering is checked, trigger refreshConversationList
-           if (self.previousStartDate !== dateText) {
-              //the date has been modified
-              self.previousStartDate = dateText;
-              self.startDate = dateText;
-              if (self.dateFilteringEnabled) {
-                 $(document).trigger('refreshConversationList');
-              }
-           }
-
-        }         
-     });
-     
-     this.previousStartDate = $.datepicker.formatDate(app.dateFormatForDatePicker, startDatePicker.datepicker("getDate"));
-     this.defaultStartDate = $.datepicker.formatDate(app.dateFormatForDatePicker, startDatePicker.datepicker("getDate"));
-  }    
-  var endDatePicker = $("#endDateTimePicker");
-  this.previousEndDate = "";
-  this.defaultEndDate = this.endDate;
-  if (endDatePicker.length !== 0)   {
-      endDatePicker.datepicker({
-        changeMonth: true,
-        numberOfMonths: 3,
-        dateFormat: app.dateFormatForDatePicker,
-        onClose: function (dateText, inst) {
-           //compare the new value with the previous value
-           //if changed and date filtering is checked, trigger refreshConversationList
-           if (self.previousEndDate !== dateText) {
-              //the date has been modified
-              self.previousEndDate = dateText;
-              self.endDate = dateText;
-              if (self.dateFilteringEnabled) {
-                 $(document).trigger('refreshConversationList');
-              }
-           }
-
-        }         
-     });
-     
-     var fromTranslation = $("#startDateTimePicker").val();
-     var toTranslation = $("#endDateTimePicker").val();
-     
-     // Setup the calendar culture
-     $.datepicker.regional[window.app.calendarCulture].dateFormat = window.app.dateFormatForDatePicker;
-     var culture = $.datepicker.regional[window.app.calendarCulture];
-     $("#startDateTimePicker").datepicker("option", culture);
-     $("#endDateTimePicker").datepicker("option", culture);
-
-     $("#startDateTimePicker").val(fromTranslation);
-     $("#endDateTimePicker").val(toTranslation);
-
-     
-     this.previousEndDate = $.datepicker.formatDate(app.dateFormatForDatePicker, endDatePicker.datepicker("getDate"))
-     this.defaultEndDate = $.datepicker.formatDate(app.dateFormatForDatePicker, endDatePicker.datepicker("getDate"));
-  }
-
-  
-  $("#includeDateInFilter").bind('click', function () {
-     //set internal state
-     self.dateFilteringEnabled = !self.dateFilteringEnabled;     
-     //change checkbox state
-     setCheckboxState($(this), self.dateFilteringEnabled);
-
-     //get the values for start/end date
-     var startDatePicker = $("#startDateTimePicker");
-     var newStartDate = $.datepicker.formatDate(app.dateFormatForDatePicker, startDatePicker.datepicker("getDate"));
-     var endDatePicker = $("#endDateTimePicker");
-     var newEndDate = $.datepicker.formatDate(app.dateFormatForDatePicker, endDatePicker.datepicker("getDate"));
-     //trigger filtering if required
-     if (self.defaultStartDate !== newStartDate || self.defaultEndDate !== newEndDate) {
-        self.startDate = newStartDate;
-        self.endDate = newEndDate;
-        $(document).trigger('refreshConversationList');
-     }
-  });
-  */
-
-   //#endregion
-
    //#region Starred
    $("#includeStarredInFilter").bind('click', function () {
-      if (!self.starredFilteringEnabled) { self.deactivateFilter(supportFilter); }
-      self.toggleFilter(starredFilter);
+      //set internal state
+      self.starredFilteringEnabled = !self.starredFilteringEnabled;
+      //change checkbox state
+      setCheckboxState($(this), self.starredFilteringEnabled);
+      window.app.setLabelState('#starredFilterArea span', self.starredFilteringEnabled);
+      //Change the style of the label to match the state
+      //trigger filtering if required
+      self.deactivateFilters(false);
       $(document).trigger('refreshConversationList');
    });
    //#endregion
 
    //#region Unread
    $("#includeUnreadInFilter").bind('click', function () {
-      if (!self.unreadFilteringEnabled) { self.deactivateFilter(supportFilter); }
-      self.toggleFilter(unreadFilter);
+      //set internal state
+      self.unreadFilteringEnabled = !self.unreadFilteringEnabled;
+      //change checkbox state
+      setCheckboxState($(this), self.unreadFilteringEnabled);
+      window.app.setLabelState('#unreadFilterArea span', self.unreadFilteringEnabled);
+      //trigger filtering if required
+      self.deactivateFilters(false);
       $(document).trigger('refreshConversationList');
    });
    //#endregion
 
    //#region Support
    $("#includeSupportInFilter").bind('click', function () {
-      if (!self.supportFilteringEnabled) { self.deactivateFilters(); }
-      self.toggleFilter(supportFilter);
+      //set internal state
+      self.supportFilteringEnabled = !self.supportFilteringEnabled;
+      //change checkbox state
+      setCheckboxState($(this), self.supportFilteringEnabled);
+      window.app.setLabelState('#supportFilterArea span', self.supportFilteringEnabled);
+      self.deactivateFilters(true);
+      //trigger filtering if required
       $(document).trigger('refreshConversationList');
    });
    //#endregion
@@ -253,8 +162,7 @@ function FilterArea() {
    //#endregion
 
    $("#includeDateInFilter, #includeStarredInFilter, #includeUnreadInFilter, #includeTagsInFilter, #includeSupportInFilter").each(function () {
-      var elementToShowTooltipOn = $(this);
-      setTooltipOnElement(elementToShowTooltipOn, elementToShowTooltipOn.attr('tooltiptitle'), 'light');
+      var elementToShowTooltipOn = $(this);      
    });
 
 }

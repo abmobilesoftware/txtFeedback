@@ -29,7 +29,7 @@ window.app.cummulativeSkip = window.app.defaultNrOfConversationsToSkip;
 //#endregion
 
 //#region Conversation Model
-window.app.Conversation = Backbone.Model.extend({
+window.app.Conversation = Backbone.Model.extend({    
     defaults: {
         TimeUpdated: Date.now(),
         Read: false,
@@ -40,23 +40,47 @@ window.app.Conversation = Backbone.Model.extend({
         Starred: false, //favorite conversation or not
         ClientDisplayName: "defaultClient",
         ClientIsSupportBot: false,
-        IsSmsBased: false       
+        IsSmsBased: false     
     },
-    parse: function (data, xhc) {
-        data.TimeUpdated = data.TimeReceived;
-        if (data.IsSmsBased === "false" || data.IsSmsBased === false) {
-            data.IsSmsBased = false;
-        } else {
-            data.IsSmsBased = true;
-            data.ClientDisplayName = data.From.substring(0, data.From.length - 4) + "....";
-        }
-
-        return data;
+   //DA we override the initialize function so that all Conversation objects have their properties properly initialized
+   //the problem before was that parse was only called when initialized via collection.fetch
+    initialize: function (attributes, options) {
+       this.set('IsSmsBased', (attributes.IsSmsBased === "false" || attributes.IsSmsBased === false) ? false : true);
+       this.set('TimeUpdated', attributes.TimeReceived);
+       if (this.get('IsSmsBased')) {
+          var fromTo = getFromToFromConversation(attributes.ConvID);
+          this.set('ClientDisplayName', fromTo[0].substring(0, fromTo[0].length - 4) + "....");
+       }
     },
-    idAttribute: "ConvID" //the id shold be the combination from-to
+    toggleStarred: function () {
+        /* Toggle the starred value using an optimistically approach
+        Change the value of Starred attribute after click to affect 
+        display. Then save the new value on the server, if the request
+        fails either a connection problem (fail) or application logic
+        (request failed) the value is reverted.
+        */
+        var self = this;
+        self.set("Starred", !self.get("Starred"));
+        $.getJSON('Conversations/ChangeStarredStatusForConversation',
+                { conversationId: this.get("ConvID"), newStarredStatus: this.get("Starred") },
+                function (data) {
+                    if (data !== "Update successful") {
+                        self.set("Starred", !self.get("Starred"));
+                    }
+                }).fail(function () {
+                    self.set("Starred", !self.get("Starred"));
+                });
+    },
+    sync: function (method, model, options) {
+       //convert the delete to a post (for livehosting)
+       if (method === 'delete') {
+          options.url = "Conversations/Delete";
+          Backbone.sync("create", model, options);
+       }
+   },
+    idAttribute: "ConvID" //the id should be the combination from-to
 });
 //#endregion
-
 //#region ConversationsList
 window.app.ConversationsList = Backbone.Collection.extend({
     model: window.app.Conversation,
@@ -64,7 +88,6 @@ window.app.ConversationsList = Backbone.Collection.extend({
     url: "Conversations/Delete",
     methodUrl: {
         "read": "Conversations/ConversationsList",
-        "create": "Conversations/ConversationsList",
         "delete": "Conversations/Delete"
     },
     sync: function (method, collection, options) {
@@ -72,132 +95,111 @@ window.app.ConversationsList = Backbone.Collection.extend({
             options = options || {};
             options.url = collection.methodUrl[method];
         }
-        Backbone.sync(method, collection, options);
+        var parseMethod = (method === "delete") ? "create" : method;
+        Backbone.sync(parseMethod, collection, options);
     }
 });
 //#endregion
-
 //#region ConversationView
-$(function () {
-    window.app = window.app || {};
-    /*_.templateSettings = {
-       interpolate: /\{\{(.+?)\}\}/g
-    };*/
+_.templateSettings = {
+   interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
+   evaluate: /\{%([\s\S]+?)%\}/g,   // excute code: {% code_to_execute %}
+   escape: /\{%-([\s\S]+?)%\}/g
+}; // excape HTML: {%- <script> %} prints &lt
 
-    _.templateSettings = {
-        interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
-        evaluate: /\{%([\s\S]+?)%\}/g,   // excute code: {% code_to_execute %}
-        escape: /\{%-([\s\S]+?)%\}/g
-    }; // excape HTML: {%- <script> %} prints &lt
+window.app.ConversationView = Backbone.View.extend({
+   events: {
+      "click .star": "favoriteStarClicked",
+      "click .conversation": "conversationClicked",
+      "click .deleteConvImg" : "deleteConversation"
+   },
+   model: window.app.Conversation,
+   tagName: "div",
+   RequestSelect:false,
+   initialize: function () {
+      $("#convOverlay").hide();
+      _.bindAll(this, 'render', "updateFavouritesIcon",
+          "unrender", "favoriteStarClicked", "conversationClicked",
+          "updateSelectedState", "deleteConversation");
+      this.conversationTemplate= _.template($('#conversation-template').html()),
+      this.transition = new Transition(
+          document.getElementById("scrollableconversations"),$("#convOverlay"));
+      this.render();
+      this.model.on("change:Starred", this.updateFavouritesIcon);
+      this.model.on("change:Read", this.render);                  
+   },
+   render: function () {
+      var selfConvView = this;
+      this.$el.html(this.conversationTemplate(this.model.toJSON()));
+      // TODO : Move this action
+      var deleteConvImg = $(".deleteConv img", this.$el);
 
-    $("#convOverlay").hide();
-    var opts = {
-        lines: 13, // The number of lines to draw
-        length: 7, // The length of each line
-        width: 4, // The line7 thickness
-        radius: 10, // The radius of the inner circle
-        rotate: 0, // The rotation offset
-        color: '#000', // #rgb or #rrggbb
-        speed: 1, // Rounds per second
-        trail: 60, // Afterglow percentage
-        shadow: true, // Whether to render a shadow
-        hwaccel: false, // Whether to use hardware acceleration
-        className: 'spinner', // The CSS class to assign to the spinner
-        zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: 'auto', // Top position relative to parent in px
-        left: 'auto' // Left position relative to parent in px
-    };
-    var deleteConvSpinner = new Spinner(opts);
-
-    window.app.ConversationView = Backbone.View.extend({
-        model: window.app.Conversation,
-        tagName: "div",
-        conversationTemplate: _.template($('#conversation-template').html()),
-        self: this,
-        initialize: function () {
-            _.bindAll(this, 'render', "updateFavouritesIcon", "unrender");
-            this.model.on("change:Starred", this.updateFavouritesIcon);
-            this.model.on("change:Read", this.render);
-            this.transition = new Transition(document.getElementById("scrollableconversations"), $("#convOverlay"));
-            return this.render;
-        },
-        render: function () {
-            var selfConvView = this;
-            this.$el.html(this.conversationTemplate(this.model.toJSON()));
-            var readUnread = "unreadconversation";
-            if (this.model.attributes.Read === true) {
-                readUnread = "readconversation";
+      //#region Hover on a conversation
+      var deleteConvArea = $(".deleteConv", this.$el);
+      if (deleteConvArea !== undefined) {
+         $(this.$el).hover(function () {
+            $(deleteConvArea).fadeIn(100);
+         }, function () {
+            $(deleteConvArea).fadeOut(100);
+         });
+      }
+      //#endregion
+      return this;
+   },
+   unrender: function () {
+      $(this.el).remove();
+   },
+   // TODO MB: Investigate why the first version is not working
+   updateFavouritesIcon: function () {
+      if (this.model.get("Starred")) {       
+         $(".starred", this.$el).show();
+         $(".unstarred", this.$el).hide();
+      } else {       
+         $(".starred", this.$el).hide();
+         $(".unstarred", this.$el).show();
+      }
+   },
+   favoriteStarClicked: function (event) {
+      event.preventDefault();
+      this.model.toggleStarred();
+   },
+   conversationClicked: function (event) {
+      event.preventDefault();
+      // click on the conversation but outside the star icon
+      if (!$(event.target).hasClass("star")) {
+         this.RequestSelect  = true;
+         gSelectedElement = this.$el;
+         resetTimer();
+         gSelectedConversationID = this.model.get("ConvID");
+         window.app.selectedConversation = this.model;
+         $(document).trigger("conversationSelected", { convID: gSelectedConversationID });
+      }
+   },
+   updateSelectedState: function () {     
+      if (this.RequestSelect) {
+         $(".conversation", this.$el).addClass("ui-selected");
+         this.RequestSelect = false;
+      } else {
+         $(".conversation", this.$el).removeClass("ui-selected");
+      }
+   },
+   deleteConversation: function () {    
+      var selfConvView = this;
+      if (confirm($("#confirmDeleteConversation").val() + " \"" + selfConvView.model.get("ClientDisplayName") + "\" ?")) {
+         selfConvView.transition.startTransition();
+         selfConvView.model.destroy({
+            wait: true,
+            success: function (model, response, options) {
+               selfConvView.unrender();
+               selfConvView.transition.endTransition();
+               $(document).trigger("deleteMessagesOfAConversation", { convId: model.get("ConvID") });
+            },
+            error: function (model, xhr, options) {
+               selfConvView.transition.endTransition();
             }
-            var convNormalSupport = "normalConversation";
-            if (this.model.attributes.ClientIsSupportBot) {
-                convNormalSupport = "supportConversation";
-            }
-            this.$el.addClass("conversation");
-            this.$el.addClass(readUnread);
-            this.$el.addClass(convNormalSupport);
-            $(this.el).attr("conversationId", this.model.attributes.ConvID);
-            var markAsFavImg = $(".conversationStarIcon img", this.$el);
-            setTooltipOnElement(markAsFavImg, markAsFavImg.attr('tooltiptitle'), 'dark');
-            var deleteConvImg = $(".deleteConv img", this.$el);
-            setTooltipOnElement(deleteConvImg, deleteConvImg.attr('tooltiptitle'), 'dark');
-            //#region Click on Mark as Favorite
-            $(".conversationStarIconImg", this.$el).bind("click", function (e) {
-                e.preventDefault();
-                var starredStatus = selfConvView.model.get("Starred");
-                selfConvView.model.set("Starred", !starredStatus);
-                var id = $(this).parents(".conversation").attr("conversationId");
-                $.getJSON('Conversations/ChangeStarredStatusForConversation',
-                        { conversationId: id, newStarredStatus: !starredStatus },
-                        function (data) {
-                            //conversation starred status changed                            
-                        });
-            });
-
-            $(".deleteConvImg", this.$el).bind("click", function (e) {
-                e.preventDefault();
-                if (confirm($("#confirmDeleteConversation").val() + " \"" + selfConvView.model.get("ClientDisplayName") + "\" ?")) {
-                    selfConvView.transition.startTransition();
-                    selfConvView.model.destroy({
-                        wait: true,
-                        success: function (model, response, options) {
-                            selfConvView.unrender();
-                            selfConvView.transition.endTransition();
-                            $(document).trigger("deleteMessagesOfAConversation", { convId: model.get("ConvID") });
-                        },
-                        error: function (model, xhr, options) {
-                            selfConvView.transition.endTransition();
-                        }
-                    });
-                } 
-            });
-            //#endregion
-
-            //#region Hover on a conversation
-            var deleteConvArea = $(".deleteConv", this.$el);
-            if (deleteConvArea !== undefined) {
-                $(this.$el).hover(function () {
-                    $(deleteConvArea).fadeIn(100);
-                }, function () {
-                    $(deleteConvArea).fadeOut(100);
-                });
-            }
-            //#endregion
-            return this;
-        },
-        unrender: function() {
-            $(this.el).remove();
-        },
-        updateFavouritesIcon: function () {
-            var markAsFavImg = $(".conversationStarIcon img", this.$el);
-            markAsFavImg.qtip("destroy");
-            if (this.model.get("Starred")) {
-                markAsFavImg.attr("src", window.app.domainName + "/Content/images/star-selected_orange.svg");
-            } else {
-                markAsFavImg.attr("src", window.app.domainName + "/Content/images/star.svg");
-            }
-            setTooltipOnElement(markAsFavImg, markAsFavImg.attr('tooltiptitle'), 'dark');
-        }
-    });
+         });
+      }
+   }
 });
 //#endregion
 
@@ -240,7 +242,7 @@ function ConversationArea(filterArea, workingPointsArea) {
     };
     var spinnerAddConvs = new Spinner(optsForLoadMoreConversationsSpinner);
 
-    var ConversationsView = Backbone.View.extend({
+    var ConversationsArea = Backbone.View.extend({
         el: $("#conversations"),
         initialize: function () {
             this.filters = filterArea;
@@ -254,7 +256,8 @@ function ConversationArea(filterArea, workingPointsArea) {
                "addConversationBasicEffect",
                "updateConversation",
                "newMessageReceived",
-               "gatherFilterOptions");
+               "gatherFilterOptions",
+               "selectionChanged");
             this.convsList = new window.app.ConversationsList();
             this.convsList.bind("reset", this.render);
             // create an array of views to keep track of children
@@ -263,18 +266,18 @@ function ConversationArea(filterArea, workingPointsArea) {
             this.addConversationAsNewElement = true;
             //in refreshsInProgress we keep count of how many refresh requests are running simultaneously
             this.refreshsInProgress = 0;
+            $(document).bind('conversationSelected', this.selectionChanged);
         },
         getConversations: function () {
-            //#region  Reseting internal variables                    
+            //#region  Resetting internal variables                    
             this._convViews = [];
 
             var selfConvArea = this;
-            //reset the cummulative skip because we start with a "fresh" view
+            //reset the cumulative skip because we start with a "fresh" view
             window.app.cummulativeSkip = window.app.defaultNrOfConversationsToSkip;
             //#endregion
 
             this.refreshsInProgress++;
-
             //#region Visual manipulation
             var target = document.getElementById('scrollableconversations');
 
@@ -362,17 +365,7 @@ function ConversationArea(filterArea, workingPointsArea) {
                     $(target).addClass("readable");
 
                     $.each(data, function () {
-                        var conv = new window.app.Conversation({
-                            From: $(this).attr("From"),
-                            ConvID: $(this).attr("ConvID"),
-                            TimeReceived: $(this).attr("TimeReceived"),
-                            Text: $(this).attr("Text"),
-                            Read: $(this).attr("Read"),
-                            To: $(this).attr('To'),
-                            Starred: $(this).attr('Starred'),
-                            ClientDisplayName: $(this).attr('ClientDisplayName'),
-                            ClientIsSupportBot: $(this).attr('ClientIsSupportBot')
-                        });
+                       var conv = new window.app.Conversation(this);                            
                         selfConversationsView.convsList.add(conv, { silent: true });
                         selfConversationsView.addConversationBasicEffect(conv, false);
 
@@ -411,16 +404,17 @@ function ConversationArea(filterArea, workingPointsArea) {
             if (newElementIsSelected) {
                 // make a distinction between the selected status of a normal conv and a support conversation
                 if (conv.ClientIsSupportBot) {
-                    $(item).addClass("ui-selectedSupport");
+                   //$(item).addClass("ui-selectedSupport");
+                   $(".conversation", $(item)).addClass("ui-selectedSupport");
                 } else {
-                    $(item).addClass("ui-selected");
+                   //$(item).addClass("ui-selected");
+                   $(".conversation", $(item)).addClass("ui-selected");
                 }
                 gSelectedElement = item;
                 resetTimer();
                 startTimer(3000);
             }
-            $(item).hide().fadeIn(timer);
-            //$(item).hide().fadeIn(timer).fadeOut(timer).fadeIn(timer).fadeOut(timer).fadeIn(timer).fadeOut(timer).fadeIn(timer);
+            $(item).hide().fadeIn(timer);           
         },
         addConversationBasicEffect: function (conv, addConversationAsNewElement) {
             if (addConversationAsNewElement === null) {
@@ -430,7 +424,6 @@ function ConversationArea(filterArea, workingPointsArea) {
             $(item).hide().fadeIn("slow");
         },
         addConversationNoEffect: function (conv, addConversationAsNewElement) {
-
             var convView = new window.app.ConversationView({ model: conv });
             this._convViews.push(convView);
             var item = convView.render().el;
@@ -440,17 +433,10 @@ function ConversationArea(filterArea, workingPointsArea) {
             else {
                 $(this.el).append(item);
             }
-
             var selfConversationsView = this;
-            conv.on("change", function (model) {
-                if (model.hasChanged("Read") && model.get("Read")) {
-                    // read status s-a schimbat in true -> mesaj citit. 
-                } else if (model.hasChanged("Starred")) {
-                    // s-a schimbat doar favorites status.
-                } else {
-                    selfConversationsView.updateConversation(model);
-                }
-
+            conv.off("change:TimeUpdated");
+            conv.on("change:TimeUpdated", function (model) {
+                    selfConversationsView.updateConversation(model);                
             });
             //if we are displaying more then 10 conversations then prepare to
             if (this.convsList.models.length >= window.app.defaultNrOfConversationsToDisplay) {
@@ -467,16 +453,15 @@ function ConversationArea(filterArea, workingPointsArea) {
             if (viewToRemove !== undefined && viewToRemove !== null) {
                 this._convViews = _(this._convViews).without(viewToRemove);
                 if (this._rendered) {
-                    var thisElementWasSelected = false;
-                    if (gSelectedElement === viewToRemove.el) {
+                   var thisElementWasSelected = false;
+                   if($('.conversation',viewToRemove.$el).hasClass('ui-selected')) {
                         thisElementWasSelected = true;
                     }
                     var elem = $(viewToRemove.el);
 
                     elem.fadeOut("slow", function () {
                         elem.remove();
-                        //make sure to clear any event handlers, so we don't handle the same event twice
-                        conversation.off("change");
+                        //make sure to clear any event handlers, so we don't handle the same event twice                      
                         selfConversationsView.addConversationWithEffect(conversation, true, thisElementWasSelected);
                     });
                 }
@@ -491,17 +476,25 @@ function ConversationArea(filterArea, workingPointsArea) {
                 modelToUpdate.set({ "Text": newText }, { silent: true });
                 modelToUpdate.set({ "Read": readStatus }, { silent: true });
 
-                modelToUpdate.set("To", toID);
-                modelToUpdate.set("From", fromID);
+                modelToUpdate.set({ "To": toID }, {silent:true});
+                modelToUpdate.set({ "From": fromID }, { silent: true });
+                modelToUpdate.set({ "TimeUpdated": dateReceived }, { silent: false });
             } else {
                 //indicate that a new message has been received
                 //show conversation only if not filtering
                 if (!self.convsView.filters.IsFilteringEnabled()) {
-                   
+                   var modelToAdd = new window.app.Conversation({
+                      From: fromID, To: toID, ConvID: convID, TimeReceived: dateReceived, Text: newText, ClientDisplayName: fromID, ClientIsSupportBot: false, IsSmsBased: isSmsBased
+                   });
                     self.convsView.convsList.add(modelToAdd);
                     self.convsView.addConversationWithEffect(modelToAdd, true, false);
                 }
             }
+        },
+        selectionChanged: function () {
+           _.each(this._convViews, function (view) {
+              view.updateSelectedState();
+           });
         }
     });
 
@@ -509,9 +502,5 @@ function ConversationArea(filterArea, workingPointsArea) {
         self.convsView.getAdditionalConversations();
     });
 
-
-    this.convsView = new ConversationsView();
-    $(document).bind('conversationSelected', function (ev, data) {
-        self.convsView.convsList.get(data.convID);
-    });
+    this.convsView = new ConversationsArea();  
 }

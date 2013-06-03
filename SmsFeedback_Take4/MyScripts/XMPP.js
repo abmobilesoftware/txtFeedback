@@ -65,13 +65,6 @@ function stopUpdatingPageTitle() {
     window.app.pageBlinkIntervalId = null;
 }
 
-
-function stopUpdatingPageTitle() {
-    clearInterval(window.app.pageBlinkIntervalId);
-    document.title = window.app.pageTitle;
-    document.onmousemove = null;
-    window.app.pageBlinkIntervalId = null;
-}
 //#endregion
 
 // TODO: Check if Message model from Messages.js can be used 
@@ -115,28 +108,7 @@ window.app.startReconnectTimer = function () {
 };
 //#endregion
 
-window.app.xmppHandlerInstance = {};
-$(function () {
-   //the xmpp handler for new messages
-   window.app.xmppHandlerInstance = new window.app.XMPPhandler();
-   $(window).unload(function () {
-      if (window.app.xmppHandlerInstance && window.app.xmppHandlerInstance.disconnect) {
-         window.app.xmppHandlerInstance.disconnect();
-      }
-   });
-   $.getJSON(window.app.domainName + '/Xmpp/GetConnectionDetailsForLoggedInUser', function (data) {
-      if (data !== "") {
-         window.app.selfXmppAddress = data.XmppUser;
-         window.app.xmppHandlerInstance.connect(window.app.selfXmppAddress, data.XmppPassword);
-         //window.app.xmppHandlerInstance.connect("supportUK@txtfeedback.net", "123456");
-         window.app.updateNrOfUnreadConversations(true);
-      }
-   });
 
-   $(document).bind('updateUnreadConvsNr', function (ev, data) {
-      getNumberOfConversationsWithUnreadMessages();
-   });
-});
 
 //#region Receive message
 //TODO DA move this somewhere else :)
@@ -442,3 +414,26 @@ window.app.XMPPhandler = function XMPPhandler() {
       return true;
    };
 };
+
+window.app.xmppHandlerInstance = {};
+$(function () {
+   //the xmpp handler for new messages
+   window.app.xmppHandlerInstance = new window.app.XMPPhandler();
+   $(window).unload(function () {
+      if (window.app.xmppHandlerInstance && window.app.xmppHandlerInstance.disconnect) {
+         window.app.xmppHandlerInstance.disconnect();
+      }
+   });
+   $.getJSON(window.app.domainName + '/Xmpp/GetConnectionDetailsForLoggedInUser', function (data) {
+      if (data !== "") {
+         window.app.selfXmppAddress = data.XmppUser;
+         window.app.xmppHandlerInstance.connect(window.app.selfXmppAddress, data.XmppPassword);
+         //window.app.xmppHandlerInstance.connect("supportUK@txtfeedback.net", "123456");
+         window.app.updateNrOfUnreadConversations(true);
+      }
+   });
+
+   $(document).bind('updateUnreadConvsNr', function (ev, data) {
+      getNumberOfConversationsWithUnreadMessages();
+   });
+});

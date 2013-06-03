@@ -23,6 +23,7 @@
 window.app = window.app || {};
 window.app.workingPointsNameDictionary = {}; //
 window.app.workingPointsSuffixDictionary = {};
+window.app.wpShortId = "";
 
 //#region WorkingPoint model
 //A working point is defined by
@@ -103,8 +104,7 @@ window.app.WorkingPointView = Backbone.View.extend({
       this.$el.html(this.phoneNumberTemplate(this.model.toJSON()));
       this.$el.addClass("phoneNumber");
       this.$el.addClass("phoneNumberSelected");
-      var selectWp = $("img", this.$el);
-      setTooltipOnElement(selectWp, selectWp.attr('tooltiptitle'), 'light');
+      var selectWp = $("img", this.$el);      
       return this;
    },
    unrender: function () {
@@ -173,13 +173,15 @@ window.app.WorkingPointsArea = function () {
          this.phoneNumbersPool.bind("reset", this.render);
       },
       getWorkingPoints: function (getConversationsFunction) {
-         //#region reset internal variables
+          var self = this;
+          //#region reset internal variables
          window.app.nrOfCheckedWorkingPoints = 0;
          //#endregion
          var target = document.getElementById('leftColumn');
          spinner.spin(target);
          this.phoneNumbersPool.fetch({
-            success: function () {
+             success: function () {
+                 window.app.wpShortId = self.phoneNumbersPool.at(0).get("ShortID");
                spinner.stop();
                getConversationsFunction();
             }

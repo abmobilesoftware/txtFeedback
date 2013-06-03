@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Newtonsoft.Json;
 using SmsFeedback_Take4.Utilities;
+using System.Web.Optimization;
 //required by log4net
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
@@ -57,6 +58,7 @@ namespace SmsFeedback_Take4
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
 
         }
     }

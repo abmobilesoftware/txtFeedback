@@ -1,61 +1,20 @@
 ﻿<%@ Page Title="SmsFeedback" Language="C#" MasterPageFile="~/Views/Shared/Site.Master"
-   Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+   Inherits="System.Web.Mvc.ViewPage<dynamic>"  %>
 <%@ Import Namespace="SmsFeedback_Take4.Utilities" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
    <%: Resources.Global.messagesPageTitle %>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="IncludesArea" runat="server">
-   <% if (Html.IsReleaseBuild())      { %>
-  <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/phonenumbers.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/messages.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/conversations.css") %>" />   
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/filtersStrip.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/tags.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/Minified/jquery.tagsinput.css") %>" />
-
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/spin.js") %>" type="application/javascript" ></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/Minified/jquery.tagsinput.js") %>" type="application/javascript"></script>
-
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-de.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-ro.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-en-GB.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-es.js") %>" type="application/javascript"></script>
-
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/WorkingPoints.js") %>" type="application/javascript"></script>   
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Messages.js") %>" type="application/javascript"></script>
-   
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Conversations.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Filtering.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/ConversationTags.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Minified/Facade.js") %>" type="application/javascript"></script>
-
-   <% } else { %>
-
-    <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/phonenumbers.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/messages.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/conversations.css") %>" />   
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/filtersStrip.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/tags.css") %>" />
-   <link rel="stylesheet" type="text/css" media="all" href="<%: Url.UpdatedResourceLink("~/Content/jquery.tagsinput.css") %>" />    
-   
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/spin.js") %>" type="application/javascript" ></script>
-     
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.tagsinput.js") %>" type="application/javascript"></script>
-   
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-de.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-ro.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-en-GB.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/Scripts/jquery.ui.datepicker-es.js") %>" type="application/javascript"></script>
-
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/WorkingPoints.js") %>" type="application/javascript"></script>   
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Messages.js") %>" type="application/javascript"></script>
-   
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Conversations.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Filtering.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/ConversationTags.js") %>" type="application/javascript"></script>
-   <script src="<%: Url.UpdatedResourceLink("~/MyScripts/Facade.js")%>" type="application/javascript"></script>         
-   <% } %>
- </asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="IncludesCssArea" runat="server">
+   <%: Styles.Render("~/Content/homeCss") %>      
+</asp:Content>
+<asp:Content ID="Content15" ContentPlaceHolderID="IncludesJsArea" runat="server">   
+   <%:Scripts.Render("~/bundles/homejs")%> 
+   <script type="text/javascript">
+      $(function () {
+         var newGUI = new InitializeGUI();
+      });
+   </script>
+</asp:Content>    
 <asp:Content ID="Content3" ContentPlaceHolderID="TemplatesArea" runat="server">
    <script type="text/template" id="tag-template">       
 		<span class="tag"  >
@@ -67,64 +26,72 @@
    </script>
    <script type="text/template" id="phoneNumber-template">       
 		<span >
-            <img tooltiptitle="<%: Resources.Global.tooltipWpImg %>" src="<%: Url.Content("~/Content/images/check-white.svg") %>" class="wpItem wpSelectorIcon deletePhoneNumberIconSelected" />		
+            <img title="<%: Resources.Global.tooltipWpImg %>" src="<%: Url.Content("~/Content/images/check-white.svg") %>" class="wpItem wpSelectorIcon deletePhoneNumberIconSelected" width="17px" height="17px"/>		
 			<span class="wpItem" >{{ Name }}</span>						
 		</span>
    </script>
    <script type="text/template" id="conversation-template">
-            {% if (IsSmsBased) { %}
-               <img class="isSms" src="<%: Url.Content("~/Content/images/sms.png") %>"/>
-             {% } %}
+            <div class="conversation {% if (Read) { %} readConversation {% }else{ %} unreadConversation {% } %}
+                        {% if (ClientIsSupportBot) { %} supportConversation {% }else{ %} normalConversation {% } %}">
+                {% if (IsSmsBased) { %}
+               <img class="isSms" src="<%: Url.Content("~/Content/images/sms_white.png") %>"/>
+                 {% } %}
 
-            <div class="leftLiDiv convColumn">
-                {% if (Read) { %}
-                        <img src="<%: Url.Content("~/Content/images/check-grey.png") %>" class="images conversationImageRead" height="28" width="40" />
-                {% } else {
-                        var fromTo = getFromToFromConversation(ConvID);
-                        if (comparePhoneNumbers(fromTo[0],From)) {
-                        %}
-                            <img src="<%: Url.Content("~/Content/images/exclamation-blue.png") %>" class="images conversationImageUnread" height="28" width="40" />
-                        {% } else { %}
-                            <img src="<%: Url.Content("~/Content/images/exclamation-green.png") %>" class="images conversationImageUnread" height="28" width="40" />
-                        {% }    
-                }  %}
-            </div>
-            <div class="rightLiDiv convColumn">    
-                   
-               <div class="spanClassFrom rightSideMembers">                    
-                        {% 
-                            var clientDisplayName = cleanupPhoneNumber(ClientDisplayName);                                                                      
-                        %} 
-                        {%
-                             if (ClientIsSupportBot) {             
+            <div class="leftLiDiv convColumn noShowOnTablet">
+                    {% if (Read) { %}
+                            <img src="<%: Url.Content("~/Content/images/check-grey.png") %>" class="images conversationImageRead" height="28" width="40" />
+                    {% } else {
+                            var fromTo = getFromToFromConversation(ConvID);
+                            if (comparePhoneNumbers(fromTo[0],From)) {
                             %}
-                                <img class="conversationHeaderImg" src="<%: Url.Content("~/Content/images/Help-16.png") %>"/>
+                                <img src="<%: Url.Content("~/Content/images/exclamation-blue.png") %>" class="images conversationImageUnread" height="28" width="40" />
+                            {% } else { %}
+                                <img src="<%: Url.Content("~/Content/images/exclamation-green.png") %>" class="images conversationImageUnread" height="28" width="40" />
+                            {% }    
+                    }  %}
+                </div>
+                <div class="rightLiDiv convColumn">    
+                   
+                   <div class="spanClassFrom rightSideMembers">                    
+                            {% 
+                                var clientDisplayName = cleanupPhoneNumber(ClientDisplayName);                                                                      
+                            %} 
                             {%
-                            }
-                         %}                         
-                        <span class="conversationFrom" title="{{ clientDisplayName }}" >{{ clientDisplayName }} </span> 
-                       <span class='conversationArrows'> >> </span>
-                       <span class="conversationTo">{{ window.app.workingPointsNameDictionary[getFromToFromConversation(ConvID)[1]] }}</span>      
-                </div>
-               <div class='clear'></div>
-                <div class="spanClassText rightSideMembers">
-                    <span>{{ Text }}</span>
-                </div>
-                <% if ((bool)ViewData["messageOrganizer"]) { %>
-                    <div class="deleteConv ignoreElementOnSelection">
-                        <img tooltiptitle="<%: Resources.Global.tooltipDeleteConversation %>" src="<%: Url.Content("~/Content/images/trash.png") %>" class="deleteConvImg" />
+                                 if (ClientIsSupportBot) {             
+                                %}
+                                    <img class="conversationHeaderImg" src="<%: Url.Content("~/Content/images/Help-16.png") %>"/>
+                                {%
+                                }
+                             %}                         
+                            <span class="conversationFrom" title="{{ clientDisplayName }}" >{{ clientDisplayName }} </span> 
+                           <span class='conversationArrows'> >> </span>
+                           <span class="conversationTo">{{ window.app.workingPointsNameDictionary[getFromToFromConversation(ConvID)[1]] }}</span>      
                     </div>
-                <% } %>
+                   <div class='clear'></div>
+                    <div class="spanClassText rightSideMembers">
+                        <span>{{ Text }}</span>
+                    </div>
+                    <% if ((bool)ViewData["messageOrganizer"] )
+                       { %>
+                          {%
+                                 if (!ClientIsSupportBot) {             
+                           %}
+                              <div class="deleteConv ignoreElementOnSelection">
+                                 <img title="<%: Resources.Global.tooltipDeleteConversation %>" src="<%: Url.Content("~/Content/images/trash_white.png") %>" class="deleteConvImg" />
+                              </div>
+                            {%
+                                }
+                             %}     
+                        
+                    <% } %>
        
-                <div class="conversationStarIcon ignoreElementOnSelection">
-                    {% if (Starred) { %}
-                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected_orange.svg") %>" class="conversationStarIconImg" height="33" width="33"/>
-                    {% } else { %}
-                            <img tooltiptitle="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star.svg") %>" class="conversationStarIconImg" height="33" width="33"/> 
-                    {% } %}
-                </div>
-            </div>                         
-        <div class="clear"></div>
+                    <div class="favoriteConversation">
+                        <img class="star starred {% if (!Starred) { %} hide {% } %}" title="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star-selected_orange.png") %>" height="32" width="36"/>
+                        <img class="star unstarred {% if (Starred) { %} hide {% } %}" title="<%: Resources.Global.tooltipMarkAsFavouriteImg %>" src="<%: Url.Content("~/Content/images/star.png") %>" height="32" width="36"/> 
+                    </div>
+                </div>                         
+                <div class="clear"></div>
+            </div>
    </script>
    <script type="text/template" id="message-template">
       <div class="textMessage">
@@ -185,34 +152,61 @@
       <div class="clear"></div>
       </div>
    </script>
+
+    <script type="text/template" id="voucher">
+        <a href="#">
+            <div class="voucherItem">
+                {{ code }} - {{ description }}
+            </div>
+        </a>
+    </script>
+    <script type="text/template" id="vouchersPanel">
+        <div id="panelTitle">
+            <span><%: Resources.Global.messageListOfVouchers %></span>
+            <a class="panelClose" href="#"><img src="<%: Url.Content("~/Content/images/arrow_down_16.png") %>" /></a>
+        </div>
+        <div id="panelContent">
+
+        </div>
+    </script>
+    <script type="text/template" id="button">
+        <div id="vPanel"></div>
+        <a class="button" href="#">
+            <div class="buttonContent">
+                <span class="buttonTitle">{{ Title }}</span>
+                <img class="loader displayNone" src="<%: Url.Content("~/Content/images/ajax-loader.gif") %>" />      
+            </div>
+        </a>
+        
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="FilterArea" runat="server">
     <div class="grid_4_custom filterStripElement">
             <div id="supportFilterArea" class="filterLabel">
-                <img id="includeSupportInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeSupportFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
-                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
+                <img id="includeSupportInFilter" title="<%: Resources.Global.tooltipIncludeSupportFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" width="17px" height="17px"/>
                 <span style="vertical-align: middle">
                    <%: Resources.Global.supportLabel %></span>
            </div>
          
            <div id="starredFilterArea" class="filterLabel">
-                <img id="includeStarredInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeStarredInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
-                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
+                <img id="includeStarredInFilter" title="<%: Resources.Global.tooltipIncludeStarredInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" width="17px" height="17px"/>
                 <span style="vertical-align: middle">
                    <%: Resources.Global.starredLabel %></span>
            </div>
             <div id="unreadFilterArea" class="filterLabel">
-                <img id="includeUnreadInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeUnreadInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
-                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
+                <img id="includeUnreadInFilter" title="<%: Resources.Global.tooltipIncludeUnreadInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+                   src="<%: Url.Content("~/Content/images/transparent.gif") %>" width="17px" height="17px"/>
                 <span style="vertical-align: middle">
                    <%: Resources.Global.readLabel %></span>
            </div>           
       </div>
       <div class="grid_6 filterStripElement tagFilterArea">
          <div id="tagsLabel" class="filterLabel">
-            <img id="includeTagsInFilter" tooltiptitle="<%: Resources.Global.tooltipIncludeTagsInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
-               src="<%: Url.Content("~/Content/images/transparent.gif") %>" />
+            <img id="includeTagsInFilter" title="<%: Resources.Global.tooltipIncludeTagsInFilter %>" class="wpItem wpSelectorIcon deletePhoneNumberIconUnselected"
+               src="<%: Url.Content("~/Content/images/transparent.gif") %>" width="17px" height="17px"/>
             <span style="vertical-align: middle">
                <%: Resources.Global.tagsLabel %></span>
          </div>
@@ -224,12 +218,7 @@
 </asp:Content>
 
 <asp:Content ID="Content5" ContentPlaceHolderID="MainContent" runat="server" ContentType="text/xml">      
-   <script type="text/javascript">
-      $(function () {
-         var newGUI = new InitializeGUI();
-      });
-   </script>
-    
+   
    <div id="conversationsArea" class="grid_convs">
       <div id="scrollableconversations" class="conversationbox scrollablebox">
          <div id="conversations" class="conversationbox">
@@ -259,10 +248,15 @@
              <a href="#" id='thumbsDown' title="<%: Resources.Global.thumbsDownTooltip %>" class='specialTag' tagType="negativeFeedback"></a>
             </div>
        </div>
+        <div class="clear"></div>
       </div>
       
+      <div id="quickActionBtns" class="hidden"></div>
       <div id="textareaContainer" class="invisible">
-         <div id="replyFormArea">
+          <div class="voucherAlert">
+              <%: Resources.Global.messageVoucherNotInserted %>
+          </div>
+          <div id="replyFormArea">
             <form id="replyToMessageForm">
             <div id="inputTextContainer">
                <textarea id="limitedtextarea" class="textarea160"
@@ -275,11 +269,12 @@
          </div>
          <div id="replyButtonArea">
             <input type="hidden" value="<%: Resources.Global.errorCannotSendMessage %>" id="msgMessageNotSent"/>
-            <button tooltiptitle="<%: Resources.Global.tooltipReplyBtn %>" id="replyBtn"> <%: Resources.Global.sendButton %></button>
+            <button title="<%: Resources.Global.tooltipReplyBtn %>" id="replyBtn"> <%: Resources.Global.sendButton %></button>
          </div>
-        
+         <div class="clear"></div>
       </div>
    </div>
+       
    <input type="hidden" value="<%: ViewData["currentCulture"] %>" class="currentCulture" />
    <input type="hidden" value="<%: Resources.Global.lblNoConversationSelected %>" id="noConversationSelectedMessage" />
    <input type="hidden" value="<%: Resources.Global.messagesAddTagPlaceHolder %>" id="messagesAddTagPlaceHolderMessage" />
@@ -291,4 +286,8 @@
    <input type="hidden" value="<%: Resources.Global.errorMessageNotSentReasonUnknown %>" id="messageNotSentReasonUnknown" />
    <input type="hidden" value="<%: Resources.Global.errorMessageNotSentInsufficientCredits %>" id="messageNotSentInsufficientCredits" />
    <input type="hidden" value="<%: Resources.Global.warningMessageSentSpendingLimitReached %>" id="messageSentSpendingLimitReached" />
+    <input type="hidden" value="<%: Resources.Global.messageChooseVoucher %>" id="messageChooseVoucher" />
+    <input type="hidden" value="<%: Resources.Global.btnGiveVoucher %>" id="titleBtnGiveVoucher" />
+    <input type="hidden" value="<%: Resources.Global.messageNoVouchers %>" id="messageNoVouchers" />
+    <input type="hidden" value="<%: User.IsInRole("VoucherOperator") ? "yes" : "no" %>" id="hasVoucherRole" />
 </asp:Content>

@@ -1,9 +1,6 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
-
-<!DOCTYPE html>
-    <div style='display:none; >
-    <div class='contact-top'></div>
-    <div class='contact-content'>
+﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<dynamic>" %><!DOCTYPE html><div style='display:none'>
+   <div class='contact-top'></div>
+   <div class='contact-content'>
          <h1 class='contact-title'><%: Resources.Global.sendEmailHeader %></h1>
         <div class='contact-loading' style='display: none'></div>
         <div class='contact-message' style='display: none'></div>
@@ -12,9 +9,7 @@
             <input type='text' id='contact-email' class='contact-input' name='email' tabindex='1001' />
              <label for='contact-subject'><%: Resources.Global.sendEmailSubject %></label>
             <input type='text' id='contact-subject' class='contact-input' name='subject' value='<%:  ViewData["emailSubject"]%>'
-                tabindex='1002' > 
-                
-            </input>
+                tabindex='1002' > </input>
            <label for='contact-message'><%: Resources.Global.sendEmailMessage %></label>
             <textarea id='contact-message' class='contact-input' name='message' cols='40' rows='8'
                 tabindex='1003'><%: ViewData["emailText"] %></textarea>
@@ -34,5 +29,4 @@
          <input type="hidden" value="<%: Resources.Global.sendEmailValidationEmailInvalid %>" id="sendEmailValidationEmailInvalidMsg" />
          <input type="hidden" value="<%: Resources.Global.sendEmailValidationEmailRequired %>" id="sendEmailValidationEmailRequiredMsg" />
          <input type="hidden" value="<%: Resources.Global.sendEmailValidationSubjectRequired %>" id="sendEmailValidationSubjectRequiredMsg" />
-    </div>
-</div>
+    </div></div>

@@ -87,3 +87,7 @@
 #dateLabel {
    float: left;
 }
+
+.filterActive {
+   color: white;
+}

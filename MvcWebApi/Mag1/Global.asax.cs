@@ -5,8 +5,9 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using App_Start;
 
-namespace Mag1
+namespace mag1
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
@@ -20,6 +21,7 @@ namespace Mag1
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            HandlerConfig.RegisterHandlers(GlobalConfiguration.Configuration.MessageHandlers);
         }
     }
 }

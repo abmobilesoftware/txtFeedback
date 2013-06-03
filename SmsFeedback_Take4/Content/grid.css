@@ -90,7 +90,7 @@
 
 .container_12 .grid_2
 {
-	width: 14.666%;
+	width: 15%;
 }
 
 .container_12 .grid_4
@@ -116,12 +116,6 @@
 .container_12 .grid_10
 {
 	width: 81.333%;
-}
-
-.container_12 .grid_11
-{
-	/*width: 89.666%;*/
-   width: 84.3%;
 }
 
 /* =Grid >> 16 Columns

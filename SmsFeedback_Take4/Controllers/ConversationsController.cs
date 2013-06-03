@@ -60,18 +60,24 @@ namespace SmsFeedback_Take4.Controllers
           if (conversationId == null)
           {
              logger.Error("no conversationId passed");
-             return Json(new Error(Constants.NO_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
+             return Json(new Error(Constants.NO_CONVID_ERROR_MESSAGE), 
+                 JsonRequestBehavior.AllowGet);
           }
 
           if (conversationId.Equals(Constants.NULL_STRING))
           {
              logger.Error("conversationId was null");
-             return Json(new Error(Constants.NULL_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
+             return Json(new Error(Constants.NULL_CONVID_ERROR_MESSAGE), 
+                 JsonRequestBehavior.AllowGet);
           }
           if (newStarredStatus.HasValue)
           {
-             logger.InfoFormat("Changing starred status for conversation [{0}] to {1}", conversationId, ((bool)newStarredStatus ? "True" : "False"));
-             var conv = mEFInterface.UpdateStarredStatusForConversation(conversationId, newStarredStatus.Value, context);
+             logger.InfoFormat("Changing starred status for conversation [{0}] to {1}", 
+                 conversationId, ((bool)newStarredStatus ? "True" : "False"));
+             var conv = mEFInterface.UpdateStarredStatusForConversation(
+                 conversationId, 
+                 newStarredStatus.Value, 
+                 context);
              if (conv != null)
              {
                 return Json("Update successful", JsonRequestBehavior.AllowGet);
@@ -79,7 +85,7 @@ namespace SmsFeedback_Take4.Controllers
              else
              {
                 //most likely the convId was invalid
-                return null;
+                 return Json("Update failed", JsonRequestBehavior.AllowGet);
              }
           }
           else
@@ -212,16 +218,16 @@ namespace SmsFeedback_Take4.Controllers
           return null;
        }
 
-       [HttpDelete]
-       public JsonResult Delete(String id)
+      [HttpPost]
+       public JsonResult Delete(String ConvID)
        {
-          if (id == null)
+          if (ConvID == null)
           {
              logger.Error("No conversationId passed");
              return Json(new Error(Constants.NO_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
           }
 
-          if (id.Equals(Constants.NULL_STRING))
+          if (ConvID.Equals(Constants.NULL_STRING))
           {
              logger.Error("Conversation Id was null");
              return Json(new Error(Constants.NULL_CONVID_ERROR_MESSAGE), JsonRequestBehavior.AllowGet);
@@ -231,7 +237,7 @@ namespace SmsFeedback_Take4.Controllers
           {
              if (HttpContext.User.IsInRole(MessagesController.cMessageOrganizer))
              {
-                mEFInterface.DeleteConversation(id, context);
+                mEFInterface.DeleteConversation(ConvID, context);
                 return Json(JsonReturnMessages.OP_SUCCESSFUL, JsonRequestBehavior.AllowGet);
              }
              return Json(JsonReturnMessages.OP_FAILED, JsonRequestBehavior.AllowGet);

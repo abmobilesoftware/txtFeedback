@@ -43,7 +43,7 @@
       <Private>True</Private>
       <RoleType>Web</RoleType>
       <RoleName>SmsFeedback_Take4</RoleName>
-      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+      <UpdateDiagnosticsConnectionStringOnPublish>False</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <PublishProfile Include="Profiles\txtfeedbackProduction.azurePubxml" />
+    <PublishProfile Include="Profiles\demoTxtfeedback.azurePubxml" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>

@@ -48,7 +48,7 @@ namespace System.Web.Mvc.Html
             url = urlHelper.Action(actionName, controllerName, null);
          TagBuilder countTag = new TagBuilder("span");
          countTag.MergeAttribute("id", "msgTabcount");
-         countTag.MergeAttribute("tooltiptitle", tooltip);
+         countTag.MergeAttribute("title", tooltip);
          countTag.SetInnerText("(0)");
 
          TagBuilder txtlink = new TagBuilder("a");

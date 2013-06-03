@@ -19,15 +19,12 @@ function SecondArea(iModel) {
    var model = iModel;
 
    this.load = function (data) {
-     var infoBoxString = "<div class='boxArea' tooltiptitle='" + model.tooltip + "'>" +
+     var infoBoxString = "<div class='boxArea' title='" + model.tooltip + "'>" +
                               "<div class='infoContent'>" +
-                                "<div class='infoContentMiddle'><div class='infoContentInner'>" +
-                                   "<span class='boxContent'>" +
-                                      "<span class='boxValue'>" + data.value + "</span>" +
-                                      "<span class='boxUnit'> " + data.unit + "</span>" +
-                                   "</span>" +
-                                 "</div></div></div>" +
-                              "<div class='infoTitle'><div class='infoTitleMiddle'><div class='infoTitleInner'><span class='boxTitle'>" + model.title + "</span></div></div></div>" +
+                                "<div class='boxValue'>" + data.value + "</div>" +
+                                "<div class='boxUnit'> " + data.unit + "</div>" +
+                              "</div>" +
+                              "<div class='infoTitle'>" + model.title + "</div>" +
                           "</div>";
 
       $("#secondSection").append(infoBoxString);

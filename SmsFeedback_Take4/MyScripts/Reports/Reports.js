@@ -95,7 +95,7 @@ var ReportsContentArea = Backbone.View.extend({
                $("#secondSection").append("<div class='clear'></div>");
                self.setupEnvironment(false);
                self.transition.endTransition();
-               $(document).trigger("resize");
+               $(document).trigger("resizeLocal");
            }
        }).responseText;
    },
@@ -119,31 +119,7 @@ var ReportsContentArea = Backbone.View.extend({
            window.app.areas[model.id] = thirdArea;
        }
    },
-   setupEnvironment: function (displayTooltip) {
-      // Hover tooltip
-      if (displayTooltip) {
-         var infoBoxElement = $(".chartAreaTitle");
-         infoBoxElement.qtip({
-            content: infoBoxElement.attr('tooltiptitle'),
-            position: {
-               corner: {
-                  target: 'bottomMiddle',
-                  tooltip: 'topMiddle'
-               }
-            },
-            style: 'dark'
-         });
-      }
-      $(".exportBtn").qtip({
-         content: $(".exportBtn").attr('tooltiptitle'),
-         position: {
-            corner: {
-               target: 'leftMiddle',
-               tooltip: 'rightMiddle'
-            }
-         },
-         style: 'dark'
-      });
+   setupEnvironment: function (displayTooltip) {           
 
       $(".chartAreaTitle").click(function (event) {
          event.preventDefault();
@@ -152,15 +128,15 @@ var ReportsContentArea = Backbone.View.extend({
          var descriptionElement = "#description" + sectionId;
          if ($(elementName).is(":visible")) {
             $(elementName).hide();
-            $(this).children(".sectionVisibility").attr("src", "/Content/images/maximize_square.png");
+            $(this).children(".sectionVisibility").attr("src", "/Content/images/arrow_up_dblue_16.png");
             $(descriptionElement).show();
-            $(document).trigger("resize");
+            $(document).trigger("resizeLocal");
          }
          else {
             $(elementName).show();
-            $(this).children(".sectionVisibility").attr("src", "/Content/images/minimize_square.png");
+            $(this).children(".sectionVisibility").attr("src", "/Content/images/arrow_down_dblue_16.png");
             $(descriptionElement).hide();
-            $(document).trigger("resize");
+            $(document).trigger("resizeLocal");
          }
       });
 
