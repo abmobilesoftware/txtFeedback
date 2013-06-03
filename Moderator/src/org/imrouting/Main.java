@@ -9,10 +9,14 @@ import log.Log;
 public class Main {
 	private final static String HOST = "46.137.26.124";
 	private final static int PORT = 5270;
-	
+	/**
+	 * PRODUCT moderator.txtfeedback.net - im123!
+	 * DEMO compdev.txtfeedback.net - im1234!
+	 * DEV devxmpp.txtfeedback.net - im123456!
+	 */
 	public final static String DOMAIN = "txtfeedback.net";
-	public final static String SUBDOMAIN = "devxmpp";
-	private final static String SECRET_KEY = "im123456!";
+	public final static String SUBDOMAIN = "compdev";
+	private final static String SECRET_KEY = "im1234!";
 	
 	public static void main(String[] args) {
 	  ExternalComponentManager mgr = new ExternalComponentManager(HOST, PORT);
