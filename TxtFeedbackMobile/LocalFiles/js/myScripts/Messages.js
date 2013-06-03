@@ -222,8 +222,8 @@ var MessagesAreaModel = Backbone.Model.extend(
 					}
 				}, 
 				error: function(collection, response, options) {
-					alert("Conversations loading process failed. Response " + 
-							response + ".Options " + options);
+					alert("Network error. Please check your network connection " +
+							"and try again later.");
 				},
 				statusCode: {
 					401: function() {
@@ -516,7 +516,8 @@ var XMPPHandler = Backbone.Model.extend({
 			this.conn.send(xmppMessage);			
 			return "sending";
 		} else {
-			alert("Check your internet connection and try again later");
+			alert("No network connection detected. Please check your " +
+					"internet connection and try again later");
 			this.disconnect();
 			return "disconnected";
 		}		
@@ -549,7 +550,7 @@ var XMPPHandler = Backbone.Model.extend({
 	connectCallback: function(status) {
 		var reconnect = false;
 		if (status === Strophe.Status.CONNECTED) {
-			alert("Connected to XMPP");
+			alert("Connected to TxtFeedback");
 			this.conn.addHandler(this.handleMessage, 
 					null, "message", null, null, null, 
 					{matchBare: true});
@@ -567,17 +568,17 @@ var XMPPHandler = Backbone.Model.extend({
 		} else if (status === Strophe.Status.DISCONNECTING) {
 			//alert("DISCONNECTING");
 		} else if (status === Strophe.Status.DISCONNECTED) {
-			alert("Disconnected from XMPP");
+			alert("Disconnected from TxtFeedback");
 			reconnect = true;
 			this.conn.reset();
 		} else if (status === Strophe.Status.CONNFAIL) {
-			alert("CONNFAIL");
+			alert("Disconnected from TxtFeedback");
 			//reconnect = true;
 		} else if (status === Strophe.Status.AUTHFAIL) {
-			alert("AUTHFAIL");
+			alert("Disconnected from TxtFeedback");
 			//reconnect = true;
 		} else if (status === Strophe.Status.ERROR) {
-			alert("ERROR");	
+			alert("Disconnected from TxtFeedback");	
 			//reconnect = true;
 		}	
 		/* 1. Disconnected by network issues

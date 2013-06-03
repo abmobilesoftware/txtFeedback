@@ -173,14 +173,6 @@ var ConversationsArea = Backbone.View.extend({
 		this.conversationItemHeight = conversationItemView.getHeight();
 	},
 	scrollHandler: function () {
-		/* Old approach, the list has overflow-y: scroll; 
-		 * var listContentHeight = this.conversationItemHeight * this.model.getNoOfConversations();
-		var errorThreshold = 0.03 * listContentHeight;
-		if (this.$el.scrollTop() + errorThreshold >= 
-			(listContentHeight - this.$el.height())) {
-			this.renderArea(true);
-		}*/
-		
 		if (this.model.isScrollActive()) {
 			if ($(document).height() > $(window).height()) {
 				if ($(window).scrollTop() + $(window).height()/3 >= 
@@ -260,8 +252,8 @@ var ConversationsAreaModel = Backbone.Model.extend({
 					self.preloadMessages();
 				}, 
 				error: function(collection, response, options) {
-					alert("Conversations loading process failed. Response " + 
-							response + ".Options " + options);
+					alert("Network error. Please check your network connection " +
+							"and try again later.");
 				},
 				statusCode: {
 					401: function() {
@@ -493,7 +485,6 @@ var ConversationsList = Backbone.Collection.extend({
 	},
 	methodUrl: {
 		"read": domain + "/Conversations/ConversationsList",
-		//"read": "http://10.0.2.2:4631/Conversations/ConversationsList",
 		"delete": domain + "/Conversations/Delete"
 	},
 	sync: function (method, collection, options) {

@@ -130,7 +130,8 @@ var AppView = Backbone.View.extend({
 		//alert("Application is online");
 	},
 	offlineHandler: function() {
-		alert("No network connection");
+		alert("No network connection detected. " +
+				"Please enable Wi-Fi or Internet Data.");
 	},
 	pauseHandler: function() {
 		//alert("Application is in background");

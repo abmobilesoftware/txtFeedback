@@ -59,8 +59,6 @@ var LogOnPage = Backbone.View.extend({
  */
 var LogOnModel = Backbone.Model.extend({
 	initialize: function(attributes, options) {
-		// first - firefox, second - chrome
-		//this.JSON_LOGON_SUCCESS = "\"success\"";
 		this.response = {
 			LOGON_SUCCESS : "success",
 			LOGOFF_SUCCESS : "success",
@@ -99,7 +97,6 @@ var LogOnModel = Backbone.Model.extend({
 				crossDomain:true,
 				type: "POST",
 				contentType: "application/json; charset=utf-8",
-				// In emulator data equals success, in firefox equals "success"
 				success: function(data, textStatus, jqXHR) {									
 					if (data === self.response.LOGON_SUCCESS) {
 						self.registerDevice(
@@ -110,11 +107,12 @@ var LogOnModel = Backbone.Model.extend({
 					}  				
 				}, 
 				error: function(jqXHR, textStatus, errorThrown) {
-					alert("Check your internet connection and try again");
+					alert("Network error. Please check your " +
+							"internet connection and try again later.");
 				}    		
 			});
 		} else {
-			alert("Try again in few moments.")
+			alert("Application busy. Try again in few moments.")
 		}
 	},
 	logOff: function() {
@@ -135,7 +133,8 @@ var LogOnModel = Backbone.Model.extend({
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				alert("Error log off" + textStatus + " " + errorThrown);
+				alert("Network error. Please check your " +
+						"internet connection and try again later.");
 			}
 		});
 	},
@@ -178,13 +177,13 @@ var LogOnModel = Backbone.Model.extend({
 			},
 			crossDomain: true,
 			contentType: "application/json; charset=utf-8",
-			// In emulator data is an object, in Firefox is a string
 			success: function(credentials) {
 				self.xmppHandler.connect(credentials.XmppUser, credentials.XmppPassword);
 				self.trigger(self.events.LOGON_SUCCESS);
 			}, 
 			error: function(jqXHR, textStatus, errorThrown) {
-				alert("Status " + textStatus + " Error " + errorThrown);
+				alert("Network error. Please check your " +
+						"internet connection and try again later.");
 			}
 			
 		});		
@@ -209,7 +208,8 @@ var LogOnModel = Backbone.Model.extend({
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				alert("Register device error " + textStatus);
+				alert("Network error. Please check your " +
+						"internet connection and try again later.");
 				return false;
 			}
 		});
