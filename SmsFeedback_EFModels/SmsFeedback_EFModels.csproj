@@ -130,6 +130,9 @@
     <Compile Include="ConversationTag.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Device.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="EventType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -155,6 +158,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="InvoiceDetailsTemplate.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Log.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Membership.cs">
@@ -240,6 +246,7 @@
     <Content Include="SmsFeedbackModels.edmx.sql" />
     <Content Include="SmsFeedbackModels.edmx1.sql" />
     <Content Include="SmsFeedbackModels7.edmx.sql" />
+    <Content Include="SmsFeedbackModels_5_10_3.edmx.sql" />
     <Content Include="SmsFeedbackModels_new.edmx.sql" />
   </ItemGroup>
   <ItemGroup>

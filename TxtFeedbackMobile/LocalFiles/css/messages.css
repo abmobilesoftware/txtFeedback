@@ -1,0 +1,120 @@
+/*#### Section 1. Staff, customer and carbons bubble common ####*/
+li.staff,li.customer, li.carbons {
+	border-radius: 3px;
+	width: 80%;
+	margin-bottom: 0.4em;
+	margin-top:0.3em;
+	color: #fff;
+	padding-left: 0.3em;
+	padding-right: 0.3em;
+}
+
+li.staff:after,li.customer:after, li.carbons:after {
+	border-style: solid;
+	bottom: -10px;
+	content: "";
+	display: block;
+	position: absolute;
+	width: 0;
+}
+/******* End section 1 *********/
+
+/*#### Section 2. Staff, customer and carbons bubble specific ####*/
+/* Staff bubble */
+li.staff {
+	background: #92C942;
+	margin-right: 0.3em;
+	float: right;
+}
+
+li.staff:after {
+	border-color: #92C942 transparent;
+	border-width: 10px 0 0 10px;
+	right: 20px;
+}
+
+/* Customer bubble */
+li.customer {
+	background: #00A4E4;
+	margin-left: 0.3em;
+	float: left;
+}
+
+li.customer:after {
+	border-color: #00A4E4 transparent;
+	border-width: 10px 10px 0 0;
+	left: 20px;
+}
+
+/* Carbons message */
+li.carbons {
+	background: #5c8e14;
+	margin-right: 0.3em;
+	float:right;	
+}
+
+li.carbons:after {
+	border-color: #5c8e14 transparent;
+	border-width: 10px 0 0 10px;
+	right: 20px;
+}
+/******* END Section 2 *******/
+
+/*#### Section 3. Message text formatting ####*/
+li p.message {
+	font-size: 0.9em;
+	margin-bottom:0.2em;
+	margin-top:0.3em;
+}
+/****** END Section 3 *******/
+
+/*#### Section 4. Bottom-right section of the message, contains
+* datetime and acknowledge icons ####*/
+.info {
+	float:right;
+	display:inline;
+	margin-bottom:0.2em;
+}
+
+li p.timeReceived {
+	text-align: right;
+	font-style: italic;
+	display:inline;	
+	font-size: 0.8em;
+}
+
+.acknowledge {
+	width: 34px;
+	display:inline;
+	margin-left:0.3em;
+}
+/*******END Section 4 ********/
+
+/*#### Section 5. Footer ####*/
+.msg-footer > .ui-btn {
+	display: block;
+	width: 32.5%;
+	margin: 0 auto;
+	margin-bottom: 0.3em;
+	float:left;
+	margin-top:0.3em;
+	margin-left: 0.5%;
+	height: 50px;
+	line-height: 28.5px;
+}
+
+.msg-footer .ui-btn-inner {
+	font-size: 19.5px;
+}
+
+#sendMsgTextArea {
+	width:66%;
+	margin-left:0.5%;
+	margin-top:0.3em; 
+	margin-bottom:0.3em;
+	line-height: 1em;
+	color: #000;
+	background: #fff;
+	float: left;
+}
+/******** END Section 5 *********/

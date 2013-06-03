@@ -1,0 +1,16 @@
+/* Log on page */
+#logOnPage {
+	background-image: linear-gradient(to bottom, #071D2D, #122A3B);
+	background: #071D2D;
+}
+
+#username, #password {
+	color: #333333;
+}
+
+#logo {
+	margin: 0 auto;
+	margin-bottom: 4em;
+	margin-top:2em;
+	width:300px;
+}

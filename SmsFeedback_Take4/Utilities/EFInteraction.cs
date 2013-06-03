@@ -473,7 +473,7 @@ namespace SmsFeedback_Take4.Utilities
            return conv;
         }
 
-        public IEnumerable<SmsMessage> GetMessagesForConversation(string convID, smsfeedbackEntities dbContext)
+        public IEnumerable<SmsMessage> GetMessagesForConversation(string convID, int top, int skip, smsfeedbackEntities dbContext)
         {
            //TODO: error handling & sanity checks
            //if the conversation is marked as "favourite" then all the messages will be "favorite"
@@ -501,7 +501,7 @@ namespace SmsFeedback_Take4.Utilities
                            });
            if (msgs.Count() > 0)
            {
-              return msgs.OrderBy(x => x.TimeReceived);
+              return msgs.OrderByDescending(x => x.TimeReceived).Skip(skip).Take(top).Reverse();
            }
            else
            {

@@ -9,7 +9,11 @@ import log.Log;
 public class Main {
 	private final static String HOST = "46.137.26.124";
 	private final static int PORT = 5270;
-	
+	/**
+	 * PRODUCT moderator.txtfeedback.net - im123!
+	 * DEMO compdev.txtfeedback.net - im1234!
+	 * DEV devxmpp.txtfeedback.net - im123456!
+	 */
 	public final static String DOMAIN = "txtfeedback.net";
 	public final static String SUBDOMAIN = "compdev";
 	private final static String SECRET_KEY = "im1234!";
@@ -22,13 +26,13 @@ public class Main {
       try {
            mgr.addComponent(SUBDOMAIN, new TxtFeedbackModerator());
       } catch (ComponentException e) {
-    	  Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+    	  Log.addLogEntry("Main", LogEntryType.ERROR, e.getMessage());
       }
       while (true)
          try {
             Thread.sleep(10000);
          } catch (Exception e) {
-        	 Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+        	 Log.addLogEntry("Main", LogEntryType.ERROR, e.getMessage());
          }
    }
 }

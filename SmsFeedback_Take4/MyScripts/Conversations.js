@@ -71,21 +71,23 @@ window.app.Conversation = Backbone.Model.extend({
                     self.set("Starred", !self.get("Starred"));
                 });
     },
+    methodUrl: {
+       "delete": "Conversations/Delete"
+    },
     sync: function (method, model, options) {
-       //convert the delete to a post (for livehosting)
-       if (method === 'delete') {
-          options.url = "Conversations/Delete";
-          Backbone.sync("create", model, options);
+       if (model.methodUrl && model.methodUrl[method]) {
+          options = options || {};
+          options.url = model.methodUrl[method];
        }
-   },
-    idAttribute: "ConvID" //the id should be the combination from-to
+       var parseMethod = (method === "delete") ? "create" : method;
+       Backbone.sync(parseMethod, model, options);
+    },
 });
 //#endregion
 //#region ConversationsList
 window.app.ConversationsList = Backbone.Collection.extend({
     model: window.app.Conversation,
     convID: null,
-    url: "Conversations/Delete",
     methodUrl: {
         "read": "Conversations/ConversationsList",
         "delete": "Conversations/Delete"

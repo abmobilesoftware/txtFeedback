@@ -34,17 +34,23 @@ public class MessageProcessor {
 		restGtw = new RestControllerGateway();
 	}	
 	public void processInternalPacket(Message message) {
-		//System.out.println("Received message = " + message.toXML());
 		long t1, t2;
 		t1 = System.currentTimeMillis();
 		try {
 			if (message.getSubject().equals(Constants.CLIENT_ACK)) {
-				// For this message update WasReceivedByClient state in DB 
-				String ackId = message.getReceivedID();  // ackId = PACKET_ID**DB_ID
-				String[] ackIds = ackId.split("##");
-												
-				moderator.sendAcknowledgeMessage(message.getAckDestination(), "ClientMsgDeliveryReceipt", ackIds[0]);
-				restGtw.updateMessageClientAcknowledgeField(Integer.parseInt(ackIds[1]), true);
+				/**
+				 * Id Format is ClientId##DatabaseId
+				 * ClientId is the UUID generated on client side for this message
+				 * (mobile website) and is recognized during a session (session terminates 
+				 * when the the web browser page is closed).
+				 * DatabaseId is persistent and is received after inserting this message
+				 * in database 
+				 */
+				String acknowledgeId = message.getReceivedID();  
+				String clientId = acknowledgeId.split("##")[0];
+				int databaseId = Integer.parseInt(acknowledgeId.split("##")[1]);												
+				moderator.sendAcknowledgeMessage(message.getAckDestination(), "ClientMsgDeliveryReceipt", clientId);
+				restGtw.updateMessageClientAcknowledgeField(databaseId, true);
 			} else if (message.getSubject().equals(Constants.INTERNAL_PACKET)) {
 				TxtPacket internalPacket = new TxtPacket(message.getBody());
 				//DA since the date coming from the Javascript client is unreliable we use the server side time as reference
@@ -65,7 +71,7 @@ public class MessageProcessor {
 				}
 			}
 		} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getStackTrace().toString());
+			Log.addLogEntry("ProcessInternalPacket", LogEntryType.ERROR, e.getStackTrace().toString());
 		}	
 		t2 = System.currentTimeMillis();
 		System.out.println("PROCESSING " + (t2 - t1));
@@ -124,15 +130,17 @@ public class MessageProcessor {
 			System.out.println("\"" + receivedPacket.getID() + "\", \"GET HANDLERS\", \"" + (t2 - t1) + "\", \"" + (t4 - t3) + "\"");
 			
 			String computedID = iPacket.getID() + "##" + String.valueOf(msgStatus.getMessageID()); // PACKET_ID**DB_ID
+			
 			for (int i=0; i<handlers.size(); ++i) {
 				//String from = internalPacket.getFromAddress();
 				String to = handlers.get(i).getUser();
 				moderator.sendInternalMessage(internalPacket.toXML(), to, 
-						computedID, internalPacket.getFromAddress());			
-			}			
+						computedID, internalPacket.getFromAddress());
+				restGtw.callGCMRest(handlers.get(i).devices, internalPacket.getBody());
+			}					
 			System.out.println(iPacket.getID() + " OUT TO STAFF - " + System.currentTimeMillis());
 		} catch (RESTException e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+			Log.addLogEntry("sendImMessageToStaff", LogEntryType.ERROR, e.getMessage());
 			Runnable task = new Runnable() {
 				public void run() {
 					System.out.println("Re");
@@ -141,7 +149,7 @@ public class MessageProcessor {
 			};
 				worker.schedule(task, CALL_DELAY, TimeUnit.SECONDS);				
 		} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+			Log.addLogEntry("SendImMessageToStaff", LogEntryType.ERROR, e.getMessage());			
 		}
 	}
 	
@@ -177,7 +185,7 @@ public class MessageProcessor {
 			moderator.sendInternalMessage(iPacket.getBody(), internalPacket.getToAddress(), computedId, iPacket.getFrom().toBareJID());
 			System.out.println(iPacket.getID() + " OUT: TO CLIENT " + System.currentTimeMillis());
 		} catch (RESTException e) {
-				Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+				Log.addLogEntry("SendImMessageToClient", LogEntryType.ERROR, e.getMessage());
 				Runnable task = new Runnable() {
 					public void run() {
 						System.out.println("Re");
@@ -186,7 +194,7 @@ public class MessageProcessor {
 				};
 			worker.schedule(task, CALL_DELAY, TimeUnit.SECONDS);			
 		} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+			Log.addLogEntry("SendImMessageToClient", LogEntryType.ERROR, e.getMessage());			
 		}
 		
 	}
@@ -210,7 +218,7 @@ public class MessageProcessor {
 						from);			
 			}
 		} catch (RESTException e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+			Log.addLogEntry("sendSmsMessageToStaff", LogEntryType.ERROR, e.getMessage());
 			Runnable task = new Runnable() {
 				public void run() {
 					System.out.println("Re");
@@ -219,7 +227,7 @@ public class MessageProcessor {
 			};
 			worker.schedule(task, CALL_DELAY, TimeUnit.SECONDS);			
 		} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());			
+			Log.addLogEntry("SendSmsMessageToStaff", LogEntryType.ERROR, e.getMessage());			
 		}
 	}
 	
@@ -238,7 +246,7 @@ public class MessageProcessor {
 			moderator.sendSmsAcknowledgeMessage(iPacket.getFrom().toString(), Constants.CLIENT_ACK, iPacket.getID(), msgStatus.getJsonFormat());
 			restGtw.updateMessageClientAcknowledgeField(msgStatus.getMessageID(), true);
 		} catch (RESTException e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
+			Log.addLogEntry("sendSmsMessageToClient", LogEntryType.ERROR, e.getMessage());
 			Runnable task = new Runnable() {
 				public void run() {
 					System.out.println("Re");
@@ -247,7 +255,7 @@ public class MessageProcessor {
 			};
 			worker.schedule(task, CALL_DELAY, TimeUnit.SECONDS);			
 		} catch (Exception e) {
-			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());			
+			Log.addLogEntry("SendSmsMessageToClient", LogEntryType.ERROR, e.getMessage());			
 		}	
 	}
 
