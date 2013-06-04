@@ -27,41 +27,29 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RestControllerGateway {
-	/* REST resources for dev */
-	//private String RESTGetHandlersForMessageURL = "http://dev.txtfeedback.net/Component/GetHandlerForMessage";
-	private String RESTGetHandlersForMessageURL = "http://localhost:4631/Component/GetHandlerForMessage";
-	private String RESTDomain = "http://rest.txtfeedback.net/";
-	//private String RESTGetHandlersForMessageURL1 = "http://dev.txtfeedback.net/Component/GetHandlerForMessage1";
-	//private String RESTGetHandlersForMessageURL1 = "http://localhost:4631/Component/GetHandlerForMessage1";
-	//private String RESTGetWorkingPointForCertainAddress = "http://dev.txtfeedback.net/Component/GetWorkingPointForCertainAddress";
-	//private String RESTSaveMessage = "http://localhost:4631/en-US/Component/SaveMessage";
-	private String RESTSaveMessage = "http://dev.txtfeedback.net/Component/SaveMessage";
-	//private String RESTParametersTest = "http://dev.txtfeedback.net/Component/GetParametersTest";
-	//private String RESTUpdateClientAcknowledge = "http://dev.txtfeedback.net/Component/UpdateMessageClientAcknowledgeField";
-	private String RESTUpdateClientAcknowledge = "http://localhost:4631/Component/UpdateMessageClientAcknowledgeField";
-	 
-	 	 
-	/* REST resources for nexmo */
-	private String RESTGetHandlersForMessageURL = "http://demotxtfeedback.cloudapp.net/Component/GetHandlerForMessage";
-	private String RESTDomain = "http://demot3xt.cloudapp.net:81/";
-	private String RESTGetHandlersForMessageURL1 = "http://demotxtfeedback.cloudapp.net/Component/GetHandlerForMessage1";
-	private String RESTGetWorkingPointForCertainAddress = "http://demotxtfeedback.cloudapp.net/Component/GetWorkingPointForCertainAddress";
-	//private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
-	private String RESTSaveMessage = "http://demotxtfeedback.cloudapp.net/Component/SaveMessage";
-	private String RESTParametersTest = "http://demotxtfeedback.cloudapp.net/Component/GetParametersTest";
-	private String RESTUpdateClientAcknowledge = "http://demotxtfeedback.cloudapp.net/Component/UpdateMessageClientAcknowledgeField";
+	/**
+	 * REST domain (for handlers)
+	 * 1. Development http://rest.txtfeedback.net/
+	 * 2. Demo
+	 * 		2.1 Staging: http://46683d8e44b54144bb6f8c6e21181bfe.cloudapp.net:81/
+	 * 		2.2 Production http://demot3xt.cloudapp.net:81/
+	 * 3. Production http://rest.txtfeedback.net/
+	 * 
+	 * API (Save & update message)
+	 * 1. Development http://dev.txtfeedback.net
+	 * 2. Demo 
+	 * 		2.1 Staging http://8025dfa481dc4e13944c72c96e6afb3b.cloudapp.net
+	 * 		2.2 Production http://demotxtfeedback.net.cloudapp.net
+	 * 3. Production http://product.txtfeedback.net
+	 */
+	private String RESTDomain = "http://46683d8e44b54144bb6f8c6e21181bfe.cloudapp.net:81/";
+	private String APIDomain = "http://8025dfa481dc4e13944c72c96e6afb3b.cloudapp.net";
+	
+	private String RESTSaveMessage = APIDomain + "/Component/SaveMessage";
+	private String RESTUpdateClientAcknowledge = APIDomain + "/Component/UpdateMessageClientAcknowledgeField";
 		
-	/* REST resources for product  
-//	private String RESTGetHandlersForMessageURL = "http://product.txtfeedback.net/Component/GetHandlerForMessage";
-//	private String RESTDomain = "http://rest.txtfeedback.net/";
-//	private String RESTGetHandlersForMessageURL1 = "http://product.txtfeedback.net/Component/GetHandlerForMessage1";
-//	private String RESTGetWorkingPointForCertainAddress = "http://product.txtfeedback.net/Component/GetWorkingPointForCertainAddress";
-	//private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
-//	private String RESTSaveMessage = "http://product.txtfeedback.net/Component/SaveMessage";
-//	private String RESTParametersTest = "http://product.txtfeedback.net/Component/GetParametersTest";
-//	private String RESTUpdateClientAcknowledge = "http://product.txtfeedback.net/Component/UpdateMessageClientAcknowledgeField";
-	*/
-	public ArrayList<Agent> getHandlersForMessage(String iWP, 
+	public ArrayList<Agent> getHandlersForMessage(
+			String iWP, 
 			String iConversationId, 
 			boolean isSms) throws RESTException {
 		try {
@@ -93,29 +81,30 @@ public class RestControllerGateway {
 			}
 			return handlers;
 		}catch (Exception e) {
-			Log.addLogEntry("getHandlersForMessage", LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
-				
+			Log.addLogEntry(
+					"getHandlersForMessage", 
+					LogEntryType.ERROR,
+					Utilities.getStackTrace(e.getCause()));				
 			throw new RESTException();
 		}		
-	}
+	}												
 	
-												
-	
-	public boolean updateMessageClientAcknowledgeField(int msgID, 
+	public boolean updateMessageClientAcknowledgeField(
+			int msgID, 
 			boolean clientAcknowledge) throws RESTException {
 		try {
-		Hashtable<String, String> params = new Hashtable<String, String>();
-		params.put("msgID", Integer.toString(msgID));
-		params.put("clientAcknowledge", String.valueOf(clientAcknowledge));
-		String requestResult = getResourceAsString(RESTUpdateClientAcknowledge, 
-				RestClient.GET, params, 
-				Constants.APPLICATION_JSON, 
-				Constants.APPLICATION_JSON);
-		if (requestResult != null) {
-			String result = requestResult.toString();
-			if (result.equals("success")) return true;
-			else return false;			
-		}	
+			Hashtable<String, String> params = new Hashtable<String, String>();
+			params.put("msgID", Integer.toString(msgID));
+			params.put("clientAcknowledge", String.valueOf(clientAcknowledge));
+			String requestResult = getResourceAsString(RESTUpdateClientAcknowledge, 
+					RestClient.GET, params, 
+					Constants.APPLICATION_JSON, 
+					Constants.APPLICATION_JSON);
+			if (requestResult != null) {
+				String result = requestResult.toString();
+				if (result.equals("success")) return true;
+				else return false;			
+			}	
 		} catch (Exception e) {
 			Log.addLogEntry(Utilities.getStackTrace(e.getCause()), 
 					LogEntryType.ERROR, 
@@ -124,16 +113,7 @@ public class RestControllerGateway {
 		}
 		return false;
 	}	
-	
-	/* Method used just for testing purposes
-	public void sendParameters() {
-		Hashtable<String, String> params = new Hashtable<String, String>();
-		params.put("id", "7");
-		params.put("from","de la mine");
-		params.put("to", "mihai");		
-		String result = getResourceAsString(RESTParametersTest, RestClient.GET, params, Constants.APPLICATION_JSON, Constants.APPLICATION_JSON);		
-	}*/
-	
+		
 	public MessageStatus saveMessage(String from, 
 			String to, 
 			String convId, 
@@ -164,15 +144,19 @@ public class RestControllerGateway {
 			}
 			return msgStatus;			
 		} catch (Exception e) {
-			Log.addLogEntry("saveMessage", LogEntryType.ERROR, Utilities.getStackTrace(e.getCause()));
-					
+			Log.addLogEntry("saveMessage", 
+					LogEntryType.ERROR, 
+					Utilities.getStackTrace(e.getCause()));					
 			throw new RESTException();			
 		}
 	}
 	
-	private JSONObject getResourceAsJsonObject(String iURL,
-			int iMethod, Hashtable<String, String> iParams,
-			String iHeaderAccept, String iContentType) throws Exception {
+	private JSONObject getResourceAsJsonObject(
+			String iURL,
+			int iMethod, 
+			Hashtable<String, String> iParams,
+			String iHeaderAccept, 
+			String iContentType) throws Exception {
 		JSONObject wpJsonObj = null;
 		RestClient ri  = callRESTResource(iURL, iMethod, iParams, iHeaderAccept, iContentType);
 		try {
@@ -184,9 +168,12 @@ public class RestControllerGateway {
 		return wpJsonObj;
 	}
 	
-	private String getResourceAsString(String iURL,
-			int iMethod, Hashtable<String, String> iParams,
-			String iHeaderAccept, String iContentType) throws Exception {
+	private String getResourceAsString(
+			String iURL,
+			int iMethod, 
+			Hashtable<String, String> iParams,
+			String iHeaderAccept, 
+			String iContentType) throws Exception {
 		String wpJsonObj = null;
 		RestClient ri  = callRESTResource(iURL, 
 				iMethod, 
@@ -196,9 +183,12 @@ public class RestControllerGateway {
 		return ri.getResponse();
 	}
 	
-	private RestClient callRESTResource(String iURL,
-			int iMethod, Hashtable<String, String> iParams,
-			String iHeaderAccept, String iContentType) throws Exception {
+	private RestClient callRESTResource(
+			String iURL,
+			int iMethod, 
+			Hashtable<String, String> iParams,
+			String iHeaderAccept, 
+			String iContentType) throws Exception {
 		String restResource = iURL;
 		JSONObject wpJsonObj = null;
 		RestClient ri = new RestClient(restResource);
@@ -225,7 +215,9 @@ public class RestControllerGateway {
 		return ri;
 	}
 	
-	public String callGCMRest(ArrayList<Device> devices, String message) {
+	public String callGCMRest(
+			ArrayList<Device> devices, 
+			String message) {
 		if (devices.size() > 0) {
 			RestClient ri = new RestClient("https://android.googleapis.com/gcm/send");
 			StringBuilder registrationIds = new StringBuilder();
