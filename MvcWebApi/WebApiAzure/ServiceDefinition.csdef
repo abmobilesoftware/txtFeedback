@@ -11,8 +11,8 @@
       <Site name="WebApi" physicalDirectory="..\..\..\WebApiEmpty">
         <VirtualApplication name="abmob1" physicalDirectory="..\..\..\abmob1" />
         <VirtualApplication name="abmobando" physicalDirectory="..\..\..\abmobando" />
-        <VirtualApplication name="abmobdemo1" physicalDirectory="..\..\..\abmobdemo1" />
-        <VirtualApplication name="abmobdemo2" physicalDirectory="..\..\..\abmobdemo2" />
+        <VirtualApplication name="abmobdemo1" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="abmobdemo2" physicalDirectory="..\..\..\demoEnvironment" />
         <VirtualApplication name="abmobdemo3" physicalDirectory="..\..\..\abmobdemo3" />
         <VirtualApplication name="abmobdemo4" physicalDirectory="..\..\..\abmobdemo4" />
         <VirtualApplication name="abmobdemo5" physicalDirectory="..\..\..\abmobdemo5" />
@@ -31,6 +31,7 @@
         <VirtualApplication name="ccpr" physicalDirectory="..\..\..\ccpr" />
         <VirtualApplication name="ccto" physicalDirectory="..\..\..\ccto" />
         <VirtualApplication name="ccwe" physicalDirectory="..\..\..\ccwe" />
+        <VirtualApplication name="demoEnvironment" physicalDirectory="..\..\..\demoEnvironment" />
         <VirtualApplication name="esport" physicalDirectory="..\..\..\esport" />
         <VirtualApplication name="kungsg" physicalDirectory="..\..\..\kungsg" />
         <VirtualApplication name="supportau" physicalDirectory="..\..\..\supportau" />
