@@ -148,10 +148,6 @@
             <End EntitySet="XmppConnections" Role="XmppConnections" />
             <End EntitySet="Users" Role="Users" />
           </AssociationSet>
-          <AssociationSet Name="FK_UserXmppConnection" Association="smsfeedbackModel.Store.FK_UserXmppConnection">
-            <End Role="XmppConnections" EntitySet="XmppConnections" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
           <AssociationSet Name="FK_WorkingPointActivityLogWorkingPoint" Association="smsfeedbackModel.Store.FK_WorkingPointActivityLogWorkingPoint">
             <End EntitySet="WorkingPoints" Role="WorkingPoints" />
             <End EntitySet="ActivityLogWorkingPoints" Role="ActivityLogWorkingPoints" />
