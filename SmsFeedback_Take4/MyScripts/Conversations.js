@@ -82,6 +82,7 @@ window.app.Conversation = Backbone.Model.extend({
        var parseMethod = (method === "delete") ? "create" : method;
        Backbone.sync(parseMethod, model, options);
     },
+   idAttribute: "ConvID"
 });
 //#endregion
 //#region ConversationsList
