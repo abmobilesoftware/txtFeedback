@@ -9,53 +9,53 @@
         </Bindings>
       </Site>
       <Site name="WebApi" physicalDirectory="..\..\..\WebApiEmpty">
-        <VirtualApplication name="abmob1" physicalDirectory="..\..\..\abmob1" />
-        <VirtualApplication name="abmobando" physicalDirectory="..\..\..\abmobando" />
+        <VirtualApplication name="abmob1" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="abmobando" physicalDirectory="..\..\..\demoEnvironment" />
         <VirtualApplication name="abmobdemo1" physicalDirectory="..\..\..\demoEnvironment" />
         <VirtualApplication name="abmobdemo2" physicalDirectory="..\..\..\demoEnvironment" />
-        <VirtualApplication name="abmobdemo3" physicalDirectory="..\..\..\abmobdemo3" />
-        <VirtualApplication name="abmobdemo4" physicalDirectory="..\..\..\abmobdemo4" />
-        <VirtualApplication name="abmobdemo5" physicalDirectory="..\..\..\abmobdemo5" />
-        <VirtualApplication name="abmobdemo6" physicalDirectory="..\..\..\abmobdemo6" />
-        <VirtualApplication name="abprodsu" physicalDirectory="..\..\..\abprodsu" />
-        <VirtualApplication name="absupde" physicalDirectory="..\..\..\absupde" />
-        <VirtualApplication name="bitdefsp" physicalDirectory="..\..\..\bitdefsp" />
-        <VirtualApplication name="biz" physicalDirectory="..\..\..\biz" />
-        <VirtualApplication name="bolt1" physicalDirectory="..\..\..\bolt1" />
-        <VirtualApplication name="bolt2" physicalDirectory="..\..\..\bolt2" />
-        <VirtualApplication name="caferoma" physicalDirectory="..\..\..\caferoma" />
-        <VirtualApplication name="carr1" physicalDirectory="..\..\..\carr1" />
-        <VirtualApplication name="carr2" physicalDirectory="..\..\..\carr2" />
-        <VirtualApplication name="cat5" physicalDirectory="..\..\..\cat5" />
-        <VirtualApplication name="cat51" physicalDirectory="..\..\..\cat51" />
-        <VirtualApplication name="ccpr" physicalDirectory="..\..\..\ccpr" />
-        <VirtualApplication name="ccto" physicalDirectory="..\..\..\ccto" />
-        <VirtualApplication name="ccwe" physicalDirectory="..\..\..\ccwe" />
+        <VirtualApplication name="abmobdemo3" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="abmobdemo4" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="abmobdemo5" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="abmobdemo6" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="abprodsu" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="absupde" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="bitdefsp" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="biz" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="bolt1" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="bolt2" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="caferoma" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="carr1" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="carr2" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="cat5" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="cat51" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="ccpr" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="ccto" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="ccwe" physicalDirectory="..\..\..\demoEnvironment" />
         <VirtualApplication name="demoEnvironment" physicalDirectory="..\..\..\demoEnvironment" />
-        <VirtualApplication name="esport" physicalDirectory="..\..\..\esport" />
-        <VirtualApplication name="kungsg" physicalDirectory="..\..\..\kungsg" />
-        <VirtualApplication name="supportau" physicalDirectory="..\..\..\supportau" />
-        <VirtualApplication name="supportca" physicalDirectory="..\..\..\supportca" />
-        <VirtualApplication name="supportde" physicalDirectory="..\..\..\supportde" />
-        <VirtualApplication name="supporthu" physicalDirectory="..\..\..\supporthu" />
-        <VirtualApplication name="supportpl" physicalDirectory="..\..\..\supportpl" />
-        <VirtualApplication name="supportro" physicalDirectory="..\..\..\supportro" />
-        <VirtualApplication name="supportrom" physicalDirectory="..\..\..\supportrom" />
-        <VirtualApplication name="supportrop" physicalDirectory="..\..\..\supportrop" />
-        <VirtualApplication name="supportuk" physicalDirectory="..\..\..\supportuk" />
-        <VirtualApplication name="supportus" physicalDirectory="..\..\..\supportus" />
-        <VirtualApplication name="txtlab" physicalDirectory="..\..\..\txtlab" />
-        <VirtualApplication name="tcoffee" physicalDirectory="..\..\..\tcoffee" />
-        <VirtualApplication name="mag1" physicalDirectory="..\..\..\mag1" />
-        <VirtualApplication name="mag2" physicalDirectory="..\..\..\mag2" />
-        <VirtualApplication name="eurogsm" physicalDirectory="..\..\..\eurogsm" />
-        <VirtualApplication name="bcoffee" physicalDirectory="..\..\..\bcoffee" />
-        <VirtualApplication name="magazin1" physicalDirectory="..\..\..\magazin1" />
-        <VirtualApplication name="magazin2" physicalDirectory="..\..\..\magazin2" />
-        <VirtualApplication name="sales1" physicalDirectory="..\..\..\sales1" />
-        <VirtualApplication name="sales2" physicalDirectory="..\..\..\sales2" />
-        <VirtualApplication name="demo1" physicalDirectory="..\..\..\demo1" />
-        <VirtualApplication name="demo2" physicalDirectory="..\..\..\demo2" />
+        <VirtualApplication name="esport" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="kungsg" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="supportau" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="supportca" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="supportde" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="supporthu" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="supportpl" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="supportro" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="supportrom" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="supportrop" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="supportuk" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="supportus" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="txtlab" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="tcoffee" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="mag1" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="mag2" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="eurogsm" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="bcoffee" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="magazin1" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="magazin2" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="sales1" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="sales2" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="demo1" physicalDirectory="..\..\..\demoEnvironment" />
+        <VirtualApplication name="demo2" physicalDirectory="..\..\..\demoEnvironment" />
         <Bindings>
           <Binding name="Endpoint2" endpointName="Endpoint2" />
         </Bindings>

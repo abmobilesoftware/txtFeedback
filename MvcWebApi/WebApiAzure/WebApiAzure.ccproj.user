@@ -4,5 +4,8 @@
     <ActivePublishProfile>demo.t3xt</ActivePublishProfile>
     <WebRoleSkipLaunchInBrowser>
     </WebRoleSkipLaunchInBrowser>
+    <PackageProfile>Cloud</PackageProfile>
+    <PackageSolutionConfiguration>Release</PackageSolutionConfiguration>
+    <PackageEnableRemoteDesktop>False</PackageEnableRemoteDesktop>
   </PropertyGroup>
 </Project>
