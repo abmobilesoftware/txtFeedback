@@ -32,15 +32,18 @@ namespace SmsFeedback_Take4.Mailers
 			return mailMessage;
 		}
 
-      public virtual MailMessage NewsletterContent(string to, 
+      public virtual MailMessage BuildNewsletterMail(string to, 
          string subject,
          List<WpAndConversations> conversations, 
          DateTime startDate, 
          DateTime endDate) {
             var mailMessage = new MailMessage { Subject = subject };
             mailMessage.To.Add(to);
-            ViewData["conversations
-
+            ViewData["conversations"] = conversations;
+            ViewData["startDate"] = startDate;
+            ViewData["endDate"] = endDate;
+            PopulateBody(mailMessage, viewName: "NewsletterTemplate");
+            return mailMessage;
       }
 	}
 }

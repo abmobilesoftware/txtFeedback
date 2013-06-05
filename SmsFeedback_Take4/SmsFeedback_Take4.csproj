@@ -216,6 +216,7 @@
     <Compile Include="Models\Helpers\ReportMenu\ReportsMenuItem.cs" />
     <Compile Include="Models\Helpers\ReportModel\ReportResourceOptions.cs" />
     <Compile Include="Models\Helpers\SubscriptionSmsStatus.cs" />
+    <Compile Include="Models\Helpers\WpAndConversations.cs" />
     <Compile Include="Models\Interfaces\IInternalSMSRepository.cs" />
     <Compile Include="Models\Repositories\CompatelSmsRepository.cs" />
     <Compile Include="Models\Repositories\EFSmsRepository.cs" />
@@ -616,6 +617,7 @@
     <Content Include="Views\UserMailer\EmailTemplate.cshtml" />
     <Content Include="Views\WorkingPoints\EditWorkingPointInfo.cshtml" />
     <Content Include="Views\WorkingPoints\WorkingPointsInfo.cshtml" />
+    <Content Include="Views\UserMailer\NewsletterTemplate.cshtml" />
     <None Include="Web.Debug_demo.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

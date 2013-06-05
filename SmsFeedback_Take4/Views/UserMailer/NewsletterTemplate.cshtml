@@ -1,17 +1,27 @@
-﻿@{
+﻿@using SmsFeedback_Take4.Models.Helpers 
+@{
     ViewBag.Title = "NewsletterTemplate";
     Layout = "~/Views/UserMailer/_Layout.cshtml";
 }
 
-<p>Activity for period @ViewData["StartDate"] - @ViewData["EndDate"]</p>
-   @foreach (var conversationsForWp in @ViewData["conversations"]) 
+<p>Activity for period @ViewData["startDate"] - @ViewData["endDate"]</p>
+   @{
+      List<WpAndConversations> conversations = 
+         (List<WpAndConversations>)@ViewData["conversations"];      
+      DateTime startDate = (DateTime)@ViewData["startDate"];
+      DateTime endDate = (DateTime)@ViewData["endDate"];
+   }
+   @foreach (var conversationsForWp in conversations) 
    {
-      <p>For working point @conversationsForWp.wpName</p>
+      <p>For working point @conversationsForWp.workingPoint.Name</p>
       <ul>
          @foreach (var conversation in @conversationsForWp.conversations)
          {
-            <li class="conversation">@conversation.Text</li>        
+            if (conversation.TimeUpdated >= startDate 
+               && conversation.TimeUpdated <=endDate) { 
+               <li class="conversation">@conversation.Text</li>        
+            }
          }
       </ul>
    }   
-}
+

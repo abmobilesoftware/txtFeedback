@@ -7,6 +7,7 @@ using Mvc.Mailer;
 using SmsFeedback_EFModels;
 using SmsFeedback_Take4.Mailers;
 using SmsFeedback_Take4.Utilities;
+using SmsFeedback_Take4.Models.Helpers;
 
 namespace SmsFeedback_Take4.Controllers
 {
@@ -16,7 +17,7 @@ namespace SmsFeedback_Take4.Controllers
        #region Private members and properties
        private static readonly log4net.ILog loggerEmailForm = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-       UserMailer _mailer = new UserMailer();      
+       public UserMailer _mailer = new UserMailer();      
        #endregion
 
        public ActionResult Index()
@@ -58,6 +59,25 @@ namespace SmsFeedback_Take4.Controllers
            }
            return result;
         }
+
+       public void SendNewsletter()
+       {
+          smsfeedbackEntities dbContext = new smsfeedbackEntities();
+          EFInteraction efInteraction = new EFInteraction();
+          var wpsAndConversations = efInteraction.GetWorkingPointsAndConversations(User.Identity.Name, dbContext);
+          var conversationsGroupedByUser = wpsAndConversations.GroupBy(x => x.user);
+          foreach (var conversationsGroup in conversationsGroupedByUser) 
+          {
+             var newsletter = _mailer.BuildNewsletterMail("mihai@txtfeedback.net",
+              "Weekly newsletter",
+              conversationsGroup.ToList(),
+              new DateTime(),
+              new DateTime()
+              );
+             newsletter.Send();   
+          }
+          
+       }
 
        [HttpGet]
        public ActionResult GetFeedbackForm(bool positiveFeedback, string url)

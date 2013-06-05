@@ -34,6 +34,19 @@ namespace SmsFeedback_Take4.Utilities
             return FindMatchingTagsForCompany(queryString, companyName, dbContext);
         }
 
+        public List<WpAndConversations> GetWorkingPointsAndConversations(string username, smsfeedbackEntities dbContext)
+        {
+           var wpsAndConversations = (from user in dbContext.Users
+                                      select (from wp in user.WorkingPoints
+                                              select new WpAndConversations() { 
+                                                 workingPoint = wp,
+                                                 conversations = wp.Conversations,
+                                                 user = user
+                                              })).
+                                             SelectMany(x => x).ToList();
+           return wpsAndConversations;
+        }
+
         /// <summary>
         /// Add an event in the history of a conversation
         /// </summary>
