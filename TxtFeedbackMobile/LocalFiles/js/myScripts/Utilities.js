@@ -1,4 +1,5 @@
-var domain = "http://dev.txtfeedback.net";
+var domain = "http://demotxtfeedback.cloudapp.net";
+//var domain = "http://localhost:4631";
 
 function cleanupPhoneNumber(data) {
    var prefixes = new Array("00", "\\+");
