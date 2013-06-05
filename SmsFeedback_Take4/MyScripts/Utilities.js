@@ -13,6 +13,7 @@ window.app.domainName = '';
 window.app.lastAjaxCall = { settings: null, jqXHR: null };
 window.app.loginSummaryUrl = "/Account/LogOnSummary";
 window.app.loginUrl = "/Account/LogOn";
+var RESTDomain = "http://demotxtfeedback.cloudapp.net";
 
 window.app.firstCall = true;
 window.app.requestIndex = 0;
