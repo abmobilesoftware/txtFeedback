@@ -60,11 +60,11 @@
         <AssociationConnector Association="smsfeedbackModel.FK_SubscriptionDetailSecondaryContact" />
         <AssociationConnector Association="smsfeedbackModel.FK_CompanyContact" />
         <AssociationConnector Association="smsfeedbackModel.FK_CompanySubscriptionDetails1" />
-        <EntityTypeShape EntityType="smsfeedbackModel.Device" Width="2.625" PointX="3" PointY="19.5" />
         <EntityTypeShape EntityType="smsfeedbackModel.InvoiceDetailsTemplate" Width="2.625" PointX="6.125" PointY="19" />
         <EntityTypeShape EntityType="smsfeedbackModel.Log" Width="2.625" PointX="10" PointY="18.625" />
         <AssociationConnector Association="smsfeedbackModel.FK_SubscriptionDetailInvoiceDetailsTemplate" />
         <AssociationConnector Association="smsfeedbackModel.FK_SubscriptionDetailInvoiceDetailsTemplate1" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Device" Width="1.5" PointX="0.625" PointY="17.25" />
         <AssociationConnector Association="smsfeedbackModel.UserDevice" />
         </Diagram>
     </edmx:Diagrams>
