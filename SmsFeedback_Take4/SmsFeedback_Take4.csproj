@@ -263,7 +263,6 @@
     <Compile Include="Nexmo\NexmoTestController.cs" />
     <Compile Include="Test\HashPassword.cs" />
     <Compile Include="Utilities\Constants.cs" />
-    <Compile Include="Utilities\CorsAttribute.cs" />
     <Compile Include="Utilities\CustomAuthorizeAtribute.cs" />
     <Compile Include="Utilities\EFInteraction.cs" />
     <Compile Include="Utilities\FirstDayOfWeekUtility.cs" />
