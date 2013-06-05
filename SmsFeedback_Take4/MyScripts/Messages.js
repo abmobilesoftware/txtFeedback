@@ -613,7 +613,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
    $(document).bind("giveVoucher", function (ev, data) {
        var replyAreaContent = $("#limitedtextarea").val();
        if (replyAreaContent.length + data.voucherCode.length <= 159) {
-           $("#limitedtextarea").attr("value", replyAreaContent + " " + data.voucherCode);
+           $("#limitedtextarea").val(replyAreaContent + " " + data.voucherCode);
            $("input[name~='countdown']").val(160 - $("#limitedtextarea").val().length);
        } else {
            $(".voucherAlert").show("slow");
