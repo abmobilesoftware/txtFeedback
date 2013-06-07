@@ -1,0 +1,36 @@
+﻿@using SmsFeedback_Take4.Models.Helpers 
+@{
+    ViewBag.Title = "NewsletterTemplate";
+    Layout = "~/Views/UserMailer/_Layout.cshtml";
+}
+
+   @{
+      List<WpAndConversations> conversations = 
+         (List<WpAndConversations>)@ViewData["conversations"];            
+   }
+
+   @foreach (var conversationsForWp in conversations) 
+   {
+      if (conversationsForWp.conversations.Count() > 0) {
+   <div class="workingPoint">
+	   <div class="workingPoint-details">
+         <img class="workingPoint-image" src="@Url.Abs(Url.Content("~/Content/images/Bullet-Blue-32.png"))" />
+			<p class="workingPoint-name">@conversationsForWp.workingPoint.Name</p>
+			<div class="clear"></div>
+		</div>
+      @foreach (var conversation in @conversationsForWp.conversations)
+      {
+		   <div class="conversation conversation-normal">
+			   <div class="conversation-details">
+				   <span class="conversation-from">From: @conversation.From</span>
+					<span class="conversation-date">@conversation.TimeUpdated.ToShortDateString()</span>
+					<div class="clear"></div>
+				</div>
+				<div class="conversation-text">@conversation.Text </div>						
+				<a href="http://dev.txtfeedback.net" target="_blank" title="View messages">View all messages for this conversation</a>
+			</div>				
+				
+        }      
+   </div>
+      }
+   }

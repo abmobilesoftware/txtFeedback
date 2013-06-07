@@ -171,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActivityReportController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ComponentController.cs" />
     <Compile Include="Controllers\ConversationsController.cs" />
@@ -198,6 +199,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Global.de.resx</DependentUpon>
     </Compile>
+    <Compile Include="Mailers\ActivityReportMailer.cs" />
     <Compile Include="Mailers\WarningMailer.cs" />
     <Compile Include="Models\BusinessObjects\ConvTag.cs" />
     <Compile Include="Models\BusinessObjects\WorkingPointConfModel.cs" />
@@ -284,6 +286,7 @@
     <Content Include="Content\images\arrow_down_16.png" />
     <Content Include="Content\images\arrow_down_dblue_16.png" />
     <Content Include="Content\images\arrow_up_dblue_16.png" />
+    <Content Include="Content\images\Bullet-Blue-32.png" />
     <Content Include="Content\images\check-black.svg" />
     <Content Include="Content\images\check-grey.png" />
     <Content Include="Content\images\check-grey.svg" />
@@ -617,7 +620,8 @@
     <Content Include="Views\UserMailer\EmailTemplate.cshtml" />
     <Content Include="Views\WorkingPoints\EditWorkingPointInfo.cshtml" />
     <Content Include="Views\WorkingPoints\WorkingPointsInfo.cshtml" />
-    <Content Include="Views\UserMailer\NewsletterTemplate.cshtml" />
+    <Content Include="Views\ActivityReportMailer\NewsletterTemplate.cshtml" />
+    <Content Include="Views\ActivityReportMailer\_Layout.cshtml" />
     <None Include="Web.Debug_demo.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

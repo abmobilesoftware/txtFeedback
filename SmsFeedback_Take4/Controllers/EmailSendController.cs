@@ -12,113 +12,94 @@ using SmsFeedback_Take4.Models.Helpers;
 namespace SmsFeedback_Take4.Controllers
 {
    [CustomAuthorizeAtribute]
-    public class EmailSendController : BaseController
-    {
-       #region Private members and properties
-       private static readonly log4net.ILog loggerEmailForm = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+   public class EmailSendController : BaseController
+   {
+      #region Private members and properties
+      private static readonly log4net.ILog loggerEmailForm = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-       public UserMailer _mailer = new UserMailer();      
-       #endregion
+      public UserMailer _mailer = new UserMailer();
+      #endregion
 
-       public ActionResult Index()
-        {
-            return View();
-        }
-
-       [HttpGet]
-        public ActionResult GetEmailMessageForm(string emailText, string convID)
-        {
-           ViewResult result = null;
-           try
-           {
-              
-              ViewData["emailText"] = emailText;
-              string[] fromTo = ConversationUtilities.GetFromAndToFromConversationID(convID);
-              smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
-              var lWpTelNoOrShortID = fromTo[1];
-              var lEfInteraction = new EFInteraction();
-              var wpName = lEfInteraction.GetNameForWorkingPoint(lWpTelNoOrShortID, lContextPerRequest);
-              if (String.IsNullOrEmpty(wpName))
-              {
-                 wpName = lWpTelNoOrShortID;
-              }
-              long parseResult = 0;
-              if (long.TryParse(fromTo[0], out parseResult))
-              {
-                  ViewData["emailSubject"] = Resources.Global.sendEmailPrefixSubject + fromTo[0].Substring(0, fromTo[0].Length - 4) + "...." + Resources.Global.sendEmailConjuctionSubject + wpName + "]";
-              }
-              else
-              {
-                  ViewData["emailSubject"] = Resources.Global.sendEmailPrefixSubject + fromTo[0] + Resources.Global.sendEmailConjuctionSubject + wpName + "]";
-              }
-              result = View();
-           }
-           catch (Exception ex)
-           {
-              loggerEmailForm.Error("GetEmailMessageForm", ex);
-           }
-           return result;
-        }
-
-       public void SendNewsletter()
-       {
-          smsfeedbackEntities dbContext = new smsfeedbackEntities();
-          EFInteraction efInteraction = new EFInteraction();
-          var wpsAndConversations = efInteraction.GetWorkingPointsAndConversations(User.Identity.Name, dbContext);
-          var conversationsGroupedByUser = wpsAndConversations.GroupBy(x => x.user);
-          foreach (var conversationsGroup in conversationsGroupedByUser) 
-          {
-             var newsletter = _mailer.BuildNewsletterMail("mihai@txtfeedback.net",
-              "Weekly newsletter",
-              conversationsGroup.ToList(),
-              new DateTime(),
-              new DateTime()
-              );
-             newsletter.Send();   
-          }
-          
-       }
-
-       [HttpGet]
-       public ActionResult GetFeedbackForm(bool positiveFeedback, string url)
-       {
-          ViewData["emailText"] = Resources.Global.sendFeedbackPlaceholderMessage;
-          string subject = Resources.Global.sendFeedbackPositiveFeedbackSubject;
-          if (!positiveFeedback) subject = Resources.Global.sendFeedbackNegativeFeedbackSubject;
-          ViewData["emailSubject"] = subject;
-          ViewData["emailTo"] = "support@txtfeedback.net";
-          ViewData["url"] = url;
-          ViewData["isFeedbackForm"] = true;
-          ViewResult res = View();
-          return res;
-       }
-
-       [HttpPost]
-       public ActionResult SendEmail(FormCollection formData)
-        {
-          //get the email address
-          string email = formData["email"];
-          string message = formData["message"];
-          string subject = formData["subject"];
-          string from = this.User.Identity.Name;
-          bool isFeedbackForm = Boolean.Parse(formData["isFeedbackForm"]);          
-          System.Net.Mail.MailMessage msg = _mailer.SendMessageContent(email, subject, message, from, formData["url"]);          
-          msg.Send();          
-          string msgSentAcknoledgement = Resources.Global.sendEmailEmailSentSuccessfuly;
-          if (isFeedbackForm) msgSentAcknoledgement = Resources.Global.sendFeedbackFeedbackSentSuccessfully;
-          return Json(msgSentAcknoledgement);
-        }
+      public ActionResult Index()
+      {
+         return View();
+      }
 
       [HttpGet]
-       public void SendWarningEmail(string emailAddress)
-       {
-          var mailer = new WarningMailer();
-          var sd = new SubscriptionDetail() { BillingDay = 1, DefaultCurrency = "EUR", SpentThisMonth = 2, SpendingLimit= 3 };
-          sd.Companies.Add(new Company() { Name = "Ab Mobile Apps" });
-          var msg = mailer.WarningEmail(sd, emailAddress, "Dragos", "Andronic");
-          msg.Send();
-      } 
-      
+      public ActionResult GetEmailMessageForm(string emailText, string convID)
+      {
+         ViewResult result = null;
+         try
+         {
+
+            ViewData["emailText"] = emailText;
+            string[] fromTo = ConversationUtilities.GetFromAndToFromConversationID(convID);
+            smsfeedbackEntities lContextPerRequest = new smsfeedbackEntities();
+            var lWpTelNoOrShortID = fromTo[1];
+            var lEfInteraction = new EFInteraction();
+            var wpName = lEfInteraction.GetNameForWorkingPoint(lWpTelNoOrShortID, lContextPerRequest);
+            if (String.IsNullOrEmpty(wpName))
+            {
+               wpName = lWpTelNoOrShortID;
+            }
+            long parseResult = 0;
+            if (long.TryParse(fromTo[0], out parseResult))
+            {
+               ViewData["emailSubject"] = Resources.Global.sendEmailPrefixSubject + fromTo[0].Substring(0, fromTo[0].Length - 4) + "...." + Resources.Global.sendEmailConjuctionSubject + wpName + "]";
+            }
+            else
+            {
+               ViewData["emailSubject"] = Resources.Global.sendEmailPrefixSubject + fromTo[0] + Resources.Global.sendEmailConjuctionSubject + wpName + "]";
+            }
+            result = View();
+         }
+         catch (Exception ex)
+         {
+            loggerEmailForm.Error("GetEmailMessageForm", ex);
+         }
+         return result;
+      }      
+
+      [HttpGet]
+      public ActionResult GetFeedbackForm(bool positiveFeedback, string url)
+      {
+         ViewData["emailText"] = Resources.Global.sendFeedbackPlaceholderMessage;
+         string subject = Resources.Global.sendFeedbackPositiveFeedbackSubject;
+         if (!positiveFeedback) subject = Resources.Global.sendFeedbackNegativeFeedbackSubject;
+         ViewData["emailSubject"] = subject;
+         ViewData["emailTo"] = "support@txtfeedback.net";
+         ViewData["url"] = url;
+         ViewData["isFeedbackForm"] = true;
+         ViewResult res = View();
+         return res;
+      }
+
+      [HttpPost]
+      public ActionResult SendEmail(FormCollection formData)
+      {
+         //get the email address
+         string email = formData["email"];
+         string message = formData["message"];
+         string subject = formData["subject"];
+         string from = this.User.Identity.Name;
+         bool isFeedbackForm = Boolean.Parse(formData["isFeedbackForm"]);
+         System.Net.Mail.MailMessage msg = _mailer.SendMessageContent(email, subject, message, from, formData["url"]);
+         msg.Send();
+         string msgSentAcknoledgement = Resources.Global.sendEmailEmailSentSuccessfuly;
+         if (isFeedbackForm) msgSentAcknoledgement = Resources.Global.sendFeedbackFeedbackSentSuccessfully;
+         return Json(msgSentAcknoledgement);
+      }
+
+      [HttpGet]
+      public void SendWarningEmail(string emailAddress)
+      {
+         var mailer = new WarningMailer();
+         var sd = new SubscriptionDetail() { BillingDay = 1, DefaultCurrency = "EUR", SpentThisMonth = 2, SpendingLimit = 3 };
+         sd.Companies.Add(new Company() { Name = "Ab Mobile Apps" });
+         var msg = mailer.WarningEmail(sd, emailAddress, "Dragos", "Andronic");
+         msg.Send();
+      }
+
       [HttpGet]
       public void SendSpendingLimitReachedEmail(string emailAddress)
       {
@@ -128,5 +109,5 @@ namespace SmsFeedback_Take4.Controllers
          var msg = mailer.SpendingLimitReachedEmail(sd, emailAddress, "Dragos", "Andronic");
          msg.Send();
       }
-    }
+   }
 }
