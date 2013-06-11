@@ -42,14 +42,14 @@ public class RestControllerGateway {
 */	 	 
 	 	 
 	/* REST resources for nexmo*/
-	private String RESTGetHandlersForMessageURL = "http://demotxtfeedback.cloudapp.net/Component/GetHandlerForMessage";
-	private String RESTDomain = "http://demot3xt.cloudapp.net:81/";
-	private String RESTGetHandlersForMessageURL1 = "http://demotxtfeedback.cloudapp.net/Component/GetHandlerForMessage1";
-	private String RESTGetWorkingPointForCertainAddress = "http://demotxtfeedback.cloudapp.net/Component/GetWorkingPointForCertainAddress";
+	private String RESTGetHandlersForMessageURL = "http://txtfeedback.cloudapp.net/Component/GetHandlerForMessage";
+	private String RESTDomain = "http://t3xt.cloudapp.net:81/";
+	private String RESTGetHandlersForMessageURL1 = "http://txtfeedback.cloudapp.net/Component/GetHandlerForMessage1";
+	private String RESTGetWorkingPointForCertainAddress = "http://txtfeedback.cloudapp.net/Component/GetWorkingPointForCertainAddress";
 	//private String RESTSaveMessage = "http://localhost:4631/Component/SaveMessage";
-	private String RESTSaveMessage = "http://demotxtfeedback.cloudapp.net/Component/SaveMessage";
-	private String RESTParametersTest = "http://demotxtfeedback.cloudapp.net/Component/GetParametersTest";
-	private String RESTUpdateClientAcknowledge = "http://demotxtfeedback.cloudapp.net/Component/UpdateMessageClientAcknowledgeField";
+	private String RESTSaveMessage = "http://txtfeedback.cloudapp.net/Component/SaveMessage";
+	private String RESTParametersTest = "http://txtfeedback.cloudapp.net/Component/GetParametersTest";
+	private String RESTUpdateClientAcknowledge = "http://txtfeedback.cloudapp.net/Component/UpdateMessageClientAcknowledgeField";
 	
 	
 	/* REST resources for product */  

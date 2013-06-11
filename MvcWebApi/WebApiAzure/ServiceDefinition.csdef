@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceDefinition name="WebApiAzure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2012-10.1.8">
-  <WebRole name="mobile.TxtFeedback_take1" vmsize="ExtraSmall">
+  <WebRole name="mobile.TxtFeedback_take1" vmsize="Small">
     <Runtime executionContext="elevated" />
     <Sites>
       <Site name="text.me" physicalDirectory="..\..\..\..\mobile.TxtFeedback_take1">
@@ -53,8 +53,9 @@
         <VirtualApplication name="magazin2" physicalDirectory="..\..\..\magazin2" />
         <VirtualApplication name="sales1" physicalDirectory="..\..\..\sales1" />
         <VirtualApplication name="sales2" physicalDirectory="..\..\..\sales2" />
+        <VirtualApplication name="demo" physicalDirectory="..\..\..\trytxtfdbk" />
         <VirtualApplication name="demo1" physicalDirectory="..\..\..\demo1" />
-        <VirtualApplication name="demo2" physicalDirectory="..\..\..\demo2" />
+        <VirtualApplication name="demo2" physicalDirectory="..\..\..\demo2" />        
         <Bindings>
           <Binding name="Endpoint2" endpointName="Endpoint2" />
         </Bindings>
