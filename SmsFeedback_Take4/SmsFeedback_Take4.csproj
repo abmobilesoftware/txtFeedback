@@ -200,6 +200,7 @@
       <DependentUpon>Global.de.resx</DependentUpon>
     </Compile>
     <Compile Include="Mailers\ActivityReportMailer.cs" />
+    <Compile Include="Mailers\NotificationMailer.cs" />
     <Compile Include="Mailers\WarningMailer.cs" />
     <Compile Include="Models\BusinessObjects\ConvTag.cs" />
     <Compile Include="Models\BusinessObjects\WorkingPointConfModel.cs" />
@@ -622,6 +623,11 @@
     <Content Include="Views\WorkingPoints\WorkingPointsInfo.cshtml" />
     <Content Include="Views\ActivityReportMailer\NewsletterTemplate.cshtml" />
     <Content Include="Views\ActivityReportMailer\_Layout.cshtml" />
+    <Content Include="Views\NotificationMailer\_Layout.cshtml" />
+    <Content Include="Views\NotificationMailer\MailNotificationTemplate.cshtml" />
+    <Content Include="Views\Settings\NotificationsPage.cshtml" />
+    <Content Include="Views\Settings\NotificationsPageLayout.cshtml" />
+    <Content Include="Views\Settings\SaveNotificationsSettings.cshtml" />
     <None Include="Web.Debug_demo.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
