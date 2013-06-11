@@ -35,7 +35,6 @@ namespace SmsFeedback_Take4.Utilities
       }
 
       public List<WpAndConversations> GetWorkingPointsAndConversations(
-         string username,
          DateTime startDate,
          DateTime endDate,
          smsfeedbackEntities dbContext)
