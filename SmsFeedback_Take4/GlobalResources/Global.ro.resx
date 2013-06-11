@@ -841,4 +841,87 @@
     <value>Codul cuponului nu a fost inserat in mesaj deoarece mesajul este aproape de limita maxima de caractere.</value>
     <comment>Mesaje:acest mesaj de alerta apare atunci cand codul cuponului nu poate fi inserat in corpul mesajului.</comment>
   </data>
+  <data name="settingsNotifications" xml:space="preserve">
+    <value>Notificări</value>
+    <comment>Settings: menu item</comment>
+  </data>
+  <data name="settingsActivitiyReportEveryIncoming" xml:space="preserve">
+    <value>La fiecare mesaj</value>
+    <comment>Settings: Activity report type</comment>
+  </data>
+  <data name="settingsActivityReportDailyDigest" xml:space="preserve">
+    <value>Zilnic</value>
+    <comment>Settings: Activity report type</comment>
+  </data>
+  <data name="settingsActivityReportNone" xml:space="preserve">
+    <value>Fără notificări</value>
+    <comment>Settings: Activity report type</comment>
+  </data>
+  <data name="settingsActivityReportWeeklyDigest" xml:space="preserve">
+    <value>Saptămânal</value>
+    <comment>Settings: Activity report type</comment>
+  </data>
+  <data name="settingsActivityReportPlanChangedError" xml:space="preserve">
+    <value>A apărut o eroare. Te rugăm să încerci mai târziu.</value>
+    <comment>Settings: Activity report action result notification</comment>
+  </data>
+  <data name="settingsActivityReportPlanChangedSuccessfully" xml:space="preserve">
+    <value>Frecvența notificărilor a fost schimbată la</value>
+    <comment>Settings: Activity report action result notification</comment>
+  </data>
+  <data name="settingsActivityReportFrequency" xml:space="preserve">
+    <value>Frecvența notificărilor</value>
+    <comment>Settings: Label activity report frequency</comment>
+  </data>
+  <data name="mailTemplateDailyActivity" xml:space="preserve">
+    <value>Activitatea de astăzi</value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="mailTemplateLoginMessage" xml:space="preserve">
+    <value>Intră pe platformă și răspunde</value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="mailTemplateUnsubscribe2" xml:space="preserve">
+    <value>intră pe platformă</value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="mailTemplateUnsubscribe3" xml:space="preserve">
+    <value>și în pagina "Setări" alege opțiunea "Fără notificări" din secțiunea "Notificări"</value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="mailTemplateUnsubscribeMessage1" xml:space="preserve">
+    <value>Daca nu dorești să primești acest tip de notificări, </value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="mailTemplateWorkingPoint" xml:space="preserve">
+    <value>Punct de lucru</value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="mailTemplateYourActivity" xml:space="preserve">
+    <value>Activitatea ta</value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="mailTemplateNewMessage" xml:space="preserve">
+    <value>Un nou mesaj primit!</value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsActivityReportTitle" xml:space="preserve">
+    <value>Notificări</value>
+    <comment>Settings:activity report</comment>
+  </data>
+  <data name="mailTemplateSubject" xml:space="preserve">
+    <value>Ai primit un mesaj!</value>
+    <comment>Mail template</comment>
+  </data>
+  <data name="mailTemplateLinkTitleOpenPlatform" xml:space="preserve">
+    <value>Intră în platformă</value>
+    <comment>Mail template</comment>
+  </data>
+  <data name="mailTemplateLinkTitleQuickReply" xml:space="preserve">
+    <value>Răspunde rapid</value>
+    <comment>Mail template</comment>
+  </data>
 </root>
