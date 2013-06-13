@@ -394,6 +394,105 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Daily activity.
+        /// </summary>
+        public static string mailTemplateDailyActivity {
+            get {
+                return ResourceManager.GetString("mailTemplateDailyActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open platform.
+        /// </summary>
+        public static string mailTemplateLinkTitleOpenPlatform {
+            get {
+                return ResourceManager.GetString("mailTemplateLinkTitleOpenPlatform", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick reply.
+        /// </summary>
+        public static string mailTemplateLinkTitleQuickReply {
+            get {
+                return ResourceManager.GetString("mailTemplateLinkTitleQuickReply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log in the platform and reply.
+        /// </summary>
+        public static string mailTemplateLoginMessage {
+            get {
+                return ResourceManager.GetString("mailTemplateLoginMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New message received!.
+        /// </summary>
+        public static string mailTemplateNewMessage {
+            get {
+                return ResourceManager.GetString("mailTemplateNewMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New message received!.
+        /// </summary>
+        public static string mailTemplateSubject {
+            get {
+                return ResourceManager.GetString("mailTemplateSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to log in the platform.
+        /// </summary>
+        public static string mailTemplateUnsubscribe2 {
+            get {
+                return ResourceManager.GetString("mailTemplateUnsubscribe2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to and in Settings page choose the option &quot;None&quot;under Notifications section..
+        /// </summary>
+        public static string mailTemplateUnsubscribe3 {
+            get {
+                return ResourceManager.GetString("mailTemplateUnsubscribe3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you don&apos;t want to receive this kind of notifications,.
+        /// </summary>
+        public static string mailTemplateUnsubscribeMessage1 {
+            get {
+                return ResourceManager.GetString("mailTemplateUnsubscribeMessage1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WorkingPoint.
+        /// </summary>
+        public static string mailTemplateWorkingPoint {
+            get {
+                return ResourceManager.GetString("mailTemplateWorkingPoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your activity.
+        /// </summary>
+        public static string mailTemplateYourActivity {
+            get {
+                return ResourceManager.GetString("mailTemplateYourActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to give voucher.
         /// </summary>
         public static string messageChooseVoucher {
@@ -1366,6 +1465,78 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Every incoming.
+        /// </summary>
+        public static string settingsActivitiyReportEveryIncoming {
+            get {
+                return ResourceManager.GetString("settingsActivitiyReportEveryIncoming", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Daily digest.
+        /// </summary>
+        public static string settingsActivityReportDailyDigest {
+            get {
+                return ResourceManager.GetString("settingsActivityReportDailyDigest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email notification frequency.
+        /// </summary>
+        public static string settingsActivityReportFrequency {
+            get {
+                return ResourceManager.GetString("settingsActivityReportFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string settingsActivityReportNone {
+            get {
+                return ResourceManager.GetString("settingsActivityReportNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error occurred during plan changing. Try again later..
+        /// </summary>
+        public static string settingsActivityReportPlanChangedError {
+            get {
+                return ResourceManager.GetString("settingsActivityReportPlanChangedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your activity report plan changed successfully to.
+        /// </summary>
+        public static string settingsActivityReportPlanChangedSuccessfully {
+            get {
+                return ResourceManager.GetString("settingsActivityReportPlanChangedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notifications.
+        /// </summary>
+        public static string settingsActivityReportTitle {
+            get {
+                return ResourceManager.GetString("settingsActivityReportTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weekly digest.
+        /// </summary>
+        public static string settingsActivityReportWeeklyDigest {
+            get {
+                return ResourceManager.GetString("settingsActivityReportWeeklyDigest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Password.
         /// </summary>
         public static string settingsBtnChangePassword {
@@ -1650,6 +1821,15 @@ namespace Resources {
         public static string settingsNewPasswordLabel {
             get {
                 return ResourceManager.GetString("settingsNewPasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notifications.
+        /// </summary>
+        public static string settingsNotifications {
+            get {
+                return ResourceManager.GetString("settingsNotifications", resourceCulture);
             }
         }
         

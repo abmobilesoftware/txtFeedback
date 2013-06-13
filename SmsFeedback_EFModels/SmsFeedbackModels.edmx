@@ -422,6 +422,7 @@
           <Property Name="LastActivityDate" Type="datetime" Nullable="false" />
           <Property Name="Company_Name" Type="nvarchar" MaxLength="50" />
           <Property Name="XmppConnectionXmppUser" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="TypeOfActivityReport" Type="nvarchar" Nullable="false" MaxLength="255" />
         </EntityType>
         <EntityType Name="UsersForWorkingPoints">
           <Key>
@@ -1130,6 +1131,7 @@
                <NavigationProperty Name="Roles" Relationship="smsfeedbackModel.UsersInRoles" FromRole="User" ToRole="Role" />
                <NavigationProperty Name="XmppConnection" Relationship="smsfeedbackModel.UserXmppConnection" FromRole="User" ToRole="XmppConnection" />
                <Property Type="String" Name="XmppConnectionXmppUser" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TypeOfActivityReport" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
             </EntityType>
             <EntityType Name="Role">
                <Key>
@@ -1816,7 +1818,8 @@
                <EntitySetMapping Name="Users">
                   <EntityTypeMapping TypeName="IsTypeOf(smsfeedbackModel.User)">
                      <MappingFragment StoreEntitySet="Users">
-                        <ScalarProperty Name="UserId" ColumnName="UserId" />
+                        <ScalarProperty Name="TypeOfActivityReport" ColumnName="TypeOfActivityReport" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                         <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                         <ScalarProperty Name="UserName" ColumnName="UserName" />
                         <ScalarProperty Name="IsAnonymous" ColumnName="IsAnonymous" />

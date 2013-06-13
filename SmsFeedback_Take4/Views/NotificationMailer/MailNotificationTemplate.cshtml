@@ -1,0 +1,34 @@
+﻿@{
+   ViewBag.Title = "MailNotificationTemplate";
+   Layout = "~/Views/NotificationMailer/_Layout.cshtml";
+
+   DateTime conversationDate = (DateTime)ViewData["conversation-date"];
+   bool isSms = (bool)ViewData["isSms"];
+   string customerIdentifier = ViewData["conversation-from"].ToString();
+   int customerIdentifierLength = customerIdentifier.Length;
+   string privateFrom = isSms ? customerIdentifier.Substring(
+      0,  customerIdentifierLength - 4) + "..." : customerIdentifier.Substring(0, 8) + "...";
+   string logOnUrl = "http://dev.txtfeedback.net/" + ViewData["language"] + "/Account/LogOn";
+   
+}
+<div class="conversation">
+   <div class="conversation-details">
+      <img class="conversation-image" src="@Url.Abs(Url.Content("~/Content/images/Bullet-Blue-32.png"))" />
+      <div class="conversation-wp-date-wrapper">
+         <div class="conversation-wp-date-wrapper-wrapper">
+            <span class="conversation-from">@Resources.Global.mailTemplateWorkingPoint: @ViewData["conversation-wp"]</span>            
+            <div class="clear"></div>
+         </div>
+      </div>
+      <div class="clear"></div>
+   </div>
+   <div class="conversation-text-wrapper">
+      <div class="conversation-text">@privateFrom :: @ViewData["conversation-text"]</div>
+      <a href="@logOnUrl" target="_blank" title="@Resources.Global.mailTemplateLinkTitleQuickReply">@Resources.Global.mailTemplateLoginMessage</a>
+   </div>
+</div>
+<div id="unsubscribe">
+   @Resources.Global.mailTemplateUnsubscribeMessage1
+      <a href="@logOnUrl" target="_blank" title="@Resources.Global.mailTemplateLinkTitleOpenPlatform">@Resources.Global.mailTemplateUnsubscribe2</a>
+    @Resources.Global.mailTemplateUnsubscribe3
+</div>

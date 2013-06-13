@@ -55,6 +55,36 @@ window.settings.ConfigurePassword = function () {
    });
 };
 
+window.settings.ConfigureNotifications = function () {
+   "use strict";
+   $.ajax({
+      url: "Settings/NotificationsPage",
+      cache: false,
+      success: function (data) {
+         setupForm(data, '#btnChangeNotificationsSettings', window.app.saveNotificationsSettings);
+      }
+   });
+};
+// TODO : send select input value in data
+window.app.saveNotificationsSettings = function () {
+   $.ajax({
+      url: 'Settings/SaveNotificationsSettings',
+      type: 'post',
+      cache: true,
+      contentType: "application/json",
+      data: "{'typeOfActivityReport':'" + $("#activityReportFrequencySelection").val() + "'}",     
+      success: function (data) {
+         $('#rightColumn').html(data);
+         setupForm(data, '#btnChangeNotificationsSettings', window.app.saveNotificationsSettings);
+         resizeTriggered();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+         $('#rightColumn').html(jqXHR);
+      }
+   });
+};
+
+
 window.app.getDataForWorkingPoints = function () {
    "use strict";
    var data = [];
