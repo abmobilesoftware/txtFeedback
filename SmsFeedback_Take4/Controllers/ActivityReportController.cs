@@ -40,12 +40,12 @@ namespace SmsFeedback_Take4.Controllers
          {            
             bool sendActivityReport = false;
             SmsFeedback_EFModels.User user = conversationsGroup.First().user;
-            if (user.TypeOfActivityReport.Equals(ACTIVITY_REPORT_DAILY))
+            if (user.ActivityReportDelivery.Equals(ACTIVITY_REPORT_DAILY))
             {
                startOfInterval = endOfInterval.Date;
                sendActivityReport = true;
             }
-            else if (user.TypeOfActivityReport.Equals(ACTIVITY_REPORT_WEEKLY)
+            else if (user.ActivityReportDelivery.Equals(ACTIVITY_REPORT_WEEKLY)
              && endOfInterval.DayOfWeek.Equals(DayOfWeek.Monday))
             {
                sendActivityReport = true;

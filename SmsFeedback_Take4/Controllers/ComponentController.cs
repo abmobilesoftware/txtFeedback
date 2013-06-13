@@ -254,7 +254,7 @@ namespace SmsFeedback_Take4.Controllers
             var users = workingPoint.Users;
             foreach (var user in users)
             {
-               if (user.TypeOfActivityReport.Equals(
+               if (user.ActivityReportDelivery.Equals(
                   ACTIVITY_REPORT_EVERY_INCOMING))
                {
                   Thread.CurrentThread.CurrentUICulture = 

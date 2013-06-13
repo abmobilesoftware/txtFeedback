@@ -6,13 +6,13 @@
       var activityPlanWeeklyDigest = "Weekly digest";
       var activityPlanNone = "None";
       var everyIncomingItemSelectionState =
-         Model.TypeOfActivityReport.Equals(activityPlanEveryIncoming) ? "selected" : "";
+         Model.ActivityReportDelivery.Equals(activityPlanEveryIncoming) ? "selected" : "";
       var dailyDigestItemSelectionState =
-         Model.TypeOfActivityReport.Equals(activityPlanDailyDigest) ? "selected" : "";
+         Model.ActivityReportDelivery.Equals(activityPlanDailyDigest) ? "selected" : "";
       var weeklyDigestItemSelectionState =
-         Model.TypeOfActivityReport.Equals(activityPlanWeeklyDigest) ? "selected" : "";
+         Model.ActivityReportDelivery.Equals(activityPlanWeeklyDigest) ? "selected" : "";
       var noneItemSelectionState =
-         Model.TypeOfActivityReport.Equals(activityPlanNone) ? "selected" : "";
+         Model.ActivityReportDelivery.Equals(activityPlanNone) ? "selected" : "";
       
    }
    <div id="activityReportContainer">

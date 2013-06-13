@@ -44,6 +44,7 @@ namespace SmsFeedback_Take4.Controllers
       public JsonResult GetMenuItems()
       {
          List<ReportsMenuItem> reportsMenuItems = new List<ReportsMenuItem> {
+               new ReportsMenuItem(1, Resources.Global.settingUserPreferences, false, 0, "", "UserPreferences"),
                new ReportsMenuItem(2, Resources.Global.settingsNotifications, true, 1, "ConfigureNotifications", "Notifications"),
                new ReportsMenuItem(20, Resources.Global.settingsPrivacy, false, 0, "","Privacy"),
                new ReportsMenuItem(21, Resources.Global.settingsChangePassword, true, 20, "ConfigurePassword","ChangePassword")               
@@ -193,7 +194,7 @@ namespace SmsFeedback_Take4.Controllers
             user = (from u in context.Users
                         where u.UserName.Equals(username)
                         select u).FirstOrDefault();
-            user.TypeOfActivityReport = typeOfActivityReport;
+            user.ActivityReportDelivery = typeOfActivityReport;
             context.SaveChanges();
             ViewData["notification"] = "success";
             ViewData["activityReportChose"] = typeOfActivityReport;
