@@ -27,7 +27,7 @@ namespace SmsFeedback_EFModels
         public System.DateTime LastActivityDate { get; set; }
         public string Company_Name { get; set; }
         public string XmppConnectionXmppUser { get; set; }
-        public string TypeOfActivityReport { get; set; }
+        public string ActivityReportDelivery { get; set; }
     
         public virtual ICollection<WorkingPoint> WorkingPoints { get; set; }
         public virtual Company Company { get; set; }
