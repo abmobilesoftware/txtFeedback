@@ -8,7 +8,7 @@
    int customerIdentifierLength = customerIdentifier.Length;
    string privateFrom = isSms ? customerIdentifier.Substring(
       0,  customerIdentifierLength - 4) + "..." : customerIdentifier.Substring(0, 8) + "...";
-   string logOnUrl = "http://dev.txtfeedback.net/" + ViewData["language"] + "/Account/LogOn";
+   string logOnUrl = "http://demotxtfeedback.cloudapp.net/" + ViewData["language"] + "/Account/LogOn";
    
 }
 <div class="conversation">
