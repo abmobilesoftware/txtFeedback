@@ -14,6 +14,8 @@
 /*global Spinner */
 /*global ReportsArea */
 //#endregion
+window.app = window.app || {};
+window.app.pageTitle = document.title;
 
 function updateChartsDimensions() {
    // the charts are redrawn at a more appropriate scale.
@@ -38,7 +40,8 @@ $(document).ready(function () {
    }
 
    window.app.reportsPage = new ReportsArea();
-   $(document).bind("resize", resizeTriggered);
+   //this resize to be used for adjusting the height of the wireframe
+   $(document).bind("resizeLocal", resizeTriggered);
 });
 
 

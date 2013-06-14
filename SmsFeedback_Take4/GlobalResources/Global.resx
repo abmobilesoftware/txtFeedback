@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -653,7 +653,7 @@
     <comment>Settings:</comment>
   </data>
   <data name="settingsTelNoHeader" xml:space="preserve">
-    <value>Telephone no</value>
+    <value>Telephone number</value>
     <comment>Settings:</comment>
   </data>
   <data name="settingsWpConfigErrors" xml:space="preserve">
@@ -899,5 +899,51 @@
   </data>
   <data name="settingsNewPasswordFieldRequired" xml:space="preserve">
     <value>The new password is required</value>
+  </data>
+  <data name="settingsConfigureWpBusyMessageMsgError" xml:space="preserve">
+    <value>Working point busy message should not be empty</value>
+  </data>
+  <data name="settingsErrorWpBusyMessageLength" xml:space="preserve">
+    <value>Busy message should be between 10 and 160 characters long</value>
+  </data>
+  <data name="settingsWpBusyMessageHeader" xml:space="preserve">
+    <value>Busy message</value>
+  </data>
+  <data name="settingsConfigureBusyMessageTimerHeader" xml:space="preserve">
+    <value>Interval after which the Busy Message will appear (in milliseconds)</value>
+  </data>
+  <data name="settingsConfigureWpBusyMessageIntervalMsgError" xml:space="preserve">
+    <value>The Busy Message interval is required</value>
+  </data>
+  <data name="settingsErrorBusyMessageNotInInterval" xml:space="preserve">
+    <value>Invalid interval value: must be between 1000 (1 second) and 60000 (1 minute)</value>
+  </data>
+  <data name="gotANewMessage" xml:space="preserve">
+    <value>New message!</value>
+    <comment>Global</comment>
+  </data>
+  <data name="RepDaysUnit" xml:space="preserve">
+    <value>days</value>
+    <comment>Reports: units</comment>
+  </data>
+  <data name="RepHoursUnit" xml:space="preserve">
+    <value>hours</value>
+    <comment>Reports: units</comment>
+  </data>
+  <data name="btnGiveVoucher" xml:space="preserve">
+    <value>Give voucher</value>
+  </data>
+  <data name="messageChooseVoucher" xml:space="preserve">
+    <value>Are you sure you want to give voucher</value>
+  </data>
+  <data name="messageListOfVouchers" xml:space="preserve">
+    <value>Pick a voucher</value>
+  </data>
+  <data name="messageNoVouchers" xml:space="preserve">
+    <value>No more vouchers</value>
+  </data>
+  <data name="messageVoucherNotInserted" xml:space="preserve">
+    <value>The voucher code was not inserted in the message because would surpass the 160 characters limit.</value>
+    <comment>Messages: show an alert box when voucher code cannot be inserted in the reply message</comment>
   </data>
 </root>

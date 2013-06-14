@@ -42,8 +42,8 @@ public class MessageProcessor {
 				// For this message update WasReceivedByClient state in DB 
 				String ackId = message.getReceivedID();  // ackId = PACKET_ID**DB_ID
 				String[] ackIds = ackId.split("##");
-								
-				moderator.sendAcknowledgeMessage("",message.getAckDestination(), "ClientMsgDeliveryReceipt", ackIds[0]);
+												
+				moderator.sendAcknowledgeMessage(message.getAckDestination(), "ClientMsgDeliveryReceipt", ackIds[0]);
 				restGtw.updateMessageClientAcknowledgeField(Integer.parseInt(ackIds[1]), true);
 			} else if (message.getSubject().equals(Constants.INTERNAL_PACKET)) {
 				TxtPacket internalPacket = new TxtPacket(message.getBody());
@@ -115,7 +115,7 @@ public class MessageProcessor {
 				System.out.println(receivedPacket.getID() + " SAVE: " +  (t2 - t1));
 			}
 			t3 = System.currentTimeMillis();
-			moderator.sendAcknowledgeMessage("",iPacket.getFrom().toBareJID(), Constants.SERVER_ACK, iPacket.getID());
+			moderator.sendAcknowledgeMessage(iPacket.getFrom().toBareJID(), Constants.SERVER_ACK, iPacket.getID());
 			t4 = System.currentTimeMillis();
 			
 			t1 = System.currentTimeMillis();			
@@ -127,8 +127,7 @@ public class MessageProcessor {
 			for (int i=0; i<handlers.size(); ++i) {
 				//String from = internalPacket.getFromAddress();
 				String to = handlers.get(i).getUser();
-				String from = internalPacket.getFromAddress();
-				moderator.sendInternalMessage(internalPacket.toXML(), from, to, 
+				moderator.sendInternalMessage(internalPacket.toXML(), to, 
 						computedID, internalPacket.getFromAddress());			
 			}			
 			System.out.println(iPacket.getID() + " OUT TO STAFF - " + System.currentTimeMillis());
@@ -164,7 +163,7 @@ public class MessageProcessor {
 			// Send acknowledge to staff
 			long t1, t2;
 			t1 = System.currentTimeMillis();
-			moderator.sendAcknowledgeMessage("",iPacket.getFrom().toString(), Constants.SERVER_ACK, iPacket.getID());
+			moderator.sendAcknowledgeMessage(iPacket.getFrom().toString(), Constants.SERVER_ACK, iPacket.getID());
 			t2 = System.currentTimeMillis();
 			System.out.println("\"ACK2\", \"" +  (t2 - t1) + "\"");
 			 
@@ -175,8 +174,7 @@ public class MessageProcessor {
 			
 			/* TODO: replace with computedId. The current ID it's used to trace the message */
 			String computedId = iPacket.getID() + "##" + msgStatus.getMessageID();
-			String from = internalPacket.getFromAddress();
-			moderator.sendInternalMessage(iPacket.getBody(),from, internalPacket.getToAddress(), computedId, iPacket.getFrom().toBareJID());
+			moderator.sendInternalMessage(iPacket.getBody(), internalPacket.getToAddress(), computedId, iPacket.getFrom().toBareJID());
 			System.out.println(iPacket.getID() + " OUT: TO CLIENT " + System.currentTimeMillis());
 		} catch (RESTException e) {
 				Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
@@ -196,7 +194,8 @@ public class MessageProcessor {
 	private void sendSmsMessageToStaff(Message iPacket, TxtPacket internalPacket) {
 		final Message receivedPacket = iPacket;
 		try {				
-			restGtw.saveMessage(
+			@SuppressWarnings("unused")
+			MessageStatus msgStatus = restGtw.saveMessage(
 						internalPacket.getFromAddress(), 
 						internalPacket.getToAddress(), 
 						internalPacket.getConversationId(),
@@ -206,8 +205,9 @@ public class MessageProcessor {
 			ArrayList<Agent> handlers = restGtw.getHandlersForMessage(Utilities.extractUserFromAddress(iPacket.getTo().toBareJID()), internalPacket.getConversationId(), true);
 			for (int i=0; i<handlers.size(); ++i) {
 				String from = internalPacket.getFromAddress();
-				moderator.sendInternalMessage(internalPacket.toXML(), from, from, 
-						handlers.get(i).getUser(), internalPacket.getFromAddress());			
+				moderator.sendInternalMessage(internalPacket.toXML(), handlers.get(i).getUser(), 
+						String.valueOf(msgStatus.getMessageID()),
+						from);			
 			}
 		} catch (RESTException e) {
 			Log.addLogEntry(e.getMessage(), LogEntryType.ERROR, e.getMessage());
@@ -234,7 +234,7 @@ public class MessageProcessor {
 					internalPacket.getBody(), 
 					iPacket.getFrom().toBareJID(),
 					true);
-			moderator.sendAcknowledgeMessage("",iPacket.getFrom().toString(), Constants.SERVER_ACK, iPacket.getID());
+			moderator.sendAcknowledgeMessage(iPacket.getFrom().toString(), Constants.SERVER_ACK, iPacket.getID());
 			moderator.sendSmsAcknowledgeMessage(iPacket.getFrom().toString(), Constants.CLIENT_ACK, iPacket.getID(), msgStatus.getJsonFormat());
 			restGtw.updateMessageClientAcknowledgeField(msgStatus.getMessageID(), true);
 		} catch (RESTException e) {

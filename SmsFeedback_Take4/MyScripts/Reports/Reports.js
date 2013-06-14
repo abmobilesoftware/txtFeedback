@@ -1,4 +1,4 @@
-﻿//#region Defines to stop jshint from complaining about "undefined objects"
+//#region Defines to stop jshint from complaining about "undefined objects"
 /*global window */
 /*global Strophe */
 /*global document */
@@ -30,142 +30,96 @@ function drawThisArea(element, indexOfTheElement) {
    element.drawArea();
 }
 
+/* Section identifier can have one of the following values:
+    1. FirstSection - data for the main chart/s
+    2. SecondSection  - data for info boxes
+    3. ThirdSection  - data for table/s and other charts
+*/
 var ReportModel = Backbone.Model.extend({
-   menuId: 1,
+   reportId: 1,
    title: "Total sms report",
-   scope: "Global",
+   source: "/Reports/GetReportOverviewData",
    sections: [
                {
-                  identifier: "PrimaryChartArea", visibility: true, resources: [
-                                                                                 { name: "Get total no of sms report", source: "/Reports/getTotalNoOfSms" }
-                  ]
-               },
-               {
-                  identifier: "InfoBox", visibility: true, resources: [
-                                                                          { name: "Total no of sms", source: "Reports/getNoOfSms" }
-                  ]
-               },
-               {
-                  identifier: "AdditionalChartArea", visibility: false, resources: []
+                   type: "FirstSection",
+                   id: "4", // only one section can have this id
+                   groupId: "xt4ga", // more than one section can have this id. Used to group sections
+                   title: "Get total no of sms report",
+                   options: {
+                       seriesType: "area",
+                       colors: ["#ccc7f1", "#459aaa"]
+                   },
+                   tooltip: "no tooltip",
+                   dataIndex: 1
                }
    ]
 });
-
-var Transition = function () {
-   "use strict";
-   var opts = {
-      lines: 13, // The number of lines to draw
-      length: 7, // The length of each line
-      width: 4, // The line thickness
-      radius: 10, // The radius of the inner circle
-      rotate: 0, // The rotation offset
-      color: '#fff', // #rgb or #rrggbb
-      speed: 1, // Rounds per second
-      trail: 60, // Afterglow percentage
-      shadow: true, // Whether to render a shadow
-      hwaccel: false, // Whether to use hardware acceleration
-      className: 'spinner', // The CSS class to assign to the spinner
-      zIndex: 2e9, // The z-index (defaults to 2000000000)
-      top: 'auto', // Top position relative to parent in px
-      left: 'auto' // Left position relative to parent in px
-   };
-   var spinner = new Spinner(opts);
-   var target = document.getElementById('chartArea');
-
-   this.startTransition = function () {
-      spinner.spin(target);
-      $("#overlay").show();
-   };
-
-   this.endTransition = function () {
-      spinner.stop();
-      $("#overlay").hide();
-   };
-};
 
 var ReportsContentArea = Backbone.View.extend({
    el: $("#rightColumn"),
    initialize: function () {
       _.bindAll(this, 'render', 'setupEnvironment', 'updateReport', 'renderSection');
-      this.reportContentElement = $("#reportContent");
       window.app.areas = [];
-      this.render();
+      this.FIRST_SECTION = "FirstSection";
+      this.SECOND_SECTION = "SecondSection";
+      this.THIRD_SECTION = "ThirdSection";
+      this.loadReportData();      
    },
-   render: function () {
-      this.transition = new Transition();
-      this.transition.startTransition();
-
-      var template = _.template($("#report-template").html(), this.model.toJSON());
-      // Load the compiled HTML into the Backbone "el"
-      $(this.el).html(template);
-      $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
-      var displayTooltip = false;
-      for (var k = 0; k < this.model.get("sections").length; ++k) {
-         if (this.model.get("sections")[k].visibility) {
-            // TODO: Naming refactoring
-            this.renderSection("#" + this.model.get("sections")[k].identifier,
-               this.model.get("sections")[k].uniqueId,
-               this.model.get("sections")[k].sectionId,
-               this.model.get("sections")[k].resources);
-
-            if (this.model.get("sections")[k].resources[0].tooltip !== "no tooltip") { displayTooltip = true; }
-         }
-      }
-
-      this.setupEnvironment(displayTooltip);
-
-      this.transition.endTransition();
-      // resize event is triggered here, because after populating the divs with content the page height will change
-      $(document).trigger("resize");
+   render: function () {      
+       
    },
-   renderSection: function (section, uniqueId, sectionId, resources) {
-      var parameters = resources[0];
-      parameters.uniqueId = uniqueId;
-      parameters.sectionId = sectionId;
-      var template = _.template($(section).html(), parameters);
-      $("#reportContent").append(template);
-      if (section === "#PrimaryChartArea") {
-         var area = new FirstArea(resources[0].source, "day", resources[0].options, uniqueId, resources[0].tooltip, resources[0].name);
-         area.drawArea();
-         window.app.areas[uniqueId] = area;
-         //window.app.areas.push(area);
-      } else if (section === "#SecondaryChartArea") {
-         window.app.thirdArea = new ThirdArea(resources[0].source);
-         window.app.thirdArea.drawArea();
-         //window.app.areas.push(window.app.thirdArea);
-         window.app.areas[uniqueId] = window.app.thirdArea;
-      } else if (section === "#InfoBox") {
-         window.app.secondArea = new SecondArea(resources);
-         window.app.secondArea.drawArea();
-         //window.app.areas.push(window.app.secondArea);
-         window.app.areas[uniqueId] = window.app.secondArea;
-      }
-   },
-   setupEnvironment: function (displayTooltip) {
-      // Hover tooltip
-      if (displayTooltip) {
-         var infoBoxElement = $(".chartAreaTitle");
-         infoBoxElement.qtip({
-            content: infoBoxElement.attr('tooltiptitle'),
-            position: {
-               corner: {
-                  target: 'bottomMiddle',
-                  tooltip: 'topMiddle'
+   loadReportData: function () {
+       var self = this;
+       window.app.areas = [];
+       var template = _.template($("#report-template").html(), this.model.toJSON());
+       // Load the compiled HTML into the Backbone "el"
+       $(this.el).html(template);
+       $("#secondSection").empty();
+       $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
+       this.transition = new Transition(document.getElementById('rightColumn'), $("#overlay"));
+       this.transition.startTransition();
+       
+       var jsonData = $.ajax({
+           data: {
+               iIntervalStart: window.app.dateHelper.transformDate(window.app.startDate),
+               iIntervalEnd: window.app.dateHelper.transformDate(window.app.endDate),
+               iScope: window.app.currentWorkingPoint
+           },
+           url: window.app.domainName + self.model.get("source"),
+           dataType: "json",
+           async: false,
+           success: function (data) {
+               for (var k = 0; k < self.model.get("sections").length; ++k) {
+                   self.renderSection(self.model.get("sections")[k], data);                       
                }
-            },
-            style: 'dark'
-         });
-      }
-      $(".exportBtn").qtip({
-         content: $(".exportBtn").attr('tooltiptitle'),
-         position: {
-            corner: {
-               target: 'leftMiddle',
-               tooltip: 'rightMiddle'
-            }
-         },
-         style: 'dark'
-      });
+               $("#secondSection").append("<div class='clear'></div>");
+               self.setupEnvironment(false);
+               self.transition.endTransition();
+               $(document).trigger("resizeLocal");
+           }
+       }).responseText;
+   },
+   renderSection: function (model, data) {
+        
+       if (model.type === this.FIRST_SECTION) {
+           var template = _.template($("#" + model.type).html(), model);
+           $("#firstSection").append(template);
+           var firstArea = new FirstArea(model);
+           firstArea.load(data.charts[model.dataIndex]);
+           window.app.areas[model.id] = firstArea;
+       }  else if (model.type === this.SECOND_SECTION) {           
+           var secondArea = new SecondArea(model);
+           secondArea.load(data.infoBoxes[model.dataIndex]);
+           window.app.areas[model.id] = secondArea;
+       } else if (model.type === this.THIRD_SECTION) {
+           var template = _.template($("#" + model.type).html(), model);
+           $("#firstSection").append(template);
+           var thirdArea = new ThirdArea();
+           thirdArea.load(data.charts[model.dataIndex]);
+           window.app.areas[model.id] = thirdArea;
+       }
+   },
+   setupEnvironment: function (displayTooltip) {           
 
       $(".chartAreaTitle").click(function (event) {
          event.preventDefault();
@@ -174,15 +128,15 @@ var ReportsContentArea = Backbone.View.extend({
          var descriptionElement = "#description" + sectionId;
          if ($(elementName).is(":visible")) {
             $(elementName).hide();
-            $(this).children(".sectionVisibility").attr("src", "/Content/images/maximize_square.png");
+            $(this).children(".sectionVisibility").attr("src", "/Content/images/arrow_up_dblue_16.png");
             $(descriptionElement).show();
-            $(document).trigger("resize");
+            $(document).trigger("resizeLocal");
          }
          else {
             $(elementName).show();
-            $(this).children(".sectionVisibility").attr("src", "/Content/images/minimize_square.png");
+            $(this).children(".sectionVisibility").attr("src", "/Content/images/arrow_down_dblue_16.png");
             $(descriptionElement).hide();
-            $(document).trigger("resize");
+            $(document).trigger("resizeLocal");
          }
       });
 
@@ -240,15 +194,8 @@ var ReportsContentArea = Backbone.View.extend({
       $("#to").val(toDateString);
    },
    updateReport: function () {
-      $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
-      /*for (i = 0; i < window.app.areas.length; ++i) {
-          window.app.areas[i].drawArea();
-      }        
-      window.app.firstArea.drawArea();
-      window.app.secondArea.drawArea();
-      window.app.thirdArea.drawArea();
-      */
-      window.app.areas.forEach(drawThisArea);
+       this.loadReportData();
+       $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);      
    }
 });
 
@@ -337,7 +284,7 @@ var ReportsArea = function () {
    });
 
    this.redrawContent = function () {
-      reportsContent.render();
+       reportsContent.loadReportData();
    };
 
    this.changeWorkingPoint = function (newWorkingPoint) {

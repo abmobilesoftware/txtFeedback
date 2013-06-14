@@ -16,10 +16,12 @@ namespace SmsFeedback_Take4.Models
    {      
       public const string TWILIO_PROVIDER = "twilio";
       public const string NEXMO_PROVIDER = "nexmo";
+      public const string COMPATEL_PROVIDER = "compatel";
 
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
       private TwilioSmsRepository mTwilioRep = new TwilioSmsRepository();
       private NexmoSmsRepository mNexmoRep = new NexmoSmsRepository();
+      private CompatelSmsRepository mCompatelRep = new CompatelSmsRepository();
       private EFSmsRepository mEFRep = new EFSmsRepository();
       private EFInteraction mEFInterface = new EFInteraction();
       private string LoggedInUser { get; set; }
@@ -182,6 +184,10 @@ namespace SmsFeedback_Take4.Models
                         logger.Info("Sending message via nexmo");
                         mNexmoRep.SendMessage(fromWp, to, message, callbackOnSuccess);
                         break;
+                     case COMPATEL_PROVIDER:
+                        logger.Info("Sending message via compatel");
+                        mCompatelRep.SendMessage(fromWp, to, message, callbackOnSuccess);
+                        break;
                      default:
                         logger.ErrorFormat("Invalid provider for number: {0}", fromWp);
                         break;
@@ -230,11 +236,13 @@ namespace SmsFeedback_Take4.Models
                   {
                      case TWILIO_PROVIDER:
                         logger.Info("Sending message via twilio");
-                        return mTwilioRep.SendMessage(fromWp, to, message);
-                        break;
+                        return mTwilioRep.SendMessage(fromWp, to, message);                        
                      case NEXMO_PROVIDER:
                         logger.Info("Sending message via nexmo");
-                        return mNexmoRep.SendMessage(fromWp, to, message);                        
+                        return mNexmoRep.SendMessage(fromWp, to, message);
+                     case COMPATEL_PROVIDER:
+                        logger.Info("Sending message via compatel");
+                        return mCompatelRep.SendMessage(fromWp, to, message);                        
                      default:
                         logger.ErrorFormat("Invalid provider for number: {0}", fromWp);
                         break;

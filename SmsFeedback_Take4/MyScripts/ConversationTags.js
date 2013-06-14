@@ -68,27 +68,6 @@ function TagsArea() {
       left: 'auto' // Left position relative to parent in px
    };
    var spinner = new Spinner(opts);
-   $("#thumbsUp").qtip({
-      content: $("#thumbsUp").attr('tooltiptitle'),
-      position: {
-         corner: {
-            target: 'leftMiddle',
-            tooltip: 'rightMiddle'
-         }
-      },
-      style: 'dark'
-   });
-   $("#thumbsDown").qtip({
-      content: $("#thumbsDown").attr('tooltiptitle'),
-      position: {
-         corner: {
-            target: 'leftMiddle',
-            tooltip: 'rightMiddle'
-         }
-      },
-      style: 'dark'
-   });
-
    var placeholderValue = $('#messagesAddTagPlaceHolderMessage').val();
    var removeTagValue = $('#messagesRemoveTagPlaceHolderMessage').val();
    var self;
@@ -106,7 +85,7 @@ function TagsArea() {
             'autocomplete_url': "Tags/FindMatchingTags",
             'defaultText': placeholderValue,
             'placeholder': placeholderValue,
-            'interactve': true
+            'interactive': true
          });
          this.thumbsUp = $("#thumbsUp");
          this.thumbsDown = $("#thumbsDown");
@@ -177,7 +156,6 @@ function TagsArea() {
          tg.importTags('');
          this.conversationID = convId;
          if (convId in tagsRep) {
-            spinner.stop();
             this.render();
          }
          else {
@@ -185,10 +163,7 @@ function TagsArea() {
             tagCollection.bind("reset", this.render);
             tagCollection.fetch({
                data: { "conversationID": convId },
-               success: function () {
-                  //spinner.stop();
-                  //$('#tags_tagsinput').show();
-                  //$('#tags_tag').show();
+               success: function () {                 
                }
             });
             tagsRep[convId] = tagCollection;

@@ -21,7 +21,7 @@ namespace mobile.TxtFeedback_take1.Controllers
          if (RouteData.Values[cStoreKey] != null &&
            !string.IsNullOrWhiteSpace(RouteData.Values[cStoreKey].ToString()))
          {
-            mStore = Utilities.ConversationUtilities.CleanUpPhoneNumber(RouteData.Values[cStoreKey].ToString());
+            mStore = Utilities.ConversationUtilities.CleanUpPhoneNumber(RouteData.Values[cStoreKey].ToString()).ToLowerInvariant();
          }         
       }
 
@@ -38,6 +38,8 @@ namespace mobile.TxtFeedback_take1.Controllers
             var desc = wp.Name;
             ViewBag.Store = desc;
             ViewBag.Message = wp.WelcomeMessage;
+            ViewBag.BusyMessage = wp.BusyMessage;
+            ViewBag.BusyTimerValue = wp.BusyMessageTimer;
             //the format of the db language should be en-US or ro-RO (general-LOCAL)
             ViewBag.Language = language.Split('-')[0];
             ViewBag.ComponentLocation = mStore;
@@ -61,7 +63,7 @@ namespace mobile.TxtFeedback_take1.Controllers
           */
          var guid = Guid.NewGuid().ToString();
          var clientTempPhoneNumber = Regex.Replace(guid, "[-]+", "", RegexOptions.Compiled);
-         string convID= ConversationUtilities.BuildConversationIDFromFromAndTo(clientTempPhoneNumber,location);         
+         string convID= ConversationUtilities.BuildConversationIDFromFromAndTo(clientTempPhoneNumber,location.ToLowerInvariant());         
          string newPassword = "123456";
          return Json(new UserDetails() {
             Name = clientTempPhoneNumber, 

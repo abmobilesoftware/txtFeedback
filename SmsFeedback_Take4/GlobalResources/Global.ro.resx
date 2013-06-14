@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -154,7 +154,7 @@
     <value>Ajutor</value>
   </data>
   <data name="lblNoConversationSelected" xml:space="preserve">
-    <value>Nici o conversaţie selectată, vă rugăm să selectaţi una</value>
+    <value>Nicio conversaţie selectată, vă rugăm să selectaţi una</value>
   </data>
   <data name="lblPassword" xml:space="preserve">
     <value>parola</value>
@@ -325,10 +325,10 @@
     <value>Număr de conversaţii per etichetă</value>
   </data>
   <data name="RepNoOfIncomingSms" xml:space="preserve">
-    <value>Numărul de mesaje primite</value>
+    <value>Numărul de mesaje recepționate</value>
   </data>
   <data name="RepNoOfIncomingSmsTooltip" xml:space="preserve">
-    <value>Numărul de mesaje primite</value>
+    <value>Numărul de mesaje recepționate</value>
   </data>
   <data name="RepNoOfNewClients" xml:space="preserve">
     <value>Numărul de clienţi noi</value>
@@ -460,7 +460,7 @@
     <value>Email trimis cu succes</value>
   </data>
   <data name="sendEmailHeader" xml:space="preserve">
-    <value>Trimite email</value>
+    <value>Distribuie prin email</value>
   </data>
   <data name="sendEmailLoadingScreen" xml:space="preserve">
     <value>Încarca...</value>
@@ -676,10 +676,10 @@
     <value>Etichete:</value>
   </data>
   <data name="thumbsDownTooltip" xml:space="preserve">
-    <value>Etichetează această conversaţie ca şi feedback negativ</value>
+    <value>Etichetează această conversaţie ca feedback negativ</value>
   </data>
   <data name="thumbsUpTooltip" xml:space="preserve">
-    <value>Etichetează această conversaţie ca şi feedback pozitiv</value>
+    <value>Etichetează această conversaţie ca feedback pozitiv</value>
   </data>
   <data name="TitleLogOn" xml:space="preserve">
     <value>Autentificaţi-vă</value>
@@ -715,7 +715,7 @@
     <value>Trimite mesaj de răspuns clientului (Shift + Enter)</value>
   </data>
   <data name="tooltipSendEmailImg" xml:space="preserve">
-    <value>Trimite ca şi email</value>
+    <value>Trimite ca email</value>
   </data>
   <data name="tooltipSendNegativeFeedback" xml:space="preserve">
     <value>Trimiteţi feedback negativ</value>
@@ -787,7 +787,7 @@
     <comment>Vă apropiaţi de limita bugetului lunar pentru compania dumneavoastră. Aţi cheltuit {0:0.00} {1} din maximul de {2:0.00} {1}. Asiguraţi-vă că aveţi suficiente credite pentru a putea trimite SMS-uri până la următoarea zi de facturare (ce va fi în {3})</comment>
   </data>
   <data name="warningMessageSentSpendingLimitReached" xml:space="preserve">
-    <value>You have reached the monthly spending limit  for your company. Purchase credit or raise spending limit to be able to send more SMS until the next billing month.</value>
+    <value>Aţi atins limita bugetului lunar. Vă rugăm să cumpăraţi credit sau să ridicaţi limita pentru a putea trimite SMS-uri până la următoarea zi de facturare.</value>
     <comment>Aţi atins limita bugetului lunar. Vă rugăm să cumpăraţi credit sau să ridicaţi limita pentru a putea trimite SMS-uri până la următoarea zi de facturare.</comment>
   </data>
   <data name="settingsCurrentPasswordFieldRequired" xml:space="preserve">
@@ -795,5 +795,50 @@
   </data>
   <data name="settingsNewPasswordFieldRequired" xml:space="preserve">
     <value>Parola noua este obligatorie</value>
+  </data>
+  <data name="settingsConfigureBusyMessageTimerHeader" xml:space="preserve">
+    <value>Intervalul după care va apărea Mesajul "Ocupat" (în millisecunde)</value>
+  </data>
+  <data name="settingsConfigureWpBusyMessageIntervalMsgError" xml:space="preserve">
+    <value>Intervalul de afişaj "Ocupat" nu poate lipsi</value>
+  </data>
+  <data name="settingsConfigureWpBusyMessageMsgError" xml:space="preserve">
+    <value>Mesajul de "Ocupat" nu poate lipsi</value>
+  </data>
+  <data name="settingsErrorBusyMessageNotInInterval" xml:space="preserve">
+    <value>Valoare interval invalidă: trebuie să fie între 1000 (1 secondă) şi 60000 (1 minut)</value>
+  </data>
+  <data name="settingsErrorWpBusyMessageLength" xml:space="preserve">
+    <value>Mesajul "Ocupat" trebuie sa conţină între 10 şi 160 caractere</value>
+  </data>
+  <data name="settingsWpBusyMessageHeader" xml:space="preserve">
+    <value>Mesaj "Ocupat"</value>
+  </data>
+  <data name="gotANewMessage" xml:space="preserve">
+    <value>Mesaj nou!</value>
+  </data>
+  <data name="RepDaysUnit" xml:space="preserve">
+    <value>zile</value>
+    <comment>Reports: units</comment>
+  </data>
+  <data name="RepHoursUnit" xml:space="preserve">
+    <value>ore</value>
+    <comment>Reports: units</comment>
+  </data>
+  <data name="btnGiveVoucher" xml:space="preserve">
+    <value>Oferă cupon</value>
+  </data>
+  <data name="messageChooseVoucher" xml:space="preserve">
+    <value>Sunteți sigur că vreți să acordați cuponul</value>
+  </data>
+  <data name="messageListOfVouchers" xml:space="preserve">
+    <value>Alegeți un cupon din listă</value>
+  </data>
+  <data name="messageNoVouchers" xml:space="preserve">
+    <value>Nu mai sunt cupoane</value>
+  </data>
+  <data name="messageVoucherNotInserted" xml:space="preserve">
+    <value>Codul cuponului nu a fost inserat in mesaj deoarece mesajul este aproape de limita maxima de caractere.</value>
+    <comment>Mesaje:acest mesaj de alerta apare atunci cand codul cuponului nu poate fi inserat in corpul mesajului.</comment>
   </data>
 </root>

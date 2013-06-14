@@ -21,6 +21,7 @@ window.app.xmppConn = {};
 window.app.getFeaturesIQID = "info14";
 window.app.selfXmppAddress = "";
 window.app.tempMsgQueue = [];
+window.app.pageBlinkIntervalId = null;
 /*
 when receiving messages it is important that each message is associated an unique id (js wise)
 so we start from a certain id and each time we receive/send a message, we increment the id
@@ -46,6 +47,24 @@ function removeMessageById(msgID) {
    }
    return false;   
 }
+
+function updatePageTitle() {
+    pageTitle1 = window.app.pageTitle;
+    pageTitle2 = $("#gotANewMessage").val();
+    if (document.title == pageTitle1) {
+        document.title = pageTitle2;
+    } else {
+        document.title = pageTitle1;
+    }
+}
+
+function stopUpdatingPageTitle() {
+    clearInterval(window.app.pageBlinkIntervalId);
+    document.title = window.app.pageTitle;
+    document.onmousemove = null;
+    window.app.pageBlinkIntervalId = null;
+}
+
 //#endregion
 
 // TODO: Check if Message model from Messages.js can be used 
@@ -89,28 +108,7 @@ window.app.startReconnectTimer = function () {
 };
 //#endregion
 
-window.app.xmppHandlerInstance = {};
-$(function () {
-   //the xmpp handler for new messages
-   window.app.xmppHandlerInstance = new window.app.XMPPhandler();
-   $(window).unload(function () {
-      if (window.app.xmppHandlerInstance && window.app.xmppHandlerInstance.disconnect) {
-         window.app.xmppHandlerInstance.disconnect();
-      }
-   });
-   $.getJSON(window.app.domainName + '/Xmpp/GetConnectionDetailsForLoggedInUser', function (data) {
-      if (data !== "") {
-         window.app.selfXmppAddress = data.XmppUser;
-         window.app.xmppHandlerInstance.connect(window.app.selfXmppAddress, data.XmppPassword);
-         //window.app.xmppHandlerInstance.connect("supportUK@txtfeedback.net", "123456");
-         window.app.updateNrOfUnreadConversations(true);
-      }
-   });
 
-   $(document).bind('updateUnreadConvsNr', function (ev, data) {
-      getNumberOfConversationsWithUnreadMessages();
-   });
-});
 
 //#region Receive message
 //TODO DA move this somewhere else :)
@@ -386,7 +384,11 @@ window.app.XMPPhandler = function XMPPhandler() {
             }
          }
          else {
-            //incommingMSG
+             //incommingMSG
+             if (window.app.pageBlinkIntervalId == null) {
+                 window.app.pageBlinkIntervalId = setInterval(updatePageTitle, 2000);
+                 document.onmousemove = stopUpdatingPageTitle;
+             }
             //DA check if we are dealing with a delayed message or not - if yes - disregard the message
             if ($(message).children("delay").length === 0) {
                //according to http://xmpp.org/extensions/xep-0160.html#flow if we are dealing with a offline message we will have a delay child
@@ -412,3 +414,26 @@ window.app.XMPPhandler = function XMPPhandler() {
       return true;
    };
 };
+
+window.app.xmppHandlerInstance = {};
+$(function () {
+   //the xmpp handler for new messages
+   window.app.xmppHandlerInstance = new window.app.XMPPhandler();
+   $(window).unload(function () {
+      if (window.app.xmppHandlerInstance && window.app.xmppHandlerInstance.disconnect) {
+         window.app.xmppHandlerInstance.disconnect();
+      }
+   });
+   $.getJSON(window.app.domainName + '/Xmpp/GetConnectionDetailsForLoggedInUser', function (data) {
+      if (data !== "") {
+         window.app.selfXmppAddress = data.XmppUser;
+         window.app.xmppHandlerInstance.connect(window.app.selfXmppAddress, data.XmppPassword);
+         //window.app.xmppHandlerInstance.connect("supportUK@txtfeedback.net", "123456");
+         window.app.updateNrOfUnreadConversations(true);
+      }
+   });
+
+   $(document).bind('updateUnreadConvsNr', function (ev, data) {
+      getNumberOfConversationsWithUnreadMessages();
+   });
+});

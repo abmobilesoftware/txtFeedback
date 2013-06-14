@@ -219,7 +219,9 @@ namespace SmsFeedback_Take4.Models
             MaxNrOfSmsToSendPerMonth =wp.MaxNrOfSmsToSend,
             ShortID = wp.ShortID,
             XMPPsuffix= wp.XMPPsuffix,
-            WelcomeMessage = wp.WelcomeMessage
+            WelcomeMessage = wp.WelcomeMessage,
+            BusyMessage = wp.BusyMessage,
+            BusyMessageTimer = wp.BusyMessageTimer
          });
          if (workingPoints.Count() >= 0)
             return workingPoints.First();
@@ -272,7 +274,7 @@ namespace SmsFeedback_Take4.Models
 
       internal System.Collections.Generic.IEnumerable<ConvTag> GetSpecialTags(String userId,smsfeedbackEntities dbContext)
       {         
-        logger.Info("Call made");
+        logger.Info("Call made");                
         var companies = from user in dbContext.Users where user.UserName == userId select user.Company;
         if (companies.Count() == 1)
         {

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -740,5 +740,31 @@
   </data>
   <data name="settingsNewPasswordFieldRequired" xml:space="preserve">
     <value>The new password is required</value>
+  </data>
+  <data name="gotANewMessage" xml:space="preserve">
+    <value>New message!</value>
+  </data>
+  <data name="RepDaysUnit" xml:space="preserve">
+    <value>days</value>
+    <comment>Reports: unit</comment>
+  </data>
+  <data name="RepHoursUnit" xml:space="preserve">
+    <value>hours</value>
+    <comment>Reports: unit</comment>
+  </data>
+  <data name="btnGiveVoucher" xml:space="preserve">
+    <value>Give voucher</value>
+  </data>
+  <data name="messageChooseVoucher" xml:space="preserve">
+    <value>Are you sure you want to give voucher </value>
+  </data>
+  <data name="messageListOfVouchers" xml:space="preserve">
+    <value>Pick a voucher</value>
+  </data>
+  <data name="messageNoVouchers" xml:space="preserve">
+    <value>No more vouchers</value>
+  </data>
+  <data name="messageVoucherNotInserted" xml:space="preserve">
+    <value>The voucher code was not inserted in the message because would surpass the 160 characters limit.</value>
   </data>
 </root>

@@ -1,9 +1,6 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
-
-<!DOCTYPE html>
-    <div style='display:none; >
-    <div class='contact-top'></div>
-    <div class='contact-content'>
+﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<dynamic>" %><!DOCTYPE html><div style='display:none'>
+   <div class='contact-top'></div>
+   <div class='contact-content'>
          <h1 class='contact-title'><%: Resources.Global.sendFeedbackHeader %></h1>
         <div class='contact-loading' style='display: none'></div>
         <div class='contact-message' style='display: none'></div>
@@ -33,5 +30,4 @@
          <input type="hidden" value="<%: Resources.Global.sendEmailValidationEmailInvalid %>" id="sendEmailValidationEmailInvalidMsg" />
          <input type="hidden" value="<%: Resources.Global.sendEmailValidationEmailRequired %>" id="sendEmailValidationEmailRequiredMsg" />
          <input type="hidden" value="<%: Resources.Global.sendEmailValidationSubjectRequired %>" id="sendEmailValidationSubjectRequiredMsg" />
-    </div>
-</div>
+    </div></div>

@@ -16,6 +16,7 @@ namespace RestAbmob1.Controllers
         // GET api/rules/abmob1
         public MsgHandlers Get(string from)
         {
+           System.Diagnostics.Trace.TraceInformation("from : {0}", from);
             Agent agent1 = new Agent("magazin2@txtfeedback.net", 7);
             Agent agent2 = new Agent("manager@txtfeedback.net", 7);
             List<Agent> agents = new List<Agent> { agent1, agent2 };

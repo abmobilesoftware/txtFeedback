@@ -1,0 +1,26 @@
+﻿@model IEnumerable<SmsFeedback_EFModels.WorkingPoint>
+
+@* left side the list of wps *@
+@* right side focus on one wp *@
+
+<script src="@Url.Content("~/MyScripts/WorkingPointsConfigure.js")" type="text/javascript"></script>
+<legend id="wpConfigLegend">@Resources.Global.settingsWpConfigLegend</legend>
+<table class="contentSeparator">
+      <tr>
+         @if (Model.Count() >1) {
+         <td width="30%" class="dataCell">            
+            <div id="wpSelectionListContainer">
+            <div id="wpSelectionList">
+            @foreach (var item in Model) {
+               <div class="wpInfo" wpId="@item.TelNumber">@item.Name</div>
+            }
+            </div>
+            </div>
+         </td>
+         }
+         <td width="70%" id="wpDetailsArea" class="dataCell">            
+            @{Html.RenderPartial("EditWorkingPointInfo", new SmsFeedback_Take4.Models.WorkingPoint(Model.First()) );}
+         </td>
+      </tr>
+</table>   
+

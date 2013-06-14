@@ -21,7 +21,7 @@ jQuery(function ($) {
       message: null,
       init: function () {
          // $('div.sendEmailButton').unbind("click");
-         $('div.sendEmailButton').live("click", function (e) {
+         $(document).on("click", 'div.sendEmailButton', function (e) {
             e.preventDefault();
             var textToDisplay = gSelectedMessage;
             var conversationId = gSelectedConversationID;
@@ -47,31 +47,7 @@ jQuery(function ($) {
             });
          });
          //#region Feedback buttons
-         var sendPosFeedbackButton = $("#sendPositiveFeedback");
-         sendPosFeedbackButton.qtip({
-            content: sendPosFeedbackButton.attr('tooltiptitle'),
-            position: {
-               corner: {
-                  target: 'leftBottom',
-                  tooltip: 'rightTop'
-               }
-            },
-            style: 'light'
-         });
-
-         var sendNegFeedbackButton = $("#sendNegativeFeedback");
-         sendNegFeedbackButton.qtip({
-            content: sendNegFeedbackButton.attr('tooltiptitle'),
-            position: {
-               corner: {
-                  target: 'leftBottom',
-                  tooltip: 'rightTop'
-               }
-            },
-            style: 'light'
-         });
-
-         $('#sendPositiveFeedback').live("click", function (e) {
+         $('#sendPositiveFeedback').click(function (e) {
             e.preventDefault();
             $.ajax({
                url: "EmailSend/GetFeedbackForm",
@@ -80,10 +56,8 @@ jQuery(function ($) {
                success: function (data) {
                   // create a modal dialog with the data
                   $(data).modal({
-                     appendTo: 'body',
                      closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
-                     minWidth: 600,
-                     position: ["15%", "30%"],
+                     position: ["15%", ],
                      overlayId: 'contact-overlay',
                      containerId: 'contact-container',
                      onOpen: contact.open,
@@ -93,7 +67,7 @@ jQuery(function ($) {
                }
             });
          });
-         $('#sendNegativeFeedback').live("click", function (e) {
+         $('#sendNegativeFeedback').click( function (e) {
             e.preventDefault();
             $.ajax({
                url: "EmailSend/GetFeedbackForm",
@@ -119,30 +93,17 @@ jQuery(function ($) {
       //#endregion
       //#region Open
       open: function (dialog) {
-         // add padding to the buttons in firefox/mozilla
-         if ($.browser.mozilla) {
-            $('#contact-container .contact-button').css({
-               'padding-bottom': '2px'
-            });
-         }
-         // input field font size
-         if ($.browser.safari) {
-            $('#contact-container .contact-input').css({
-               'font-size': '.9em'
-            });
-         }
-
          // dynamically determine height
-         var h = 300;
+         var h = 280;
          if ($('#contact-subject').length) {
             h += 26;
          }
          if ($('#contact-cc').length) {
             h += 22;
          }
-
          var title = $('#contact-container .contact-title').html();
          var loadingMessage = $('#sendEmailLoadingMsg').val();
+         var title = $('#contact-container .contact-title').html();
          $('#contact-container .contact-title').html(loadingMessage);
          dialog.overlay.fadeIn(200, function () {
             dialog.container.fadeIn(200, function () {
@@ -158,25 +119,12 @@ jQuery(function ($) {
                            var cc = $('#contact-container #contact-cc');
                            cc.is(':checked') ? cc.attr('checked', '') : cc.attr('checked', 'checked');
                         });
-
-                        // fix png's for IE 6
-                        if ($.browser.msie && $.browser.version < 7) {
-                           $('#contact-container .contact-button').each(function () {
-                              if ($(this).css('backgroundImage').match(/^url[("']+(.*\.png)[)"']+$/i)) {
-                                 var src = RegExp.$1;
-                                 $(this).css({
-                                    backgroundImage: 'none',
-                                    filter: 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + src + '", sizingMethod="crop")'
-                                 });
-                              }
-                           });
-                        }
                      });
                   });
                });
             });
          });
-      },
+      },        
       //#endregion
       //#region Show
       show: function (dialog) {
@@ -184,9 +132,9 @@ jQuery(function ($) {
             e.preventDefault();
             // validate form
             if (contact.validate()) {
-               var msgValidated = $('#contact-container .contact-message');
-               msgValidated.fadeOut(function () {
-                  msgValidated.removeClass('contact-error').empty();
+               var msg = $('#contact-container .contact-message');
+               msg.fadeOut(function () {
+                  msg.removeClass('contact-error').empty();
                });
                var sendingMsg = $('#sendEmailSendingEmailMsg').val();
                $('#contact-container .contact-title').html(sendingMsg);
@@ -194,11 +142,10 @@ jQuery(function ($) {
                $('#contact-container .contact-content').animate({
                   height: '80px'
                }, function () {
-                  //var serializedInfo = $('#contact-container form').serialize();
                   $('#contact-container .contact-loading').fadeIn(200, function () {
                      $.ajax({
                         url: 'EmailSend/SendEmail',
-                        data: $('#contact-container form').serialize(),
+                        data: $('#contact-container form').serialize() + '&action=send',
                         type: 'post',
                         cache: false,
                         dataType: 'html',
@@ -206,7 +153,7 @@ jQuery(function ($) {
                            $('#contact-container .contact-loading').fadeOut(200, function () {
                               var emailSentMsg = $('#sendEmailEmailSentMsg').val();
                               $('#contact-container .contact-title').html(emailSentMsg);
-                              msgValidated.html(data).fadeIn(200);
+                              msg.html(data).fadeIn(200);
                            });
                         },
                         error: contact.error
@@ -228,31 +175,27 @@ jQuery(function ($) {
                      height: '30px'
                   }, contact.showError);
                }
-
+					
             }
          });
-      },
+      },        
       //#endregion
       //#region Close
-      close: function (dialog) {
-         $('#contact-container').fadeOut(400, function () {
-            $.modal.close();
+      close: function (dialog) {        
+         $('#contact-container .contact-message').fadeOut();
+         $('#contact-container .contact-title').html('');
+         $('#contact-container form').fadeOut(200);
+         $('#contact-container .contact-content').animate({
+            height: 40
+         }, function () {
+            dialog.data.fadeOut(200, function () {
+               dialog.container.fadeOut(200, function () {
+                  dialog.overlay.fadeOut(200, function () {
+                     $.modal.close();
+                  });
+               });
+            });
          });
-
-         //$('#contact-container .contact-message').fadeOut();
-         //$('#contact-container .contact-title').html('Goodbye...');
-
-         //$('#contact-container .contact-content').animate({
-         //    height: 40
-         //}, function () {
-         //    dialog.data.fadeOut(200, function () {
-         //        dialog.container.fadeOut(200, function () {
-         //            dialog.overlay.fadeOut(200, function () {
-         //                $.modal.close();
-         //            });
-         //        });
-         //    });
-         //});
       },
       //#endregion
       error: function (xhr) {

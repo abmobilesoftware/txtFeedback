@@ -8,14 +8,51 @@
     margin-bottom: 9px;
     padding: 3px 0;
 }
-#tagsPoolWrapper {    
-   background-color: #DFE7EA;  
-}
 
-#tagsContainer {
+
+@media only screen 
+and (min-width : 960px) {
+   #tagsContainer {
     padding-left:20px; 
     padding-right: 108px;
 }
+   #tagsPoolWrapper {    
+   background-color: #DFE7EA;  
+}
+   #tags_tagsinput .tag {
+   color: #3E6D8E;   
+}
+
+#tags_tagsinput {
+   max-height: 22px; /*same size as min-height*/
+   display:  block;
+   overflow: hidden;
+   background-color:rgba(255, 255, 255, 0.8) !important; 
+}
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+   #quickActionBtns {
+      display:none;
+      visibility:collapse;
+   }
+   #tagsContainer {
+   display:none;
+   visibility:collapse;
+   }
+   #tagsPoolWrapper {    
+    display:none;
+    visibility:collapse;
+}
+ #tags_tagsinput {    
+    display:none;
+    visibility:collapse;
+}
+}
+
  
 #tagFiltering {
 
@@ -61,15 +98,7 @@
    color: white;   
 }
 
-#tags_tagsinput .tag {
-   color: #3E6D8E;   
-}
 
-#tags_tagsinput {
-   max-height: 22px; /*same size as min-height*/
-   display:  block;
-   overflow: hidden;
-}
 
 #filterTag_tagsinput {
    max-height: 22px; /*same size as min-height*/
@@ -180,7 +209,7 @@
 .triangle-isosceles.left {
 	left: 11px;
     /*padding-bottom: 14px;*/
-	background:#DFE7EA;
+	background:rgba(255, 255, 255, 0.8);
     top: -16px;
     height: 40px;
 }

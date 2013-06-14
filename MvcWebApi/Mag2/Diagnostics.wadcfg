@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DiagnosticMonitorConfiguration 
+   xmlns="http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration" 
+   configurationChangePollInterval="PT1M" 
+   overallQuotaInMB="4096">
+   <Logs bufferQuotaInMB="1024" scheduledTransferPeriod="PT1M"/>
+   <PerformanceCounters bufferQuotaInMB="100" scheduledTransferPeriod="PT1M">
+      <PerformanceCounterConfiguration counterSpecifier="\Process(_Total)\% Processor Time" sampleRate="PT10S"/>
+      <PerformanceCounterConfiguration counterSpecifier="\Process(_Total)\Working Set" sampleRate="PT10S"/>
+      <PerformanceCounterConfiguration counterSpecifier="\Memory\Available MBytes" sampleRate="PT10S"/>
+      <PerformanceCounterConfiguration counterSpecifier="\Processor Information(_Total)\% Processor Time" sampleRate="PT10S"/>
+      <PerformanceCounterConfiguration counterSpecifier="\Processor Information(_Total)\% User Time" sampleRate="PT10S"/>
+      <PerformanceCounterConfiguration counterSpecifier="\ASP.NET Applications(__Total__)\Errors Total" sampleRate="PT10S"/>      
+      <PerformanceCounterConfiguration counterSpecifier="\ASP.NET v4.0.30319\Worker Process Restarts" sampleRate="PT10S"/>
+      <PerformanceCounterConfiguration counterSpecifier="\ASP.NET v4.0.30319\Requests Queued" sampleRate="PT10S"/>
+      <PerformanceCounterConfiguration counterSpecifier="\ASP.NET v4.0.30319\Application Restarts" sampleRate="PT10S"/>
+      <PerformanceCounterConfiguration counterSpecifier="\ASP.NET Applications(__Total__)\Requests/Sec" sampleRate="PT5S"/>
+      <PerformanceCounterConfiguration counterSpecifier="\ASP.NET Applications(__Total__)\Errors Total" sampleRate="PT10S"/>
+   </PerformanceCounters>
+</DiagnosticMonitorConfiguration>

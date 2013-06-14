@@ -75,25 +75,14 @@ window.app.getDataForWorkingPoints = function () {
 window.app.localForSetting = {};
 window.app.localForSetting.setTooltipsOnHeaders = function () {
    "use strict";
-   $('th').each(function () {
-      $(this).qtip({
-         content: $(this).attr('tooltiptitle'),
-         position: {
-            corner: {
-               target: 'topLeft',
-               tooltip: 'bottomLeft'
-            }
-         },
-         style: 'dark'
-      });
-   });
+  //TODO DA -set tooltips on header
 };
 window.app.saveWorkingPoints = function (e) {
    "use strict";
    e.preventDefault();
    var wps = window.app.getDataForWorkingPoints();
    $.ajax({
-      url: 'Settings/GetDefineWorkingPointsForm',
+      url: 'WorkingPoints/WorkingPointsInfo',
       data: $.toJSON(wps),
       type: 'post',
       cache: false,
@@ -112,7 +101,7 @@ window.app.saveWorkingPoints = function (e) {
 window.settings.ConfigureWorkingPoints = function () {
    "use strict";
    $.ajax({
-      url: "Settings/GetDefineWorkingPointsForm",
+      url: "WorkingPoints/WorkingPointsInfo",
       cache: false,
       success: function (data) {
          setupForm(data, '#btnSaveWorkingPoints', window.app.saveWorkingPoints);

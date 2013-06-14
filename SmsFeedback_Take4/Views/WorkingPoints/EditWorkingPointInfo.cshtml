@@ -1,0 +1,76 @@
+﻿@model SmsFeedback_Take4.Models.WorkingPoint
+
+
+@using (Html.BeginForm()) {
+    
+    <fieldset id="wpInfoDetails" class="settingsEntry">
+        <legend id="wpInfoDetailsLegend">@Model.Name</legend>
+
+         @Html.HiddenFor(model => model.XMPPsuffix)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TelNumber )
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.TelNumber)            
+           @Html.HiddenFor(model => model.TelNumber)
+        </div>
+
+       <div class="editor-label">
+            @Html.LabelFor(model => model.ShortID)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.ShortID)            
+           @Html.HiddenFor(model => model.ShortID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="settingsField">          
+            @Html.TextBoxFor(model => model.Name, new { @class = "triggerSave text-box" })
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+       <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+        <div class="settingsField">
+           <textarea name="Description" class="textarea160 triggerSave" rows="3" 
+                   dir="ltr">@Model.Description</textarea>
+           @Html.ValidationMessageFor(model => model.Description)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.WelcomeMessage)
+        </div>
+        <div class="settingsField">            
+           <textarea name="WelcomeMessage" class="textarea160 triggerSave" rows="3" 
+                   dir="ltr">@Model.WelcomeMessage</textarea>
+           @Html.ValidationMessageFor(model => model.WelcomeMessage)
+        </div>
+
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BusyMessage)
+        </div>
+        <div class="settingsField">
+             <textarea name="BusyMessage" class="textarea160 triggerSave" rows="3" 
+                   dir="ltr">@Model.BusyMessage</textarea>
+            @Html.ValidationMessageFor(model => model.BusyMessage)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BusyMessageTimer)
+        </div>
+        <div class="settingsField">            
+            @Html.TextBoxFor(model => model.BusyMessageTimer, new { @class = "triggerSave text-box" })
+            @Html.ValidationMessageFor(model => model.BusyMessageTimer)
+        </div>
+
+        <p>
+            <input  id="saveWpInfo" type="submit" value="Save"  class="btnSaveChanges" disabled="true"/>
+        </p>
+    </fieldset>
+   @Html.ValidationSummary(true)
+}

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<SmsFeedback_Take4.Models.ChangePasswordModel>" %>
+﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<SmsFeedback_Take4.Models.ChangePasswordModel>" ValidateRequest ="false"%>
 
 <!DOCTYPE html>
 <legend id="wpConfigLegend"><%: Resources.Global.settingsChangePasswordTitle %></legend>
@@ -40,7 +40,7 @@
                 </div>
                 
                 <p>
-                    <button id="btnChangePassword" class="btnSaveChanges alignLeft"><%: Resources.Global.settingsBtnChangePassword %></button> 
+                    <button id="btnChangePassword" type="submit" class="btnSaveChanges alignLeft"><%: Resources.Global.settingsBtnChangePassword %></button> 
                 </p>
             </fieldset>
         </div>

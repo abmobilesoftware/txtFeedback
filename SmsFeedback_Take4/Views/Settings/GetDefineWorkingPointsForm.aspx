@@ -9,12 +9,12 @@
    <fieldset id="wpConfig">
       <table id="workingPointsConfig" cellspacing="10" cellpadding="10">
          <tr>
-            <th align="left" class="limitedColWidth" tooltiptitle="<%: Resources.Global.settingsWpTelNoHeaderTooltip %>"><%= Resources.Global.settingsTelNoHeader %></th>
-            <th align="left" class="limitedColWidth" tooltiptitle="<%: Resources.Global.settingsShortIDHeaderTooltip %>"><%= Resources.Global.settingsShortIDHeader %></th>
-            <th align="left" class="limitedColWidth" tooltiptitle="<%: Resources.Global.settingsMaxOutboundSmsHeaderTooltip %>"><%= Resources.Global.settingsMaxOutboundSmsHeader %></th>
-            <th align="left" tooltiptitle="<%: Resources.Global.settingsWpNameHeaderTooltip %>"><%= Resources.Global.settingsWpNameHeader %></th>
-            <th align="left" tooltiptitle="<%: Resources.Global.settingsWpDescriptionHeaderTooltip %>"><%= Resources.Global.settingsWpDescriptionHeader %></th>
-            <th align="left" tooltiptitle="<%: Resources.Global.settingsWpWelcomeMessageHeaderTooltip %>"><%= Resources.Global.settingsWpWelcomeMessageHeader %></th>
+            <th align="left" class="limitedColWidth" title="<%: Resources.Global.settingsWpTelNoHeaderTooltip %>"><%= Resources.Global.settingsTelNoHeader %></th>
+            <th align="left" class="limitedColWidth" title="<%: Resources.Global.settingsShortIDHeaderTooltip %>"><%= Resources.Global.settingsShortIDHeader %></th>
+            <th align="left" class="limitedColWidth" title="<%: Resources.Global.settingsMaxOutboundSmsHeaderTooltip %>"><%= Resources.Global.settingsMaxOutboundSmsHeader %></th>
+            <th align="left" title="<%: Resources.Global.settingsWpNameHeaderTooltip %>"><%= Resources.Global.settingsWpNameHeader %></th>
+            <th align="left" title="<%: Resources.Global.settingsWpDescriptionHeaderTooltip %>"><%= Resources.Global.settingsWpDescriptionHeader %></th>
+            <th align="left" title="<%: Resources.Global.settingsWpWelcomeMessageHeaderTooltip %>"><%= Resources.Global.settingsWpWelcomeMessageHeader %></th>
          </tr>
          <% foreach (SmsFeedback_Take4.Models.WorkingPoint wp in Model)
             { %>
@@ -28,7 +28,7 @@
                <input name="Description" type="text" maxlength="160" value="<%=wp.Description %>" />
             </td>
             <td>               
-               <textarea name="WelcomeMessage" class="textarea160" rows="3" 
+               <textarea name="WelcomeMessage" class="textarea40" rows="1" 
                    dir="ltr"><%= wp.WelcomeMessage %> </textarea>
             </td>
          </tr>

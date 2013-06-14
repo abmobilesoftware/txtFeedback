@@ -17,11 +17,13 @@
 /*global ConversationArea */
 /*global TagsArea */
 /*global MessagesArea */
+/*global resizeTriggered */
 //#endregion
 
 window.app = window.app || {};
 window.app.calendarCulture = "en-GB";
 window.app.appStartTime = "";
+window.app.pageTitle = document.title;
 
 function newMessageReceivedGUI(convView, msgView, fromID, toId, convID, msgID, dateReceived, text, readStatus, isSmsBased) {
    //the conversations window expects that the toID be a "name" and not a telephone number

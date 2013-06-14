@@ -141,6 +141,9 @@
   <data name="sd_BillingDay" xml:space="preserve">
     <value>Billing Day</value>
   </data>
+  <data name="sd_BillingDayErrorNotInInterval" xml:space="preserve">
+    <value>Invalid day: must be between 1 and 25</value>
+  </data>
   <data name="sd_DefaultCurrency" xml:space="preserve">
     <value>Billing Currency</value>
   </data>
