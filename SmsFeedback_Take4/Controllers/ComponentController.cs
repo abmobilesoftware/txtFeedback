@@ -227,7 +227,7 @@ namespace SmsFeedback_Take4.Controllers
          }
       }
 
-      public void SendMailNotification(string convId, string message, bool isSms)
+      private void SendMailNotification(string convId, string message, bool isSms)
       {
          smsfeedbackEntities dbContext = new smsfeedbackEntities();
          NotificationMailer mailer = new NotificationMailer();
