@@ -66,6 +66,11 @@ function FirstArea(sectionModel) {
           dataType: "json",
           async: false,
           success: function (data) {
+             /* data contains 3 fields
+             * header - the header definition
+             * rows - the actual data
+             * reportname - the name of the files to create
+             */
              var str = data.header.join(",") + "\r\n";
              var line = '';
              var array = typeof data.rows != 'object' ? JSON.parse(data.rows) : data.rows;
@@ -73,14 +78,15 @@ function FirstArea(sectionModel) {
                 line = '';
                 line += '"' + array[i].Store + '",';
                 line += array[i].ConvID + ',';
-                //remove txtfeedback suffixes
+                //remove txtfeedback.net suffixes
                 line += array[i].From.replace("@moderator.txtfeedback.net", "").replace("@txtfeedback.net", "") + ',';
                 line += array[i].To.replace("@moderator.txtfeedback.net", "").replace("@txtfeedback.net", "") + ',';
                 //remove unnecessary break lines
                 line += '"' + array[i].Text.replace(/(\r\n|\n|\r)/gm, "") + '",';
                 line += array[i].ReceivedTime;
                 str += line + '\r\n';
-             }                          
+             }
+             //do the actual submit to create csv file
              $("#exportrawreport").append('<form id="exportform" action="http://46.137.26.124/export2csv.php" method="post" target="_blank">' +
                 '<input type="hidden" id="exportdata" name="exportdata" />' +
                 '<input type="hidden" id="docTitle" name="docTitle" />' +

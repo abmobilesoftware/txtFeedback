@@ -1745,6 +1745,7 @@ namespace SmsFeedback_Take4.Controllers
         [CustomAuthorizeAtribute(Roles = cExporterOfRawData)]
         public JsonResult GetActivityReport(String iIntervalStart, String iIntervalEnd, String iScope)
         {
+           //filter on start date, end date and scope (all stores or one in particular)
            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
 
@@ -1768,6 +1769,8 @@ namespace SmsFeedback_Take4.Controllers
                                     Text = msg.Text,
                                     ReceivedTime = msg.TimeReceived.ToString()
                                  }))).SelectMany(x => x).SelectMany(x => x);
+
+           //define the headers (first row)
            var header = new string[] { 
               Resources.Global.repRawWpName,
               Resources.Global.repRawConversationId,
