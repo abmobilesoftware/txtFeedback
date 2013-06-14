@@ -297,10 +297,12 @@ input.filterDate {
     font-style: italic;
 }
 
-.exportBtn {
+.exportBtn, .exportRawBtn {
     float:right;
     margin-right: 7px;
 }
+
+
 
 #secondSection {
     margin-left: 10px;

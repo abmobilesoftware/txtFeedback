@@ -16,6 +16,9 @@ namespace SmsFeedback_Take4.Controllers
     [CustomAuthorizeAtribute]
     public class ReportsController : BaseController
     {
+       #region Export raw data
+       public const string cExporterOfRawData = "ExportRawData";
+       #endregion
         private const int cConvsMenuContainerID = 10;
         private const int cConvsOverviewMenuID = 11;
         private const int cConvsIncomingVsOutgoingID = 12;
@@ -30,7 +33,7 @@ namespace SmsFeedback_Take4.Controllers
         private const int cSectionID5 = 5;
         private const int cSectionID6 = 6;
 
-        private const String cDateFormat = "yyyy-MM-dd";
+        private const String cDateFormat = "yyyy-MM-dd H:mm:ss";
         private const String cDateFormat1 = "dd-mm";
         private const String cDateFormat2 = "dd/mm/yyyy";
         private const String cDateFormat3 = "dd/mm";
@@ -44,14 +47,14 @@ namespace SmsFeedback_Take4.Controllers
             return View();
         }
 
-
+        #region Overview
         public JsonResult GetReportOverviewData(String iIntervalStart, String iIntervalEnd, String iScope)
         {
             try
             {
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                 
 
                 Dictionary<DateTime, ChartValue> resultInterval = InitializeInterval(intervalStart, intervalEnd, Constants.DAY_GRANULARITY);
                 IEnumerable<Message> msgs = GetMessages(intervalStart, intervalEnd, User.Identity.Name, iScope, context);
@@ -119,7 +122,7 @@ namespace SmsFeedback_Take4.Controllers
             {
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                 
 
                 Dictionary<DateTime, ChartValue> resultInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 IEnumerable<Message> msgs = GetMessages(intervalStart, intervalEnd, User.Identity.Name, iScope, context);
@@ -175,14 +178,16 @@ namespace SmsFeedback_Take4.Controllers
             }
             return Json("Request failed", JsonRequestBehavior.AllowGet);
         }
+        #endregion
 
+        #region Incoming vs Outgoing
         public JsonResult GetReportIncomingOutgoingData(String iIntervalStart, String iIntervalEnd, String iScope)
         {
             try
             {
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                 
 
                 Dictionary<DateTime, ChartValue> resultIncomingInterval = InitializeInterval(intervalStart, intervalEnd, Constants.DAY_GRANULARITY);
                 Dictionary<DateTime, ChartValue> resultOutgoingInterval = InitializeInterval(intervalStart, intervalEnd, Constants.DAY_GRANULARITY);
@@ -268,7 +273,7 @@ namespace SmsFeedback_Take4.Controllers
             {
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                 
 
                 Dictionary<DateTime, ChartValue> resultIncomingInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultOutgoingInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
@@ -379,14 +384,15 @@ namespace SmsFeedback_Take4.Controllers
                 return Json("request failed", JsonRequestBehavior.AllowGet);
             }
         }
-
+        #endregion
+        #region TagReports
         public JsonResult GetReportTagsData(String iIntervalStart, String iIntervalEnd, String iScope)
         {
             try
             {
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                 
 
                 String DEFAULT_TAGS = "defaultTags";
                 var dbContext = new smsfeedbackEntities();
@@ -463,7 +469,7 @@ namespace SmsFeedback_Take4.Controllers
                 return Json("request failed", JsonRequestBehavior.AllowGet);
             }
         }
-
+        #endregion
         #region Report Positive and Negative
         public JsonResult GetReportPosNegData(String iIntervalStart, String iIntervalEnd, String iScope)
         {
@@ -472,7 +478,7 @@ namespace SmsFeedback_Take4.Controllers
                 var iGranularity = Constants.DAY_GRANULARITY;
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                 
 
                 Dictionary<DateTime, ChartValue> resultPositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
@@ -707,7 +713,7 @@ namespace SmsFeedback_Take4.Controllers
             {
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                 
 
                 Dictionary<DateTime, ChartValue> resultPositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
@@ -886,7 +892,7 @@ namespace SmsFeedback_Take4.Controllers
             {
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                 
 
                 Dictionary<DateTime, ChartValue> resultPosNegTagsTrInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultNegPosTagsTrInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
@@ -1021,7 +1027,7 @@ namespace SmsFeedback_Take4.Controllers
             {
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                 
 
                 Dictionary<DateTime, ChartValue> resultPositiveTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultNegativeTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
@@ -1502,7 +1508,6 @@ namespace SmsFeedback_Take4.Controllers
             }
         }
         #endregion
-
         #region Client report
         public JsonResult GetReportClientsData(String iIntervalStart, String iIntervalEnd, String iScope)
         {
@@ -1511,7 +1516,7 @@ namespace SmsFeedback_Take4.Controllers
                 var iGranularity = Constants.DAY_GRANULARITY;
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                 
 
                 smsfeedbackEntities dbContext = new smsfeedbackEntities();
                 Dictionary<DateTime, ChartValue> resultNewClientsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
@@ -1581,7 +1586,7 @@ namespace SmsFeedback_Take4.Controllers
             {
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd", CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                intervalEnd = intervalEnd.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                 
 
                 smsfeedbackEntities dbContext = new smsfeedbackEntities();
                 Dictionary<DateTime, ChartValue> resultNewClientsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
@@ -1736,7 +1741,49 @@ namespace SmsFeedback_Take4.Controllers
             }
         }
         #endregion // 230 rows
+        #region RawData export
+        [CustomAuthorizeAtribute(Roles = cExporterOfRawData)]
+        public JsonResult GetActivityReport(String iIntervalStart, String iIntervalEnd, String iScope)
+        {
+           DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
+           DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
 
+           var user = context.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+           var allmsg = (from wp in user.WorkingPoints
+                         where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                         select
+                            (from c in wp.Conversations orderby c.StartTime descending
+                             where !c.Client.isSupportClient
+                             select
+                                (from msg in c.Messages
+                                 where msg.TimeReceived >= intervalStart &&
+                                  msg.TimeReceived <= intervalEnd
+                                 orderby msg.TimeReceived
+                                 select new
+                                 {
+                                    Store = wp.Name,
+                                    ConvID = msg.ConversationId,
+                                    From = msg.From,
+                                    To = msg.To,
+                                    Text = msg.Text,
+                                    ReceivedTime = msg.TimeReceived.ToString()
+                                 }))).SelectMany(x => x).SelectMany(x => x);
+           var header = new string[] { 
+              Resources.Global.repRawWpName,
+              Resources.Global.repRawConversationId,
+              Resources.Global.repRawFrom,
+              Resources.Global.repRawTo,
+              Resources.Global.repRawText,
+              Resources.Global.repRawTimeReceived
+           };
+           var result = new {
+              reportname= Resources.Global.repExportRawRepName,
+              header = header,
+              rows = allmsg };
+           return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+        #region Reports page left side menus
         public JsonResult GetReportsMenuItems()
         {
             ReportsMenuItem[] reportsMenuItems = new ReportsMenuItem[] {
@@ -1750,14 +1797,15 @@ namespace SmsFeedback_Take4.Controllers
 
             return Json(reportsMenuItems, JsonRequestBehavior.AllowGet);
         }
-
+        #endregion
+              
         public JsonResult GetReportById(int reportId)
         {
             var hashTable = new Dictionary<int, Report>();
 
             var report2 = new Report(cConvsOverviewMenuID, Resources.Global.RepOverview, "/Reports/GetReportOverviewData",
                 new ReportSection[] { 
-                                        new ReportSection("FirstSection", Resources.Global.RepOverviewChartTitle, 0, iChartSource: "/Reports/GetReportOverviewGrData"),
+                                        new ReportSection("FirstSection", Resources.Global.RepOverviewChartTitle, 0, iChartSource: "/Reports/GetReportOverviewGrData", iHasExportRawData: User.IsInRole(cExporterOfRawData)),
                                         new ReportSection("SecondSection", Resources.Global.RepTotalNoOfSms, 0),
                                         new ReportSection("SecondSection", Resources.Global.RepAvgNoOfSmsPerDay, 1),
                                         new ReportSection("SecondSection", Resources.Global.RepTotalNoOfClients, 2),
@@ -1806,63 +1854,7 @@ namespace SmsFeedback_Take4.Controllers
             return Json(hashTable[reportId], JsonRequestBehavior.AllowGet);
 
         }
-
-        public List<RepDataRow> BogusDataGenerator(int intervalEnd, string workingPoint)
-        {
-
-            var hashTable = new Dictionary<String, RepDataRow>();
-            var keyPrefix = "row";
-
-            int[] incomingSmsGlobal = new int[31] { 17, 15, 16, 15, 17, 16, 14, 13, 14, 15, 16, 17, 15, 14, cConvsOverviewMenuID, 13, 16, 15, 14, 13, 13, 12, cConvsOverviewMenuID, 12, 13, 14, 15, 16, 15, 16, 14 };
-            int[] incomingSmsWP1 = new int[31] { 18, 19, 21, 22, 21, 18, 16, 19, 20, 21, 23, 25, 26, 27, 27, 29, 28, 27, 25, 24, 23, 20, 19, 19, 21, 23, 24, 27, 30, 31, 32 };
-            int[] incomingSmsWP2 = new int[31] { 23, 19, 18, 17, 15, 12, cConvsOverviewMenuID, 9, 8, 7, cConvsOverviewMenuID, cConvsMenuContainerID, cConvsOverviewMenuID, 13, 15, 16, 17, 17, 19, 18, 23, 25, 24, 23, 20, 19, 19, 21, 23, 24, 27 };
-
-            int[] outgoingSmsGlobal = new int[31] { 15, 14, 15, 15, 14, 15, 13, 12, 13, 14, 15, 16, 14, 13, cConvsMenuContainerID, 12, 15, 14, 13, 12, 12, cConvsOverviewMenuID, cConvsMenuContainerID, 11, 12, 13, 14, 15, 14, 15, 13 };
-            int[] outgoingSmsWP1 = new int[31] { 17, 18, 20, 21, 20, 17, 15, 18, 19, 18, 17, 16, 15, 14, 13, 15, 14, 11, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13 };
-            int[] outgoingSmsWP2 = new int[31] { 22, 18, 17, 16, 14, 11, cConvsMenuContainerID, 8, 7, 6, 10, 9, 10, 12, 14, 15, 16, 16, 18, 17, 22, 24, 23, 22, 19, 18, 18, 20, 22, 23, 26 };
-
-            int[] incoming = incomingSmsWP2;
-            int[] outgoing = outgoingSmsWP2;
-
-            if (workingPoint.Equals("Global"))
-            {
-                incoming = incomingSmsGlobal;
-                outgoing = outgoingSmsGlobal;
-            }
-            else if (workingPoint.Equals("WP1"))
-            {
-                incoming = incomingSmsWP1;
-                outgoing = outgoingSmsWP1;
-            }
-            else
-            {
-                incoming = incomingSmsWP2;
-                outgoing = outgoingSmsWP2;
-            }
-
-            for (int i = 0; i < intervalEnd; ++i)
-            {
-                var key = keyPrefix + i;
-                var bogusData = i + ".07.2012";
-                // Incoming
-                var bogusIncomingSmsNo = incoming[i];
-                var bogusIncomingSmsText = bogusIncomingSmsNo + " sms - " + bogusData;
-                //Outgoing 
-                var bogusOutgoingSmsNo = outgoing[i];
-                var bogusOutgoingSmsText = bogusOutgoingSmsNo + " sms - " + bogusData;
-                hashTable.Add(key, new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(bogusData, bogusData), new RepDataRowCell(bogusIncomingSmsNo, bogusIncomingSmsText), new RepDataRowCell(bogusOutgoingSmsNo, bogusOutgoingSmsText) }));
-            }
-
-            List<RepDataRow> content = new List<RepDataRow>();
-            for (int i = 0; i < intervalEnd; ++i)
-            {
-                var key = "row" + i;
-                content.Add(hashTable[key]);
-            }
-
-            return content;
-        }
-
+        
         #region Helper methods
         private Dictionary<String, int> GetNoOfConversationsByTags(DateTime iIntervalStart, DateTime iIntervalEnd, String iGranularity, String scope)
         {
@@ -2132,30 +2124,6 @@ namespace SmsFeedback_Take4.Controllers
             base.Dispose(disposing);
         }
 
-    }
-
-    class EventCounter
-    {
-        public Event eventItem { get; set; }
-        public int counter { get; set; }
-
-        public EventCounter(Event iEventItem, int iCounter)
-        {
-            eventItem = iEventItem;
-            counter = iCounter;
-        }
-    }
-
-    class Event
-    {
-        public DateTime occurDate { get; set; }
-        public String eventType { get; set; }
-
-        public Event(DateTime iOccurDate, String iEventType)
-        {
-            occurDate = iOccurDate;
-            eventType = iEventType;
-        }
     }
 
     class KeyAndCount

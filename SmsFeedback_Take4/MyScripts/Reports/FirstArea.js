@@ -54,12 +54,50 @@ function FirstArea(sectionModel) {
         DownloadJSON2CSV(JSON.stringify(jsonData), title);
     });
 
+    $(".exportRawBtn").click(function (event) {
+       event.preventDefault();
+       var jsonData = $.ajax({
+          url: "/Reports/GetActivityReport",
+          data: {
+             iIntervalStart: window.app.dateHelper.transformStartDate(window.app.startDate),
+             iIntervalEnd: window.app.dateHelper.transformEndDate(window.app.endDate),
+             iScope: window.app.currentWorkingPoint
+          },
+          dataType: "json",
+          async: false,
+          success: function (data) {
+             var str = data.header.join(",") + "\r\n";
+             var line = '';
+             var array = typeof data.rows != 'object' ? JSON.parse(data.rows) : data.rows;
+             for (var i = 0; i < array.length; i++) {
+                line = '';
+                line += '"' + array[i].Store + '",';
+                line += array[i].ConvID + ',';
+                //remove txtfeedback suffixes
+                line += array[i].From.replace("@moderator.txtfeedback.net", "").replace("@txtfeedback.net", "") + ',';
+                line += array[i].To.replace("@moderator.txtfeedback.net", "").replace("@txtfeedback.net", "") + ',';
+                //remove unnecessary break lines
+                line += '"' + array[i].Text.replace(/(\r\n|\n|\r)/gm, "") + '",';
+                line += array[i].ReceivedTime;
+                str += line + '\r\n';
+             }                          
+             $("#exportrawreport").append('<form id="exportform" action="http://46.137.26.124/export2csv.php" method="post" target="_blank">' +
+                '<input type="hidden" id="exportdata" name="exportdata" />' +
+                '<input type="hidden" id="docTitle" name="docTitle" />' +
+             '</form>');
+             $("#exportdata").val(str);
+             $("#docTitle").val(data.reportname);
+             $("#exportform").submit().remove();            
+          }
+       });
+    });
+
     this.loadWithGranularity = function(granularity) {
         self = this;
         var jsonData = $.ajax({
             data: {
-                iIntervalStart: window.app.dateHelper.transformDate(window.app.startDate),
-                iIntervalEnd: window.app.dateHelper.transformDate(window.app.endDate),
+               iIntervalStart: window.app.dateHelper.transformStartDate(window.app.startDate),
+               iIntervalEnd: window.app.dateHelper.transformEndDate(window.app.endDate),
                 iScope: window.app.currentWorkingPoint,
                 iGranularity: granularity
             },

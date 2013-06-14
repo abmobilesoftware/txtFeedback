@@ -628,6 +628,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to export_messages.
+        /// </summary>
+        public static string repExportRawRepName {
+            get {
+                return ResourceManager.GetString("repExportRawRepName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export messages to CSV.
+        /// </summary>
+        public static string RepExportRawToExcel {
+            get {
+                return ResourceManager.GetString("RepExportRawToExcel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export to CSV.
         /// </summary>
         public static string RepExportToExcel {
@@ -984,6 +1002,60 @@ namespace Resources {
         public static string RepPosToNegFeedback {
             get {
                 return ResourceManager.GetString("RepPosToNegFeedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conversation id.
+        /// </summary>
+        public static string repRawConversationId {
+            get {
+                return ResourceManager.GetString("repRawConversationId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From.
+        /// </summary>
+        public static string repRawFrom {
+            get {
+                return ResourceManager.GetString("repRawFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text.
+        /// </summary>
+        public static string repRawText {
+            get {
+                return ResourceManager.GetString("repRawText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time received (UTC).
+        /// </summary>
+        public static string repRawTimeReceived {
+            get {
+                return ResourceManager.GetString("repRawTimeReceived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To.
+        /// </summary>
+        public static string repRawTo {
+            get {
+                return ResourceManager.GetString("repRawTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working point.
+        /// </summary>
+        public static string repRawWpName {
+            get {
+                return ResourceManager.GetString("repRawWpName", resourceCulture);
             }
         }
         

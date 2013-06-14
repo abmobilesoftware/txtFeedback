@@ -14,14 +14,22 @@
 /*global Spinner */
 //#endregion
 var DateHelper = function () {
-   // in format yyyy-mm-dd
-   this.transformDate = function (date) {
+   // in format yyyy-mm-dd H:mm:ss   
+   this.transformStartDate = function (date) {
       var curr_date = date.getDate();
       curr_date = (curr_date < 10) ? "0" + curr_date : curr_date;
       var curr_month = date.getMonth() + 1; //Months are zero based
       curr_month = (curr_month < 10) ? "0" + curr_month : curr_month;
       var curr_year = date.getFullYear();
-      return curr_year + "-" + curr_month + "-" + curr_date;
+      return curr_year + "-" + curr_month + "-" + curr_date + " 0:00:00";
+   };
+   this.transformEndDate = function (date) {
+      var curr_date = date.getDate();
+      curr_date = (curr_date < 10) ? "0" + curr_date : curr_date;
+      var curr_month = date.getMonth() + 1; //Months are zero based
+      curr_month = (curr_month < 10) ? "0" + curr_month : curr_month;
+      var curr_year = date.getFullYear();
+      return curr_year + "-" + curr_month + "-" + curr_date + " 23:59:59";
    };
 
    this.transformDateToLocal = function (date) {

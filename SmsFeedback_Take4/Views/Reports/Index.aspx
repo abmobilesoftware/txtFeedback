@@ -59,7 +59,11 @@
             <div id="titleWrapper">
                 <a href="#" class="chartAreaTitle" {% if (tooltip != "no tooltip") { %} title="{{ tooltip }}" {% } %} sectionId="{{ groupId }}"><img class="sectionVisibility" src="<%: Url.Content("~/Content/images/arrow_down_dblue_16.png") %>" alt="Expand section" />{{ title }}</a>
                 <p id="description{{id}}" class="sectionDescription invisible">Displays two dimensional data set</p>   
-                <a href="#" class="toCsv{{ id }} exportBtn" title="<%: Resources.Global.RepExportToExcel %>"><img src="<%: Url.Content("~/Content/images/Excel-25.png") %>" width="25" height="25"/></a> 
+                <a href="#" class="toCsv{{ id }} exportBtn" title="<%: Resources.Global.RepExportToExcel %>"><img src="<%: Url.Content("~/Content/images/Excel-25_chenar.png") %>" width="25" height="25"/></a> 
+                {% if (hasExportRawData) { %}
+                <a href="#" class="exportRawBtn" title="<%: Resources.Global.RepExportRawToExcel %>"><img src="<%: Url.Content("~/Content/images/database-Chart-25_chenar.png") %>" width="25" height="25"/></a> 
+                <div type="hidded" style="disply:none" id="exportrawreport"></div>
+               {% } %}
         </div>
             <div class="chartAreaContent{{groupId}}">
                 <form action="">    

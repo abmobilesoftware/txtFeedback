@@ -841,4 +841,28 @@
     <value>Codul cuponului nu a fost inserat in mesaj deoarece mesajul este aproape de limita maxima de caractere.</value>
     <comment>Mesaje:acest mesaj de alerta apare atunci cand codul cuponului nu poate fi inserat in corpul mesajului.</comment>
   </data>
+  <data name="repExportRawRepName" xml:space="preserve">
+    <value>export_mesaje</value>
+  </data>
+  <data name="RepExportRawToExcel" xml:space="preserve">
+    <value>Export mesaje în format CSV</value>
+  </data>
+  <data name="repRawConversationId" xml:space="preserve">
+    <value>Conversation id</value>
+  </data>
+  <data name="repRawFrom" xml:space="preserve">
+    <value>De la</value>
+  </data>
+  <data name="repRawText" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="repRawTimeReceived" xml:space="preserve">
+    <value>Data primire (UTC)</value>
+  </data>
+  <data name="repRawTo" xml:space="preserve">
+    <value>Către</value>
+  </data>
+  <data name="repRawWpName" xml:space="preserve">
+    <value>Nume punct de lucru</value>
+  </data>
 </root>

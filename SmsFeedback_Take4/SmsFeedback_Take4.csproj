@@ -310,6 +310,8 @@
     <Content Include="Content\images\checkbox_checked.png" />
     <Content Include="Content\images\checkbox_unchecked.png" />
     <Content Include="Content\images\close14x14.png" />
+    <Content Include="Content\images\database-Chart-25.png" />
+    <Content Include="Content\images\database-Chart-25_chenar.png" />
     <Content Include="Content\images\datepicker\custom_b.png" />
     <Content Include="Content\images\datepicker\custom_bl.png" />
     <Content Include="Content\images\datepicker\custom_br.png" />
@@ -334,6 +336,7 @@
     <Content Include="Content\images\em16x16.png" />
     <Content Include="Content\images\error2_24.png" />
     <Content Include="Content\images\Excel-25.png" />
+    <Content Include="Content\images\Excel-25_chenar.png" />
     <Content Include="Content\images\exclamation-blue.png" />
     <Content Include="Content\images\exclamation-blue.svg" />
     <Content Include="Content\images\exclamation-green.png" />

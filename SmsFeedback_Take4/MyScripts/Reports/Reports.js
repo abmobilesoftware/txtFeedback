@@ -36,23 +36,27 @@ function drawThisArea(element, indexOfTheElement) {
     3. ThirdSection  - data for table/s and other charts
 */
 var ReportModel = Backbone.Model.extend({
-   reportId: 1,
-   title: "Total sms report",
-   source: "/Reports/GetReportOverviewData",
-   sections: [
-               {
-                   type: "FirstSection",
-                   id: "4", // only one section can have this id
-                   groupId: "xt4ga", // more than one section can have this id. Used to group sections
-                   title: "Get total no of sms report",
-                   options: {
-                       seriesType: "area",
-                       colors: ["#ccc7f1", "#459aaa"]
-                   },
-                   tooltip: "no tooltip",
-                   dataIndex: 1
-               }
-   ]
+   defaults: {
+      reportId: 1,
+      title: "Total sms report",
+      source: "/Reports/GetReportOverviewData",
+      sections: [
+         /* DA this is just for documentation purpose, as it is not correctly merged*/
+                  {
+                     type: "FirstSection",
+                     id: "4", // only one section can have this id
+                     groupId: "xt4ga", // more than one section can have this id. Used to group sections
+                     title: "Get total no of sms report",
+                     options: {
+                        seriesType: "area",
+                        colors: ["#ccc7f1", "#459aaa"]
+                     },
+                     tooltip: "no tooltip",
+                     dataIndex: 1,
+                     hasExportRawData: false
+                  }
+      ]
+   }   
 });
 
 var ReportsContentArea = Backbone.View.extend({
@@ -81,8 +85,8 @@ var ReportsContentArea = Backbone.View.extend({
        
        var jsonData = $.ajax({
            data: {
-               iIntervalStart: window.app.dateHelper.transformDate(window.app.startDate),
-               iIntervalEnd: window.app.dateHelper.transformDate(window.app.endDate),
+               iIntervalStart: window.app.dateHelper.transformStartDate(window.app.startDate),
+               iIntervalEnd: window.app.dateHelper.transformEndDate(window.app.endDate),
                iScope: window.app.currentWorkingPoint
            },
            url: window.app.domainName + self.model.get("source"),

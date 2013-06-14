@@ -946,4 +946,28 @@
     <value>The voucher code was not inserted in the message because would surpass the 160 characters limit.</value>
     <comment>Messages: show an alert box when voucher code cannot be inserted in the reply message</comment>
   </data>
+  <data name="repExportRawRepName" xml:space="preserve">
+    <value>export_messages</value>
+  </data>
+  <data name="RepExportRawToExcel" xml:space="preserve">
+    <value>Export messages to CSV</value>
+  </data>
+  <data name="repRawConversationId" xml:space="preserve">
+    <value>Conversation id</value>
+  </data>
+  <data name="repRawFrom" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="repRawText" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="repRawTimeReceived" xml:space="preserve">
+    <value>Time received (UTC)</value>
+  </data>
+  <data name="repRawTo" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="repRawWpName" xml:space="preserve">
+    <value>Working point</value>
+  </data>
 </root>
