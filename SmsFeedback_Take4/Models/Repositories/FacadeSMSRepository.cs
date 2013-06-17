@@ -143,9 +143,9 @@ namespace SmsFeedback_Take4.Models
          }
       }
 
-      public IEnumerable<SmsMessage> GetMessagesForConversation(string convID, smsfeedbackEntities dbContext)
+      public IEnumerable<SmsMessage> GetMessagesForConversation(string convID, int top, int skip, smsfeedbackEntities dbContext)
       {         
-         return mEFInterface.GetMessagesForConversation(convID, dbContext);
+         return mEFInterface.GetMessagesForConversation(convID, top, skip, dbContext);
          //we get the messages for a certain conversation from Twilio 
          //return mTwilioRep.GetMessagesForConversation(convID,isConvFavourite);
       }

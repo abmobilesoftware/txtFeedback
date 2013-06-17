@@ -160,7 +160,7 @@ window.app.Voucher = Backbone.Model.extend({});
 window.app.VouchersList = Backbone.Collection.extend({
     model: window.app.Voucher,
     url: function () {
-        return "http://rest.txtfeedback.net/" + window.app.wpShortId + "/api/vouchers";        
+        return RESTDomain + "/" + window.app.wpShortId + "/api/vouchers";        
     },
     sync: function (method, model, options) {
         options.dataType = "jsonp";

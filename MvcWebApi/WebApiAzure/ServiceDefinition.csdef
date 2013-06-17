@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <ServiceDefinition name="WebApiAzure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2012-10.1.8">
   <WebRole name="mobile.TxtFeedback_take1" vmsize="Small">
     <Runtime executionContext="elevated" />

@@ -1,11 +1,14 @@
 package org.helpers.json;
+import java.util.*;
 
 public class Agent {
 	public String user;
 	public int priority;
+	public ArrayList<Device> devices;
 	
-	public Agent(String iUser, int iPriority) {
+	public Agent(String iUser, ArrayList iDevices, int iPriority) {
 		user = iUser;
+		devices = iDevices;
 		priority = iPriority;
 	}
 	

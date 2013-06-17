@@ -512,7 +512,11 @@ function MessagesArea(convView, tagsArea, wpsArea) {
             messages1.bind('add', this.appendMessage);
             performFadeIn = true;
             messages1.fetch({
-               data: { "conversationId": messages1.identifier },
+               data: {
+                  "conversationId": messages1.identifier,
+                  "top": 10,
+                  "skip": 0
+               },
                success: function () {
                   //we have loaded the conversation - give the user some time to read it and then mark it as read
                   startTimer(3000);
@@ -609,7 +613,7 @@ function MessagesArea(convView, tagsArea, wpsArea) {
    $(document).bind("giveVoucher", function (ev, data) {
        var replyAreaContent = $("#limitedtextarea").val();
        if (replyAreaContent.length + data.voucherCode.length <= 159) {
-           $("#limitedtextarea").attr("value", replyAreaContent + " " + data.voucherCode);
+           $("#limitedtextarea").val(replyAreaContent + " " + data.voucherCode);
            $("input[name~='countdown']").val(160 - $("#limitedtextarea").val().length);
        } else {
            $(".voucherAlert").show("slow");

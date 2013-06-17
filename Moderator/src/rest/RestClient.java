@@ -92,6 +92,35 @@ public class RestClient {
 		}
 		return res;
 	}
+	
+	// TODO: Format the body as string, update HTTPJsonPost, check if URLEncoder is needed
+	// TODO: Test the GCM Request
+	/*
+	 * {
+	 * 	"body": "test",
+	 *  "recipients": "a1"
+	 * }
+	 */
+	public String buildJsonParams() throws UnsupportedEncodingException {
+		Iterator<Entry> it = params.entrySet().iterator();
+		String res = "{";
+		// First key pair of the Json package
+		if (it.hasNext()) {
+			Entry pair = it.next();
+			String add = pair.getKey() + ":" 
+					+ pair.getValue().toString();
+			res += add;
+		}
+		while (it.hasNext()) {
+			Entry pair = it.next();
+			String add = "," + pair.getKey() + ":" 
+					+ pair.getValue().toString();
+			res += add;
+		}
+		
+		res +="}";
+		return res;
+	}
  
 	public String convertStreamToString(InputStream is) throws IOException  {
 		if (is != null) {
@@ -118,7 +147,6 @@ public class RestClient {
  
 	public void sendHttpPost() throws ClientProtocolException, IOException{
 		HttpPost httpPostRequest = new HttpPost(url + buildParams());
- 
 		// add headers
 		Iterator<Entry> it = headers.entrySet().iterator();
 		while (it.hasNext()) {
@@ -128,7 +156,7 @@ public class RestClient {
  
 		HttpClient client = new DefaultHttpClient();
 		HttpResponse resp;
- 
+		 
 		resp = client.execute(httpPostRequest);
  
 		this.respCode = resp.getStatusLine().getStatusCode();
@@ -142,6 +170,31 @@ public class RestClient {
 			response = convertStreamToString(is);
 			//response = response.substring(1,response.length()-1);
 			//response = "{" + response + "}";
+			is.close();
+		}
+	}
+	
+	public void sendHttpPostWithJsonBody() throws ClientProtocolException, IOException{
+		HttpPost httpPostRequest = new HttpPost(url);
+		httpPostRequest.setEntity(new StringEntity(buildJsonParams()));
+		Iterator<Entry> it = headers.entrySet().iterator();
+		while (it.hasNext()) {
+			Entry header = it.next();
+			httpPostRequest.addHeader(header.getKey().toString(), header.getValue().toString());
+		}
+ 
+		HttpClient client = new DefaultHttpClient();
+		HttpResponse resp;
+		 
+		resp = client.execute(httpPostRequest);
+ 
+		this.respCode = resp.getStatusLine().getStatusCode();
+		this.responsePhrase = resp.getStatusLine().getReasonPhrase();
+		HttpEntity entity = resp.getEntity();
+ 
+		if (entity != null){
+			InputStream is = entity.getContent();
+			response = convertStreamToString(is);
 			is.close();
 		}
 	}

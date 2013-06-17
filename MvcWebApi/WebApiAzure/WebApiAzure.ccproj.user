@@ -4,5 +4,8 @@
     <ActivePublishProfile>testTxtfeedbackProduction</ActivePublishProfile>
     <WebRoleSkipLaunchInBrowser>
     </WebRoleSkipLaunchInBrowser>
+    <PackageProfile>Cloud</PackageProfile>
+    <PackageSolutionConfiguration>Release</PackageSolutionConfiguration>
+    <PackageEnableRemoteDesktop>False</PackageEnableRemoteDesktop>
   </PropertyGroup>
 </Project>

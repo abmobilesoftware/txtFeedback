@@ -7,6 +7,7 @@ using System.Web.Routing;
 using System.Web.Security;
 using SmsFeedback_Take4.Models;
 using Resources;
+using SmsFeedback_Take4.Utilities;
 
 namespace SmsFeedback_Take4.Controllers
 {
@@ -94,6 +95,25 @@ namespace SmsFeedback_Take4.Controllers
          return View(model);
       }
 
+      [HttpPost]
+      public JsonResult AjaxLogOn(LogOnModel model)
+      {
+         if (ModelState.IsValid)
+         {
+            if (Membership.ValidateUser(model.UserName, model.Password))
+            {
+               FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+               return Json("success", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+               ModelState.AddModelError("", Resources.Global.loginUnsuccessfulDetails);
+            }
+         }
+         // If we got this far, something failed
+         return Json("error", JsonRequestBehavior.AllowGet);
+      }
+
       //
       // GET: /Account/LogOff
 
@@ -102,6 +122,13 @@ namespace SmsFeedback_Take4.Controllers
          FormsAuthentication.SignOut();
 
          return RedirectToAction("LogOn", "Account");
+      }
+
+      [HttpPost]
+      public JsonResult AjaxLogOff()
+      {
+        FormsAuthentication.SignOut();
+        return Json("success", JsonRequestBehavior.AllowGet);        
       }
 
       //
