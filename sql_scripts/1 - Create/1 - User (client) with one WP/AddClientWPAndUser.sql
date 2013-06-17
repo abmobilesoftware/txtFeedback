@@ -47,8 +47,8 @@ DECLARE @U_RegularUserEmail nvarchar(256) = 'marius@txtfeedback.net';
 -- Less used
 DECLARE @WP_Provider nvarchar(50) = 'compatel';
 DECLARE @WP_SmsSent int = 0;
-DECLARE @WP_MaxNrOfSmsToSend int = 50;
-DECLARE @WP_Description_Additional_Text nvarchar(120) = 'WP';
+DECLARE @WP_MaxNrOfSmsToSend int = 200;
+DECLARE @WP_Description_Additional_Text nvarchar(120) = ' WP';
 DECLARE @WP_Description nvarchar(160) = @WP_Name + @WP_Description_Additional_Text;
 DECLARE @WP_BusyMessage nvarchar(160) = 'Vã mulþumim de feedback. Vã rugãm îngãduiþi pânã la 2 minute pentru un rãspuns ';
 DECLARE @WP_OutsideOfficeHoursMessage nvarchar(160) = 'Outside of office hours';

@@ -275,6 +275,7 @@
     <None Include="Properties\PublishProfiles\demo.t3xt.me_release.pubxml" />
     <None Include="Properties\PublishProfiles\dev.t3xt.me.pubxml" />
     <None Include="Properties\PublishProfiles\t3xt.me_release.pubxml" />
+    <None Include="Properties\PublishProfiles\vivacom.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MyScripts\Home.js" />
     <Content Include="MyScripts\strophe.js" />
