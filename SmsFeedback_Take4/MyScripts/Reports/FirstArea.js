@@ -102,12 +102,13 @@ function FirstArea(sectionModel) {
 
     this.loadWithGranularity = function (granularity) {
        self = this;
+
        var jsonData = $.ajax({
           data: {
              iIntervalStart: window.app.dateHelper.transformStartDate(window.app.startDate),
              iIntervalEnd: window.app.dateHelper.transformEndDate(window.app.endDate),
              iScope: window.app.currentWorkingPoint,
-             iGranularity: granularity
+             iGranularity: granularity       
           },
           url: window.app.domainName + chartSource,
           dataType: "json",
@@ -236,6 +237,12 @@ function TagsReportArea(sectionModel) {
 
    this.loadWithGranularity = function (granularity) {
       self = this;
+      //get the already defined tags
+      var delimiter = ',';
+      self.tagsForFiltering = $("input[name=filterTagReports]").val().split(delimiter);
+      if ("" === self.tagsForFiltering[0]) {
+         self.tagsForFiltering = [];
+      }
       var jsonData = $.ajax({
          data: {
             iIntervalStart: window.app.dateHelper.transformStartDate(window.app.startDate),
@@ -249,12 +256,13 @@ function TagsReportArea(sectionModel) {
          async: false,
          traditional: true,
          success: function (data) {
-            self.load(data);
+            //DA don't reinitialize the filter functionality as only the grid data has changed
+            self.load(data, true);
          }
       }).responseText;
    };
 
-   this.load = function (iData) {
+   this.load = function (iData, dontInitializeFilter) {
       //DA build the granularitySelector id
       var selector = "#granularitySelector" + identifier;
       $(selector).show();
@@ -281,45 +289,44 @@ function TagsReportArea(sectionModel) {
       var data = new google.visualization.DataTable(jsonData);
       chart.draw(data, options);
 
-      var placeholderMessage = $('#filteringAddFilterTagMessage').val();
-      var removeTagValue = $('#messagesRemoveTagPlaceHolderMessage').val();
-      var tagFilter = $("#filterTagReports").tagsInput({
-         'height': '22px',
-         'width': 'auto',
-         'autocomplete_url': "Tags/FindMatchingTags",
-         'onAddTag': function (tagValue) {
-            window.app.reportDataToBeSaved[tagValue] = tagValue;
-         },
-         'onRemoveTag': function (tagValue) {
-            delete window.app.reportDataToBeSaved[tagValue];
-         },
-         'placeholder': placeholderMessage,
-         'interactive': true
-      });
-      //DA decide if we already had tags or to use the default one      
-      if ($.isEmptyObject(window.app.reportDataToBeSaved)) {
-         tagFilter.addTag($('#defaultTagForTagReports').val());
-      }
-      else {
-         for (prop in window.app.reportDataToBeSaved) {
-            tagFilter.addTag(window.app.reportDataToBeSaved[prop]);
+      if (dontInitializeFilter != undefined && dontInitializeFilter) {
+
+      } else
+      {
+         var placeholderMessage = $('#filteringAddFilterTagMessage').val();
+         var removeTagValue = $('#messagesRemoveTagPlaceHolderMessage').val();
+         var tagFilter = $("#filterTagReports").tagsInput({
+            'height': '22px',
+            'width': 'auto',
+            'autocomplete_url': "Tags/FindMatchingTags",
+            'onAddTag': function (tagValue) {
+               window.app.reportDataToBeSaved[tagValue] = tagValue;
+            },
+            'onRemoveTag': function (tagValue) {
+               delete window.app.reportDataToBeSaved[tagValue];
+            },
+            'placeholder': placeholderMessage,
+            'interactive': true
+         });
+         //DA decide if we already had tags or to use the default one      
+         if ($.isEmptyObject(window.app.reportDataToBeSaved)) {
+            tagFilter.addTag($('#defaultTagForTagReports').val());
+         }
+         else {
+            for (prop in window.app.reportDataToBeSaved) {
+               tagFilter.addTag(window.app.reportDataToBeSaved[prop]);
+            }
          }
       }
+      
    };
    this.setGranularity = function (iGranularity) {
       granularity = iGranularity;
    };
 
-   
-   
-
    $(".refreshTagReport").click(function (e) {
       e.preventDefault();
-      var delimiter = ',';
-      self.tagsForFiltering = $("input[name=filterTagReports]").val().split(delimiter);
-      if ("" === self.tagsForFiltering[0]) {
-         self.tagsForFiltering = [];
-      }
+     
       self.loadWithGranularity(self.granularity);
    });
 }
