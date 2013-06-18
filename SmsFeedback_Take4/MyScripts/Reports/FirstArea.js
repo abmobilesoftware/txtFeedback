@@ -16,6 +16,8 @@
 /*global DownloadJSON2CSV */
 //#endregion
 window.app = window.app || {};
+window.app.reportDataToBeSaved = {};
+window.app.tagFilteringID = {};
 
 function FirstArea(sectionModel) {
     var self = this;
@@ -98,33 +100,35 @@ function FirstArea(sectionModel) {
        });
     });
 
-    this.loadWithGranularity = function(granularity) {
-        self = this;
-        var jsonData = $.ajax({
-            data: {
-               iIntervalStart: window.app.dateHelper.transformStartDate(window.app.startDate),
-               iIntervalEnd: window.app.dateHelper.transformEndDate(window.app.endDate),
-                iScope: window.app.currentWorkingPoint,
-                iGranularity: granularity
-            },
-            url: window.app.domainName + chartSource,
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                self.load(data);
-            }
-        }).responseText;
-    }
+    this.loadWithGranularity = function (granularity) {
+       self = this;
+       var jsonData = $.ajax({
+          data: {
+             iIntervalStart: window.app.dateHelper.transformStartDate(window.app.startDate),
+             iIntervalEnd: window.app.dateHelper.transformEndDate(window.app.endDate),
+             iScope: window.app.currentWorkingPoint,
+             iGranularity: granularity
+          },
+          url: window.app.domainName + chartSource,
+          dataType: "json",
+          async: false,
+          success: function (data) {
+             self.load(data);
+          }
+       }).responseText;
+    };
 
     this.load = function (iData) {
-        $(".granularitySelector").show();
+       //DA build the granularitySelector id
+       var selector = "#granularitySelector" + identifier;
+       $(selector).show();
         if (options.seriesType === "bars") {
             // usually combo charts don't require a granularitySelector.
-            $(".granularitySelector").hide();
+           $(selector).hide();
         } 
 
         var chart;
-        if (options.seriesType == undefined) {
+        if (options.seriesType === undefined) {
             chart = new google.visualization.AreaChart(document.getElementById("chart_div" + identifier));
             options.pointSize = 6;
         } else {
@@ -248,17 +252,19 @@ function TagsReportArea(sectionModel) {
             self.load(data);
          }
       }).responseText;
-   }
+   };
 
    this.load = function (iData) {
-      $(".granularitySelector").show();
+      //DA build the granularitySelector id
+      var selector = "#granularitySelector" + identifier;
+      $(selector).show();
       if (options.seriesType === "bars") {
          // usually combo charts don't require a granularitySelector.
-         $(".granularitySelector").hide();
+         $(selector).hide();
       }
 
       var chart;
-      if (options.seriesType == undefined) {
+      if (options.seriesType === undefined) {
          chart = new google.visualization.AreaChart(document.getElementById("chart_div" + identifier));
          options.pointSize = 6;
       } else {
@@ -274,27 +280,38 @@ function TagsReportArea(sectionModel) {
       jsonData = iData;
       var data = new google.visualization.DataTable(jsonData);
       chart.draw(data, options);
-   };
 
+      var placeholderMessage = $('#filteringAddFilterTagMessage').val();
+      var removeTagValue = $('#messagesRemoveTagPlaceHolderMessage').val();
+      var tagFilter = $("#filterTagReports").tagsInput({
+         'height': '22px',
+         'width': 'auto',
+         'autocomplete_url': "Tags/FindMatchingTags",
+         'onAddTag': function (tagValue) {
+            window.app.reportDataToBeSaved[tagValue] = tagValue;
+         },
+         'onRemoveTag': function (tagValue) {
+            delete window.app.reportDataToBeSaved[tagValue];
+         },
+         'placeholder': placeholderMessage,
+         'interactive': true
+      });
+      //DA decide if we already had tags or to use the default one      
+      if ($.isEmptyObject(window.app.reportDataToBeSaved)) {
+         tagFilter.addTag($('#defaultTagForTagReports').val());
+      }
+      else {
+         for (prop in window.app.reportDataToBeSaved) {
+            tagFilter.addTag(window.app.reportDataToBeSaved[prop]);
+         }
+      }
+   };
    this.setGranularity = function (iGranularity) {
       granularity = iGranularity;
    };
 
-   var placeholderMessage = $('#filteringAddFilterTagMessage').val();
-   var removeTagValue = $('#messagesRemoveTagPlaceHolderMessage').val();
-   $("#filterTagReports").tagsInput({
-      'height': '22px',
-      'width': 'auto',
-      'autocomplete_url': "Tags/FindMatchingTags",
-      'onAddTag': function (tagValue) {
-         
-      },
-      'onRemoveTag': function (tagValue) {
-         
-      },      
-      'placeholder': placeholderMessage,
-      'interactive': true      
-   });
+   
+   
 
    $(".refreshTagReport").click(function (e) {
       e.preventDefault();

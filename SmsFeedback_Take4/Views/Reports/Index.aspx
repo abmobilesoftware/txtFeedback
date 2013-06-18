@@ -62,7 +62,7 @@
                 <a href="#" class="toCsv{{ id }} exportBtn" title="<%: Resources.Global.RepExportToExcel %>"><img src="<%: Url.Content("~/Content/images/Excel-25_chenar.png") %>" width="25" height="25"/></a> 
                 {% if (hasExportRawData) { %}
                 <a href="#" class="exportRawBtn" title="<%: Resources.Global.RepExportRawToExcel %>"><img src="<%: Url.Content("~/Content/images/database-Chart-25_chenar.png") %>" width="25" height="25"/></a> 
-                <div type="hidded" style="disply:none" id="exportrawreport"></div>
+                <div type="hidden" style="display:none" id="exportrawreport"></div>
                {% } %}
         </div>
             <div class="chartAreaContent{{groupId}}">
@@ -89,7 +89,7 @@
                 <a href="#" class="toCsv{{ id }} exportBtn" title="<%: Resources.Global.RepExportToExcel %>"><img src="<%: Url.Content("~/Content/images/Excel-25_chenar.png") %>" width="25" height="25"/></a> 
                 {% if (hasExportRawData) { %}
                 <a href="#" class="exportRawBtn" title="<%: Resources.Global.RepExportRawToExcel %>"><img src="<%: Url.Content("~/Content/images/database-Chart-25_chenar.png") %>" width="25" height="25"/></a> 
-                <div type="hidded" style="disply:none" id="exportrawreport"></div>
+                <div type="hidden" style="display:none" id="exportrawreport"></div>
                {% } %}
          </div>
           
@@ -100,6 +100,7 @@
                 <input type="hidden" value="<%: Resources.Global.addATagLabel %>" class="filterLabel" />
                 <input type="hidden" value="<%: Resources.Global.filteringAddFilterTag %>" id="filteringAddFilterTagMessage" />
                 <input type="hidden" value="<%: Resources.Global.messagesRemoveTagPlaceHolder %>" id="messagesRemoveTagPlaceHolderMessage" />
+                <input type="hidden" value="<%= ViewBag.DefaultFilterTag %>" id="defaultTagForTagReports" />
              </div>
              <button class="refreshTagReport btn btn-info">Refresh</button>
             </div>
