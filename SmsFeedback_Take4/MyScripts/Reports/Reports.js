@@ -67,6 +67,7 @@ var ReportsContentArea = Backbone.View.extend({
       this.FIRST_SECTION = "FirstSection";
       this.SECOND_SECTION = "SecondSection";
       this.THIRD_SECTION = "ThirdSection";
+      this.TAGS_REPORT_SECTION = "TagsReportSection";
       this.loadReportData();      
    },
    render: function () {      
@@ -121,6 +122,12 @@ var ReportsContentArea = Backbone.View.extend({
            var thirdArea = new ThirdArea();
            thirdArea.load(data.charts[model.dataIndex]);
            window.app.areas[model.id] = thirdArea;
+       } else if (model.type === this.TAGS_REPORT_SECTION) {
+          var template = _.template($("#" + model.type).html(), model);
+          $("#firstSection").append(template);
+          var tagsReportArea = new TagsReportArea(model);
+          tagsReportArea.load(data.charts[model.dataIndex]);
+          window.app.areas[model.id] = tagsReportArea;
        }
    },
    setupEnvironment: function (displayTooltip) {           

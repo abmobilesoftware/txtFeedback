@@ -278,8 +278,7 @@
    <input type="hidden" value="<%: ViewData["currentCulture"] %>" class="currentCulture" />
    <input type="hidden" value="<%: Resources.Global.lblNoConversationSelected %>" id="noConversationSelectedMessage" />
    <input type="hidden" value="<%: Resources.Global.messagesAddTagPlaceHolder %>" id="messagesAddTagPlaceHolderMessage" />
-   <input type="hidden" value="<%: Resources.Global.messagesRemoveTagPlaceHolder %>"
-      id="messagesRemoveTagPlaceHolderMessage" />
+   <input type="hidden" value="<%: Resources.Global.messagesRemoveTagPlaceHolder %>" id="messagesRemoveTagPlaceHolderMessage" />
    <input type="hidden" value="<%: Resources.Global.filteringAddFilterTag %>" id="filteringAddFilterTagMessage" />
    <input type="hidden" value="<%: Resources.Global.confirmDeleteMessage %>" id="confirmDeleteMessage" />
    <input type="hidden" value="<%: Resources.Global.confirmDeleteConversation %>" id="confirmDeleteConversation" />

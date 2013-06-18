@@ -276,6 +276,7 @@
     <Content Include="Content\audio\multimedia_pop_up_alert_tone_2.wav" />
     <Content Include="Content\css\areaDefinitions.css" />
     <Content Include="Content\contact.css" />
+    <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\datepicker\datepicker.css" />
     <Content Include="Content\css\datepicker\layout.css" />
     <Content Include="Content\css\help.css" />

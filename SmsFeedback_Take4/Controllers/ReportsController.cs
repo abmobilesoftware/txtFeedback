@@ -459,7 +459,9 @@ namespace SmsFeedback_Take4.Controllers
                 RepInfoBox IbMostUsedTag = new RepInfoBox(mostUsedTag, "");
                 RepInfoBox IbAvgNoOfTagsPerConversation = (noOfConversations == 0) ? new RepInfoBox(0, Resources.Global.RepTagsPerConversationUnit) :
                     new RepInfoBox(Math.Round((double)noOfTags / noOfConversations, 2), Resources.Global.RepTagsPerConversationUnit);
-                var repData = new ReportData(new List<RepChartData>() { chartSource },
+                var user = (from u in dbContext.Users where u.UserName.Equals(User.Identity.Name) select u).FirstOrDefault();
+                var tagReport = GetTagReportData(intervalStart, intervalEnd, iScope, Constants.DAY_GRANULARITY, new string[0], user);
+                var repData = new ReportData(new List<RepChartData>() { chartSource, tagReport },
                         new List<RepInfoBox>() { IbMostUsedTag, IbAvgNoOfTagsPerConversation });
                 return Json(repData, JsonRequestBehavior.AllowGet);
             }
@@ -480,15 +482,15 @@ namespace SmsFeedback_Take4.Controllers
            var dbContext = new smsfeedbackEntities();
            var user = (from u in dbContext.Users where u.UserName.Equals(User.Identity.Name) select u).FirstOrDefault();
            tags = tags ?? new string[0];
-           var res=  GetTagReportData(iScope, intervalStart, intervalEnd, iGranularity, tags, user);
+           var res = GetTagReportData(intervalStart, intervalEnd, iScope, iGranularity, tags, user);
            return Json(res,JsonRequestBehavior.AllowGet);
           
         }
 
-        private RepChartData GetTagReportData(
-           String iScope,
+        private RepChartData GetTagReportData(         
            DateTime intervalStart,
            DateTime intervalEnd,
+           String iScope,
            string iGranularity,
            string[] tags,
            SmsFeedback_EFModels.User user)
@@ -571,8 +573,8 @@ namespace SmsFeedback_Take4.Controllers
            }
            content.Add(tagsRepData);
            RepChartData chartSource = new RepChartData(
-            new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), 
-                 new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE,"Tags with ")}, PrepareJson(content, Resources.Global.RepClientsUnit));
+            new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE,"Tags with ")},
+            PrepareJson(content, Resources.Global.RepClientsUnit));
            return chartSource;
         }
         #endregion
@@ -1941,9 +1943,10 @@ namespace SmsFeedback_Take4.Controllers
             });
             var report5 = new Report(cConvsTagsOverviewID, Resources.Global.RepTags, "/Reports/GetReportTagsData",
                 new ReportSection[] { 
-                                        new ReportSection("FirstSection", iDataIndex: 0, iTitle:Resources.Global.RepNoOfConversationsByTagsChartTitle, iOptions: new ReportResourceOptions(iSeriesType : Constants.BARS_CHART_STYLE)),
-                                        new ReportSection("SecondSection", iDataIndex: 0, iTitle:Resources.Global.RepMostUsedTag),
-                                        new ReportSection("SecondSection", iDataIndex: 1, iTitle: Resources.Global.RepAvgNoOfTagsPerConversation)                                                                                                                                                    
+                                        new ReportSection("FirstSection",iGroupId: "7", iDataIndex: 0, iTitle:Resources.Global.RepNoOfConversationsByTagsChartTitle, iOptions: new ReportResourceOptions(iSeriesType : Constants.BARS_CHART_STYLE)),
+                                        new ReportSection("SecondSection", iGroupId: "7", iDataIndex: 0, iTitle:Resources.Global.RepMostUsedTag),
+                                        new ReportSection("SecondSection",iGroupId: "7", iDataIndex: 1, iTitle: Resources.Global.RepAvgNoOfTagsPerConversation),
+                                        new ReportSection("TagsReportSection","tagsWith",iDataIndex: 1, iGroupId: "5",iChartSource:"/Reports/GetTagReport")
                                      });
             var report7 = new Report(cClientsNewVsReturningID, Resources.Global.RepNewVsReturning, "/Reports/GetReportClientsData",
                 new ReportSection[] { 

@@ -49,14 +49,14 @@
                     <div class="clear"></div>
                 </div>
                 <div id="thirdSection">
-                </div>
+                </div>                 
             </div>
                    
             <div id="overlay"></div>                
    </script>
    <script type="text/template" id="FirstSection">
         <div class="chartArea">
-            <div id="titleWrapper">
+            <div id="titleWrapper{{id}}">
                 <a href="#" class="chartAreaTitle" {% if (tooltip != "no tooltip") { %} title="{{ tooltip }}" {% } %} sectionId="{{ groupId }}"><img class="sectionVisibility" src="<%: Url.Content("~/Content/images/arrow_down_dblue_16.png") %>" alt="Expand section" />{{ title }}</a>
                 <p id="description{{id}}" class="sectionDescription invisible">Displays two dimensional data set</p>   
                 <a href="#" class="toCsv{{ id }} exportBtn" title="<%: Resources.Global.RepExportToExcel %>"><img src="<%: Url.Content("~/Content/images/Excel-25_chenar.png") %>" width="25" height="25"/></a> 
@@ -66,6 +66,44 @@
                {% } %}
         </div>
             <div class="chartAreaContent{{groupId}}">
+                <form action="">    
+                <div id="granularitySelector{{ id }}" class="granularitySelector">
+                    <div class="radioBtnWrapper active"><label for="day{{id}}" class="radioBtn"><input type="radio" id="day{{id}}" name="radio{{id}}" checked="checked" selectorId="{{ id }}" class="radioOption{{id}} radioOption" value="day"/><%: Resources.Global.RepDay %></label></div>
+		            <div class="radioBtnWrapper"><label for="week{{id}}" class="radioBtn"><input type="radio" id="week{{id}}" name="radio{{id}}" selectorId="{{ id }}" class="radioOption{{id}} radioOption" value="week" /><%: Resources.Global.RepWeek %></label></div>
+		            <div class="radioBtnWrapper"><label for="month{{id}}" class="radioBtn"><input type="radio" id="month{{id}}" name="radio{{id}}" selectorId="{{ id }}" class="radioOption{{id}} radioOption" value="month"/><%: Resources.Global.RepMonth %></label></div>
+                </div>
+                </form>
+                
+                <div id="chart_div{{id}}" class="chart_div"></div>
+                <div class="clear"></div>
+            </div>
+         </div>     
+   </script>   
+    <script type="text/template" id="TagsReportSection">
+       <div class="chartArea">
+       
+          <div id="titleWrapper{{id}}">
+                <a href="#" class="chartAreaTitle" {% if (tooltip != "no tooltip") { %} title="{{ tooltip }}" {% } %} sectionId="{{ groupId }}"><img class="sectionVisibility" src="<%: Url.Content("~/Content/images/arrow_down_dblue_16.png") %>" alt="Expand section" />{{ title }}</a>
+                <p id="description{{id}}" class="sectionDescription invisible">Displays two dimensional data set</p>   
+             
+                <a href="#" class="toCsv{{ id }} exportBtn" title="<%: Resources.Global.RepExportToExcel %>"><img src="<%: Url.Content("~/Content/images/Excel-25_chenar.png") %>" width="25" height="25"/></a> 
+                {% if (hasExportRawData) { %}
+                <a href="#" class="exportRawBtn" title="<%: Resources.Global.RepExportRawToExcel %>"><img src="<%: Url.Content("~/Content/images/database-Chart-25_chenar.png") %>" width="25" height="25"/></a> 
+                <div type="hidded" style="disply:none" id="exportrawreport"></div>
+               {% } %}
+         </div>
+          
+            <div class="chartAreaContent{{groupId}}">
+                <div class="tagFilterArea">
+             <div id="tagFilteringReports" class="filterInputBox">
+                <input name="filterTagReports" id="filterTagReports" />
+                <input type="hidden" value="<%: Resources.Global.addATagLabel %>" class="filterLabel" />
+                <input type="hidden" value="<%: Resources.Global.filteringAddFilterTag %>" id="filteringAddFilterTagMessage" />
+                <input type="hidden" value="<%: Resources.Global.messagesRemoveTagPlaceHolder %>" id="messagesRemoveTagPlaceHolderMessage" />
+             </div>
+             <button class="refreshTagReport btn btn-info">Refresh</button>
+            </div>
+
                 <form action="">    
                 <div id="granularitySelector{{ id }}" class="granularitySelector">
                     <div class="radioBtnWrapper active"><label for="day{{id}}" class="radioBtn"><input type="radio" id="day{{id}}" name="radio{{id}}" checked="checked" selectorId="{{ id }}" class="radioOption{{id}} radioOption" value="day"/><%: Resources.Global.RepDay %></label></div>
