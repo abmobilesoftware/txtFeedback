@@ -12,7 +12,7 @@ namespace SmsFeedback_Take4.Controllers
     public abstract class BaseController : Controller
     {
         public string currentCulture = "en";
-        private static List<String> supportedLanguage = new List<String> { "en", "de", "ro", "es" };
+        private static List<String> supportedLanguage = new List<String> { "en", "de", "ro", "es", "ru" };
         protected override void ExecuteCore()
         {
            //DA if the user language is not supported then we should not use it but default to en-US           

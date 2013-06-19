@@ -220,6 +220,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Global.de.resx</DependentUpon>
     </Compile>
+    <Compile Include="GlobalResources\Global.ru.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Global.ru.resx</DependentUpon>
+    </Compile>
     <Compile Include="Mailers\WarningMailer.cs" />
     <Compile Include="Models\BusinessObjects\ConvTag.cs" />
     <Compile Include="Models\BusinessObjects\WorkingPointConfModel.cs" />
@@ -365,6 +370,8 @@
     <Content Include="Content\images\question-green.svg" />
     <Content Include="Content\images\question-orange.svg" />
     <Content Include="Content\images\Ro_flag_16.png" />
+    <Content Include="Content\images\Ru_flag_16.png" />
+    <Content Include="Content\images\Ru_flag_32.png" />
     <Content Include="Content\images\singleCheck.png" />
     <Content Include="Content\images\smiley-h.png" />
     <Content Include="Content\images\Smiley-Happy-32.png" />
@@ -485,6 +492,7 @@
     <Content Include="QUnit\XMPPTests.js" />
     <Content Include="Scripts\backbone.js" />
     <Content Include="Scripts\CollapsibleLists.js" />
+    <Content Include="Scripts\jquery.ui.datepicker-ru.js" />
     <Content Include="Scripts\flxhr\updateplayer.swf" />
     <Content Include="Scripts\jquery.json-2.3.min.js" />
     <Content Include="Scripts\jquery.qtip-1.0.0-rc3.min.js" />
@@ -570,6 +578,11 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Global.de.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GlobalResources\Global.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Global.ru.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>Resources</CustomToolNamespace>
     </EmbeddedResource>
     <None Include="Properties\PublishProfiles\cluj.info.pubxml" />
     <Content Include="Scripts\jquery.cookie.js" />

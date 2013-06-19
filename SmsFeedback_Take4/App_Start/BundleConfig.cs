@@ -8,7 +8,7 @@ namespace SmsFeedback_Take4
       // For more information on Bundling, visit http://go.microsoft.com/fwlink/?LinkId=254725
       public static void RegisterBundles(BundleCollection bundles)
       {
-         BundleTable.EnableOptimizations = false;
+         BundleTable.EnableOptimizations = true;
          //master layout
          //css
          bundles.Add(new ScriptBundle("~/bundles/corejs").Include(
@@ -50,6 +50,7 @@ namespace SmsFeedback_Take4
             "~/Scripts/jquery.ui.datepicker-ro.js",
             "~/Scripts/jquery.ui.datepicker-en-GB.js",
             "~/Scripts/jquery.ui.datepicker-es.js",
+            "~/Scripts/jquery.ui.datepicker-ru.js",
             "~/MyScripts/WorkingPoints.js",
             "~/MyScripts/Messages.js",
             "~/MyScripts/Conversations.js",
@@ -70,6 +71,7 @@ namespace SmsFeedback_Take4
             "~/Scripts/jquery.ui.datepicker-ro.js",
             "~/Scripts/jquery.ui.datepicker-en-GB.js",
             "~/Scripts/jquery.ui.datepicker-es.js",
+            "~/Scripts/jquery.ui.datepicker-ru.js",
             "~/MyScripts/Helpers/Debounce.js",
             "~/MyScripts/Reports/DateHelper.js",
             "~/MyScripts/Reports/GlobalVariables.js",
