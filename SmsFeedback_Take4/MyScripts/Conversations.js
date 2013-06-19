@@ -47,10 +47,8 @@ window.app.Conversation = Backbone.Model.extend({
     initialize: function (attributes, options) {
        this.set('IsSmsBased', (attributes.IsSmsBased === "false" || attributes.IsSmsBased === false) ? false : true);
        this.set('TimeUpdated', attributes.TimeReceived);
-       if (this.get('IsSmsBased')) {
-          var fromTo = getFromToFromConversation(attributes.ConvID);
-          this.set('ClientDisplayName', fromTo[0].substring(0, fromTo[0].length - 4) + "....");
-       }
+       var fromTo = getFromToFromConversation(attributes.ConvID);
+       this.set('ClientDisplayName', fromTo[0].substring(0, fromTo[0].length - 4) + "....");       
     },
     toggleStarred: function () {
         /* Toggle the starred value using an optimistically approach
