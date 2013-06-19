@@ -182,8 +182,8 @@ function TagsReportArea(sectionModel) {
    $(".radioOption" + identifier).change(function (event) {
       $(this).parents("#granularitySelector" + identifier).find(".active").removeClass("active");
       $(this).parents(".radioBtnWrapper").addClass("active");
-
-      window.app.areas[identifier].loadWithGranularity($(this).val());
+      self.setGranularity($(this).val());
+      self.loadWithGranularity($(this).val());
    });
 
    $(".toCsv" + identifier).click(function (event) {
@@ -235,8 +235,7 @@ function TagsReportArea(sectionModel) {
       });
    });
 
-   this.loadWithGranularity = function (granularity) {
-      self = this;
+   this.loadWithGranularity = function (granularity) {      
       //get the already defined tags
       var delimiter = ',';
       self.tagsForFiltering = $("input[name=filterTagReports]").val().split(delimiter);
@@ -321,7 +320,7 @@ function TagsReportArea(sectionModel) {
       
    };
    this.setGranularity = function (iGranularity) {
-      granularity = iGranularity;
+      self.granularity = iGranularity;
    };
 
    $(".refreshTagReport").click(function (e) {

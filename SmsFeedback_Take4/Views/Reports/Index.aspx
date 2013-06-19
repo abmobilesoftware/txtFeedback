@@ -102,7 +102,7 @@
                 <input type="hidden" value="<%: Resources.Global.messagesRemoveTagPlaceHolder %>" id="messagesRemoveTagPlaceHolderMessage" />
                 <input type="hidden" value="<%= ViewBag.DefaultFilterTag %>" id="defaultTagForTagReports" />
              </div>
-             <button class="refreshTagReport btn btn-info">Refresh</button>
+             <button class="refreshTagReport btn btn-info"><%= Resources.Global.repTagRefreshTagFilter %></button>
             </div>
 
                 <form action="">    

@@ -332,13 +332,13 @@ input.filterDate {
 }
 
 .tagFilterArea {
-   padding-right:100px;
+   padding-right:160px;
    margin: 15px;
 }
 
 .refreshTagReport {
    float:right;
    position:relative;
-   left: 80px;
+   left: 120px;
    top: -33px;   
 }

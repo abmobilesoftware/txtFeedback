@@ -604,9 +604,19 @@ namespace SmsFeedback_Take4.Controllers
            }
            
            content.Add(tagsRepData);
+           //DA build legend
+           string title;
+           if (tags.Length != 0)
+           {
+              title = Resources.Global.repTagsLegendDescription + String.Join("& ", tags);
+           }
+           else
+           {
+              title = Resources.Global.repTagsLegendDescriptionNoTags;
+           }
            RepChartData chartSource = new RepChartData(
-            new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE,"Tags with ")},
-            PrepareJson(content, Resources.Global.RepClientsUnit));
+            new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, title) },
+            PrepareJson(content, Resources.Global.RepSmsUnit));
            return chartSource;
         }
         #endregion
@@ -1976,7 +1986,7 @@ namespace SmsFeedback_Take4.Controllers
             });
             var report5 = new Report(cConvsTagsOverviewID, Resources.Global.RepTags, "/Reports/GetReportTagsData",
                 new ReportSection[] { 
-                                        new ReportSection("TagsReportSection","tagsWith",iDataIndex: 0, iGroupId: "5",iChartSource:"/Reports/GetTagReportDataGrid"),
+                                        new ReportSection("TagsReportSection", Resources.Global.repTagFilteringReportTitle,iDataIndex: 0, iGroupId: "5",iChartSource:"/Reports/GetTagReportDataGrid"),
                                         new ReportSection("FirstSection",iGroupId: "7", iDataIndex: 1,
                                            iTitle:Resources.Global.RepNoOfConversationsByTagsChartTitle,
                                            iOptions: new ReportResourceOptions(iSeriesType : Constants.BARS_CHART_STYLE)                                           

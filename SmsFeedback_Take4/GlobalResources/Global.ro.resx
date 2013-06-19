@@ -865,4 +865,16 @@
   <data name="repRawWpName" xml:space="preserve">
     <value>Nume punct de lucru</value>
   </data>
+  <data name="repTagFilteringReportTitle" xml:space="preserve">
+    <value>Filtru multi etichetă</value>
+  </data>
+  <data name="repTagRefreshTagFilter" xml:space="preserve">
+    <value>Actualizează</value>
+  </data>
+  <data name="repTagsLegendDescription" xml:space="preserve">
+    <value>Conversaţii etichetate </value>
+  </data>
+  <data name="repTagsLegendDescriptionNoTags" xml:space="preserve">
+    <value>Selectaţi cel puţin o etichetă</value>
+  </data>
 </root>

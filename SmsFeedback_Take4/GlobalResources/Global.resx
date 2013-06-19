@@ -970,4 +970,16 @@
   <data name="repRawWpName" xml:space="preserve">
     <value>Working point</value>
   </data>
+  <data name="repTagFilteringReportTitle" xml:space="preserve">
+    <value>Multiple tag filter</value>
+  </data>
+  <data name="repTagRefreshTagFilter" xml:space="preserve">
+    <value>Refresh chart</value>
+  </data>
+  <data name="repTagsLegendDescription" xml:space="preserve">
+    <value>Conversations labeled </value>
+  </data>
+  <data name="repTagsLegendDescriptionNoTags" xml:space="preserve">
+    <value>Select at least one tag</value>
+  </data>
 </root>

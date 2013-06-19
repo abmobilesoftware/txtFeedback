@@ -1105,11 +1105,47 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Multiple tag filter.
+        /// </summary>
+        public static string repTagFilteringReportTitle {
+            get {
+                return ResourceManager.GetString("repTagFilteringReportTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh chart.
+        /// </summary>
+        public static string repTagRefreshTagFilter {
+            get {
+                return ResourceManager.GetString("repTagRefreshTagFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tags.
         /// </summary>
         public static string RepTags {
             get {
                 return ResourceManager.GetString("RepTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conversations labeled .
+        /// </summary>
+        public static string repTagsLegendDescription {
+            get {
+                return ResourceManager.GetString("repTagsLegendDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select at least one tag.
+        /// </summary>
+        public static string repTagsLegendDescriptionNoTags {
+            get {
+                return ResourceManager.GetString("repTagsLegendDescriptionNoTags", resourceCulture);
             }
         }
         
