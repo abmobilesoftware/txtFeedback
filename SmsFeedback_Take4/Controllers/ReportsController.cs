@@ -403,8 +403,8 @@ namespace SmsFeedback_Take4.Controllers
                  
 
                 String DEFAULT_TAGS = "defaultTags";
-                var dbContext = new smsfeedbackEntities();
-                var tags = (from u in dbContext.Users
+                
+                var tags = (from u in context.Users
                             where u.UserName.Equals(User.Identity.Name)
                             select (from wp in u.WorkingPoints
                                     where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
@@ -455,7 +455,7 @@ namespace SmsFeedback_Take4.Controllers
 
                 RepChartData chartSource = new RepChartData(headerContent, new RepDataRow[] { new RepDataRow(rowContent) });
                 string telNumber = "00000000";
-                var noOfConversations = ((from u in dbContext.Users
+                var noOfConversations = ((from u in context.Users
                                           where u.UserName.Equals(User.Identity.Name)
                                           select (from wp in u.WorkingPoints
                                                   select (from conv in wp.Conversations
@@ -467,7 +467,7 @@ namespace SmsFeedback_Take4.Controllers
                 RepInfoBox IbMostUsedTag = new RepInfoBox(mostUsedTag, "");
                 RepInfoBox IbAvgNoOfTagsPerConversation = (noOfConversations == 0) ? new RepInfoBox(0, Resources.Global.RepTagsPerConversationUnit) :
                     new RepInfoBox(Math.Round((double)noOfTags / noOfConversations, 2), Resources.Global.RepTagsPerConversationUnit);
-                var user = (from u in dbContext.Users where u.UserName.Equals(User.Identity.Name) select u).FirstOrDefault();
+                var user = (from u in context.Users where u.UserName.Equals(User.Identity.Name) select u).FirstOrDefault();
 
                //decide on the passed save data if we have any tags or not
                //DA for the time being the dataToBeSaved only contains the tag values
@@ -479,7 +479,7 @@ namespace SmsFeedback_Take4.Controllers
                 }
                 else
                 {
-                   var defaultTags = new string[1] { GetDefaultTagForTagReport(dbContext) };                   
+                   var defaultTags = new string[1] { GetDefaultTagForTagReport(context) };                   
                    tagReport = GetTagReportData(intervalStart, intervalEnd, iScope, Constants.DAY_GRANULARITY, defaultTags, user);
                 }
                 var repData = new ReportData(new List<RepChartData>() { tagReport, chartSource},
@@ -501,8 +501,7 @@ namespace SmsFeedback_Take4.Controllers
            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
            //var iGranularity = Constants.WEEK_GRANULARITY;
 
-           var dbContext = new smsfeedbackEntities();
-           var user = (from u in dbContext.Users where u.UserName.Equals(User.Identity.Name) select u).FirstOrDefault();
+           var user = (from u in context.Users where u.UserName.Equals(User.Identity.Name) select u).FirstOrDefault();
             tags = tags ?? new string[0];  
             var res = GetTagReportData(intervalStart, intervalEnd, iScope, iGranularity, tags, user);
             return Json(res, JsonRequestBehavior.AllowGet);
@@ -641,9 +640,8 @@ namespace SmsFeedback_Take4.Controllers
                 KeyAndCount posToNegTransitions = new KeyAndCount(Constants.POS_TO_NEG_EVENT, 0);
                 KeyAndCount negToPosTransitions = new KeyAndCount(Constants.NEG_TO_POS_EVENT, 0);
 
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
                 // GLOBAL SCOPE
-                IEnumerable<ConversationHistory> convEvents = (from u in dbContext.Users
+                IEnumerable<ConversationHistory> convEvents = (from u in context.Users
                                                                where u.UserName.Equals(User.Identity.Name)
                                                                select (from wp in u.WorkingPoints
                                                                        where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
@@ -871,10 +869,9 @@ namespace SmsFeedback_Take4.Controllers
                 Dictionary<DateTime, ChartValue> resultRemoveNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultPositiveTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultNegativeTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
+                
                 // GLOBAL SCOPE
-                IEnumerable<ConversationHistory> convEvents = (from u in dbContext.Users
+                IEnumerable<ConversationHistory> convEvents = (from u in context.Users
                                                                where u.UserName.Equals(User.Identity.Name)
                                                                select (from wp in u.WorkingPoints
                                                                        where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
@@ -1046,10 +1043,9 @@ namespace SmsFeedback_Take4.Controllers
 
                 Dictionary<DateTime, ChartValue> resultPosNegTagsTrInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultNegPosTagsTrInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
+                
                 // GLOBAL SCOPE
-                IEnumerable<ConversationHistory> convEvents = (from u in dbContext.Users
+                IEnumerable<ConversationHistory> convEvents = (from u in context.Users
                                                                where u.UserName.Equals(User.Identity.Name)
                                                                select (from wp in u.WorkingPoints
                                                                        where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
@@ -1184,10 +1180,9 @@ namespace SmsFeedback_Take4.Controllers
 
                 KeyAndCount posToNegTransitions = new KeyAndCount(Constants.POS_TO_NEG_EVENT, 0);
                 KeyAndCount negToPosTransitions = new KeyAndCount(Constants.NEG_TO_POS_EVENT, 0);
-
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
+                
                 // GLOBAL SCOPE
-                IEnumerable<ConversationHistory> convEvents = (from u in dbContext.Users
+                IEnumerable<ConversationHistory> convEvents = (from u in context.Users
                                                                where u.UserName.Equals(User.Identity.Name)
                                                                select (from wp in u.WorkingPoints
                                                                        where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
@@ -1666,13 +1661,11 @@ namespace SmsFeedback_Take4.Controllers
                 var iGranularity = Constants.DAY_GRANULARITY;
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
-                 
-
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
+                                 
                 Dictionary<DateTime, ChartValue> resultNewClientsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultReturningClientsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
 
-                var clients = (from u in dbContext.Users
+                var clients = (from u in context.Users
                                where u.UserName.Equals(User.Identity.Name)
                                select (from wp in u.WorkingPoints
                                        where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
@@ -1737,9 +1730,7 @@ namespace SmsFeedback_Take4.Controllers
             {
                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
-                 
-
-                smsfeedbackEntities dbContext = new smsfeedbackEntities();
+               
                 Dictionary<DateTime, ChartValue> resultNewClientsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultReturningClientsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
 
@@ -1748,7 +1739,7 @@ namespace SmsFeedback_Take4.Controllers
 
                 if (iGranularity.Equals(Constants.DAY_GRANULARITY))
                 {
-                    var clients = (from u in dbContext.Users
+                   var clients = (from u in context.Users
                                    where u.UserName.Equals(User.Identity.Name)
                                    select (from wp in u.WorkingPoints
                                            where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
@@ -1786,7 +1777,7 @@ namespace SmsFeedback_Take4.Controllers
                 }
                 else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
                 {
-                    var clients = (from u in dbContext.Users
+                   var clients = (from u in context.Users
                                    where u.UserName.Equals(User.Identity.Name)
                                    select (from wp in u.WorkingPoints
                                            where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
@@ -1833,7 +1824,7 @@ namespace SmsFeedback_Take4.Controllers
                 }
                 else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
                 {
-                    var clients = (from u in dbContext.Users
+                   var clients = (from u in context.Users
                                    where u.UserName.Equals(User.Identity.Name)
                                    select (from wp in u.WorkingPoints
                                            where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
