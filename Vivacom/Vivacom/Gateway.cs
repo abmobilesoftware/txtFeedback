@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Vivacom
 {
-   public class VivacomGateway
+   public class Gateway
    {
       private string resourcesBaseUri;
       private string inboxResourceUri;
@@ -16,9 +16,9 @@ namespace Vivacom
       private string username;
       private string password;
       private RestClient restClient;
-      private Encoding UTF8Encoding = UTF8Encoding.UTF8;
+      private Encoding encodingUTF8;
 
-      public VivacomGateway()
+      public Gateway()
       {
          resourcesBaseUri = "http://82.137.75.6:3699";
          inboxResourceUri = resourcesBaseUri + "/inbox/";
@@ -26,9 +26,10 @@ namespace Vivacom
          username = "txtfeedback";
          password = "txtf33dback";
          restClient = new RestClient();
+         encodingUTF8 = UTF8Encoding.UTF8; 
       }
 
-      public VivacomResponseCode SendSM(string from,
+      public ResponseCode SendSM(string from,
          string to,
          string msg,
          bool withDeliveryReport,
@@ -57,24 +58,31 @@ namespace Vivacom
          } else {
             parameters.AddLast(new KeyValuePair<string, string>("dlr","0"));
          }
-         HttpWebResponse response = restClient.GETResource(sendSMResourceUri, parameters);
-         if (response.StatusCode.Equals(HttpStatusCode.OK))
+         HttpWebResponse response = null;
+         try
          {
-            string responseBody = ConvertStreamToString(response.GetResponseStream());
-            string[] responseBodySplitted = responseBody.Split(
-               Environment.NewLine.ToCharArray());
-            // TODO process the response and return the response code
-            response.Close();
-            return new VivacomResponseCode(360);
+             response = restClient.GETResource(sendSMResourceUri, parameters);
+             if (response.StatusCode.Equals(HttpStatusCode.OK))
+             {
+                string responseBody = ConvertStreamToString(response.GetResponseStream());
+                string[] responseBodySplitted = responseBody.Split(
+                   Environment.NewLine.ToCharArray());
+                // TODO process the response and return the response code
+                return ResponseCode.OK;
+             }
+             else
+             {                
+                return ResponseCode.HTTP_REQUEST_ERROR;
+             }
          }
-         else
+         finally
          {
             response.Close();
-            return new VivacomResponseCode(900);
          }
+         
        }
 
-      public LinkedList<VivacomShortMessage> CheckInbox(string shortNumber)
+      public LinkedList<ShortMessage> CheckInbox(string shortNumber)
       {
          // TODO: Retrieve the messages and mark them as retrieved
          LinkedList<KeyValuePair<string, string>> parameters = 
@@ -84,13 +92,13 @@ namespace Vivacom
          parameters.AddLast(new KeyValuePair<string, string>("to", shortNumber));
          HttpWebResponse response = restClient.GETResource(inboxResourceUri, parameters);
          // TODO: process response, return a list of messages
-         return new LinkedList<VivacomShortMessage>();
+         return null;
       }
 
       private string ConvertStreamToString(Stream stream)
       {
          StreamReader responseStreamReader = new StreamReader(
-               stream, UTF8Encoding);
+               stream, encodingUTF8);
          string responseString = responseStreamReader.ReadToEnd();
          responseStreamReader.Close();
          return responseString;

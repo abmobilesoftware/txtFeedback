@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text.Encoding;
 
 namespace Vivacom
 {
-   class VivacomUtilities
+   class Utilities
    {
       public static string ConvertStringToHex(String input)
       {
