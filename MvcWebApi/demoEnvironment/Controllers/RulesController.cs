@@ -5,9 +5,9 @@ using System.Web.Http;
 using Models;
 using System.Web.Mvc;
 using System.Net.Http;
-using SmsFeedback_EFModels;
 using System.Linq;
 using Helpers;
+using SmsFeedback_EFModels;
 
 namespace Controllers
 {
