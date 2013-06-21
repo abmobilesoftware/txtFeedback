@@ -33,17 +33,23 @@ public class RestControllerGateway {
 	 * 2. Demo
 	 * 		2.1 Staging: http://46683d8e44b54144bb6f8c6e21181bfe.cloudapp.net:81/
 	 * 		2.2 Production http://demot3xt.cloudapp.net:81/
-	 * 3. Production http://rest.txtfeedback.net/
+	 * 3. Production 
+	 * 		3.1.Livehosting http://rest.txtfeedback.net/
+	 * 	    3.2 Azure staging http://35881b38ae9a45f99b2c8c437e081399.cloudapp.net:81/
+	 * 		3.3 Azure production t3xt.cloudapp.net:81/
 	 * 
 	 * API (Save & update message)
 	 * 1. Development http://dev.txtfeedback.net
 	 * 2. Demo 
 	 * 		2.1 Staging http://8025dfa481dc4e13944c72c96e6afb3b.cloudapp.net
 	 * 		2.2 Production http://demotxtfeedback.cloudapp.net
-	 * 3. Production http://product.txtfeedback.net
+	 * 3. Production 
+	 * 		3.1 Livehosting http://product.txtfeedback.net
+	 * 		3.2 Azure staging http://cc894eae5c5145cb92f7dad77b0f9a67.cloudapp.net
+	 * 		3.3 Azure production http://txtfeedback.cloudapp.net
 	 */
-	private String RESTDomain = "http://demot3xt.cloudapp.net:81/";
-	private String APIDomain = "http://demotxtfeedback.cloudapp.net";
+	private String RESTDomain = "http://35881b38ae9a45f99b2c8c437e081399.cloudapp.net:81/";
+	private String APIDomain = "http://cc894eae5c5145cb92f7dad77b0f9a67.cloudapp.net";
 	
 	private String RESTSaveMessage = APIDomain + "/Component/SaveMessage";
 	private String RESTUpdateClientAcknowledge = APIDomain + "/Component/UpdateMessageClientAcknowledgeField";

@@ -11,11 +11,12 @@ public class Main {
 	private final static int PORT = 5270;
 	/**
 	 * PRODUCT moderator.txtfeedback.net - im123!
+	 * PRODUCT STAGING prodstaging.txtfeedback.net - im123!
 	 * DEMO compdev.txtfeedback.net - im1234!
 	 * DEV devxmpp.txtfeedback.net - im123456!
 	 */
 	public final static String DOMAIN = "txtfeedback.net";
-	public final static String SUBDOMAIN = "moderator";
+	public final static String SUBDOMAIN = "prodstaging";
 	private final static String SECRET_KEY = "im123!";
 	
 	public static void main(String[] args) {
