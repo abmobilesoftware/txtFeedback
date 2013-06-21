@@ -4,22 +4,22 @@
    <edmx:Runtime>
       <!-- SSDL content -->
       <edmx:StorageModels>
-      <Schema Namespace="smsfeedbackModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+      <Schema Namespace="smsfeedbackModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="smsfeedbackModelStoreContainer">
-          <EntitySet Name="ActivityLogWorkingPoints" EntityType="smsfeedbackModel.Store.ActivityLogWorkingPoints" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Applications" EntityType="smsfeedbackModel.Store.Applications" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Clients" EntityType="smsfeedbackModel.Store.Clients" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Companies" EntityType="smsfeedbackModel.Store.Companies" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Contacts" EntityType="smsfeedbackModel.Store.Contacts" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ConversationHistories" EntityType="smsfeedbackModel.Store.ConversationHistories" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Conversations" EntityType="smsfeedbackModel.Store.Conversations" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ConversationTags" EntityType="smsfeedbackModel.Store.ConversationTags" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Devices" EntityType="smsfeedbackModel.Store.Devices" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="EventTypes" EntityType="smsfeedbackModel.Store.EventTypes" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="InvoiceDetails" EntityType="smsfeedbackModel.Store.InvoiceDetails" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="InvoiceDetailsTemplate" EntityType="smsfeedbackModel.Store.InvoiceDetailsTemplate" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Invoices" EntityType="smsfeedbackModel.Store.Invoices" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Log" EntityType="smsfeedbackModel.Store.Log" store:Type="Tables" store:Schema="dbo" store:Name="Log">
+          <EntitySet Name="ActivityLogWorkingPoints" EntityType="smsfeedbackModel.Store.ActivityLogWorkingPoints" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Applications" EntityType="smsfeedbackModel.Store.Applications" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Clients" EntityType="smsfeedbackModel.Store.Clients" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Companies" EntityType="smsfeedbackModel.Store.Companies" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Contacts" EntityType="smsfeedbackModel.Store.Contacts" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ConversationHistories" EntityType="smsfeedbackModel.Store.ConversationHistories" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Conversations" EntityType="smsfeedbackModel.Store.Conversations" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ConversationTags" EntityType="smsfeedbackModel.Store.ConversationTags" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Devices" EntityType="smsfeedbackModel.Store.Devices" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="EventTypes" EntityType="smsfeedbackModel.Store.EventTypes" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="InvoiceDetails" EntityType="smsfeedbackModel.Store.InvoiceDetails" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="InvoiceDetailsTemplate" EntityType="smsfeedbackModel.Store.InvoiceDetailsTemplate" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Invoices" EntityType="smsfeedbackModel.Store.Invoices" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Log" EntityType="smsfeedbackModel.Store.Log" store:Type="Tables" store:Schema="dbo" store:Name="Log" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
             <DefiningQuery>SELECT 
       [Log].[Id] AS [Id], 
       [Log].[Date] AS [Date], 
@@ -30,20 +30,20 @@
       [Log].[Exception] AS [Exception]
       FROM [dbo].[Log] AS [Log]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Memberships" EntityType="smsfeedbackModel.Store.Memberships" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Messages" EntityType="smsfeedbackModel.Store.Messages" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Profiles" EntityType="smsfeedbackModel.Store.Profiles" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Roles" EntityType="smsfeedbackModel.Store.Roles" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="SubscriptionDetails" EntityType="smsfeedbackModel.Store.SubscriptionDetails" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Tags" EntityType="smsfeedbackModel.Store.Tags" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="TagTagTypes" EntityType="smsfeedbackModel.Store.TagTagTypes" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="TagTypes" EntityType="smsfeedbackModel.Store.TagTypes" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="UserDevice" EntityType="smsfeedbackModel.Store.UserDevice" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Users" EntityType="smsfeedbackModel.Store.Users" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="UsersForWorkingPoints" EntityType="smsfeedbackModel.Store.UsersForWorkingPoints" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="UsersInRoles" EntityType="smsfeedbackModel.Store.UsersInRoles" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="WorkingPoints" EntityType="smsfeedbackModel.Store.WorkingPoints" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="XmppConnections" EntityType="smsfeedbackModel.Store.XmppConnections" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Memberships" EntityType="smsfeedbackModel.Store.Memberships" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Messages" EntityType="smsfeedbackModel.Store.Messages" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Profiles" EntityType="smsfeedbackModel.Store.Profiles" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Roles" EntityType="smsfeedbackModel.Store.Roles" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="SubscriptionDetails" EntityType="smsfeedbackModel.Store.SubscriptionDetails" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Tags" EntityType="smsfeedbackModel.Store.Tags" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="TagTagTypes" EntityType="smsfeedbackModel.Store.TagTagTypes" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="TagTypes" EntityType="smsfeedbackModel.Store.TagTypes" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="UserDevice" EntityType="smsfeedbackModel.Store.UserDevice" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Users" EntityType="smsfeedbackModel.Store.Users" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="UsersForWorkingPoints" EntityType="smsfeedbackModel.Store.UsersForWorkingPoints" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="UsersInRoles" EntityType="smsfeedbackModel.Store.UsersInRoles" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="WorkingPoints" EntityType="smsfeedbackModel.Store.WorkingPoints" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="XmppConnections" EntityType="smsfeedbackModel.Store.XmppConnections" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
           <AssociationSet Name="FK_CompanyContact" Association="smsfeedbackModel.Store.FK_CompanyContact">
             <End Role="Contacts" EntitySet="Contacts" />
             <End Role="Companies" EntitySet="Companies" />
@@ -124,12 +124,18 @@
             <End Role="TagTypes" EntitySet="TagTypes" />
             <End Role="TagTagTypes" EntitySet="TagTagTypes" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserCompany" Association="smsfeedbackModel.Store.FK_UserCompany">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserDevice_Device" Association="smsfeedbackModel.Store.FK_UserDevice_Device">
             <End Role="Devices" EntitySet="Devices" />
             <End Role="UserDevice" EntitySet="UserDevice" />
           </AssociationSet>
           <AssociationSet Name="FK_UserDevice_User" Association="smsfeedbackModel.Store.FK_UserDevice_User">
+            <End Role="Users" EntitySet="Users" />
             <End Role="UserDevice" EntitySet="UserDevice" />
+          </AssociationSet>
           <AssociationSet Name="FK_UsersForWorkingPoints_User" Association="smsfeedbackModel.Store.FK_UsersForWorkingPoints_User">
             <End Role="Users" EntitySet="Users" />
             <End Role="UsersForWorkingPoints" EntitySet="UsersForWorkingPoints" />
@@ -322,7 +328,7 @@
           <Property Name="AutoGenerated" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'txtfeedback_nexmo.dbo.Log' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'txtfeedback_production.dbo.Log' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <EntityType Name="Log">
           <Key>
@@ -757,6 +763,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserCompany">
+          <End Role="Companies" Type="smsfeedbackModel.Store.Companies" Multiplicity="0..1" />
+          <End Role="Users" Type="smsfeedbackModel.Store.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Company_Name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserDevice_Device">
           <End Role="Devices" Type="smsfeedbackModel.Store.Devices" Multiplicity="1" />
           <End Role="UserDevice" Type="smsfeedbackModel.Store.UserDevice" Multiplicity="*" />
@@ -916,8 +934,8 @@
       </Schema></edmx:StorageModels>
       <!-- CSDL content -->
       <edmx:ConceptualModels>
-         <Schema Namespace="smsfeedbackModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-            <EntityContainer Name="smsfeedbackEntities" annotation:LazyLoadingEnabled="true">
+         <Schema Namespace="smsfeedbackModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityContainer Name="smsfeedbackEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
                <EntitySet Name="Conversations" EntityType="smsfeedbackModel.Conversation" />
                <EntitySet Name="Messages" EntityType="smsfeedbackModel.Message" />
                <EntitySet Name="WorkingPoints" EntityType="smsfeedbackModel.WorkingPoint" />
@@ -1089,14 +1107,14 @@
                <NavigationProperty Name="Client" Relationship="smsfeedbackModel.ConversationClient" FromRole="Conversation" ToRole="Client" />
                <NavigationProperty Name="ConversationTags" Relationship="smsfeedbackModel.FK_ConversationConversationTags" FromRole="Conversation" ToRole="ConversationTag" />
                <NavigationProperty Name="WorkingPoints" Relationship="smsfeedbackModel.FK_SupportConversationForWorkingPoint1" FromRole="Conversation" ToRole="WorkingPoint" />
-               <Property Type="Int32" Name="LastSequence" Nullable="false" >
+               <Property Type="Int32" Name="LastSequence" Nullable="false">
                   <Documentation>
                      <Summary>Current sequence</Summary>
                      <LongDescription>Indicates the current sequence (seq of messages)</LongDescription>
                   </Documentation>
                </Property>
                <NavigationProperty Name="ConversationEvents" Relationship="smsfeedbackModel.ConversationToConversationHistory" FromRole="Conversation" ToRole="ConversationHistory" />
-               <Property Type="Boolean" Name="IsSmsBased" Nullable="false" DefaultValue="False" >
+               <Property Type="Boolean" Name="IsSmsBased" Nullable="false" DefaultValue="False">
                   <Documentation>
                      <Summary>Sms Convesations are treated differently</Summary>
                      <LongDescription>Dragos: right now we have sms and xmpp based conversations - I chose to implement this as a true/false flag and not as an enum due to speed and the fact that I don't see this changing in the forsesable future</LongDescription>
@@ -1107,7 +1125,7 @@
                <Key>
                   <PropertyRef Name="Id" />
                </Key>
-               <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+               <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
                <Property Name="From" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
                <Property Name="To" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
                <Property Name="Text" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
@@ -1117,7 +1135,7 @@
                <Property Type="String" Name="ConversationId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
                <Property Type="Int64" Name="ResponseTime" Nullable="true" />
                <NavigationProperty Name="ConversationHistories" Relationship="smsfeedbackModel.ConversationHistoryMessage" FromRole="Message" ToRole="ConversationHistory" />
-               <Property Type="Boolean" Name="IsSmsBased" Nullable="false" DefaultValue="False" >
+               <Property Type="Boolean" Name="IsSmsBased" Nullable="false" DefaultValue="False">
                   <Documentation>
                      <LongDescription>Messages can arrive via SMS of via XMPP</LongDescription>
                   </Documentation>
@@ -1158,7 +1176,7 @@
                <Property Type="String" Name="BusyMessage" MaxLength="160" FixedLength="false" Unicode="true" />
                <Property Type="String" Name="OutsideOfficeHoursMessage" MaxLength="160" FixedLength="false" Unicode="true" />
                <Property Type="String" Name="Language" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="BusyMessageTimer" Nullable="false" DefaultValue="5000" >
+          <Property Type="Int32" Name="BusyMessageTimer" Nullable="false" DefaultValue="5000">
             <Documentation>
               <LongDescription>Time to Wait until the busy message appears (in miliseconds)</LongDescription>
             </Documentation>
@@ -1403,7 +1421,7 @@
                <Key>
                   <PropertyRef Name="TelNumber" />
                </Key>
-               <Property Type="String" Name="TelNumber" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="50" Unicode="true" FixedLength="false" />
+               <Property Type="String" Name="TelNumber" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="50" Unicode="true" FixedLength="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
                <Property Type="String" Name="DisplayName" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
                <Property Type="String" Name="Description" Nullable="false" MaxLength="160" Unicode="true" FixedLength="false" />
                <Property Type="Boolean" Name="isSupportClient" Nullable="false" />
@@ -1460,7 +1478,7 @@
                <Key>
                   <PropertyRef Name="Id" />
                </Key>
-               <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+               <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
                <Property Type="DateTime" Name="StartDate" Nullable="false" Precision="3" />
                <Property Type="DateTime" Name="EndDate" Nullable="false" Precision="3" />
                <Property Type="Int32" Name="SentSms" Nullable="false" />
@@ -1486,7 +1504,7 @@
                <Key>
                   <PropertyRef Name="Type" />
                </Key>
-               <Property Type="String" Name="Type" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="50" Unicode="true" FixedLength="false" />
+               <Property Type="String" Name="Type" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="50" Unicode="true" FixedLength="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
                <NavigationProperty Name="TagTagTypes" Relationship="smsfeedbackModel.FK_TagTypeTagTagType" FromRole="TagType" ToRole="TagTagType" />
             </EntityType>
             <EntityType Name="TagTagType">
@@ -1532,7 +1550,7 @@
                <Key>
                   <PropertyRef Name="Name" />
                </Key>
-               <Property Type="String" Name="Name" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="50" Unicode="true" FixedLength="false" />
+               <Property Type="String" Name="Name" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="50" Unicode="true" FixedLength="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
                <Property Type="String" Name="Description" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
                <NavigationProperty Name="ConversationHistoryEvents" Relationship="smsfeedbackModel.ConversationHistoryEventType" FromRole="EventType" ToRole="ConversationHistory" />
                <Property Type="String" Name="FriendlyName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1541,7 +1559,7 @@
                <Key>
                   <PropertyRef Name="Id" />
                </Key>
-               <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+               <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
                <Property Type="Int32" Name="Sequence" Nullable="false" />
                <Property Type="DateTime" Name="Date" Nullable="false" Precision="3" />
                <NavigationProperty Name="EventType" Relationship="smsfeedbackModel.ConversationHistoryEventType" FromRole="ConversationHistory" ToRole="EventType" />
@@ -1615,7 +1633,7 @@
                <Key>
                   <PropertyRef Name="InvoiceDetailsID" />
                </Key>
-               <Property Type="Int32" Name="InvoiceDetailsID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+               <Property Type="Int32" Name="InvoiceDetailsID" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
                <Property Type="String" Name="Article" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
                <Property Type="Int32" Name="Quantity" Nullable="false" />
                <Property Type="Decimal" Name="Price" Nullable="false" Precision="15" Scale="5" />
@@ -1628,7 +1646,7 @@
                <Key>
                   <PropertyRef Name="InvoiceId" />
                </Key>
-               <Property Type="Int32" Name="InvoiceId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+               <Property Type="Int32" Name="InvoiceId" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
                <Property Type="String" Name="Name" Nullable="true" MaxLength="50" FixedLength="false" Unicode="true" />
                <Property Type="String" Name="Notes" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
                <Property Type="String" Name="ProposalDetails" Nullable="true" MaxLength="500" FixedLength="false" Unicode="true" />
@@ -1656,10 +1674,10 @@
                </ReferentialConstraint>
             </Association>
             <Association Name="FK_InvoiceInvoiceDetails">
-               <End Type="smsfeedbackModel.Invoice" Role="Invoice" Multiplicity="1" >
+               <End Type="smsfeedbackModel.Invoice" Role="Invoice" Multiplicity="1">
                   <OnDelete Action="Cascade" />
                </End>
-               <End Type="smsfeedbackModel.InvoiceDetails" Role="InvoiceDetail" Multiplicity="*" >
+               <End Type="smsfeedbackModel.InvoiceDetails" Role="InvoiceDetail" Multiplicity="*">
                </End>
                <ReferentialConstraint>
                   <Principal Role="Invoice">
@@ -1674,13 +1692,13 @@
                <Key>
                   <PropertyRef Name="Id" />
                </Key>
-               <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+               <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
                <Property Type="Int32" Name="BillingDay" Nullable="false" />
                <Property Type="Int32" Name="SubscriptionSMS" Nullable="false" />
                <Property Type="Int32" Name="RemainingSMS" Nullable="false" />
                <Property Type="Decimal" Name="SpendingLimit" Nullable="false" Precision="15" Scale="5" />
                <Property Type="Decimal" Name="WarningLimit" Nullable="false" Precision="15" Scale="5" />
-               <Property Type="Decimal" Name="SpentThisMonth" Nullable="false" Precision="15" Scale="5" >
+               <Property Type="Decimal" Name="SpentThisMonth" Nullable="false" Precision="15" Scale="5">
                   <Documentation>
                      <LongDescription>Holds only the SMS' you are charged for</LongDescription>
                   </Documentation>
@@ -1689,7 +1707,7 @@
                <Property Type="Int32" Name="SecondaryContact_Id" Nullable="false" />
                <NavigationProperty Name="PrimaryContact" Relationship="smsfeedbackModel.FK_SubscriptionDetailPrimaryContact" FromRole="SubscriptionDetail" ToRole="Contact" />
                <NavigationProperty Name="SecondaryContact" Relationship="smsfeedbackModel.FK_SubscriptionDetailSecondaryContact" FromRole="SubscriptionDetail" ToRole="Contact" />
-               <Property Type="String" Name="DefaultCurrency" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" >
+               <Property Type="String" Name="DefaultCurrency" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true">
                   <Documentation>
                      <Summary>Default currency</Summary>
                      <LongDescription>Default value that will be used when creating a new invoince</LongDescription>
@@ -1697,13 +1715,13 @@
                </Property>
                <Property Type="Int32" Name="MonthlySubscriptionTemplate_InvoiceDetailsTemplateID" />
                <Property Type="Int32" Name="MonthlyExtraSMSCharge_InvoiceDetailsTemplateID" />
-               <Property Type="Decimal" Name="ExtraAddedCreditThisMonth" Nullable="false" Precision="15" Scale="5" DefaultValue="0" >
+               <Property Type="Decimal" Name="ExtraAddedCreditThisMonth" Nullable="false" Precision="15" Scale="5" DefaultValue="0">
                   <Documentation>
                      <LongDescription>If you went over your spending limit this month you can purchase ExtraCredit - this will be billed</LongDescription>
                   </Documentation>
                </Property>
                <Property Type="Decimal" Name="RemainingCreditFromPreviousMonth" Nullable="false" Precision="15" Scale="5" />
-               <Property Type="Binary" Name="TimeStamp" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+               <Property Type="Binary" Name="TimeStamp" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <NavigationProperty Name="Companies" Relationship="smsfeedbackModel.FK_CompanySubscriptionDetails1" FromRole="SubscriptionDetail" ToRole="Company" />
           <NavigationProperty Name="InvoiceDetailsTemplate" Relationship="smsfeedbackModel.FK_SubscriptionDetailInvoiceDetailsTemplate" FromRole="SubscriptionDetail" ToRole="InvoiceDetailsTemplate" />
           <NavigationProperty Name="InvoiceDetailsTemplate1" Relationship="smsfeedbackModel.FK_SubscriptionDetailInvoiceDetailsTemplate1" FromRole="SubscriptionDetail" ToRole="InvoiceDetailsTemplate" />
@@ -1712,7 +1730,7 @@
                <Key>
                   <PropertyRef Name="Id" />
                </Key>
-               <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+               <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
                <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
                <Property Type="String" Name="Surname" Nullable="false" MaxLength="70" FixedLength="false" Unicode="true" />
                <Property Type="String" Name="Email" Nullable="true" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1774,7 +1792,7 @@
           <Key>
             <PropertyRef Name="InvoiceDetailsTemplateID" />
           </Key>
-          <Property Type="Int32" Name="InvoiceDetailsTemplateID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="InvoiceDetailsTemplateID" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="String" Name="Article" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="Quantity" Nullable="false" />
           <Property Type="Decimal" Name="Price" Nullable="false" Precision="15" Scale="5" />
@@ -1791,7 +1809,7 @@
             <PropertyRef Name="Logger" />
             <PropertyRef Name="Message" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="DateTime" Name="Date" Nullable="false" Precision="3" />
           <Property Type="String" Name="Thread" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Level" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -2221,6 +2239,6 @@
          </DesignerInfoPropertySet>
       </Options>
       <!-- Diagram content (shape and connector positions) -->
-      <Diagrams></Diagrams>
+      <Diagrams />
    </Designer>
 </edmx:Edmx>
