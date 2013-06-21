@@ -1,4 +1,4 @@
-var domain = "http://demotxtfeedback.cloudapp.net";
+var domain = "http://txtfeedback.cloudapp.net";
 //var domain = "http://localhost:4631";
 
 function cleanupPhoneNumber(data) {
