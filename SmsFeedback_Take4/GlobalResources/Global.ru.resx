@@ -307,10 +307,10 @@
     <value>дни</value>
   </data>
   <data name="repExportRawRepName" xml:space="preserve">
-    <value>export_messages</value>
+    <value>Экспорт сообщений</value>
   </data>
   <data name="RepExportRawToExcel" xml:space="preserve">
-    <value>Export messages to CSV</value>
+    <value>Экспорт сообщений в CSV</value>
   </data>
   <data name="RepExportToExcel" xml:space="preserve">
     <value>Экспорт в CSV</value>
@@ -433,22 +433,22 @@
     <value>С положительного на отрицательный отзыв</value>
   </data>
   <data name="repRawConversationId" xml:space="preserve">
-    <value>Conversation id</value>
+    <value>Идентификатор диалога</value>
   </data>
   <data name="repRawFrom" xml:space="preserve">
-    <value>From</value>
+    <value>От</value>
   </data>
   <data name="repRawText" xml:space="preserve">
-    <value>Text</value>
+    <value>Текст</value>
   </data>
   <data name="repRawTimeReceived" xml:space="preserve">
-    <value>Time received (UTC)</value>
+    <value>Время полученного (UTC)</value>
   </data>
   <data name="repRawTo" xml:space="preserve">
-    <value>To</value>
+    <value>Кому</value>
   </data>
   <data name="repRawWpName" xml:space="preserve">
-    <value>Working point</value>
+    <value>Рабочая точка</value>
   </data>
   <data name="RepReturningClientsChart" xml:space="preserve">
     <value>Постоянные клиенты</value>
@@ -466,19 +466,19 @@
     <value>сообщение(я)</value>
   </data>
   <data name="repTagFilteringReportTitle" xml:space="preserve">
-    <value>Multiple tag filter</value>
+    <value>Многотеговый фильтр</value>
   </data>
   <data name="repTagRefreshTagFilter" xml:space="preserve">
-    <value>Refresh chart</value>
+    <value>Обновить диаграмму</value>
   </data>
   <data name="RepTags" xml:space="preserve">
     <value>Тэги</value>
   </data>
   <data name="repTagsLegendDescription" xml:space="preserve">
-    <value>Conversations labeled</value>
+    <value>Беседы отмечены</value>
   </data>
   <data name="repTagsLegendDescriptionNoTags" xml:space="preserve">
-    <value>Select at least one tag</value>
+    <value>Выберите хотя бы один тег</value>
   </data>
   <data name="RepTagsPerConversationUnit" xml:space="preserve">
     <value>тэги/разговор</value>
