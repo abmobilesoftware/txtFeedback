@@ -10,7 +10,7 @@ namespace Vivacom
 {
    class RestClient
    {
-      public HttpWebResponse GETResource(string baseUri, LinkedList<KeyValuePair<string, string>> parameters)
+      public HttpWebResponse GETResource(string baseUri, List<KeyValuePair<string, string>> parameters)
       {
          string queryString  = String.Join("&", 
             parameters.Select(

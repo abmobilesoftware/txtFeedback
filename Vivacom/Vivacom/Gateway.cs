@@ -13,6 +13,7 @@ namespace Vivacom
       private string resourcesBaseUri;
       private string inboxResourceUri;
       private string sendSMResourceUri;
+      private string deleteSMResourceUri;
       private string username;
       private string password;
       private RestClient restClient;
@@ -23,6 +24,7 @@ namespace Vivacom
          resourcesBaseUri = "http://82.137.75.6:3699";
          inboxResourceUri = resourcesBaseUri + "/inbox/";
          sendSMResourceUri = resourcesBaseUri + "/send/";
+         deleteSMResourceUri = resourcesBaseUri + "/delete/";
          username = "txtfeedback";
          password = "txtf33dback";
          restClient = new RestClient();
@@ -82,17 +84,33 @@ namespace Vivacom
          
        }
 
-      public LinkedList<ShortMessage> CheckInbox(string shortNumber)
+      public List<ShortMessage> CheckInbox(string shortNumber)
       {
          // TODO: Retrieve the messages and mark them as retrieved
-         LinkedList<KeyValuePair<string, string>> parameters = 
-            new LinkedList<KeyValuePair<string,string>>();
-         parameters.AddLast(new KeyValuePair<string, string>("uid", username));
-         parameters.AddLast(new KeyValuePair<string, string>("pass", password));
-         parameters.AddLast(new KeyValuePair<string, string>("to", shortNumber));
+         List<KeyValuePair<string, string>> parameters = 
+            new List<KeyValuePair<string,string>>();
+         parameters.Add(new KeyValuePair<string, string>("uid", username));
+         parameters.Add(new KeyValuePair<string, string>("pass", password));
+         parameters.Add(new KeyValuePair<string, string>("to", shortNumber));
          HttpWebResponse response = restClient.GETResource(inboxResourceUri, parameters);
          // TODO: process response, return a list of messages
+         DeleteSM(new List<int>());
+
          return null;
+      }
+
+      private ResponseCode DeleteSM(List<int> usmids)
+      {
+         string usmidsList = String.Join(":", usmids.Select(x => x.ToString()));
+         List<KeyValuePair<string, string>> parameters =
+            new List<KeyValuePair<string, string>>();
+         parameters.Add(new KeyValuePair<string, string>("uid", username));
+         parameters.Add(new KeyValuePair<string, string>("pass", password));
+         parameters.Add(new KeyValuePair<string, string>("usmids", usmidsList));
+         HttpWebResponse response = restClient.GETResource(deleteSMResourceUri, parameters);
+         // TODO: Process response
+         return ResponseCode.OK;
+         
       }
 
       private string ConvertStreamToString(Stream stream)
