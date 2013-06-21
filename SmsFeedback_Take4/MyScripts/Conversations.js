@@ -128,9 +128,15 @@ window.app.ConversationView = Backbone.View.extend({
    },
    render: function () {
       var selfConvView = this;
+      //DA make sure to restore the selected state
+      var selectedStatus = false;
+      if ($('.conversation', this.$el).hasClass('ui-selected')) {
+         selectedStatus = true;
+      }
       this.$el.html(this.conversationTemplate(this.model.toJSON()));
-      // TODO : Move this action
-      var deleteConvImg = $(".deleteConv img", this.$el);
+      if (selectedStatus) {
+         $(".conversation", $(this.$el)).addClass("ui-selected");
+      }
 
       //#region Hover on a conversation
       var deleteConvArea = $(".deleteConv", this.$el);
@@ -381,7 +387,7 @@ function ConversationArea(filterArea, workingPointsArea) {
             this.refreshsInProgress--;
 
             if (this.refreshsInProgress === 0) {
-                var convEl = $("#conversations");
+               var convEl = $("#conversations");               
                 convEl.html('');
                 var selfConversationsView = this;
                 this.convsList.each(function (conv) {
