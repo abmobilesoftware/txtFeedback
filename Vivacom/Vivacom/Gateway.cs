@@ -28,7 +28,7 @@ namespace Vivacom
          username = "txtfeedback";
          password = "txtf33dback";
          restClient = new RestClient();
-         encodingUTF8 = UTF8Encoding.UTF8; 
+         encodingUTF8 = UTF8Encoding.UTF8;
       }
 
       public ResponseCode SendSM(string from,
@@ -39,78 +39,99 @@ namespace Vivacom
          int dcs = 0,
          int esm = 0,
          int pid = 0,
-         int validity = 1440) 
-       {
-          LinkedList<KeyValuePair<string, string>> parameters = 
-             new LinkedList<KeyValuePair<string,string>>();
-          parameters.AddLast(new KeyValuePair<string, string>("uid", username));
-          parameters.AddLast(new KeyValuePair<string, string>("pass", password));
-          parameters.AddLast(new KeyValuePair<string, string>("from", from));
-          parameters.AddLast(new KeyValuePair<string, string>("to", to));
-          if (isMessageInHex) {
-             parameters.AddLast(new KeyValuePair<string, string>("msghex", msg));
-             parameters.AddLast(new KeyValuePair<string, string>("dcs", dcs.ToString()));
-             parameters.AddLast(new KeyValuePair<string, string>("esm",esm.ToString()));
-             parameters.AddLast(new KeyValuePair<string, string>("pid",pid.ToString()));
-          } else {
-             parameters.AddLast(new KeyValuePair<string, string>("msg",msg));
-          }
-         if (withDeliveryReport) {
-            parameters.AddLast(new KeyValuePair<string, string>("dlr","1"));
-         } else {
-            parameters.AddLast(new KeyValuePair<string, string>("dlr","0"));
+         int validity = 1440)
+      {
+         List<KeyValuePair<string, string>> parameters =
+            new List<KeyValuePair<string, string>>();
+         string md5sumString;
+         parameters.Add(new KeyValuePair<string, string>("uid", username));
+         parameters.Add(new KeyValuePair<string, string>("pass", password));
+         parameters.Add(new KeyValuePair<string, string>("from", from));
+         parameters.Add(new KeyValuePair<string, string>("to", to));
+         md5sumString = username + password + from + to;
+         if (isMessageInHex)
+         {
+            parameters.Add(new KeyValuePair<string, string>("msghex", msg));
+            parameters.Add(new KeyValuePair<string, string>("dcs", dcs.ToString()));
+            parameters.Add(new KeyValuePair<string, string>("esm", esm.ToString()));
+            parameters.Add(new KeyValuePair<string, string>("pid", pid.ToString()));
+            md5sumString += msg + dcs.ToString() + esm.ToString() + pid.ToString();
          }
+         else
+         {
+            parameters.Add(new KeyValuePair<string, string>("msg", msg));
+            md5sumString += msg;
+         }
+         string deliveryReportString = withDeliveryReport ? "1" : "0";
+         parameters.Add(new KeyValuePair<string, string>("dlr", deliveryReportString));
+         string md5sumValue = Utilities.CalculateMD5Hash(md5sumString);
+         parameters.Add(new KeyValuePair<string,string>("md5sum", md5sumValue));
+         
          HttpWebResponse response = null;
          try
          {
-             response = restClient.GETResource(sendSMResourceUri, parameters);
-             if (response.StatusCode.Equals(HttpStatusCode.OK))
-             {
-                string responseBody = ConvertStreamToString(response.GetResponseStream());
-                string[] responseBodySplitted = responseBody.Split(
-                   Environment.NewLine.ToCharArray());
-                // TODO process the response and return the response code
-                return ResponseCode.OK;
-             }
-             else
-             {                
-                return ResponseCode.HTTP_REQUEST_ERROR;
-             }
+            response = restClient.GETResource(sendSMResourceUri, parameters);
+            if (response.StatusCode.Equals(HttpStatusCode.OK))
+            {
+               string responseBody = ConvertStreamToString(response.GetResponseStream());
+               SendResponse sendResponse = new SendResponse(responseBody.Split(
+                  Environment.NewLine.ToCharArray()).Where(x => !x.Equals("")).ToList());
+               return sendResponse.ErrorCode;
+            }
+            else
+            {
+               return ResponseCode.HTTP_REQUEST_ERROR;
+            }
          }
          finally
          {
             response.Close();
          }
-         
-       }
+
+      }
 
       public List<ShortMessage> CheckInbox(string shortNumber)
       {
-         // TODO: Retrieve the messages and mark them as retrieved
-         List<KeyValuePair<string, string>> parameters = 
-            new List<KeyValuePair<string,string>>();
+         // TODO: Move this in the project
+         List<KeyValuePair<string, string>> parameters =
+            new List<KeyValuePair<string, string>>();
          parameters.Add(new KeyValuePair<string, string>("uid", username));
          parameters.Add(new KeyValuePair<string, string>("pass", password));
          parameters.Add(new KeyValuePair<string, string>("to", shortNumber));
          HttpWebResponse response = restClient.GETResource(inboxResourceUri, parameters);
-         // TODO: process response, return a list of messages
-         DeleteSM(new List<int>());
-
-         return null;
+         string responseBody = ConvertStreamToString(response.GetResponseStream());
+         InboxResponse inboxResponse = new InboxResponse(responseBody.Split(
+                   Environment.NewLine.ToCharArray()).Where(x => !x.Equals("")).ToList());
+         if (inboxResponse.ErrorCode.Equals(ResponseCode.INCORRECT_FROM_FIELD))
+         {
+            Console.WriteLine("Number not added in account");
+         }
+         if (inboxResponse.Messages.Count == 0)
+         {
+            Console.WriteLine("No messages");
+         }
+         if (ResponseCode.OTHER_ERROR == DeleteSM(inboxResponse.Messages))
+         {
+            Console.WriteLine("Delete SM: Other error");
+         };
+         return inboxResponse.Messages;
       }
 
-      private ResponseCode DeleteSM(List<int> usmids)
+      private ResponseCode DeleteSM(List<ShortMessage> messages)
       {
-         string usmidsList = String.Join(":", usmids.Select(x => x.ToString()));
+         string usmidsList = String.Join(":", messages.Select(x => x.Usmid.ToString()));
          List<KeyValuePair<string, string>> parameters =
             new List<KeyValuePair<string, string>>();
          parameters.Add(new KeyValuePair<string, string>("uid", username));
          parameters.Add(new KeyValuePair<string, string>("pass", password));
          parameters.Add(new KeyValuePair<string, string>("usmids", usmidsList));
+         string md5sum = Utilities.CalculateMD5Hash(username + password + usmidsList);
+         parameters.Add(new KeyValuePair<string, string>("md5sum", md5sum));
          HttpWebResponse response = restClient.GETResource(deleteSMResourceUri, parameters);
-         // TODO: Process response
-         return ResponseCode.OK;
-         
+         string responseBody = ConvertStreamToString(response.GetResponseStream());
+         DeleteResponse deleteResponse = new DeleteResponse(responseBody.Split(
+            Environment.NewLine.ToCharArray()).Where(x => !x.Equals("")).ToList());
+         return deleteResponse.ErrorCode;
       }
 
       private string ConvertStreamToString(Stream stream)
