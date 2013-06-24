@@ -40,15 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeleteResponse.cs" />
+    <Compile Include="ServiceResponse\DeleteResponse.cs" />
     <Compile Include="Gateway.cs" />
-    <Compile Include="InboxResponse.cs" />
+    <Compile Include="ServiceResponse\InboxResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResponseCode.cs" />
-    <Compile Include="RestClient.cs" />
-    <Compile Include="SendResponse.cs" />
-    <Compile Include="ShortMessage.cs" />
-    <Compile Include="Utilities.cs" />
+    <Compile Include="Helpers\ResponseCode.cs" />
+    <Compile Include="Helpers\RestClient.cs" />
+    <Compile Include="ServiceResponse\SendResponse.cs" />
+    <Compile Include="Helpers\ShortMessage.cs" />
+    <Compile Include="Helpers\Utilities.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
