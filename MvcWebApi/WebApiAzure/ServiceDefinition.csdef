@@ -27,7 +27,7 @@
         <VirtualApplication name="carr1" physicalDirectory="..\..\..\carr1" />
         <VirtualApplication name="carr2" physicalDirectory="..\..\..\carr2" />
         <VirtualApplication name="cat5" physicalDirectory="..\..\..\cat5" />
-        <VirtualApplication name="cat51" physicalDirectory="..\..\..\cat51" />fvbgr
+        <VirtualApplication name="cat51" physicalDirectory="..\..\..\cat51" />
         <VirtualApplication name="ccpr" physicalDirectory="..\..\..\ccpr" />
         <VirtualApplication name="ccto" physicalDirectory="..\..\..\ccto" />
         <VirtualApplication name="ccwe" physicalDirectory="..\..\..\ccwe" />
@@ -55,19 +55,23 @@
         <VirtualApplication name="sales2" physicalDirectory="..\..\..\sales2" />
         <VirtualApplication name="demo" physicalDirectory="..\..\..\trytxtfdbk" />
         <VirtualApplication name="demo1" physicalDirectory="..\..\..\demo1" />
-        <VirtualApplication name="demo2" physicalDirectory="..\..\..\demo2" />
-         <VirtualApplication name="demo2" physicalDirectory="..\..\..\demo2" />
+        <VirtualApplication name="demo2" physicalDirectory="..\..\..\demo2" />         
 
-         <VirtualApplication name="store1min" physicalDirectory="..\..\..\store1min" />
+         <VirtualApplication name="altexim" physicalDirectory="..\..\..\altexim" />
+         <VirtualApplication name="altexreal" physicalDirectory="..\..\..\altexreal" />
+         <VirtualApplication name="mediagcj" physicalDirectory="..\..\..\mediagcj" />
+         <VirtualApplication name="lyrams" physicalDirectory="..\..\..\lyrams" />
+         <VirtualApplication name="coracj" physicalDirectory="..\..\..\coracj" />
+         
+         <VirtualApplication name="store1min" physicalDirectory="..\..\..\store1-" />
          <VirtualApplication name="store1plus" physicalDirectory="..\..\..\store1plus" />
-         <VirtualApplication name="store2min" physicalDirectory="..\..\..\store2min" />
+         <VirtualApplication name="store2min" physicalDirectory="..\..\..\store2-" />
          <VirtualApplication name="store2plus" physicalDirectory="..\..\..\store2plus" />
-         <VirtualApplication name="store3min" physicalDirectory="..\..\..\store3min" />
-         <VirtualApplication name="store3plus" physicalDirectory="..\..\..\store3plus" />
-         <VirtualApplication name="store3min" physicalDirectory="..\..\..\store3min" />
-         <VirtualApplication name="store4min" physicalDirectory="..\..\..\store4min" />
+         <VirtualApplication name="store3min" physicalDirectory="..\..\..\store3-" />
+         <VirtualApplication name="store3plus" physicalDirectory="..\..\..\store3plus" />         
+         <VirtualApplication name="store4min" physicalDirectory="..\..\..\store4-" />
          <VirtualApplication name="store4plus" physicalDirectory="..\..\..\store4plus" />
-         <VirtualApplication name="store5min" physicalDirectory="..\..\..\store5min" />
+         <VirtualApplication name="store5min" physicalDirectory="..\..\..\store5-" />
          <VirtualApplication name="store5plus" physicalDirectory="..\..\..\store5plus" />
         <Bindings>
           <Binding name="Endpoint2" endpointName="Endpoint2" />
