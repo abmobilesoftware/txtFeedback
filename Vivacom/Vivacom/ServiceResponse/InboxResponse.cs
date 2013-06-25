@@ -9,8 +9,7 @@ namespace VivacomLib
 {
    class InboxResponse
    {
-      //TODO if it was meant to be accessed via a setter/getter it should be private
-      public List<ShortMessage> _Messages;
+      private List<ShortMessage> _Messages;
       public ResponseCode ErrorCode { get; set; }
       public List<ShortMessage> Messages
       {
@@ -30,16 +29,15 @@ namespace VivacomLib
             _Messages = value;
          }
       }
-      //TODO does not conform to naming convention
-      public string md5sum { get; set; }
-      private string dateFormat = "yyyy-MM-dd HH:mm:ff";
+      public string Md5sum { get; set; }
+      private string DateFormat = "yyyy-MM-dd HH:mm:ff";
 
       public InboxResponse(List<string> response)
       {
-         //TODO Error code does not get set for ResponseCode.OK - it should be moved to the first line
-         //no mdb5 computing for ResponseCode.Ok?
+         ErrorCode = (ResponseCode)Convert.ToInt32(response[0]);
          if ((ResponseCode)Convert.ToInt32(response[0]) == ResponseCode.OK)
          {
+            Md5sum = response[response.Count - 1];
             for (int i = 1; i < response.Count - 1; i = i + 6)
             {
                Messages.Add(new ShortMessage(
@@ -49,14 +47,13 @@ namespace VivacomLib
                   Convert.ToInt32(response[i + 3]),
                   response[i + 4],
                   DateTime.ParseExact(response[i + 5],
-                     dateFormat, CultureInfo.InvariantCulture)));
+                     DateFormat, CultureInfo.InvariantCulture)));
 
             }
          }
          else
          {
-            ErrorCode = (ResponseCode)Convert.ToInt32(response[0]);
-            md5sum = response[1];
+            Md5sum = response[1];
          }
       }
    }

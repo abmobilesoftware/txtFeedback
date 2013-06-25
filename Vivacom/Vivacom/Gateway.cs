@@ -92,7 +92,6 @@ namespace VivacomLib
 
       public List<ShortMessage> CheckInbox(string shortNumber)
       {
-         // TODO: Move this in the project
          List<KeyValuePair<string, string>> parameters =
             new List<KeyValuePair<string, string>>();
          parameters.Add(new KeyValuePair<string, string>("uid", username));
@@ -110,15 +109,14 @@ namespace VivacomLib
          {
             Console.WriteLine("No messages");
          }
-         //TODO - avoid hiding operations in if clauses (or set as left member)
-         if (ResponseCode.OTHER_ERROR == DeleteSM(inboxResponse.Messages))
+         ResponseCode deleteReponseCode = DeleteSM(inboxResponse.Messages);
+         if (deleteReponseCode == ResponseCode.OTHER_ERROR)
          {
             Console.WriteLine("Delete SM: Other error");
          };
          return inboxResponse.Messages;
       }
 
-      //TODO Should be public?
       private ResponseCode DeleteSM(List<ShortMessage> messages)
       {
          string usmidsList = String.Join(":", messages.Select(x => x.Usmid.ToString()));
