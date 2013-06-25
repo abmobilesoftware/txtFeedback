@@ -1,31 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Linq;
 using Models;
-using Helpers;
+using System.Web.Mvc;
+using System.Net.Http;
 using SmsFeedback_EFModels;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Controllers
 {
    public class RulesController : ApiController
    {
+      private const string SHORT_ID = "shop20";
       smsfeedbackEntities dbContext = new smsfeedbackEntities();
 
       // GET api/rules/abmob1
-      [HttpGet]
-      public MsgHandlers GetHandlers()
+      public MsgHandlers Get()
       {
          /* 
           * Handler == User. A user is connected on 0-* mobile devices 
           * and has 1 xmppId.
           */
-         String shortID = Utilities.extractVirtualDirectoryName(Request.RequestUri.LocalPath);
          List<Agent> agents = new List<Agent>();
          var handlers = (from wp in dbContext.WorkingPoints
-                         where wp.ShortID.Equals(shortID)
+                         where wp.ShortID.Equals(SHORT_ID)
                          select
                             (from user in wp.Users
                              select
