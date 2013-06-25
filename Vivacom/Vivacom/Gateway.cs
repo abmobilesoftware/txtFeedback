@@ -110,6 +110,7 @@ namespace VivacomLib
          {
             Console.WriteLine("No messages");
          }
+         //TODO - avoid hiding operations in if clauses (or set as left member)
          if (ResponseCode.OTHER_ERROR == DeleteSM(inboxResponse.Messages))
          {
             Console.WriteLine("Delete SM: Other error");
@@ -117,6 +118,7 @@ namespace VivacomLib
          return inboxResponse.Messages;
       }
 
+      //TODO Should be public?
       private ResponseCode DeleteSM(List<ShortMessage> messages)
       {
          string usmidsList = String.Join(":", messages.Select(x => x.Usmid.ToString()));
@@ -128,7 +130,7 @@ namespace VivacomLib
          string md5sum = Utilities.CalculateMD5Hash(username + password + usmidsList);
          parameters.Add(new KeyValuePair<string, string>("md5sum", md5sum));
          HttpWebResponse response = restClient.GETResource(deleteSMResourceUri, parameters);
-         string responseBody = ConvertStreamToString(response.GetResponseStream());
+         string responseBody = ConvertStreamToString(response.GetResponseStream());         
          DeleteResponse deleteResponse = new DeleteResponse(responseBody.Split(
             Environment.NewLine.ToCharArray()).Where(x => !x.Equals("")).ToList());
          return deleteResponse.ErrorCode;

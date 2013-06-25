@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace VivacomLib
 {
+   //TODO easier to follow if listed in order - by key
    public enum ResponseCode
    {
       AUTHENTICATION_FAILED = 301,
