@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Vivacom
+namespace VivacomLib
 {
-   public class SendResponse
+   class SendResponse
    {
       public ResponseCode ErrorCode { get; set; }
       public SendResponse(List<string> response)
