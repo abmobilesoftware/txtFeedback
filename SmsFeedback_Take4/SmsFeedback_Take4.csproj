@@ -190,6 +190,9 @@
     <Reference Include="TwilioSharp.MVC3">
       <HintPath>..\packages\TwilioSharpMVC.1.0\lib\TwilioSharp.MVC3.dll</HintPath>
     </Reference>
+    <Reference Include="Vivacom">
+      <HintPath>..\Vivacom\Vivacom\bin\Release\Vivacom.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
     </Reference>
@@ -264,6 +267,7 @@
     <Compile Include="Models\BusinessObjects\WorkingPoint.cs" />
     <Compile Include="Models\BusinessObjects\XmppConn.cs" />
     <Compile Include="Models\Repositories\NexmoSmsRepository.cs" />
+    <Compile Include="Models\Repositories\VivacomSmsRepository.cs" />
     <Compile Include="Nexmo\NexmoTestController.cs" />
     <Compile Include="Test\HashPassword.cs" />
     <Compile Include="Utilities\Constants.cs" />
@@ -583,7 +587,7 @@
     <None Include="Properties\PublishProfiles\demo_release.txtfeedback.net.pubxml" />
     <None Include="Properties\PublishProfiles\dev_debug.txtfeedback.net.pubxml" />
     <None Include="Properties\PublishProfiles\dev_release.txtfeedback.net.pubxml" />
-    <None Include="Properties\PublishProfiles\product_release.txtfeedback.net.pubxml" />    
+    <None Include="Properties\PublishProfiles\product_release.txtfeedback.net.pubxml" />
     <Content Include="Views\Settings\CompanyBillingInfo.cshtml" />
     <Content Include="Views\WarningMailer\_Layout.cshtml" />
     <Content Include="Views\WarningMailer\WarningEmail.cshtml" />
