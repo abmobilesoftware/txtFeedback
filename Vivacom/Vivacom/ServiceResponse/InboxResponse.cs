@@ -9,6 +9,7 @@ namespace Vivacom
 {
    class InboxResponse
    {
+      //TODO if it was meant to be accessed via a setter/getter it should be private
       public List<ShortMessage> _Messages;
       public ResponseCode ErrorCode { get; set; }
       public List<ShortMessage> Messages
@@ -29,11 +30,14 @@ namespace Vivacom
             _Messages = value;
          }
       }
+      //TODO does not conform to naming convention
       public string md5sum { get; set; }
       private string dateFormat = "yyyy-MM-dd HH:mm:ff";
 
       public InboxResponse(List<string> response)
       {
+         //TODO Error code does not get set for ResponseCode.OK - it should be moved to the first line
+         //no mdb5 computing for ResponseCode.Ok?
          if ((ResponseCode)Convert.ToInt32(response[0]) == ResponseCode.OK)
          {
             for (int i = 1; i < response.Count - 1; i = i + 6)
