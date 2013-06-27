@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceDefinition name="WebApiAzure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2013-03.2.0">
-  <WebRole name="mobile.TxtFeedback_take1" vmsize="ExtraSmall">
+  <WebRole name="mobile.TxtFeedback_take1" vmsize="Small">
     <Runtime executionContext="elevated" />
     <Sites>
       <Site name="text.me" physicalDirectory="..\..\..\..\mobile.TxtFeedback_take1">
@@ -90,7 +90,8 @@
       <InputEndpoint name="Endpoint1" protocol="http" port="80" />
       <InputEndpoint name="Endpoint2" protocol="http" port="81" />
     </Endpoints>
-    <Imports></Imports>
+    <Imports>
+    </Imports>
     <!--<Startup>
       <Task commandLine="Install-AppInit.cmd" executionContext="elevated" />
     </Startup>-->
