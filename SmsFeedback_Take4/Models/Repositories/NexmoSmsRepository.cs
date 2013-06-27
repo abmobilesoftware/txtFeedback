@@ -69,7 +69,8 @@ namespace SmsFeedback_Take4.Models
          JsonResponseModel responseModel = nexmo.Send(requestModel, ResponseObjectType.Json) as JsonResponseModel;
          var msg = responseModel.MessageModels.First();
          var status = msg.Status;
-         var sent = msg.Status.Equals("Success", StringComparison.InvariantCultureIgnoreCase) ? true : false;
+         //DA the status codes are: https://www.nexmo.com/documentation/
+         var sent = msg.Status.Equals("0", StringComparison.InvariantCultureIgnoreCase) ? true : false;
          var sentDate = DateTime.Now.ToUniversalTime();
          //DA: atm, when sending the message via nexmo we don't receive the sent date (or created date) so we use the current datestamp of the server (UTC format)        
          var response = new MessageStatus() { MessageSent = sent, DateSent = sentDate, Status = status, ExternalID=msg.MessageId,Price=msg.MessagePrice };
