@@ -8,7 +8,7 @@ namespace TxtPushService
 {
    class Utilities
    {
-      private string RFC2822format = "ddd, dd MMM yyyy hh:mm:ff zzz";
+      private static string RFC2822format = "ddd, dd MMM yyyy hh:mm:ff zzz";
       public static string buildXmlString(
          string from,
          string to,

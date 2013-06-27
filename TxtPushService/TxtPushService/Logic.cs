@@ -18,25 +18,15 @@ namespace TxtPushService
       private Gateway vivacomGateway;
       private XmppClientWrapper xmppClient;
       private int index;
-      /* Measurement unit seconds */
-      private const int INTERVAL_LENGTH = 20;
-
+      
       public Logic()
       {
          vivacomGateway = new Gateway();
          xmppClient = new XmppClientWrapper();
          index = 0;
          initializeWorkingPointsPool();         
-         xmppClient.connect();
-         executePeriodical();
-      }
-
-      private void executePeriodical()
-      {
-         AutoResetEvent exit = new AutoResetEvent(false);
-         RegisteredWaitHandle h = ThreadPool.RegisterWaitForSingleObject(exit,
-            new WaitOrTimerCallback(runTask), null, INTERVAL_LENGTH * 1000, false);
-      }
+         xmppClient.connect();         
+      }      
 
       private void initializeWorkingPointsPool()
       {
@@ -52,12 +42,13 @@ namespace TxtPushService
          workingPoints.Add(new WorkingPoint("15309", "store5plus"));
       }
 
-      private void runTask(object state, bool timeOut)
+      public void checkInbox(object state, bool timeOut)
       {
          if (xmppClient.IsConnected)
          {
             WorkingPoint workingPoint = workingPoints[index % 10];
             List<ShortMessage> messages = vivacomGateway.CheckInbox(workingPoint.PhoneNumber);
+            string componentAddress = workingPoint.ShortID + "@moderator.txtfeedback.net";
             foreach (var message in messages)
             {
                xmppClient.sendXmppMessage(
