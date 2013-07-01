@@ -48,9 +48,9 @@
          </text>
       }
 
-      @if (Model != null && Model.MonthlySubscriptionTemplate != null)
+      @if (Model != null && Model.MonthlySubscriptionTemplate_InvoiceDetailsTemplateID != null)
       {   <text>
-         @Html.HiddenFor(model => model.MonthlySubscriptionTemplate.InvoiceDetailsTemplateID)
+         @Html.HiddenFor(model => model.MonthlySubscriptionTemplate_InvoiceDetailsTemplateID)
          </text>
       }
 
@@ -60,9 +60,9 @@
          </text>
       }
 
-      @if (Model != null && Model.ExtraSMSCostsDetails != null)
+      @if (Model != null && Model.MonthlyExtraSMSCharge_InvoiceDetailsTemplateID != null)
       {   <text>
-         @Html.HiddenFor(model => model.ExtraSMSCostsDetails.InvoiceDetailsTemplateID)
+         @Html.HiddenFor(model => model.MonthlyExtraSMSCharge_InvoiceDetailsTemplateID)
          </text>
       }
 
