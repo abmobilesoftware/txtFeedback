@@ -5,12 +5,12 @@
     <AzureDeleteDeploymentOnFailure>False</AzureDeleteDeploymentOnFailure>
     <AzureDeploymentLabel>ProductOnAzure</AzureDeploymentLabel>
     <AzureDeploymentReplacementMethod>AutomaticUpgrade</AzureDeploymentReplacementMethod>
-    <AzureSlot>Staging</AzureSlot>
-    <AzureEnableRemoteDesktop>False</AzureEnableRemoteDesktop>
+    <AzureSlot>Production</AzureSlot>
+    <AzureEnableRemoteDesktop>True</AzureEnableRemoteDesktop>
     <AzureEnableWebDeploy>False</AzureEnableWebDeploy>
     <AzureFallbackToDeleteAndRecreateIfUpgradeFails>False</AzureFallbackToDeleteAndRecreateIfUpgradeFails>
-    <AzureHostedServiceLabel>txtfeedback</AzureHostedServiceLabel>
-    <AzureHostedServiceName>txtfeedback</AzureHostedServiceName>
+    <AzureHostedServiceLabel>vivacomtxtfeedback</AzureHostedServiceLabel>
+    <AzureHostedServiceName>vivacomtxtfeedback</AzureHostedServiceName>
     <AzureEnableIntelliTrace>False</AzureEnableIntelliTrace>
     <AzureEnableProfiling>False</AzureEnableProfiling>
     <AzureServiceConfiguration>Cloud</AzureServiceConfiguration>
