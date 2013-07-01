@@ -13,7 +13,7 @@ window.app.domainName = '';
 window.app.lastAjaxCall = { settings: null, jqXHR: null };
 window.app.loginSummaryUrl = "/Account/LogOnSummary";
 window.app.loginUrl = "/Account/LogOn";
-var RESTDomain = "http://demot3xt.cloudapp.net:81";
+var RESTDomain = "http://t3xt.cloudapp.net:81";
 
 window.app.firstCall = true;
 window.app.requestIndex = 0;
