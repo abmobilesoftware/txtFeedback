@@ -16,7 +16,7 @@ public class Main {
 	 * DEV devxmpp.txtfeedback.net - im123456!
 	 */
 	public final static String DOMAIN = "txtfeedback.net";
-	public final static String SUBDOMAIN = "prodstaging";
+	public final static String SUBDOMAIN = "moderator";
 	private final static String SECRET_KEY = "im123!";
 	
 	public static void main(String[] args) {
