@@ -24,7 +24,7 @@ window.app.xmppConn = {};
 //#region XMPP constants
 window.app.getFeaturesIQID = "infomobile";
 window.app.xmppServerExtension = "@txtfeedback.net";
-window.app.xmppComponentExtension = "@prodstaging.txtfeedback.net";
+window.app.xmppComponentExtension = "@moderator.txtfeedback.net";
 //#endregion
 
 window.app.messageModeratorAddress = '';
