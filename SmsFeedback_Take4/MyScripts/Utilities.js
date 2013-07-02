@@ -404,3 +404,35 @@ var isEventSupported = (function () {
    return isEventSupported;
 })();
 //#endregion
+
+var SoundEffect = (function () {
+   var innerClass = {};
+   var defaultSoundFilename = "/Content/audio/multimedia_pop_up_alert_tone_2.mp3";
+   var noOfMouseMoves = 0;
+   var mouseDetectionInterval = 3000; // ms
+
+   innerClass.play = function (filename) {
+      noOfMouseMoves = 0;
+      document.addEventListener("mousemove", innerClass.trackMouseMovement);
+      setTimeout(innerClass.playSound, mouseDetectionInterval);
+   };
+   innerClass.trackMouseMovement = function () {
+      ++noOfMouseMoves;
+   };
+   innerClass.playSound = function (filename) {
+      var isUserAwayFromPage = noOfMouseMoves == 0 ? true : false;
+      if (userAwayFromPage) {
+         var soundFilename;
+         if (filename != null) {
+            soundFilename = filename;
+         } else {
+            soundFilename = defaultSoundFilename;
+         }
+         var sound = new Audio(soundFilename);
+         sound.load();
+         sound.play();
+      }
+      document.removeEventListener("mousemove", innerClass.trackMouseMovement);
+   }
+   return innerClass;
+})();
