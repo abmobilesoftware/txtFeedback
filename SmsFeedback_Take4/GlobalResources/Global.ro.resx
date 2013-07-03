@@ -924,4 +924,8 @@
     <value>Răspunde rapid</value>
     <comment>Mail template</comment>
   </data>
+  <data name="settingsSuccessfullyChanged" xml:space="preserve">
+    <value>Setările au fost schimbate cu succes</value>
+    <comment>Settings, success notification</comment>
+  </data>
 </root>

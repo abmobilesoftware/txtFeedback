@@ -847,4 +847,8 @@
     <value>Quick reply</value>
     <comment>Mail tempate</comment>
   </data>
+  <data name="settingsSuccessfullyChanged" xml:space="preserve">
+    <value>Settings successfully changed</value>
+    <comment>Settings, success notification</comment>
+  </data>
 </root>
