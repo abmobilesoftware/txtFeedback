@@ -72,7 +72,8 @@ window.app.saveNotificationsSettings = function () {
       type: 'post',
       cache: true,
       contentType: "application/json",
-      data: "{'typeOfActivityReport':'" + $("#activityReportFrequencySelection").val() + "'}",     
+      data: "{'typeOfActivityReport':'" + $("#activityReportFrequencySelection").val() + "', " +
+      "'soundNotificationsEnabled': '" + $("input:radio[name=sound]:checked").val() + "'}",
       success: function (data) {
          $('#rightColumn').html(data);
          setupForm(data, '#btnChangeNotificationsSettings', window.app.saveNotificationsSettings);

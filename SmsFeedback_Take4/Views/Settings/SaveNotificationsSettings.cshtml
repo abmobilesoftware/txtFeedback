@@ -1,8 +1,5 @@
 ﻿@{
    Layout = "~/Views/Settings/NotificationsPageLayout.cshtml";
-   String successMessage = @Resources.Global.settingsActivityReportPlanChangedSuccessfully
-      + " \"" + (ViewData["activityReportChose"].Equals("Every incoming") ? Resources.Global.settingsActivitiyReportEveryIncoming: 
-      ViewData["activityReportChose"].Equals("None") ? Resources.Global.settingsActivityReportNone : "") + "\"";
    var cssClass = ViewData["notification"].ToString().Equals("success") ?
       "actionSuccess" : "actionError";   
 }
@@ -12,7 +9,7 @@
    <div id="actionResult" class="@cssClass">
       @if (ViewData["notification"].ToString().Equals("success"))
       {
-         <div id="successMessage">@successMessage</div>
+         <div id="successMessage">@Resources.Global.settingsSuccessfullyChanged</div>
       }
       else if (ViewData["notification"].ToString().Equals("error"))
       {

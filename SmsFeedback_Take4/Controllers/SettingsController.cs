@@ -185,7 +185,9 @@ namespace SmsFeedback_Take4.Controllers
          return View(user);
       }
 
-      public ActionResult SaveNotificationsSettings(string typeOfActivityReport)
+      public ActionResult SaveNotificationsSettings(
+         string typeOfActivityReport, 
+         bool soundNotificationsEnabled)
       {
          User user = null;
          try
@@ -195,6 +197,7 @@ namespace SmsFeedback_Take4.Controllers
                         where u.UserName.Equals(username)
                         select u).FirstOrDefault();
             user.ActivityReportDelivery = typeOfActivityReport;
+            user.SoundNotifications = soundNotificationsEnabled;
             context.SaveChanges();
             ViewData["notification"] = "success";
             ViewData["activityReportChose"] = typeOfActivityReport;
@@ -206,7 +209,17 @@ namespace SmsFeedback_Take4.Controllers
             logger.Error("SaveNotificationsSettings " + e.Message);
             return View(user);
          }
-      } 
+      }
+
+      public JsonResult AreSoundNotificationsOn()
+      {
+         var username = User.Identity.Name;
+         var user = (from u in context.Users
+                 where u.UserName.Equals(username)
+                 select u).FirstOrDefault();
+         return Json(user.SoundNotifications ? 
+            "enabled" : "disabled", JsonRequestBehavior.AllowGet);
+      }
 
       #endregion
 

@@ -13,6 +13,9 @@
          Model.ActivityReportDelivery.Equals(activityPlanWeeklyDigest) ? "selected" : "";
       var noneItemSelectionState =
          Model.ActivityReportDelivery.Equals(activityPlanNone) ? "selected" : "";
+      var soundNotificationsOnChecked = Model.SoundNotifications ? "checked" : "";
+      var soundNotificationsOffChecked = !Model.SoundNotifications ? "checked" : "";    
+       
       
    }
    <div id="activityReportContainer">
@@ -27,8 +30,14 @@
          <option value="@activityPlanNone" 
                @noneItemSelectionState>@Resources.Global.settingsActivityReportNone</option>
       </select>
+      <br /><br />
+      <span class="soundNotificationsTitle">Turn on/off sound notifications</span>
       <br />
+      <input type="radio" name="sound" value="true" @soundNotificationsOnChecked /> On <br />
+      <input type="radio" name="sound" value="false" @soundNotificationsOffChecked /> Off
+      <br /><br />      
       <input type="submit" class="btnSaveChanges" id="btnChangeNotificationsSettings" value="@Resources.Global.saveBtnCaption">
+      <br />
       @RenderBody()
    </div>
 </body>
