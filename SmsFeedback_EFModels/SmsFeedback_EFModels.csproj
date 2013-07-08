@@ -175,9 +175,6 @@
     <Compile Include="InvoiceDetailsTemplate.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Log.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Membership.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -290,6 +287,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SmsFeedbackModels.edmx.sql" />
+    <Content Include="SmsFeedbackModels_2_7.edmx.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

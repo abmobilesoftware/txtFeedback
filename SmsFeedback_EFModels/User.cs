@@ -29,6 +29,7 @@ namespace SmsFeedback_EFModels
         public string Company_Name { get; set; }
         public string XmppConnectionXmppUser { get; set; }
         public string ActivityReportDelivery { get; set; }
+        public bool SoundNotifications { get; set; }
     
         public virtual ICollection<WorkingPoint> WorkingPoints { get; set; }
         public virtual Company Company { get; set; }
