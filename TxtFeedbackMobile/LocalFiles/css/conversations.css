@@ -1,0 +1,43 @@
+/* Approach abandoned due to the issue discussed here 
+http://code.google.com/p/android/issues/detail?id=2118
+#convList {
+	overflow-y:auto;
+}
+*/
+
+li.unread-conversation span.conversation-last-message {
+	font-weight: bold;
+	color: inherit;
+}
+
+li.read-conversation  span.conversation-last-message {
+	font-weight: normal;
+	color: inherit;
+}
+
+li.unread-conversation p.conversation-actors {
+	font-weight: bold;
+	color: #000;
+}
+
+li.read-conversation p.conversation-actors {
+	font-weight: normal;
+	color: color: #888;
+}
+
+
+li.conversation {
+	font-size: 1em;
+	padding-bottom:0.3em;	
+}
+
+p.conversation-actors {
+	margin-bottom:0.9em;
+	margin-top:0.3em;
+	font-style: italic;
+	color: #888;
+}
+
+img.conversation-thumb {
+	margin-top:8px;
+}

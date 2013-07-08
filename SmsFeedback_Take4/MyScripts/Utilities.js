@@ -13,6 +13,7 @@ window.app.domainName = '';
 window.app.lastAjaxCall = { settings: null, jqXHR: null };
 window.app.loginSummaryUrl = "/Account/LogOnSummary";
 window.app.loginUrl = "/Account/LogOn";
+var RESTDomain = "http://t3xt.cloudapp.net:81";
 
 window.app.firstCall = true;
 window.app.requestIndex = 0;
@@ -403,3 +404,55 @@ var isEventSupported = (function () {
    return isEventSupported;
 })();
 //#endregion
+
+var SoundEffect = (function () {
+   var innerClass = {};
+   var defaultSoundFilename = "/Content/audio/multimedia_pop_up_alert_tone_2.mp3";
+   var noOfMouseMoves = 0;
+   var mouseDetectionInterval = 3000; // ms
+
+   innerClass.play = function (filename) {
+      var areSoundNotificationsEnabled =
+         innerClass.areSoundNotificationsEnabled();
+      if (areSoundNotificationsEnabled) {
+         noOfMouseMoves = 0;
+         document.addEventListener("mousemove", innerClass.trackMouseMovement);
+         setTimeout(innerClass.playSound, mouseDetectionInterval);
+      }
+   };
+   innerClass.trackMouseMovement = function () {
+      ++noOfMouseMoves;
+   };
+   innerClass.playSound = function (filename) {
+      var isUserAwayFromPage = noOfMouseMoves == 0 ? true : false;
+      if (isUserAwayFromPage) {
+         var soundFilename;
+         if (filename != null) {
+            soundFilename = filename;
+         } else {
+            soundFilename = defaultSoundFilename;
+         }
+         var sound = new Audio(soundFilename);
+         sound.load();
+         sound.play();
+      }
+      document.removeEventListener("mousemove", innerClass.trackMouseMovement);
+   };
+   innerClass.areSoundNotificationsEnabled = function () {
+      var soundNotificationsEnabled = false;
+      $.ajax({
+         url: "/Settings/AreSoundNotificationsOn",
+         async: false,
+         cache: false,
+         success: function (data) {
+            if (data == "enabled") {
+               soundNotificationsEnabled = true;
+            } else {
+               soundNotificationsEnabled = false;
+            }
+         }
+      });
+      return soundNotificationsEnabled;
+   }
+   return innerClass;
+})();

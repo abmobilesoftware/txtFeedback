@@ -3,7 +3,6 @@
   <Role name="SmsFeedback_Take4">
     <Instances count="2" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=producttxtfeedback;AccountKey=QWZg2pdOiGlOzxM/cPJM8aeyXC4v7p+KoC0N2kFMw2olwQm4v0zerSNPiMQ7kcPEjQOi7OIHPz6MYXIwj1kEeA==" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

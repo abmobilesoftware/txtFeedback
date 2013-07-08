@@ -1,0 +1,44 @@
+﻿@model SmsFeedback_EFModels.User
+<body>
+   @{
+      var activityPlanEveryIncoming = "Every incoming";
+      var activityPlanDailyDigest = "Daily digest";
+      var activityPlanWeeklyDigest = "Weekly digest";
+      var activityPlanNone = "None";
+      var everyIncomingItemSelectionState =
+         Model.ActivityReportDelivery.Equals(activityPlanEveryIncoming) ? "selected" : "";
+      var dailyDigestItemSelectionState =
+         Model.ActivityReportDelivery.Equals(activityPlanDailyDigest) ? "selected" : "";
+      var weeklyDigestItemSelectionState =
+         Model.ActivityReportDelivery.Equals(activityPlanWeeklyDigest) ? "selected" : "";
+      var noneItemSelectionState =
+         Model.ActivityReportDelivery.Equals(activityPlanNone) ? "selected" : "";
+      var soundNotificationsOnChecked = Model.SoundNotifications ? "checked" : "";
+      var soundNotificationsOffChecked = !Model.SoundNotifications ? "checked" : "";    
+       
+      
+   }
+   <div id="activityReportContainer">
+      <legend id="activityReportTitle">@Resources.Global.settingsActivityReportTitle</legend>
+      <span class="activityReportFrequencyLabel">
+         @Resources.Global.settingsActivityReportFrequency &nbsp
+      </span>
+      <br />
+      <select id="activityReportFrequencySelection">
+         <option value="@activityPlanEveryIncoming" 
+              @everyIncomingItemSelectionState>@Resources.Global.settingsActivitiyReportEveryIncoming</option>
+         <option value="@activityPlanNone" 
+               @noneItemSelectionState>@Resources.Global.settingsActivityReportNone</option>
+      </select>
+      <br /><br />
+      <span class="soundNotificationsTitle">Turn on/off sound notifications</span>
+      <br />
+      <input type="radio" name="sound" value="true" @soundNotificationsOnChecked /> On <br />
+      <input type="radio" name="sound" value="false" @soundNotificationsOffChecked /> Off
+      <br /><br />      
+      <input type="submit" class="btnSaveChanges" id="btnChangeNotificationsSettings" value="@Resources.Global.saveBtnCaption">
+      <br />
+      @RenderBody()
+   </div>
+</body>
+

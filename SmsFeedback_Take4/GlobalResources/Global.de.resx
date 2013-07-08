@@ -772,4 +772,83 @@
   <data name="messageVoucherNotInserted" xml:space="preserve">
     <value>The voucher code was not inserted in the message because would surpass the 160 characters limit.</value>
   </data>
+  <data name="settingsNotifications" xml:space="preserve">
+    <value>Notifications</value>
+    <comment>Settings: menu item</comment>
+  </data>
+  <data name="settingsActivitiyReportEveryIncoming" xml:space="preserve">
+    <value>Every incoming</value>
+  </data>
+  <data name="settingsActivityReportDailyDigest" xml:space="preserve">
+    <value>Daily digest</value>
+  </data>
+  <data name="settingsActivityReportNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="settingsActivityReportWeeklyDigest" xml:space="preserve">
+    <value>Weekly digest</value>
+  </data>
+  <data name="settingsActivityReportPlanChangedError" xml:space="preserve">
+    <value>Error occurred during plan changing. Try again later.</value>
+    <comment>Settings: Activity report action result notification</comment>
+  </data>
+  <data name="settingsActivityReportPlanChangedSuccessfully" xml:space="preserve">
+    <value>Your activity report plan changed successfully to</value>
+    <comment>Settings: Activity report action result notification</comment>
+  </data>
+  <data name="settingsActivityReportFrequency" xml:space="preserve">
+    <value>Email notification frequency</value>
+    <comment>Settings: Label activity report frequency</comment>
+  </data>
+  <data name="mailTemplateDailyActivity" xml:space="preserve">
+    <value>Daily activity</value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="mailTemplateLoginMessage" xml:space="preserve">
+    <value>Log in the platform and reply</value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="mailTemplateUnsubscribe2" xml:space="preserve">
+    <value>log in the platform</value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="mailTemplateUnsubscribe3" xml:space="preserve">
+    <value>and in Settings page choose the option "None"under Notifications section.</value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="mailTemplateUnsubscribeMessage1" xml:space="preserve">
+    <value>If you don't want to receive this kind of notifications,</value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="mailTemplateWorkingPoint" xml:space="preserve">
+    <value>WorkingPoint</value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="mailTemplateYourActivity" xml:space="preserve">
+    <value>Your activity</value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="mailTemplateNewMessage" xml:space="preserve">
+    <value>New message received!</value>
+    <comment>Template for mail notification</comment>
+  </data>
+  <data name="settingsActivityReportTitle" xml:space="preserve">
+    <value>Notifications</value>
+    <comment>Settings:activity report</comment>
+  </data>
+  <data name="mailTemplateSubject" xml:space="preserve">
+    <value>New message received!</value>
+    <comment>Mail template</comment>
+  </data>
+  <data name="mailTemplateLinkTitleOpenPlatform" xml:space="preserve">
+    <value>Open the platform</value>
+  </data>
+  <data name="mailTemplateLinkTitleQuickReply" xml:space="preserve">
+    <value>Quick reply</value>
+    <comment>Mail tempate</comment>
+  </data>
+  <data name="settingsSuccessfullyChanged" xml:space="preserve">
+    <value>Settings successfully changed</value>
+    <comment>Settings, success notification</comment>
+  </data>
 </root>

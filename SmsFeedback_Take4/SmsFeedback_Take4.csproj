@@ -99,7 +99,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Nexmo-CSharp-lib">
       <HintPath>..\ExternalReferences\Nexmo-CSharp-lib.dll</HintPath>
@@ -116,6 +116,7 @@
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
@@ -174,6 +175,9 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Thinktecture.IdentityModel">
+      <HintPath>..\packages\Thinktecture.IdentityModel.2.4.2\lib\net40\Thinktecture.IdentityModel.dll</HintPath>
+    </Reference>
     <Reference Include="Twilio.Api">
       <HintPath>..\packages\Twilio.3.4.2\lib\3.5\Twilio.Api.dll</HintPath>
     </Reference>
@@ -186,6 +190,9 @@
     <Reference Include="TwilioSharp.MVC3">
       <HintPath>..\packages\TwilioSharpMVC.1.0\lib\TwilioSharp.MVC3.dll</HintPath>
     </Reference>
+    <Reference Include="Vivacom">
+      <HintPath>..\Vivacom\Vivacom\bin\Release\Vivacom.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
     </Reference>
@@ -193,9 +200,11 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActivityReportController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ComponentController.cs" />
     <Compile Include="Controllers\ConversationsController.cs" />
+    <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\EmailSendController.cs" />
     <Compile Include="Controllers\ErrorLogController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
@@ -225,6 +234,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Global.ru.resx</DependentUpon>
     </Compile>
+    <Compile Include="Mailers\ActivityReportMailer.cs" />
+    <Compile Include="Mailers\NotificationMailer.cs" />
     <Compile Include="Mailers\WarningMailer.cs" />
     <Compile Include="Models\BusinessObjects\ConvTag.cs" />
     <Compile Include="Models\BusinessObjects\WorkingPointConfModel.cs" />
@@ -243,6 +254,7 @@
     <Compile Include="Models\Helpers\ReportMenu\ReportsMenuItem.cs" />
     <Compile Include="Models\Helpers\ReportModel\ReportResourceOptions.cs" />
     <Compile Include="Models\Helpers\SubscriptionSmsStatus.cs" />
+    <Compile Include="Models\Helpers\WpAndConversations.cs" />
     <Compile Include="Models\Interfaces\IInternalSMSRepository.cs" />
     <Compile Include="Models\Repositories\CompatelSmsRepository.cs" />
     <Compile Include="Models\Repositories\EFSmsRepository.cs" />
@@ -260,6 +272,7 @@
     <Compile Include="Models\BusinessObjects\WorkingPoint.cs" />
     <Compile Include="Models\BusinessObjects\XmppConn.cs" />
     <Compile Include="Models\Repositories\NexmoSmsRepository.cs" />
+    <Compile Include="Models\Repositories\VivacomSmsRepository.cs" />
     <Compile Include="Nexmo\NexmoTestController.cs" />
     <Compile Include="Test\HashPassword.cs" />
     <Compile Include="Utilities\Constants.cs" />
@@ -309,6 +322,7 @@
     <Content Include="Content\images\arrow_down_16.png" />
     <Content Include="Content\images\arrow_down_dblue_16.png" />
     <Content Include="Content\images\arrow_up_dblue_16.png" />
+    <Content Include="Content\images\Bullet-Blue-32.png" />
     <Content Include="Content\images\check-black.svg" />
     <Content Include="Content\images\check-grey.png" />
     <Content Include="Content\images\check-grey.svg" />
@@ -599,7 +613,14 @@
     <Content Include="Views\UserMailer\EmailTemplate.cshtml" />
     <Content Include="Views\WorkingPoints\EditWorkingPointInfo.cshtml" />
     <Content Include="Views\WorkingPoints\WorkingPointsInfo.cshtml" />
+    <Content Include="Views\ActivityReportMailer\NewsletterTemplate.cshtml" />
     <None Include="Properties\PublishProfiles\tablet.pubxml" />
+    <Content Include="Views\ActivityReportMailer\_Layout.cshtml" />
+    <Content Include="Views\NotificationMailer\_Layout.cshtml" />
+    <Content Include="Views\NotificationMailer\MailNotificationTemplate.cshtml" />
+    <Content Include="Views\Settings\NotificationsPage.cshtml" />
+    <Content Include="Views\Settings\NotificationsPageLayout.cshtml" />
+    <Content Include="Views\Settings\SaveNotificationsSettings.cshtml" />
     <None Include="Web.Debug_demo.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

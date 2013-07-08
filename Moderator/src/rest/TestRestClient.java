@@ -13,8 +13,7 @@ public class TestRestClient {
 	}
 	
 	public static void testParametersSending() {
-		RestControllerGateway restGtw = new RestControllerGateway();
-		restGtw.sendParameters();
+		RestControllerGateway restGtw = new RestControllerGateway();		
 	}
 	
 	public static void testRestClient() {
