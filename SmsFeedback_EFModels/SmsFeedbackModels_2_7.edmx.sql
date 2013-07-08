@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 07/02/2013 16:36:03
+-- Date Created: 07/02/2013 16:38:42
 -- Generated from EDMX file: D:\Work\Txtfeedback\Repository Git\txtFeedback\SmsFeedback_EFModels\SmsFeedbackModels.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [txtfeedback_production];
+USE [txtfeedback_dev];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -278,7 +278,8 @@ CREATE TABLE [dbo].[Users] (
     [LastActivityDate] datetime  NOT NULL,
     [Company_Name] nvarchar(50)  NULL,
     [XmppConnectionXmppUser] nvarchar(100)  NOT NULL,
-    [ActivityReportDelivery] nvarchar(255)  NOT NULL
+    [ActivityReportDelivery] nvarchar(255)  NOT NULL,
+    [SoundNotifications] bit  NOT NULL
 );
 GO
 
