@@ -1030,4 +1030,16 @@
     <value>Settings successfully changed</value>
     <comment>Settings, success notification</comment>
   </data>
+  <data name="settingsSoundOff" xml:space="preserve">
+    <value>Off</value>
+    <comment>Settings: sound off label</comment>
+  </data>
+  <data name="settingsSoundOn" xml:space="preserve">
+    <value>On</value>
+    <comment>Settings: sound on label</comment>
+  </data>
+  <data name="settingsTurnSoundOnOff" xml:space="preserve">
+    <value>Turn on/off sound notifications</value>
+    <comment>Settings: sound notifications label</comment>
+  </data>
 </root>

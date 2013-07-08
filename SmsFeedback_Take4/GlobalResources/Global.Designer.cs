@@ -1879,6 +1879,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Off.
+        /// </summary>
+        public static string settingsSoundOff {
+            get {
+                return ResourceManager.GetString("settingsSoundOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On.
+        /// </summary>
+        public static string settingsSoundOn {
+            get {
+                return ResourceManager.GetString("settingsSoundOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Activity (this billing month).
         /// </summary>
         public static string settingsSubscriptionActivity {
@@ -1947,6 +1965,15 @@ namespace Resources {
         public static string settingsTelNoHeader {
             get {
                 return ResourceManager.GetString("settingsTelNoHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn on/off sound notifications.
+        /// </summary>
+        public static string settingsTurnSoundOnOff {
+            get {
+                return ResourceManager.GetString("settingsTurnSoundOnOff", resourceCulture);
             }
         }
         
