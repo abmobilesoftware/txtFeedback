@@ -965,4 +965,16 @@
     <value>Setările au fost schimbate cu succes</value>
     <comment>Settings, success notification</comment>
   </data>
+  <data name="settingsSoundOff" xml:space="preserve">
+    <value>Oprit</value>
+    <comment>Settings: sound off label</comment>
+  </data>
+  <data name="settingsSoundOn" xml:space="preserve">
+    <value>Pornit</value>
+    <comment>Settings: sound on label</comment>
+  </data>
+  <data name="settingsTurnSoundOnOff" xml:space="preserve">
+    <value>Pornește/oprește notificările sonore</value>
+    <comment>Settings: sound notification label</comment>
+  </data>
 </root>
