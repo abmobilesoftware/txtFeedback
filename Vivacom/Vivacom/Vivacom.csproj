@@ -4,14 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{568AFFA3-E7A9-4223-833F-03B38C52BA74}</ProjectGuid>
+    <ProjectGuid>{C541ACE1-0133-4A84-BAA3-86C5C0281ABA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vivacom</RootNamespace>
     <AssemblyName>Vivacom</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,15 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ServiceResponse\DeleteResponse.cs" />
+    <Compile Include="Responses\DeleteResponse.cs" />
     <Compile Include="Gateway.cs" />
-    <Compile Include="ServiceResponse\InboxResponse.cs" />
+    <Compile Include="Responses\InboxResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Helpers\ResponseCode.cs" />
-    <Compile Include="Helpers\RestClient.cs" />
-    <Compile Include="ServiceResponse\SendResponse.cs" />
-    <Compile Include="Helpers\ShortMessage.cs" />
-    <Compile Include="Helpers\Utilities.cs" />
+    <Compile Include="Utilities\ResponseCode.cs" />
+    <Compile Include="Utilities\RestClient.cs" />
+    <Compile Include="Responses\SendResponse.cs" />
+    <Compile Include="Utilities\ShortMessage.cs" />
+    <Compile Include="Utilities\Utilities.cs" />
+    <Compile Include="Utilities\VivacomResponseCode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

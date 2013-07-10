@@ -11,7 +11,7 @@ namespace VivacomLib
       /// <summary>
       /// Universal short message id
       /// </summary>
-      public int Usmid { get; set; }
+      public long Usmid { get; set; }
       public string To { get; set; }
       public string From { get; set; }
       /// <summary>
@@ -23,7 +23,7 @@ namespace VivacomLib
       public DateTime DateReceived { get; set; }
 
       public ShortMessage(
-         int iUsmid,
+         long iUsmid,
          string iTo,
          string iFrom,
          int iDcs,

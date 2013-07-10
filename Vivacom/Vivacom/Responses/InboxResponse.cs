@@ -17,7 +17,8 @@ namespace VivacomLib
          {
             if (_Messages == null)
             {
-               return new List<ShortMessage>();
+                _Messages = new List<ShortMessage>();
+                return _Messages;
             }
             else
             {
@@ -41,7 +42,7 @@ namespace VivacomLib
             for (int i = 1; i < response.Count - 1; i = i + 6)
             {
                Messages.Add(new ShortMessage(
-                  Convert.ToInt32(response[i]),
+                  Convert.ToInt64(response[i]),
                   response[i + 1],
                   response[i + 2],
                   Convert.ToInt32(response[i + 3]),

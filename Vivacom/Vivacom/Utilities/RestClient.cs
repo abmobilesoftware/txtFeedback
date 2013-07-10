@@ -10,7 +10,7 @@ namespace VivacomLib
 {
    class RestClient
    {
-      public HttpWebResponse GETResource(string baseUri, List<KeyValuePair<string, string>> parameters)
+      public HttpWebResponse GETResource(string baseUri, List<KeyValuePair<string, string>> parameters, ref string fullUrl)
       {
          string queryString  = String.Join("&", 
             parameters.Select(
@@ -19,6 +19,7 @@ namespace VivacomLib
                HttpUtility.UrlEncode(x.Key), 
                HttpUtility.UrlEncode(x.Value))));
          string resourceUri = baseUri + "?" + queryString;
+         fullUrl = resourceUri;
          HttpWebRequest request = (HttpWebRequest)WebRequest.Create(resourceUri);
          request.Method = "GET";
          HttpWebResponse response = (HttpWebResponse)request.GetResponse();
