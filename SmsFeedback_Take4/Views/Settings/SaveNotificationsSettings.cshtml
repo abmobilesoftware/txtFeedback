@@ -1,0 +1,19 @@
+﻿@{
+   Layout = "~/Views/Settings/NotificationsPageLayout.cshtml";
+   var cssClass = ViewData["notification"].ToString().Equals("success") ?
+      "actionSuccess" : "actionError";   
+}
+
+@if (!ViewData["notification"].ToString().Equals("noNotification"))
+{
+   <div id="actionResult" class="@cssClass">
+      @if (ViewData["notification"].ToString().Equals("success"))
+      {
+         <div id="successMessage">@Resources.Global.settingsSuccessfullyChanged</div>
+      }
+      else if (ViewData["notification"].ToString().Equals("error"))
+      {
+         <div id="errorMessage">@Resources.Global.settingsActivityReportPlanChangedError</div>  
+      }
+   </div>
+}

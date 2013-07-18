@@ -4,14 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9c032a5472b642ed9bdfb92c9ffa1550" Name="Diagram1" ZoomLevel="55">
+      <Diagram DiagramId="9c032a5472b642ed9bdfb92c9ffa1550" Name="Diagram1" ZoomLevel="93">
         <EntityTypeShape EntityType="smsfeedbackModel.Conversation" Width="2.125" PointX="11.875" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="smsfeedbackModel.Message" PointX="15.875" PointY="1.25" Width="2.25" IsExpanded="true" />
         <EntityTypeShape EntityType="smsfeedbackModel.WorkingPoint" Width="2.375" PointX="8" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="smsfeedbackModel.User" Width="2.375" PointX="7.875" PointY="6.375" />
         <EntityTypeShape EntityType="smsfeedbackModel.Role" Width="1.5" PointX="4" PointY="5.625" />
         <AssociationConnector Association="smsfeedbackModel.UsersForWorkingPoints" />
-        <EntityTypeShape EntityType="smsfeedbackModel.XmppConnection" Width="1.5" PointX="1.5" PointY="8" />
+        <EntityTypeShape EntityType="smsfeedbackModel.XmppConnection" Width="1.5" PointX="1.25" PointY="7.5" />
         <EntityTypeShape EntityType="smsfeedbackModel.Company" Width="2.75" PointX="13.875" PointY="6.125" IsExpanded="true" />
         <AssociationConnector Association="smsfeedbackModel.FK_UserCompany" />
         <EntityTypeShape EntityType="smsfeedbackModel.Tag" Width="2.5" PointX="19.375" PointY="8.625" />
@@ -48,42 +48,32 @@
         <AssociationConnector Association="smsfeedbackModel.ConversationToConversationHistory" />
         <AssociationConnector Association="smsfeedbackModel.ConversationHistoryMessage" />
         <AssociationConnector Association="smsfeedbackModel.UserXmppConnection" />
-        <AssociationConnector Association="smsfeedbackModel.MessageXmppConnection" ManuallyRouted="true" >
-          <ConnectorPoint PointX="17.593752000000002" PointY="5.3456022135416656" />
-          <ConnectorPoint PointX="17.593752000000002" PointY="11.093775088388888" />
-          <ConnectorPoint PointX="16.270833333333332" PointY="11.093775088388888" />
-          <ConnectorPoint PointX="16.104166666666668" PointY="11.093775088388888" />
-          <ConnectorPoint PointX="13.770833333333334" PointY="11.093775088388888" />
-          <ConnectorPoint PointX="13.604166666666666" PointY="11.093775088388888" />
-          <ConnectorPoint PointX="13.375" PointY="11.093775088388888" />
-          <ConnectorPoint PointX="13.375" PointY="9.25" />
-          <ConnectorPoint PointX="11.489583333333334" PointY="9.25" />
-          <ConnectorPoint PointX="11.322916666666666" PointY="9.25" />
-          <ConnectorPoint PointX="10.5" PointY="9.25" />
-          <ConnectorPoint PointX="10.5" PointY="10.335999348958332" />
-          <ConnectorPoint PointX="9.8020833333333339" PointY="10.335999348958332" />
-          <ConnectorPoint PointX="9.6354166666666661" PointY="10.335999348958332" />
-          <ConnectorPoint PointX="9.1458333333333339" PointY="10.335999348958332" />
-          <ConnectorPoint PointX="8.9791666666666661" PointY="10.335999348958332" />
-          <ConnectorPoint PointX="7.802083333333333" PointY="10.335999348958332" />
-          <ConnectorPoint PointX="7.635416666666667" PointY="10.335999348958332" />
-          <ConnectorPoint PointX="5.625" PointY="10.335999348958332" />
-          <ConnectorPoint PointX="5.625" PointY="8.3906229999999979" />
-          <ConnectorPoint PointX="4.770833333333333" PointY="8.3906229999999979" />
-          <ConnectorPoint PointX="4.604166666666667" PointY="8.3906229999999979" />
-          <ConnectorPoint PointX="3" PointY="8.3906229999999979" />
+        <AssociationConnector Association="smsfeedbackModel.MessageXmppConnection" ManuallyRouted="false" >
+          <ConnectorPoint PointX="17.4062495" PointY="5.3456022135416656" />
+          <ConnectorPoint PointX="17.4062495" PointY="10.662903645833332" />
+          <ConnectorPoint PointX="16.270833333333332" PointY="10.662903645833332" />
+          <ConnectorPoint PointX="16.104166666666668" PointY="10.662903645833332" />
+          <ConnectorPoint PointX="13.375" PointY="10.662903645833332" />
+          <ConnectorPoint PointX="10.5" PointY="10.52830078125" />
+          <ConnectorPoint PointX="9.8020833333333339" PointY="10.52830078125" />
+          <ConnectorPoint PointX="9.6354166666666661" PointY="10.52830078125" />
+          <ConnectorPoint PointX="7.802083333333333" PointY="10.52830078125" />
+          <ConnectorPoint PointX="7.635416666666667" PointY="10.52830078125" />
+          <ConnectorPoint PointX="5.625" PointY="10.52830078125" />
         </AssociationConnector>
         <EntityTypeShape EntityType="smsfeedbackModel.InvoiceDetails" Width="1.5" PointX="19.625" PointY="14.875" />
         <EntityTypeShape EntityType="smsfeedbackModel.Invoice" Width="1.875" PointX="15.75" PointY="12.75" />
         <AssociationConnector Association="smsfeedbackModel.FK_CompanyInvoice" />
         <AssociationConnector Association="smsfeedbackModel.FK_InvoiceInvoiceDetails" />
-        <EntityTypeShape EntityType="smsfeedbackModel.SubscriptionDetail" Width="2.25" PointX="11.25" PointY="12.75" />
-        <AssociationConnector Association="smsfeedbackModel.FK_CompanySubscriptionDetails" />
+        <EntityTypeShape EntityType="smsfeedbackModel.SubscriptionDetail" Width="3.375" PointX="11.25" PointY="12.75" />
         <EntityTypeShape EntityType="smsfeedbackModel.Contact" Width="1.5" PointX="7.625" PointY="14.75" />
         <AssociationConnector Association="smsfeedbackModel.FK_SubscriptionDetailPrimaryContact" />
         <AssociationConnector Association="smsfeedbackModel.FK_SubscriptionDetailSecondaryContact" />
         <AssociationConnector Association="smsfeedbackModel.FK_CompanyContact" />
-        <EntityTypeShape EntityType="smsfeedbackModel.InvoiceDetailsTemplate" Width="1.5" PointX="11.375" PointY="18.25" />
+        <AssociationConnector Association="smsfeedbackModel.FK_CompanySubscriptionDetails1" />
+        <EntityTypeShape EntityType="smsfeedbackModel.Device" Width="1.5" PointX="0.625" PointY="17.25" />
+        <AssociationConnector Association="smsfeedbackModel.UserDevice" />
+        <EntityTypeShape EntityType="smsfeedbackModel.InvoiceDetailsTemplate" Width="1.5" PointX="8.75" PointY="18.25" />
         <AssociationConnector Association="smsfeedbackModel.FK_SubscriptionDetailInvoiceDetailsTemplate" />
         <AssociationConnector Association="smsfeedbackModel.FK_SubscriptionDetailInvoiceDetailsTemplate1" />
         </Diagram>

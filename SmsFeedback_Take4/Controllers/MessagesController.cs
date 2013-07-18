@@ -38,7 +38,7 @@ namespace SmsFeedback_Take4.Controllers
         //    return View();
         //}
         
-        public JsonResult MessagesList(string conversationId)
+        public JsonResult MessagesList(string conversationId, int top, int skip)
         {
             //defend when conversationID is null
             if (conversationId == null)
@@ -55,7 +55,7 @@ namespace SmsFeedback_Take4.Controllers
             try
             {
                 logger.Debug(String.Format("Show messages for conversation: {0}", conversationId));
-                return Json(SMSRepository.GetMessagesForConversation(conversationId, context), JsonRequestBehavior.AllowGet);
+                return Json(SMSRepository.GetMessagesForConversation(conversationId, top, skip, context), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -119,6 +119,6 @@ namespace SmsFeedback_Take4.Controllers
         {
            context.Dispose();
            base.Dispose(disposing);
-        }
+        }       
     }
 }

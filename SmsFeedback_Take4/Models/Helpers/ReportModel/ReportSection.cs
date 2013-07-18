@@ -16,6 +16,7 @@ namespace SmsFeedback_Take4.Models.Helpers
         public string tooltip;
         public int dataIndex;
         public string chartSource;
+        public bool hasExportRawData;
 
         public ReportSection(string iType, 
             string iTitle,
@@ -24,7 +25,8 @@ namespace SmsFeedback_Take4.Models.Helpers
             string iTooltip = "no tooltip", 
             string iSectionId = "-1", 
             string iGroupId = "-1",
-            string iChartSource = "no source")
+            string iChartSource = "no source",
+            bool  iHasExportRawData = false)
         {
             type = iType;
             title = iTitle;
@@ -34,6 +36,7 @@ namespace SmsFeedback_Take4.Models.Helpers
             groupId = iGroupId;
             dataIndex = iDataIndex;
             chartSource = iChartSource;
+            hasExportRawData = iHasExportRawData;
 
             Guid groupUUID = Guid.NewGuid();
             Guid sectionUUID = Guid.NewGuid();

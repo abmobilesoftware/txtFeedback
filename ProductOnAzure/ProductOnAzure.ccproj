@@ -52,6 +52,7 @@
   <ItemGroup>
     <PublishProfile Include="Profiles\txtfeedbackProduction.azurePubxml" />
     <PublishProfile Include="Profiles\demoTxtfeedback.azurePubxml" />
+    <PublishProfile Include="Profiles\txtfeedbackVivacom.azurePubxml" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>

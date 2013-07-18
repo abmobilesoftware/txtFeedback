@@ -8,7 +8,7 @@ namespace SmsFeedback_Take4
       // For more information on Bundling, visit http://go.microsoft.com/fwlink/?LinkId=254725
       public static void RegisterBundles(BundleCollection bundles)
       {
-         BundleTable.EnableOptimizations = false;
+         BundleTable.EnableOptimizations = true;
          //master layout
          //css
          bundles.Add(new ScriptBundle("~/bundles/corejs").Include(
@@ -30,7 +30,8 @@ namespace SmsFeedback_Take4
             "~/Content/nav.css",
             "~/Content/Site.css",
             "~/Content/contact.css",
-            "~/Content/css/areaDefinitions.css"));
+            "~/Content/css/areaDefinitions.css",
+            "~/Content/css/bootstrap.css"));
          //conversations tab
          //css
          bundles.Add(new StyleBundle("~/Content/homeCss").Include(
@@ -49,6 +50,7 @@ namespace SmsFeedback_Take4
             "~/Scripts/jquery.ui.datepicker-ro.js",
             "~/Scripts/jquery.ui.datepicker-en-GB.js",
             "~/Scripts/jquery.ui.datepicker-es.js",
+            "~/Scripts/jquery.ui.datepicker-ru.js",
             "~/MyScripts/WorkingPoints.js",
             "~/MyScripts/Messages.js",
             "~/MyScripts/Conversations.js",
@@ -59,7 +61,9 @@ namespace SmsFeedback_Take4
          //Reports tab
          //css
          bundles.Add(new StyleBundle("~/Content/reportsCss").Include(
-            "~/Content/css/reports.css"
+            "~/Content/css/reports.css",
+            "~/Content/tags.css",
+             "~/Content/jquery.tagsinput.css"
             ));
          //js
          bundles.Add(new ScriptBundle("~/bundles/reportsjs").Include(
@@ -67,6 +71,7 @@ namespace SmsFeedback_Take4
             "~/Scripts/jquery.ui.datepicker-ro.js",
             "~/Scripts/jquery.ui.datepicker-en-GB.js",
             "~/Scripts/jquery.ui.datepicker-es.js",
+            "~/Scripts/jquery.ui.datepicker-ru.js",
             "~/MyScripts/Helpers/Debounce.js",
             "~/MyScripts/Reports/DateHelper.js",
             "~/MyScripts/Reports/GlobalVariables.js",
@@ -77,7 +82,8 @@ namespace SmsFeedback_Take4
             "~/MyScripts/Base/BaseLeftSideMenu.js",
             "~/MyScripts/Reports/Reports.js",
             "~/MyScripts/Reports/RepFacade.js",
-            "~/Scripts/CollapsibleLists.js"
+            "~/Scripts/CollapsibleLists.js",
+            "~/Scripts/jquery.tagsinput.js"
             ));
          //Settings tab
          //css

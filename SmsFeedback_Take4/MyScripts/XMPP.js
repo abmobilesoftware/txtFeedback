@@ -387,8 +387,9 @@ window.app.XMPPhandler = function XMPPhandler() {
              //incommingMSG
              if (window.app.pageBlinkIntervalId == null) {
                  window.app.pageBlinkIntervalId = setInterval(updatePageTitle, 2000);
-                 document.onmousemove = stopUpdatingPageTitle;
+                 document.addEventListener("mousemove", stopUpdatingPageTitle);
              }
+             SoundEffect.play();
             //DA check if we are dealing with a delayed message or not - if yes - disregard the message
             if ($(message).children("delay").length === 0) {
                //according to http://xmpp.org/extensions/xep-0160.html#flow if we are dealing with a offline message we will have a delay child

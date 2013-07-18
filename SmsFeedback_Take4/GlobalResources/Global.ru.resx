@@ -1,0 +1,870 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="accountAuthenticate" xml:space="preserve">
+    <value>Удостоверить</value>
+  </data>
+  <data name="accountInformation" xml:space="preserve">
+    <value>Информация об учетной записи</value>
+  </data>
+  <data name="addATagLabel" xml:space="preserve">
+    <value>добавить тэг</value>
+  </data>
+  <data name="btnGiveVoucher" xml:space="preserve">
+    <value>Дать ваучер</value>
+  </data>
+  <data name="btnNotificationDismiss" xml:space="preserve">
+    <value>Отклонить</value>
+  </data>
+  <data name="btnNotificationSolve" xml:space="preserve">
+    <value>Разрешить</value>
+  </data>
+  <data name="confirmDeleteConversation" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить разговор с пользователем?</value>
+  </data>
+  <data name="confirmDeleteMessage" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить сообщение?</value>
+  </data>
+  <data name="dateLabel" xml:space="preserve">
+    <value>Дата:</value>
+  </data>
+  <data name="deleteMessage" xml:space="preserve">
+    <value>Удалить сообщение</value>
+  </data>
+  <data name="errorCannotSendMessage" xml:space="preserve">
+    <value>Сообщение не  отправлено в качестве подписки включаемые ежемесячно, исходящие сообщения были ипользованы и предел расходов для вашей компании был достигнут. Возьмите кредит или поднимите расходный предел, чтобы посылать болше СМС до следующего расчетного месяца. </value>
+  </data>
+  <data name="errorMessageNotSentInsufficientCredits" xml:space="preserve">
+    <value>Не возможно отправить СМС:(. Причина: недостаточно средств. Возьмите кредит или поднимите расходный предел, чтобы посылать болше СМС до следующего расчетного месяца. </value>
+  </data>
+  <data name="errorMessageNotSentReasonUnknown" xml:space="preserve">
+    <value>Не возможно отправить СМС:(. Причина: неизвестна. Для более подробной информации свяжитесь с командой TxtFeedback  нажав на клавивишу Разрешить</value>
+  </data>
+  <data name="feedbackSendUsFeedback" xml:space="preserve">
+    <value>Отправить нам отзыв</value>
+  </data>
+  <data name="filteringAddFilterTag" xml:space="preserve">
+    <value>Добавить фильтрацию тэгов</value>
+  </data>
+  <data name="filteringRemoveFilterTag" xml:space="preserve">
+    <value>Удалить фильтрацию тэгов</value>
+  </data>
+  <data name="fromDate" xml:space="preserve">
+    <value>начатый</value>
+  </data>
+  <data name="gotANewMessage" xml:space="preserve">
+    <value>Новое сообщение!</value>
+  </data>
+  <data name="helpPageTitle" xml:space="preserve">
+    <value>Помощь</value>
+  </data>
+  <data name="lblNoConversationSelected" xml:space="preserve">
+    <value>Разговор не выбран, пожалуйста выберите один</value>
+  </data>
+  <data name="lblPassword" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="lblUserName" xml:space="preserve">
+    <value>Имя пользователя </value>
+  </data>
+  <data name="loadMoreConversations" xml:space="preserve">
+    <value>Загрузить еще разговоры</value>
+  </data>
+  <data name="loginUnsuccessfulDetails" xml:space="preserve">
+    <value>Имя пользователя или пароль не является корректным</value>
+  </data>
+  <data name="loginUnsuccessfulSummary" xml:space="preserve">
+    <value>Логин был неудачный. Пожалуйста исправьте ошибку и попробуйте снова.</value>
+  </data>
+  <data name="LogOnButtonMessage" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="logOnLogOffMsg" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="logOnLogOnMsg" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="logOnMessage" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="LogOnModel_Password_DisplayName" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="LogOnModel_Password_Required" xml:space="preserve">
+    <value>Поле пароля обязательно для заполнения</value>
+  </data>
+  <data name="LogOnModel_RememberMe_DisplayName" xml:space="preserve">
+    <value>Запомнить меня?</value>
+  </data>
+  <data name="LogOnModel_UserName_DisplayName" xml:space="preserve">
+    <value>Пользователь</value>
+  </data>
+  <data name="LogOnModel_UserName_Required" xml:space="preserve">
+    <value>Поле Имя пользователя обязательно для заполнения</value>
+  </data>
+  <data name="logOnRegister" xml:space="preserve">
+    <value>Зарегистрироваться </value>
+  </data>
+  <data name="logOnRegisterSuffixMsg" xml:space="preserve">
+    <value>если у вас нет аккаунта</value>
+  </data>
+  <data name="logOnWithUserPassMsg" xml:space="preserve">
+    <value>Пожалуйста введите ваше имя и пароль</value>
+  </data>
+  <data name="messageChooseVoucher" xml:space="preserve">
+    <value>Вы уверены, что хотите дать ваучер </value>
+  </data>
+  <data name="messageListOfVouchers" xml:space="preserve">
+    <value>Забрать ваучер</value>
+  </data>
+  <data name="messageNoVouchers" xml:space="preserve">
+    <value>Нет больше ваучеров</value>
+  </data>
+  <data name="messagesAddTagPlaceHolder" xml:space="preserve">
+    <value>добавить тэги</value>
+  </data>
+  <data name="messagesPageTitle" xml:space="preserve">
+    <value>Разговоры</value>
+  </data>
+  <data name="messagesRemoveTagPlaceHolder" xml:space="preserve">
+    <value>Удалить тэг</value>
+  </data>
+  <data name="messageVoucherNotInserted" xml:space="preserve">
+    <value>Код ваучера не был вставлен в сообщение, так как лимит составляет не более 160 символов. </value>
+  </data>
+  <data name="readLabel" xml:space="preserve">
+    <value>Непрочитанный</value>
+  </data>
+  <data name="RepAvgNoOfIncomingSmsPerConversation" xml:space="preserve">
+    <value>Среднее количество входящих СМС клиентов</value>
+  </data>
+  <data name="RepAvgNoOfIncomingSmsPerConversationToolitp" xml:space="preserve">
+    <value>Среднее количество входящих СМС клиентов</value>
+  </data>
+  <data name="RepAvgNoOfOutgoingSmsPerConversation" xml:space="preserve">
+    <value>Среднее количество исходящих СМС клиентов</value>
+  </data>
+  <data name="RepAvgNoOfOutgoingSmsPerConversationTooltip" xml:space="preserve">
+    <value>Среднее количество исходящих СМС клиентов</value>
+  </data>
+  <data name="RepAvgNoOfSmsPerClient" xml:space="preserve">
+    <value>Среднее количество СМС </value>
+  </data>
+  <data name="RepAvgNoOfSmsPerClientTooltip" xml:space="preserve">
+    <value>Среднее количество СМС </value>
+  </data>
+  <data name="RepAvgNoOfSmsPerDay" xml:space="preserve">
+    <value>Среднее количество СМС в день </value>
+  </data>
+  <data name="RepAvgNoOfSmsPerDayTooltip" xml:space="preserve">
+    <value>Среднее количество СМС в день </value>
+  </data>
+  <data name="RepAvgNoOfTagsPerConversation" xml:space="preserve">
+    <value> Среднее количество тэгов в разговоре </value>
+  </data>
+  <data name="RepAvgNoOfTagsPerConversationTooltip" xml:space="preserve">
+    <value> Среднее количество тэгов в разговоре </value>
+  </data>
+  <data name="RepAvgResponseTime" xml:space="preserve">
+    <value>Среднее время отклика</value>
+  </data>
+  <data name="RepAvgResponseTimeTooltip" xml:space="preserve">
+    <value>Среднее время отклика</value>
+  </data>
+  <data name="RepClients" xml:space="preserve">
+    <value>Клиенты</value>
+  </data>
+  <data name="RepClientsUnit" xml:space="preserve">
+    <value>клиенты</value>
+  </data>
+  <data name="RepConversations" xml:space="preserve">
+    <value>Разговоры</value>
+  </data>
+  <data name="RepConversationsUnit" xml:space="preserve">
+    <value>Разговоры</value>
+  </data>
+  <data name="RepDay" xml:space="preserve">
+    <value>День</value>
+  </data>
+  <data name="RepDaysUnit" xml:space="preserve">
+    <value>дни</value>
+  </data>
+  <data name="repExportRawRepName" xml:space="preserve">
+    <value>Экспорт сообщений</value>
+  </data>
+  <data name="RepExportRawToExcel" xml:space="preserve">
+    <value>Экспорт сообщений в CSV</value>
+  </data>
+  <data name="RepExportToExcel" xml:space="preserve">
+    <value>Экспорт в CSV</value>
+  </data>
+  <data name="RepHoursUnit" xml:space="preserve">
+    <value>часы</value>
+  </data>
+  <data name="RepIncomingOutgoingChartTitle" xml:space="preserve">
+    <value>Входящие и исходящие сообщения</value>
+  </data>
+  <data name="RepIncomingSmsChart" xml:space="preserve">
+    <value>Входящие</value>
+  </data>
+  <data name="RepIncomingVsOutgoing" xml:space="preserve">
+    <value>Входящие и Исходящие</value>
+  </data>
+  <data name="RepMinutesUnit" xml:space="preserve">
+    <value>минуты</value>
+  </data>
+  <data name="RepMonth" xml:space="preserve">
+    <value>Месяц</value>
+  </data>
+  <data name="RepMostUsedTag" xml:space="preserve">
+    <value>Наиболее часто используемые тэги</value>
+  </data>
+  <data name="RepMostUsedTagsTooltip" xml:space="preserve">
+    <value>Наиболее часто используемые тэги</value>
+  </data>
+  <data name="RepNegativeFeedback" xml:space="preserve">
+    <value>Отрицательный отзыв</value>
+  </data>
+  <data name="RepNegFeedbackAdded" xml:space="preserve">
+    <value>Отрицательный отзыв добавлен</value>
+  </data>
+  <data name="RepNegFeedbackRemoved" xml:space="preserve">
+    <value>Отрицательный отзыв удален</value>
+  </data>
+  <data name="RepNegToPosFeedback" xml:space="preserve">
+    <value>С отрицательного на положительный отзыв</value>
+  </data>
+  <data name="RepNewClientsChart" xml:space="preserve">
+    <value>Новые клиенты</value>
+  </data>
+  <data name="RepNewReturningClientsChartTitle" xml:space="preserve">
+    <value>Новые и постоянные клиенты</value>
+  </data>
+  <data name="RepNewVsReturning" xml:space="preserve">
+    <value>Новые и постоянные  </value>
+  </data>
+  <data name="RepNoDataToDisplay" xml:space="preserve">
+    <value>Нет данных для отображения</value>
+  </data>
+  <data name="RepNoneDefaultValue" xml:space="preserve">
+    <value>Никто / ничто</value>
+  </data>
+  <data name="RepNoOfConversationsByTagsChartTitle" xml:space="preserve">
+    <value>Количество разговоров по тэгу</value>
+  </data>
+  <data name="RepNoOfIncomingSms" xml:space="preserve">
+    <value>Количество входящих сообщений</value>
+  </data>
+  <data name="RepNoOfIncomingSmsTooltip" xml:space="preserve">
+    <value>Количество входящих сообщений</value>
+  </data>
+  <data name="RepNoOfNewClients" xml:space="preserve">
+    <value>Количество новых клиентов</value>
+  </data>
+  <data name="RepNoOfNewClientsTooltip" xml:space="preserve">
+    <value>Количество новых клиентов</value>
+  </data>
+  <data name="RepNoOfOutgoingSms" xml:space="preserve">
+    <value>Количество исходящих сообщений</value>
+  </data>
+  <data name="RepNoOfOutgoingSmsTooltip" xml:space="preserve">
+    <value>Количество исходящих сообщений</value>
+  </data>
+  <data name="RepNoOfReturningClients" xml:space="preserve">
+    <value>Количество постоянных клиентов</value>
+  </data>
+  <data name="RepNoOfReturningClientsTooltip" xml:space="preserve">
+    <value>Количество постоянных клиентов</value>
+  </data>
+  <data name="reportsPageTitle" xml:space="preserve">
+    <value>Отчеты</value>
+  </data>
+  <data name="RepOutgoingSmsChart" xml:space="preserve">
+    <value>Исходящие</value>
+  </data>
+  <data name="RepOverview" xml:space="preserve">
+    <value>Обзор</value>
+  </data>
+  <data name="RepOverviewChartTitle" xml:space="preserve">
+    <value>Общее количество сообщений</value>
+  </data>
+  <data name="RepPosFeedbackAdded" xml:space="preserve">
+    <value>Добавлен положительный отзыв</value>
+  </data>
+  <data name="RepPosFeedbackRemoved" xml:space="preserve">
+    <value>Удален положительный отзыв</value>
+  </data>
+  <data name="RepPositiveAndNegative" xml:space="preserve">
+    <value>Положительный и отрицательный</value>
+  </data>
+  <data name="RepPositiveAndNegativeTitle" xml:space="preserve">
+    <value>Положительный и отрицательный отзыв</value>
+  </data>
+  <data name="RepPositiveFeedback" xml:space="preserve">
+    <value>Положительныц отзыв</value>
+  </data>
+  <data name="RepPositiveNegativeActivityChartTitle" xml:space="preserve">
+    <value>Действие положительных и отрицательных  тэгов</value>
+  </data>
+  <data name="RepPositiveNegativeEvolutionChartTitle" xml:space="preserve">
+    <value>Изменение положительных и отрицательных отзывов</value>
+  </data>
+  <data name="RepPositiveNegativeTransitionsChartTitle" xml:space="preserve">
+    <value>Переход положительных и отрицательных отзывов</value>
+  </data>
+  <data name="RepPosToNegFeedback" xml:space="preserve">
+    <value>С положительного на отрицательный отзыв</value>
+  </data>
+  <data name="repRawConversationId" xml:space="preserve">
+    <value>Идентификатор диалога</value>
+  </data>
+  <data name="repRawFrom" xml:space="preserve">
+    <value>От</value>
+  </data>
+  <data name="repRawText" xml:space="preserve">
+    <value>Текст</value>
+  </data>
+  <data name="repRawTimeReceived" xml:space="preserve">
+    <value>Время полученного (UTC)</value>
+  </data>
+  <data name="repRawTo" xml:space="preserve">
+    <value>Кому</value>
+  </data>
+  <data name="repRawWpName" xml:space="preserve">
+    <value>Рабочая точка</value>
+  </data>
+  <data name="RepReturningClientsChart" xml:space="preserve">
+    <value>Постоянные клиенты</value>
+  </data>
+  <data name="RepSecondsUnit" xml:space="preserve">
+    <value>Секунды</value>
+  </data>
+  <data name="RepSmsPerClient" xml:space="preserve">
+    <value>сообщения/клиент</value>
+  </data>
+  <data name="RepSmsPerDayUnit" xml:space="preserve">
+    <value>сообщения/день</value>
+  </data>
+  <data name="RepSmsUnit" xml:space="preserve">
+    <value>сообщение(я)</value>
+  </data>
+  <data name="repTagFilteringReportTitle" xml:space="preserve">
+    <value>Многотеговый фильтр</value>
+  </data>
+  <data name="repTagRefreshTagFilter" xml:space="preserve">
+    <value>Обновить диаграмму</value>
+  </data>
+  <data name="RepTags" xml:space="preserve">
+    <value>Тэги</value>
+  </data>
+  <data name="repTagsLegendDescription" xml:space="preserve">
+    <value>Беседы отмечены</value>
+  </data>
+  <data name="repTagsLegendDescriptionNoTags" xml:space="preserve">
+    <value>Выберите хотя бы один тег</value>
+  </data>
+  <data name="RepTagsPerConversationUnit" xml:space="preserve">
+    <value>тэги/разговор</value>
+  </data>
+  <data name="RepTooltipPosNegFeedbackActivity" xml:space="preserve">
+    <value>Действие положительных и отрицательных  отзывов</value>
+  </data>
+  <data name="RepTooltipPosNegFeedbackEvolution" xml:space="preserve">
+    <value>Изменение положительных и отрицательных отзывов</value>
+  </data>
+  <data name="RepTooltipPosNegFeedbackTransitions" xml:space="preserve">
+    <value>Переход положительных и отрицательных отзывов</value>
+  </data>
+  <data name="RepTotalNoOfClients" xml:space="preserve">
+    <value>Количество клиентов дающих отзывы</value>
+  </data>
+  <data name="RepTotalNoOfClientsTooltip" xml:space="preserve">
+    <value>Количество клиентов </value>
+  </data>
+  <data name="RepTotalNoOfSms" xml:space="preserve">
+    <value>Общее количество сообщений</value>
+  </data>
+  <data name="RepTotalNoOfSmsTooltip" xml:space="preserve">
+    <value>Общее количество сообщений</value>
+  </data>
+  <data name="RepTotalSmsChart" xml:space="preserve">
+    <value>Все сообщения</value>
+  </data>
+  <data name="RepTypeTable" xml:space="preserve">
+    <value>Тип / Печатать</value>
+  </data>
+  <data name="RepValueTable" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="RepWeek" xml:space="preserve">
+    <value>Неделя</value>
+  </data>
+  <data name="saveBtnCaption" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="sendButton" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="sendEmailCancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="sendEmailConjuctionSubject" xml:space="preserve">
+    <value>] и [</value>
+  </data>
+  <data name="sendEmailEmailSent" xml:space="preserve">
+    <value>Сообщение отправлено!</value>
+  </data>
+  <data name="sendEmailEmailSentSuccessfuly" xml:space="preserve">
+    <value>Сообщение отправлено успешно</value>
+  </data>
+  <data name="sendEmailHeader" xml:space="preserve">
+    <value>Отправить письмо</value>
+  </data>
+  <data name="sendEmailLoadingScreen" xml:space="preserve">
+    <value>Загрузка…</value>
+  </data>
+  <data name="sendEmailMessage" xml:space="preserve">
+    <value>*Сообщение:</value>
+  </data>
+  <data name="sendEmailPrefixSubject" xml:space="preserve">
+    <value>Обмен текста между</value>
+  </data>
+  <data name="sendEmailSend" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="sendEmailSendingEmail" xml:space="preserve">
+    <value>Отправка…</value>
+  </data>
+  <data name="sendEmailStartingText" xml:space="preserve">
+    <value>Сообщение от пользователя  TxtFeedback</value>
+  </data>
+  <data name="sendEmailSubject" xml:space="preserve">
+    <value>*Тема:</value>
+  </data>
+  <data name="sendEmailTo" xml:space="preserve">
+    <value>*Кому:</value>
+  </data>
+  <data name="sendEmailValidationEmailInvalid" xml:space="preserve">
+    <value>Эл.почта не действительна</value>
+  </data>
+  <data name="sendEmailValidationEmailRequired" xml:space="preserve">
+    <value>Требуется эл.почта</value>
+  </data>
+  <data name="sendEmailValidationMessageRequired" xml:space="preserve">
+    <value>Требуется сообщение</value>
+  </data>
+  <data name="sendEmailValidationSubjectRequired" xml:space="preserve">
+    <value>Требуется тема</value>
+  </data>
+  <data name="sendFeedbackFeedbackSentSuccessfully" xml:space="preserve">
+    <value>Ваш отзыв отправлен  - команда TxtFeedback выражает свою благодарность!</value>
+  </data>
+  <data name="sendFeedbackHeader" xml:space="preserve">
+    <value>Отправить отзыв</value>
+  </data>
+  <data name="sendFeedbackNegativeFeedbackSubject" xml:space="preserve">
+    <value>Мне не нравится тот факт, что…</value>
+  </data>
+  <data name="sendFeedbackPlaceholderMessage" xml:space="preserve">
+    <value>Заменить это вашими данными</value>
+  </data>
+  <data name="sendFeedbackPositiveFeedbackSubject" xml:space="preserve">
+    <value>Мне нравится тот факт, что…</value>
+  </data>
+  <data name="settingsBtnChangePassword" xml:space="preserve">
+    <value>Изменить Пароль</value>
+  </data>
+  <data name="settingsChangePassword" xml:space="preserve">
+    <value>Изменить пароль</value>
+  </data>
+  <data name="settingsChangePasswordTitle" xml:space="preserve">
+    <value>Изменить Пароль</value>
+  </data>
+  <data name="settingsCompanyBillingMenuName" xml:space="preserve">
+    <value>Настройки счетов</value>
+  </data>
+  <data name="settingsCompanyMenuName" xml:space="preserve">
+    <value>Компания </value>
+  </data>
+  <data name="settingsConfigureBusyMessageTimerHeader" xml:space="preserve">
+    <value>Промежуток времени после которого, появится сообщение о занятости (в мили секундах)</value>
+  </data>
+  <data name="settingsConfigureWpBusyMessageIntervalMsgError" xml:space="preserve">
+    <value>Требуется промежуток времени для сообщения о занятости </value>
+  </data>
+  <data name="settingsConfigureWpBusyMessageMsgError" xml:space="preserve">
+    <value>Рабочее место сообщения о занятости не может быть пустым</value>
+  </data>
+  <data name="settingsConfigureWpDescription" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="settingsConfigureWpDescriptionError" xml:space="preserve">
+    <value>Рабочее описание не может быть пустым</value>
+  </data>
+  <data name="settingsConfigureWpName" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="settingsConfigureWpNameError" xml:space="preserve">
+    <value>Названия Рабочего места не можно быть пустым</value>
+  </data>
+  <data name="settingsConfigureWpTelNumberError" xml:space="preserve">
+    <value>Поле телефонного номера не может быть пустым</value>
+  </data>
+  <data name="settingsConfigureWpWelcomeMsgError" xml:space="preserve">
+    <value>Рабочее поле приветственного сообщения не должно быть пустым</value>
+  </data>
+  <data name="settingsConfirmNewPasswordLabel" xml:space="preserve">
+    <value>Подтвердить новый пароль</value>
+  </data>
+  <data name="settingsCurrentPasswordFieldRequired" xml:space="preserve">
+    <value>Требуется текущий пароль</value>
+  </data>
+  <data name="settingsCurrentPasswordLabel" xml:space="preserve">
+    <value>Текущий пароль</value>
+  </data>
+  <data name="settingsDescriptionPrefix" xml:space="preserve">
+    <value>Новый пароль должен содержать не менее {0} символов</value>
+  </data>
+  <data name="settingsErrorBusyMessageNotInInterval" xml:space="preserve">
+    <value>Недействительный промежуток времени: должен быть 1000 (1 секунда) и 60000 (1 минута)</value>
+  </data>
+  <data name="settingsErrorNewPasswordsDontMatch" xml:space="preserve">
+    <value>Новый парль и подтверждение пароле несоответствуют</value>
+  </data>
+  <data name="settingsErrorPasswordChangeSummary" xml:space="preserve">
+    <value>Пароль изменен не успешно. Пожалуйста, исправите ошибку и попробуйте снова</value>
+  </data>
+  <data name="settingsErrorPasswordIncorrect" xml:space="preserve">
+    <value>Неправильный текущий пароль иди новый пароль недействителен</value>
+  </data>
+  <data name="settingsErrorPasswordNotLongEnough" xml:space="preserve">
+    <value>Новый пароль должен содержать не менее {2} символов</value>
+  </data>
+  <data name="settingsErrorWpBusyMessageLength" xml:space="preserve">
+    <value>Сообщение о занятости должно содержать от 10 до 160 символов</value>
+  </data>
+  <data name="settingsErrorWpDescriptionLength" xml:space="preserve">
+    <value>Описание рабочего места не должно  превышать 160 символов</value>
+  </data>
+  <data name="settingsErrorWpNameLength" xml:space="preserve">
+    <value>Названия Рабочего места должно содержать от 6 до 40 символов</value>
+  </data>
+  <data name="settingsErrorWpTelNumberLength" xml:space="preserve">
+    <value>Телефоный номер рабочего места должен содержать от 8 до 50 символов</value>
+  </data>
+  <data name="settingsErrorWpWelcomeLength" xml:space="preserve">
+    <value>Приветственное письмо должно содержать от 10 до 160 символов</value>
+  </data>
+  <data name="settingsMaxOutboundSmsHeader" xml:space="preserve">
+    <value>Максимальное количество исходящих СМС</value>
+  </data>
+  <data name="settingsMaxOutboundSmsHeaderTooltip" xml:space="preserve">
+    <value>Максимальное количество  СМС которые может быть отправлено с этого рабочего места в течении одного месяца</value>
+  </data>
+  <data name="settingsNewPasswordFieldRequired" xml:space="preserve">
+    <value>Треубется новый пароль</value>
+  </data>
+  <data name="settingsNewPasswordLabel" xml:space="preserve">
+    <value>Новый пароль</value>
+  </data>
+  <data name="settingsPageTitle" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="settingsPasswordChangedSuccessfully" xml:space="preserve">
+    <value>Ваш пароль был изменен успешно</value>
+  </data>
+  <data name="settingsPrivacy" xml:space="preserve">
+    <value>Конфиденциальность</value>
+  </data>
+  <data name="settingsShortIDHeader" xml:space="preserve">
+    <value>Краткая идентификация</value>
+  </data>
+  <data name="settingsShortIDHeaderTooltip" xml:space="preserve">
+    <value>Короткий идентификатор рабочего места</value>
+  </data>
+  <data name="settingsSubscriptionActivity" xml:space="preserve">
+    <value>Действие (этот расчетный месяц)</value>
+  </data>
+  <data name="settingsSubscriptionHeader" xml:space="preserve">
+    <value>Информация о счетах компании</value>
+  </data>
+  <data name="settingsSubscriptionInfo" xml:space="preserve">
+    <value>Информация о подписке</value>
+  </data>
+  <data name="settingsSubscriptionNotifications" xml:space="preserve">
+    <value>Уведомления</value>
+  </data>
+  <data name="settingsSubscriptionPrimaryContact" xml:space="preserve">
+    <value>Первичный контакт</value>
+  </data>
+  <data name="settingsSubscriptionSecondaryContact" xml:space="preserve">
+    <value>Вторичный контакт</value>
+  </data>
+  <data name="settingsTelNoHeader" xml:space="preserve">
+    <value>Номер телефона</value>
+  </data>
+  <data name="settingsWpBusyMessageHeader" xml:space="preserve">
+    <value>Сообщение о занятости  </value>
+  </data>
+  <data name="settingsWpConfigErrors" xml:space="preserve">
+    <value>Произошли ошибки при сохранении новой конфигурации</value>
+  </data>
+  <data name="settingsWpConfigLegend" xml:space="preserve">
+    <value>Рабочие Места</value>
+  </data>
+  <data name="settingsWpDefineWpsMenu" xml:space="preserve">
+    <value>Определите ваши рабочие места</value>
+  </data>
+  <data name="settingsWpDescriptionHeader" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="settingsWpDescriptionHeaderTooltip" xml:space="preserve">
+    <value>Описание рабочего места   </value>
+  </data>
+  <data name="settingsWpMaxOutboundSmsHeaderTooltip" xml:space="preserve">
+    <value>Максимальное количество СМС которое может быть отправлено с этого рабочего места</value>
+  </data>
+  <data name="settingsWpMenuName" xml:space="preserve">
+    <value>Рабочие места </value>
+  </data>
+  <data name="settingsWpNameHeader" xml:space="preserve">
+    <value>Название рабочего места </value>
+  </data>
+  <data name="settingsWpNameHeaderTooltip" xml:space="preserve">
+    <value>Короткое имя используемое при заявке </value>
+  </data>
+  <data name="settingsWpTelNoHeaderTooltip" xml:space="preserve">
+    <value>Телефоный номер  связан с этим рабочим место</value>
+  </data>
+  <data name="settingsWpWelcomeMessageHeader" xml:space="preserve">
+    <value>Приветственное письмо  </value>
+  </data>
+  <data name="settingsWpWelcomeMessageHeaderTooltip" xml:space="preserve">
+    <value>Приветственное письмо на мобильном   вебсайте</value>
+  </data>
+  <data name="settingUserPreferences" xml:space="preserve">
+    <value>Предпочтения клиентов</value>
+  </data>
+  <data name="settingWpConfigSavedSuccessfuly" xml:space="preserve">
+    <value>Конфигурации рабочих мест изменены успешно</value>
+  </data>
+  <data name="shareOnFacebook" xml:space="preserve">
+    <value>Поделиться на Facebook</value>
+  </data>
+  <data name="shareOnLinkedin" xml:space="preserve">
+    <value>Поделиться на Linkedin</value>
+  </data>
+  <data name="shareOnLinkedinTitle" xml:space="preserve">
+    <value>Отзывы полученные через Txtfeedback</value>
+  </data>
+  <data name="shareOnTwitter" xml:space="preserve">
+    <value>Поделиться на Twitter</value>
+  </data>
+  <data name="starredLabel" xml:space="preserve">
+    <value>Фавориты</value>
+  </data>
+  <data name="subscriptionSpendingReached" xml:space="preserve">
+    <value>Вы достигли ежемесячный расходный лимит  {0:0.00} {1} для вашей компании.  Возьмите кредит или поднимите расходный предел, чтобы посылать болше СМС до следующего расчетного месяца. </value>
+  </data>
+  <data name="subscriptionWarningReached" xml:space="preserve">
+    <value>Вы приблизились к ежемесячному расходному лимиту для вашей компании. Вы использовали {0:0.00} {1} из возможных {2:0.00} {1}. Удостоверьтесь, что у вас есть достаточно средств, чтобы работать до следующего расчетного месяца. (который начинается в {3})</value>
+  </data>
+  <data name="supportLabel" xml:space="preserve">
+    <value>Поддержка</value>
+  </data>
+  <data name="tabHelp" xml:space="preserve">
+    <value>Помощь</value>
+  </data>
+  <data name="tabMessages" xml:space="preserve">
+    <value>Разговоры</value>
+  </data>
+  <data name="tabReports" xml:space="preserve">
+    <value>Отчеты</value>
+  </data>
+  <data name="tabSettings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="tagsLabel" xml:space="preserve">
+    <value>Тэг(и):</value>
+  </data>
+  <data name="thumbsDownTooltip" xml:space="preserve">
+    <value>Отметить этот разговор как отрицательный отзыв</value>
+  </data>
+  <data name="thumbsUpTooltip" xml:space="preserve">
+    <value>Отметить этот разговор как положительный отзыв</value>
+  </data>
+  <data name="TitleLogOn" xml:space="preserve">
+    <value>Удостоверить</value>
+  </data>
+  <data name="toDate" xml:space="preserve">
+    <value>последние обновления</value>
+  </data>
+  <data name="tooltipCheckMessageReceived" xml:space="preserve">
+    <value>Сообщение доставлено клиенту</value>
+  </data>
+  <data name="tooltipCheckMessageSent" xml:space="preserve">
+    <value>Сообщение доставлено на сервер TxtFeedback </value>
+  </data>
+  <data name="tooltipDeleteConversation" xml:space="preserve">
+    <value>Удалить разговоры</value>
+  </data>
+  <data name="tooltipIncludeDateInFilter" xml:space="preserve">
+    <value>Включить / выключить фильтрацию даты</value>
+  </data>
+  <data name="tooltipIncludeStarredInFilter" xml:space="preserve">
+    <value>Включить / выключить фильтрацию понравившихся</value>
+  </data>
+  <data name="tooltipIncludeSupportFilter" xml:space="preserve">
+    <value>Быстрый доступ к поддержке TxtFeedback</value>
+  </data>
+  <data name="tooltipIncludeTagsInFilter" xml:space="preserve">
+    <value>Включить / выключить фильтрацию тэгов</value>
+  </data>
+  <data name="tooltipIncludeUnreadInFilter" xml:space="preserve">
+    <value>Включить только не прочитанные сообщения</value>
+  </data>
+  <data name="tooltipMarkAsFavouriteImg" xml:space="preserve">
+    <value>Отменить как понравившийся</value>
+  </data>
+  <data name="tooltipNrOfConvsWithUnreadMsgs" xml:space="preserve">
+    <value>Количество разговоров с непрочитанными сообщениями</value>
+  </data>
+  <data name="tooltipReplyBtn" xml:space="preserve">
+    <value>Отправить ответ клиенту (Shift + Enter)</value>
+  </data>
+  <data name="tooltipSendEmailImg" xml:space="preserve">
+    <value>Отправить письмо</value>
+  </data>
+  <data name="tooltipSendNegativeFeedback" xml:space="preserve">
+    <value>Отправить отрицательный отзыв</value>
+  </data>
+  <data name="tooltipSendPositiveFeedback" xml:space="preserve">
+    <value>Отправить положительный отзыв</value>
+  </data>
+  <data name="tooltipWpImg" xml:space="preserve">
+    <value>Возможно / невозможно отобразить сообщение для этого рабочего места</value>
+  </data>
+  <data name="warningMessageSentSpendingLimitReached" xml:space="preserve">
+    <value>Вы достигли ежемесячный расходный лимит для вашей компании.  Возьмите кредит или поднимите расходный предел, чтобы посылать болше СМС до следующего расчетного месяца. </value>
+  </data>
+  <data name="welcomeMessage" xml:space="preserve">
+    <value>Добро пожаловать</value>
+  </data>
+</root>

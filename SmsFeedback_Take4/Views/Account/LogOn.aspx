@@ -49,6 +49,7 @@
                 <%: Html.ImageLink(Url.Content("~/Content/images/De_flag.png"), "de-DE",null,null) %>
                 <%: Html.ImageLink(Url.Content("~/Content/images/Spain_flag.png"), "es-ES",null,null) %>
                 <%: Html.ImageLink(Url.Content("~/Content/images/Ro_flag.png"), "ro-RO",null,null) %>
+                  <%: Html.ImageLink(Url.Content("~/Content/images/Ru_flag_32.png"), "ru-RU",null,null) %>
              </div>
             </fieldset>
         </div>

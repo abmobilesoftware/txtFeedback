@@ -59,16 +59,16 @@
 }
 
 #supportFilterArea {
-    width: 100px;
+    width: auto;
     float: left;
 }
 
 #unreadFilterArea {
-   width: 98px;
+   width: auto;
    float: right;
 }
 #starredFilterArea {
-   width: 98px;
+   width: auto;
    float: right;
 }
 #dateFilterArea {

@@ -218,7 +218,7 @@ namespace SmsFeedback_Take4.Controllers
           return null;
        }
 
-      [HttpPost]
+       [HttpPost]
        public JsonResult Delete(String ConvID)
        {
           if (ConvID == null)

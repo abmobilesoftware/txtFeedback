@@ -17,7 +17,7 @@ DECLARE @C_ContactName nvarchar(50) = 'Marius';
 DECLARE @C_ContactSurname nvarchar(50) = 'Pop';
 DECLARE @C_ContactEmail nvarchar(50) = 'marius@txtfeedback.net';
 DECLARE @C_VATID nvarchar(50) = 'DemoSalesVATID';
-DECLARE @C_RegistrationNumber nvarchar(50) = NULL;
+DECLARE @C_RegistrationNumber nvarchar(50) = 'NECUNOSCUTACUM';
 -- SubscriptionDetails
 DECLARE @S_PrimaryContact_Name nvarchar(50) = 'Marius'; 
 DECLARE @S_PrimaryContact_Surname nvarchar(50) = 'Pop';

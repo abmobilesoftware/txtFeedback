@@ -47,10 +47,8 @@ window.app.Conversation = Backbone.Model.extend({
     initialize: function (attributes, options) {
        this.set('IsSmsBased', (attributes.IsSmsBased === "false" || attributes.IsSmsBased === false) ? false : true);
        this.set('TimeUpdated', attributes.TimeReceived);
-       if (this.get('IsSmsBased')) {
-          var fromTo = getFromToFromConversation(attributes.ConvID);
-          this.set('ClientDisplayName', fromTo[0].substring(0, fromTo[0].length - 4) + "....");
-       }
+       var fromTo = getFromToFromConversation(attributes.ConvID);
+       this.set('ClientDisplayName', fromTo[0].substring(0, fromTo[0].length - 4) + "....");       
     },
     toggleStarred: function () {
         /* Toggle the starred value using an optimistically approach
@@ -71,21 +69,24 @@ window.app.Conversation = Backbone.Model.extend({
                     self.set("Starred", !self.get("Starred"));
                 });
     },
+    methodUrl: {
+       "delete": "Conversations/Delete"
+    },
     sync: function (method, model, options) {
-       //convert the delete to a post (for livehosting)
-       if (method === 'delete') {
-          options.url = "Conversations/Delete";
-          Backbone.sync("create", model, options);
+       if (model.methodUrl && model.methodUrl[method]) {
+          options = options || {};
+          options.url = model.methodUrl[method];
        }
-   },
-    idAttribute: "ConvID" //the id should be the combination from-to
+       var parseMethod = (method === "delete") ? "create" : method;
+       Backbone.sync(parseMethod, model, options);
+    },
+   idAttribute: "ConvID"
 });
 //#endregion
 //#region ConversationsList
 window.app.ConversationsList = Backbone.Collection.extend({
     model: window.app.Conversation,
     convID: null,
-    url: "Conversations/Delete",
     methodUrl: {
         "read": "Conversations/ConversationsList",
         "delete": "Conversations/Delete"
@@ -130,9 +131,15 @@ window.app.ConversationView = Backbone.View.extend({
    },
    render: function () {
       var selfConvView = this;
+      //DA make sure to restore the selected state
+      var selectedStatus = false;
+      if ($('.conversation', this.$el).hasClass('ui-selected')) {
+         selectedStatus = true;
+      }
       this.$el.html(this.conversationTemplate(this.model.toJSON()));
-      // TODO : Move this action
-      var deleteConvImg = $(".deleteConv img", this.$el);
+      if (selectedStatus) {
+         $(".conversation", $(this.$el)).addClass("ui-selected");
+      }
 
       //#region Hover on a conversation
       var deleteConvArea = $(".deleteConv", this.$el);
@@ -383,7 +390,7 @@ function ConversationArea(filterArea, workingPointsArea) {
             this.refreshsInProgress--;
 
             if (this.refreshsInProgress === 0) {
-                var convEl = $("#conversations");
+               var convEl = $("#conversations");               
                 convEl.html('');
                 var selfConversationsView = this;
                 this.convsList.each(function (conv) {

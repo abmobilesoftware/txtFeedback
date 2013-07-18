@@ -17,11 +17,13 @@ namespace SmsFeedback_Take4.Models
       public const string TWILIO_PROVIDER = "twilio";
       public const string NEXMO_PROVIDER = "nexmo";
       public const string COMPATEL_PROVIDER = "compatel";
+      public const string VIVACOM_PROVIDER = "vivacom";
 
       private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
       private TwilioSmsRepository mTwilioRep = new TwilioSmsRepository();
       private NexmoSmsRepository mNexmoRep = new NexmoSmsRepository();
       private CompatelSmsRepository mCompatelRep = new CompatelSmsRepository();
+      private VivacomSmsRepository mVivacomRep = new VivacomSmsRepository();
       private EFSmsRepository mEFRep = new EFSmsRepository();
       private EFInteraction mEFInterface = new EFInteraction();
       private string LoggedInUser { get; set; }
@@ -143,9 +145,9 @@ namespace SmsFeedback_Take4.Models
          }
       }
 
-      public IEnumerable<SmsMessage> GetMessagesForConversation(string convID, smsfeedbackEntities dbContext)
+      public IEnumerable<SmsMessage> GetMessagesForConversation(string convID, int top, int skip, smsfeedbackEntities dbContext)
       {         
-         return mEFInterface.GetMessagesForConversation(convID, dbContext);
+         return mEFInterface.GetMessagesForConversation(convID, top, skip, dbContext);
          //we get the messages for a certain conversation from Twilio 
          //return mTwilioRep.GetMessagesForConversation(convID,isConvFavourite);
       }
@@ -187,6 +189,10 @@ namespace SmsFeedback_Take4.Models
                      case COMPATEL_PROVIDER:
                         logger.Info("Sending message via compatel");
                         mCompatelRep.SendMessage(fromWp, to, message, callbackOnSuccess);
+                        break;
+                     case VIVACOM_PROVIDER:
+                        logger.Info("Sending message via vivacom");
+                        mVivacomRep.SendMessage(fromWp, to, message);
                         break;
                      default:
                         logger.ErrorFormat("Invalid provider for number: {0}", fromWp);
@@ -242,7 +248,10 @@ namespace SmsFeedback_Take4.Models
                         return mNexmoRep.SendMessage(fromWp, to, message);
                      case COMPATEL_PROVIDER:
                         logger.Info("Sending message via compatel");
-                        return mCompatelRep.SendMessage(fromWp, to, message);                        
+                        return mCompatelRep.SendMessage(fromWp, to, message);  
+                     case VIVACOM_PROVIDER:
+                        logger.Info("Sending message via vivacom");
+                        return mVivacomRep.SendMessage(fromWp, to, message);
                      default:
                         logger.ErrorFormat("Invalid provider for number: {0}", fromWp);
                         break;

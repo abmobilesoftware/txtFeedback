@@ -1,0 +1,49 @@
+﻿@using SmsFeedback_Take4.Models.Helpers
+@{
+   ViewBag.Title = "NewsletterTemplate";
+   Layout = "~/Views/UserMailer/_Layout.cshtml";
+}
+
+@{
+   String FREQUENCY_DAILY = "daily";
+   String FREQUENCY_WEEKLY = "weekly";
+   List<WpAndConversations> conversations =
+      (List<WpAndConversations>)@ViewData["conversations"];
+   DateTime startDate = (DateTime)@ViewData["startDate"];
+   DateTime endDate = (DateTime)@ViewData["endDate"];
+   String reportFrequency = startDate.ToShortDateString().
+      Equals(endDate.ToShortDateString()) ? FREQUENCY_DAILY : FREQUENCY_WEEKLY;        
+}
+
+@foreach (var conversationsForWp in conversations)
+{
+   if (conversationsForWp.conversations.Count() > 0)
+   {
+      var conversationsForWpOrderedDesc = 
+         conversationsForWp.conversations.OrderByDescending(x => x.TimeUpdated);
+   <div class="workingPoint">
+      <div class="workingPoint-details">
+         <img class="workingPoint-image" src="@Url.Abs(Url.Content("~/Content/images/Bullet-Blue-32.png"))" />
+         <p class="workingPoint-name">@conversationsForWp.workingPoint.Name</p>
+         <div class="clear"></div>
+      </div>
+      @foreach (var conversation in conversationsForWpOrderedDesc)
+      {
+         var dateOrTime = reportFrequency.Equals(FREQUENCY_DAILY) ?
+            conversation.TimeUpdated.ToShortTimeString()
+            : conversation.TimeUpdated.ToShortDateString();
+         
+         <div class="conversation conversation-normal">
+            <div class="conversation-details">
+               <span class="conversation-from">From: @conversation.From</span>
+               <span class="conversation-date">@dateOrTime</span>
+               <div class="clear"></div>
+            </div>
+            <div class="conversation-text">@conversation.Text </div>
+            <a href="http://dev.txtfeedback.net" target="_blank" title="View messages">View all messages for this conversation</a>
+         </div>				
+				
+      }
+   </div>
+   }
+}

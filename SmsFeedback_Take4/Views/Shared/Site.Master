@@ -43,6 +43,7 @@
             <%: Html.ImageLink(Url.Content("~/Content/images/De_flag_16.png"), "de-DE", null,new Dictionary<string, string>() { {"width", "16"}, {"height","16"} }) %>
             <%: Html.ImageLink(Url.Content("~/Content/images/Spain_flag_16.png"), "es-ES",null, new Dictionary<string, string>() { {"height", "16"}, {"width","16"} }) %>
             <%: Html.ImageLink(Url.Content("~/Content/images/Ro_flag_16.png"), "ro-RO",null,new Dictionary<string, string>() { {"width", "16"}, {"height","16"} }) %>           
+            <%: Html.ImageLink(Url.Content("~/Content/images/Ru_flag_16.png"), "ru-RU",null,new Dictionary<string, string>() { {"width", "16"}, {"height","16"} }) %>
          </div>
          <div id="feedbackArea">
             <span><%: Resources.Global.feedbackSendUsFeedback %></span>

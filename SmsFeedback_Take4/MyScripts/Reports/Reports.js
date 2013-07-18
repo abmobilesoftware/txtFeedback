@@ -19,6 +19,7 @@
 window.app = window.app || {};
 window.reports = window.reports || {};
 window.app.dateFormatForDatePicker = 'dd/mm/yy';
+window.app.reportDataToBeSaved = {};
 
 _.templateSettings = {
    interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
@@ -36,23 +37,27 @@ function drawThisArea(element, indexOfTheElement) {
     3. ThirdSection  - data for table/s and other charts
 */
 var ReportModel = Backbone.Model.extend({
-   reportId: 1,
-   title: "Total sms report",
-   source: "/Reports/GetReportOverviewData",
-   sections: [
-               {
-                   type: "FirstSection",
-                   id: "4", // only one section can have this id
-                   groupId: "xt4ga", // more than one section can have this id. Used to group sections
-                   title: "Get total no of sms report",
-                   options: {
-                       seriesType: "area",
-                       colors: ["#ccc7f1", "#459aaa"]
-                   },
-                   tooltip: "no tooltip",
-                   dataIndex: 1
-               }
-   ]
+   defaults: {
+      reportId: 1,
+      title: "Total sms report",
+      source: "/Reports/GetReportOverviewData",
+      sections: [
+         /* DA this is just for documentation purpose, as it is not correctly merged*/
+                  {
+                     type: "FirstSection",
+                     id: "4", // only one section can have this id
+                     groupId: "xt4ga", // more than one section can have this id. Used to group sections
+                     title: "Get total no of sms report",
+                     options: {
+                        seriesType: "area",
+                        colors: ["#ccc7f1", "#459aaa"]
+                     },
+                     tooltip: "no tooltip",
+                     dataIndex: 1,
+                     hasExportRawData: false
+                  }
+      ]
+   }   
 });
 
 var ReportsContentArea = Backbone.View.extend({
@@ -63,6 +68,7 @@ var ReportsContentArea = Backbone.View.extend({
       this.FIRST_SECTION = "FirstSection";
       this.SECOND_SECTION = "SecondSection";
       this.THIRD_SECTION = "ThirdSection";
+      this.TAGS_REPORT_SECTION = "TagsReportSection";
       this.loadReportData();      
    },
    render: function () {      
@@ -78,31 +84,46 @@ var ReportsContentArea = Backbone.View.extend({
        $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);
        this.transition = new Transition(document.getElementById('rightColumn'), $("#overlay"));
        this.transition.startTransition();
-       
+
+      //DA the following trick is required so that the info gets to the server side controller
+      //based on http://stackoverflow.com/questions/10329765/pass-the-dictionary-data-to-controller-string-method-using-jquery-post
+       var data = {
+          iIntervalStart: window.app.dateHelper.transformStartDate(window.app.startDate),
+          iIntervalEnd: window.app.dateHelper.transformEndDate(window.app.endDate),
+          iScope: window.app.currentWorkingPoint
+       };
+       var index = 0;
+       for (var propertyName in window.app.reportDataToBeSaved) {                    
+          data['dataToBeSaved[' + index + '].Key'] = propertyName;
+          data['dataToBeSaved[' + index + '].Value'] = window.app.reportDataToBeSaved[propertyName];
+          index++;
+       }
        var jsonData = $.ajax({
-           data: {
-               iIntervalStart: window.app.dateHelper.transformDate(window.app.startDate),
-               iIntervalEnd: window.app.dateHelper.transformDate(window.app.endDate),
-               iScope: window.app.currentWorkingPoint
-           },
+           data: data,
            url: window.app.domainName + self.model.get("source"),
            dataType: "json",
            async: false,
-           success: function (data) {
+          traditional: true,
+          success: function (data) {
+               //DA restore variables
+                if (data.restoreData !== undefined && data.restoreData !== null) {
+                   window.app.reportDataToBeSaved = data.restoreData;
+                }
                for (var k = 0; k < self.model.get("sections").length; ++k) {
-                   self.renderSection(self.model.get("sections")[k], data);                       
+                   self.renderSection(self.model.get("sections")[k], data.repData);                       
                }
                $("#secondSection").append("<div class='clear'></div>");
-               self.setupEnvironment(false);
+               self.setupEnvironment(false);              
                self.transition.endTransition();
+              
                $(document).trigger("resizeLocal");
            }
        }).responseText;
    },
    renderSection: function (model, data) {
-        
+      var template;
        if (model.type === this.FIRST_SECTION) {
-           var template = _.template($("#" + model.type).html(), model);
+           template = _.template($("#" + model.type).html(), model);
            $("#firstSection").append(template);
            var firstArea = new FirstArea(model);
            firstArea.load(data.charts[model.dataIndex]);
@@ -112,11 +133,17 @@ var ReportsContentArea = Backbone.View.extend({
            secondArea.load(data.infoBoxes[model.dataIndex]);
            window.app.areas[model.id] = secondArea;
        } else if (model.type === this.THIRD_SECTION) {
-           var template = _.template($("#" + model.type).html(), model);
+           template = _.template($("#" + model.type).html(), model);
            $("#firstSection").append(template);
            var thirdArea = new ThirdArea();
            thirdArea.load(data.charts[model.dataIndex]);
            window.app.areas[model.id] = thirdArea;
+       } else if (model.type === this.TAGS_REPORT_SECTION) {
+          template = _.template($("#" + model.type).html(), model);
+          $("#firstSection").append(template);
+          var tagsReportArea = new TagsReportArea(model);
+          tagsReportArea.load(data.charts[model.dataIndex]);
+          window.app.areas[model.id] = tagsReportArea;
        }
    },
    setupEnvironment: function (displayTooltip) {           
@@ -132,7 +159,7 @@ var ReportsContentArea = Backbone.View.extend({
             $(descriptionElement).show();
             $(document).trigger("resizeLocal");
          }
-         else {
+         else{ 
             $(elementName).show();
             $(this).children(".sectionVisibility").attr("src", "/Content/images/arrow_down_dblue_16.png");
             $(descriptionElement).hide();
@@ -194,6 +221,7 @@ var ReportsContentArea = Backbone.View.extend({
       $("#to").val(toDateString);
    },
    updateReport: function () {
+      //DA before we load a report, make sure to give everyone a chance to save the "temporary data"      
        this.loadReportData();
        $("#reportScope").html(" :: " + window.app.currentWorkingPointFriendlyName);      
    }
@@ -239,7 +267,7 @@ var ReportsArea = function () {
                      //we operate directly on the DOM (we should not do this)
                      var liItem = ".liItem" + action.id;
                      if (!$(liItem).hasClass("menuItemSelected")) {
-                        $(liItem).parents(".collapsibleList").find(".menuItemSelected").removeClass("menuItemSelected")
+                        $(liItem).parents(".collapsibleList").find(".menuItemSelected").removeClass("menuItemSelected");
                         $(liItem).addClass("menuItemSelected");
                         //make sure the parent is expanded
                         //this follows the logic that the parent is 10, 20, 30 and the leafs are 11,12 .. 21, 22

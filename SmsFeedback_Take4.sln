@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mobile.TxtFeedback_take1", 
 EndProject
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "ProductOnAzure", "ProductOnAzure\ProductOnAzure.ccproj", "{DE6A6701-62B4-4FB9-A919-5E6B1B1E6A40}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vivacom", "Vivacom\Vivacom\Vivacom.csproj", "{568AFFA3-E7A9-4223-833F-03B38C52BA74}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SmsFeedback_Take4.vsmdi
@@ -91,6 +93,16 @@ Global
 		{DE6A6701-62B4-4FB9-A919-5E6B1B1E6A40}.Release_production|Any CPU.Build.0 = Release|Any CPU
 		{DE6A6701-62B4-4FB9-A919-5E6B1B1E6A40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE6A6701-62B4-4FB9-A919-5E6B1B1E6A40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{568AFFA3-E7A9-4223-833F-03B38C52BA74}.Debug_demo|Any CPU.ActiveCfg = Debug|Any CPU
+		{568AFFA3-E7A9-4223-833F-03B38C52BA74}.Debug_demo|Any CPU.Build.0 = Debug|Any CPU
+		{568AFFA3-E7A9-4223-833F-03B38C52BA74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{568AFFA3-E7A9-4223-833F-03B38C52BA74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{568AFFA3-E7A9-4223-833F-03B38C52BA74}.Release_demo|Any CPU.ActiveCfg = Release|Any CPU
+		{568AFFA3-E7A9-4223-833F-03B38C52BA74}.Release_demo|Any CPU.Build.0 = Release|Any CPU
+		{568AFFA3-E7A9-4223-833F-03B38C52BA74}.Release_production|Any CPU.ActiveCfg = Release|Any CPU
+		{568AFFA3-E7A9-4223-833F-03B38C52BA74}.Release_production|Any CPU.Build.0 = Release|Any CPU
+		{568AFFA3-E7A9-4223-833F-03B38C52BA74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{568AFFA3-E7A9-4223-833F-03B38C52BA74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
