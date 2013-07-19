@@ -63,12 +63,12 @@
          </nav>
          
       </header>     
-      <div class="clear"></div>
+      <%--<div class="clear"></div>--%>
       <div class="container_12">
           <div id="settingsMenuBar" class="headerArea">
              <asp:ContentPlaceHolder ID="FilterArea" runat="server" />
           </div>
-         <div class="clear"></div>
+         <%--<div class="clear"></div>--%>
            <div id="leftColumn" class="wordwrap tagsPhoneNumbers grid_2 leftSideArea">
               <asp:ContentPlaceHolder ID="LeftSideArea" runat="server" />
            </div>

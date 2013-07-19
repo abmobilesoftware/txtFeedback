@@ -4,7 +4,8 @@
 
 .filterStripElement {
      min-height:  28px;
-     margin-top: 6px;
+     padding-top: 6px;
+     padding-bottom: 5px;
 }
 
 #filterTag_tag {

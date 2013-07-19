@@ -378,7 +378,6 @@ var ReportsArea = function () {
              }
           );
    };
-
    // initial setup of the page
    $("#overlay").hide();
    this.loadWorkingPoints();

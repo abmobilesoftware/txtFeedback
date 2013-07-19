@@ -311,7 +311,7 @@ input.filterDate {
    margin-right: 160px;
 }
 .locationsFilterArea {     
-   display: inline-block!important;   
+   /*display: inline-block!important;*/   
    width: 100%;
 }
 
@@ -329,3 +329,7 @@ margin-top: 8px;
 margin-right: 10px;
 margin-left: 20px;*/
 }
+
+/*#settingsMenuBar {
+   height:auto !important;
+}*/
