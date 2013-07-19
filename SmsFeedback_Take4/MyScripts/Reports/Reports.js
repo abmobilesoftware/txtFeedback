@@ -103,8 +103,8 @@ var ReportsContentArea = Backbone.View.extend({
            url: window.app.domainName + self.model.get("source"),
            dataType: "json",
            async: false,
-          traditional: true,
-          success: function (data) {
+           traditional: true,
+           success: function (data) {
                //DA restore variables
                 if (data.restoreData !== undefined && data.restoreData !== null) {
                    window.app.reportDataToBeSaved = data.restoreData;
@@ -298,8 +298,8 @@ var ReportsArea = function () {
    var reportsContent;
 
 
-   $(document).bind("workingPointChanged", function (event, newWorkingPoint) {
-      self.changeWorkingPoint(newWorkingPoint);
+   $(document).on("workingPointChanged", function (event, newWorkingPoints) {
+      self.changeWorkingPoint(newWorkingPoints);
    });
 
    $(document).bind("intervalChanged", function (event) {
@@ -315,8 +315,8 @@ var ReportsArea = function () {
        reportsContent.loadReportData();
    };
 
-   this.changeWorkingPoint = function (newWorkingPoint) {
-      window.app.currentWorkingPoint = newWorkingPoint;
+   this.changeWorkingPoint = function (newWorkingPoints) {
+      window.app.currentWorkingPoint = newWorkingPoints;
       reportsContent.updateReport();
    };
 
@@ -353,18 +353,28 @@ var ReportsArea = function () {
              {},
              function (data) {
                 var workingPointsSelectorContent = "<option value='Global'>Global</option>";
+                var workingPoints = [];
                 for (var i = 0; i < data.length; ++i) {
                    workingPointsSelectorContent += "<option value='" + data[i].TelNumber + "'>" + data[i].Name + "</option>";
+                   workingPoints.push(data[i].TelNumber);
                 }
-                $("#workingPointSelector").append(workingPointsSelectorContent);
+               // $("#workingPointSelector").append(workingPointsSelectorContent);
 
                 // Default setup of the page
-                $("#workingPointSelector").val("Global");
-                $("#workingPointSelector").change(function () {
-                   window.app.currentWorkingPointFriendlyName = $("#workingPointSelector").children("option").filter(":selected").text();
-                   $(document).trigger("workingPointChanged", $(this).val());
+                //$("#workingPointSelector").val("Global");
+                //$("#workingPointSelector").change(function () {
+                //   window.app.currentWorkingPointFriendlyName = $("#workingPointSelector").children("option").filter(":selected").text();
+                //   $(document).trigger("workingPointChanged", $(this).val());
+                //});
+                window.app.initializeFilterLocationsArea(workingPoints);
+                $('.refreshLocations').on('click', function () {
+                   var delimiter = ',';
+                   var workingPointsToIncludeInReport = $("input[name=filterLocations]").val().split(delimiter);
+                   if ("" === workingPointsToIncludeInReport[0]) {
+                      workingPointsToIncludeInReport = [];
+                   }
+                   $(document).trigger("workingPointChanged", [workingPointsToIncludeInReport]);
                 });
-
              }
           );
    };
@@ -372,4 +382,26 @@ var ReportsArea = function () {
    // initial setup of the page
    $("#overlay").hide();
    this.loadWorkingPoints();
+
+
+};
+
+window.app.initializeFilterLocationsArea = function (workingPoints) {
+   var locationFilter = $("#filterLocations").tagsInput({
+      'height': '22px',
+      'width': 'auto',
+      'autocomplete_url': workingPoints,
+      'onAddTag': function (tagValue) {
+        
+      },
+      'onRemoveTag': function (tagValue) {
+        
+      },
+      'placeholder': 'add location',
+      'interactive': true
+   });
+   $(workingPoints).each(function (index,item) {
+      locationFilter.addTag(item);
+   });
+   
 };

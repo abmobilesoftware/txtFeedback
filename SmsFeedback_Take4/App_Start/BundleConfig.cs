@@ -8,7 +8,7 @@ namespace SmsFeedback_Take4
       // For more information on Bundling, visit http://go.microsoft.com/fwlink/?LinkId=254725
       public static void RegisterBundles(BundleCollection bundles)
       {
-         BundleTable.EnableOptimizations = true;
+         BundleTable.EnableOptimizations = false;
          //master layout
          //css
          bundles.Add(new ScriptBundle("~/bundles/corejs").Include(
@@ -62,6 +62,7 @@ namespace SmsFeedback_Take4
          //css
          bundles.Add(new StyleBundle("~/Content/reportsCss").Include(
             "~/Content/css/reports.css",
+             "~/Content/filtersStrip.css",
             "~/Content/tags.css",
              "~/Content/jquery.tagsinput.css"
             ));

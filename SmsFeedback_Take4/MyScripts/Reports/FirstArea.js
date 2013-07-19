@@ -66,6 +66,7 @@ function FirstArea(sectionModel) {
              iScope: window.app.currentWorkingPoint
           },
           dataType: "json",
+          traditional: true,
           async: false,
           success: function (data) {
              /* data contains 3 fields
@@ -111,6 +112,7 @@ function FirstArea(sectionModel) {
              iGranularity: granularity       
           },
           url: window.app.domainName + chartSource,
+          traditional: true,
           dataType: "json",
           async: false,
           success: function (data) {
@@ -200,6 +202,7 @@ function TagsReportArea(sectionModel) {
             iIntervalEnd: window.app.dateHelper.transformEndDate(window.app.endDate),
             iScope: window.app.currentWorkingPoint
          },
+         traditional: true,
          dataType: "json",
          async: false,
          success: function (data) {

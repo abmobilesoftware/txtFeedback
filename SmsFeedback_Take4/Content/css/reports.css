@@ -258,24 +258,6 @@ input.filterDate {
    font-size: 0.8em;
 }
 
-.filterInputBox {
-   background: #6b9bb3; /* Old browsers */
-   background: -moz-linear-gradient(left,  #6b9bb3 0%, #6b9bb3 100%); /* FF3.6+ */
-   background: -webkit-gradient(linear, left top, right top, color-stop(0%,#6b9bb3), color-stop(100%,#6b9bb3)); /* Chrome,Safari4+ */
-   background: -webkit-linear-gradient(left,  #6b9bb3 0%,#6b9bb3 100%); /* Chrome10+,Safari5.1+ */
-   background: -o-linear-gradient(left,  #6b9bb3 0%,#6b9bb3 100%); /* Opera 11.10+ */
-   background: -ms-linear-gradient(left,  #6b9bb3 0%,#6b9bb3 100%); /* IE10+ */
-   background: linear-gradient(to right,  #6b9bb3 0%,#6b9bb3 100%); /* W3C */
-   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6b9bb3', endColorstr='#6b9bb3',GradientType=1 ); /* IE6-9 */
-
-   border: 1px solid #6B9BB3;
-   border-radius: 5px;
-   -moz-border-radius: 5px;
-   -webkit-border-radius: 5px;
-   color: white !important;
-   overflow: hidden;
-}
-
 .chartAreaTitle {
     font-size: 16px;
     color: #6B9BB3;
@@ -313,24 +295,6 @@ input.filterDate {
       width: 84.3%;
    }
 
-.filterInputBox {
-   background: #6b9bb3; /* Old browsers */
-   background: -moz-linear-gradient(left,  #6b9bb3 0%, #6b9bb3 100%); /* FF3.6+ */
-   background: -webkit-gradient(linear, left top, right top, color-stop(0%,#6b9bb3), color-stop(100%,#6b9bb3)); /* Chrome,Safari4+ */
-   background: -webkit-linear-gradient(left,  #6b9bb3 0%,#6b9bb3 100%); /* Chrome10+,Safari5.1+ */
-   background: -o-linear-gradient(left,  #6b9bb3 0%,#6b9bb3 100%); /* Opera 11.10+ */
-   background: -ms-linear-gradient(left,  #6b9bb3 0%,#6b9bb3 100%); /* IE10+ */
-   background: linear-gradient(to right,  #6b9bb3 0%,#6b9bb3 100%); /* W3C */
-   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6b9bb3', endColorstr='#6b9bb3',GradientType=1 ); /* IE6-9 */
-
-   border: 1px solid #6B9BB3;
-   border-radius: 5px;
-   -moz-border-radius: 5px;
-   -webkit-border-radius: 5px;
-   color: white !important;
-   overflow: hidden;
-}
-
 .tagFilterArea {
    padding-right:160px;
    margin: 15px;
@@ -341,4 +305,27 @@ input.filterDate {
    position:relative;
    left: 120px;
    top: -33px;   
+}
+
+#locationContainer {
+   margin-right: 160px;
+}
+.locationsFilterArea {     
+   display: inline-block!important;   
+   width: 100%;
+}
+
+.refreshLocations{   
+   float:right;
+   position:relative;
+   left: -20px;
+   top: -33px;   
+}
+
+#filterLocationsLabel {
+float: left;
+/*color: #6B9BB3;
+margin-top: 8px;
+margin-right: 10px;
+margin-left: 20px;*/
 }

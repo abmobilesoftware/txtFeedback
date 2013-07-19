@@ -94,15 +94,15 @@
          </div>
           
             <div class="chartAreaContent{{groupId}}">
-                <div class="tagFilterArea">
-             <div id="tagFilteringReports" class="filterInputBox">
-                <input name="filterTagReports" id="filterTagReports" />
-                <input type="hidden" value="<%: Resources.Global.addATagLabel %>" class="filterLabel" />
-                <input type="hidden" value="<%: Resources.Global.filteringAddFilterTag %>" id="filteringAddFilterTagMessage" />
-                <input type="hidden" value="<%: Resources.Global.messagesRemoveTagPlaceHolder %>" id="messagesRemoveTagPlaceHolderMessage" />
-                <input type="hidden" value="<%= ViewBag.DefaultFilterTag %>" id="defaultTagForTagReports" />
-             </div>
-             <button class="refreshTagReport btn btn-info"><%= Resources.Global.repTagRefreshTagFilter %></button>
+             <div class="tagFilterArea">
+                <div id="tagFilteringReports" class="filterInputBox">
+                   <input name="filterTagReports" id="filterTagReports" />
+                   <input type="hidden" value="<%: Resources.Global.addATagLabel %>" class="filterLabel" />
+                   <input type="hidden" value="<%: Resources.Global.filteringAddFilterTag %>" id="filteringAddFilterTagMessage" />
+                   <input type="hidden" value="<%: Resources.Global.messagesRemoveTagPlaceHolder %>" id="messagesRemoveTagPlaceHolderMessage" />
+                   <input type="hidden" value="<%= ViewBag.DefaultFilterTag %>" id="defaultTagForTagReports" />
+                </div>
+                <button class="refreshTagReport btn btn-info"><%= Resources.Global.repTagRefreshTagFilter %></button>
             </div>
 
                 <form action="">    
@@ -130,10 +130,25 @@
    </script>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="LeftSideArea" runat="server">
-   <select id='workingPointSelector'></select>
+   <%--<select id='workingPointSelector'></select>--%>
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="MainContent" runat="server">
   
    <input type="hidden" value="<%: ViewData["currentCulture"] %>" class="currentCulture" />
+</asp:Content>
+
+
+<asp:Content ID="Content6" ContentPlaceHolderID="FilterArea" runat="server">  
+   <div class="locationsFilterArea filterStripElement">
+     
+       <div id="filterLocationsLabel" class="filterLabel">
+         <span> Filter locations</span>
+      </div>
+
+      <div id="locationContainer" class="filterInputBox">               
+            <input class="filterLocations" name="filterLocations" id="filterLocations" />         
+      </div>
+      <button class="refreshLocations btn btn-info ">Refresh</button>
+   </div>              
 </asp:Content>

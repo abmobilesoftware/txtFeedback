@@ -49,15 +49,16 @@ namespace SmsFeedback_Take4.Controllers
         }
 
         #region Overview
-        public JsonResult GetReportOverviewData(String iIntervalStart, String iIntervalEnd, String iScope, Dictionary<string, string> dataToBeSaved)
+        public JsonResult GetReportOverviewData(String iIntervalStart, String iIntervalEnd, Dictionary<string, string> dataToBeSaved, String[] iScope = null)
         {
             try
             {
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
-                 
 
+                iScope = iScope != null ? iScope : new string[0];
                 Dictionary<DateTime, ChartValue> resultInterval = InitializeInterval(intervalStart, intervalEnd, Constants.DAY_GRANULARITY);
+                
                 IEnumerable<Message> msgs = GetMessages(intervalStart, intervalEnd, User.Identity.Name, iScope, context);
 
                 var msgsGrByDay = from msg in msgs
@@ -118,7 +119,7 @@ namespace SmsFeedback_Take4.Controllers
 
         }
 
-        public JsonResult GetReportOverviewGrData(String iIntervalStart, String iIntervalEnd, String iScope, String iGranularity)
+        public JsonResult GetReportOverviewGrData(String iIntervalStart, String iIntervalEnd, String iGranularity, String[] iScope = null)
         {
             try
             {
@@ -127,6 +128,7 @@ namespace SmsFeedback_Take4.Controllers
                  
 
                 Dictionary<DateTime, ChartValue> resultInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                iScope = iScope != null ? iScope : new string[0];
                 IEnumerable<Message> msgs = GetMessages(intervalStart, intervalEnd, User.Identity.Name, iScope, context);
 
                 if (iGranularity.Equals(Constants.DAY_GRANULARITY))
@@ -183,7 +185,7 @@ namespace SmsFeedback_Take4.Controllers
         #endregion
 
         #region Incoming vs Outgoing
-        public JsonResult GetReportIncomingOutgoingData(String iIntervalStart, String iIntervalEnd, String iScope,Dictionary<string, string> dataToBeSaved)
+        public JsonResult GetReportIncomingOutgoingData(String iIntervalStart, String iIntervalEnd, String[] iScope,Dictionary<string, string> dataToBeSaved)
         {
             try
             {
@@ -194,6 +196,7 @@ namespace SmsFeedback_Take4.Controllers
                 Dictionary<DateTime, ChartValue> resultIncomingInterval = InitializeInterval(intervalStart, intervalEnd, Constants.DAY_GRANULARITY);
                 Dictionary<DateTime, ChartValue> resultOutgoingInterval = InitializeInterval(intervalStart, intervalEnd, Constants.DAY_GRANULARITY);
 
+                iScope = iScope != null ? iScope : new string[0];
                 var msgs = GetMessages(intervalStart, intervalEnd, User.Identity.Name, iScope, context);
                 // Group messages by day and type incoming or outgoing
                 var msgsGrouped = from msg in GroupIncomingOutgoingMsgs(intervalStart, 
@@ -254,7 +257,7 @@ namespace SmsFeedback_Take4.Controllers
             }
         }
 
-        private IEnumerable<MsgInfoWrapper> GroupIncomingOutgoingMsgs(DateTime iIntervalStart, DateTime iIntervalEnd, String iScope, smsfeedbackEntities dbContext)
+        private IEnumerable<MsgInfoWrapper> GroupIncomingOutgoingMsgs(DateTime iIntervalStart, DateTime iIntervalEnd, String[] iScope, smsfeedbackEntities dbContext)
         {
             var msgs = GetMessages(iIntervalStart, iIntervalEnd, User.Identity.Name, iScope, dbContext);
             List<MsgInfoWrapper> msgsGrouped = (from msg in msgs
@@ -270,7 +273,7 @@ namespace SmsFeedback_Take4.Controllers
             return msgsGrouped;
         }
         
-        public JsonResult GetReportIncomingOutgoingGrData(String iIntervalStart, String iIntervalEnd, String iScope, String iGranularity)
+        public JsonResult GetReportIncomingOutgoingGrData(String iIntervalStart, String iIntervalEnd, String iGranularity,String[] iScope = null)
         {
             try
             {
@@ -280,7 +283,7 @@ namespace SmsFeedback_Take4.Controllers
 
                 Dictionary<DateTime, ChartValue> resultIncomingInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultOutgoingInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-
+               iScope = iScope != null ? iScope : new string[0];
                 if (iGranularity.Equals(Constants.DAY_GRANULARITY))
                 {
                     var incomingMsgsGr = from msg in GroupIncomingOutgoingMsgs(intervalStart,
@@ -392,8 +395,8 @@ namespace SmsFeedback_Take4.Controllers
         public JsonResult GetReportTagsData(
            String iIntervalStart,
            String iIntervalEnd,
-           String iScope,
-           Dictionary<string,string> dataToBeSaved
+           Dictionary<string,string> dataToBeSaved,
+           String[] iScope = null
            )
         {
             try
@@ -403,11 +406,12 @@ namespace SmsFeedback_Take4.Controllers
                  
 
                 String DEFAULT_TAGS = "defaultTags";
-                
+                iScope = iScope != null ? iScope : new string[0];
+                var useAllWps = iScope.Length == 0;
                 var tags = (from u in context.Users
                             where u.UserName.Equals(User.Identity.Name)
                             select (from wp in u.WorkingPoints
-                                    where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                    where useAllWps ? true : iScope.Contains(wp.TelNumber)
                                     select (from conv in wp.Conversations
                                             where conv.Messages.Where(msg => msg.TimeReceived >= intervalStart
                                                 && msg.TimeReceived <= intervalEnd).Count() > 0
@@ -453,8 +457,7 @@ namespace SmsFeedback_Take4.Controllers
                     headerContent.Add(new RepDataColumn("15", "number", Resources.Global.RepNoDataToDisplay));
                 }
 
-                RepChartData chartSource = new RepChartData(headerContent, new RepDataRow[] { new RepDataRow(rowContent) });
-                string telNumber = "00000000";
+                RepChartData chartSource = new RepChartData(headerContent, new RepDataRow[] { new RepDataRow(rowContent) });                
                 var noOfConversations = ((from u in context.Users
                                           where u.UserName.Equals(User.Identity.Name)
                                           select (from wp in u.WorkingPoints
@@ -494,7 +497,7 @@ namespace SmsFeedback_Take4.Controllers
             }
         }      
 
-        public JsonResult GetTagReportDataGrid(String iIntervalStart, String iIntervalEnd, String iScope, String iGranularity = "day", string[] tags=null)
+        public JsonResult GetTagReportDataGrid(String iIntervalStart, String iIntervalEnd, String[] iScope, String iGranularity = "day", string[] tags=null)
         {
            //report on conversations with activity in that period
            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
@@ -502,7 +505,8 @@ namespace SmsFeedback_Take4.Controllers
            //var iGranularity = Constants.WEEK_GRANULARITY;
 
            var user = (from u in context.Users where u.UserName.Equals(User.Identity.Name) select u).FirstOrDefault();
-            tags = tags ?? new string[0];  
+            tags = tags ?? new string[0];
+            iScope = iScope != null ? iScope : new string[0];            
             var res = GetTagReportData(intervalStart, intervalEnd, iScope, iGranularity, tags, user);
             return Json(res, JsonRequestBehavior.AllowGet);
         }
@@ -517,20 +521,21 @@ namespace SmsFeedback_Take4.Controllers
         private RepChartData GetTagReportData(         
            DateTime intervalStart,
            DateTime intervalEnd,
-           String iScope,
+           String[] iScope,
            string iGranularity,
            string[] tags,
            SmsFeedback_EFModels.User user)
         {
            List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
            Dictionary<DateTime, ChartValue> tagsRepData = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+           var useAllWps = iScope.Length == 0;
            if (tags.Length != 0)
            {
               switch (iGranularity)
               {
                  case Constants.WEEK_GRANULARITY:
                     var byweeks = (from wp in user.WorkingPoints
-                                   where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                   where useAllWps ? true : iScope.Contains(wp.TelNumber)
                                    select (from conv in wp.Conversations
                                            where (conv.StartTime >= intervalStart && conv.StartTime <= intervalEnd)
                                            && !tags.Except(conv.ConversationTags.Select(tag => tag.TagName)).Any()
@@ -554,7 +559,7 @@ namespace SmsFeedback_Take4.Controllers
                     break;
                  case Constants.MONTH_GRANULARITY:
                     var bymonths = (from wp in user.WorkingPoints
-                                    where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                    where useAllWps ? true : iScope.Contains(wp.TelNumber)
                                     select (from conv in wp.Conversations
                                             where (conv.StartTime >= intervalStart && conv.StartTime <= intervalEnd)
                                             && !tags.Except(conv.ConversationTags.Select(tag => tag.TagName)).Any()
@@ -581,7 +586,7 @@ namespace SmsFeedback_Take4.Controllers
                  case Constants.DAY_GRANULARITY:
                  default:
                     var bydays = (from wp in user.WorkingPoints
-                                  where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                  where useAllWps ? true : iScope.Contains(wp.TelNumber)
                                   select (from conv in wp.Conversations
                                           where (conv.StartTime >= intervalStart && conv.StartTime <= intervalEnd)
                                           && !tags.Except(conv.ConversationTags.Select(tag => tag.TagName)).Any()
@@ -620,7 +625,7 @@ namespace SmsFeedback_Take4.Controllers
         }
         #endregion
         #region Report Positive and Negative
-        public JsonResult GetReportPosNegData(String iIntervalStart, String iIntervalEnd, String iScope, Dictionary<string, string> dataToBeSaved)
+        public JsonResult GetReportPosNegData(String iIntervalStart, String iIntervalEnd, Dictionary<string, string> dataToBeSaved,String[] iScope= null)
         {
             try
             {
@@ -640,11 +645,13 @@ namespace SmsFeedback_Take4.Controllers
                 KeyAndCount posToNegTransitions = new KeyAndCount(Constants.POS_TO_NEG_EVENT, 0);
                 KeyAndCount negToPosTransitions = new KeyAndCount(Constants.NEG_TO_POS_EVENT, 0);
 
+                iScope = iScope != null ? iScope : new string[0];
+                var useAllWps = iScope.Length == 0;
                 // GLOBAL SCOPE
                 IEnumerable<ConversationHistory> convEvents = (from u in context.Users
                                                                where u.UserName.Equals(User.Identity.Name)
                                                                select (from wp in u.WorkingPoints
-                                                                       where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                                                       where useAllWps ? true : iScope.Contains(wp.TelNumber)
                                                                        select (from conv in wp.Conversations
                                                                                where !conv.Client.isSupportClient &&
                                                                                conv.Messages.Where(msg => msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd).Count() > 0
@@ -855,7 +862,7 @@ namespace SmsFeedback_Take4.Controllers
             }
         }
 
-        public JsonResult GetReportPosNegActivityGr(String iIntervalStart, String iIntervalEnd, String iScope, String iGranularity)
+        public JsonResult GetReportPosNegActivityGr(String iIntervalStart, String iIntervalEnd, String iGranularity, String[] iScope = null)
         {
             try
             {
@@ -869,12 +876,14 @@ namespace SmsFeedback_Take4.Controllers
                 Dictionary<DateTime, ChartValue> resultRemoveNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultPositiveTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultNegativeTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                
+
+                iScope = iScope != null ? iScope : new string[0];
+                var useAllWps = iScope.Length == 0;
                 // GLOBAL SCOPE
                 IEnumerable<ConversationHistory> convEvents = (from u in context.Users
                                                                where u.UserName.Equals(User.Identity.Name)
                                                                select (from wp in u.WorkingPoints
-                                                                       where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                                                       where useAllWps ? true : iScope.Contains(wp.TelNumber)
                                                                        select (from conv in wp.Conversations
                                                                                where !conv.Client.isSupportClient &&
                                                                                conv.Messages.Where(msg => msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd).Count() > 0
@@ -1033,7 +1042,7 @@ namespace SmsFeedback_Take4.Controllers
             }
         }
 
-        public JsonResult GetReportPosNegTransitionsGr(String iIntervalStart, String iIntervalEnd, String iScope, String iGranularity)
+        public JsonResult GetReportPosNegTransitionsGr(String iIntervalStart, String iIntervalEnd, String iGranularity, String[] iScope=null)
         {
             try
             {
@@ -1043,12 +1052,14 @@ namespace SmsFeedback_Take4.Controllers
 
                 Dictionary<DateTime, ChartValue> resultPosNegTagsTrInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultNegPosTagsTrInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                
+
+                iScope = iScope != null ? iScope : new string[0];
+                var useAllWps = iScope.Length == 0;
                 // GLOBAL SCOPE
                 IEnumerable<ConversationHistory> convEvents = (from u in context.Users
                                                                where u.UserName.Equals(User.Identity.Name)
                                                                select (from wp in u.WorkingPoints
-                                                                       where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                                                       where useAllWps ? true : iScope.Contains(wp.TelNumber)
                                                                        select (from conv in wp.Conversations
                                                                                where !conv.Client.isSupportClient &&
                                                                                conv.Messages.Where(msg => msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd).Count() > 0
@@ -1167,7 +1178,7 @@ namespace SmsFeedback_Take4.Controllers
             }
         }
 
-        public JsonResult GetReportPosNegEvolutionGr(String iIntervalStart, String iIntervalEnd, String iScope, String iGranularity)
+        public JsonResult GetReportPosNegEvolutionGr(String iIntervalStart, String iIntervalEnd,  String iGranularity,String[] iScope = null )
         {
             try
             {
@@ -1180,12 +1191,14 @@ namespace SmsFeedback_Take4.Controllers
 
                 KeyAndCount posToNegTransitions = new KeyAndCount(Constants.POS_TO_NEG_EVENT, 0);
                 KeyAndCount negToPosTransitions = new KeyAndCount(Constants.NEG_TO_POS_EVENT, 0);
-                
+
+                iScope = iScope != null ? iScope : new string[0];
+                var useAllWps = iScope.Length == 0;
                 // GLOBAL SCOPE
                 IEnumerable<ConversationHistory> convEvents = (from u in context.Users
                                                                where u.UserName.Equals(User.Identity.Name)
                                                                select (from wp in u.WorkingPoints
-                                                                       where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                                                       where useAllWps ? true : iScope.Contains(wp.TelNumber)
                                                                        select (from conv in wp.Conversations
                                                                                where !conv.Client.isSupportClient &&
                                                                                conv.Messages.Where(msg => msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd).Count() > 0
@@ -1567,8 +1580,12 @@ namespace SmsFeedback_Take4.Controllers
 
                                     for (var i = lastEvDate; i < weekDateTime; i = i.AddDays(7))
                                     {
-                                        resultPositiveTagsEvInterval[i].value = lastPosFeedback;
-                                        resultNegativeTagsEvInterval[i].value = lastNegFeedback;
+                                       //TODO DA  - fix this logic
+                                       var iInWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(i);
+                                       iInWeek = intervalStart > iInWeek ? intervalStart : iInWeek;
+                                       //
+                                       resultPositiveTagsEvInterval[iInWeek].value = lastPosFeedback;
+                                       resultNegativeTagsEvInterval[iInWeek].value = lastNegFeedback;
                                     }
                                     lastEvDate = weekDateTime;
                                     lastPosFeedback = posFeedback;
@@ -1654,21 +1671,23 @@ namespace SmsFeedback_Take4.Controllers
         }
         #endregion
         #region Client report
-        public JsonResult GetReportClientsData(String iIntervalStart, String iIntervalEnd, String iScope, Dictionary<string, string> dataToBeSaved)
+        public JsonResult GetReportClientsData(String iIntervalStart, String iIntervalEnd, String[] iScope, Dictionary<string, string> dataToBeSaved)
         {
             try
             {
                 var iGranularity = Constants.DAY_GRANULARITY;
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
-                                 
+                                                
                 Dictionary<DateTime, ChartValue> resultNewClientsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
                 Dictionary<DateTime, ChartValue> resultReturningClientsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
 
+                iScope = iScope != null ? iScope : new string[0];
+                var useAllWps = iScope.Length == 0;
                 var clients = (from u in context.Users
                                where u.UserName.Equals(User.Identity.Name)
                                select (from wp in u.WorkingPoints
-                                       where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                       where useAllWps ? true : iScope.Contains(wp.TelNumber)
                                        select (from conv in wp.Conversations
                                                where conv.Messages.Where(msg => msg.TimeReceived >= intervalStart &&
                                                    msg.TimeReceived <= intervalEnd).Count() > 0
@@ -1724,7 +1743,7 @@ namespace SmsFeedback_Take4.Controllers
         }
   
 
-        public JsonResult GetReportClientsGrData(String iIntervalStart, String iIntervalEnd, String iScope, String iGranularity)
+        public JsonResult GetReportClientsGrData(String iIntervalStart, String iIntervalEnd,  String iGranularity,String[] iScope =null)
         {
             try
             {
@@ -1737,12 +1756,14 @@ namespace SmsFeedback_Take4.Controllers
                 Int32 noOfNewClients = 0;
                 Int32 noOfReturningClients = 0;
 
+                iScope = iScope != null ? iScope : new string[0];
+                var useAllWps = iScope.Length == 0;
                 if (iGranularity.Equals(Constants.DAY_GRANULARITY))
                 {
                    var clients = (from u in context.Users
                                    where u.UserName.Equals(User.Identity.Name)
                                    select (from wp in u.WorkingPoints
-                                           where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                           where useAllWps ? true : iScope.Contains(wp.TelNumber)
                                            select (from conv in wp.Conversations
                                                    where conv.Messages.Where(msg => msg.TimeReceived >= intervalStart &&
                                                        msg.TimeReceived <= intervalEnd).Count() > 0
@@ -1780,7 +1801,7 @@ namespace SmsFeedback_Take4.Controllers
                    var clients = (from u in context.Users
                                    where u.UserName.Equals(User.Identity.Name)
                                    select (from wp in u.WorkingPoints
-                                           where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                           where useAllWps ? true : iScope.Contains(wp.TelNumber)
                                            select (from conv in wp.Conversations
                                                    where conv.Messages.Where(msg => msg.TimeReceived >= intervalStart &&
                                                        msg.TimeReceived <= intervalEnd).Count() > 0
@@ -1827,7 +1848,7 @@ namespace SmsFeedback_Take4.Controllers
                    var clients = (from u in context.Users
                                    where u.UserName.Equals(User.Identity.Name)
                                    select (from wp in u.WorkingPoints
-                                           where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                                           where useAllWps ? true : iScope.Contains(wp.TelNumber)
                                            select (from conv in wp.Conversations
                                                    where conv.Messages.Where(msg => msg.TimeReceived >= intervalStart &&
                                                        msg.TimeReceived <= intervalEnd).Count() > 0
@@ -1885,15 +1906,17 @@ namespace SmsFeedback_Take4.Controllers
         #endregion // 230 rows
         #region RawData export
         [CustomAuthorizeAtribute(Roles = cExporterOfRawData)]
-        public JsonResult GetActivityReport(String iIntervalStart, String iIntervalEnd, String iScope)
+        public JsonResult GetActivityReport(String iIntervalStart, String iIntervalEnd, String[] iScope = null)
         {
            //filter on start date, end date and scope (all stores or one in particular)
            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
 
+           iScope = iScope != null ? iScope : new string[0];
+           var useAllWps = iScope.Length == 0;
            var user = context.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
            var allmsg = (from wp in user.WorkingPoints
-                         where iScope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(iScope)
+                         where useAllWps ? true : iScope.Contains(wp.TelNumber)
                          select
                             (from c in wp.Conversations orderby c.StartTime descending
                              where !c.Client.isSupportClient
@@ -2006,57 +2029,6 @@ namespace SmsFeedback_Take4.Controllers
         }
         
         #region Helper methods
-        private Dictionary<String, int> GetNoOfConversationsByTags(DateTime iIntervalStart, DateTime iIntervalEnd, String iGranularity, String scope)
-        {
-            try
-            {
-                IEnumerable<WorkingPoint> workingPoints = mEFInterface.GetWorkingPointsForAUser(scope, User.Identity.Name, context);
-
-                var tagsHash = new Dictionary<String, int>();
-                foreach (var wp in workingPoints)
-                {
-                    foreach (var conv in wp.Conversations)
-                    {
-                        var noOfMessagesInThisConversation = (from msg in conv.Messages where (msg.TimeReceived >= iIntervalStart & msg.TimeReceived <= iIntervalEnd) select msg).Count();
-                        if (noOfMessagesInThisConversation > 0)
-                        {
-                            foreach (var convTag in conv.ConversationTags)
-                            {
-                                bool tagNotPosOrNeg = true;
-                                TagTagType tagTagType = (convTag.Tag.TagTagTypes.Count > 0 ? convTag.Tag.TagTagTypes.First() : null);
-                                TagType tagType = null;
-                                if (tagTagType != null)
-                                    tagType = tagTagType.TagType;
-
-                                if (tagType != null)
-                                    if (tagType.Type == Constants.POSITIVE_FEEDBACK || tagType.Type == Constants.NEGATIVE_FEEDBACK)
-                                        tagNotPosOrNeg = false;
-
-                                if (tagNotPosOrNeg)
-                                {
-                                    if (tagsHash.ContainsKey(convTag.Tag.Name))
-                                    {
-                                        tagsHash[convTag.Tag.Name] += 1;
-                                    }
-                                    else
-                                    {
-                                        tagsHash.Add(convTag.Tag.Name, 1);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                }
-                return tagsHash;
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetNoOfConversationsByTagsChartSource", e);
-            }
-            return null;
-        }
-
         private String TransformDate(DateTime iDate, String pattern)
         {
             // TODO: Look for a library to convert to different local formats
@@ -2117,14 +2089,13 @@ namespace SmsFeedback_Take4.Controllers
             return noOfClients;
         }
 
-        private IEnumerable<Message> GetMessages(DateTime iIntervalStart, DateTime iIntervalEnd, String iUser, String scope, smsfeedbackEntities dbContext)
+        private IEnumerable<Message> GetMessages(DateTime iIntervalStart, DateTime iIntervalEnd, String iUser, String[] scope, smsfeedbackEntities dbContext)
         {
-            if (scope.Equals(Constants.GLOBAL_SCOPE))
+            if (scope.Length == 0)
             {
                 var msgsCollectionOfCollections = from u in dbContext.Users
                                                   where u.UserName == iUser
                                                   select (from wp in u.WorkingPoints
-                                                          where scope.Equals(Constants.GLOBAL_SCOPE) ? true : wp.TelNumber.Equals(scope)
                                                           select (
                                                           from conv in wp.Conversations
                                                           select (from msg in conv.Messages
@@ -2140,7 +2111,7 @@ namespace SmsFeedback_Take4.Controllers
                 var msgsCollectionOfCollections = from u in dbContext.Users
                                                   where u.UserName == iUser
                                                   select (from wp in u.WorkingPoints
-                                                          where wp.TelNumber == scope
+                                                          where scope.Contains(wp.TelNumber)
                                                           select (
                                                           from conv in wp.Conversations
                                                           select (from msg in conv.Messages

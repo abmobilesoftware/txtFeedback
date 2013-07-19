@@ -765,22 +765,6 @@ namespace SmsFeedback_Take4.Utilities
          }
       }
 
-      public IEnumerable<SmsFeedback_EFModels.WorkingPoint> GetWorkingPointsForAUser(String scope, String userName, smsfeedbackEntities dbContext)
-      {
-         IEnumerable<SmsFeedback_EFModels.WorkingPoint> selectedWorkingPoints;
-         if (scope.Equals(Constants.GLOBAL_SCOPE))
-         {
-            var workingPoints = from u in dbContext.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp);
-            selectedWorkingPoints = workingPoints.First();
-         }
-         else
-         {
-            selectedWorkingPoints = from wp in dbContext.WorkingPoints where wp.TelNumber == scope select wp;
-         }
-
-         return selectedWorkingPoints;
-      }
-
       public void SaveWpsForUser(string user, List<Models.WorkingPoint> wps, smsfeedbackEntities dbContext)
       {
          //to avoid security issues - work only on the working points accessible to this user
