@@ -399,8 +399,10 @@ window.app.initializeFilterLocationsArea = function (workingPoints) {
       'placeholder': 'add location',
       'interactive': true
    });
+   window.app.currentWorkingPoint = [];
    $(workingPoints).each(function (index,item) {
       locationFilter.addTag(item);
+      window.app.currentWorkingPoint.push(item);
    });
    
 };
