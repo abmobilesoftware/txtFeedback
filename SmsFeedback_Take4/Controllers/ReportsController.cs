@@ -1427,45 +1427,7 @@ namespace SmsFeedback_Take4.Controllers
        //    return chartSource;
        //}
 
-       private Dictionary<string, IEnumerable<ConversationHistory>> GetSideBySidePositiveConvEventsInternal(String iGranularity, String[] iScope, DateTime intervalStart, DateTime intervalEnd)
-       {
-          var resIntervals = new Dictionary<string, Dictionary<DateTime, ChartValue>>();
-          foreach (var location in iScope)
-          {
-             resIntervals.Add(location, InitializeInterval(intervalStart, intervalEnd, iGranularity));
-          }
-          bool workOnAllWps = iScope.Length == 0 ? true : false;
-          var convEvents = (from u in context.Users
-                            where u.UserName.Equals(User.Identity.Name)
-                            select (from wp in u.WorkingPoints
-                                    where workOnAllWps ? true : iScope.Contains(wp.TelNumber)
-                                    select (from conv in wp.Conversations
-                                            where !conv.Client.isSupportClient &&
-                                            conv.Messages.Where(msg => msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd).Count() > 0
-                                            select (from convEvent in conv.ConversationEvents
-                                                    where (convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                        convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
-                                                        convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
-                                                        convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
-                                                        convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
-                                                        convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
-                                                        (convEvent.Date <= intervalEnd)
-                                                    select new { WpId = wp.TelNumber, convEvent = convEvent })))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
-          var convEventsGr = convEvents.GroupBy(c => new
-          {
-             c.WpId
-          }, c => c, (key, g) => new
-          {
-             key = key,
-             convEvents = from item in g select item.convEvent
-          });
-          var result = new Dictionary<string, IEnumerable<ConversationHistory>>();
-          foreach (var gr in convEventsGr)
-          {
-             result.Add(gr.key.WpId, gr.convEvents);
-          }
-          return result;
-       }
+      
 
         public JsonResult GetReportPosNegEvolutionGr(String iIntervalStart, String iIntervalEnd,  String iGranularity,String[] iScope = null )
         {
@@ -1481,25 +1443,7 @@ namespace SmsFeedback_Take4.Controllers
                 KeyAndCount posToNegTransitions = new KeyAndCount(Constants.POS_TO_NEG_EVENT, 0);
                 KeyAndCount negToPosTransitions = new KeyAndCount(Constants.NEG_TO_POS_EVENT, 0);
 
-                iScope = iScope != null ? iScope : new string[0];
-                var useAllWps = iScope.Length == 0;
-                // GLOBAL SCOPE
-                IEnumerable<ConversationHistory> convEvents = (from u in context.Users
-                                                               where u.UserName.Equals(User.Identity.Name)
-                                                               select (from wp in u.WorkingPoints
-                                                                       where useAllWps ? true : iScope.Contains(wp.TelNumber)
-                                                                       select (from conv in wp.Conversations
-                                                                               where !conv.Client.isSupportClient &&
-                                                                               conv.Messages.Where(msg => msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd).Count() > 0
-                                                                               select (from convEvent in conv.ConversationEvents
-                                                                                       where (convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
-                                                                                           convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
-                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
-                                                                                           convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
-                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
-                                                                                           (convEvent.Date <= intervalEnd)
-                                                                                       select convEvent)))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
+                IEnumerable<ConversationHistory> convEvents = GetAggregatedConvEventsInternal(iScope, intervalStart, intervalEnd);
 
                 /*
                  * All events are grouped by occur date and event name/type, which can be POS_ADD, NEG_ADD, etc.
@@ -1521,7 +1465,7 @@ namespace SmsFeedback_Take4.Controllers
                     var convEventsGr = (from convEvent in convEvents
                                         group convEvent by new
                                         {
-                                            evOccurDate = convEvent.Date.Date,
+                                            evOccurDate = convEvent.Message.TimeReceived,
                                             eventType = convEvent.EventTypeName
                                         }
                                             into g
@@ -1957,6 +1901,68 @@ namespace SmsFeedback_Take4.Controllers
                 logger.Error("GetReportPosNegEvolutionData", e);
                 return Json("request failed", JsonRequestBehavior.AllowGet);
             }
+        }
+
+        private IEnumerable<ConversationHistory> GetAggregatedConvEventsInternal(String[] iScope, DateTime intervalStart, DateTime intervalEnd)
+        {
+           iScope = iScope != null ? iScope : new string[0];
+           var useAllWps = iScope.Length == 0;
+           // GLOBAL SCOPE
+           IEnumerable<ConversationHistory> convEvents = (from u in context.Users
+                                                          where u.UserName.Equals(User.Identity.Name)
+                                                          select (from wp in u.WorkingPoints
+                                                                  where useAllWps ? true : iScope.Contains(wp.TelNumber)
+                                                                  select (from conv in wp.Conversations
+                                                                          where !conv.Client.isSupportClient                                                                      
+                                                                          select (from convEvent in conv.ConversationEvents
+                                                                                  where (convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
+                                                                                      convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
+                                                                                      convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
+                                                                                      convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
+                                                                                      convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
+                                                                                      convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
+                                                                                      (convEvent.Date <= intervalEnd)
+                                                                                  select convEvent)))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
+           return convEvents;
+        }
+        private Dictionary<string, IEnumerable<ConversationHistory>> GetSideBySideConvEventsInternal(String iGranularity, String[] iScope, DateTime intervalStart, DateTime intervalEnd)
+        {
+           var resIntervals = new Dictionary<string, Dictionary<DateTime, ChartValue>>();
+           foreach (var location in iScope)
+           {
+              resIntervals.Add(location, InitializeInterval(intervalStart, intervalEnd, iGranularity));
+           }
+           bool workOnAllWps = iScope.Length == 0 ? true : false;
+           var convEvents = (from u in context.Users
+                             where u.UserName.Equals(User.Identity.Name)
+                             select (from wp in u.WorkingPoints
+                                     where workOnAllWps ? true : iScope.Contains(wp.TelNumber)
+                                     select (from conv in wp.Conversations
+                                             where !conv.Client.isSupportClient &&
+                                             conv.Messages.Where(msg => msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd).Count() > 0
+                                             select (from convEvent in conv.ConversationEvents
+                                                     where (convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
+                                                         convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
+                                                         convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
+                                                         convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
+                                                         convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
+                                                         convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
+                                                         (convEvent.Date <= intervalEnd)
+                                                     select new { WpId = wp.TelNumber, convEvent = convEvent })))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
+           var convEventsGr = convEvents.GroupBy(c => new
+           {
+              c.WpId
+           }, c => c, (key, g) => new
+           {
+              key = key,
+              convEvents = from item in g select item.convEvent
+           });
+           var result = new Dictionary<string, IEnumerable<ConversationHistory>>();
+           foreach (var gr in convEventsGr)
+           {
+              result.Add(gr.key.WpId, gr.convEvents);
+           }
+           return result;
         }
         #endregion
         #region Client report
