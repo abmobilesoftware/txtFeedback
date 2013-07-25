@@ -733,411 +733,36 @@ namespace SmsFeedback_Take4.Controllers
                 DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
                 DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
                  
-
-                Dictionary<DateTime, ChartValue> resultPositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultRemovePositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultRemoveNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultPositiveTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultNegativeTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultPosToNegTransitionsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultNegToPosTransitionsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                KeyAndCount posToNegTransitions = new KeyAndCount(Constants.POS_TO_NEG_EVENT, 0);
-                KeyAndCount negToPosTransitions = new KeyAndCount(Constants.NEG_TO_POS_EVENT, 0);
+                Dictionary<DateTime, ChartValue> resultPositiveTagsEv1Interval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultNegativeTagsEv1Interval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultPosNegTagsTrInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+                Dictionary<DateTime, ChartValue> resultNegPosTagsTrInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
 
                 iScope = iScope != null ? iScope : new string[0];
-                var useAllWps = iScope.Length == 0;
-                // GLOBAL SCOPE
-                IEnumerable<ConversationHistory> convEvents = (from u in context.Users
-                                                               where u.UserName.Equals(User.Identity.Name)
-                                                               select (from wp in u.WorkingPoints
-                                                                       where useAllWps ? true : iScope.Contains(wp.TelNumber)
-                                                                       select (from conv in wp.Conversations
-                                                                               where !conv.Client.isSupportClient &&
-                                                                               conv.Messages.Where(msg => msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd).Count() > 0
-                                                                               select (from convEvent in conv.ConversationEvents
-                                                                                       where (convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
-                                                                                           convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
-                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
-                                                                                           convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
-                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
-                                                                                           (convEvent.Date <= intervalEnd)
-                                                                                       select convEvent)))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
+                var useAllWps = iScope.Length == 0;                
+                IEnumerable<ConversationHistory> convEvents = GetAggregatedConvEventsInternal(iScope, intervalStart, intervalEnd);
 
-                /*
-                 * All events are grouped by occur date and event name/type, which can be POS_ADD, NEG_ADD, etc.
-                 * This groups of events are than grouped by occur date. And the new formed groups are ordered ascending by occur date.
-                 * For Activity and Transitions I count for each type of event the number of appearances.
-                 * For Evolution I count the previous events (occur date < intervalStart) and then count the events for each day.
-                 */
+                RepChartData evolutionChartSource = GetAggregatedFeedbackEvolutionChart(iGranularity, intervalStart, intervalEnd, resultPositiveTagsEv1Interval, resultNegativeTagsEv1Interval, convEvents);
 
-                var posFeedback = 0;
-                var negFeedback = 0;
-                DateTime lastEvDate = DateTime.MinValue;
-                int prevPosFeedback = 0;
-                int prevNegFeedback = 0;
-                int lastPosFeedback = -1;
-                int lastNegFeedback = -1;
-                var convEventsGr = (from convEvent in convEvents
-                                    group convEvent by new { evOccurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName }
-                                        into g
-                                        select new { key = g.Key, count = g.Count(), elements = g.ToList() }).OrderBy(convEventGr => convEventGr.key.evOccurDate);
-
-                foreach (var convEvent in convEventsGr)
-                {
-                    if (convEvent.key.evOccurDate >= intervalStart && convEvent.key.evOccurDate <= intervalEnd)
-                    {
-                        lastNegFeedback = negFeedback;
-                        lastPosFeedback = posFeedback;
-                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
-                        {
-                            resultPositiveTagsInterval[convEvent.key.evOccurDate].value += convEvent.count;
-                            posFeedback += convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
-                        {
-                            resultNegativeTagsInterval[convEvent.key.evOccurDate].value += convEvent.count;
-                            negFeedback += convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
-                        {
-                            resultRemovePositiveTagsInterval[convEvent.key.evOccurDate].value -= convEvent.count;
-                            posFeedback -= convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                        {
-                            resultRemoveNegativeTagsInterval[convEvent.key.evOccurDate].value -= convEvent.count;
-                            negFeedback -= convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                        {
-                            resultPosToNegTransitionsInterval[convEvent.key.evOccurDate].value += convEvent.count;
-                            posToNegTransitions.count += convEvent.count;
-                            posFeedback -= convEvent.count;
-                            negFeedback += convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
-                        {
-                            resultNegToPosTransitionsInterval[convEvent.key.evOccurDate].value += convEvent.count;
-                            negToPosTransitions.count += convEvent.count;
-                            negFeedback -= convEvent.count;
-                            posFeedback += convEvent.count;
-                        }
-
-                        /* To achieve: Fill the empty entries -- Obs: Maybe someday i'll figure out a smarter solution
-                        * How the chart data look: The evolution chart is continuous. Lets say ch[d1] = x and ch[d6] = y, d1, d6 - dates, d1 < d6
-                        *  x,y = no of positive fdbks, x!=y. The entries ch[d2], ch[d3], .., ch[d5] must have the x value.
-                        *  
-                        * How the events data look: Array<Entry> ordered asc by key.occurDate, Entry = {key, int count}
-                        * Key = {type = {POS_ADD,etc}, DateTime occurDate}. Multiple Entry instances with the same occurDate.
-                        * I convert the events data TO chart data
-                        * 
-                        * Solution: I group the events that occur on the same date. 
-                        * To figure out when I finished to group different types of events for a certain date I use lastEvDate.
-                        * Case lastEvDate == null fill the entries between startInterval and lastEvDate - 1 day
-                        *      convEvent.key.evOccurDate > lastDate fill the entries between lastEvDate and evOccurDate - 1 day
-                        */
-                        if (lastEvDate.Equals(DateTime.MinValue))
-                        {
-                            for (var i = intervalStart; i <= convEvent.key.evOccurDate.AddDays(-1); i = i.AddDays(1))
-                            {
-                                resultPositiveTagsEvInterval[i].value = lastPosFeedback;
-                                resultNegativeTagsEvInterval[i].value = lastNegFeedback;
-                            }
-                            lastEvDate = convEvent.key.evOccurDate;
-                            lastPosFeedback = posFeedback;
-                            lastNegFeedback = negFeedback;
-                        }
-                        else
-                        {
-                            if (convEvent.key.evOccurDate > lastEvDate)
-                            {
-                                for (var i = lastEvDate; i <= convEvent.key.evOccurDate.AddDays(-1); i = i.AddDays(1))
-                                {
-                                    resultPositiveTagsEvInterval[i].value = lastPosFeedback;
-                                    resultNegativeTagsEvInterval[i].value = lastNegFeedback;
-                                }
-                                lastEvDate = convEvent.key.evOccurDate;
-                                lastPosFeedback = posFeedback;
-                                lastNegFeedback = negFeedback;
-                            }
-                            else
-                            {
-                                lastEvDate = convEvent.key.evOccurDate;
-                                lastPosFeedback = posFeedback;
-                                lastNegFeedback = negFeedback;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
-                        {
-                            ++posFeedback;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
-                        {
-                            ++negFeedback;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
-                        {
-                            --posFeedback;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                        {
-                            --negFeedback;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                        {
-                            ++negFeedback;
-                            --posFeedback;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
-                        {
-                            ++posFeedback;
-                            --negFeedback;
-                        }
-                    }
-                }
-                if (lastEvDate.Equals(DateTime.MinValue))
-                {
-                    // No events found in interval intervalStart - intervalEnd
-                    lastEvDate = intervalStart;
-                    lastPosFeedback = prevPosFeedback;
-                    lastNegFeedback = prevNegFeedback;
-                }
-                for (var i = lastEvDate; i <= intervalEnd; i = i.AddDays(1))
-                {
-                    resultPositiveTagsEvInterval[i].value = lastPosFeedback;
-                    resultNegativeTagsEvInterval[i].value = lastNegFeedback;
-                }
-
-                List<Dictionary<DateTime, ChartValue>> evolutionChartContent = new List<Dictionary<DateTime, ChartValue>>();
-                evolutionChartContent.Add(resultPositiveTagsEvInterval);
-                evolutionChartContent.Add(resultNegativeTagsEvInterval);
-                RepChartData evolutionChartSource = new RepChartData(new RepDataColumn[] { 
-                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPositiveFeedback), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegativeFeedback) },
-                    PrepareJson(evolutionChartContent, Resources.Global.RepConversationsUnit));
-
-                List<Dictionary<DateTime, ChartValue>> activityChartContent = new List<Dictionary<DateTime, ChartValue>>();
-                activityChartContent.Add(resultPositiveTagsInterval);
-                activityChartContent.Add(resultNegativeTagsInterval);
-                activityChartContent.Add(resultRemovePositiveTagsInterval);
-                activityChartContent.Add(resultRemoveNegativeTagsInterval);
-                RepChartData activityChartSource = new RepChartData(new RepDataColumn[] { 
-                    new RepDataColumn("16", Constants.STRING_COLUMN_TYPE), 
-                    new RepDataColumn("17", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosFeedbackAdded), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegFeedbackAdded),
-                    new RepDataColumn("19", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosFeedbackRemoved), 
-                    new RepDataColumn("20", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegFeedbackRemoved) },
-                    PrepareJson(activityChartContent, Resources.Global.RepConversationsUnit));
-
-                List<Dictionary<DateTime, ChartValue>> transitionsChartContent = new List<Dictionary<DateTime, ChartValue>>();
-                transitionsChartContent.Add(resultNegToPosTransitionsInterval);
-                transitionsChartContent.Add(resultPosToNegTransitionsInterval);
-                RepChartData transitionsChartSource = new RepChartData(new RepDataColumn[] { 
-                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegToPosFeedback), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosToNegFeedback) },
-                PrepareJson(transitionsChartContent, Resources.Global.RepConversationsUnit));
+                int totalNumberOfPosToNegTransitions;
+                int totalNumberOfNegToPosTransitions;
+                RepChartData transitionsChartSource = GetAggregatedPosNegTransitionsChart(iGranularity, intervalStart, intervalEnd, resultPosNegTagsTrInterval, resultNegPosTagsTrInterval, convEvents,
+                   out totalNumberOfNegToPosTransitions, out totalNumberOfPosToNegTransitions);
 
                 List<RepDataRow> transitionsPieChartContent = new List<RepDataRow>();
-                RepDataRow row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepPosToNegFeedback, Resources.Global.RepPosToNegFeedback), new RepDataRowCell(posToNegTransitions.count, posToNegTransitions.count + " " + Resources.Global.RepPosToNegFeedback) });
-                RepDataRow row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepNegToPosFeedback, Resources.Global.RepNegToPosFeedback), new RepDataRowCell(negToPosTransitions.count, negToPosTransitions.count + " " + Resources.Global.RepNegToPosFeedback) });
+                RepDataRow row1 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepPosToNegFeedback, Resources.Global.RepPosToNegFeedback), new RepDataRowCell(totalNumberOfPosToNegTransitions, totalNumberOfPosToNegTransitions + " " + Resources.Global.RepPosToNegFeedback) });
+                RepDataRow row2 = new RepDataRow(new RepDataRowCell[] { new RepDataRowCell(Resources.Global.RepNegToPosFeedback, Resources.Global.RepNegToPosFeedback), new RepDataRowCell(totalNumberOfNegToPosTransitions, totalNumberOfNegToPosTransitions + " " + Resources.Global.RepNegToPosFeedback) });
                 transitionsPieChartContent.Add(row1);
                 transitionsPieChartContent.Add(row2);
                 RepChartData transitionsPieChartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, Resources.Global.RepTypeTable), new RepDataColumn("18", Constants.STRING_COLUMN_TYPE, Resources.Global.RepValueTable) }, transitionsPieChartContent);
 
-                ReportData repData = new ReportData(new List<RepChartData>() { evolutionChartSource, transitionsChartSource, transitionsPieChartSource, activityChartSource }, null);
+                ReportData repData = new ReportData(new List<RepChartData>() { evolutionChartSource, transitionsChartSource, transitionsPieChartSource}, null);
                 var result = new { repData = repData, restoreData = dataToBeSaved };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
                 logger.Error("GetReportPosNegData", e);
-                return Json("request failed", JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public JsonResult GetReportPosNegActivityGr(String iIntervalStart, String iIntervalEnd, String iGranularity, String[] iScope = null)
-        {
-            try
-            {
-                DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
-                DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
-                 
-
-                Dictionary<DateTime, ChartValue> resultPositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultRemovePositiveTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultRemoveNegativeTagsInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultPositiveTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultNegativeTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-
-                iScope = iScope != null ? iScope : new string[0];
-                var useAllWps = iScope.Length == 0;
-                // GLOBAL SCOPE
-                IEnumerable<ConversationHistory> convEvents = (from u in context.Users
-                                                               where u.UserName.Equals(User.Identity.Name)
-                                                               select (from wp in u.WorkingPoints
-                                                                       where useAllWps ? true : iScope.Contains(wp.TelNumber)
-                                                                       select (from conv in wp.Conversations
-                                                                               where !conv.Client.isSupportClient &&
-                                                                               conv.Messages.Where(msg => msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd).Count() > 0
-                                                                               select (from convEvent in conv.ConversationEvents
-                                                                                       where (convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
-                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
-                                                                                           convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
-                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT)) &&
-                                                                                           (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd)
-                                                                                       select convEvent)))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
-
-                /*
-                 * All events are grouped by occur date and event name/type, which can be POS_ADD, NEG_ADD, etc.
-                 * This groups of events are than grouped by occur date. And the new formed groups are ordered ascending by occur date.
-                 * For Activity I count for each type of event the number of appearances.
-                 */
-
-
-                if (iGranularity.Equals(Constants.DAY_GRANULARITY))
-                {
-                    var convEventsGr = (from convEvent in convEvents
-                                        group convEvent by new { evOccurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName }
-                                            into g
-                                            select new { key = g.Key, count = g.Count(), elements = g.ToList() });
-
-                    foreach (var convEvent in convEventsGr)
-                    {
-                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
-                        {
-                            resultPositiveTagsInterval[convEvent.key.evOccurDate].value += convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
-                        {
-                            resultNegativeTagsInterval[convEvent.key.evOccurDate].value += convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
-                        {
-                            resultRemovePositiveTagsInterval[convEvent.key.evOccurDate].value -= convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                        {
-                            resultRemoveNegativeTagsInterval[convEvent.key.evOccurDate].value -= convEvent.count;
-                        }
-                    }
-
-                }
-                else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
-                {
-                    var convEventsGr = (from convEvent in convEvents
-                                        group convEvent by new
-                                        {
-                                            Month = convEvent.Date.Month,
-                                            Year = convEvent.Date.Year,
-                                            eventType = convEvent.EventTypeName
-                                        } into g
-                                        select new { key = g.Key, count = g.Count(), elements = g.ToList() });
-
-                    foreach (var convEvent in convEventsGr)
-                    {
-                        var monthDateTime = new DateTime(convEvent.key.Year, convEvent.key.Month, 1);
-                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
-                        {
-                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                resultPositiveTagsInterval[intervalStart].value += convEvent.count;
-                            else
-                                resultPositiveTagsInterval[monthDateTime].value += convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
-                        {
-                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                resultNegativeTagsInterval[intervalStart].value += convEvent.count;
-                            else
-                                resultNegativeTagsInterval[monthDateTime].value += convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
-                        {
-                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                resultRemovePositiveTagsInterval[intervalStart].value -= convEvent.count;
-                            else
-                                resultRemovePositiveTagsInterval[monthDateTime].value -= convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                        {
-                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                resultRemoveNegativeTagsInterval[intervalStart].value -= convEvent.count;
-                            else
-                                resultRemoveNegativeTagsInterval[monthDateTime].value -= convEvent.count;
-                        }
-                    }
-                }
-                else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-                {
-                    var convEventsGr = (from convEvent in convEvents
-                                        group convEvent by new
-                                        {
-                                            firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Date),
-                                            eventType = convEvent.EventTypeName
-                                        }
-                                            into g
-                                            select new { key = g.Key, count = g.Count(), elements = g.ToList() });
-
-                    foreach (var convEvent in convEventsGr)
-                    {
-                        var weekDateTime = convEvent.key.firstDayOfTheWeek;
-                        if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
-                        {
-                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                resultPositiveTagsInterval[intervalStart].value += convEvent.count;
-                            else
-                                resultPositiveTagsInterval[weekDateTime].value += convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
-                        {
-                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                resultNegativeTagsInterval[intervalStart].value += convEvent.count;
-                            else
-                                resultNegativeTagsInterval[weekDateTime].value += convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
-                        {
-                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                resultRemovePositiveTagsInterval[intervalStart].value -= convEvent.count;
-                            else
-                                resultRemovePositiveTagsInterval[weekDateTime].value -= convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                        {
-                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                resultRemoveNegativeTagsInterval[intervalStart].value -= convEvent.count;
-                            else
-                                resultRemoveNegativeTagsInterval[weekDateTime].value -= convEvent.count;
-                        }
-
-                    }
-                }
-
-                List<Dictionary<DateTime, ChartValue>> activityChartContent = new List<Dictionary<DateTime, ChartValue>>();
-                activityChartContent.Add(resultPositiveTagsInterval);
-                activityChartContent.Add(resultNegativeTagsInterval);
-                activityChartContent.Add(resultRemovePositiveTagsInterval);
-                activityChartContent.Add(resultRemoveNegativeTagsInterval);
-                RepChartData activityChartSource = new RepChartData(new RepDataColumn[] { 
-                    new RepDataColumn("16", Constants.STRING_COLUMN_TYPE, "Date"), 
-                    new RepDataColumn("17", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosFeedbackAdded), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegFeedbackAdded),
-                    new RepDataColumn("19", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosFeedbackRemoved), 
-                    new RepDataColumn("20", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegFeedbackRemoved) },
-                    PrepareJson(activityChartContent, Resources.Global.RepConversationsUnit));
-
-                return Json(activityChartSource, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetReportPosNegActivityData", e);
                 return Json("request failed", JsonRequestBehavior.AllowGet);
             }
         }
@@ -1161,113 +786,18 @@ namespace SmsFeedback_Take4.Controllers
                                                                select (from wp in u.WorkingPoints
                                                                        where useAllWps ? true : iScope.Contains(wp.TelNumber)
                                                                        select (from conv in wp.Conversations
-                                                                               where !conv.Client.isSupportClient &&
-                                                                               conv.Messages.Where(msg => msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd).Count() > 0
+                                                                               where !conv.Client.isSupportClient
                                                                                select (from convEvent in conv.ConversationEvents
                                                                                        where (convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
-                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
-                                                                                           (convEvent.Date >= intervalStart && convEvent.Date <= intervalEnd)
+                                                                                           convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT))
+                                                                                           &&
+                                                                                          (convEvent.Message.TimeReceived >= intervalStart && convEvent.Message.TimeReceived <= intervalEnd)
                                                                                        select convEvent)))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
 
-                /*
-                 * All events are grouped by occur date and event name/type, which can be POS_ADD, NEG_ADD, etc.
-                 * This groups of events are than grouped by occur date. And the new formed groups are ordered ascending by occur date.
-                 * For Activity I count for each type of event the number of appearances.
-                 */
-
-
-                if (iGranularity.Equals(Constants.DAY_GRANULARITY))
-                {
-                    var convEventsGr = (from convEvent in convEvents
-                                        group convEvent by new { evOccurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName }
-                                            into g
-                                            select new { key = g.Key, count = g.Count(), elements = g.ToList() });
-
-                    foreach (var convEvent in convEventsGr)
-                    {
-                        if (convEvent.key.evOccurDate >= intervalStart && convEvent.key.evOccurDate <= intervalEnd)
-                        {
-                            if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                            {
-                                resultPosNegTagsTrInterval[convEvent.key.evOccurDate].value += convEvent.count;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
-                            {
-                                resultNegPosTagsTrInterval[convEvent.key.evOccurDate].value += convEvent.count;
-                            }
-                        }
-                    }
-                }
-                else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
-                {
-                    var convEventsGr = (from convEvent in convEvents
-                                        group convEvent by new
-                                        {
-                                            Month = convEvent.Date.Month,
-                                            Year = convEvent.Date.Year,
-                                            eventType = convEvent.EventTypeName
-                                        }
-                                            into g
-                                            select new { key = g.Key, count = g.Count(), elements = g.ToList() });
-
-                    foreach (var convEvent in convEventsGr)
-                    {
-                        var monthDateTime = new DateTime(convEvent.key.Year, convEvent.key.Month, 1);
-                        if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                        {
-                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                resultPosNegTagsTrInterval[intervalStart].value += convEvent.count;
-                            else
-                                resultPosNegTagsTrInterval[monthDateTime].value += convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
-                        {
-                            if (DateTime.Compare(monthDateTime, intervalStart) < 0)
-                                resultNegPosTagsTrInterval[intervalStart].value += convEvent.count;
-                            else
-                                resultNegPosTagsTrInterval[monthDateTime].value += convEvent.count;
-                        }
-                    }
-                }
-                else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-                {
-                    var convEventsGr = (from convEvent in convEvents
-                                        group convEvent by new
-                                        {
-                                            firstDayOfTheWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Date),
-                                            eventType = convEvent.EventTypeName
-                                        }
-                                            into g
-                                            select new { key = g.Key, count = g.Count(), elements = g.ToList() });
-
-                    foreach (var convEvent in convEventsGr)
-                    {
-                        var weekDateTime = convEvent.key.firstDayOfTheWeek;
-                        if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                        {
-                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                resultPosNegTagsTrInterval[intervalStart].value += convEvent.count;
-                            else
-                                resultPosNegTagsTrInterval[weekDateTime].value += convEvent.count;
-                        }
-                        else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
-                        {
-                            if (DateTime.Compare(weekDateTime, intervalStart) < 0)
-                                resultNegPosTagsTrInterval[intervalStart].value += convEvent.count;
-                            else
-                                resultNegPosTagsTrInterval[weekDateTime].value += convEvent.count;
-                        }
-                    }
-                }
-
-                List<Dictionary<DateTime, ChartValue>> transitionsChartContent = new List<Dictionary<DateTime, ChartValue>>();
-                transitionsChartContent.Add(resultNegPosTagsTrInterval);
-                transitionsChartContent.Add(resultPosNegTagsTrInterval);
-                RepChartData transitionsChartSource = new RepChartData(new RepDataColumn[] { 
-                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegToPosFeedback), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosToNegFeedback) },
-                PrepareJson(transitionsChartContent, Resources.Global.RepConversationsUnit));
+                int totalNumberOfPosToNegTransitions;
+                int totalNumberOfNegToPosTransitions;
+                RepChartData transitionsChartSource = GetAggregatedPosNegTransitionsChart(iGranularity, intervalStart, intervalEnd, resultPosNegTagsTrInterval, resultNegPosTagsTrInterval, convEvents,
+                   out totalNumberOfNegToPosTransitions,out  totalNumberOfPosToNegTransitions);
 
                 return Json(transitionsChartSource, JsonRequestBehavior.AllowGet);
             }
@@ -1278,629 +808,221 @@ namespace SmsFeedback_Take4.Controllers
             }
         }
 
-       // public RepChartData PosEvolutionSideBySideInternal(String iIntervalStart, String iIntervalEnd, String iGranularity, String[] iScope = null)
-       //{
-       //    DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
-       //    DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
-
-       //    var resIntervals = new Dictionary<string, Dictionary<DateTime, ChartValue>>();
-       //    foreach (var location in iScope)
-       //    {
-       //       resIntervals.Add(location, InitializeInterval(intervalStart, intervalEnd, iGranularity));
-       //    }
-
-       //    var grConvEvents = GetSideBySidePositiveConvEventsInternal(iGranularity, iScope, intervalStart, intervalEnd);
-       //    if (iGranularity.Equals(Constants.DAY_GRANULARITY))
-       //    {
-       //       foreach (var gr in grConvEvents)
-       //       {
-       //          var convEventsGr = (from convEvent in gr.Value
-       //                              group convEvent by new { evOccurDate = convEvent.Date.Date, eventType = convEvent.EventTypeName }
-       //                                 into g
-       //                                 select new { key = g.Key, count = g.Count(), elements = g.ToList() }).OrderBy(c =>c.key.evOccurDate);
-
-       //          foreach (var convEvent in convEventsGr)
-       //          {
-       //             var posFeedback = 0;                    
-
-       //             if (convEvent.key.evOccurDate >= intervalStart && convEvent.key.evOccurDate <= intervalEnd)
-       //             {
-       //                if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT) || convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
-       //                {
-       //                   posFeedback += convEvent.count;
-       //                }
-       //                else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT) || convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-       //                {
-       //                   posFeedback -= convEvent.count;
-       //                }
-                       
-
-       //                /* To achieve: Fill the empty entries -- Obs: Maybe someday i'll figure out a smarter solution
-       //                * How the chart data look: The evolution chart is continuous. Lets say ch[d1] = x and ch[d6] = y, d1, d6 - dates, d1 < d6
-       //                *  x,y = no of positive fdbks, x!=y. The entries ch[d2], ch[d3], .., ch[d5] must have the x value.
-       //                *  
-       //                * How the events data look: Array<Entry> ordered asc by key.occurDate, Entry = {key, int count}
-       //                * Key = {type = {POS_ADD,etc}, DateTime occurDate}. Multiple Entry instances with the same occurDate.
-       //                * I convert the events data TO chart data
-       //                * 
-       //                * Solution: I group the events that occur on the same date. 
-       //                * To figure out when I finished to group different types of events for a certain date I use lastEvDate.
-       //                * Case lastEvDate == null fill the entries between startInterval and lastEvDate - 1 day
-       //                *      convEvent.key.evOccurDate > lastDate fill the entries between lastEvDate and evOccurDate - 1 day
-       //                */
-
-       //                if (lastEvDate.Equals(DateTime.MinValue))
-       //                {
-       //                   lastEvDate = convEvent.key.evOccurDate;
-       //                   lastPosFeedback = posFeedback;
-       //                   lastNegFeedback = negFeedback;
-       //                }
-       //                else
-       //                {
-       //                   if (convEvent.key.evOccurDate > lastEvDate)
-       //                   {
-       //                      for (var i = lastEvDate; i <= convEvent.key.evOccurDate.AddDays(-1); i = i.AddDays(1))
-       //                      {
-       //                         resultPositiveTagsEvInterval[i].value = lastPosFeedback;
-       //                         resultNegativeTagsEvInterval[i].value = lastNegFeedback;
-       //                      }
-       //                      lastEvDate = convEvent.key.evOccurDate;
-       //                      lastPosFeedback = posFeedback;
-       //                      lastNegFeedback = negFeedback;
-       //                   }
-       //                   else
-       //                   {
-       //                      lastEvDate = convEvent.key.evOccurDate;
-       //                      lastPosFeedback = posFeedback;
-       //                      lastNegFeedback = negFeedback;
-       //                   }
-       //                }
-       //             }
-       //             else
-       //             {
-       //                if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
-       //                {
-       //                   ++posFeedback;
-       //                }
-       //                else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
-       //                {
-       //                   ++negFeedback;
-       //                }
-       //                else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
-       //                {
-       //                   --posFeedback;
-       //                }
-       //                else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
-       //                {
-       //                   --negFeedback;
-       //                }
-       //                else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-       //                {
-       //                   ++negFeedback;
-       //                   --posFeedback;
-       //                }
-       //                else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
-       //                {
-       //                   ++posFeedback;
-       //                   --negFeedback;
-       //                }
-       //             }
-
-       //          }
-       //          if (lastEvDate.Equals(DateTime.MinValue))
-       //          {
-       //             // No events found in interval intervalStart - intervalEnd
-       //             lastEvDate = intervalStart;
-       //             lastPosFeedback = prevPosFeedback;
-       //             lastNegFeedback = prevNegFeedback;
-       //          }
-       //          for (var i = lastEvDate; i <= intervalEnd; i = i.AddDays(1))
-       //          {
-       //             resultPositiveTagsEvInterval[i].value = lastPosFeedback;
-       //             resultNegativeTagsEvInterval[i].value = lastNegFeedback;
-       //          }
-       //       }
-       //    }
-       //    else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
-       //    {
-             
-       //    }
-       //    else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-       //    {
-             
-       //    }
-
-       //    List<Dictionary<DateTime, ChartValue>> posEvolutionChartContent = new List<Dictionary<DateTime, ChartValue>>();
-       //    foreach (var item in resIntervals)
-       //    {
-       //       posEvolutionChartContent.Add(item.Value);
-       //    }
-       //    List<RepDataColumn> columnDefinition = new List<RepDataColumn> { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date") };
-       //    foreach (var location in iScope)
-       //    {
-       //       columnDefinition.Add(new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, location));
-
-       //    }
-       //    RepChartData chartSource = new RepChartData(
-       //       columnDefinition,
-       //          PrepareJson(posEvolutionChartContent, Resources.Global.RepSmsUnit));
-       //    return chartSource;
-       //}
-
-      
-
-        public JsonResult GetReportPosNegEvolutionGr(String iIntervalStart, String iIntervalEnd,  String iGranularity,String[] iScope = null )
+        private RepChartData GetAggregatedPosNegTransitionsChart
+           (String iGranularity,
+           DateTime intervalStart,
+           DateTime intervalEnd,
+           Dictionary<DateTime, ChartValue> resultPosNegTagsTrInterval,
+           Dictionary<DateTime, ChartValue> resultNegPosTagsTrInterval,
+           IEnumerable<ConversationHistory> convEvents,
+           out int totalNumberOfNegToPosTransitions,
+           out int totalNumberOfPosToNegTransitions)
         {
-            try
-            {
-               DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
-               DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
-                 
+           totalNumberOfNegToPosTransitions = 0;
+           totalNumberOfPosToNegTransitions = 0;
+           if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+           {
+              var convEventsGr = (from convEvent in convEvents
+                                  group convEvent by new { evOccurDate = convEvent.Message.TimeReceived.Date, eventType = convEvent.EventTypeName }
+                                     into g
+                                     select new { key = g.Key, count = g.Count(), elements = g.ToList() });
 
-                Dictionary<DateTime, ChartValue> resultPositiveTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
-                Dictionary<DateTime, ChartValue> resultNegativeTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+              foreach (var convEvent in convEventsGr)
+              {
+                 if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                 {                   
+                    resultNegPosTagsTrInterval[convEvent.key.evOccurDate].value += convEvent.count;
+                    totalNumberOfNegToPosTransitions += convEvent.count;
+                 }
+                 else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                 {
+                    resultPosNegTagsTrInterval[convEvent.key.evOccurDate].value += convEvent.count;
+                    totalNumberOfPosToNegTransitions += convEvent.count;
+                 }
+              }
+           }
+           else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
+           {
+              var convEventsGr = (from convEvent in convEvents
+                                  group convEvent by new
+                                  {
+                                     month = convEvent.Message.TimeReceived.Date.Month,
+                                     year = convEvent.Message.TimeReceived.Date.Year,
+                                     eventType = convEvent.EventTypeName
+                                  }
+                                     into g
+                                     select new { key = g.Key, count = g.Count() });
+              foreach (var convEvent in convEventsGr)
+              {
+                 //DA the interval value is either the calculated month-year combination or the min interval value or the max interval value in case of border cases
+                 var intervalDate = new DateTime(convEvent.key.year, convEvent.key.month, 1);
+                 intervalDate = intervalDate < intervalStart ? intervalStart : intervalDate;
+                 intervalDate = intervalDate > intervalEnd ? intervalEnd : intervalDate;
+                 if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                 {
+                    resultNegPosTagsTrInterval[intervalDate].value += convEvent.count;
+                 }
+                 else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                 {
+                    resultPosNegTagsTrInterval[intervalDate].value += convEvent.count;
+                 }
+              }
+           }
+           else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
+           {
+              var convEventsGr = (from convEvent in convEvents
+                                  group convEvent by new
+                                  {
+                                     evOccurDate = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Message.TimeReceived),
+                                     eventType = convEvent.EventTypeName
+                                  }
+                                     into g
+                                     select new { key = g.Key, count = g.Count() });
 
-                KeyAndCount posToNegTransitions = new KeyAndCount(Constants.POS_TO_NEG_EVENT, 0);
-                KeyAndCount negToPosTransitions = new KeyAndCount(Constants.NEG_TO_POS_EVENT, 0);
+              foreach (var convEvent in convEventsGr)
+              {
+                 var intervalDate = convEvent.key.evOccurDate;
+                 intervalDate = intervalDate < intervalStart ? intervalStart : intervalDate;
+                 intervalDate = intervalDate > intervalEnd ? intervalEnd : intervalDate;
+                 if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                 {
+                    resultNegPosTagsTrInterval[intervalDate].value += convEvent.count;
+                 }
+                 else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                 {
+                    resultPosNegTagsTrInterval[intervalDate].value += convEvent.count;
+                 }
+              }
+           }
 
-                IEnumerable<ConversationHistory> convEvents = GetAggregatedConvEventsInternal(iScope, intervalStart, intervalEnd);
-
-                /*
-                 * All events are grouped by occur date and event name/type, which can be POS_ADD, NEG_ADD, etc.
-                 * This groups of events are than grouped by occur date. And the new formed groups are ordered ascending by occur date.
-                 * For Activity and Transitions I count for each type of event the number of appearances.
-                 * For Evolution I count the previous events (occur date < intervalStart) and then count the events for each day.
-                 */
-
-                var posFeedback = 0;
-                var negFeedback = 0;
-                DateTime lastEvDate = DateTime.MinValue;
-                int prevPosFeedback = 0;
-                int prevNegFeedback = 0;
-                int lastPosFeedback = -1;
-                int lastNegFeedback = -1;
-
-                if (iGranularity.Equals(Constants.DAY_GRANULARITY))
-                {
-                    var convEventsGr = (from convEvent in convEvents
-                                        group convEvent by new
-                                        {
-                                            evOccurDate = convEvent.Message.TimeReceived,
-                                            eventType = convEvent.EventTypeName
-                                        }
-                                            into g
-                                            select new
-                                            {
-                                                key = g.Key,
-                                                count = g.Count(),
-                                                elements = g.ToList()
-                                            }).OrderBy(convEventGr =>
-                                                convEventGr.key.evOccurDate);
-
-                    foreach (var convEvent in convEventsGr)
-                    {
-                        if (convEvent.key.evOccurDate >= intervalStart && convEvent.key.evOccurDate <= intervalEnd)
-                        {
-                            if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
-                            {
-                                posFeedback += convEvent.count;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
-                            {
-                                negFeedback += convEvent.count;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
-                            {
-                                posFeedback -= convEvent.count;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                            {
-                                negFeedback -= convEvent.count;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                            {
-                                posFeedback -= convEvent.count;
-                                negFeedback += convEvent.count;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
-                            {
-                                negFeedback -= convEvent.count;
-                                posFeedback += convEvent.count;
-                            }
-
-                            /* To achieve: Fill the empty entries -- Obs: Maybe someday i'll figure out a smarter solution
-                            * How the chart data look: The evolution chart is continuous. Lets say ch[d1] = x and ch[d6] = y, d1, d6 - dates, d1 < d6
-                            *  x,y = no of positive fdbks, x!=y. The entries ch[d2], ch[d3], .., ch[d5] must have the x value.
-                            *  
-                            * How the events data look: Array<Entry> ordered asc by key.occurDate, Entry = {key, int count}
-                            * Key = {type = {POS_ADD,etc}, DateTime occurDate}. Multiple Entry instances with the same occurDate.
-                            * I convert the events data TO chart data
-                            * 
-                            * Solution: I group the events that occur on the same date. 
-                            * To figure out when I finished to group different types of events for a certain date I use lastEvDate.
-                            * Case lastEvDate == null fill the entries between startInterval and lastEvDate - 1 day
-                            *      convEvent.key.evOccurDate > lastDate fill the entries between lastEvDate and evOccurDate - 1 day
-                            */
-
-                            if (lastEvDate.Equals(DateTime.MinValue))
-                            {
-                                lastEvDate = convEvent.key.evOccurDate;
-                                lastPosFeedback = posFeedback;
-                                lastNegFeedback = negFeedback;
-                            }
-                            else
-                            {
-                                if (convEvent.key.evOccurDate > lastEvDate)
-                                {
-                                    for (var i = lastEvDate; i <= convEvent.key.evOccurDate.AddDays(-1); i = i.AddDays(1))
-                                    {
-                                        resultPositiveTagsEvInterval[i].value = lastPosFeedback;
-                                        resultNegativeTagsEvInterval[i].value = lastNegFeedback;
-                                    }
-                                    lastEvDate = convEvent.key.evOccurDate;
-                                    lastPosFeedback = posFeedback;
-                                    lastNegFeedback = negFeedback;
-                                }
-                                else
-                                {
-                                    lastEvDate = convEvent.key.evOccurDate;
-                                    lastPosFeedback = posFeedback;
-                                    lastNegFeedback = negFeedback;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
-                            {
-                                ++posFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
-                            {
-                                ++negFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
-                            {
-                                --posFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                            {
-                                --negFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                            {
-                                ++negFeedback;
-                                --posFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
-                            {
-                                ++posFeedback;
-                                --negFeedback;
-                            }
-                        }
-
-                    }
-                    if (lastEvDate.Equals(DateTime.MinValue))
-                    {
-                        // No events found in interval intervalStart - intervalEnd
-                        lastEvDate = intervalStart;
-                        lastPosFeedback = prevPosFeedback;
-                        lastNegFeedback = prevNegFeedback;
-                    }
-                    for (var i = lastEvDate; i <= intervalEnd; i = i.AddDays(1))
-                    {
-                        resultPositiveTagsEvInterval[i].value = lastPosFeedback;
-                        resultNegativeTagsEvInterval[i].value = lastNegFeedback;
-                    }
-
-                }
-                else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
-                {
-                    var convEventsGr = (from convEvent in convEvents
-                                        group convEvent by new
-                                        {
-                                            evOccurDate = convEvent.Date,
-                                            eventType = convEvent.EventTypeName
-                                        }
-                                            into g
-                                            select new
-                                            {
-                                                key = g.Key
-                                            })
-                                            .OrderBy(convEvent => convEvent.key.evOccurDate);
-
-                    foreach (var convEvent in convEventsGr)
-                    {
-                        if (convEvent.key.evOccurDate >= intervalStart && convEvent.key.evOccurDate <= intervalEnd)
-                        {
-                            var monthDateTime = new DateTime(convEvent.key.evOccurDate.Year, convEvent.key.evOccurDate.Month, 1);
-                            lastPosFeedback = posFeedback;
-                            lastNegFeedback = negFeedback;
-
-                            if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
-                            {
-                                ++posFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
-                            {
-                                ++negFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
-                            {
-                                --posFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                            {
-                                --negFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                            {
-                                --posFeedback;
-                                ++negFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
-                            {
-                                --negFeedback;
-                                ++posFeedback;
-                            }
-
-                            if (lastEvDate.Equals(DateTime.MinValue))
-                            {
-                                if (monthDateTime > intervalStart)
-                                {
-                                    resultPositiveTagsEvInterval[intervalStart].value = lastPosFeedback;
-                                    resultNegativeTagsEvInterval[intervalStart].value = lastNegFeedback;
-
-                                    var nextMonth = intervalStart.AddMonths(1);
-                                    var nextMonthFirst = new DateTime(nextMonth.Year, nextMonth.Month, 1);
-                                    for (var i = nextMonthFirst; i < monthDateTime; i = i.AddMonths(1))
-                                    {
-                                        resultNegativeTagsEvInterval[i].value = lastNegFeedback;
-                                        resultPositiveTagsEvInterval[i].value = lastPosFeedback;
-                                    }
-                                }
-                                lastEvDate = monthDateTime;
-                                lastPosFeedback = posFeedback;
-                                lastNegFeedback = negFeedback;
-                            }
-                            else
-                            {
-                                if (monthDateTime > lastEvDate)
-                                {
-
-                                    for (var i = lastEvDate; i < monthDateTime; i = i.AddMonths(1))
-                                    {
-                                        resultPositiveTagsEvInterval[monthDateTime].value = lastPosFeedback;
-                                        resultNegativeTagsEvInterval[monthDateTime].value = lastNegFeedback;
-                                    }
-                                    lastEvDate = monthDateTime;
-                                    lastPosFeedback = posFeedback;
-                                    lastNegFeedback = negFeedback;
-                                }
-                                else
-                                {
-                                    lastEvDate = monthDateTime;
-                                    lastPosFeedback = posFeedback;
-                                    lastNegFeedback = negFeedback;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
-                            {
-                                ++prevPosFeedback;
-                                ++posFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
-                            {
-                                ++prevNegFeedback;
-                                ++negFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
-                            {
-                                --prevPosFeedback;
-                                --posFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                            {
-                                --prevNegFeedback;
-                                --negFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                            {
-                                ++prevNegFeedback;
-                                ++negFeedback;
-                                --prevPosFeedback;
-                                --posFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
-                            {
-                                ++prevPosFeedback;
-                                ++posFeedback;
-                                --prevNegFeedback;
-                                --negFeedback;
-                            }
-                        }
-
-                    }
-                    if (lastEvDate.Equals(DateTime.MinValue))
-                    {
-                        // No events found in interval intervalStart - intervalEnd
-                        lastEvDate = intervalStart;
-                        lastPosFeedback = prevPosFeedback;
-                        lastNegFeedback = prevNegFeedback;
-                    }
-                    for (var i = lastEvDate; i <= intervalEnd; i = i.AddMonths(1))
-                    {
-                        resultPositiveTagsEvInterval[i].value = lastPosFeedback;
-                        resultNegativeTagsEvInterval[i].value = lastNegFeedback;
-                    }
-
-                }
-                else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
-                {
-                    var convEventsGr = (from convEvent in convEvents
-                                        group convEvent by new
-                                        {
-                                            evOccurDate = convEvent.Date,
-                                            eventType = convEvent.EventTypeName
-                                        }
-                                            into g
-                                            select new
-                                            {
-                                                key = g.Key
-                                            })
-                                            .OrderBy(convEvent => convEvent.key.evOccurDate);
-
-                    foreach (var convEvent in convEventsGr)
-                    {
-                        if (convEvent.key.evOccurDate >= intervalStart && convEvent.key.evOccurDate <= intervalEnd)
-                        {
-                            var weekDateTime = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.key.evOccurDate);
-                            lastPosFeedback = posFeedback;
-                            lastNegFeedback = negFeedback;
-
-                            if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
-                            {
-                                ++posFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
-                            {
-                                ++negFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
-                            {
-                                --posFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                            {
-                                --negFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                            {
-                                --posFeedback;
-                                ++negFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
-                            {
-                                --negFeedback;
-                                ++posFeedback;
-                            }
-                                                      
-                            if (lastEvDate.Equals(DateTime.MinValue))
-                            {
-                                if (weekDateTime > intervalStart)
-                                {
-                                    resultPositiveTagsEvInterval[intervalStart].value = lastPosFeedback;
-                                    resultNegativeTagsEvInterval[intervalStart].value = lastNegFeedback;
-
-                                    var nextWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(intervalStart).AddDays(7);
-                                    for (var i = nextWeek; i < weekDateTime; i = i.AddDays(7))
-                                    {
-                                        resultNegativeTagsEvInterval[i].value = lastNegFeedback;
-                                        resultPositiveTagsEvInterval[i].value = lastPosFeedback;
-                                    }
-                                }
-                                lastEvDate = weekDateTime;
-                                lastPosFeedback = posFeedback;
-                                lastNegFeedback = negFeedback;
-                            }
-                            else
-                            {
-                                if (weekDateTime > lastEvDate)
-                                {
-
-                                    for (var i = lastEvDate; i < weekDateTime; i = i.AddDays(7))
-                                    {
-                                       //TODO DA  - fix this logic
-                                       var iInWeek = FirstDayOfWeekUtility.GetFirstDayOfWeek(i);
-                                       iInWeek = intervalStart > iInWeek ? intervalStart : iInWeek;
-                                       //
-                                       resultPositiveTagsEvInterval[iInWeek].value = lastPosFeedback;
-                                       resultNegativeTagsEvInterval[iInWeek].value = lastNegFeedback;
-                                    }
-                                    lastEvDate = weekDateTime;
-                                    lastPosFeedback = posFeedback;
-                                    lastNegFeedback = negFeedback;
-                                }
-                                else
-                                {
-                                    lastEvDate = weekDateTime;
-                                    lastPosFeedback = posFeedback;
-                                    lastNegFeedback = negFeedback;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT))
-                            {
-                                ++prevPosFeedback;
-                                ++posFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT))
-                            {
-                                ++prevNegFeedback;
-                                ++negFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.POS_REMOVE_EVENT))
-                            {
-                                --prevPosFeedback;
-                                --posFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_REMOVE_EVENT))
-                            {
-                                --prevNegFeedback;
-                                --negFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
-                            {
-                                ++prevNegFeedback;
-                                ++negFeedback;
-                                --prevPosFeedback;
-                                --posFeedback;
-                            }
-                            else if (convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
-                            {
-                                ++prevPosFeedback;
-                                ++posFeedback;
-                                --prevNegFeedback;
-                                --negFeedback;
-                            }
-                        }
-
-                    }
-                    if (lastEvDate.Equals(DateTime.MinValue))
-                    {
-                        // No events found in interval intervalStart - intervalEnd
-                        lastEvDate = intervalStart;
-                        lastPosFeedback = prevPosFeedback;
-                        lastNegFeedback = prevNegFeedback;
-                    }
-                    for (var i = lastEvDate; i <= intervalEnd; i = i.AddDays(7))
-                    {
-                        resultPositiveTagsEvInterval[i].value = lastPosFeedback;
-                        resultNegativeTagsEvInterval[i].value = lastNegFeedback;
-                    }
-                }
-
-                List<Dictionary<DateTime, ChartValue>> evolutionChartContent = new List<Dictionary<DateTime, ChartValue>>();
-                evolutionChartContent.Add(resultPositiveTagsEvInterval);
-                evolutionChartContent.Add(resultNegativeTagsEvInterval);
-                RepChartData evolutionChartSource = new RepChartData(new RepDataColumn[] { 
+           List<Dictionary<DateTime, ChartValue>> transitionsChartContent = new List<Dictionary<DateTime, ChartValue>>();
+           transitionsChartContent.Add(resultNegPosTagsTrInterval);
+           transitionsChartContent.Add(resultPosNegTagsTrInterval);
+           RepChartData transitionsChartSource = new RepChartData(new RepDataColumn[] { 
                     new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPositiveFeedback), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegativeFeedback) },
-                    PrepareJson(evolutionChartContent, Resources.Global.RepConversationsUnit));
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNegToPosFeedback), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepPosToNegFeedback) },
+           PrepareJson(transitionsChartContent, Resources.Global.RepConversationsUnit));
+           return transitionsChartSource;
+        }
 
-                return Json(evolutionChartSource, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                logger.Error("GetReportPosNegEvolutionData", e);
-                return Json("request failed", JsonRequestBehavior.AllowGet);
-            }
+
+        public JsonResult GetReportPosNegEvolutionGr(String iIntervalStart, String iIntervalEnd, String iGranularity, String[] iScope = null)
+        {
+           try
+           {
+              DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
+              DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
+
+              Dictionary<DateTime, ChartValue> resultPositiveTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+              Dictionary<DateTime, ChartValue> resultNegativeTagsEvInterval = InitializeInterval(intervalStart, intervalEnd, iGranularity);
+
+              IEnumerable<ConversationHistory> convEvents = GetAggregatedConvEventsInternal(iScope, intervalStart, intervalEnd);
+
+              RepChartData evolutionChartSource = GetAggregatedFeedbackEvolutionChart(iGranularity, intervalStart, intervalEnd, resultPositiveTagsEvInterval, resultNegativeTagsEvInterval, convEvents);
+
+              return Json(evolutionChartSource, JsonRequestBehavior.AllowGet);
+           }
+           catch (Exception e)
+           {
+              logger.Error("GetReportPosNegEvolutionData", e);
+              return Json("request failed", JsonRequestBehavior.AllowGet);
+           }
+        }
+
+        private RepChartData GetAggregatedFeedbackEvolutionChart(
+           String iGranularity,
+           DateTime intervalStart,
+           DateTime intervalEnd,
+           Dictionary<DateTime, ChartValue> resultPositiveTagsEvInterval,
+           Dictionary<DateTime, ChartValue> resultNegativeTagsEvInterval,
+           IEnumerable<ConversationHistory> convEvents)
+        {
+           if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+           {
+              var convEventsGr = (from convEvent in convEvents
+                                  group convEvent by new
+                                  {
+                                     evOccurDate = convEvent.Message.TimeReceived.Date,
+                                     eventType = convEvent.EventTypeName
+                                  } into g select new { key = g.Key, count = g.Count() });
+
+              foreach (var convEvent in convEventsGr)
+              {
+                 if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT) || convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                 {
+                    resultPositiveTagsEvInterval[convEvent.key.evOccurDate].value += convEvent.count;
+                 }
+                 else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT) || convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                 {
+                    resultNegativeTagsEvInterval[convEvent.key.evOccurDate].value += convEvent.count;
+                 }
+              }
+
+           }
+           else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
+           {
+              var convEventsGr = (from convEvent in convEvents
+                                  group convEvent by new
+                                  {
+                                     month = convEvent.Message.TimeReceived.Date.Month,
+                                     year = convEvent.Message.TimeReceived.Date.Year,
+                                     eventType = convEvent.EventTypeName
+                                  } into g select new { key = g.Key, count = g.Count() });
+
+
+              foreach (var convEvent in convEventsGr)
+              {
+                 //DA the interval value is either the calculated month-year combination or the min interval value or the max interval value in case of border cases
+                 var intervalDate = new DateTime(convEvent.key.year, convEvent.key.month, 1);
+                 intervalDate = intervalDate < intervalStart ? intervalStart : intervalDate;
+                 intervalDate = intervalDate > intervalEnd ? intervalEnd : intervalDate;
+                 if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT) || convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                 {
+
+                    resultPositiveTagsEvInterval[intervalDate].value += convEvent.count;
+                 }
+                 else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT) || convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                 {
+                    resultNegativeTagsEvInterval[intervalDate].value += convEvent.count;
+                 }
+              }
+
+           }
+           else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
+           {
+              var convEventsGr = (from convEvent in convEvents
+                                  group convEvent by new
+                                  {
+                                     evOccurDate = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Message.TimeReceived),
+                                     eventType = convEvent.EventTypeName
+                                  } into g select new { key = g.Key, count = g.Count() });
+
+              foreach (var convEvent in convEventsGr)
+              {
+                 var intervalDate = convEvent.key.evOccurDate;
+                 intervalDate = intervalDate < intervalStart ? intervalStart : intervalDate;
+                 intervalDate = intervalDate > intervalEnd ? intervalEnd : intervalDate;
+                 if (convEvent.key.eventType.Equals(Constants.POS_ADD_EVENT) || convEvent.key.eventType.Equals(Constants.NEG_TO_POS_EVENT))
+                 {
+                    resultPositiveTagsEvInterval[intervalDate].value += convEvent.count;
+                 }
+                 else if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT) || convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                 {
+                    resultNegativeTagsEvInterval[intervalDate].value += convEvent.count;
+                 }
+              }
+           }
+
+           List<Dictionary<DateTime, ChartValue>> evolutionChartContent = new List<Dictionary<DateTime, ChartValue>>();
+           evolutionChartContent.Add(resultPositiveTagsEvInterval);
+           evolutionChartContent.Add(resultNegativeTagsEvInterval);
+           RepChartData evolutionChartSource = new RepChartData(new RepDataColumn[] { 
+                    new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE,"Positive messages"), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, "Negative messages") },
+               PrepareJson(evolutionChartContent, Resources.Global.RepConversationsUnit));
+           return evolutionChartSource;
         }
 
         private IEnumerable<ConversationHistory> GetAggregatedConvEventsInternal(String[] iScope, DateTime intervalStart, DateTime intervalEnd)
@@ -1915,13 +1037,14 @@ namespace SmsFeedback_Take4.Controllers
                                                                   select (from conv in wp.Conversations
                                                                           where !conv.Client.isSupportClient                                                                      
                                                                           select (from convEvent in conv.ConversationEvents
-                                                                                  where (convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
+                                                                                  where
+                                                                                  (convEvent.Message.TimeReceived >= intervalStart && convEvent.Message.TimeReceived <= intervalEnd) &&
+                                                                                      (convEvent.EventTypeName.Equals(Constants.POS_ADD_EVENT) ||
                                                                                       convEvent.EventTypeName.Equals(Constants.NEG_ADD_EVENT) ||
                                                                                       convEvent.EventTypeName.Equals(Constants.POS_REMOVE_EVENT) ||
                                                                                       convEvent.EventTypeName.Equals(Constants.NEG_REMOVE_EVENT) ||
                                                                                       convEvent.EventTypeName.Equals(Constants.POS_TO_NEG_EVENT) ||
-                                                                                      convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) &&
-                                                                                      (convEvent.Date <= intervalEnd)
+                                                                                      convEvent.EventTypeName.Equals(Constants.NEG_TO_POS_EVENT)) 
                                                                                   select convEvent)))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
            return convEvents;
         }
@@ -2291,10 +1414,8 @@ namespace SmsFeedback_Take4.Controllers
                                        
                                         new ReportSection("FirstSection", iDataIndex: 0, iChartSource:"/Reports/GetReportPosNegEvolutionGr", iSectionId:"1", iTitle:Resources.Global.RepPositiveNegativeEvolutionChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackEvolution),                                                                                                                                                            
                                         new ReportSection("FirstSection", iChartSource:"/Reports/GetReportPosNegTransitionsGr", iDataIndex: 1, iSectionId: "2", iGroupId: "7",  iTitle:Resources.Global.RepPositiveNegativeTransitionsChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackTransitions),
-                                        new ReportSection("ThirdSection", iDataIndex: 2, iSectionId: "3", iGroupId: "7", iTitle: Resources.Global.RepPositiveNegativeTransitionsChartTitle),
-                                        new ReportSection("FirstSection", iChartSource:"/Reports/GetReportPosNegActivityGr", iDataIndex: 3, iSectionId: "4", iTitle: Resources.Global.RepPositiveNegativeActivityChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackActivity, 
-                                        iOptions: new ReportResourceOptions(iColors: new List<String>{"#3366cc", "#dc3912", "#667189", "#b48479"}))
-            });
+                                        new ReportSection("ThirdSection", iDataIndex: 2, iSectionId: "3", iGroupId: "7", iTitle: Resources.Global.RepPositiveNegativeTransitionsChartTitle)
+                });
             var report5 = new Report(cConvsTagsOverviewID, Resources.Global.RepTags, "/Reports/GetReportTagsData",
                 new ReportSection[] { 
                                         new ReportSection("TagsReportSection", Resources.Global.repTagFilteringReportTitle,iDataIndex: 0, iGroupId: "5",iChartSource:"/Reports/GetTagReportDataGrid"),
