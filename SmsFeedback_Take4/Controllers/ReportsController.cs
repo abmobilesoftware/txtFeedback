@@ -757,7 +757,8 @@ namespace SmsFeedback_Take4.Controllers
                 RepChartData transitionsPieChartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, Resources.Global.RepTypeTable), new RepDataColumn("18", Constants.STRING_COLUMN_TYPE, Resources.Global.RepValueTable) }, transitionsPieChartContent);
 
                 var posEvolutionSideBySideChart = PosEvolutionSideBySideInternal(iIntervalStart, iIntervalEnd, Constants.DAY_GRANULARITY, iScope);
-                ReportData repData = new ReportData(new List<RepChartData>() {posEvolutionSideBySideChart, evolutionChartSource, transitionsChartSource, transitionsPieChartSource}, null);
+                var negEvolutionSideBySideChart = NegEvolutionSideBySideInternal(iIntervalStart, iIntervalEnd, Constants.DAY_GRANULARITY, iScope);
+                ReportData repData = new ReportData(new List<RepChartData>() {posEvolutionSideBySideChart,negEvolutionSideBySideChart, evolutionChartSource, transitionsChartSource, transitionsPieChartSource}, null);
                 var result = new { repData = repData, restoreData = dataToBeSaved };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
@@ -1080,6 +1081,115 @@ namespace SmsFeedback_Take4.Controllers
            var chart = PosEvolutionSideBySideInternal(iIntervalStart, iIntervalEnd, iGranularity, iScope);
            return Json(chart, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult NegEvolutionSideBySideInternalGr(String iIntervalStart, String iIntervalEnd, String iGranularity, String[] iScope = null)
+        {
+           iScope = iScope != null ? iScope : new string[0];
+           var chart = NegEvolutionSideBySideInternal(iIntervalStart, iIntervalEnd, iGranularity, iScope);
+           return Json(chart, JsonRequestBehavior.AllowGet);
+        }
+
+        public RepChartData NegEvolutionSideBySideInternal(String iIntervalStart, String iIntervalEnd, String iGranularity, String[] iScope = null)
+        {
+           DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+           DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+           if (iScope.Length == 0)
+           {
+              iScope = (from u in context.Users where u.UserName == User.Identity.Name select (from wp in u.WorkingPoints select wp.TelNumber)).SelectMany(x => x).ToArray();
+           }
+           var resIntervals = new Dictionary<string, Dictionary<DateTime, ChartValue>>();
+           foreach (var location in iScope)
+           {
+              resIntervals.Add(location, InitializeInterval(intervalStart, intervalEnd, iGranularity));
+           }
+           var grConvEvents = GetSideBySideConvEventsInternal(iGranularity, iScope, intervalStart, intervalEnd);
+           foreach (var gr in grConvEvents)
+           {
+              if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+              {
+                 var convEventsGr = (from convEvent in gr.Value
+                                     group convEvent by new
+                                     {
+                                        evOccurDate = convEvent.Message.TimeReceived.Date,
+                                        eventType = convEvent.EventTypeName
+                                     } into g
+                                     select new { key = g.Key, count = g.Count() });
+
+                 foreach (var convEvent in convEventsGr)
+                 {
+                    if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT) || convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                    {
+                       resIntervals[gr.Key][convEvent.key.evOccurDate].value += convEvent.count;
+
+                    }
+                 }
+              }
+              else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
+              {
+                 var convEventsGr = (from convEvent in gr.Value
+                                     group convEvent by new
+                                     {
+                                        month = convEvent.Message.TimeReceived.Date.Month,
+                                        year = convEvent.Message.TimeReceived.Date.Year,
+                                        eventType = convEvent.EventTypeName
+                                     } into g
+                                     select new { key = g.Key, count = g.Count() });
+
+
+                 foreach (var convEvent in convEventsGr)
+                 {
+                    //DA the interval value is either the calculated month-year combination or the min interval value or the max interval value in case of border cases
+                    var intervalDate = new DateTime(convEvent.key.year, convEvent.key.month, 1);
+                    intervalDate = intervalDate < intervalStart ? intervalStart : intervalDate;
+                    intervalDate = intervalDate > intervalEnd ? intervalEnd : intervalDate;
+                    if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT) || convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                    {
+                       resIntervals[gr.Key][intervalDate].value += convEvent.count;
+
+                    }
+                 }
+
+              }
+              else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
+              {
+                 var convEventsGr = (from convEvent in gr.Value
+                                     group convEvent by new
+                                     {
+                                        evOccurDate = FirstDayOfWeekUtility.GetFirstDayOfWeek(convEvent.Message.TimeReceived),
+                                        eventType = convEvent.EventTypeName
+                                     } into g
+                                     select new { key = g.Key, count = g.Count() });
+
+                 foreach (var convEvent in convEventsGr)
+                 {
+                    var intervalDate = convEvent.key.evOccurDate;
+                    intervalDate = intervalDate < intervalStart ? intervalStart : intervalDate;
+                    intervalDate = intervalDate > intervalEnd ? intervalEnd : intervalDate;
+                    if (convEvent.key.eventType.Equals(Constants.NEG_ADD_EVENT) || convEvent.key.eventType.Equals(Constants.POS_TO_NEG_EVENT))
+                    {
+                       resIntervals[gr.Key][intervalDate].value += convEvent.count;
+
+                    }
+                 }
+              }
+           }
+           List<Dictionary<DateTime, ChartValue>> posEvolutionChartContent = new List<Dictionary<DateTime, ChartValue>>();
+           foreach (var item in resIntervals)
+           {
+              posEvolutionChartContent.Add(item.Value);
+           }
+           List<RepDataColumn> columnDefinition = new List<RepDataColumn> { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date") };
+           foreach (var location in iScope)
+           {
+              columnDefinition.Add(new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, location));
+
+           }
+           RepChartData chartSource = new RepChartData(
+              columnDefinition,
+                 PrepareJson(posEvolutionChartContent, Resources.Global.RepSmsUnit));
+           return chartSource;
+        }
+
         public RepChartData PosEvolutionSideBySideInternal(String iIntervalStart, String iIntervalEnd, String iGranularity, String[] iScope = null)
         {
            DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
@@ -1178,8 +1288,7 @@ namespace SmsFeedback_Take4.Controllers
            RepChartData chartSource = new RepChartData(
               columnDefinition,
                  PrepareJson(posEvolutionChartContent, Resources.Global.RepSmsUnit));
-           return chartSource;
-           //return Json(chartSource, JsonRequestBehavior.AllowGet);
+           return chartSource;           
         }
         #endregion
         #region Client report
@@ -1506,9 +1615,10 @@ namespace SmsFeedback_Take4.Controllers
             var report4 = new Report(cConvsPosVsNegID, Resources.Global.RepPositiveAndNegativeTitle, "/Reports/GetReportPosNegData",
                 new ReportSection[] {  
                                        new ReportSection("FirstSection", iDataIndex: 0, iChartSource:"/Reports/PosEvolutionSideBySideInternalGr", iSectionId:"1", iTitle:"Positive feedback side by side", iTooltip: "Positive feedback side by side"), 
-                                        new ReportSection("FirstSection", iDataIndex: 1, iChartSource:"/Reports/GetReportPosNegEvolutionGr", iSectionId:"2", iTitle:Resources.Global.RepPositiveNegativeEvolutionChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackEvolution),                                                                                                                                                            
-                                        new ReportSection("FirstSection", iChartSource:"/Reports/PosEvolutionSideBySideInternal", iDataIndex: 2, iSectionId: "3", iGroupId: "7",  iTitle:Resources.Global.RepPositiveNegativeTransitionsChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackTransitions),
-                                        new ReportSection("ThirdSection", iDataIndex: 3, iSectionId: "4", iGroupId: "7", iTitle: Resources.Global.RepPositiveNegativeTransitionsChartTitle)
+                                       new ReportSection("FirstSection", iDataIndex: 1, iChartSource:"/Reports/NegEvolutionSideBySideInternalGr", iSectionId:"2", iTitle:"Negative feedback side by side", iTooltip: "Negative feedback side by side"), 
+                                        new ReportSection("FirstSection", iDataIndex: 2, iChartSource:"/Reports/GetReportPosNegEvolutionGr", iSectionId:"3", iTitle:Resources.Global.RepPositiveNegativeEvolutionChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackEvolution),                                                                                                                                                            
+                                        new ReportSection("FirstSection", iDataIndex: 3, iChartSource:"/Reports/PosEvolutionSideBySideInternal", iSectionId: "4", iGroupId: "7",  iTitle:Resources.Global.RepPositiveNegativeTransitionsChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackTransitions),
+                                        new ReportSection("ThirdSection", iDataIndex: 4, iSectionId: "5", iGroupId: "7", iTitle: Resources.Global.RepPositiveNegativeTransitionsChartTitle)
                 });
             var report5 = new Report(cConvsTagsOverviewID, Resources.Global.RepTags, "/Reports/GetReportTagsData",
                 new ReportSection[] { 
