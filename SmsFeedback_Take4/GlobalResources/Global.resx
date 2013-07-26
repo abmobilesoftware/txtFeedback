@@ -747,7 +747,7 @@
     <value>Positive and negative tags activity</value>
   </data>
   <data name="RepPositiveNegativeEvolutionChartTitle" xml:space="preserve">
-    <value>Positive and negative feedback evolution</value>
+    <value>Total number of Positive and Negative messages</value>
   </data>
   <data name="RepPositiveNegativeTransitionsChartTitle" xml:space="preserve">
     <value>Positive and negative transitions</value>
@@ -767,7 +767,7 @@
     <value>Positive and negative feedback activity</value>
   </data>
   <data name="RepTooltipPosNegFeedbackEvolution" xml:space="preserve">
-    <value>Positive and negative feedback evolution</value>
+    <value>Total number of Positive and Negative messages</value>
   </data>
   <data name="RepTooltipPosNegFeedbackTransitions" xml:space="preserve">
     <value>Positive and negative feedback transitions</value>
@@ -955,10 +955,10 @@
   <data name="repRawConversationId" xml:space="preserve">
     <value>Conversation id</value>
   </data>
-   <data name="repRawFrom" xml:space="preserve">
+  <data name="repRawFrom" xml:space="preserve">
     <value>From</value>
-     </data>
-    <data name="settingsNotifications" xml:space="preserve">
+  </data>
+  <data name="settingsNotifications" xml:space="preserve">
     <value>Notifications</value>
     <comment>Settings: menu item</comment>
   </data>
@@ -979,10 +979,10 @@
   <data name="repRawTo" xml:space="preserve">
     <value>To</value>
   </data>
-     <data name="repRawWpName" xml:space="preserve">
+  <data name="repRawWpName" xml:space="preserve">
     <value>Working point</value>
-     </data>
-    <data name="settingsActivityReportNone" xml:space="preserve">
+  </data>
+  <data name="settingsActivityReportNone" xml:space="preserve">
     <value>None</value>
     <comment>Settings: Activity report type</comment>
   </data>
@@ -1003,10 +1003,10 @@
   <data name="repTagsLegendDescription" xml:space="preserve">
     <value>Conversations labeled </value>
   </data>
-<data name="repTagsLegendDescriptionNoTags" xml:space="preserve">
-<value>Select at least one tag</value>
-</data>
-    <data name="settingsActivityReportPlanChangedSuccessfully" xml:space="preserve">
+  <data name="repTagsLegendDescriptionNoTags" xml:space="preserve">
+    <value>Select at least one tag</value>
+  </data>
+  <data name="settingsActivityReportPlanChangedSuccessfully" xml:space="preserve">
     <value>Your activity report plan changed successfully to</value>
     <comment>Settings: Activity report action result notification</comment>
   </data>

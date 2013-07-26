@@ -379,7 +379,7 @@
     <value>Activitate pe etichetele cu feedback pozitiv şi negativ</value>
   </data>
   <data name="RepPositiveNegativeEvolutionChartTitle" xml:space="preserve">
-    <value>Evoluţia pe feedbackul pozitiv şi negativ</value>
+    <value>Numărul total de mesaje pozitive şi negative</value>
   </data>
   <data name="RepPositiveNegativeTransitionsChartTitle" xml:space="preserve">
     <value>Tranziţii pentru feedbackul pozitiv şi negativ</value>
@@ -412,7 +412,7 @@
     <value>Activitate pe etichetele cu feedback pozitiv şi negativ</value>
   </data>
   <data name="RepTooltipPosNegFeedbackEvolution" xml:space="preserve">
-    <value>Evolutia pe feedbackul pozitiv şi negativ</value>
+    <value>Numărul total de mesaje pozitive şi negative</value>
   </data>
   <data name="RepTooltipPosNegFeedbackTransitions" xml:space="preserve">
     <value>Tranziţii pentru feedbackul pozitiv şi negativ</value>
@@ -864,7 +864,7 @@
   <data name="settingsActivityReportDailyDigest" xml:space="preserve">
     <value>Zilnic</value>
     <comment>Settings: Activity report type</comment>
-    </data>
+  </data>
   <data name="repRawText" xml:space="preserve">
     <value>Text</value>
   </data>
@@ -913,7 +913,6 @@
     <value>Activitatea de astăzi</value>
     <comment>Template for mail notification</comment>
   </data>
-
   <data name="mailTemplateLoginMessage" xml:space="preserve">
     <value>Intră pe platformă și răspunde</value>
     <comment>Template for mail notification</comment>
