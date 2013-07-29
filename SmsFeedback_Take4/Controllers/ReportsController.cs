@@ -1384,7 +1384,9 @@ namespace SmsFeedback_Take4.Controllers
                 RepInfoBox IbNoOfNewClients = new RepInfoBox(newCustomersThisInterval, Resources.Global.RepClientsUnit);
                 RepInfoBox IbNoOfReturningClients = new RepInfoBox(returningCustomersThisInterval, Resources.Global.RepClientsUnit);
                 LinkedList<RepInfoBox> repInfoBoxArray = new LinkedList<RepInfoBox>();
-                var repData = new ReportData(new List<RepChartData>() { chartSource },
+                RepChartData sideBySideReturningCustomers = GetReportClientsSideBySideChart(iIntervalStart, iIntervalEnd, iGranularity, iScope, false);
+                RepChartData sideBySideNewCustomers = GetReportClientsSideBySideChart(iIntervalStart, iIntervalEnd, iGranularity, iScope, true);
+                var repData = new ReportData(new List<RepChartData>() { chartSource,sideBySideNewCustomers, sideBySideReturningCustomers },
                         new List<RepInfoBox>() { IbTotalNoOfClients, IbNoOfNewClients, IbNoOfReturningClients });
                 var result = new { repData = repData, restoreData = dataToBeSaved };
                 return Json(result, JsonRequestBehavior.AllowGet);
@@ -1395,7 +1397,219 @@ namespace SmsFeedback_Take4.Controllers
                 return Json("request failed", JsonRequestBehavior.AllowGet);
             }
         }
-  
+
+        public JsonResult GetReportNewClientsSideBySideGrData(String iIntervalStart, String iIntervalEnd, String iGranularity, String[] iScope = null)
+        {
+           RepChartData chartSource = GetReportClientsSideBySideChart(iIntervalStart, iIntervalEnd, iGranularity, iScope, true);
+           return Json(chartSource, JsonRequestBehavior.AllowGet);           
+        }
+
+        public JsonResult GetReportReturningClientsSideBySideGrData(String iIntervalStart, String iIntervalEnd, String iGranularity, String[] iScope = null)
+        {
+           RepChartData chartSource = GetReportClientsSideBySideChart(iIntervalStart, iIntervalEnd, iGranularity, iScope, false);
+           return Json(chartSource, JsonRequestBehavior.AllowGet);           
+        }      
+
+        private RepChartData GetReportClientsSideBySideChart(String iIntervalStart, String iIntervalEnd, String iGranularity, String[] iScope, bool returnNewCustomers)
+        {
+           DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, CultureInfo.InvariantCulture);
+           DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, CultureInfo.InvariantCulture);
+           iScope = iScope != null ? iScope : new string[0];
+           if (iScope.Length == 0)
+           {
+              iScope = (from u in context.Users where u.UserName == User.Identity.Name select (from wp in u.WorkingPoints select wp.TelNumber)).SelectMany(x => x).ToArray();
+           }
+           //initialize the result intervals
+           var newClientsIntervals = new Dictionary<string, Dictionary<DateTime, ChartValue>>();
+           foreach (var location in iScope)
+           {
+              newClientsIntervals.Add(location, InitializeInterval(intervalStart, intervalEnd, iGranularity));
+           }
+           var returningclientsIntervals = new Dictionary<string, Dictionary<DateTime, ChartValue>>();
+           foreach (var location in iScope)
+           {
+              returningclientsIntervals.Add(location, InitializeInterval(intervalStart, intervalEnd, iGranularity));
+           }
+           var items = (from u in context.Users
+                        where u.UserName.Equals(User.Identity.Name)
+                        select (from wp in u.WorkingPoints
+                                where iScope.Contains(wp.TelNumber)
+                                select (from conv in wp.Conversations
+                                        where !conv.Client.isSupportClient
+                                        select (from msg in conv.Messages
+                                                where (msg.TimeReceived >= intervalStart && msg.TimeReceived <= intervalEnd) &&
+                                     (msg.ConversationId.StartsWith(msg.From) || msg.From.EndsWith("@txtfeedback.net"))
+                                                group msg by new { msg.ConversationId, msg.TimeReceived.Year, msg.TimeReceived.Month, msg.TimeReceived.Day } into grp
+                                                select new
+                                                {
+                                                   grp.Key.ConversationId,
+                                                   grp.Key.Year,
+                                                   grp.Key.Month,
+                                                   grp.Key.Day,
+                                                   messageBeforeInterval = conv.Messages.Where(convMsg => convMsg.TimeReceived < intervalStart).Count() > 0,
+                                                   count = grp.Count(),
+                                                   wp = wp.TelNumber
+                                                })))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
+           var asEntity = items.GroupBy(x => x.wp).ToList();
+           foreach (var gr in asEntity)
+           {
+              if (iGranularity.Equals(Constants.DAY_GRANULARITY))
+              {
+                 var conversationsPerDate = gr.GroupBy(x => new DateTime(x.Year, x.Month, x.Day));
+                 var datesPerConversations = from e in gr
+                                             group e by new { e.ConversationId }
+                                                into datesGroups
+                                                select new
+                                                {
+                                                   key = datesGroups.Key.ConversationId,
+                                                   dates = datesGroups.Select(x => new DateTime(x.Year, x.Month, x.Day))
+                                                };
+                 foreach (var date in conversationsPerDate)
+                 {
+                    int newCustomersThisDay = 0;
+                    int returningCustomersThisDay = 0;
+                    foreach (var conv in date)
+                    {
+                       //if we have messages before the start of the interval for sure we are dealing with a returning customer
+                       if (conv.messageBeforeInterval == true)
+                       {
+                          returningCustomersThisDay++;
+                       }
+                       else
+                       {
+                          //if we had message in another day, prior to this -> returning, otherwise new
+                          var messagesInEarlierDaysExist = datesPerConversations.Where(x => x.key == conv.ConversationId).Select(x => x.dates).SelectMany(x => x)
+                             .Any(x => x < new DateTime(conv.Year, conv.Month, conv.Day));
+                          if (messagesInEarlierDaysExist)
+                          {
+                             returningCustomersThisDay++;
+                          }
+                          else
+                          {
+                             newCustomersThisDay++;
+                          }
+                       }
+                    }
+                    returningclientsIntervals[gr.Key][date.Key].value = returningCustomersThisDay;
+                    newClientsIntervals[gr.Key][date.Key].value = newCustomersThisDay;
+                 }
+              }
+              else if (iGranularity.Equals(Constants.MONTH_GRANULARITY))
+              {
+                 var conversationsPerMonth = gr.GroupBy(x => new { x.Year, x.Month });
+                 var datesPerConversations = from e in gr
+                                             group e by new { e.ConversationId }
+                                                into datesGroups
+                                                select new
+                                                {
+                                                   key = datesGroups.Key.ConversationId,
+                                                   dates = datesGroups.Select(x => new DateTime(x.Year, x.Month, x.Day))
+                                                };
+                 foreach (var date in conversationsPerMonth)
+                 {
+                    int newCustomersThisMonth = 0;
+                    int returningCustomersThisMonth = 0;
+                    foreach (var conv in date)
+                    {
+                       //if we have messages before the start of the interval for sure we are dealing with a returning customer
+                       if (conv.messageBeforeInterval == true)
+                       {
+                          returningCustomersThisMonth++;
+                       }
+                       else
+                       {
+                          //if we had message in another day, prior to this -> returning, otherwise new
+                          var messagesInEarlierDaysExist = datesPerConversations.Where(x => x.key == conv.ConversationId).Select(x => x.dates).SelectMany(x => x)
+                             .Any(x => x < new DateTime(conv.Year, conv.Month, conv.Day));
+                          if (messagesInEarlierDaysExist)
+                          {
+                             returningCustomersThisMonth++;
+                          }
+                          else
+                          {
+                             newCustomersThisMonth++;
+                          }
+                       }
+                    }
+                    var intervalDate = new DateTime(date.Key.Year, date.Key.Month, 1);
+                    intervalDate = intervalDate < intervalStart ? intervalStart : intervalDate;
+                    intervalDate = intervalDate > intervalEnd ? intervalEnd : intervalDate;
+                    returningclientsIntervals[gr.Key][intervalDate].value = returningCustomersThisMonth;
+                    newClientsIntervals[gr.Key][intervalDate].value = newCustomersThisMonth;
+                 }
+              }
+              else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
+              {
+                 var conversationsPerWeek = gr.GroupBy(x => FirstDayOfWeekUtility.GetFirstDayOfWeek(new DateTime(x.Year, x.Month, x.Day)));
+                 var datesPerConversations = from e in gr
+                                             group e by new { e.ConversationId }
+                                                into datesGroups
+                                                select new
+                                                {
+                                                   key = datesGroups.Key.ConversationId,
+                                                   dates = datesGroups.Select(x => new DateTime(x.Year, x.Month, x.Day))
+                                                };
+                 foreach (var date in conversationsPerWeek)
+                 {
+                    int newCustomersThisWeek = 0;
+                    int returningCustomersThisWeek = 0;
+                    foreach (var conv in date)
+                    {
+                       //if we have messages before the start of the interval for sure we are dealing with a returning customer
+                       if (conv.messageBeforeInterval == true)
+                       {
+                          returningCustomersThisWeek++;
+                       }
+                       else
+                       {
+                          //if we had message in another day, prior to this -> returning, otherwise new
+                          var messagesInEarlierDaysExist = datesPerConversations.Where(x => x.key == conv.ConversationId).Select(x => x.dates).SelectMany(x => x)
+                             .Any(x => x < new DateTime(conv.Year, conv.Month, conv.Day));
+                          if (messagesInEarlierDaysExist)
+                          {
+                             returningCustomersThisWeek++;
+                          }
+                          else
+                          {
+                             newCustomersThisWeek++;
+                          }
+                       }
+                    }
+                    var intervalDate = FirstDayOfWeekUtility.GetFirstDayOfWeek(new DateTime(date.Key.Year, date.Key.Month, date.Key.Day));
+                    intervalDate = intervalDate < intervalStart ? intervalStart : intervalDate;
+                    intervalDate = intervalDate > intervalEnd ? intervalEnd : intervalDate;
+                    returningclientsIntervals[gr.Key][intervalDate].value = returningCustomersThisWeek;
+                    newClientsIntervals[gr.Key][intervalDate].value = newCustomersThisWeek;
+                 }
+              }
+           }
+           List<Dictionary<DateTime, ChartValue>> clientsChartContent = new List<Dictionary<DateTime, ChartValue>>();
+           if (returnNewCustomers)
+           {
+              foreach (var item in newClientsIntervals)
+              {
+                 clientsChartContent.Add(item.Value);
+              }
+           }
+           else
+           {
+              foreach (var item in returningclientsIntervals)
+              {
+                 clientsChartContent.Add(item.Value);
+              }
+           }
+
+           List<RepDataColumn> columnDefinition = new List<RepDataColumn> { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date") };
+           foreach (var location in iScope)
+           {
+              columnDefinition.Add(new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, location));
+
+           }
+           RepChartData chartSource = new RepChartData(
+              columnDefinition,
+                 PrepareJson(clientsChartContent, Resources.Global.RepSmsUnit));
+           return chartSource;
+        }
 
         public JsonResult GetReportClientsGrData(String iIntervalStart, String iIntervalEnd,  String iGranularity,String[] iScope =null)
         {
@@ -1409,9 +1623,8 @@ namespace SmsFeedback_Take4.Controllers
 
                 iScope = iScope != null ? iScope : new string[0];
                 var useAllWps = iScope.Length == 0;
-                var user = User.Identity.Name;
                 var items = (from u in context.Users
-                             where u.UserName.Equals(user)
+                             where u.UserName.Equals(User.Identity.Name)
                              select (from wp in u.WorkingPoints
                                      where useAllWps ? true : iScope.Contains(wp.TelNumber)
                                      select (from conv in wp.Conversations
@@ -1428,8 +1641,6 @@ namespace SmsFeedback_Take4.Controllers
                 var asEntity = items.ToList();
                 int newCustomersThisInterval = 0;
                 int returningCustomersThisInterval = 0;
-                             
-
                 if (iGranularity.Equals(Constants.DAY_GRANULARITY))
                 {
 
@@ -1442,11 +1653,11 @@ namespace SmsFeedback_Take4.Controllers
                                                      key = datesGroups.Key.ConversationId,
                                                      dates = datesGroups.Select(x => new DateTime(x.Year, x.Month, x.Day))
                                                   }; 
-                   foreach (var date in conversationsPerDate)
+                   foreach (var convsPerGroup in conversationsPerDate)
                    {
                       int newCustomersThisDay = 0;
                       int returningCustomersThisDay = 0;
-                      foreach (var conv in date)
+                      foreach (var conv in convsPerGroup)
                       {
                          //if we have messages before the start of the interval for sure we are dealing with a returning customer
                          if (conv.messageBeforeInterval == true)
@@ -1456,7 +1667,8 @@ namespace SmsFeedback_Take4.Controllers
                          else
                          {
                             //if we had message in another day, prior to this -> returning, otherwise new
-                            var messagesInEarlierDaysExist = datesPerConversations.Where(x => x.key == conv.ConversationId).Select(x => x.dates).SelectMany(x => x).Any(x => x < date.Key);
+                            var messagesInEarlierDaysExist = datesPerConversations.Where(x => x.key == conv.ConversationId).Select(x => x.dates).SelectMany(x => x)
+                               .Any(x => x < new DateTime(conv.Year, conv.Month, conv.Day));
                             if (messagesInEarlierDaysExist)
                             {
                                returningCustomersThisDay++;
@@ -1467,9 +1679,9 @@ namespace SmsFeedback_Take4.Controllers
                             }
                          }
                       }
-                      resultReturningClientsInterval[date.Key].value = returningCustomersThisDay;
+                      resultReturningClientsInterval[convsPerGroup.Key].value = returningCustomersThisDay;
                       returningCustomersThisInterval += returningCustomersThisDay;
-                      resultNewClientsInterval[date.Key].value = newCustomersThisDay;
+                      resultNewClientsInterval[convsPerGroup.Key].value = newCustomersThisDay;
                       newCustomersThisInterval += newCustomersThisDay;
                    }                    
                 }
@@ -1482,13 +1694,13 @@ namespace SmsFeedback_Take4.Controllers
                                                   select new
                                                   {
                                                      key = datesGroups.Key.ConversationId,
-                                                     dates = datesGroups.Select(x => new { x.Year, x.Month})
+                                                     dates = datesGroups.Select(x => new DateTime(x.Year, x.Month, x.Day))
                                                   }; 
-                   foreach (var date in conversationsPerMonth)
+                   foreach (var convsPerGroup in conversationsPerMonth)
                    {
                       int newCustomersThisMonth = 0;
                       int returningCustomersThisMonth = 0;
-                      foreach (var conv in date)
+                      foreach (var conv in convsPerGroup)
                       {
                          //if we have messages before the start of the interval for sure we are dealing with a returning customer
                          if (conv.messageBeforeInterval == true)
@@ -1498,7 +1710,8 @@ namespace SmsFeedback_Take4.Controllers
                          else
                          {
                             //if we had message in another day, prior to this -> returning, otherwise new
-                            var messagesInEarlierDaysExist = datesPerConversations.Where(x => x.key == conv.ConversationId).Select(x => x.dates).SelectMany(x => x).Any(x => new DateTime(x.Year, x.Month, 1) < new DateTime( date.Key.Year,date.Key.Month,1));
+                            var messagesInEarlierDaysExist = datesPerConversations.Where(x => x.key == conv.ConversationId).Select(x => x.dates).SelectMany(x => x)
+                               .Any(x => x < new DateTime( conv.Year,conv.Month, conv.Day));
                             if (messagesInEarlierDaysExist)
                             {
                                returningCustomersThisMonth++;
@@ -1509,7 +1722,7 @@ namespace SmsFeedback_Take4.Controllers
                             }
                          }
                       }
-                      var intervalDate = new DateTime(date.Key.Year, date.Key.Month, 1);
+                      var intervalDate = new DateTime(convsPerGroup.Key.Year, convsPerGroup.Key.Month, 1);
                       intervalDate = intervalDate < intervalStart ? intervalStart : intervalDate;
                       intervalDate = intervalDate > intervalEnd ? intervalEnd : intervalDate;
                       resultReturningClientsInterval[intervalDate].value = returningCustomersThisMonth;
@@ -1520,14 +1733,14 @@ namespace SmsFeedback_Take4.Controllers
                 }
                 else if (iGranularity.Equals(Constants.WEEK_GRANULARITY))
                 {
-                   var conversationsPerWeek = asEntity.GroupBy(x => new { x.Year, x.Month, x.Day });
+                   var conversationsPerWeek = asEntity.GroupBy( x => FirstDayOfWeekUtility.GetFirstDayOfWeek(new DateTime(x.Year,x.Month,x.Day)));
                    var datesPerConversations = from e in asEntity
                                                group e by new { e.ConversationId }
                                                   into datesGroups
                                                   select new
                                                   {
                                                      key = datesGroups.Key.ConversationId,
-                                                     dates = datesGroups.Select(x => FirstDayOfWeekUtility.GetFirstDayOfWeek(new DateTime(x.Year,x.Month,x.Day)))
+                                                     dates = datesGroups.Select(x => new DateTime(x.Year, x.Month, x.Day))
                                                   };
                    foreach (var date in conversationsPerWeek)
                    {
@@ -1543,8 +1756,8 @@ namespace SmsFeedback_Take4.Controllers
                          else
                          {
                             //if we had message in another day, prior to this -> returning, otherwise new
-                            var messagesInEarlierDaysExist = datesPerConversations.Where(x => x.key == conv.ConversationId).Select(x => x.dates).SelectMany(x => x).
-                               Any(x => FirstDayOfWeekUtility.GetFirstDayOfWeek(new DateTime(x.Year, x.Month, 1)) < FirstDayOfWeekUtility.GetFirstDayOfWeek(new DateTime(date.Key.Year, date.Key.Month,1)));
+                            var messagesInEarlierDaysExist = datesPerConversations.Where(x => x.key == conv.ConversationId).Select(x => x.dates).SelectMany(x => x)
+                               .Any(x => x < new DateTime(conv.Year, conv.Month, conv.Day));                            
                             if (messagesInEarlierDaysExist)
                             {
                                returningCustomersThisWeek++;
@@ -1555,7 +1768,7 @@ namespace SmsFeedback_Take4.Controllers
                             }
                          }
                       }
-                      var intervalDate =  FirstDayOfWeekUtility.GetFirstDayOfWeek(new DateTime(date.Key.Year, date.Key.Month, 1));
+                      var intervalDate =  FirstDayOfWeekUtility.GetFirstDayOfWeek(new DateTime(date.Key.Year, date.Key.Month, date.Key.Day));
                       intervalDate = intervalDate < intervalStart ? intervalStart : intervalDate;
                       intervalDate = intervalDate > intervalEnd ? intervalEnd : intervalDate;
                       resultReturningClientsInterval[intervalDate].value = returningCustomersThisWeek;
@@ -1685,10 +1898,12 @@ namespace SmsFeedback_Take4.Controllers
                                      });
             var report7 = new Report(cClientsNewVsReturningID, Resources.Global.RepNewVsReturning, "/Reports/GetReportClientsData",
                 new ReportSection[] { 
-                                        new ReportSection("FirstSection", iDataIndex: 0, iChartSource: "/Reports/GetReportClientsGrData", iTitle: Resources.Global.RepNewReturningClientsChartTitle),                                                                                                                                                            
+                                        new ReportSection("FirstSection", iDataIndex: 0, iChartSource: "/Reports/GetReportClientsGrData", iTitle: Resources.Global.RepNewReturningClientsChartTitle),
                                         new ReportSection("SecondSection", iDataIndex: 0, iTitle: Resources.Global.RepTotalNoOfClients),
                                         new ReportSection("SecondSection", iDataIndex: 1, iTitle: Resources.Global.RepNoOfNewClients),
-                                        new ReportSection("SecondSection", iDataIndex: 2, iTitle: Resources.Global.RepNoOfReturningClients)                                                                                                                                                    
+                                        new ReportSection("SecondSection", iDataIndex: 2, iTitle: Resources.Global.RepNoOfReturningClients), 
+                                        new ReportSection("FirstSection", iDataIndex: 1, iChartSource: "/Reports/GetReportNewClientsSideBySideGrData", iTitle: "New customers side by side"),
+                                        new ReportSection("FirstSection", iDataIndex: 2, iChartSource: "/Reports/GetReportReturningClientsSideBySideGrData", iTitle: "Returning customers side by side")                                        
                                    });
 
             hashTable.Add(cConvsOverviewMenuID, report2);
