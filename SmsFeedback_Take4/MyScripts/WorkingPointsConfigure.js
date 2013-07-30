@@ -64,7 +64,7 @@ window.settings.initializeGUI = function () {
                   $('#rightColumn').html(jqXHR);
                }
             });
-         },
+         }
       });
       $($("#wpSelectionList .wpInfo")[0]).addClass("ui-selected");
       window.settings.initializeWpInfoArea();

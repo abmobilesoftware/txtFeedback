@@ -355,8 +355,8 @@ var ReportsArea = function () {
                 var workingPointsSelectorContent = "<option value='Global'>Global</option>";
                 var workingPoints = [];
                 for (var i = 0; i < data.length; ++i) {
-                   workingPointsSelectorContent += "<option value='" + data[i].TelNumber + "'>" + data[i].Name + "</option>";
-                   workingPoints.push(data[i].TelNumber);
+                  // workingPointsSelectorContent += "<option value='" + data[i].ShortID + "'>" + data[i].Name + "</option>";
+                   workingPoints.push(data[i].ShortID);
                 }
                // $("#workingPointSelector").append(workingPointsSelectorContent);
 

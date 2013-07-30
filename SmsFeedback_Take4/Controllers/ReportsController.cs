@@ -207,7 +207,7 @@ namespace SmsFeedback_Take4.Controllers
            string userName = User.Identity.Name;
            if (iScope.Length == 0)
            {
-              iScope = (from u in context.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp.TelNumber)).SelectMany(x => x).ToArray();
+              iScope = (from u in context.Users where u.UserName == userName select (from wp in u.WorkingPoints select wp.ShortID)).SelectMany(x => x).ToArray();
            }
            var resIntervals = new Dictionary<string, Dictionary<DateTime, ChartValue>>();           
            foreach (var location in iScope)
@@ -511,7 +511,7 @@ namespace SmsFeedback_Take4.Controllers
                 var tags = (from u in context.Users
                             where u.UserName.Equals(User.Identity.Name)
                             select (from wp in u.WorkingPoints
-                                    where useAllWps ? true : iScope.Contains(wp.TelNumber)
+                                    where useAllWps ? true : iScope.Contains(wp.ShortID)
                                     select (from conv in wp.Conversations
                                             where conv.Messages.Where(msg => msg.TimeReceived >= intervalStart
                                                 && msg.TimeReceived <= intervalEnd).Count() > 0
@@ -635,7 +635,7 @@ namespace SmsFeedback_Take4.Controllers
               {
                  case Constants.WEEK_GRANULARITY:
                     var byweeks = (from wp in user.WorkingPoints
-                                   where useAllWps ? true : iScope.Contains(wp.TelNumber)
+                                   where useAllWps ? true : iScope.Contains(wp.ShortID)
                                    select (from conv in wp.Conversations
                                            where (conv.StartTime >= intervalStart && conv.StartTime <= intervalEnd)
                                            && !tags.Except(conv.ConversationTags.Select(tag => tag.TagName)).Any()
@@ -659,7 +659,7 @@ namespace SmsFeedback_Take4.Controllers
                     break;
                  case Constants.MONTH_GRANULARITY:
                     var bymonths = (from wp in user.WorkingPoints
-                                    where useAllWps ? true : iScope.Contains(wp.TelNumber)
+                                    where useAllWps ? true : iScope.Contains(wp.ShortID)
                                     select (from conv in wp.Conversations
                                             where (conv.StartTime >= intervalStart && conv.StartTime <= intervalEnd)
                                             && !tags.Except(conv.ConversationTags.Select(tag => tag.TagName)).Any()
@@ -686,7 +686,7 @@ namespace SmsFeedback_Take4.Controllers
                  case Constants.DAY_GRANULARITY:
                  default:
                     var bydays = (from wp in user.WorkingPoints
-                                  where useAllWps ? true : iScope.Contains(wp.TelNumber)
+                                  where useAllWps ? true : iScope.Contains(wp.ShortID)
                                   select (from conv in wp.Conversations
                                           where (conv.StartTime >= intervalStart && conv.StartTime <= intervalEnd)
                                           && !tags.Except(conv.ConversationTags.Select(tag => tag.TagName)).Any()
@@ -785,7 +785,7 @@ namespace SmsFeedback_Take4.Controllers
                 IEnumerable<ConversationHistory> convEvents = (from u in context.Users
                                                                where u.UserName.Equals(User.Identity.Name)
                                                                select (from wp in u.WorkingPoints
-                                                                       where useAllWps ? true : iScope.Contains(wp.TelNumber)
+                                                                       where useAllWps ? true : iScope.Contains(wp.ShortID)
                                                                        select (from conv in wp.Conversations
                                                                                where !conv.Client.isSupportClient
                                                                                select (from convEvent in conv.ConversationEvents
@@ -1034,7 +1034,7 @@ namespace SmsFeedback_Take4.Controllers
            IEnumerable<ConversationHistory> convEvents = (from u in context.Users
                                                           where u.UserName.Equals(User.Identity.Name)
                                                           select (from wp in u.WorkingPoints
-                                                                  where useAllWps ? true : iScope.Contains(wp.TelNumber)
+                                                                  where useAllWps ? true : iScope.Contains(wp.ShortID)
                                                                   select (from conv in wp.Conversations
                                                                           where !conv.Client.isSupportClient                                                                      
                                                                           select (from convEvent in conv.ConversationEvents
@@ -1061,7 +1061,7 @@ namespace SmsFeedback_Take4.Controllers
            var convEvents = GetAggregatedConvEventsInternal(iScope,intervalStart,intervalEnd);
            var convEventsGr = convEvents.GroupBy(c => new
            {
-              c.Conversation.WorkingPoint.TelNumber
+              c.Conversation.WorkingPoint.ShortID
            }, c => c, (key, g) => new
            {
               key = key,
@@ -1070,7 +1070,7 @@ namespace SmsFeedback_Take4.Controllers
            var result = new Dictionary<string, IEnumerable<ConversationHistory>>();
            foreach (var gr in convEventsGr)
            {
-              result.Add(gr.key.TelNumber, gr.convEvents);
+              result.Add(gr.key.ShortID, gr.convEvents);
            }
            return result;
         }
@@ -1095,7 +1095,7 @@ namespace SmsFeedback_Take4.Controllers
            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
            if (iScope.Length == 0)
            {
-              iScope = (from u in context.Users where u.UserName == User.Identity.Name select (from wp in u.WorkingPoints select wp.TelNumber)).SelectMany(x => x).ToArray();
+              iScope = (from u in context.Users where u.UserName == User.Identity.Name select (from wp in u.WorkingPoints select wp.ShortID)).SelectMany(x => x).ToArray();
            }
            var resIntervals = new Dictionary<string, Dictionary<DateTime, ChartValue>>();
            foreach (var location in iScope)
@@ -1196,7 +1196,7 @@ namespace SmsFeedback_Take4.Controllers
            DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);         
            if (iScope.Length == 0)
            {
-              iScope = (from u in context.Users where u.UserName == User.Identity.Name select (from wp in u.WorkingPoints select wp.TelNumber)).SelectMany(x => x).ToArray();
+              iScope = (from u in context.Users where u.UserName == User.Identity.Name select (from wp in u.WorkingPoints select wp.ShortID)).SelectMany(x => x).ToArray();
            }           
            var resIntervals = new Dictionary<string, Dictionary<DateTime, ChartValue>>();
            foreach (var location in iScope)
@@ -1309,7 +1309,7 @@ namespace SmsFeedback_Take4.Controllers
                 var items = (from u in context.Users
                        where u.UserName.Equals(user)
                        select (from wp in u.WorkingPoints
-                               where useAllWps ? true : iScope.Contains(wp.TelNumber)
+                               where useAllWps ? true : iScope.Contains(wp.ShortID)
                                select (from conv in wp.Conversations
                                        where !conv.Client.isSupportClient                                                                               
                                        select (from msg in conv.Messages
@@ -1417,7 +1417,7 @@ namespace SmsFeedback_Take4.Controllers
            iScope = iScope != null ? iScope : new string[0];
            if (iScope.Length == 0)
            {
-              iScope = (from u in context.Users where u.UserName == User.Identity.Name select (from wp in u.WorkingPoints select wp.TelNumber)).SelectMany(x => x).ToArray();
+              iScope = (from u in context.Users where u.UserName == User.Identity.Name select (from wp in u.WorkingPoints select wp.ShortID)).SelectMany(x => x).ToArray();
            }
            //initialize the result intervals
            var newClientsIntervals = new Dictionary<string, Dictionary<DateTime, ChartValue>>();
@@ -1433,7 +1433,7 @@ namespace SmsFeedback_Take4.Controllers
            var items = (from u in context.Users
                         where u.UserName.Equals(User.Identity.Name)
                         select (from wp in u.WorkingPoints
-                                where iScope.Contains(wp.TelNumber)
+                                where iScope.Contains(wp.ShortID)
                                 select (from conv in wp.Conversations
                                         where !conv.Client.isSupportClient
                                         select (from msg in conv.Messages
@@ -1448,7 +1448,7 @@ namespace SmsFeedback_Take4.Controllers
                                                    grp.Key.Day,
                                                    messageBeforeInterval = conv.Messages.Where(convMsg => convMsg.TimeReceived < intervalStart).Count() > 0,
                                                    count = grp.Count(),
-                                                   wp = wp.TelNumber
+                                                   wp = wp.ShortID
                                                 })))).SelectMany(x => x).SelectMany(x => x).SelectMany(x => x);
            var asEntity = items.GroupBy(x => x.wp).ToList();
            foreach (var gr in asEntity)
@@ -1626,7 +1626,7 @@ namespace SmsFeedback_Take4.Controllers
                 var items = (from u in context.Users
                              where u.UserName.Equals(User.Identity.Name)
                              select (from wp in u.WorkingPoints
-                                     where useAllWps ? true : iScope.Contains(wp.TelNumber)
+                                     where useAllWps ? true : iScope.Contains(wp.ShortID)
                                      select (from conv in wp.Conversations
                                              where !conv.Client.isSupportClient
                                              select (from msg in conv.Messages
@@ -1802,7 +1802,7 @@ namespace SmsFeedback_Take4.Controllers
            var useAllWps = iScope.Length == 0;
            var user = context.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
            var allmsg = (from wp in user.WorkingPoints
-                         where useAllWps ? true : iScope.Contains(wp.TelNumber)
+                         where useAllWps ? true : iScope.Contains(wp.ShortID)
                          select
                             (from c in wp.Conversations orderby c.StartTime descending
                              where !c.Client.isSupportClient
@@ -2000,7 +2000,7 @@ namespace SmsFeedback_Take4.Controllers
                 var msgsCollectionOfCollections = from u in dbContext.Users
                                                   where u.UserName == iUser
                                                   select (from wp in u.WorkingPoints
-                                                          where scope.Contains(wp.TelNumber)
+                                                          where scope.Contains(wp.ShortID)
                                                           select (
                                                           from conv in wp.Conversations
                                                           select (from msg in conv.Messages
@@ -2022,12 +2022,12 @@ namespace SmsFeedback_Take4.Controllers
            var msgsCollectionOfCollections = from u in dbContext.Users
                                              where u.UserName == iUser
                                              select (from wp in u.WorkingPoints
-                                                     where workOnAllWps ? true : scope.Contains(wp.TelNumber)
+                                                     where workOnAllWps ? true : scope.Contains(wp.ShortID)
                                                      select (
                                                      from conv in wp.Conversations
                                                      select (from msg in conv.Messages
                                                              where (msg.TimeReceived >= iIntervalStart && msg.TimeReceived <= iIntervalEnd)
-                                                             select new { WpId = wp.TelNumber, Msg =msg })));
+                                                             select new { WpId = wp.ShortID, Msg = msg })));
            var msgs = msgsCollectionOfCollections.SelectMany(x => x).SelectMany(x => x).SelectMany(x => x).GroupBy(c => new
            {
               c.WpId
