@@ -331,7 +331,7 @@
     <value>Numărul de mesaje recepționate</value>
   </data>
   <data name="RepNoOfNewClients" xml:space="preserve">
-    <value>Numărul de clienţi noi</value>
+    <value>Numărul total de clienţi noi</value>
   </data>
   <data name="RepNoOfNewClientsTooltip" xml:space="preserve">
     <value>Numărul de clienţi noi</value>
@@ -343,7 +343,7 @@
     <value>Numărul de mesaje trimise</value>
   </data>
   <data name="RepNoOfReturningClients" xml:space="preserve">
-    <value>Numărul de clienţi fideli</value>
+    <value>Numărul total de clienţi fideli</value>
   </data>
   <data name="RepNoOfReturningClientsTooltip" xml:space="preserve">
     <value>Numărul de clienţi fideli</value>
@@ -418,7 +418,7 @@
     <value>Tranziţii pentru feedbackul pozitiv şi negativ</value>
   </data>
   <data name="RepTotalNoOfClients" xml:space="preserve">
-    <value>Numărul de clienţi ce oferă feedback</value>
+    <value>Numărul total de clienţi ce oferă feedback</value>
   </data>
   <data name="RepTotalNoOfClientsTooltip" xml:space="preserve">
     <value>Numărul de clienţi</value>
@@ -975,5 +975,47 @@
   <data name="settingsTurnSoundOnOff" xml:space="preserve">
     <value>Pornește/oprește notificările sonore</value>
     <comment>Settings: sound notification label</comment>
+  </data>
+  <data name="filterLocationsLabel" xml:space="preserve">
+    <value>Filtraţi locaţiile</value>
+  </data>
+  <data name="filterLocationsPlaceholder" xml:space="preserve">
+    <value>Adăugaţi locaţie</value>
+  </data>
+  <data name="NegativeMessagesChartLegend" xml:space="preserve">
+    <value>Mesaje negative</value>
+  </data>
+  <data name="PositiveMessagesChartLegend" xml:space="preserve">
+    <value>Mesaje pozitive</value>
+  </data>
+  <data name="RefreshLocationsBtnLabel" xml:space="preserve">
+    <value>Actualizează</value>
+  </data>
+  <data name="RepNegativeSideBySideTitle" xml:space="preserve">
+    <value>Comparaţie: mesaje negative</value>
+  </data>
+  <data name="RepNegativeSideBySideTooltip" xml:space="preserve">
+    <value>Feedback negative primit</value>
+  </data>
+  <data name="RepNewCustomersSideBySideTitle" xml:space="preserve">
+    <value>Comparaţie: clienţi noi</value>
+  </data>
+  <data name="RepNoOfNewClientsSideBySideTooltip" xml:space="preserve">
+    <value>Clienţi noi per locaţie</value>
+  </data>
+  <data name="RepOveriewChartSideBySideTitle" xml:space="preserve">
+    <value>Comparaţie: număr total de mesaje</value>
+  </data>
+  <data name="RepPositiveSideBySideTitle" xml:space="preserve">
+    <value>Comparaţie: mesaje pozitive</value>
+  </data>
+  <data name="RepPositiveSideBySideTooltip" xml:space="preserve">
+    <value>Feedback positiv primit</value>
+  </data>
+  <data name="RepReturningCustomersSideBySideTitle" xml:space="preserve">
+    <value>Comparaţie: clienţi fideli</value>
+  </data>
+  <data name="RepReturningCustomersSideBySideTooltip" xml:space="preserve">
+    <value>Clienţi fideli per locaţie</value>
   </data>
 </root>

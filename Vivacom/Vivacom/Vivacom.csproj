@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C541ACE1-0133-4A84-BAA3-86C5C0281ABA}</ProjectGuid>
+    <ProjectGuid>{568AFFA3-E7A9-4223-833F-03B38C52BA74}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vivacom</RootNamespace>

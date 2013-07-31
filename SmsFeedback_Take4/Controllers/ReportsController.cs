@@ -1020,8 +1020,8 @@ namespace SmsFeedback_Take4.Controllers
            evolutionChartContent.Add(resultNegativeTagsEvInterval);
            RepChartData evolutionChartSource = new RepChartData(new RepDataColumn[] { 
                     new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE,"Positive messages"), 
-                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, "Negative messages") },
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE,Resources.Global.PositiveMessagesChartLegend), 
+                    new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.NegativeMessagesChartLegend) },
                PrepareJson(evolutionChartContent, Resources.Global.RepConversationsUnit));
            return evolutionChartSource;
         }
@@ -1091,8 +1091,8 @@ namespace SmsFeedback_Take4.Controllers
 
         public RepChartData NegEvolutionSideBySideInternal(String iIntervalStart, String iIntervalEnd, String iGranularity, String[] iScope = null)
         {
-           DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-           DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+           DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, System.Globalization.CultureInfo.InvariantCulture);
+           DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, System.Globalization.CultureInfo.InvariantCulture);
            if (iScope.Length == 0)
            {
               iScope = (from u in context.Users where u.UserName == User.Identity.Name select (from wp in u.WorkingPoints select wp.ShortID)).SelectMany(x => x).ToArray();
@@ -1192,8 +1192,8 @@ namespace SmsFeedback_Take4.Controllers
 
         public RepChartData PosEvolutionSideBySideInternal(String iIntervalStart, String iIntervalEnd, String iGranularity, String[] iScope = null)
         {
-           DateTime intervalStart = DateTime.ParseExact(iIntervalStart, "yyyy-MM-dd H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-           DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, "yyyy-MM-dd H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);         
+           DateTime intervalStart = DateTime.ParseExact(iIntervalStart, cDateFormat, System.Globalization.CultureInfo.InvariantCulture);
+           DateTime intervalEnd = DateTime.ParseExact(iIntervalEnd, cDateFormat, System.Globalization.CultureInfo.InvariantCulture);         
            if (iScope.Length == 0)
            {
               iScope = (from u in context.Users where u.UserName == User.Identity.Name select (from wp in u.WorkingPoints select wp.ShortID)).SelectMany(x => x).ToArray();
@@ -1379,11 +1379,14 @@ namespace SmsFeedback_Take4.Controllers
                 List<Dictionary<DateTime, ChartValue>> content = new List<Dictionary<DateTime, ChartValue>>();
                 content.Add(resultNewClientsInterval);
                 content.Add(resultReturningClientsInterval);
-                RepChartData chartSource = new RepChartData(new RepDataColumn[] { new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNewClientsChart), new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepReturningClientsChart) }, PrepareJson(content, Resources.Global.RepClientsUnit));
+                RepChartData chartSource = new RepChartData(new RepDataColumn[] {
+                   new RepDataColumn("17", Constants.STRING_COLUMN_TYPE, "Date"),
+                   new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepNewClientsChart),
+                   new RepDataColumn("18", Constants.NUMBER_COLUMN_TYPE, Resources.Global.RepReturningClientsChart) },
+                   PrepareJson(content, Resources.Global.RepClientsUnit));
                 RepInfoBox IbTotalNoOfClients = new RepInfoBox(totalNumberOfClientsGivingFeedback, Resources.Global.RepClientsUnit);
                 RepInfoBox IbNoOfNewClients = new RepInfoBox(newCustomersThisInterval, Resources.Global.RepClientsUnit);
-                RepInfoBox IbNoOfReturningClients = new RepInfoBox(returningCustomersThisInterval, Resources.Global.RepClientsUnit);
-                LinkedList<RepInfoBox> repInfoBoxArray = new LinkedList<RepInfoBox>();
+                RepInfoBox IbNoOfReturningClients = new RepInfoBox(returningCustomersThisInterval, Resources.Global.RepClientsUnit);                
                 RepChartData sideBySideReturningCustomers = GetReportClientsSideBySideChart(iIntervalStart, iIntervalEnd, iGranularity, iScope, false);
                 RepChartData sideBySideNewCustomers = GetReportClientsSideBySideChart(iIntervalStart, iIntervalEnd, iGranularity, iScope, true);
                 var repData = new ReportData(new List<RepChartData>() { chartSource,sideBySideNewCustomers, sideBySideReturningCustomers },
@@ -1860,7 +1863,7 @@ namespace SmsFeedback_Take4.Controllers
             var report2 = new Report(cConvsOverviewMenuID, Resources.Global.RepOverview, "/Reports/GetReportOverviewData",
                 new ReportSection[] {                                      
                                         new ReportSection("FirstSection", Resources.Global.RepOverviewChartTitle, 0, iChartSource: "/Reports/GetReportOverviewGrData", iHasExportRawData: User.IsInRole(cExporterOfRawData)),
-                                        new ReportSection("FirstSection", "Side by side: Total Number of Messages",1 ,iChartSource: "/Reports/GetReportOverviewGrDataSideBySide"),
+                                        new ReportSection("FirstSection", Resources.Global.RepOveriewChartSideBySideTitle,1 ,iChartSource: "/Reports/GetReportOverviewGrDataSideBySide"),
                                         new ReportSection("SecondSection", Resources.Global.RepTotalNoOfSms, 0),
                                         new ReportSection("SecondSection", Resources.Global.RepAvgNoOfSmsPerDay, 1),
                                         new ReportSection("SecondSection", Resources.Global.RepTotalNoOfClients, 2),
@@ -1879,10 +1882,14 @@ namespace SmsFeedback_Take4.Controllers
                                        });
             var report4 = new Report(cConvsPosVsNegID, Resources.Global.RepPositiveAndNegativeTitle, "/Reports/GetReportPosNegData",
                 new ReportSection[] {  
-                                       new ReportSection("FirstSection", iDataIndex: 0, iChartSource:"/Reports/PosEvolutionSideBySideInternalGr", iSectionId:"1", iTitle:"Side by side: positive feedback", iTooltip: "Received positive feedback"), 
-                                       new ReportSection("FirstSection", iDataIndex: 1, iChartSource:"/Reports/NegEvolutionSideBySideInternalGr", iSectionId:"2", iTitle:"Side by side: negative feedback", iTooltip: "Received negative feedback"), 
-                                        new ReportSection("FirstSection", iDataIndex: 2, iChartSource:"/Reports/GetReportPosNegEvolutionGr", iSectionId:"3", iTitle:Resources.Global.RepPositiveNegativeEvolutionChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackEvolution),                                                                                                                                                            
-                                        new ReportSection("FirstSection", iDataIndex: 3, iChartSource:"/Reports/PosEvolutionSideBySideInternal", iSectionId: "4", iGroupId: "7",  iTitle:Resources.Global.RepPositiveNegativeTransitionsChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackTransitions),
+                                       new ReportSection("FirstSection", iDataIndex: 0, iChartSource:"/Reports/PosEvolutionSideBySideInternalGr", 
+                                          iSectionId:"1", iTitle: Resources.Global.RepPositiveSideBySideTitle, iTooltip: Resources.Global.RepPositiveSideBySideTooltip), 
+                                       new ReportSection("FirstSection", iDataIndex: 1, iChartSource:"/Reports/NegEvolutionSideBySideInternalGr", 
+                                          iSectionId:"2", iTitle: Resources.Global.RepNegativeSideBySideTitle, iTooltip: Resources.Global.RepNegativeSideBySideTooltip), 
+                                        new ReportSection("FirstSection", iDataIndex: 2, iChartSource:"/Reports/GetReportPosNegEvolutionGr", 
+                                           iSectionId:"3", iTitle:Resources.Global.RepPositiveNegativeEvolutionChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackEvolution),
+                                        new ReportSection("FirstSection", iDataIndex: 3, iChartSource:"/Reports/PosEvolutionSideBySideInternal",
+                                           iSectionId: "4", iGroupId: "7",  iTitle:Resources.Global.RepPositiveNegativeTransitionsChartTitle, iTooltip: Resources.Global.RepTooltipPosNegFeedbackTransitions),
                                         new ReportSection("ThirdSection", iDataIndex: 4, iSectionId: "5", iGroupId: "7", iTitle: Resources.Global.RepPositiveNegativeTransitionsChartTitle)
                 });
             var report5 = new Report(cConvsTagsOverviewID, Resources.Global.RepTags, "/Reports/GetReportTagsData",
@@ -1902,16 +1909,17 @@ namespace SmsFeedback_Take4.Controllers
                                         new ReportSection("SecondSection", iDataIndex: 0, iTitle: Resources.Global.RepTotalNoOfClients),
                                         new ReportSection("SecondSection", iDataIndex: 1, iTitle: Resources.Global.RepNoOfNewClients),
                                         new ReportSection("SecondSection", iDataIndex: 2, iTitle: Resources.Global.RepNoOfReturningClients), 
-                                        new ReportSection("FirstSection", iDataIndex: 1, iChartSource: "/Reports/GetReportNewClientsSideBySideGrData", iTitle: "Side by side: new customers"),
-                                        new ReportSection("FirstSection", iDataIndex: 2, iChartSource: "/Reports/GetReportReturningClientsSideBySideGrData", iTitle: "Side by side: returning customers ")                                        
+                                        new ReportSection("FirstSection", iDataIndex: 1, iChartSource: "/Reports/GetReportNewClientsSideBySideGrData", 
+                                           iTitle: Resources.Global.RepNewCustomersSideBySideTitle, iTooltip: Resources.Global.RepNoOfNewClientsSideBySideTooltip),
+                                        new ReportSection("FirstSection", iDataIndex: 2, iChartSource: "/Reports/GetReportReturningClientsSideBySideGrData",
+                                           iTitle: Resources.Global.RepReturningCustomersSideBySideTitle, iTooltip: Resources.Global.RepReturningCustomersSideBySideTooltip)                                        
                                    });
 
             hashTable.Add(cConvsOverviewMenuID, report2);
             hashTable.Add(cConvsIncomingVsOutgoingID, report3);
             hashTable.Add(cConvsPosVsNegID, report4);
             hashTable.Add(cConvsTagsOverviewID, report5);
-            hashTable.Add(cClientsNewVsReturningID, report7);
-            //hashTable.Add(7, report7);
+            hashTable.Add(cClientsNewVsReturningID, report7);            
 
             return Json(hashTable[reportId], JsonRequestBehavior.AllowGet);
 

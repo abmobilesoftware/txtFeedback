@@ -205,6 +205,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filter locations.
+        /// </summary>
+        public static string filterLocationsLabel {
+            get {
+                return ResourceManager.GetString("filterLocationsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a location.
+        /// </summary>
+        public static string filterLocationsPlaceholder {
+            get {
+                return ResourceManager.GetString("filterLocationsPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to initiated.
         /// </summary>
         public static string fromDate {
@@ -556,11 +574,38 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Negative messages.
+        /// </summary>
+        public static string NegativeMessagesChartLegend {
+            get {
+                return ResourceManager.GetString("NegativeMessagesChartLegend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positive messages.
+        /// </summary>
+        public static string PositiveMessagesChartLegend {
+            get {
+                return ResourceManager.GetString("PositiveMessagesChartLegend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unread.
         /// </summary>
         public static string readLabel {
             get {
                 return ResourceManager.GetString("readLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        public static string RefreshLocationsBtnLabel {
+            get {
+                return ResourceManager.GetString("RefreshLocationsBtnLabel", resourceCulture);
             }
         }
         
@@ -835,6 +880,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Side by side: negative feedback.
+        /// </summary>
+        public static string RepNegativeSideBySideTitle {
+            get {
+                return ResourceManager.GetString("RepNegativeSideBySideTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Received negative feedback.
+        /// </summary>
+        public static string RepNegativeSideBySideTooltip {
+            get {
+                return ResourceManager.GetString("RepNegativeSideBySideTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Negative feedback added.
         /// </summary>
         public static string RepNegFeedbackAdded {
@@ -867,6 +930,15 @@ namespace Resources {
         public static string RepNewClientsChart {
             get {
                 return ResourceManager.GetString("RepNewClientsChart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Side by side: new customers.
+        /// </summary>
+        public static string RepNewCustomersSideBySideTitle {
+            get {
+                return ResourceManager.GetString("RepNewCustomersSideBySideTitle", resourceCulture);
             }
         }
         
@@ -934,11 +1006,20 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of new customers.
+        ///   Looks up a localized string similar to Total number of new customers.
         /// </summary>
         public static string RepNoOfNewClients {
             get {
                 return ResourceManager.GetString("RepNoOfNewClients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New customers per location.
+        /// </summary>
+        public static string RepNoOfNewClientsSideBySideTooltip {
+            get {
+                return ResourceManager.GetString("RepNoOfNewClientsSideBySideTooltip", resourceCulture);
             }
         }
         
@@ -970,7 +1051,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of returning customers.
+        ///   Looks up a localized string similar to Total number of returning customers.
         /// </summary>
         public static string RepNoOfReturningClients {
             get {
@@ -1002,6 +1083,15 @@ namespace Resources {
         public static string RepOutgoingSmsChart {
             get {
                 return ResourceManager.GetString("RepOutgoingSmsChart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Side by side: Total Number of Messages.
+        /// </summary>
+        public static string RepOveriewChartSideBySideTitle {
+            get {
+                return ResourceManager.GetString("RepOveriewChartSideBySideTitle", resourceCulture);
             }
         }
         
@@ -1096,6 +1186,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Side by side: positive feedback.
+        /// </summary>
+        public static string RepPositiveSideBySideTitle {
+            get {
+                return ResourceManager.GetString("RepPositiveSideBySideTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Received positive feedback.
+        /// </summary>
+        public static string RepPositiveSideBySideTooltip {
+            get {
+                return ResourceManager.GetString("RepPositiveSideBySideTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Positive to negative feedback.
         /// </summary>
         public static string RepPosToNegFeedback {
@@ -1164,6 +1272,24 @@ namespace Resources {
         public static string RepReturningClientsChart {
             get {
                 return ResourceManager.GetString("RepReturningClientsChart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Side by side: returning customers.
+        /// </summary>
+        public static string RepReturningCustomersSideBySideTitle {
+            get {
+                return ResourceManager.GetString("RepReturningCustomersSideBySideTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Returning customers per location.
+        /// </summary>
+        public static string RepReturningCustomersSideBySideTooltip {
+            get {
+                return ResourceManager.GetString("RepReturningCustomersSideBySideTooltip", resourceCulture);
             }
         }
         
@@ -1285,7 +1411,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of customers giving feedback.
+        ///   Looks up a localized string similar to Total number of customers giving feedback.
         /// </summary>
         public static string RepTotalNoOfClients {
             get {

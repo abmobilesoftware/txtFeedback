@@ -21,7 +21,7 @@
      <!--<span class="bodyText">Work in progress</span>-->
    <script type="text/template" id="report-template">
                <div id="titleArea">
-                <span id="reportTitle">{{ title }}<span id="reportScope"></span></span>
+                <span id="reportTitle">{{ title }}</span>
                     <div id="widgetWrapper">
                         <div id="widget">
                             {%
@@ -143,12 +143,13 @@
    <div class="locationsFilterArea filterStripElement">
      
        <div id="filterLocationsLabel" class="filterLabel">
-         <span> Filter locations</span>
+         <span> <%: Resources.Global.filterLocationsLabel %></span>
       </div>
 
       <div id="locationContainer" class="filterInputBox">               
-            <input class="filterLocations" name="filterLocations" id="filterLocations" />         
+            <input class="filterLocations" name="filterLocations" id="filterLocations" />       
+            <input type="hidden" value="<%: Resources.Global.filterLocationsPlaceholder %>" id="locationFilterPlaceholder" />                        
       </div>
-      <button class="refreshLocations btn btn-info ">Refresh</button>
+      <button class="refreshLocations btn btn-info "><%: Resources.Global.RefreshLocationsBtnLabel %></button>
    </div>              
 </asp:Content>

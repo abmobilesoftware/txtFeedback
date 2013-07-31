@@ -313,7 +313,7 @@
     <value>Number of incoming messages</value>
   </data>
   <data name="RepNoOfNewClients" xml:space="preserve">
-    <value>Number of new customers</value>
+    <value>Total number of new customers</value>
   </data>
   <data name="RepNoOfNewClientsTooltip" xml:space="preserve">
     <value>Number of new customers</value>
@@ -325,7 +325,7 @@
     <value>Number of outgoing messages</value>
   </data>
   <data name="RepNoOfReturningClients" xml:space="preserve">
-    <value>Number of returning customers</value>
+    <value>Total number of returning customers</value>
   </data>
   <data name="RepNoOfReturningClientsTooltip" xml:space="preserve">
     <value>Number of returning customers</value>
@@ -368,7 +368,7 @@
     <value>tags/conversation</value>
   </data>
   <data name="RepTotalNoOfClients" xml:space="preserve">
-    <value>Number of customers giving feedback</value>
+    <value>Total number of customers giving feedback</value>
   </data>
   <data name="RepTotalNoOfClientsTooltip" xml:space="preserve">
     <value>Number of clients</value>
@@ -1077,5 +1077,47 @@
   <data name="settingsTurnSoundOnOff" xml:space="preserve">
     <value>Turn on/off sound notifications</value>
     <comment>Settings: sound notifications label</comment>
+  </data>
+  <data name="filterLocationsLabel" xml:space="preserve">
+    <value>Filter locations</value>
+  </data>
+  <data name="filterLocationsPlaceholder" xml:space="preserve">
+    <value>Add a location</value>
+  </data>
+  <data name="NegativeMessagesChartLegend" xml:space="preserve">
+    <value>Negative messages</value>
+  </data>
+  <data name="PositiveMessagesChartLegend" xml:space="preserve">
+    <value>Positive messages</value>
+  </data>
+  <data name="RefreshLocationsBtnLabel" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="RepNegativeSideBySideTitle" xml:space="preserve">
+    <value>Side by side: negative feedback</value>
+  </data>
+  <data name="RepNegativeSideBySideTooltip" xml:space="preserve">
+    <value>Received negative feedback</value>
+  </data>
+  <data name="RepNewCustomersSideBySideTitle" xml:space="preserve">
+    <value>Side by side: new customers</value>
+  </data>
+  <data name="RepNoOfNewClientsSideBySideTooltip" xml:space="preserve">
+    <value>New customers per location</value>
+  </data>
+  <data name="RepOveriewChartSideBySideTitle" xml:space="preserve">
+    <value>Side by side: Total Number of Messages</value>
+  </data>
+  <data name="RepPositiveSideBySideTitle" xml:space="preserve">
+    <value>Side by side: positive feedback</value>
+  </data>
+  <data name="RepPositiveSideBySideTooltip" xml:space="preserve">
+    <value>Received positive feedback</value>
+  </data>
+  <data name="RepReturningCustomersSideBySideTitle" xml:space="preserve">
+    <value>Side by side: returning customers</value>
+  </data>
+  <data name="RepReturningCustomersSideBySideTooltip" xml:space="preserve">
+    <value>Returning customers per location</value>
   </data>
 </root>
