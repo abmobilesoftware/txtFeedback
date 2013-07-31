@@ -20,6 +20,8 @@ window.app = window.app || {};
 window.reports = window.reports || {};
 window.app.dateFormatForDatePicker = 'dd/mm/yy';
 window.app.reportDataToBeSaved = {};
+window.app.currentWorkingPoint = [];
+window.app.workingPointDefinitions = {};//hold the name - shortID associations
 
 _.templateSettings = {
    interpolate: /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
@@ -314,7 +316,12 @@ var ReportsArea = function () {
    };
 
    this.changeWorkingPoint = function (newWorkingPoints) {
-      window.app.currentWorkingPoint = newWorkingPoints;
+      window.app.currentWorkingPoint = [];
+      $(newWorkingPoints).each(function (index, item) {
+         if (window.app.workingPointDefinitions[item] != undefined) {
+            window.app.currentWorkingPoint.push(window.app.workingPointDefinitions[item]);
+         }
+      });      
       reportsContent.updateReport();
    };
 
@@ -352,7 +359,8 @@ var ReportsArea = function () {
              function (data) {                
                 var workingPoints = [];
                 for (var i = 0; i < data.length; ++i) {                  
-                   workingPoints.push(data[i].ShortID);
+                   workingPoints.push(data[i].Name);
+                   window.app.workingPointDefinitions[data[i].Name] = data[i].TelNumber;
                 }               
                 window.app.initializeFilterLocationsArea(workingPoints);
                 $('.refreshLocations').on('click', function () {
@@ -389,12 +397,15 @@ window.app.initializeFilterLocationsArea = function (workingPoints) {
       'defaultText': defaultText,
       'interactive': true
    });
-   window.app.currentWorkingPoint = [];
+  
    //DA by default add the first 5 wps to the filter
    var wpsToAddToFilterByDefault = workingPoints.slice(0, 5);
-   $(wpsToAddToFilterByDefault).each(function (index, item) {
+   window.app.currentWorkingPoint = [];
+   $(wpsToAddToFilterByDefault).each(function (index, item) {     
+      if (window.app.workingPointDefinitions[item] != undefined) {
+         window.app.currentWorkingPoint.push(window.app.workingPointDefinitions[item]);         
+      }
       locationFilter.addTag(item);
-      window.app.currentWorkingPoint.push(item);
    });
    
 };
