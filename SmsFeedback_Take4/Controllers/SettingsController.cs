@@ -105,34 +105,7 @@ namespace SmsFeedback_Take4.Controllers
          return View();
       }
       #endregion
-
-      #region Define working points
-      [CustomAuthorizeAtribute(Roles = cRoleForConfigurators)]
-      public ActionResult GetDefineWorkingPointsForm()
-      {
-         return GetDefineWorkingPointsFormInternal();
-      }
-
-      private ActionResult GetDefineWorkingPointsFormInternal()
-      {
-         var user = User.Identity.Name;
-         return View(SMSRepository.GetWorkingPointsPerUser(user, context));
-      }
-
-      [CustomAuthorizeAtribute(Roles = cRoleForConfigurators)]
-      [HttpPost]
-      public ActionResult GetDefineWorkingPointsForm(List<SmsFeedback_Take4.Models.WorkingPoint> wps)
-      {
-         if (ModelState.IsValid)
-         {
-            var user = User.Identity.Name;
-            mEFInterface.SaveWpsForUser(user, wps, context);
-            //ModelState.AddModelError("", Resources.Global.loginUnsuccessfulDetails);
-            ViewData["saveMessage"] = Resources.Global.settingWpConfigSavedSuccessfuly;
-         }
-         return GetDefineWorkingPointsFormInternal();
-      }
-      #endregion
+      
 
       #region "Billing info"
       [CustomAuthorizeAtribute(Roles = cCompanyConfigurators)]

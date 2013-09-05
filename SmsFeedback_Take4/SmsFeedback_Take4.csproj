@@ -533,7 +533,6 @@
     <Content Include="Views\Reports\Index.aspx" />
     <Content Include="Views\Settings\ChangePasswordSuccess.aspx" />
     <Content Include="Views\Settings\GetChangePasswordForm.aspx" />
-    <Content Include="Views\Settings\GetDefineWorkingPointsForm.aspx" />
     <Content Include="Views\Settings\Index.aspx" />
     <Content Include="Views\Shared\Unauthorized.aspx" />
     <Content Include="Web.config">

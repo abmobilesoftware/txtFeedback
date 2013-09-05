@@ -22,8 +22,10 @@ function setupForm(formData, sendButton, sendButtonAction) {
    $('#rightColumn form').submit(function () {
       return false;
    });
-   $(sendButton).unbind('click');
-   $(sendButton).bind('click', sendButtonAction);
+   if(sendButton != undefined && sendButtonAction!= undefined) {
+      $(sendButton).unbind('click');
+      $(sendButton).bind('click', sendButtonAction);
+   }
 }
 
 window.app.changePassword = function () {
@@ -110,34 +112,14 @@ window.app.localForSetting.setTooltipsOnHeaders = function () {
    "use strict";
   //TODO DA -set tooltips on header
 };
-window.app.saveWorkingPoints = function (e) {
-   "use strict";
-   e.preventDefault();
-   var wps = window.app.getDataForWorkingPoints();
-   $.ajax({
-      url: 'WorkingPoints/WorkingPointsInfo',
-      data: $.toJSON(wps),
-      type: 'post',
-      cache: false,
-      dataType: 'html',
-      contentType: 'application/json; charset=utf-8',
-      success: function (data) {
-         setupForm(data, '#btnSaveWorkingPoints', window.app.saveWorkingPoints);
-         window.app.localForSetting.setTooltipsOnHeaders();
-         resizeTriggered();
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-         $('#rightColumn').html(jqXHR);
-      }
-   });
-};
+
 window.settings.ConfigureWorkingPoints = function () {
    "use strict";
    $.ajax({
       url: "WorkingPoints/WorkingPointsInfo",
       cache: false,
       success: function (data) {
-         setupForm(data, '#btnSaveWorkingPoints', window.app.saveWorkingPoints);
+         setupForm(data);
          window.app.localForSetting.setTooltipsOnHeaders();
          resizeTriggered();
       },
