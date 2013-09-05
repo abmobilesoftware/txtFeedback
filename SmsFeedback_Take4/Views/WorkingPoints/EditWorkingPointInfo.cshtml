@@ -60,6 +60,32 @@
             @Html.ValidationMessageFor(model => model.BusyMessage)
         </div>
 
+
+       <div class="editor-label">
+            @Html.LabelFor(model => model.SendAutomaticReplyViaSMS)
+        </div>
+        <div class="settingsField">
+             @Html.CheckBoxFor(model => model.SendAutomaticReplyViaSMS, new { @class = "triggerSave" })           
+             @Html.ValidationMessageFor(model => model.SendAutomaticReplyViaSMS)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FirstTimeCustomerSmsAutomaticReply)
+        </div>
+        <div class="settingsField">
+             <textarea name="FirstTimeCustomerSmsAutomaticReply" class="textarea160 triggerSave" rows="3" 
+                   dir="ltr">@Model.FirstTimeCustomerSmsAutomaticReply</textarea>
+                  @Html.ValidationMessageFor(model => model.FirstTimeCustomerSmsAutomaticReply)
+        </div>
+      
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LoyalCustomerSmsAutomaticReply)
+        </div>
+        <div class="settingsField">
+             <textarea name="LoyalCustomerSmsAutomaticReply" class="textarea160 triggerSave" rows="3" 
+                   dir="ltr">@Model.LoyalCustomerSmsAutomaticReply</textarea>
+            @Html.ValidationMessageFor(model => model.LoyalCustomerSmsAutomaticReply)
+        </div>
+
         <div class="editor-label">
             @Html.LabelFor(model => model.BusyMessageTimer)
         </div>

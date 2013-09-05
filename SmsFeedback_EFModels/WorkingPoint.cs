@@ -36,6 +36,9 @@ namespace SmsFeedback_EFModels
         public string OutsideOfficeHoursMessage { get; set; }
         public string Language { get; set; }
         public int BusyMessageTimer { get; set; }
+        public string FirstTimeCustomerSmsAutomaticReply { get; set; }
+        public string LoyalCustomerSmsAutomaticReply { get; set; }
+        public bool SendAutomaticReplyViaSMS { get; set; }
     
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Conversation> Conversations { get; set; }

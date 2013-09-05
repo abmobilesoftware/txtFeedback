@@ -190,10 +190,6 @@
     <Reference Include="TwilioSharp.MVC3">
       <HintPath>..\packages\TwilioSharpMVC.1.0\lib\TwilioSharp.MVC3.dll</HintPath>
     </Reference>
-    <Reference Include="Vivacom, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Vivacom\Vivacom\bin\Release\Vivacom.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease">
       <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
     </Reference>
@@ -657,6 +653,10 @@
     <ProjectReference Include="..\SmsFeedback_EFModels\SmsFeedback_EFModels.csproj">
       <Project>{f2dfc840-77cc-44f6-93d8-559639ad2580}</Project>
       <Name>SmsFeedback_EFModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vivacom\Vivacom\Vivacom.csproj">
+      <Project>{568affa3-e7a9-4223-833f-03b38c52ba74}</Project>
+      <Name>Vivacom</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

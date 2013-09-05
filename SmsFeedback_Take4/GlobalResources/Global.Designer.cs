@@ -2023,6 +2023,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SMS message sent to customers that provide feedback the first time.
+        /// </summary>
+        public static string settingsFirstTimeCustomerSmsAutomaticReply {
+            get {
+                return ResourceManager.GetString("settingsFirstTimeCustomerSmsAutomaticReply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SMS message sent to customers that provided feedback multiple times.
+        /// </summary>
+        public static string settingsLoyalCustomerSmsAutomaticReply {
+            get {
+                return ResourceManager.GetString("settingsLoyalCustomerSmsAutomaticReply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Max outbound SMS.
         /// </summary>
         public static string settingsMaxOutboundSmsHeader {
@@ -2091,6 +2109,15 @@ namespace Resources {
         public static string settingsPrivacy {
             get {
                 return ResourceManager.GetString("settingsPrivacy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send automatic replies for received SMS messages.
+        /// </summary>
+        public static string settingsSendAutomaticReplyViaSMS {
+            get {
+                return ResourceManager.GetString("settingsSendAutomaticReplyViaSMS", resourceCulture);
             }
         }
         

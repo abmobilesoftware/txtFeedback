@@ -67,8 +67,22 @@ namespace SmsFeedback_Take4.Controllers
                   }
                   else
                   {
+                     //DIRECTION_IN = incoming sms
                      SendMailNotification(convId, text, isSms);
-                     return SaveIncommingMessage(from, to, convId, text, context);
+                     var firstTimeGivingFeedback = context.Conversations.Find(convId) == null;
+                     var response = SaveIncommingMessage(from, to, convId, text, context);
+                     /*DA Vivacom enhancement
+                      * check if automatic sms reply is configured and if so, send a reply sms - this will be accounted for in ths send sms list but will not appear in the history
+                      */
+                     try
+                     {
+                        SendAutomaticReplyIfRequired(convId, to, from, firstTimeGivingFeedback, context);
+                     }
+                     catch (Exception ex)
+                     {
+                        logger.Error("Hm.... error", ex);
+                     }
+                     return response;
                   }
                }
                else
@@ -94,6 +108,39 @@ namespace SmsFeedback_Take4.Controllers
             Console.WriteLine("SaveMessage Error stack = " + ex.StackTrace + "||| & source " + ex.Source);
          }
          return Json("error", JsonRequestBehavior.AllowGet);
+      }
+
+      private void SendAutomaticReplyIfRequired(string convId, string from, string to, bool firstTimeFeedback, smsfeedbackEntities context)
+      {
+         var conv = context.Conversations.Find(convId);
+         //now the conversation should exist
+         if (conv.WorkingPoint.SendAutomaticReplyViaSMS)
+         {
+            MessageStatus status = new MessageStatus() { Price = "0" };
+            if (firstTimeFeedback)
+            {
+               //DA for the sake of it log the parameters
+               
+               var msgToSend = conv.WorkingPoint.FirstTimeCustomerSmsAutomaticReply;
+               if(msgToSend != null && !String.IsNullOrEmpty(msgToSend)) {
+                  //no reason to send out empty messages
+                  //logger.ErrorFormat("From: {0}, To: {1}, Message: {2}", from, to, msgToSend);   
+                  status = SMSRepository.SendMessage(from, to, msgToSend, context);
+               }
+            }
+            else
+            {
+               string msgToSend = conv.WorkingPoint.LoyalCustomerSmsAutomaticReply;
+               if(msgToSend!=null && !String.IsNullOrEmpty(msgToSend)) {
+                  //logger.ErrorFormat("From: {0}, To: {1}, Message: {2}", from, to, msgToSend);
+               status = SMSRepository.SendMessage(from, to, msgToSend, context);
+               }
+            }
+            //mark this activity in the database
+            bool warningLimitReached = false;
+            bool spendingLimitReached = false;
+            mEFInterface.UpdateSmsStatusAndSendRequiredNotifications(from, status.Price, context, ref warningLimitReached, ref spendingLimitReached);
+         }
       }
 
       /* returns the id of the new inserted message */

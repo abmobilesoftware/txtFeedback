@@ -25,17 +25,17 @@ window.settings.initializeWpInfoArea = function () {
                }
             });
    });   
-   _.each($(".triggerSave"), function (elem) {
+   _.each($(".triggerSave"), function (elem) {      
       //DA according to http://stackoverflow.com/questions/6771140/jquery-text-change-event there are even better ways
       //of detecting when the value has changed - like using setTimeout 
-      if (isEventSupported('input')) {
+      if (isEventSupported('input') && $(elem).attr('type') != 'checkbox') {
          $(elem).unbind('input');
          $(elem).bind('input', function () {
          $('#saveWpInfo').removeAttr('disabled');
       });
       } else {
          $(elem).unbind('change');
-         $(elem).bind('change',function () {         
+         $(elem).on('change', function (e) {            
             $('#saveWpInfo').removeAttr('disabled');
          });
       }

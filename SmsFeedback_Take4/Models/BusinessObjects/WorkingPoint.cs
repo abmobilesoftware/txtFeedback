@@ -24,6 +24,9 @@ namespace SmsFeedback_Take4.Models
          WelcomeMessage = wp.WelcomeMessage;
          BusyMessage = wp.BusyMessage;
          BusyMessageTimer = wp.BusyMessageTimer;
+         FirstTimeCustomerSmsAutomaticReply = wp.FirstTimeCustomerSmsAutomaticReply;
+         LoyalCustomerSmsAutomaticReply = wp.LoyalCustomerSmsAutomaticReply;
+         SendAutomaticReplyViaSMS = wp.SendAutomaticReplyViaSMS;
       }
 
       public WorkingPoint(
@@ -41,7 +44,7 @@ namespace SmsFeedback_Take4.Models
       }
       [Required(ErrorMessageResourceName = "settingsConfigureWpTelNumberError",
                 ErrorMessageResourceType = typeof(Resources.Global))]
-      [LocalizationStringLength(50, 8, "settingsErrorWpTelNumberLength", typeof(Resources.Global))]
+      [LocalizationStringLength(50, 0, "settingsErrorWpTelNumberLength", typeof(Resources.Global))]
       [Display(Name="settingsTelNoHeader",ResourceType=typeof(Resources.Global))]
       public string TelNumber { get; set; }
       
@@ -83,5 +86,14 @@ namespace SmsFeedback_Take4.Models
       [RegularExpression(@"\b([1-9][0-9]{3}|[1-5][0-9]{4}|60000)\b", ErrorMessageResourceName="settingsErrorBusyMessageNotInInterval", ErrorMessageResourceType=typeof(Resources.Global))]
       [Display(Name="settingsConfigureBusyMessageTimerHeader",ResourceType=typeof(Resources.Global))]
       public int BusyMessageTimer { get; set; }
+
+      [Display(Name="settingsFirstTimeCustomerSmsAutomaticReply",ResourceType=typeof(Resources.Global))]
+      public string FirstTimeCustomerSmsAutomaticReply { get; set; }
+      
+      [Display(Name="settingsLoyalCustomerSmsAutomaticReply", ResourceType=typeof(Resources.Global))]
+      public string LoyalCustomerSmsAutomaticReply { get; set; }
+
+      [Display(Name = "settingsSendAutomaticReplyViaSMS", ResourceType = typeof(Resources.Global))]
+      public bool SendAutomaticReplyViaSMS { get; set; }
    }
 }

@@ -1120,4 +1120,13 @@
   <data name="RepReturningCustomersSideBySideTooltip" xml:space="preserve">
     <value>Returning customers per location</value>
   </data>
+  <data name="settingsFirstTimeCustomerSmsAutomaticReply" xml:space="preserve">
+    <value>SMS message sent to customers that provide feedback the first time</value>
+  </data>
+  <data name="settingsLoyalCustomerSmsAutomaticReply" xml:space="preserve">
+    <value>SMS message sent to customers that provided feedback multiple times</value>
+  </data>
+  <data name="settingsSendAutomaticReplyViaSMS" xml:space="preserve">
+    <value>Send automatic replies for received SMS messages</value>
+  </data>
 </root>

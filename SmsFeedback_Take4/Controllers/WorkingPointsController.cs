@@ -86,6 +86,9 @@ namespace SmsFeedback_Take4.Controllers
                w.WelcomeMessage = wp.WelcomeMessage;
                w.BusyMessage = wp.BusyMessage;
                w.BusyMessageTimer = wp.BusyMessageTimer;
+               w.FirstTimeCustomerSmsAutomaticReply = wp.FirstTimeCustomerSmsAutomaticReply;
+               w.LoyalCustomerSmsAutomaticReply = wp.LoyalCustomerSmsAutomaticReply;
+               w.SendAutomaticReplyViaSMS = wp.SendAutomaticReplyViaSMS;
                context.SaveChanges();
             }
          }

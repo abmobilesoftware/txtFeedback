@@ -808,35 +808,40 @@ namespace SmsFeedback_Take4.Utilities
          //we added the message - now if SMS based, mark this 
          if ((newInsertedMessageID > 0) && isSmsBased && (direction == Constants.DIRECTION_OUT))
          {
-            var sd = UpdateSMSstatusForCompany(from, price, dbContext);
-            //if required emit warnings
-            bool warningsRequired = sd.WarningsRequired();
-            if (warningsRequired && sd != null)
-            {
-               var mailer = new SmsFeedback_Take4.Mailers.WarningMailer();
-               var companyName = sd.Companies.FirstOrDefault().Name;
-               if (sd.CanSendSMS)
-               {
-                  warningLimitReached = true;
-                  //we need to send warnings
-                  System.Net.Mail.MailMessage msgPrimary = mailer.WarningEmail(sd, sd.PrimaryContact.Email, sd.PrimaryContact.Name, sd.PrimaryContact.Surname);
-                  msgPrimary.Send();
-                  System.Net.Mail.MailMessage msgSecondary = mailer.WarningEmail(sd, sd.SecondaryContact.Email, sd.SecondaryContact.Name, sd.SecondaryContact.Surname);
-                  msgSecondary.Send();
-               }
-               else
-               {
-                  spendingLimitReached = true;
-                  //we need to send SpendingLimit reached emails
-                  System.Net.Mail.MailMessage msgPrimary = mailer.SpendingLimitReachedEmail(sd, sd.PrimaryContact.Email, sd.PrimaryContact.Name, sd.PrimaryContact.Surname);
-                  msgPrimary.Send();
-                  System.Net.Mail.MailMessage msgSecondary = mailer.SpendingLimitReachedEmail(sd, sd.PrimaryContact.Email, sd.SecondaryContact.Name, sd.SecondaryContact.Surname);
-                  msgSecondary.Send();
-               }
-            }
+            UpdateSmsStatusAndSendRequiredNotifications(from, price, dbContext, ref warningLimitReached, ref spendingLimitReached);
          }
          SubscriptionSmsStatus messageStatus = new SubscriptionSmsStatus(newInsertedMessageID, !spendingLimitReached, warningLimitReached, spendingLimitReached);
          return messageStatus;
+      }
+
+      public void UpdateSmsStatusAndSendRequiredNotifications(String from, String price, smsfeedbackEntities dbContext, ref bool warningLimitReached, ref bool spendingLimitReached)
+      {
+         var sd = UpdateSMSstatusForCompany(from, price, dbContext);
+         //if required emit warnings
+         bool warningsRequired = sd.WarningsRequired();
+         if (warningsRequired && sd != null)
+         {
+            var mailer = new SmsFeedback_Take4.Mailers.WarningMailer();
+            var companyName = sd.Companies.FirstOrDefault().Name;
+            if (sd.CanSendSMS)
+            {
+               warningLimitReached = true;
+               //we need to send warnings
+               System.Net.Mail.MailMessage msgPrimary = mailer.WarningEmail(sd, sd.PrimaryContact.Email, sd.PrimaryContact.Name, sd.PrimaryContact.Surname);
+               msgPrimary.Send();
+               System.Net.Mail.MailMessage msgSecondary = mailer.WarningEmail(sd, sd.SecondaryContact.Email, sd.SecondaryContact.Name, sd.SecondaryContact.Surname);
+               msgSecondary.Send();
+            }
+            else
+            {
+               spendingLimitReached = true;
+               //we need to send SpendingLimit reached emails
+               System.Net.Mail.MailMessage msgPrimary = mailer.SpendingLimitReachedEmail(sd, sd.PrimaryContact.Email, sd.PrimaryContact.Name, sd.PrimaryContact.Surname);
+               msgPrimary.Send();
+               System.Net.Mail.MailMessage msgSecondary = mailer.SpendingLimitReachedEmail(sd, sd.PrimaryContact.Email, sd.SecondaryContact.Name, sd.SecondaryContact.Surname);
+               msgSecondary.Send();
+            }
+         }
       }
 
       public SubscriptionSmsStatus GetCompanySubscriptionSMSStatus(string loggedInUser, smsfeedbackEntities dbContext)
