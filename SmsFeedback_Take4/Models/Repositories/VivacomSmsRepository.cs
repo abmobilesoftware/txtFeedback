@@ -34,6 +34,7 @@ namespace SmsFeedback_Take4.Models
       {         
          ResponseCode response = gateway.SendSM(from, to, message, false);
          MessageStatus messageStatus = new MessageStatus();
+         messageStatus.Price = "0"; //for vivacom messages the price is 0
          messageStatus.MessageSent = response == ResponseCode.OK ? true : false;
          messageStatus.DateSent = DateTime.UtcNow;
          return messageStatus;

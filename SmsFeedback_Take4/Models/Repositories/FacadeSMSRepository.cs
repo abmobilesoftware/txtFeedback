@@ -237,24 +237,31 @@ namespace SmsFeedback_Take4.Models
                var canSend = company.SubscriptionDetail.CanSendSMS;
                if (canSend)
                {
-                  MessageStatus response;
-                  switch (wp.Provider)
+                  try
                   {
-                     case TWILIO_PROVIDER:
-                        logger.Info("Sending message via twilio");
-                        return mTwilioRep.SendMessage(fromWp, to, message);                        
-                     case NEXMO_PROVIDER:
-                        logger.Info("Sending message via nexmo");
-                        return mNexmoRep.SendMessage(fromWp, to, message);
-                     case COMPATEL_PROVIDER:
-                        logger.Info("Sending message via compatel");
-                        return mCompatelRep.SendMessage(fromWp, to, message);  
-                     case VIVACOM_PROVIDER:
-                        logger.Info("Sending message via vivacom");
-                        return mVivacomRep.SendMessage(fromWp, to, message);
-                     default:
-                        logger.ErrorFormat("Invalid provider for number: {0}", fromWp);
-                        break;
+                     MessageStatus response;
+                     switch (wp.Provider)
+                     {
+                        case TWILIO_PROVIDER:
+                           logger.Info("Sending message via twilio");
+                           return mTwilioRep.SendMessage(fromWp, to, message);
+                        case NEXMO_PROVIDER:
+                           logger.Info("Sending message via nexmo");
+                           return mNexmoRep.SendMessage(fromWp, to, message);
+                        case COMPATEL_PROVIDER:
+                           logger.Info("Sending message via compatel");
+                           return mCompatelRep.SendMessage(fromWp, to, message);
+                        case VIVACOM_PROVIDER:
+                           logger.Info("Sending message via vivacom");
+                           return mVivacomRep.SendMessage(fromWp, to, message);
+                        default:
+                           logger.ErrorFormat("Invalid provider for number: {0}", fromWp);
+                           break;
+                     }
+                  }
+                  catch (Exception ex)
+                  {
+                     logger.Error("Error when sending sms message", ex);
                   }
                   return null;
                }
