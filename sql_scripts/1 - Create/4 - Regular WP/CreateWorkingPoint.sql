@@ -6,7 +6,7 @@ DECLARE @Client_TelNumber nvarchar(50) = '409917000123';
 DECLARE @WP_Name nvarchar(40) = 'Sales demo 2';
 DECLARE @Client_Description nvarchar(160) = 'Sales demo 2';
 DECLARE @Support_TelNumber nvarchar(50) = '2220000100';
-DECLARE @WP_ShortID nvarchar(10) = 'demo2';
+DECLARE @WP_ShortID nvarchar(10) = 'store6min';
 DECLARE @WP_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
 
 DECLARE @WP_Support_TelNumber nvarchar(50) = '2220000100';
@@ -14,7 +14,7 @@ DECLARE @WP_Support_XmppSuffix nvarchar(50) = '@compdev.txtfeedback.net';
 DECLARE @WP_Support_ShortID nvarchar(10) = 'supportro';
 
 -- Less used
-DECLARE @WP_Provider nvarchar(50) = 'compatel';
+DECLARE @WP_Provider nvarchar(50) = 'vivacom';
 DECLARE @WP_SmsSent int = 0;
 DECLARE @WP_MaxNrOfSmsToSend int = 200;
 DECLARE @Description_Additional_Text nvarchar(120) = ' WP';
@@ -52,18 +52,6 @@ DECLARE @Support_isSupportClient bit = 1;
 DECLARE @isSmsBased_IM bit = 0;
 DECLARE @isSmsBased_SMS bit = 1;
 
-
--- Create clients
-IF (SELECT COUNT(*) FROM [dbo].[Clients] WHERE [dbo].[Clients].[TelNumber] = @WP_ShortID) = 0 
-INSERT INTO Clients(TelNumber, DisplayName, [Description], isSupportClient)
-		VALUES (@WP_ShortID, @WP_ShortID, 
-		@Client_Description, @Support_isSupportClient);	
-
-IF (SELECT COUNT(*) FROM [dbo].[Clients] WHERE [dbo].[Clients].[TelNumber] = @WP_Support_ShortID) = 0 
-INSERT INTO Clients(TelNumber, DisplayName, [Description], isSupportClient)
-	VALUES (@WP_Support_ShortID, @Client_Support_DisplayName,
-	 @WP_Support_Description, @Support_IsSupportClient);
-
 -- Add working point
 IF (SELECT COUNT(*) FROM [dbo].[WorkingPoints] WHERE [dbo].[WorkingPoints].[TelNumber] = @Client_TelNumber) = 0 
 INSERT INTO WorkingPoints(TelNumber, Description, Name, 
@@ -73,48 +61,5 @@ INSERT INTO WorkingPoints(TelNumber, Description, Name,
 		@WP_Provider, @WP_SmsSent, @WP_MaxNrOfSmsToSend, @WP_ShortID, 
 		@WP_XmppSuffix, @WP_WelcomeMessage, @WP_BusyMessage,
 		@WP_OutsideOfficeHoursMessage, @WP_Language_RO);
-
-
-IF (SELECT COUNT(*) FROM [dbo].[WorkingPoints] WHERE [dbo].[WorkingPoints].[TelNumber] = @Client_TelNumber) = 0 
-INSERT INTO WorkingPoints(TelNumber, Description, Name, 
-		Provider, SentSms, MaxNrOfSmsToSend, ShortID, XMPPsuffix, WelcomeMessage,
-		BusyMessage, OutsideOfficeHoursMessage, [Language]) 
-		VALUES (@Client_TelNumber, @WP_Description, @WP_Name, 
-		@WP_Provider, @WP_SmsSent, @WP_MaxNrOfSmsToSend, @WP_ShortID, 
-		@WP_XmppSuffix, @WP_WelcomeMessage, @WP_BusyMessage,
-		@WP_OutsideOfficeHoursMessage, @WP_Language_RO);
-
--- Welcome conversation Support - WP. 
-SET @WP_ConvIdSupportToWP = @WP_Support_ShortID + '-' + @WP_ShortID;
-SET @WP_ConvIdWPToSupport = @WP_ShortID + '-' + @WP_Support_ShortID;
-DECLARE @WP_Support_XmppAddress nvarchar(50);
-SET @WP_Support_XmppAddress = @WP_Support_ShortID + @WP_Support_XmppSuffix;
-DECLARE @WP_XmppAddress nvarchar(50);
-SET @WP_XmppAddress = @WP_ShortID + @WP_XmppSuffix;
-
-INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
-		[From], Starred, StartTime, WorkingPoint_TelNumber, 
-		Client_TelNumber, IsSmsBased)
-      VALUES (@WP_ConvIdSupportToWP, @WP_Support_WelcomeMessage,
-		@WP_Read, @WP_TimeReceived, @WP_Support_ShortID, @WP_Starred, @WP_TimeReceived, 
-		@Client_TelNumber, @WP_Support_ShortID, @isSmsBased_IM);
-		
-INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId, XmppConnectionXmppUser)
-		VALUES (@WP_Support_XmppAddress, @WP_XmppAddress, @WP_Support_WelcomeMessage,
-		@WP_TimeReceived, @WP_Read, @WP_ConvIdSupportToWP, NULL);
-		
-UPDATE WorkingPoints SET SupportConversation = @WP_ConvIdSupportToWP WHERE TelNumber = @Client_TelNumber;
-
--- Welcome conversation WP - Support
-INSERT INTO Conversations (ConvId, [Text], [Read], TimeUpdated,
-		[From], Starred, StartTime, WorkingPoint_TelNumber, 
-		Client_TelNumber, IsSmsBased) 
-      VALUES (@WP_ConvIdWPToSupport, @WP_Support_WelcomeMessage,
-		@WP_Read, @WP_TimeReceived, @WP_ShortID, @WP_Starred, @WP_TimeReceived, 
-		@WP_Support_TelNumber, @WP_ShortID, @isSmsBased_IM);
-		
-INSERT INTO Messages ([From], [To], [Text], TimeReceived, [Read], ConversationId, XmppConnectionXmppUser)
-		VALUES (@WP_XmppAddress, @WP_Support_XmppAddress, @WP_Support_WelcomeMessage,
-		@WP_TimeReceived, @WP_Read, @WP_ConvIdWPToSupport, NULL);
 
 COMMIT TRAN

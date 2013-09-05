@@ -18,27 +18,27 @@
         <VirtualApplication name="abmobdemo5" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="abmobdemo6" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="abprod16" physicalDirectory="..\..\..\demoProject" />-->
-        <VirtualApplication name="abprodsu" physicalDirectory="..\..\..\demoProject" />
-        <VirtualApplication name="absupde" physicalDirectory="..\..\..\demoProject" />
+        <!--<VirtualApplication name="abprodsu" physicalDirectory="..\..\..\demoProject" />
+        <VirtualApplication name="absupde" physicalDirectory="..\..\..\demoProject" />-->
         <!--<VirtualApplication name="active1" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="active2" physicalDirectory="..\..\..\demoProject" />-->
-        <VirtualApplication name="altexim" physicalDirectory="..\..\..\demoProject" />
+        <!--<VirtualApplication name="altexim" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="altexreal" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="banica1" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="bcoffee" physicalDirectory="..\..\..\demoProject" />
-        <VirtualApplication name="bitdefsp" physicalDirectory="..\..\..\demoProject" />
+        <VirtualApplication name="bitdefsp" physicalDirectory="..\..\..\demoProject" />-->
         <!--<VirtualApplication name="biz" physicalDirectory="..\..\..\demoProject" />-->
         <!--<VirtualApplication name="bolt1" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="bolt2" physicalDirectory="..\..\..\demoProject" />-->
-        <VirtualApplication name="caferoma" physicalDirectory="..\..\..\demoProject" />
+        <!--<VirtualApplication name="caferoma" physicalDirectory="..\..\..\demoProject" />-->
         <!--<VirtualApplication name="carr1" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="carr2" physicalDirectory="..\..\..\demoProject" />-->
         <!--<VirtualApplication name="cat5" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="cat51" physicalDirectory="..\..\..\demoProject" /-->
-        <VirtualApplication name="ccpr" physicalDirectory="..\..\..\demoProject" />
+        <!--<VirtualApplication name="ccpr" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="ccto" physicalDirectory="..\..\..\demoProject" />
-        <VirtualApplication name="ccwe" physicalDirectory="..\..\..\demoProject" />
-        <VirtualApplication name="coracj" physicalDirectory="..\..\..\demoProject" />
+        <VirtualApplication name="ccwe" physicalDirectory="..\..\..\demoProject" />-->
+        <!--<VirtualApplication name="coracj" physicalDirectory="..\..\..\demoProject" />-->
         <!--<VirtualApplication name="d.suppuk" physicalDirectory="..\..\..\demoProject" />-->
         <VirtualApplication name="demo" physicalDirectory="..\..\..\demoProject" />
         <!--<VirtualApplication name="demo1" physicalDirectory="..\..\..\demoProject" />
@@ -57,7 +57,7 @@
         <VirtualApplication name="rise" physicalDirectory="..\..\..\demoProject" />
         <!--<VirtualApplication name="sales1" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="sales2" physicalDirectory="..\..\..\demoProject" />-->
-        <VirtualApplication name="scserdika" physicalDirectory="..\..\..\demoProject" />
+        <!--<VirtualApplication name="scserdika" physicalDirectory="..\..\..\demoProject" />-->
         <VirtualApplication name="store1min" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="store1plus" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="store2min" physicalDirectory="..\..\..\demoProject" />
@@ -68,6 +68,8 @@
         <VirtualApplication name="store4plus" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="store5min" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="store5plus" physicalDirectory="..\..\..\demoProject" />
+        <VirtualApplication name="store6min" physicalDirectory="..\..\..\demoProject" />
+        <VirtualApplication name="store6plus" physicalDirectory="..\..\..\demoProject" />
         <!--<VirtualApplication name="stud_mu" physicalDirectory="..\..\..\demoProject" />-->
         <VirtualApplication name="supportau" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="supportca" physicalDirectory="..\..\..\demoProject" />
@@ -79,8 +81,8 @@
         <VirtualApplication name="supportrop" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="supportuk" physicalDirectory="..\..\..\demoProject" />
         <VirtualApplication name="supportus" physicalDirectory="..\..\..\demoProject" />
-        <VirtualApplication name="tcoffee" physicalDirectory="..\..\..\demoProject" />
-        <VirtualApplication name="tsm" physicalDirectory="..\..\..\demoProject" />
+        <!--<VirtualApplication name="tcoffee" physicalDirectory="..\..\..\demoProject" />
+        <VirtualApplication name="tsm" physicalDirectory="..\..\..\demoProject" />-->
         <!--<VirtualApplication name="txtlab" physicalDirectory="..\..\..\demoProject" />-->
         <Bindings>
           <Binding name="Endpoint2" endpointName="Endpoint2" />

@@ -9,9 +9,20 @@
   **********************************************************************************************
 -->
 <ServiceConfiguration serviceName="ProductOnAzure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="3" osVersion="*" schemaVersion="2012-10.1.8">
-  <Role name="SmsFeedback_Take4">
-    <Instances count="2" />
-    <ConfigurationSettings>
-    </ConfigurationSettings>
-  </Role>
+   <Role name="SmsFeedback_Take4">
+      <Instances count="2" />
+      <ConfigurationSettings>
+      </ConfigurationSettings>
+   </Role>
+   <NetworkConfiguration>
+      <VirtualNetworkSite name="Txtfeedback-Cluj" />
+      <AddressAssignments>
+         <InstanceAddress roleName="SmsFeedback_Take4">
+            <Subnets>
+               <Subnet name="Subnet-1" />
+            </Subnets>
+         </InstanceAddress>
+      </AddressAssignments>
+   </NetworkConfiguration>
 </ServiceConfiguration>
+
