@@ -69,7 +69,7 @@
                     </div>
                    <div class='clear'></div>
                     <div class="spanClassText rightSideMembers">
-                        <span>{{ Text }}</span>
+                        <span>{%- Text %}</span>
                     </div>
                     <% if ((bool)ViewData["messageOrganizer"] )
                        { %>
@@ -95,7 +95,7 @@
    </script>
    <script type="text/template" id="message-template">
       <div class="textMessage">
-         <span class="textMessageContent">{{ Text }} </span> 
+         <span class="textMessageContent">{%- Text %} </span> 
          <div class="clear"></div>
          {% 
             var dateComponents = TimeReceived.toTimeString().split(" ");
