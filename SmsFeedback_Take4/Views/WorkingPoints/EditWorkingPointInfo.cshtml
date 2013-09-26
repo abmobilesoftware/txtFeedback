@@ -81,7 +81,7 @@
             @Html.LabelFor(model => model.LoyalCustomerSmsAutomaticReply)
         </div>
         <div class="settingsField">
-             <textarea name="LoyalCustomerSmsAutomaticReply" class="textarea160 triggerSave" rows="3" 
+             <textarea name="LoyalCustomerSmsAutomaticReply" class="textarea160 triggerSave" rows="3" placeholder="Leave empty if you don't want to send and automatic SMS message to loyal customers"
                    dir="ltr">@Model.LoyalCustomerSmsAutomaticReply</textarea>
             @Html.ValidationMessageFor(model => model.LoyalCustomerSmsAutomaticReply)
         </div>
