@@ -24,7 +24,7 @@ window.app.xmppConn = {};
 //#region XMPP constants
 window.app.getFeaturesIQID = "infomobile";
 window.app.xmppServerExtension = "@txtfeedback.net";
-window.app.xmppComponentExtension = "@prodstaging.txtfeedback.net";
+window.app.xmppComponentExtension = "@compdev.txtfeedback.net";
 //#endregion
 
 window.app.messageModeratorAddress = '';
@@ -254,7 +254,7 @@ window.app.XMPPhandler = function XMPPhandler() {
     this.connect = function (userid, password) {
         //window.app.logDebugOnServer("XMPP connecting with user [" + userid + "]");
         var self = this;
-        var xmppServerAddress = "http://46.137.26.124:5280/http-bind/";
+        var xmppServerAddress = "http://137.117.194.206:5280/http-bind/";
         if (!self.conn || !window.app.xmppConn) {
             self.conn = new Strophe.Connection(xmppServerAddress);
             self.userid = userid;
@@ -265,7 +265,7 @@ window.app.XMPPhandler = function XMPPhandler() {
     };
     this.register = function () {
         var self = this;
-        var xmppServerAddress = "http://46.137.26.124:5280/http-bind/";
+        var xmppServerAddress = "http://137.117.194.206:5280/http-bind/";
         self.conn = new Strophe.Connection(xmppServerAddress);
         window.app.xmppConn = this;
         self.conn.register.connect("txtfeedback.net", self.connectCallback);

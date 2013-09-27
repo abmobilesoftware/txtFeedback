@@ -229,10 +229,8 @@ window.app.XMPPhandler = function XMPPhandler() {
    };
    this.connect = function (userid, password) {
       window.app.logDebugOnServer("XMPP connecting with user [" + userid + "]");
-      var self = this;
-      //var xmppServerAddress = "http://localhost:3333/app/dsadsa/http-bindours/";
-      //var xmppServerAddress = "http://www.cluj-info.com/smsfeedback/nocontroller/http-bindours/";
-      var xmppServerAddress = "http://46.137.26.124:5280/http-bind/";
+      var self = this;      
+      var xmppServerAddress = "http://137.117.194.206:5280/http-bind/";
       self.conn = new Strophe.Connection(xmppServerAddress);
       self.userid = userid;
       self.password = password;

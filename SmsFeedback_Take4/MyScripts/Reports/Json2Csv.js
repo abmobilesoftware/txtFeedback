@@ -31,7 +31,7 @@
    }
 
    //window.open("data:text/csv;charset=utf-8," + escape(str))
-   $("#reportContent").append('<form id="exportform" action="http://46.137.26.124/export2csv.php" method="post" target="_blank">' +
+   $("#reportContent").append('<form id="exportform" action="http://137.117.194.206/export2csv.php" method="post" target="_blank">' +
       '<input type="hidden" id="exportdata" name="exportdata" />' + 
       '<input type="hidden" id="docTitle" name="docTitle" />' +
    '</form>');

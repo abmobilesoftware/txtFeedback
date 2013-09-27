@@ -90,7 +90,7 @@ function FirstArea(sectionModel) {
                 str += line + '\r\n';
              }
              //do the actual submit to create csv file
-             $("#exportrawreport").append('<form id="exportform" action="http://46.137.26.124/export2csv.php" method="post" target="_blank">' +
+             $("#exportrawreport").append('<form id="exportform" action="http://137.117.194.206/export2csv.php" method="post" target="_blank">' +
                 '<input type="hidden" id="exportdata" name="exportdata" />' +
                 '<input type="hidden" id="docTitle" name="docTitle" />' +
              '</form>');
@@ -227,7 +227,7 @@ function TagsReportArea(sectionModel) {
                str += line + '\r\n';
             }
             //do the actual submit to create csv file
-            $("#exportrawreport").append('<form id="exportform" action="http://46.137.26.124/export2csv.php" method="post" target="_blank">' +
+            $("#exportrawreport").append('<form id="exportform" action="http://137.117.194.206/export2csv.php" method="post" target="_blank">' +
                '<input type="hidden" id="exportdata" name="exportdata" />' +
                '<input type="hidden" id="docTitle" name="docTitle" />' +
             '</form>');
