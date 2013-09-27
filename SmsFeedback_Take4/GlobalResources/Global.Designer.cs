@@ -2248,6 +2248,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The message your clients receive on the mobile website after each message: e.g. Thank you for your feedback. Please allow for up to 2 minutes for a response.
+        /// </summary>
+        public static string settingsWPBusyMessagePlaceholder {
+            get {
+                return ResourceManager.GetString("settingsWPBusyMessagePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Errors encountered while saving the new configuration.
         /// </summary>
         public static string settingsWpConfigErrors {
@@ -2293,6 +2302,33 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A more detailed definition of my location, e.g. My store on 1&apos;st street.
+        /// </summary>
+        public static string settingsWPDescriptionPlaceholder {
+            get {
+                return ResourceManager.GetString("settingsWPDescriptionPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The message automatically sent to customers that provide feedback the first time.
+        /// </summary>
+        public static string settingsWPFirstTimeCustomerSmsAutomaticReplyPlaceholder {
+            get {
+                return ResourceManager.GetString("settingsWPFirstTimeCustomerSmsAutomaticReplyPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Leave empty if you don&apos;t want to send an automatic SMS message to loyal customers.
+        /// </summary>
+        public static string settingsWPLoyalCustomerSmsAutomaticReplyPlaceholder {
+            get {
+                return ResourceManager.GetString("settingsWPLoyalCustomerSmsAutomaticReplyPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The maximum no of SMS messages that can be sent from this working point.
         /// </summary>
         public static string settingsWpMaxOutboundSmsHeaderTooltip {
@@ -2329,6 +2365,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A short identifier for my location, e.g. Store1stStreet or StoreLondon.
+        /// </summary>
+        public static string settingsWPNamePlaceholder {
+            get {
+                return ResourceManager.GetString("settingsWPNamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The telephone number associated with this working point.
         /// </summary>
         public static string settingsWpTelNoHeaderTooltip {
@@ -2352,6 +2397,15 @@ namespace Resources {
         public static string settingsWpWelcomeMessageHeaderTooltip {
             get {
                 return ResourceManager.GetString("settingsWpWelcomeMessageHeaderTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The message that greets your clients when they access the mobile website: e.g. Thank you for buying at us. Anything we could do better?.
+        /// </summary>
+        public static string settingsWPWelcomeMessagePlaceholder {
+            get {
+                return ResourceManager.GetString("settingsWPWelcomeMessagePlaceholder", resourceCulture);
             }
         }
         

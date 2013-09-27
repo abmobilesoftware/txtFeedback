@@ -28,7 +28,7 @@
             @Html.LabelFor(model => model.Name)
         </div>
         <div class="settingsField">          
-            @Html.TextBoxFor(model => model.Name, new { @class = "triggerSave text-box" })
+            @Html.TextBoxFor(model => model.Name, new { @class = "triggerSave text-box", @placeholder = @Resources.Global.settingsWPNamePlaceholder })
             @Html.ValidationMessageFor(model => model.Name)
         </div>
 
@@ -36,7 +36,7 @@
             @Html.LabelFor(model => model.Description)
         </div>
         <div class="settingsField">
-           <textarea name="Description" class="textarea160 triggerSave" rows="3" 
+           <textarea name="Description" class="textarea160 triggerSave" rows="3"  placeholder="@Resources.Global.settingsWPDescriptionPlaceholder"
                    dir="ltr">@Model.Description</textarea>
            @Html.ValidationMessageFor(model => model.Description)
         </div>
@@ -45,7 +45,7 @@
             @Html.LabelFor(model => model.WelcomeMessage)
         </div>
         <div class="settingsField">            
-           <textarea name="WelcomeMessage" class="textarea160 triggerSave" rows="3" 
+           <textarea name="WelcomeMessage" class="textarea160 triggerSave" rows="3" placeholder="@Resources.Global.settingsWPWelcomeMessagePlaceholder"
                    dir="ltr">@Model.WelcomeMessage</textarea>
            @Html.ValidationMessageFor(model => model.WelcomeMessage)
         </div>
@@ -55,7 +55,7 @@
             @Html.LabelFor(model => model.BusyMessage)
         </div>
         <div class="settingsField">
-             <textarea name="BusyMessage" class="textarea160 triggerSave" rows="3" 
+             <textarea name="BusyMessage" class="textarea160 triggerSave" rows="3"  placeholder="@Resources.Global.settingsWPBusyMessagePlaceholder"
                    dir="ltr">@Model.BusyMessage</textarea>
             @Html.ValidationMessageFor(model => model.BusyMessage)
         </div>
@@ -72,7 +72,7 @@
             @Html.LabelFor(model => model.FirstTimeCustomerSmsAutomaticReply)
         </div>
         <div class="settingsField">
-             <textarea name="FirstTimeCustomerSmsAutomaticReply" class="textarea160 triggerSave" rows="3" 
+             <textarea name="FirstTimeCustomerSmsAutomaticReply" class="textarea160 triggerSave" rows="3" placeholder="@Resources.Global.settingsWPFirstTimeCustomerSmsAutomaticReplyPlaceholder"
                    dir="ltr">@Model.FirstTimeCustomerSmsAutomaticReply</textarea>
                   @Html.ValidationMessageFor(model => model.FirstTimeCustomerSmsAutomaticReply)
         </div>
@@ -81,7 +81,7 @@
             @Html.LabelFor(model => model.LoyalCustomerSmsAutomaticReply)
         </div>
         <div class="settingsField">
-             <textarea name="LoyalCustomerSmsAutomaticReply" class="textarea160 triggerSave" rows="3" placeholder="Leave empty if you don't want to send and automatic SMS message to loyal customers"
+             <textarea name="LoyalCustomerSmsAutomaticReply" class="textarea160 triggerSave" rows="3" placeholder="@Resources.Global.settingsWPLoyalCustomerSmsAutomaticReplyPlaceholder"
                    dir="ltr">@Model.LoyalCustomerSmsAutomaticReply</textarea>
             @Html.ValidationMessageFor(model => model.LoyalCustomerSmsAutomaticReply)
         </div>

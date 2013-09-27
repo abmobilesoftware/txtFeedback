@@ -1129,4 +1129,22 @@
   <data name="settingsSendAutomaticReplyViaSMS" xml:space="preserve">
     <value>Send automatic replies for received SMS messages</value>
   </data>
+  <data name="settingsWPBusyMessagePlaceholder" xml:space="preserve">
+    <value>The message your clients receive on the mobile website after each message: e.g. Thank you for your feedback. Please allow for up to 2 minutes for a response</value>
+  </data>
+  <data name="settingsWPDescriptionPlaceholder" xml:space="preserve">
+    <value>A more detailed definition of my location, e.g. My store on 1'st street</value>
+  </data>
+  <data name="settingsWPFirstTimeCustomerSmsAutomaticReplyPlaceholder" xml:space="preserve">
+    <value>The message automatically sent to customers that provide feedback the first time</value>
+  </data>
+  <data name="settingsWPLoyalCustomerSmsAutomaticReplyPlaceholder" xml:space="preserve">
+    <value>Leave empty if you don't want to send an automatic SMS message to loyal customers</value>
+  </data>
+  <data name="settingsWPNamePlaceholder" xml:space="preserve">
+    <value>A short identifier for my location, e.g. Store1stStreet or StoreLondon</value>
+  </data>
+  <data name="settingsWPWelcomeMessagePlaceholder" xml:space="preserve">
+    <value>The message that greets your clients when they access the mobile website: e.g. Thank you for buying at us. Anything we could do better?</value>
+  </data>
 </root>

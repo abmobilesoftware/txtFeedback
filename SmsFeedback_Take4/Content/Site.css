@@ -730,8 +730,6 @@ div.statusbarclose {
    margin: 5px 20px 5px 20px;
 }
 
-
-
 input[type=text]:focus, input[type=text]:active, input[type=password]:focus, input[type=password]:active, input[type=email]:focus, input[type=email]:active, input[type=number]:focus, input[type=number]:active, input[type=tel]:focus, input[type=tel]:active, input[type=url]:focus, input[type=url]:active, input[type=search]:focus, input[type=search]:active, textarea:focus, textarea:active, .win-textarea:focus, .win-textarea:active, select:focus, select:active {
    background-color: white;
    border-color: rgba(0, 0, 0, 0.6);
@@ -744,29 +742,4 @@ input[type=text]:focus, input[type=text]:active, input[type=password]:focus, inp
       display: none;
       visibility: collapse;
    }
-}
-
-
-/*placeholder text color*/
-input::-webkit-input-placeholder { /* WebKit browsers */
-    color:    #000;
-    opacity: 1 !importantl
-}
-input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color:    #000;
-    opacity: 1 !importantl
-}
-input::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color:    #000;
-    opacity: 1 !importantl
-}
-input:-ms-input-placeholder { /* Internet Explorer 10+ */
-    color:    #000;
-    opacity: 1 !importantl
-}
-
-input[placeholder], [placeholder], *[placeholder]
-{
-    color:#000 !important;
-    opacity: 1 !importantl
 }

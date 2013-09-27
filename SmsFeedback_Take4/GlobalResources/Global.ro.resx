@@ -1018,4 +1018,31 @@
   <data name="RepReturningCustomersSideBySideTooltip" xml:space="preserve">
     <value>Clienţi fideli per locaţie</value>
   </data>
+  <data name="settingsFirstTimeCustomerSmsAutomaticReply" xml:space="preserve">
+    <value>SMS-ul trimis clienţilor ce dau feedback prima dată</value>
+  </data>
+  <data name="settingsLoyalCustomerSmsAutomaticReply" xml:space="preserve">
+    <value>SMS-ul trimis clienţilor ce dau feedback repetat</value>
+  </data>
+  <data name="settingsSendAutomaticReplyViaSMS" xml:space="preserve">
+    <value>Trimiteţi un SMS automat clienţilor ce vă dau feedback prin SMS</value>
+  </data>
+  <data name="settingsWPBusyMessagePlaceholder" xml:space="preserve">
+    <value>Mesajul afişat pe websiteul pentru dispozitve mobile după fiecare mesaj al clientului: e.g. Vă mulţumim pentru feedback. Vă rugăm să îngăduiţi până la 2 minute pentru un răspuns</value>
+  </data>
+  <data name="settingsWPDescriptionPlaceholder" xml:space="preserve">
+    <value>O descriere mai detaliată a punctului de lucru: e.g. Magazinul de pe strada Republicii, Bucureşti</value>
+  </data>
+  <data name="settingsWPFirstTimeCustomerSmsAutomaticReplyPlaceholder" xml:space="preserve">
+    <value>Conţinutului SMS-ului trimis automat clienţilor ce dau feedback prima dată, e.g. Vă mulţumim că aţi ales să cumpăraţi de la noi - feedbackul dumneavoastră ne va ajuta să ne îmbunătăţim serviciile</value>
+  </data>
+  <data name="settingsWPLoyalCustomerSmsAutomaticReplyPlaceholder" xml:space="preserve">
+    <value>Lăsaţi acest câmp necompletat dacă nu doriţi să trimiteţi un SMS automat de răspuns clienţilor fideli</value>
+  </data>
+  <data name="settingsWPNamePlaceholder" xml:space="preserve">
+    <value>Un identificator scurt pentru punctul de lucru: e.g. MagazinRepublicii sau MagazinBucureşti</value>
+  </data>
+  <data name="settingsWPWelcomeMessagePlaceholder" xml:space="preserve">
+    <value>Mesajul de întâmpinare pe websiteul pentru dispozitive mobile: e.g. Vă mulţumim că aţi ales să cumpăraţi de la noi. Cum ne putem îmbunătăţi serviciile?</value>
+  </data>
 </root>
