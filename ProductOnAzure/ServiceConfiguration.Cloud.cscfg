@@ -14,7 +14,7 @@
       <ConfigurationSettings>
       </ConfigurationSettings>
    </Role>
-   <NetworkConfiguration>
+   <!--<NetworkConfiguration>
       <VirtualNetworkSite name="Txtfeedback-Cluj" />
       <AddressAssignments>
          <InstanceAddress roleName="SmsFeedback_Take4">
@@ -23,6 +23,6 @@
             </Subnets>
          </InstanceAddress>
       </AddressAssignments>
-   </NetworkConfiguration>
+   </NetworkConfiguration>-->
 </ServiceConfiguration>
 
